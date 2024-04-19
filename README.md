@@ -1,8 +1,10 @@
-# Library for UI, named SEP-YUI
+# Library SEP-YUI
 
-# npm i
-# npm run dev - for development
-# npm run build - for publishing library and up version package
-# npm run storybook - for testing components in storybook
+<ul>
+<li>npm i - for install all dependencies</li>
+<li>npm run dev - for development</li>
+<li>npm run build - for publishing library and up version package</li>
+<li>npm run storybook - for testing components in storybook</li>
+</ul>
 
-Your Welcome and your pleasure for codding!
+Your welcome and your pleasure for codding!
