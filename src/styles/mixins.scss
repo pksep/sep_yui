@@ -1,0 +1,7 @@
+@mixin pseudo($w: 'auto', $h: 'auto') {
+  content: '';
+  display: block;
+  position: absolute;
+  width: $w;
+  height: $h;
+}

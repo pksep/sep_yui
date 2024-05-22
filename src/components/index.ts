@@ -1,3 +1,3 @@
-import Button from './button/Button.vue';
+import Badges from './Badges/Badges.vue';
 
-export { Button };
+export { Badges };

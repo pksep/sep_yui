@@ -3,3 +3,7 @@ export interface IProps {
   size: string;
   color: string;
 }
+
+export interface IIcon {
+  src: string;
+}
