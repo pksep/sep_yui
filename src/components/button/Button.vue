@@ -1,39 +1,45 @@
 <template>
   <button
-    class="button"
-    :class="[props.size, props.color]"
+    :class="classes"
     :disabled="props.disabled"
+    :style="style"
+    @click="onClick"
   >
     <slot name="left-icon" />
     <slot />
-    <slot name="right-icon" />
   </button>
 </template>
 
 <script lang="ts" setup>
-import { IProps } from './interface';
-// import { PropType } from 'vue';
+import { computed } from 'vue';
+import { SizesEnum } from '../../common/sizes';
+import { IButtonProps } from './interface';
+import { ButtonType } from './enum';
 
-// interface IProps {
-//   disabled: {
-//     type: Boolean,
-//     default: false
-//   }
-//   size: {
-//     type: String as PropType<'small' | 'medium' | 'large'>,
-//     default: 'medium'
-//   }
-//   color: {
-//     type: String as PropType<'primary' | 'secondary'>,
-//     default: 'primary'
-//   }
-// }
-
-const props = withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IButtonProps>(), {
   disabled: false,
-  size: 'medium',
-  color: 'primary'
+  size: SizesEnum.medium,
+  type: ButtonType.outline
 });
+
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
+
+const classes = computed(() => ({
+  button: true,
+  [props.size]: true,
+  primary: true,
+  default: props.type === ButtonType.default,
+  outline: props.type === ButtonType.outline,
+  ghost: props.type === ButtonType.ghost
+}));
+
+const style = computed(() => ({
+  backgroundColor: props.backgroundColor
+}));
+
+const onClick = () => emit('click', 1);
 </script>
 
 <style>

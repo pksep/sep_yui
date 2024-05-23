@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1 class="text">Hello</h1>
+  <h1 class="text">Title</h1>
 </template>
 
 <style lang="scss">
