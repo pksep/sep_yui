@@ -3,6 +3,7 @@ export enum StorybookControl {
   radio = 'radio',
   select = 'select',
   text = 'text',
+  number = 'number',
   date = 'date',
   control = 'control',
   object = 'object',
