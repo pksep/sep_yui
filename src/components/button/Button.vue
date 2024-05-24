@@ -7,6 +7,7 @@
   >
     <slot name="left-icon" />
     <slot />
+    <slot name="right-icon" />
   </button>
 </template>
 
@@ -19,7 +20,8 @@ import { ButtonType } from './enum';
 const props = withDefaults(defineProps<IButtonProps>(), {
   disabled: false,
   size: SizesEnum.medium,
-  type: ButtonType.outline
+  type: ButtonType.primary,
+  pill: false
 });
 
 const emit = defineEmits<{
@@ -29,8 +31,10 @@ const emit = defineEmits<{
 const classes = computed(() => ({
   button: true,
   [props.size]: true,
-  primary: true,
-  default: props.type === ButtonType.default,
+  disabled: props.disabled,
+  pill: props.pill,
+  primary: props.type === ButtonType.primary,
+  secondary: props.type === ButtonType.secondary,
   outline: props.type === ButtonType.outline,
   ghost: props.type === ButtonType.ghost
 }));
@@ -42,34 +46,97 @@ const style = computed(() => ({
 const onClick = () => emit('click', 1);
 </script>
 
-<style>
+<style lang="scss" scope>
+@import './../../assets/scss/_global.scss';
+
 .button {
-  color: #ffffff;
+  color: $white;
   outline: none;
   border: none;
-  padding: 0 16px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: 0.3s ease-in-out;
 }
 
 .small {
-  height: 32px;
-  border-radius: 8px;
+  padding: 13px 11px;
+  font-size: 14px;
+  line-height: 16px;
+  min-height: 40px;
 }
 
 .medium {
-  height: 36px;
-  border-radius: 10px;
+  min-height: 50px;
+  padding: 16px 13px;
 }
 
 .large {
-  height: 400px;
-  border-radius: 12px;
+  min-height: 70px;
+  padding: 24px 13px;
+  font-size: 18px;
+  line-height: 22px;
 }
 
 .primary {
-  background: #535bf2;
+  background-color: $blue-77A6FF;
+
+  &:active {
+    background-color: $blue-548CF6;
+  }
+  &.disabled:disabled {
+    color: $grey-757D8A;
+    background-color: $white-F5F5F5;
+  }
 }
 
 .secondary {
-  background: #a7a7a7;
+  background-color: $white-F8F9FD;
+  color: $blue-77A6FF;
+
+  &:active {
+    background-color: $white-ECF3FF;
+  }
+  &.disabled:disabled {
+    color: $grey-757D8A;
+    background-color: $white-F5F5F5;
+  }
+}
+
+.outline {
+  background-color: $transparent;
+  border: 1px solid $blue-9CBEFF;
+  color: $grey-282828;
+
+  &:active {
+    color: $white;
+    background-color: $blue-548CF6;
+  }
+
+  &.disabled:disabled {
+    color: $grey-757D8A;
+    background-color: $white-F5F5F5;
+    border: 1px solid $white-E7E7E7;
+  }
+}
+
+.ghost {
+  background-color: $transparent;
+  color: $grey-282828;
+
+  &:hover {
+    background-color: $white-F8F9FD;
+  }
+
+  &:active {
+    color: $blue-77A6FF;
+    background-color: $white-ECF3FF;
+  }
+  &.disabled:disabled {
+    background-color: $white-E6E6E6;
+  }
+}
+
+.pill {
+  border-radius: 10px;
 }
 </style>

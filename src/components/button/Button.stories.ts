@@ -1,4 +1,4 @@
-import { StoryFn, Meta, StoryObj } from '@storybook/vue3';
+import { StoryFn, Meta } from '@storybook/vue3';
 import Button from './Button.vue';
 import { SizesEnum } from '../../common/sizes';
 import { StorybookControl } from '../../common/storybook';
@@ -10,6 +10,10 @@ const meta = {
   component: Button,
   argTypes: {
     disabled: {
+      control: { type: StorybookControl.boolean },
+      defaultValue: false
+    },
+    pill: {
       control: { type: StorybookControl.boolean },
       defaultValue: false
     },
@@ -25,7 +29,7 @@ const meta = {
       control: { type: StorybookControl.text },
       description: 'Кастомный контент кнопки',
       defaultValue: {
-        summary: 'Hello'
+        summary: 'Button'
       }
     }
   },
@@ -42,9 +46,7 @@ const Template: StoryFn<typeof Button> = args => ({
   },
   template: `
     <div style="display: flex; flex-direction: row; gap: 12px;">
-      <Button v-bind="args" size="large">Hello</Button>
-      <Button v-bind="args" size="medium">Button</Button>
-      <Button v-bind="args" size="small">Button</Button>
+      <Button v-bind="args">Button</Button>
     </div>
   `
 });
@@ -54,9 +56,25 @@ export const Default: StoryFn<typeof Button> = args => ({
   setup() {
     return { args };
   },
-  template: '<Button v-bind="args">{{ args.content || "Hello" }}</Button>'
+  template: '<Button v-bind="args">{{ args.content || "Button" }}</Button>'
 });
 
 export const Primary = Template.bind({});
+Primary.args = {
+  type: ButtonType.primary
+};
 
 export const Secondary = Template.bind({});
+Secondary.args = {
+  type: ButtonType.secondary
+};
+
+export const Outline = Template.bind({});
+Outline.args = {
+  type: ButtonType.outline
+};
+
+export const Ghost = Template.bind({});
+Ghost.args = {
+  type: ButtonType.ghost
+};
