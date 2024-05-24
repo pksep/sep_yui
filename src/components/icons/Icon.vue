@@ -47,10 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { SizesEnum } from '../../common/sizes';
-import { IButtonProps, IIconPorps } from './interface';
-import { ButtonType } from './enum';
+import { IIconPorps } from './interface';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
   width: 24,

@@ -42,5 +42,9 @@ export const Default: StoryFn<typeof Icon> = args => ({
   setup() {
     return { args };
   },
-  template: '<Icon v-bind="args" type="notification" />'
+  template: '<Icon v-bind="args" />'
 });
+
+Default.args = {
+  type: IconTypeEnum.notification
+};
