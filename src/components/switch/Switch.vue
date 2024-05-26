@@ -12,8 +12,8 @@
       type="checkbox"
     />
     <label v-if="!props.lang" class="toggle-label" for="toggle"></label>
-    <input v-if="props.lang" class="toggle-input" id="toggle" type="checkbox" />
-    <label v-if="props.lang" class="toggle-label" for="toggle">222</label>
+    <input v-if="props.lang" class="toggle-input-lang" id="toggle" type="checkbox" />
+    <label v-if="props.lang" class="toggle-label-lang" for="toggle">222</label>
   </div>
 </template>
 
