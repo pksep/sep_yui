@@ -1,7 +1,12 @@
-export interface IProps {
+import { SizesEnum } from '../../common/sizes';
+import { ButtonType } from './enum';
+
+export interface IButtonProps {
   disabled: boolean;
-  size: string;
-  color: string;
+  size: SizesEnum.small | SizesEnum.medium | SizesEnum.large;
+  type: ButtonType;
+  pill?: boolean;
+  backgroundColor?: string;
 }
 
 export interface IIcon {
