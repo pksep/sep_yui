@@ -1,4 +1,4 @@
-import { SizesEnum } from '../../common/sizes';
+import { SizesEnum } from '@/common/sizes';
 import { ButtonType } from './enum';
 
 export interface IButtonProps {
@@ -7,8 +7,4 @@ export interface IButtonProps {
   type: ButtonType;
   pill?: boolean;
   backgroundColor?: string;
-}
-
-export interface IIcon {
-  src: string;
 }

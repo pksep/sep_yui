@@ -24,9 +24,10 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   pill: false
 });
 
-const emit = defineEmits<{
-  (e: 'click', id: number): void;
-}>();
+const emit =
+  defineEmits<{
+    (e: 'click', id: number): void;
+  }>();
 
 const classes = computed(() => ({
   button: true,
@@ -47,8 +48,6 @@ const onClick = () => emit('click', 1);
 </script>
 
 <style lang="scss" scope>
-@import './../../assets/scss/_global.scss';
-
 .button {
   color: $white;
   outline: none;

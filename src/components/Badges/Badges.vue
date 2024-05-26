@@ -1,25 +1,39 @@
 <template>
-  <div class="default" :lang="props.lang" :class="[props.bgColor, props.color]">
+  <div :class="classes" :style="style" @click="onClick">
     <div :v-if="props.choosed === true"></div>
     <span>
       <slot name="left-icon" />
       <slot />
-      {{ props.text }}
       <slot name="right-icon" />
     </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { IProps } from '@/interface';
+import { IBadgesProps } from './interface';
+import { BadgesType } from './enum';
+import { computed } from 'vue';
 
-const props = withDefaults(defineProps<IProps>(), {
-  type: 'default',
-  text: 'все',
-  choosed: false,
-  bgColor: '',
-  color: ''
+const props = withDefaults(defineProps<IBadgesProps>(), {
+  type: BadgesType.default,
+  text: BadgesType.text,
+  choosed: false
 });
+
+const emit =
+  defineEmits<{
+    (e: 'click', id: number): void;
+  }>();
+
+const classes = computed(() => ({
+  base: true,
+  default: props.type === BadgesType.default,
+  blue: props.type === BadgesType.blue,
+  green: props.type === BadgesType.green,
+  orange: props.type === BadgesType.orange,
+  red: props.type === BadgesType.red,
+  choosed: props.choosed
+}));
 </script>
 
 <style lang="scss" scope>
@@ -48,39 +62,39 @@ const props = withDefaults(defineProps<IProps>(), {
 }
 
 .default span {
-  color: $light-grey-text;
-  background-color: $light-grey-bg;
+  color: $grey-757D8A;
+  background-color: $grey-E2E2E2;
 }
 
-.removed span {
-  color: $light-blue-text;
-  background-color: $light-blue-bg;
+.blue span {
+  color: $blue-5CBAFF;
+  background-color: $blue-E0F2FF;
 }
 
-.shipped span {
-  color: $light-green-text;
-  background-color: $light-green-bg;
+.green span {
+  color: $green-0FBE3F;
+  background-color: $green-D8F2DA;
 }
 
-.ordered span {
-  color: $light-orange-text;
-  background-color: $light-orange-bg;
+.orange span {
+  color: $orange-E8A702;
+  background-color: $orange-FAEED5;
 }
 
-.overdue span {
-  color: $light-red-text;
-  background-color: $light-red-bg;
+.red span {
+  color: $red-FF6868;
+  background-color: $red-FFE2E1;
 }
 
 .choosed {
   position: relative;
   padding-right: 20px;
-  background-color: $light-blue-bg-9;
+  background-color: $blue-F2F7FF;
 
   &:before,
   &:after {
     @include pseudo(12px, 1px);
-    background-color: $light-grey-text;
+    background-color: $grey-757D8A;
     top: 50%;
     right: 5px;
     border-radius: 5px;
