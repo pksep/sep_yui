@@ -55,6 +55,9 @@ const onClick = () => emit('click', 1);
   box-sizing: border-box;
   border-radius: 5px;
   transition: 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .small {

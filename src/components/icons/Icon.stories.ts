@@ -21,6 +21,7 @@ const meta = {
     }
   },
   tags: ['autodocs']
+  // decorators: [() => ({ template: '<div style="margin: 3em;"><story/></div>' })]
 } as Meta<typeof Icon>;
 
 export default meta;

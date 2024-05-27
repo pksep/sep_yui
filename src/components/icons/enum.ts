@@ -1,4 +1,23 @@
 export enum IconTypeEnum {
   notification = 'notification',
-  help = 'help'
+  notificationYes = 'notificationYes',
+  help = 'help',
+  moonFill = 'moonFill',
+  arrowLeft = 'arrowLeft',
+  chevronDown = 'chevronDown',
+  chevronUp = 'chevronUp',
+  dark = 'dark',
+  exitBig = 'exitBig',
+  exitSmall = 'exitSmall',
+  exit = 'exit',
+  leftBigSmall = 'leftBigSmall',
+  leftBig = 'leftBig',
+  light = 'light',
+  plusSmall = 'plusSmall',
+  plus = 'plus',
+  profileIcon = 'profileIcon',
+  profile = 'profile',
+  rightBig = 'rightBig',
+  rightSmall = 'rightSmall',
+  settings = 'settings'
 }

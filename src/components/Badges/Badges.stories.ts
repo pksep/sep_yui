@@ -2,14 +2,15 @@ import { StoryFn, Meta } from '@storybook/vue3';
 import Badges from '@/components/Badges/Badges';
 import { StorybookControl } from '../../common/storybook';
 import { BadgesType } from './enum';
+import { fn } from '@storybook/test';
 
-export default {
-  title: 'Badges',
+const meta = {
+  title: 'Badges/Badges',
   component: Badges,
   argTypes: {
     text: {
       control: { type: StorybookControl.text },
-      defaultValue: BadgesType.text
+      defaultValue: BadgesType.all
     },
     type: {
       control: { type: StorybookControl.select },
@@ -18,7 +19,7 @@ export default {
     },
     choosed: {
       control: { type: StorybookControl.boolean },
-      defaultValue: BadgesType.choosed
+      defaultValue: false
     },
     leftIcon: {
       control: { type: StorybookControl.text },
@@ -30,8 +31,12 @@ export default {
       description: 'SVG markup for right icon',
       defaultValue: ''
     }
-  }
+  },
+  tags: ['autodocs'],
+  args: { onClick: fn() }
 } as Meta<typeof Badges>;
+
+export default meta;
 
 const Template: StoryFn<typeof Badges> = args => ({
   components: { Badges },
@@ -40,22 +45,39 @@ const Template: StoryFn<typeof Badges> = args => ({
   },
   template: `
   <div style="display: flex; flex-direction: row; gap: 12px;">
-  <Badges v-bind="args">{{args.text || 'Все'}}</Badges>
+  <Badges v-bind="args">Все</Badges>
 </div>
   `
 });
 
-export const DefaultBadges = Template.bind({});
-DefaultBadges.args = { type: 'default', text: 'Все' };
+export const Default: StoryFn<typeof Badges> = args => ({
+  components: { Badges },
+  setup() {
+    return { args };
+  },
+  template: '<Badges v-bind="args">{{args.text || "Все"}}</Badges>'
+});
 
-export const RemovedBadges = Template.bind({});
-RemovedBadges.args = { type: 'blue', text: 'Удалено' };
+export const BlueBadges = Template.bind({});
+BlueBadges.args = {
+  type: BadgesType.blue,
+  text: 'Удалено'
+};
 
-export const ShippedBadges = Template.bind({});
-ShippedBadges.args = { type: 'green', text: 'Отгружено' };
+export const GreenBadges = Template.bind({});
+GreenBadges.args = {
+  type: BadgesType.green,
+  text: 'Отгружено'
+};
 
-export const OrderedBadges = Template.bind({});
-OrderedBadges.args = { type: 'orange', text: 'Заказано' };
+export const OrangeBadges = Template.bind({});
+OrangeBadges.args = {
+  type: BadgesType.orange,
+  text: 'Заказано'
+};
 
-export const OverdueBadges = Template.bind({});
-OverdueBadges.args = { type: 'red', text: 'Просрочено' };
+export const RedBadges = Template.bind({});
+RedBadges.args = {
+  type: BadgesType.red,
+  text: 'Просрочено'
+};

@@ -1,5 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Button from './Button.vue';
+import Icon from './../icons/Icon';
 import { SizesEnum } from '../../common/sizes';
 import { StorybookControl } from '../../common/storybook';
 import { ButtonType } from './enum';
@@ -35,6 +36,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: { onClick: fn() }
+  // decorators: [() => ({ template: '<div style="margin: 3em;"><story/></div>' })]
 } as Meta<typeof Button>;
 
 export default meta;
@@ -78,3 +80,12 @@ export const Ghost = Template.bind({});
 Ghost.args = {
   type: ButtonType.ghost
 };
+
+export const BtnWithIcon: StoryFn<typeof Button> = args => ({
+  components: { Button, Icon },
+  setup() {
+    return { args };
+  },
+  template:
+    '<Button v-bind="args"><Icon v-bind="args" type="notification"  name="left-icon" />{{ args.content || "Button" }}<Icon v-bind="args" type="notification"  name="right-icon" /></Button>'
+});
