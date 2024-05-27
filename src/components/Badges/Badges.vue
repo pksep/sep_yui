@@ -20,10 +20,9 @@ const props = withDefaults(defineProps<IBadgesProps>(), {
   choosed: false
 });
 
-const emit =
-  defineEmits<{
-    (e: 'click', id: number): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
 
 const classes = computed(() => ({
   base: true,

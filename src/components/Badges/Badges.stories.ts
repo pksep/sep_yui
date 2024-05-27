@@ -9,8 +9,7 @@ const meta = {
   component: Badges,
   argTypes: {
     text: {
-      control: { type: StorybookControl.text },
-      defaultValue: BadgesType.all
+      control: { type: StorybookControl.text }
     },
     type: {
       control: { type: StorybookControl.select },
