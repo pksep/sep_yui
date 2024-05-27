@@ -5,9 +5,17 @@
     :style="style"
     @click="onClick"
   >
-    <slot name="left-icon" />
+    <template v-if="$slots['left-icon']">
+      <span :style="styleChangeColor">
+        <slot name="left-icon" />
+      </span>
+    </template>
     <slot />
-    <slot name="right-icon" />
+    <template v-if="$slots['right-icon']">
+      <span :style="styleChangeColor">
+        <slot name="right-icon" />
+      </span>
+    </template>
   </button>
 </template>
 
@@ -21,7 +29,8 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   disabled: false,
   size: SizesEnum.medium,
   type: ButtonType.primary,
-  pill: false
+  pill: false,
+  color: ''
 });
 
 const emit =
@@ -42,6 +51,13 @@ const classes = computed(() => ({
 
 const style = computed(() => ({
   backgroundColor: props.backgroundColor
+}));
+
+const styleChangeColor = computed(() => ({
+  color:
+    props.color === 'primary' || props.color === 'secondary'
+      ? 'black'
+      : props.color
 }));
 
 const onClick = () => emit('click', 1);

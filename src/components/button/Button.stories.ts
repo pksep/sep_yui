@@ -1,11 +1,12 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Button from './Button.vue';
-import Icon from './../icons/Icon.vue';
+import Icon from '../Icons/Icon.vue';
 import { SizesEnum } from '../../common/sizes';
+import { ColorsEnum } from '../../common/colors';
 import { StorybookControl } from '../../common/storybook';
 import { ButtonType } from './enum';
 import { fn } from '@storybook/test';
-import { IconNameEnum } from '../icons/enum';
+import { IconNameEnum } from '../Icons/enum';
 
 const meta = {
   title: 'Button/Button',
@@ -44,6 +45,11 @@ const meta = {
       options: ['left', 'right'],
       description: 'Позиция иконки',
       defaultValue: 'left'
+    },
+    iconColor: {
+      control: { type: StorybookControl.select },
+      description: 'Цвет иконки',
+      options: ColorsEnum
     }
   },
   tags: ['autodocs'],
@@ -59,10 +65,14 @@ const Template: StoryFn<typeof Button> = args => ({
   },
   template: `
     <div style="display: flex; flex-direction: row; gap: 12px;">
-      <Button v-bind="args">
-        <Icon v-if="args.iconPosition === 'left'" :name="args.iconName" />
-        {{ args.content || 'Button' }}
-        <Icon v-if="args.iconPosition === 'right'" :name="args.iconName" />
+      <Button v-bind="args" :color="args.iconColor">
+      <template v-slot:left-icon>
+      <Icon v-if="args.iconPosition === 'left'" :name="args.iconName"/>
+    </template>
+    {{ args.content || 'Button' }}
+      <template v-slot:right-icon>
+      <Icon v-if="args.iconPosition === 'right'" :name="args.iconName"/>
+    </template>
       </Button>
     </div>
   `

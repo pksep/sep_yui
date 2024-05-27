@@ -7,4 +7,5 @@ export interface IButtonProps {
   type: ButtonType;
   pill?: boolean;
   backgroundColor?: string;
+  color?: string;
 }

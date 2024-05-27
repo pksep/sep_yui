@@ -12,7 +12,12 @@
       type="checkbox"
     />
     <label v-if="!props.lang" class="toggle-label" for="toggle"></label>
-    <input v-if="props.lang" class="toggle-input-lang" id="toggle" type="checkbox" />
+    <input
+      v-if="props.lang"
+      class="toggle-input-lang"
+      id="toggle"
+      type="checkbox"
+    />
     <label v-if="props.lang" class="toggle-label-lang" for="toggle">222</label>
   </div>
 </template>
@@ -26,9 +31,10 @@ const props = withDefaults(defineProps<IToggleProps>(), {
   lang: false
 });
 
-const emit = defineEmits<{
-  (e: 'click', id: number): void;
-}>();
+const emit =
+  defineEmits<{
+    (e: 'click', id: number): void;
+  }>();
 
 const classes = computed(() => ({
   toggle: true
