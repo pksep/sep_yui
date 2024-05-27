@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "publish": "vue-tsc && vite build && npm version patch && npm publish",
+    "npm:push": "vue-tsc && vite build && npm version patch && npm publish",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
