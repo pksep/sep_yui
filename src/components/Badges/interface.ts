@@ -1,7 +1,7 @@
 import { BadgesType } from './enum';
 
 export interface IBadgesProps {
-  text: BadgesType.all;
+  text: string;
   type: BadgesType.default;
   choosed: boolean;
 }

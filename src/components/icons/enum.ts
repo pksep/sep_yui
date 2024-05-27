@@ -19,5 +19,6 @@ export enum IconTypeEnum {
   profile = 'profile',
   rightBig = 'rightBig',
   rightSmall = 'rightSmall',
-  settings = 'settings'
+  settings = 'settings',
+  settingsDark = 'settingsDark'
 }
