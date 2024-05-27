@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" :style="style" @click="onClick">
+  <div :class="classes">
     <div :v-if="props.choosed === true"></div>
     <span>
       <slot name="left-icon" />
@@ -16,7 +16,6 @@ import { computed } from 'vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {
   type: BadgesType.default,
-  text: BadgesType.text,
   choosed: false
 });
 

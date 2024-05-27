@@ -1,9 +1,8 @@
 {
-  "name": "npo-sep-ui",
+  "name": "sep-yui",
   "author": "Andrey Adreevich",
-  "email": "chernigovsky108@gmail.com",
-  "url": "ansdrey-andreevich.ru",
-  "version": "0.0.12",
+  "email": "david.perov60@gmai.com",
+  "version": "0.0.1",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/npo-sep-ui.umd.ts",

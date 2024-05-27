@@ -2,7 +2,7 @@
   <button
     :class="classes"
     :disabled="props.disabled"
-    :style="style"
+    :style="styles"
     @click="onClick"
   >
     <template v-if="$slots['left-icon']">
@@ -33,10 +33,9 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   color: ''
 });
 
-const emit =
-  defineEmits<{
-    (e: 'click', id: number): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
 
 const classes = computed(() => ({
   button: true,
@@ -49,7 +48,7 @@ const classes = computed(() => ({
   ghost: props.type === ButtonType.ghost
 }));
 
-const style = computed(() => ({
+const styles = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
 

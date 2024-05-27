@@ -2,7 +2,7 @@
   <div
     :class="classes"
     :disabled="props.disabled"
-    :style="style"
+    :style="styles"
     @click="onClick"
   >
     <input
@@ -31,16 +31,15 @@ const props = withDefaults(defineProps<IToggleProps>(), {
   lang: false
 });
 
-const emit =
-  defineEmits<{
-    (e: 'click', id: number): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
 
 const classes = computed(() => ({
   toggle: true
 }));
 
-const style = computed(() => ({
+const styles = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
 

@@ -1,12 +1,12 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Button from './Button.vue';
-import Icon from '../Icons/Icon.vue';
+import Icon from '../Icon/Icon.vue';
 import { SizesEnum } from '../../common/sizes';
 import { ColorsEnum } from '../../common/colors';
 import { StorybookControl } from '../../common/storybook';
 import { ButtonType } from './enum';
 import { fn } from '@storybook/test';
-import { IconNameEnum } from '../Icons/enum';
+import { IconNameEnum } from '../Icon/enum';
 
 const meta = {
   title: 'Button/Button',
