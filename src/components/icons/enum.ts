@@ -1,4 +1,4 @@
-export enum IconTypeEnum {
+export enum IconNameEnum {
   notification = 'notification',
   notificationYes = 'notificationYes',
   help = 'help',

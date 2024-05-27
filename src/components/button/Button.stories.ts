@@ -1,10 +1,11 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Button from './Button.vue';
-import Icon from './../icons/Icon';
+import Icon from './../icons/Icon.vue';
 import { SizesEnum } from '../../common/sizes';
 import { StorybookControl } from '../../common/storybook';
 import { ButtonType } from './enum';
 import { fn } from '@storybook/test';
+import { IconNameEnum } from '../icons/enum';
 
 const meta = {
   title: 'Button/Button',
@@ -32,23 +33,37 @@ const meta = {
       defaultValue: {
         summary: 'Button'
       }
+    },
+    iconName: {
+      control: { type: StorybookControl.select },
+      description: 'Имя иконки',
+      options: IconNameEnum
+    },
+    iconPosition: {
+      control: { type: StorybookControl.radio },
+      options: ['left', 'right'],
+      description: 'Позиция иконки',
+      defaultValue: 'left'
     }
   },
   tags: ['autodocs'],
   args: { onClick: fn() }
-  // decorators: [() => ({ template: '<div style="margin: 3em;"><story/></div>' })]
 } as Meta<typeof Button>;
 
 export default meta;
 
 const Template: StoryFn<typeof Button> = args => ({
-  components: { Button },
+  components: { Button, Icon },
   setup() {
     return { args };
   },
   template: `
     <div style="display: flex; flex-direction: row; gap: 12px;">
-      <Button v-bind="args">Button</Button>
+      <Button v-bind="args">
+        <Icon v-if="args.iconPosition === 'left'" :name="args.iconName" />
+        {{ args.content || 'Button' }}
+        <Icon v-if="args.iconPosition === 'right'" :name="args.iconName" />
+      </Button>
     </div>
   `
 });
@@ -81,11 +96,10 @@ Ghost.args = {
   type: ButtonType.ghost
 };
 
-export const BtnWithIcon: StoryFn<typeof Button> = args => ({
-  components: { Button, Icon },
-  setup() {
-    return { args };
-  },
-  template:
-    '<Button v-bind="args"><Icon v-bind="args" type="notification"  name="left-icon" />{{ args.content || "Button" }}<Icon v-bind="args" type="notification"  name="right-icon" /></Button>'
-});
+export const BtnWithIcon = Template.bind({});
+BtnWithIcon.args = {
+  type: ButtonType.primary,
+  iconName: 'arrowLeft',
+  iconPosition: 'left',
+  content: 'Button with Icon'
+};

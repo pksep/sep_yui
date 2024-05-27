@@ -1,6 +1,6 @@
 <template>
   <svg class="icon" :width="props.width" :height="props.height">
-    <use :href="`#${props.type}`"></use>
+    <use :href="`#${props.name}`"></use>
   </svg>
 
   <svg width="0" height="0" class="hidden">

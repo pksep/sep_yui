@@ -1,7 +1,7 @@
-import { IconTypeEnum } from './enum';
+import { IconNameEnum } from './enum';
 
 export interface IIconPorps {
   height?: number;
   width?: number;
-  type: IconTypeEnum;
+  name: IconNameEnum;
 }

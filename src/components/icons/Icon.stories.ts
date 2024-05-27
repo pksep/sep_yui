@@ -1,7 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Icon from './Icon.vue';
 import { StorybookControl } from '../../common/storybook';
-import { IconTypeEnum } from './enum';
+import { IconNameEnum } from './enum';
 
 const meta = {
   title: 'Icon/Icon',
@@ -15,13 +15,12 @@ const meta = {
       control: { type: StorybookControl.number },
       defaultValue: 24
     },
-    type: {
+    name: {
       control: { type: StorybookControl.select },
-      options: IconTypeEnum
+      options: IconNameEnum
     }
   },
   tags: ['autodocs']
-  // decorators: [() => ({ template: '<div style="margin: 3em;"><story/></div>' })]
 } as Meta<typeof Icon>;
 
 export default meta;
@@ -47,5 +46,5 @@ export const Default: StoryFn<typeof Icon> = args => ({
 });
 
 Default.args = {
-  type: IconTypeEnum.notification
+  name: IconNameEnum.notification
 };
