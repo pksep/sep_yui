@@ -2,7 +2,7 @@
   "name": "sep-yui",
   "author": "Andrey Adreevich",
   "email": "david.perov60@gmai.com",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/npo-sep-ui.umd.ts",
