@@ -1,5 +1,4 @@
-export interface ISwitchProps<T> {
-  arrData: T[];
-  pos: string;
-  default_item: boolean;
+export interface ISwitchProps {
+  items: string[];
+  defaultValue?: string;
 }

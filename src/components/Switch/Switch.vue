@@ -1,22 +1,13 @@
 <template>
   <div>
-    <div :class="props.pos == 'x' ? 'pos_x menu_span' : 'pos_y menu_span'">
+    <div :class="'pos_x menu_span'">
       <div class="td-row-wrapper">
         <input type="radio" name="lang" id="lang-Ru" checked />
-        <label class="td-row" for="lang-Ru" v-if="props.default_item">Ru</label>
+        <label class="td-row" for="lang-Ru">Ru</label>
       </div>
-      <div
-        v-for="(dat, inx) of props.arrData"
-        :key="dat"
-        class="td-row-wrapper"
-      >
+      <div v-for="dat of props.items" :key="dat" class="td-row-wrapper">
         <input type="radio" name="lang" :id="`lang-${dat}`" />
-        <label
-          class="td-row"
-          :for="`lang-${dat}`"
-          :class="!props.default_item"
-          >{{ dat }}</label
-        >
+        <label class="td-row" :for="`lang-${dat}`">{{ dat }}</label>
       </div>
     </div>
   </div>
@@ -25,11 +16,16 @@
 <script lang="ts" setup>
 import { ISwitchProps } from './interface';
 
-const props = withDefaults(defineProps<ISwitchProps>(), {
-  arrData: () => ['En'],
-  pos: 'x',
-  default_item: true
-});
+const props = withDefaults(defineProps<ISwitchProps>(), {});
+
+interface IChangeSwitchEmit {
+  index: number;
+  value: string;
+}
+
+const emit = defineEmits<{
+  (e: 'change', event: IChangeSwitchEmit): void;
+}>();
 </script>
 
 <style lang="scss" scope>

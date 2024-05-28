@@ -1,15 +1,11 @@
 <template>
-  <div
-    :class="classes"
-    :disabled="props.disabled"
-    :style="styles"
-    @click="onClick"
-  >
+  <div :class="classes" :disabled="props.disabled" :style="styles">
     <input
       class="toggle-input"
       id="toggle"
       type="checkbox"
       v-model="isChecked"
+      @change="onClick"
     />
     <label class="toggle-label" for="toggle"></label>
   </div>
@@ -24,10 +20,9 @@ const props = withDefaults(defineProps<IToggleProps>(), {
   checked: false
 });
 
-const emit =
-  defineEmits<{
-    (e: 'click', id: number): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'change', isChecked: number): void;
+}>();
 
 const classes = computed(() => ({
   toggle: true
@@ -39,12 +34,7 @@ const styles = computed(() => ({
 
 const isChecked = ref(props.checked);
 
-const onClick = e => {
-  if (!props.disabled && e.closest('.toggle')) {
-    isChecked.value = !isChecked.value;
-    emit('click', 1);
-  }
-};
+const onClick = () => emit('change', isChecked.value);
 </script>
 
 <style lang="scss" scope>
