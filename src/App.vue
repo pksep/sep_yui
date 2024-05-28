@@ -29,8 +29,7 @@
   <Toggle checked @change="(checked: boolean) => console.log(checked)" />
 
   <h1 class="text">Switch</h1>
-  <Switch :items="array" />
-  <Switch :items="array" :defaultValue="'en'" />
+  <Switch :items="array" :defaultValue="'En'" />
 
   <h1 class="text">Search</h1>
   <Search />
@@ -45,7 +44,7 @@ import Switch from '@/components/Switch/Switch';
 import Search from '@/components/Search/Search';
 import { IconNameEnum } from '@/components/Icon/enum';
 
-const array = ['ru', 'en'];
+const array = ['Ru', 'En'];
 </script>
 
 <style lang="scss">
