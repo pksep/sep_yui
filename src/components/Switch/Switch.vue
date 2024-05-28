@@ -23,17 +23,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, reactive, ref } from 'vue';
 import { ISwitchProps } from './interface';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {
   arrData: () => ['En'],
   pos: 'x',
   default_item: true
-});
-
-const state = reactive({
-  span: null
 });
 </script>
 

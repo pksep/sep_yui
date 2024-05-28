@@ -25,7 +25,9 @@
   <Toggle checked />
   <h1 class="text">Switch</h1>
   <Switch :pos="'x'" />
-  <Switch :arrData="array" :pos="'x'" />
+  <Switch :arrData="array" :pos="'x'" :default_item="false" />
+  <h1 class="text">Search</h1>
+  <Search />
 </template>
 
 <script setup lang="ts">
@@ -34,8 +36,9 @@ import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
+import Search from '@/components/Search/Search';
 
-const array = ['En', 'Fr'];
+const array = ['Ru', 'En', 'Fr'];
 </script>
 
 <style lang="scss">
