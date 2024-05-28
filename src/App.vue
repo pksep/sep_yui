@@ -29,7 +29,7 @@
   <Toggle checked @change="(checked: boolean) => console.log(checked)" />
 
   <h1 class="text">Switch</h1>
-  <Switch :items="array" :defaultValue="'En'" />
+  <Switch :items="array" />
 
   <h1 class="text">Search</h1>
   <Search />
