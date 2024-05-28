@@ -1,4 +1,4 @@
-export enum BadgesType {
+export enum FilterType {
   default = 'default',
   blue = 'blue',
   green = 'green',

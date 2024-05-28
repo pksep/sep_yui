@@ -1,5 +1,5 @@
-export interface IToggleProps {
-  disabled: boolean;
-  lang: boolean;
-  backgroundColor: string;
+export interface ISwitchProps<T> {
+  arrData: T[];
+  pos: string;
+  default_item: boolean;
 }

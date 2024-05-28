@@ -33,9 +33,10 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   color: ''
 });
 
-const emit = defineEmits<{
-  (e: 'click', id: number): void;
-}>();
+const emit =
+  defineEmits<{
+    (e: 'click', id: number): void;
+  }>();
 
 const classes = computed(() => ({
   button: true,
@@ -73,6 +74,10 @@ const onClick = () => emit('click', 1);
   display: flex;
   align-items: center;
   gap: 5px;
+
+  &:hover:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 .small {
@@ -89,7 +94,7 @@ const onClick = () => emit('click', 1);
 
 .large {
   min-height: 70px;
-  padding: 24px 13px;
+  padding: 5px 13px;
   font-size: 18px;
   line-height: 22px;
 }

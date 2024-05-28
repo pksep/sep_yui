@@ -10,26 +10,27 @@
 </template>
 
 <script lang="ts" setup>
-import { IBadgesProps } from './interface';
-import { BadgesType } from './enum';
+import { IFilterProps } from './interface';
+import { FilterType } from './enum';
 import { computed } from 'vue';
 
-const props = withDefaults(defineProps<IBadgesProps>(), {
-  type: BadgesType.default,
+const props = withDefaults(defineProps<IFilterProps>(), {
+  type: FilterType.default,
   choosed: false
 });
 
-const emit = defineEmits<{
-  (e: 'click', id: number): void;
-}>();
+const emit =
+  defineEmits<{
+    (e: 'click', id: number): void;
+  }>();
 
 const classes = computed(() => ({
   base: true,
-  default: props.type === BadgesType.default,
-  blue: props.type === BadgesType.blue,
-  green: props.type === BadgesType.green,
-  orange: props.type === BadgesType.orange,
-  red: props.type === BadgesType.red,
+  default: props.type === FilterType.default,
+  blue: props.type === FilterType.blue,
+  green: props.type === FilterType.green,
+  orange: props.type === FilterType.orange,
+  red: props.type === FilterType.red,
   choosed: props.choosed
 }));
 </script>

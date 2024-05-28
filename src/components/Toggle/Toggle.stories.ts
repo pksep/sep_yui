@@ -1,11 +1,11 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import Switch from './Switch.vue';
+import Toggle from './Toggle.vue';
 import { StorybookControl } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
 const meta = {
-  title: 'Switch/Switch',
-  component: Switch,
+  title: 'Toggle/Toggle',
+  component: Toggle,
   argTypes: {
     disabled: {
       control: { type: StorybookControl.boolean },
@@ -18,31 +18,31 @@ const meta = {
   },
   tags: ['autodocs'],
   args: { onClick: fn() }
-} as Meta<typeof Switch>;
+} as Meta<typeof Toggle>;
 
 export default meta;
 
-const Template: StoryFn<typeof Switch> = args => ({
-  components: { Switch },
+const Template: StoryFn<typeof Toggle> = args => ({
+  components: { Toggle },
   setup() {
     return { args };
   },
   template: `
     <div style="display: flex; flex-direction: row; gap: 12px;">
-      <Switch v-bind="args"/>
+      <Toggle v-bind="args"/>
     </div>
   `
 });
 
-export const Default: StoryFn<typeof Switch> = args => ({
-  components: { Switch },
+export const Default: StoryFn<typeof Toggle> = args => ({
+  components: { Toggle },
   setup() {
     return { args };
   },
-  template: '<Switch v-bind="args"/>'
+  template: '<Toggle v-bind="args"/>'
 });
 
-export const PrimarySwitch = Template.bind({});
-PrimarySwitch.args = {
+export const PrimaryToggle = Template.bind({});
+PrimaryToggle.args = {
   lang: false
 };
