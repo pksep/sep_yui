@@ -32,7 +32,8 @@
           v-for="item of state.getHistorySearch"
           :key="item"
         >
-          <span @click="() => choosePost(item)">{{ item }}</span
+          <span @click="() => choosePost(item)">
+            {{ item.length > 33 ? item.slice(0, 30) + '...' : item }}</span
           ><button type="button" @click="removeItem(item)">
             <Icon name="exitSmall" />
           </button>
