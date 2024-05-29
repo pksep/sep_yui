@@ -2,9 +2,9 @@
   <ul class="td-list">
     <li
       v-for="(item, index) of props.items"
-      :key="item"
+      :key="index"
       :class="['td-item', { 'td-active': state.activeIndex === index }]"
-      @click="e => toChooseItem(index, e.currentTarget.textContent)"
+      @click="toChooseItem(index)"
     >
       {{ item }}
     </li>
@@ -15,10 +15,7 @@
 import { onMounted, reactive } from 'vue';
 import { ISwitchProps } from './interface';
 
-const props = withDefaults(defineProps<ISwitchProps>(), {
-  defaultValue: 'Ru',
-  index: 0
-});
+const props = withDefaults(defineProps<ISwitchProps>(), {});
 
 interface IChangeSwitchEmit {
   index: number;
@@ -26,28 +23,24 @@ interface IChangeSwitchEmit {
 }
 
 const state = reactive({
-  activeItem: props.defaultValue,
-  activeIndex: props.index
+  activeIndex: 0
 });
 
 const emit = defineEmits<{
   (e: 'change', event: IChangeSwitchEmit): void;
 }>();
 
-const toChooseItem = (index: number, value) => {
+const toChooseItem = (index: number) => {
   state.activeIndex = index;
-  state.activeItem = value;
-  emit('change', { index, value });
+  emit('change', {
+    index,
+    value: props.items[index]
+  });
 };
 
 onMounted(() => {
-  if (props.items.length > 0) {
-    const defaultIndex = props.items.indexOf(props.defaultValue);
-    if (defaultIndex !== -1) {
-      state.activeIndex = defaultIndex;
-      state.activeItem = props.defaultValue;
-    }
-    toChooseItem(state.activeIndex, props.items[state.activeIndex]);
+  if (props.defaultValue && props.items.includes(props.defaultValue)) {
+    state.activeIndex = props.items.indexOf(props.defaultValue);
   }
 });
 </script>
