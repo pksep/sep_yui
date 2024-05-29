@@ -34,8 +34,8 @@
   <h1 class="text">Switch</h1>
   <Switch :items="array" />
 
-  <!-- <h1 class="text">Slider</h1>
-  <Slider /> -->
+  <h1 class="text">Slider</h1>
+  <Slider />
 </template>
 
 <script setup lang="ts">
