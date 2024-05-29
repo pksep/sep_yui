@@ -94,7 +94,10 @@ const addLocalStoragePost = post => {
 };
 
 onMounted(() => {
-  state.historySearch = JSON.parse(localStorage.getItem('SEARCH_DATA.'));
+  const savedHistory = localStorage.getItem('SEARCH_DATA');
+  if (savedHistory) {
+    state.historySearch = JSON.parse(savedHistory);
+  }
   console.log(state.historySearch, 'history');
 });
 </script>
