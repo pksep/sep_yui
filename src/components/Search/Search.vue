@@ -13,6 +13,7 @@
     <div class="search__history history" v-if="showHistory">
       <button
         type="button"
+        v-if="isClicked"
         @click="showHistoryClickHandler"
         :class="
           props.showHistory
