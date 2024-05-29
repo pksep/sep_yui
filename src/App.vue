@@ -43,26 +43,9 @@ import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
 import Search from '@/components/Search/Search';
 import { IconNameEnum } from '@/components/Icon/enum';
-import { sprite } from '@/assets/icons/sprite';
+import '@/assets/icons/sprite';
 
 const array = ['Ru', 'En'];
-
-const createInsertSprite = (svgContent: string) => {
-  const div = document.createElement('div');
-  div.innerHTML = svgContent;
-  const svgElement = div.firstElementChild as SVGSVGElement;
-  if (svgElement) {
-    document.body.appendChild(svgElement);
-    console.log('SVG sprite inserted into DOM');
-  } else {
-    console.error('Failed to insert SVG sprite into DOM');
-  }
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOMContentLoaded event fired');
-  createInsertSprite(sprite);
-});
 </script>
 
 <style lang="scss">

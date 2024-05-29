@@ -19,10 +19,9 @@ const props = withDefaults(defineProps<IFilterProps>(), {
   choosed: false
 });
 
-const emit =
-  defineEmits<{
-    (e: 'click', id: number): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
 
 const classes = computed(() => ({
   base: true,
@@ -39,9 +38,6 @@ const classes = computed(() => ({
 .base {
   padding: 4px 5px;
   border-radius: 5px;
-  font-family: 'Golos Text', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
   max-width: min-content;
 
   span {

@@ -30,10 +30,9 @@ const state = reactive({
   activeIndex: props.index
 });
 
-const emit =
-  defineEmits<{
-    (e: 'change', event: IChangeSwitchEmit): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'change', event: IChangeSwitchEmit): void;
+}>();
 
 const toChooseItem = (index: number, value) => {
   state.activeIndex = index;
@@ -63,7 +62,6 @@ onMounted(() => {
   padding: 2px;
   width: fit-content;
   background-color: $blue-F2F7FF;
-  font-family: 'Inter', sans-serif;
 }
 
 .td-item {

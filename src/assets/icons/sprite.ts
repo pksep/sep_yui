@@ -1,5 +1,5 @@
-export const sprite = `
-<svg width="0" height="0" style="display: none;>
+const sprite = `
+<svg width="0" height="0" style="display: none;">
   <symbol fill=" none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="help">
   <path
     d="M11.5 19.5C15.6421 19.5 19 16.1421 19 12C19 7.85786 15.6421 4.5 11.5 4.5C7.35786 4.5 4 7.85786 4 12C4 16.1421 7.35786 19.5 11.5 19.5Z"
@@ -148,3 +148,19 @@ export const sprite = `
   </symbol>
 </svg>
 `;
+const createInsertSprite = (svgContent: string) => {
+  const div = document.createElement('div');
+  div.innerHTML = svgContent;
+  const svgElement = div.firstElementChild as SVGSVGElement;
+  if (svgElement) {
+    document.body.appendChild(svgElement);
+    console.log('SVG sprite inserted into DOM');
+  } else {
+    console.error('Failed to insert SVG sprite into DOM');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOMContentLoaded event fired');
+  createInsertSprite(sprite);
+});
