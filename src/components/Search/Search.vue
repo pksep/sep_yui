@@ -2,19 +2,26 @@
   <div class="search">
     <div class="search__icon-wrapper">
       <input
-        type="search"
+        type="text"
         class="search__input"
+        ref="inputSearchRef"
         :placeholder="props.placeholder || 'Поиск'"
+        @change="e => addLocalStoragePost(e.target.value)"
       />
       <Icon name="searchNormal" />
     </div>
-    <button
-      type="button"
-      class="search__history history"
-      v-if="showHistory"
-      @click="showHistoryClickHandler"
-    >
-      <p class="history__button-text">Просмотреть историю запросов</p>
+    <div class="search__history history" v-if="showHistory">
+      <button
+        type="button"
+        @click="showHistoryClickHandler"
+        :class="
+          props.showHistory
+            ? 'history__button-text'
+            : 'history__button-text history__button-text--closed'
+        "
+      >
+        Просмотреть историю запросов
+      </button>
       <ul
         :class="
           state.isClicked
@@ -22,20 +29,30 @@
             : 'history__list history__list--opened'
         "
       >
-        <li class="history__item" v-for="post of [1, 2, 3]">{{ post }}</li>
+        <li
+          class="history__item"
+          v-for="post of state.historySearch"
+          :key="post"
+          @click="post => choosePost(post)"
+        >
+          <span>{{ post }}</span
+          ><button type="button"><Icon name="exitSmall" /></button>
+        </li>
       </ul>
-    </button>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { onMounted, reactive, ref, computed } from 'vue';
 import { ISearchProps } from './interface';
 import Icon from './../Icon/Icon';
 
 const props = withDefaults(defineProps<ISearchProps>(), {
   showHistory: true
 });
+
+const inputSearchRef = ref(null);
 
 interface IEnterSearchEmit {
   value: string;
@@ -47,14 +64,38 @@ const emit =
   }>();
 
 const state = reactive({
-  isClicked: false
+  isClicked: false,
+  searchValue: '',
+  historySearch: []
 });
 
 const showHistoryClickHandler = () => {
   state.isClicked = !state.isClicked;
 };
 
-const addPost = post => {};
+const choosePost = post => {
+  if (inputSearchRef.value) {
+    state.searchValue = post;
+    inputSearchRef.value = state.searchValue.textContent;
+    showHistoryClickHandler();
+  }
+};
+
+const addLocalStoragePost = post => {
+  if (post.length > 0 && props.showHistory && post !== null) {
+    state.historySearch.push(post);
+    // emit('enter', {
+    //   value: post
+    // });
+    console.log(post, 'post');
+    localStorage.setItem('SEARCH_DATA.', JSON.stringify(state.historySearch));
+  }
+};
+
+onMounted(() => {
+  state.historySearch = JSON.parse(localStorage.getItem('SEARCH_DATA.'));
+  console.log(state.historySearch, 'history');
+});
 </script>
 
 <style lang="scss" scope>

@@ -25,14 +25,17 @@
     </div>
   </div>
 
+  <h1 class="text">Search</h1>
+  <Search />
+
   <h1 class="text">Toggle</h1>
   <Toggle checked @change="(checked: boolean) => console.log(checked)" />
 
   <h1 class="text">Switch</h1>
   <Switch :items="array" />
 
-  <h1 class="text">Search</h1>
-  <Search />
+  <!-- <h1 class="text">Slider</h1>
+  <Slider /> -->
 </template>
 
 <script setup lang="ts">
@@ -42,6 +45,7 @@ import Icon from '@/components/Icon/Icon';
 import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
 import Search from '@/components/Search/Search';
+import Slider from '@/components/Slider/Slider';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
 

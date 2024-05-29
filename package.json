@@ -27,6 +27,7 @@
     "@storybook/vue3-vite": "^8.0.7",
     "@vitejs/plugin-vue": "^5.0.4",
     "eslint-plugin-storybook": "^0.8.0",
+    "lodash": "^4.17.21",
     "sass": "^1.74.1",
     "storybook": "^8.0.7",
     "typescript": "^5.2.2",

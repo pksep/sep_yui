@@ -4,6 +4,14 @@
   position: relative;
   width: 470px;
 
+  &:not(:hover) .history {
+    display: none;
+  }
+
+  &:hover .history {
+    display: grid;
+  }
+
   &__input {
     width: inherit;
     color: $grey-9A9B9D;
@@ -44,7 +52,6 @@
     svg {
       padding: 10px;
       position: absolute;
-
     }
   }
 
@@ -52,8 +59,6 @@
     display: grid;
     gap: 5px;
     list-style: none;
-    position: sticky;
-    bottom: -55px;
     width: inherit;
   }
 }
@@ -71,6 +76,19 @@
     display: flex;
     align-items: center;
     padding: 8px 110px;
+    color: $grey-282828;
+    border: 1px solid transparent;
+    outline: none;
+    background-color: $white;
+    border-radius: 5px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--closed {
+      display: none;
+    }
   }
 
   &__list {
@@ -86,7 +104,6 @@
     overflow: hidden;
 
     &--opened {
-      display: grid;
       height: 100%;
       opacity: 1;
       transition: 0.3s ease-in-out;
@@ -95,10 +112,43 @@
   }
 
   &__item {
-    background: linear-gradient($blue-F2F7FF 90%, $transparent 10%);
+    background: $transparent;
     padding: 5px;
     border-bottom: 1px solid $white-E7E7E7;
     text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+
+    button {
+      display: none;
+      width: 16px;
+      height: 16px;
+      padding-right: 10px;
+
+      svg {
+        width: inherit;
+        height: inherit;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+      background: linear-gradient($blue-F2F7FF 90%, $transparent 10%);
+
+      button {
+        background: none;
+        border: 1px solid $transparent;
+        outline: none;
+        color: $grey-757D8A;
+        display: block;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
 
   }
 }
