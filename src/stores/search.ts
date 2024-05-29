@@ -22,6 +22,15 @@ export const useSearchStore = defineStore('search', {
         'historySearch',
         JSON.stringify(this._historySearch)
       );
+    },
+    removeHistorySearch(value: string): void {
+      this._historySearch = this._historySearch.filter(
+        (item: string) => item === value
+      );
+      localStorage.setItem(
+        'historySearch',
+        JSON.stringify(this._historySearch)
+      );
     }
   }
 });
