@@ -1,3 +1,5 @@
-export interface ISearchProps<T> {
-  arr: T[];
+export interface ISearchProps {
+  defaultValue?: string;
+  placeholder?: string;
+  showHistory?: boolean;
 }

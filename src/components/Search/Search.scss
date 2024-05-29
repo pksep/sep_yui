@@ -1,0 +1,23 @@
+@import './../../assets/scss/global';
+
+.search {
+  color: $grey-9A9B9D;
+  padding: 12px 11px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  &:hover,
+  &:focus,
+  &:focus-visible,
+  &:active {
+    border: 1px solid $blue-9CBEFF;
+    transition: 0.3s ease-in-out;
+    outline: none;
+  }
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    color: $blue-9CBEFF;
+  }
+}

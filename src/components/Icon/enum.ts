@@ -20,5 +20,6 @@ export enum IconNameEnum {
   rightBig = 'rightBig',
   rightSmall = 'rightSmall',
   settings = 'settings',
-  settingsDark = 'settingsDark'
+  settingsDark = 'settingsDark',
+  searchNormal = 'searchNormal'
 }

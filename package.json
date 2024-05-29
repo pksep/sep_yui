@@ -1,30 +1,23 @@
 {
-  "name": "sep-yui",
+  "name": "npo-sep-ui",
   "author": "Andrey Adreevich",
-  "email": "david.perov60@gmai.com",
-  "version": "0.0.5",
-  "license": "UNLICENSED",
+  "version": "0.0.12",
   "type": "module",
   "main": "./dist/npo-sep-ui.umd.ts",
   "module": "./dist/npo-sep-ui.ts",
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "npm:push": "vue-tsc && vite build && npm version patch && npm publish",
+    "build": "vue-tsc && vite build && npm version patch && npm publish",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@storybook/addon-controls": "^8.1.1",
-    "storybook-addon-rem": "^1.3.0",
-    "vue": ">=3",
-    "vue-i18n": "^9.13.1"
+    "vue": ">=3"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.3.2",
-    "@storybook/addon-docs": "^8.1.2",
     "@storybook/addon-essentials": "^8.0.7",
     "@storybook/addon-interactions": "^8.0.7",
     "@storybook/addon-links": "^8.0.7",
@@ -36,7 +29,6 @@
     "eslint-plugin-storybook": "^0.8.0",
     "sass": "^1.74.1",
     "storybook": "^8.0.7",
-    "storybook-addon-docs-tabs": "^1.0.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vite-plugin-dts": "^3.8.1",
