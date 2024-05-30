@@ -7,7 +7,7 @@
   <Badges :type="'pink'" choosed>Ожидает</Badges>
 
   <h1 class="text">Filter</h1>
-  <Filter :items="[1, 2, 3]" />
+  <Filter :items="badgesItems" />
   <h1 class="text">Button</h1>
   <div class="buttons-wrapper">
     <Button :size="'small'" :type="'ghost'">Small Button</Button>
@@ -68,6 +68,7 @@ const files = [
     path: 'https://www.sunhome.ru/i/wallpapers/210/voronie-loshadi.orig.jpg'
   }
 ];
+const badgesItems = ['Все', 'Удалено', 'Отгружено', 'Покупатели', 'Ожидает'];
 </script>
 
 <style lang="scss">
