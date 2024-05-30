@@ -126,7 +126,6 @@ onMounted(() => {
   if (!props.items) return 0;
   state.files = props.items;
   state.file = state.files[state.currentIndex];
-  console.log(state.file.path, 'path');
 });
 </script>
 

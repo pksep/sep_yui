@@ -1,9 +1,13 @@
 <template>
-  <h1 class="text">Filter</h1>
-  <Filter :type="'default'">Все</Filter>
-  <Filter :type="'blue'">Удалено</Filter>
-  <Filter :type="'red'" choosed>Отгружено</Filter>
+  <h1 class="text">Badges</h1>
+  <Badges :type="'default'">Все</Badges>
+  <Badges :type="'blue'">Удалено</Badges>
+  <Badges :type="'red'" choosed>Отгружено</Badges>
+  <Badges :type="'orange'" choosed>Покупатели</Badges>
+  <Badges :type="'pink'" choosed>Ожидает</Badges>
 
+  <h1 class="text">Filter</h1>
+  <Filter :items="[1, 2, 3]" />
   <h1 class="text">Button</h1>
   <div class="buttons-wrapper">
     <Button :size="'small'" :type="'ghost'">Small Button</Button>
@@ -41,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import Badges from '@/components/Badges/Badges';
 import Filter from '@/components/Filter/Filter';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';

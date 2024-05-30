@@ -1,20 +1,20 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import Filter from '@/components/Filter/Filter';
+import Badges from '@/components/Badges/Badges';
 import { StorybookControl } from '../../common/storybook';
-import { FilterType } from './enum';
+import { BadgesType } from './enum';
 import { fn } from '@storybook/test';
 
 const meta = {
-  title: 'Filter/Filter',
-  component: Filter,
+  title: 'Badges/Badges',
+  component: Badges,
   argTypes: {
     text: {
       control: { type: StorybookControl.text }
     },
     type: {
       control: { type: StorybookControl.select },
-      options: FilterType,
-      defaultValue: FilterType.default
+      options: BadgesType,
+      defaultValue: BadgesType.default
     },
     choosed: {
       control: { type: StorybookControl.boolean },
@@ -33,50 +33,50 @@ const meta = {
   },
   tags: ['autodocs'],
   args: { onClick: fn() }
-} as Meta<typeof Filter>;
+} as Meta<typeof Badges>;
 
 export default meta;
 
-const Template: StoryFn<typeof Filter> = args => ({
-  components: { Filter },
+const Template: StoryFn<typeof Badges> = args => ({
+  components: { Badges },
   setup() {
     return { args };
   },
   template: `
   <div style="display: flex; flex-direction: row; gap: 12px;">
-  <Filter v-bind="args">Все</Filter>
+  <Badges v-bind="args">Все</Badges>
 </div>
   `
 });
 
-export const Default: StoryFn<typeof Filter> = args => ({
-  components: { Filter },
+export const Default: StoryFn<typeof Badges> = args => ({
+  components: { Badges },
   setup() {
     return { args };
   },
-  template: '<Filter v-bind="args">{{args.text || "Все"}}</Filter>'
+  template: '<Badges v-bind="args">{{args.text || "Все"}}</Badges>'
 });
 
-export const BlueFilter = Template.bind({});
-BlueFilter.args = {
-  type: FilterType.blue,
+export const BlueBadges = Template.bind({});
+BlueBadges.args = {
+  type: BadgesType.blue,
   text: 'Удалено'
 };
 
-export const GreenFilter = Template.bind({});
-GreenFilter.args = {
-  type: FilterType.green,
+export const GreenBadges = Template.bind({});
+GreenBadges.args = {
+  type: BadgesType.green,
   text: 'Отгружено'
 };
 
-export const OrangeFilter = Template.bind({});
-OrangeFilter.args = {
-  type: FilterType.orange,
+export const OrangeBadges = Template.bind({});
+OrangeBadges.args = {
+  type: BadgesType.orange,
   text: 'Заказано'
 };
 
-export const RedFilter = Template.bind({});
-RedFilter.args = {
-  type: FilterType.red,
+export const RedBadges = Template.bind({});
+RedBadges.args = {
+  type: BadgesType.red,
   text: 'Просрочено'
 };
