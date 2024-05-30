@@ -35,7 +35,9 @@
   <Switch :items="array" />
 
   <h1 class="text">Slider</h1>
-  <Slider />
+  <div class="slider-main">
+    <Slider :items="files" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -50,6 +52,20 @@ import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
 
 const array = ['Ru', 'En'];
+const files = [
+  {
+    type: 'img',
+    path: 'https://gas-kvas.com/grafic/uploads/posts/2023-10/1696502289_gas-kvas-com-p-kartinki-lyubie-45.jpg'
+  },
+  {
+    type: 'movi',
+    path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
+  },
+  {
+    type: 'img',
+    path: 'https://www.sunhome.ru/i/wallpapers/210/voronie-loshadi.orig.jpg'
+  }
+];
 </script>
 
 <style lang="scss">
@@ -69,5 +85,9 @@ const array = ['Ru', 'En'];
 }
 .icons {
   display: flex;
+}
+.slider-main {
+  width: 472px;
+  height: 220px;
 }
 </style>

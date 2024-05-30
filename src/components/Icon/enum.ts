@@ -21,5 +21,6 @@ export enum IconNameEnum {
   rightSmall = 'rightSmall',
   settings = 'settings',
   settingsDark = 'settingsDark',
-  searchNormal = 'searchNormal'
+  searchNormal = 'searchNormal',
+  search = 'search'
 }
