@@ -1,6 +1,5 @@
-div
 <template>
-  <div class="slider">
+  <div class="slider" @keydown.escape="closeFullSizeEsc">
     <div class="slider__wrapper" v-if="state.files.length">
       <button
         class="slider__button slider__button--prev"
@@ -11,12 +10,12 @@ div
       </button>
       <div class="slider__slides">
         <img
-          v-if="state.file.type == 'img'"
+          v-if="isImage(state.file.path)"
           @click="img => sizeImg(img.target)"
           :src="state.file.path"
         />
         <video
-          v-if="state.file.type == 'movi'"
+          v-if="isVideo(state.file.path)"
           @click="img => sizeImg(img.target)"
           controls="controls"
         >
@@ -47,19 +46,55 @@ const state = reactive({
   file: {},
   currentIndex: 0,
   disabledPrev: true,
-  disabledNext: false
+  disabledNext: false,
+  typeImages: ['.jpg', '.png', '.jpeg'],
+  typeVideos: ['.mp4', '.mp3']
 });
 
-const closeFullSizeEsc = (e: event) => {};
+const checkPath = (str: string | null) => {
+  if (!str) {
+    return null;
+  }
+  const regex = /\.\w+$/;
+  const match = str.match(regex);
+  return match ? match[0] : null;
+};
+
+const isImage = (path: string | null): boolean => {
+  const extension = checkPath(path);
+  return extension ? state.typeImages.includes(extension) : false;
+};
+
+const isVideo = (path: string | null): boolean => {
+  const extension = checkPath(path);
+  return extension ? state.typeVideos.includes(extension) : false;
+};
+
+const closeFullSizeEsc = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    const fullSizeElement = document.querySelector('.slider__full-size');
+    if (fullSizeElement) {
+      fullSizeElement.classList.remove('slider__full-size');
+      document.body.style.overflow = 'auto';
+      const img = fullSizeElement.querySelector('.slider__slide-full-size');
+      if (img) {
+        img.classList.remove('slider__slide-full-size');
+      }
+    }
+  }
+};
 
 const sizeImg = img => {
   if (img.parentElement && img.parentElement !== null) {
     img.parentElement.classList.toggle('slider__full-size');
     if (img.parentElement.classList.contains('slider__full-size')) {
-      img.parentElement.style = 'width: 100%';
+      window.addEventListener('keydown', closeFullSizeEsc);
+      img.parentElement.style = 'width: 100%; border-radius: 0;';
       document.body.style = 'overflow: hidden';
     } else {
       document.body.style = 'overflow: auto';
+      img.parentElement.style = 'border-radius: 10px;';
+      window.removeEventListener('keydown', closeFullSizeEsc);
     }
     img.classList.toggle('slider__slide-full-size');
   }
@@ -91,6 +126,7 @@ onMounted(() => {
   if (!props.items) return 0;
   state.files = props.items;
   state.file = state.files[state.currentIndex];
+  console.log(state.file.path, 'path');
 });
 </script>
 
