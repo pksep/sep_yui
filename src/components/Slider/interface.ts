@@ -1,4 +1,4 @@
-export interface ISliderProps<T> {
-  items: T[];
+export interface ISliderProps {
+  items: { type: string; path: string }[];
   defaultIndex?: number;
 }
