@@ -4,7 +4,7 @@ div
     <div class="slider__wrapper" v-if="state.files.length">
       <button
         class="slider__button slider__button--prev"
-        @click="e => prevSlide(e)"
+        @click="prevSlide"
         :disabled="state.disabledPrev"
       >
         <Icon name="leftBig" />
@@ -25,7 +25,7 @@ div
       </div>
       <button
         class="slider__button slider__button--next"
-        @click="e => nextSlide(e)"
+        @click="nextSlide"
         :disabled="state.disabledNext"
       >
         <Icon name="rightBig" />
@@ -65,7 +65,7 @@ const sizeImg = img => {
   }
 };
 
-const prevSlide = e => {
+const prevSlide = () => {
   if (state.currentIndex > 0) {
     state.currentIndex--;
     state.disabledNext = false;
