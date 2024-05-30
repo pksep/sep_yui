@@ -48,6 +48,7 @@ onMounted(() => {
 <style lang="scss" scope>
 .filter {
   display: grid;
+  width: fit-content;
 
   &__wrapper {
     display: flex;
@@ -58,6 +59,7 @@ onMounted(() => {
     transition: 0.3s ease-in-out;
     padding: 10px;
     border-radius: 10px;
+    margin-bottom: 5px;
 
     &:hover {
       border: 1px solid $blue-9CBEFF;
@@ -73,9 +75,14 @@ onMounted(() => {
     padding: 0;
     margin: 0;
     list-style-type: none;
+    background-color: $white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
   }
 
   &__close {
+    color: $grey-757D8A;
     cursor: pointer;
     background-color: $transparent;
     border: 1px solid $transparent;

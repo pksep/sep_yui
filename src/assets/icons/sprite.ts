@@ -51,12 +51,12 @@ const sprite = `
       stroke-linecap="round" stroke-linejoin="round" />
   </symbol>
   <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="exitBig">
-    <path d="M18 6L6 18" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M6 6L18 18" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
   </symbol>
   <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="exitSmall">
-    <path d="M16 8L8 16" stroke="#121212" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M8 8L16 16" stroke="#121212" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M16 8L8 16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M8 8L16 16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
   </symbol>
   <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="exit">
     <path fill-rule="evenodd" clip-rule="evenodd"
