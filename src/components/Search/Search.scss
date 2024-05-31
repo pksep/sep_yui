@@ -53,8 +53,8 @@
     width: inherit;
 
     svg {
-      padding: 10px;
       position: absolute;
+      left: 10px;
     }
   }
 
@@ -109,14 +109,12 @@
     margin: 0;
     background-color: $white;
 
-
     &--opened {
       height: 100%;
       opacity: 1;
       transition: 0.3s ease-in-out;
       position: absolute;
     }
-
   }
 
   &__item {

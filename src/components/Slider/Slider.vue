@@ -210,7 +210,6 @@ onMounted(() => {
 
   &__slide-full-size {
     height: 100%;
-    position: fixed;
   }
 }
 </style>
