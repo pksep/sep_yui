@@ -52,14 +52,14 @@ onMounted(() => {
   display: flex;
   align-items: center;
   list-style: none;
-  padding: 2px;
+  padding: 6px;
   width: fit-content;
-  background-color: $blue-F2F7FF;
+  border-radius: 5px;
+  background-color: $white;
 }
 
 .td-item {
-  padding: 5px 10px;
-  min-width: 95px;
+  padding: 3.5px 10px;
   display: flex;
   align-items: center;
   justify-content: center;

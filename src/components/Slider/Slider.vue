@@ -134,6 +134,8 @@ onMounted(() => {
 .slider {
   width: 100%;
   height: 100%;
+  border: 1px solid $white-E0E0E0;
+  border-radius: 10px;
 
   &__wrapper {
     width: inherit;

@@ -1,6 +1,5 @@
 <template>
   <div :class="classes" @click="isChoosen">
-    <div :v-if="state.choosed === true"></div>
     <span>
       {{ props.text }}
     </span>
@@ -53,9 +52,10 @@ onMounted(() => {
   border-radius: 5px;
   max-width: fit-content;
   cursor: pointer;
+  font-size: 12px;
 
   span {
-    padding: 5px 4px;
+    padding: 2px 6px 3px 6px;
     border-radius: 5px;
     display: flex;
     justify-content: flex-start;
@@ -102,8 +102,8 @@ onMounted(() => {
 
 .choosed {
   position: relative;
-  padding-right: 20px;
   background-color: $blue-F2F7FF;
+  padding: 3px 20px 3px 3px;
 
   &:before,
   &:after {

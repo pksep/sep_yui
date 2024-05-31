@@ -12,9 +12,11 @@
         :text="getChoosen[0]?.value"
       />
       <div class="filter__counter counter">
-        <span class="counter__value">{{ '+' + getChoosen.length }} </span>
+        <span class="counter__value" v-if="getChoosen.length > 1"
+          >{{ '+' + getChoosen.length }}
+        </span>
         <div class="counter__list">
-          <ul class="filter__select-list">
+          <ul class="filter__select-list select-counter">
             <li
               class="filter__select-item"
               v-for="(item, inx) in getChoosen"
@@ -30,33 +32,40 @@
       </button>
     </div>
 
-    <ul class="filter__select-list" v-if="state.isShow">
-      <li
-        class="filter__select-item"
-        v-for="(item, inx) in state.items"
-        :key="inx"
-      >
-        <div class="choosen" v-if="item.choose">
+    <div class="filter__select-wrapper" v-if="state.isShow">
+      <ul class="filter__select-list selected">
+        <li
+          class="filter__select-item"
+          v-for="(item, inx) in state.items"
+          :key="inx"
+        >
           <Badges
             :disabled="true"
             :choosed="item.choose"
             :type="item.type"
             @click="toogleChoosed(item)"
             :text="item.value"
+            v-if="item.choose"
           />
-        </div>
-
-        <div class="unchoosen" v-if="!item.choose">
+        </li>
+      </ul>
+      <ul class="filter__select-list" v-if="state.isShow">
+        <li
+          class="filter__select-item"
+          v-for="(item, inx) in state.items"
+          :key="inx"
+        >
           <Badges
             :disabled="true"
             :choosed="item.choose"
             :type="item.type"
             :text="item.value"
             @click="toogleChoosed(item)"
+            v-if="!item.choose"
           />
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -143,6 +152,7 @@ onMounted(() => {
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
+    user-select: none;
 
     &:hover {
       border: 1px solid $blue-9CBEFF;
@@ -158,20 +168,41 @@ onMounted(() => {
     color: $grey-757D8A;
   }
 
-  &__select-list {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    background-color: $white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
-
+  &__select-wrapper {
     position: absolute;
     top: 62px;
     z-index: 20;
     left: 0;
+    background-color: $white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
     width: 100%;
+  }
+
+  &__select-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    width: 100%;
+    display: grid;
+    gap: 5px;
+
+    &.selected {
+      border-bottom: 0.5px solid $white-E7E7E7;
+      padding-bottom: 10px;
+    }
+
+    &.select-counter {
+      background-color: $white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
+
+      .filter__select-item:not(:first-of-type) {
+        margin-left: -12px;
+      }
+    }
   }
 
   &__close {
@@ -204,8 +235,9 @@ onMounted(() => {
       .filter__select-list {
         display: flex;
         position: absolute;
-        padding: 3px;
-        top: -45px;
+        justify-content: flex-start;
+
+        top: -30px;
         width: auto;
       }
     }
