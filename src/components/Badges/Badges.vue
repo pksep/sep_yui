@@ -4,6 +4,7 @@
     <span>
       <slot name="left-icon" />
       <slot />
+      {{ state.choosed }}
       <slot name="right-icon" />
     </span>
   </div>

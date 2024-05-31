@@ -42,6 +42,8 @@
   <div class="slider-main">
     <Slider :items="files" />
   </div>
+  <h1 class="text">TEST</h1>
+  <Example />
 </template>
 
 <script setup lang="ts">
@@ -53,6 +55,7 @@ import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
 import Search from '@/components/Search/Search';
 import Slider from '@/components/Slider/Slider';
+import Example from '@/components/Example/Example';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
 
