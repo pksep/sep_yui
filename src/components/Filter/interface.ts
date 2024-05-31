@@ -1,11 +1,18 @@
 import { IconNameEnum } from '../Icon/enum';
-import { FilterType } from './enum';
 
-type TypeItems = string | { value: string; type: string };
+export interface IPropsItem {
+  value: string;
+  type: string;
+}
+
+export interface IStateItem extends IPropsItem {
+  choose: boolean;
+}
+
 export interface IFilterProps {
-  title: FilterType;
+  title: string;
   iconName?: IconNameEnum;
   multiselect?: boolean;
-  items: TypeItems[];
-  defaultValue?: string | string;
+  items: string[] | IPropsItem[];
+  defaultValue?: string | string[];
 }

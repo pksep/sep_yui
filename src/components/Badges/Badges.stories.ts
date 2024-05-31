@@ -44,7 +44,7 @@ const Template: StoryFn<typeof Badges> = args => ({
   },
   template: `
   <div style="display: flex; flex-direction: row; gap: 12px;">
-  <Badges v-bind="args">Все</Badges>
+  <Badges v-bind="args" :text="'Все'" />
 </div>
   `
 });
@@ -54,7 +54,7 @@ export const Default: StoryFn<typeof Badges> = args => ({
   setup() {
     return { args };
   },
-  template: '<Badges v-bind="args">{{args.text || "Все"}}</Badges>'
+  template: '<Badges v-bind="args" :text="args.text || "Все"" />'
 });
 
 export const BlueBadges = Template.bind({});

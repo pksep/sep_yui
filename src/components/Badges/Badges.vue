@@ -2,10 +2,7 @@
   <div :class="classes" @click="isChoosen">
     <div :v-if="state.choosed === true"></div>
     <span>
-      <slot name="left-icon" />
-      <slot />
-      {{ state.choosed }}
-      <slot name="right-icon" />
+      {{ props.text }}
     </span>
   </div>
 </template>
@@ -17,7 +14,8 @@ import { onMounted, computed, reactive } from 'vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {
   type: BadgesType.default,
-  choosed: false
+  choosed: false,
+  disabled: false
 });
 
 const state = reactive({
@@ -30,7 +28,7 @@ const emit = defineEmits<{
 
 const isChoosen = () => {
   emit('choose', state.choosed);
-  state.choosed = !state.choosed;
+  if (!props.disabled) state.choosed = !state.choosed;
 };
 
 const classes = computed(() => ({

@@ -37,9 +37,7 @@ import { onMounted, reactive } from 'vue';
 import { ISliderProps } from './interface';
 import Icon from './../Icon/Icon';
 
-const props = withDefaults(defineProps<ISliderProps>(), {
-  items: []
-});
+const props = withDefaults(defineProps<ISliderProps>(), {});
 
 const state = reactive({
   files: props.items.length ? props.items : [],
@@ -84,20 +82,23 @@ const closeFullSizeEsc = (e: KeyboardEvent) => {
   }
 };
 
-const sizeImg = img => {
-  if (img.parentElement && img.parentElement !== null) {
-    img.parentElement.classList.toggle('slider__full-size');
-    if (img.parentElement.classList.contains('slider__full-size')) {
-      window.addEventListener('keydown', closeFullSizeEsc);
-      img.parentElement.style = 'width: 100%; border-radius: 0;';
-      document.body.style = 'overflow: hidden';
-    } else {
-      document.body.style = 'overflow: auto';
-      img.parentElement.style = 'border-radius: 10px;';
-      window.removeEventListener('keydown', closeFullSizeEsc);
-    }
-    img.classList.toggle('slider__slide-full-size');
+const sizeImg = (img: HTMLElement): void => {
+  if (!img.parentElement) return;
+
+  img.parentElement.classList.toggle('slider__full-size');
+
+  if (img.parentElement.classList.contains('slider__full-size')) {
+    window.addEventListener('keydown', closeFullSizeEsc);
+    img.parentElement.style.width = '100%';
+    img.parentElement.style.borderRadius = '0';
+    document.body.style.overflow = 'hidden';
+    return;
+  } else {
+    document.body.style.overflow = 'auto';
+    img.parentElement.style.borderRadius = '10px;';
+    window.removeEventListener('keydown', closeFullSizeEsc);
   }
+  img.classList.toggle('slider__slide-full-size');
 };
 
 const prevSlide = () => {

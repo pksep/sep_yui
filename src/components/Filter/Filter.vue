@@ -6,66 +6,54 @@
     >
       <Icon :name="props.iconName" />
       <span>{{ props.title }}</span>
-      <span
-        ><Badges>{{ state.items[0] }}</Badges></span
-      >
+      <Badges
+        :disabled="true"
+        :type="getChoosen[0]?.type"
+        :text="getChoosen[0]?.value"
+      />
       <div class="filter__counter counter">
-        <span class="counter__value">{{ '+' + state.items.length }} </span>
+        <span class="counter__value">{{ '+' + getChoosen.length }} </span>
         <div class="counter__list">
           <ul class="filter__select-list">
             <li
               class="filter__select-item"
-              v-for="(badge, index) in state.items"
-              :key="badge"
+              v-for="(item, inx) in getChoosen"
+              :key="inx"
             >
-              <Badges :type="badgeTypes[index]">{{ badge }}</Badges>
+              <Badges :type="item.type" :disabled="true" :text="item.value" />
             </li>
           </ul>
         </div>
       </div>
-      <button type="button" class="filter__close" @click.stop="closeFilter">
+      <button type="button" class="filter__close" @click.stop="clearFilter">
         <Icon :name="'exitBig'" />
       </button>
     </div>
-    <!-- <ul class="filter__select-list" v-if="state.isShow">
-      <li
-        class="filter__select-item"
-        v-for="(badge, index) of state.items"
-        v-if="state.choosenStatus"
-      >
-        <Badges
-          :type="badgeTypes[index]"
-          @choose="choose => state.choosenStatus"
-          >{{ badge }}</Badges
-        >
-      </li>
-    </ul> -->
+
     <ul class="filter__select-list" v-if="state.isShow">
       <li
         class="filter__select-item"
-        v-for="(badge, index) in state.items"
-        :key="badge"
+        v-for="(item, inx) in state.items"
+        :key="inx"
       >
-        <div class="choosen" v-if="state.choosenStatus">
+        <div class="choosen" v-if="item.choose">
           <Badges
-            :type="badgeTypes[index]"
-            @click="state.choosenStatus"
-            @choose="choose => (state.choosenStatus = choose)"
-            >{{ badge }}</Badges
-          >
+            :disabled="true"
+            :choosed="item.choose"
+            :type="item.type"
+            @click="toogleChoosed(item)"
+            :text="item.value"
+          />
         </div>
-        <div class="unchoosen" v-if="state.choosenStatus === false">
+
+        <div class="unchoosen" v-if="!item.choose">
           <Badges
-            :type="badgeTypes[index]"
-            :choosed="state.choosedStatus"
-            @choose="
-              choose => {
-                state.choosenStatus = choose;
-                console.log(state.choosenStatus, 'state.choosenStatus');
-              }
-            "
-            >{{ badge }}</Badges
-          >
+            :disabled="true"
+            :choosed="item.choose"
+            :type="item.type"
+            :text="item.value"
+            @click="toogleChoosed(item)"
+          />
         </div>
       </li>
     </ul>
@@ -73,41 +61,69 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue';
-import { IFilterProps } from './interface';
-import { FilterType } from './enum';
-import { BadgesType } from './../Badges/enum';
+import { computed, onMounted, reactive } from 'vue';
+import { IFilterProps, IStateItem } from './interface';
 import Badges from '@/components/Badges/Badges';
 import Icon from '@/components/Icon/Icon';
 import { IconNameEnum } from '../Icon/enum';
+import { isArray } from 'lodash';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
-  title: FilterType.default,
   iconName: IconNameEnum.filter,
-  multiselect: false,
-  items: [],
-  defaultValue: 'red'
+  multiselect: false
 });
 
 const state = reactive({
-  items: [],
+  items: [] as IStateItem[],
   isShow: false,
   choosenStatus: false
 });
 
-const toggleShow = () => {
-  state.isShow = !state.isShow;
-};
+const toggleShow = () => (state.isShow = !state.isShow);
 
-const closeFilter = (e: Event) => {
+const clearFilter = (e: Event) => {
   e.stopPropagation();
+  state.items.forEach((el, inx) => setDefaultChoosen(el, inx));
   state.isShow = false;
 };
 
-const badgeTypes = Object.values(BadgesType);
+const getChoosen = computed(() => state.items.filter(el => el.choose));
+
+const toogleChoosed = (item: IStateItem) => {
+  item.choose = !item.choose;
+
+  if (!getChoosen.value.length) {
+    state.items.forEach((el, inx) => setDefaultChoosen(el, inx));
+  }
+};
+
+const setDefaultChoosen = (el: IStateItem, inx: number) => {
+  if (typeof props.defaultValue === 'string' && el.value === props.defaultValue)
+    el.choose = true;
+  else if (isArray(props.defaultValue)) {
+    props.defaultValue.forEach(defaultValue => {
+      if (defaultValue === el.value) el.choose = true;
+    });
+  } else if (inx === 0) {
+    // По умолчанию, если дефолтное значение не передано - отображаем первый элемент
+    el.choose = true;
+  } else {
+    el.choose = false;
+  }
+};
 
 onMounted(() => {
-  state.items = props.items;
+  state.items = props.items.map((item, inx) => {
+    const newItem = {
+      value: typeof item === 'string' ? item : item.value,
+      type: typeof item === 'string' ? 'blue' : item.type,
+      choose: false
+    };
+
+    setDefaultChoosen(newItem, inx);
+
+    return newItem;
+  }) as IStateItem[];
 });
 </script>
 

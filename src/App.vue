@@ -1,13 +1,13 @@
 <template>
   <h1 class="text">Badges</h1>
-  <Badges :type="'default'">Все</Badges>
-  <Badges :type="'blue'">Удалено</Badges>
-  <Badges :type="'red'" choosed>Отгружено</Badges>
-  <Badges :type="'orange'" choosed>Покупатели</Badges>
-  <Badges :type="'pink'" choosed>Ожидает</Badges>
+  <Badges :type="'default'" :text="'Все'" />
+  <Badges :type="'blue'" :text="'Удалено'" />
+  <Badges :type="'red'" choosed :text="'Отгружено'" />
+  <Badges :type="'orange'" choosed :text="'Покупатели'" />
+  <Badges :type="'pink'" choosed :text="'Ожидает'" />
 
   <h1 class="text">Filter</h1>
-  <Filter :items="badgesItems" />
+  <Filter :items="badgesItems" :title="'Статус'" />
   <h1 class="text">Button</h1>
   <div class="buttons-wrapper">
     <Button :size="'small'" :type="'ghost'">Small Button</Button>
@@ -58,8 +58,10 @@ import Slider from '@/components/Slider/Slider';
 import Example from '@/components/Example/Example';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
+import { BadgesType } from './components/Badges/enum';
 
 const array = ['Ru', 'En'];
+
 const files = [
   {
     path: 'https://gas-kvas.com/grafic/uploads/posts/2023-10/1696502289_gas-kvas-com-p-kartinki-lyubie-45.jpg'
@@ -71,7 +73,21 @@ const files = [
     path: 'https://www.sunhome.ru/i/wallpapers/210/voronie-loshadi.orig.jpg'
   }
 ];
-const badgesItems = ['Все', 'Удалено', 'Отгружено', 'Покупатели', 'Ожидает'];
+
+const badgesItems = [
+  {
+    value: 'Все',
+    type: BadgesType.default
+  },
+  {
+    value: 'Удалено',
+    type: BadgesType.pink
+  },
+  {
+    value: 'Отгружено',
+    type: BadgesType.red
+  }
+];
 </script>
 
 <style lang="scss">

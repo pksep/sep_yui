@@ -1,4 +1,6 @@
+type SliderItem = { type: string; path: string };
+
 export interface ISliderProps {
-  items: { type: string; path: string }[];
+  items: SliderItem[];
   defaultIndex?: number;
 }
