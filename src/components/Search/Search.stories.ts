@@ -23,16 +23,12 @@ const Template: StoryFn<typeof Search> = args => ({
   setup() {
     return { args };
   },
-  template: `
-    <div style="display: flex; flex-direction: row; gap: 12px; color: args.color">
-      <Search v-bind="args"/>
-    </div>
-  `
+  template: `<Search v-bind="args"/> `
 });
 
 export const Default = Template.bind({});
 
 Default.args = {
   showHistroy: true,
-  placeholder: 'Динозавры уже здесь'
+  placeholder: 'Динозавры воскресли и стали курьерами доставки еды'
 };
