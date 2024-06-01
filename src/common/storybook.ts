@@ -12,5 +12,6 @@ export enum StorybookControl {
   inlineRadio = 'inline-radio',
   multiSelect = 'multi-select',
   inlineCheck = 'inline-check',
-  check = 'check'
+  check = 'check',
+  color = 'color'
 }

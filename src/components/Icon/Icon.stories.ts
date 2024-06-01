@@ -2,6 +2,7 @@ import { StoryFn, Meta } from '@storybook/vue3';
 import Icon from './Icon.vue';
 import { StorybookControl } from '../../common/storybook';
 import { IconNameEnum } from './enum';
+import '@/assets/icons/sprite.ts';
 
 const meta = {
   title: 'Icon/Icon',
@@ -18,6 +19,9 @@ const meta = {
     name: {
       control: { type: StorybookControl.select },
       options: IconNameEnum
+    },
+    color: {
+      control: { type: StorybookControl.color }
     }
   },
   tags: ['autodocs']
@@ -31,7 +35,7 @@ const Template: StoryFn<typeof Icon> = args => ({
     return { args };
   },
   template: `
-    <div style="display: flex; flex-direction: row; gap: 12px;">
+    <div style="display: flex; flex-direction: row; gap: 12px; color: args.color">
       <Icon v-bind="args" />
     </div>
   `
@@ -42,7 +46,11 @@ export const Default: StoryFn<typeof Icon> = args => ({
   setup() {
     return { args };
   },
-  template: '<Icon v-bind="args" />'
+  template: `
+  <div :style="{color: args.color}">
+  <Icon v-bind="args" />
+  </div>
+  `
 });
 
 Default.args = {
