@@ -1,4 +1,3 @@
-// import { sprite } from '@/assets/icons/sprite';
 import Badges from './Badges/Badges.vue';
 import Button from './Button/Button.vue';
 import Icon from './Icon/Icon.vue';
