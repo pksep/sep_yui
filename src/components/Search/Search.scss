@@ -68,7 +68,6 @@
 
 .history {
   color: $grey-282828;
-  // border: 1px solid transparent;
   outline: none;
   background-color: $white;
   border-radius: 5px;
@@ -100,7 +99,6 @@
   &__list {
     display: grid;
     width: inherit;
-    gap: 5px;
     list-style-type: none;
     height: 0;
     opacity: 0;
@@ -110,10 +108,10 @@
     background-color: $white;
 
     &--opened {
-      height: 100%;
       opacity: 1;
       transition: 0.3s ease-in-out;
       position: absolute;
+      z-index: 2222222;
     }
   }
 
@@ -127,7 +125,8 @@
     justify-content: space-between;
     border-radius: 5px;
     position: relative;
-    height: 40px;
+    height: 24px;
+    padding-bottom: 3px;
 
     span {
       display: flex;
@@ -135,25 +134,28 @@
       flex-grow: 1;
       align-items: center;
       padding: 5px 50px 5px 5px;
+      height: inherit;
+
+      &:hover {
+        background-color: $blue-F2F7FF;
+      }
     }
 
     button {
       display: none;
-      width: 16px;
-      height: 16px;
-      padding-right: 10px;
+      width: 24px;
+      height: 24px;
       position: absolute;
       right: 10px;
 
       svg {
-        width: inherit;
-        height: inherit;
+        width: 24px;
+        height: 24px;
       }
     }
 
     &:hover {
       cursor: pointer;
-      background: linear-gradient($blue-F2F7FF 90%, $transparent 10%);
 
       button {
         background: none;

@@ -29,8 +29,8 @@
       >
         <li
           class="history__item"
-          v-for="item of state.getHistorySearch"
-          :key="item"
+          v-for="(item, index) of state.getHistorySearch"
+          :key="index"
         >
           <span @click="() => choosePost(item)">
             {{ item.length > 33 ? item.slice(0, 30) + '...' : item }}</span

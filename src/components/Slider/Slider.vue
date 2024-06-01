@@ -1,5 +1,5 @@
 <template>
-  <div class="slider" @keydown.escape="closeFullSizeEsc">
+  <div class="slider" @keydown.escape="closeFullSize">
     <div class="slider__wrapper" v-if="state.files.length">
       <button
         class="slider__button slider__button--prev"
@@ -68,8 +68,12 @@ const isVideo = (path: string | null): boolean => {
   return extension ? state.typeVideos.includes(extension) : false;
 };
 
-const closeFullSizeEsc = (e: KeyboardEvent) => {
-  if (e.key === 'Escape') {
+const closeFullSize = (e: KeyboardEvent | MouseEvent) => {
+  if (
+    (e instanceof KeyboardEvent && e.key === 'Escape') ||
+    (e instanceof MouseEvent && e.type === 'click')
+  ) {
+    console.log(1123123);
     const fullSizeElement = document.querySelector('.slider__full-size');
     if (fullSizeElement) {
       fullSizeElement.classList.remove('slider__full-size');
@@ -88,15 +92,22 @@ const sizeImg = (img: HTMLElement): void => {
   img.parentElement.classList.toggle('slider__full-size');
 
   if (img.parentElement.classList.contains('slider__full-size')) {
-    window.addEventListener('keydown', closeFullSizeEsc);
+    window.addEventListener('keydown', closeFullSize);
+    document
+      .querySelector('.slider__full-size')
+      .addEventListener('click', closeFullSize);
     img.parentElement.style.width = '100%';
     img.parentElement.style.borderRadius = '0';
     document.body.style.overflow = 'hidden';
+    document.querySelector('.slider__wrapper').style.cursor = 'zoom-out';
+
     return;
   } else {
     document.body.style.overflow = 'auto';
     img.parentElement.style.borderRadius = '10px;';
-    window.removeEventListener('keydown', closeFullSizeEsc);
+    document.querySelector('.slider__wrapper').style.cursor = 'zoom-in';
+    window.removeEventListener('keydown', closeFullSize);
+    img.parentElement.removeEventListener('click', closeFullSize);
   }
   img.classList.toggle('slider__slide-full-size');
 };
@@ -136,6 +147,10 @@ onMounted(() => {
   height: 100%;
   border: 1px solid $white-E0E0E0;
   border-radius: 10px;
+  transition: 0.3s ease-in-out;
+  &:hover {
+    border: 1px solid $blue-9CBEFF;
+  }
 
   &__wrapper {
     width: inherit;
@@ -145,10 +160,11 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     gap: 20px;
+    cursor: zoom-in;
 
     &:hover {
       background-color: $blue-F2F7FF;
-      cursor: url('./search.svg'), auto;
+      border-radius: 10px;
     }
   }
 
@@ -163,7 +179,7 @@ onMounted(() => {
     video {
       object-fit: contain;
       max-width: 100%;
-      height: auto;
+      height: 100%;
     }
 
     img.slider__slide-full-size,

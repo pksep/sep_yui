@@ -61,7 +61,7 @@ const array = ['Ru', 'En'];
 
 const files = [
   {
-    path: 'https://gas-kvas.com/grafic/uploads/posts/2023-10/1696502289_gas-kvas-com-p-kartinki-lyubie-45.jpg'
+    path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.jpg'
   },
   {
     path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
