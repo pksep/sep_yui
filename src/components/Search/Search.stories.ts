@@ -23,7 +23,7 @@ const Template: StoryFn<typeof Search> = args => ({
   setup() {
     return { args };
   },
-  template: `<Search v-bind="args"/> `
+  template: `<Search v-bind="args" /> `
 });
 
 export const Default = Template.bind({});

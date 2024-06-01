@@ -56,10 +56,9 @@ const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск'
 });
 
-const emit =
-  defineEmits<{
-    (e: 'enter', value: string): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'enter', value: string): void;
+}>();
 
 const state = reactive({
   searchValue: '',
@@ -89,7 +88,7 @@ const hidehistory = () => {
 };
 
 const removeItem = (item: string) => {
-  state.getHistorySearch = searchStore.removeHistorySearch(item);
+  searchStore.removeHistorySearch(item);
 };
 
 onMounted(() => {
