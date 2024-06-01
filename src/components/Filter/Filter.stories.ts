@@ -37,9 +37,8 @@ const meta = {
     title: {
       control: { type: StorybookControl.text }
     },
-    type: {
-      control: { type: StorybookControl.select },
-      options: badgesItems
+    items: {
+      control: { type: StorybookControl.object }
     }
   },
   tags: ['autodocs']
@@ -54,7 +53,7 @@ const Template: StoryFn<typeof Filter> = args => ({
   },
   template: `
     <div style="display: flex; flex-direction: row; gap: 12px; color: args.color">
-      <Filter v-bind="args" :items="badgesItems"/>
+      <Filter v-bind="args" />
     </div>
   `
 });
@@ -63,5 +62,5 @@ export const Default = Template.bind({});
 
 Default.args = {
   title: 'Статус',
-  type: BadgesType.default
+  items: badgesItems
 };

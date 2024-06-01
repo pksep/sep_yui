@@ -36,7 +36,7 @@
       <ul class="filter__select-list selected">
         <li
           class="filter__select-item"
-          v-for="(item, inx) in state.items"
+          v-for="(item, inx) in getChoosen"
           :key="inx"
         >
           <Badges
@@ -52,7 +52,7 @@
       <ul class="filter__select-list" v-if="state.isShow">
         <li
           class="filter__select-item"
-          v-for="(item, inx) in state.items"
+          v-for="(item, inx) in getNotChoosen"
           :key="inx"
         >
           <Badges
@@ -97,6 +97,7 @@ const clearFilter = (e: Event) => {
 };
 
 const getChoosen = computed(() => state.items.filter(el => el.choose));
+const getNotChoosen = computed(() => state.items.filter(el => !el.choose));
 
 const toogleChoosed = (item: IStateItem) => {
   item.choose = !item.choose;
@@ -122,6 +123,7 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
 };
 
 onMounted(() => {
+  console.log(props);
   state.items = props.items.map((item, inx) => {
     const newItem = {
       value: typeof item === 'string' ? item : item.value,
