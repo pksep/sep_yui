@@ -1,5 +1,5 @@
 <template>
-  <div class="slider" @keydown.escape="closeFullSize">
+  <div class="slider">
     <div class="slider__wrapper" v-if="state.files.length">
       <button
         class="slider__button slider__button--prev"
@@ -11,12 +11,12 @@
       <div class="slider__slides">
         <img
           v-if="isImage(state.file.path)"
-          @click="img => sizeImg(img.target)"
+          @click="e => toFullsizeImage(e)"
           :src="state.file.path"
         />
         <video
           v-if="isVideo(state.file.path)"
-          @click="img => sizeImg(img.target)"
+          @click="e => toFullsizeImage(e)"
           controls="controls"
         >
           <source :src="state.file.path" />
@@ -68,12 +68,8 @@ const isVideo = (path: string | null): boolean => {
   return extension ? state.typeVideos.includes(extension) : false;
 };
 
-const closeFullSize = (e: KeyboardEvent | MouseEvent) => {
-  if (
-    (e instanceof KeyboardEvent && e.key === 'Escape') ||
-    (e instanceof MouseEvent && e.type === 'click')
-  ) {
-    console.log(1123123);
+const closeFullSize = (e: KeyboardEvent) => {
+  if (e instanceof KeyboardEvent && e.key === 'Escape') {
     const fullSizeElement = document.querySelector('.slider__full-size');
     if (fullSizeElement) {
       fullSizeElement.classList.remove('slider__full-size');
@@ -86,30 +82,18 @@ const closeFullSize = (e: KeyboardEvent | MouseEvent) => {
   }
 };
 
-const sizeImg = (img: HTMLElement): void => {
-  if (!img.parentElement) return;
-
-  img.parentElement.classList.toggle('slider__full-size');
-
-  if (img.parentElement.classList.contains('slider__full-size')) {
-    window.addEventListener('keydown', closeFullSize);
-    document
-      .querySelector('.slider__full-size')
-      .addEventListener('click', closeFullSize);
-    img.parentElement.style.width = '100%';
-    img.parentElement.style.borderRadius = '0';
-    document.body.style.overflow = 'hidden';
-    document.querySelector('.slider__wrapper').style.cursor = 'zoom-out';
-
-    return;
-  } else {
-    document.body.style.overflow = 'auto';
-    img.parentElement.style.borderRadius = '10px;';
-    document.querySelector('.slider__wrapper').style.cursor = 'zoom-in';
-    window.removeEventListener('keydown', closeFullSize);
-    img.parentElement.removeEventListener('click', closeFullSize);
+const toFullsizeImage = (e: MouseEvent): void => {
+  if (e.type === 'click') {
+    const imageElement = e.target as HTMLElement;
+    imageElement.classList.toggle('slider__full-size');
+    if (imageElement.classList.contains('slider__full-size')) {
+      window.addEventListener('keydown', closeFullSize);
+      document.querySelector('.slider__wrapper').style.cursor = 'zoom-out';
+    } else {
+      window.removeEventListener('keydown', closeFullSize);
+      document.querySelector('.slider__wrapper').style.cursor = 'zoom-in';
+    }
   }
-  img.classList.toggle('slider__slide-full-size');
 };
 
 const prevSlide = () => {
