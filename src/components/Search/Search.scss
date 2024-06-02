@@ -112,6 +112,12 @@
       transition: 0.3s ease-in-out;
       position: absolute;
       z-index: 2222222;
+      align-content: flex-start;
+    }
+
+    &--scroll {
+      height: 100px;
+      overflow-y: scroll;
     }
   }
 

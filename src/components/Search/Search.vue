@@ -20,13 +20,7 @@
       >
         Просмотреть историю запросов
       </button>
-      <ul
-        :class="
-          state.isShowList
-            ? 'history__list history__list--opened'
-            : 'history__list '
-        "
-      >
+      <ul :class="classes">
         <li
           class="history__item"
           v-for="(item, index) of state.getHistorySearch"
@@ -44,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, computed } from 'vue';
+import { onMounted, reactive, computed } from 'vue';
 import { ISearchProps } from './interface';
 import { useSearchStore } from '../../stores/search';
 import Icon from './../Icon/Icon';
@@ -67,6 +61,12 @@ const state = reactive({
   isShowList: false,
   isShowButtonHistory: true
 });
+
+const classes = computed(() => ({
+  history__list: true,
+  'history__list--opened': state.isShowList,
+  'history__list--scroll': state.getHistorySearch.length >= 5
+}));
 
 const choosePost = value => {
   state.searchValue = value;

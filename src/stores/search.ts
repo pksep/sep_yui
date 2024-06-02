@@ -25,7 +25,7 @@ export const useSearchStore = defineStore('search', {
     },
     removeHistorySearch(value: string): void {
       this._historySearch = this._historySearch.filter(
-        (item: string) => item === value
+        (item: string) => item !== value
       );
       localStorage.setItem(
         'historySearch',
