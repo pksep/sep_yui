@@ -1,12 +1,17 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Switch from './Switch.vue';
-// import { StorybookControl } from '../../common/storybook';
-// import { fn } from '@storybook/test';
+import { StorybookControl } from '../../common/storybook';
+
+const items = ['text1', 'text2', 'text3'];
 
 const meta = {
   title: 'Switch/Switch',
   component: Switch,
-  argTypes: {},
+  argTypes: {
+    items: {
+      control: { type: StorybookControl.object }
+    }
+  },
   tags: ['autodocs']
 } as Meta<typeof Switch>;
 
@@ -21,3 +26,6 @@ const Template: StoryFn<typeof Switch> = args => ({
 });
 
 export const Default = Template.bind({});
+Default.args = {
+  items: items
+};

@@ -43,6 +43,7 @@ const state = reactive({
   files: props.items.length ? props.items : [],
   file: {},
   currentIndex: 0,
+  defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
   disabledPrev: true,
   disabledNext: false,
   typeImages: ['.jpg', '.png', '.jpeg'],
@@ -121,6 +122,9 @@ const nextSlide = () => {
 onMounted(() => {
   if (!props.items) return 0;
   state.files = props.items;
+  if (props.defaultIndex) {
+    state.file = state.files[state.defaultIndex];
+  }
   state.file = state.files[state.currentIndex];
 });
 </script>
