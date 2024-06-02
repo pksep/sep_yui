@@ -7,7 +7,7 @@
   <Badges :type="'pink'" choosed :text="'Ожидает'" />
 
   <h1 class="text">Filter</h1>
-  <Filter :items="badgesItems" :title="'Статус'" />
+  <Filter :items="badgesItems" :title="'Статус'" :multiselect="true" />
   <h1 class="text">Button</h1>
   <div class="buttons-wrapper">
     <Button :size="'small'" :type="'ghost'">Small Button</Button>

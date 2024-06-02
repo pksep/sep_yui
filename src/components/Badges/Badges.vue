@@ -48,7 +48,7 @@ onMounted(() => {
 
 <style lang="scss" scope>
 .base {
-  padding: 4px 5px;
+  // padding: 4px 5px;
   border-radius: 5px;
   max-width: fit-content;
   cursor: pointer;
@@ -100,7 +100,7 @@ onMounted(() => {
   background-color: $pink-FEDAE9;
 }
 
-.choosed {
+.base.choosed {
   position: relative;
   background-color: $blue-F2F7FF;
   padding: 3px 20px 3px 3px;

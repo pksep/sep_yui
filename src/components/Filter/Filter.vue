@@ -10,13 +10,17 @@
         :disabled="true"
         :type="getChoosen[0]?.type"
         :text="getChoosen[0]?.value"
+        :style="'margin:0 3px;'"
       />
       <div class="filter__counter counter">
         <span class="counter__value" v-if="getChoosen.length > 1"
           >{{ '+' + getChoosen.length }}
         </span>
         <div class="counter__list">
-          <ul class="filter__select-list select-counter">
+          <ul
+            class="filter__select-list select-counter"
+            :style="'padding: 2px; gap: 15px'"
+          >
             <li
               class="filter__select-item"
               v-for="(item, inx) in getChoosen"
@@ -54,6 +58,7 @@
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
           :key="inx"
+          :style="inx === 0 ? { paddingTop: '10px' } : ''"
         >
           <Badges
             :disabled="true"
@@ -97,10 +102,20 @@ const clearFilter = (e: Event) => {
 };
 
 const getChoosen = computed(() => state.items.filter(el => el.choose));
+
 const getNotChoosen = computed(() => state.items.filter(el => !el.choose));
 
 const toogleChoosed = (item: IStateItem) => {
-  item.choose = !item.choose;
+  if (props.multiselect) {
+    item.choose = !item.choose;
+  } else {
+    state.items.forEach(el => {
+      if (el !== item) {
+        el.choose = false;
+      }
+    });
+    item.choose = !item.choose;
+  }
 
   if (!getChoosen.value.length) {
     state.items.forEach((el, inx) => setDefaultChoosen(el, inx));
