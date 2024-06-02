@@ -14,7 +14,7 @@
     <div class="search__history history" v-if="props.showHistory">
       <button
         type="button"
-        v-if="state.isShowButtonHistory"
+        v-if="state.isShowButtonHistory && state.getHistorySearch.length > 0"
         @click="showHistoryClickHandler"
         :class="'history__button-text'"
       >
@@ -65,7 +65,8 @@ const state = reactive({
 const classes = computed(() => ({
   history__list: true,
   'history__list--opened': state.isShowList,
-  'history__list--scroll': state.getHistorySearch.length >= 5
+  'history__list--scroll':
+    state.getHistorySearch.length >= 5 && state.isShowList
 }));
 
 const choosePost = value => {
