@@ -87,7 +87,7 @@ const toSelectCrumb = (item, inx): void => {
       emit('click', {
         title: item.title,
         path: item.path,
-        inx: props.items.length === 1 ? 1 : findIndex + 1
+        inx: findIndex + 1
       });
   });
 };
