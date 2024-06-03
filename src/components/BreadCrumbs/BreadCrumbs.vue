@@ -2,116 +2,117 @@
   <ul class="bread-crumbs">
     <li
       :class="{ 'bread-crumbs__item': true }"
-      v-for="(crumb, index) in crumbs"
-      :key="crumb.title"
+      v-for="(crumb, inx) in state.items"
+      :key="inx"
     >
-      <span
-        v-if="state.items.length >= 5 && index === 1"
-        class="bread-crumbs--closed"
-        @click="toggleShowList"
-        >...</span
-      >
-      <ul
-        v-if="state.items.length >= 5 && index === 1 && state.isShowList"
-        :class="classesSubCrumbs"
-      >
-        <li
-          v-for="(subcrumb, index) in subCrumbs"
-          :key="subcrumb.title"
-          :class="{
-            'bread-subcrumbs__item': true,
-            checked: subcrumb.isChecked
-          }"
-        >
-          <span
-            @click="toSelectCrumb(subcrumb)"
-            :class="{ checked: crumb.isChecked }"
+      <div v-if="isShowSubList(inx)">
+        <span class="bread-crumbs--closed" @click="toggleShowList">...</span>
+
+        <ul :class="classes.crumbs">
+          <li
+            v-for="(subCrumb, inx) in state.subCrumbs"
+            :key="subCrumb.title"
+            :class="{
+              'bread-subcrumbs__item': true
+            }"
           >
-            {{ curtText(subcrumb) }}</span
-          >
-        </li>
-      </ul>
-      <div :class="{ 'bread-crumbs__link': true, disabled: crumb.path === '' }">
+            <span @click="toSelectCrumb(subCrumb, inx)">
+              {{ curtText(subCrumb) }}</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div
+        :class="{ 'bread-crumbs__link': true, disabled: !crumb.path }"
+        v-if="!crumb.isSub"
+      >
         <span
-          @click="toSelectCrumb(crumb)"
-          :class="{ checked: crumb.isChecked }"
+          @click="toSelectCrumb(crumb, inx)"
+          :class="{ checked: inx === state.crumbs.length - 1 }"
           >{{ curtText(crumb) }}</span
         >
-        <Icon :name="'rightSmall'" v-if="index !== crumbs.length - 1" />
+        <Icon :name="'rightSmall'" v-if="inx !== state.crumbs.length - 1" />
       </div>
     </li>
   </ul>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, computed } from 'vue';
-import { IBreadCrumbsProps } from './interface';
+import { onMounted, reactive, computed, watch } from 'vue';
+import {
+  IBreadCrumbsItem,
+  BreadCrumbsItem,
+  IBreadCrumbsEmit,
+  IBreadCrumbsProps
+} from './interface';
 import Icon from './../Icon/Icon';
 
-const props = withDefaults(defineProps<IBreadCrumbsProps>(), {
-  items: []
-});
+const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 
 const state = reactive({
   items: [],
-  isShowList: false,
-  lastSelectedIndex: -1
+  crumbs: computed(() => {
+    const minLength = props.items.length < 4 ? props.items.length - 1 : 3;
+    let condition = [props.items[0], ...props.items.slice(-minLength)];
+
+    if (props.items.length === 1) condition = [props.items[0]];
+
+    return condition.map(el => {
+      el.isSub = false;
+      return el;
+    });
+  }),
+  subCrumbs: computed(() => {
+    return props.items.slice(1, -3).map(el => {
+      el.isSub = true;
+      return el;
+    });
+  }),
+  isShowList: false
 });
 
 const emit = defineEmits<{
-  (e: 'selectedCrumb', crumb: object): object;
+  (e: 'click', item: IBreadCrumbsItem): IBreadCrumbsEmit;
 }>();
 
-const maxSymbols = 15;
+const MAX_SYMBOLS = 15;
 
-const toSelectCrumb = (selectedCrumb: {
-  title: string;
-  isChecked?: boolean;
-}) => {
-  state.items.forEach(crumb => {
-    crumb.isChecked = crumb === selectedCrumb;
+const toSelectCrumb = (item, inx): void => {
+  if (inx === state.items.length - 1) return;
+
+  if (item.isSub) toggleShowList();
+
+  props.items.forEach(({ path }, findIndex) => {
+    path === item.path &&
+      emit('click', {
+        title: item.title,
+        path: item.path,
+        inx: props.items.length === 1 ? 1 : findIndex + 1
+      });
   });
-  state.lastSelectedIndex = state.items.indexOf(selectedCrumb);
-  console.log(state.lastSelectedIndex, 'lastIndex');
-  emit('selectedCrumb', selectedCrumb);
-  state.isShowList = false;
 };
 
-const classesSubCrumbs = computed(() => ({
-  'bread-subcrumbs': true,
-  scroll: subCrumbs.value.length >= 5,
-  active: state.isShowList
-}));
-
-const crumbs = computed(() => {
-  if (state.items.length > 4 && state.lastSelectedIndex >= 0) {
-    return [state.items[0], ...state.items.slice(-3)];
-  } else {
-    return state.items;
-  }
+const classes = computed(() => {
+  return {
+    crumbs: {
+      'bread-subcrumbs': true,
+      scroll: true,
+      active: state.isShowList
+    }
+  };
 });
 
-const subCrumbs = computed(() => {
-  if (state.items.length > 4) {
-    return state.items.slice(1, -3);
-  }
-  return [];
-});
+const toggleShowList = () => (state.isShowList = !state.isShowList);
 
-const toggleShowList = () => {
-  state.isShowList = !state.isShowList;
+const curtText = ({ title }) => {
+  return title.length > MAX_SYMBOLS
+    ? title.slice(0, MAX_SYMBOLS) + '...'
+    : title;
 };
 
-const curtText = (el: { title: string }) => {
-  return el.title.length > maxSymbols
-    ? el.title.slice(0, maxSymbols) + '...'
-    : el.title;
-};
+const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 
-onMounted(() => {
-  state.items = props.items.map(item => ({ ...item, isChecked: false }));
-  state.lastSelectedIndex = state.items.length - 1;
-  state.items[state.lastSelectedIndex].isChecked = true;
-});
+onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
 </script>
 <style lang="scss">
 .bread-crumbs,

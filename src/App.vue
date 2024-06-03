@@ -29,7 +29,11 @@
     </div>
   </div>
   <h1 class="text">BreadCrumbs</h1>
-  <BreadCrumbs :items="crumbsItems" @selectedCrumb="e => console.log(e)" />
+  <BreadCrumbs
+    :items="crumbsItems"
+    :key="crumbsItems.length"
+    @click="breadCrumbsSelect"
+  />
   <h1 class="text">Search</h1>
   <Search />
 
@@ -58,6 +62,8 @@ import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
 import { BadgesType } from './components/Badges/enum';
+import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface';
+import { ref } from 'vue';
 
 const array = ['Ru', 'En'];
 
@@ -88,29 +94,29 @@ const badgesItems = [
   }
 ];
 
-const crumbsItems = [
+let crumbsItems = ref([
   {
     path: '/assembly',
     title: 'Главная'
   },
   {
-    path: '/assembly',
+    path: '/assembly2',
     title: 'База деталей'
   },
   {
-    path: '/assembly',
+    path: '/assembly3',
     title: 'Редактор Детали '
   },
   {
-    path: '/assembly',
+    path: '/assembly4',
     title: 'База материалов'
   },
   {
-    path: '/assembly',
+    path: '/assembly6',
     title: 'База оборудования'
   },
   {
-    path: '/assembly',
+    path: '/assembly7',
     title: 'База инструментов'
   },
   {
@@ -122,10 +128,14 @@ const crumbsItems = [
     title: 'Несуществующая База'
   },
   {
-    path: '/assembly',
+    path: '/assembly9',
     title: 'База продавцов'
   }
-];
+]);
+
+const breadCrumbsSelect = (item: IBreadCrumbsEmit) => {
+  crumbsItems.value = crumbsItems.value.slice(0, item.inx);
+};
 </script>
 
 <style lang="scss">
