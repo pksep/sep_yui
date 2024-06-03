@@ -1,18 +1,18 @@
 <template>
   <ul class="bread-crumbs">
     <li
-      class="bread-crumbs__item"
+      :class="{ 'bread-crumbs__item': true }"
       v-for="(crumb, index) in crumbs"
       :key="crumb.title"
     >
       <span
         v-if="state.items.length >= 5 && index === 1"
         class="bread-crumbs--closed"
-        @click="() => toggleShowList()"
+        @click="toggleShowList"
         >...</span
       >
       <ul
-        v-if="state.items.length >= 5 && index === 1"
+        v-if="state.items.length >= 5 && index === 1 && state.isShowList"
         :class="classesSubCrumbs"
       >
         <li
@@ -23,14 +23,21 @@
             checked: subcrumb.isChecked
           }"
         >
-          <span @click="toSelectCrumb(subcrumb)">
+          <span
+            @click="toSelectCrumb(subcrumb)"
+            :class="{ checked: crumb.isChecked }"
+          >
             {{ curtText(subcrumb) }}</span
           >
         </li>
       </ul>
-      <div class="bread-crumbs__link">
-        <span @click="toSelectCrumb(crumb)">{{ curtText(crumb) }}</span>
-        <Icon :name="'rightSmall'" />
+      <div :class="{ 'bread-crumbs__link': true, disabled: crumb.path === '' }">
+        <span
+          @click="toSelectCrumb(crumb)"
+          :class="{ checked: crumb.isChecked }"
+          >{{ curtText(crumb) }}</span
+        >
+        <Icon :name="'rightSmall'" v-if="index !== crumbs.length - 1" />
       </div>
     </li>
   </ul>
@@ -47,7 +54,7 @@ const props = withDefaults(defineProps<IBreadCrumbsProps>(), {
 const state = reactive({
   items: [],
   isShowList: false,
-  isChecked: false
+  lastSelectedIndex: -1
 });
 
 const emit = defineEmits<{
@@ -56,14 +63,17 @@ const emit = defineEmits<{
 
 const maxSymbols = 15;
 
-// const toSelectCrumb = (crumb: object, isChecked?: boolean) => {
-//   if (e.target === crumb) state.isChecked = !state.isChecked;
-//   emit('selectedCrumb', crumb);
-// };
-
-const toSelectCrumb = (crumb: { title: string; isChecked?: boolean }) => {
-  crumb.isChecked = !crumb.isChecked;
-  emit('selectedCrumb', crumb);
+const toSelectCrumb = (selectedCrumb: {
+  title: string;
+  isChecked?: boolean;
+}) => {
+  state.items.forEach(crumb => {
+    crumb.isChecked = crumb === selectedCrumb;
+  });
+  state.lastSelectedIndex = state.items.indexOf(selectedCrumb);
+  console.log(state.lastSelectedIndex, 'lastIndex');
+  emit('selectedCrumb', selectedCrumb);
+  state.isShowList = false;
 };
 
 const classesSubCrumbs = computed(() => ({
@@ -73,16 +83,16 @@ const classesSubCrumbs = computed(() => ({
 }));
 
 const crumbs = computed(() => {
-  if (state.items.length >= 5) {
-    return [state.items[0], ...state.items.slice(state.items.length - 3)];
+  if (state.items.length > 4 && state.lastSelectedIndex >= 0) {
+    return [state.items[0], ...state.items.slice(-3)];
   } else {
     return state.items;
   }
 });
 
 const subCrumbs = computed(() => {
-  if (state.items.length >= 5) {
-    return state.items.slice(1, state.items.length - 3);
+  if (state.items.length > 4) {
+    return state.items.slice(1, -3);
   }
   return [];
 });
@@ -99,6 +109,8 @@ const curtText = (el: { title: string }) => {
 
 onMounted(() => {
   state.items = props.items.map(item => ({ ...item, isChecked: false }));
+  state.lastSelectedIndex = state.items.length - 1;
+  state.items[state.lastSelectedIndex].isChecked = true;
 });
 </script>
 <style lang="scss">
@@ -112,7 +124,11 @@ onMounted(() => {
   &__item {
     display: flex;
     align-items: center;
-    cursor: pointer;
+
+    span {
+      cursor: pointer;
+      white-space: nowrap;
+    }
   }
 
   &__link {
@@ -120,9 +136,16 @@ onMounted(() => {
     align-items: center;
     transition: 0.3s ease-in-out;
 
+    span {
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
     &.disabled {
-      opacity: 0.3;
+      color: $white-E0E0E0;
       user-select: none;
+      pointer-events: none;
+      cursor: auto;
     }
 
     &:hover {
@@ -152,8 +175,16 @@ onMounted(() => {
     }
   }
 
-  &__item:nth-of-type(2) {
-    position: relative;
+  &__item {
+    span.checked {
+      background-color: $blue-D6E4FF;
+      color: $blue-77A6FF;
+      border-radius: 6px;
+      padding: 3px 8px;
+    }
+    &:nth-of-type(2) {
+      position: relative;
+    }
   }
 }
 

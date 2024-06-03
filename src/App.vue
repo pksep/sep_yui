@@ -28,7 +28,8 @@
       <Icon :name="item" />
     </div>
   </div>
-
+  <h1 class="text">BreadCrumbs</h1>
+  <BreadCrumbs :items="crumbsItems" @selectedCrumb="e => console.log(e)" />
   <h1 class="text">Search</h1>
   <Search />
 
@@ -41,10 +42,6 @@
   <h1 class="text">Slider</h1>
   <div class="slider-main">
     <Slider :items="files" />
-  </div>
-  <h1 class="text">BreadCrumbs</h1>
-  <div class="slider-main">
-    <BreadCrumbs :items="crumbsItems" />
   </div>
 </template>
 
@@ -117,16 +114,16 @@ const crumbsItems = [
     title: 'База инструментов'
   },
   {
-    path: '/assembly',
+    path: '/',
     title: 'База покупателей'
-  },
-  {
-    path: '/assembly',
-    title: 'База продавцов'
   },
   {
     path: '',
     title: 'Несуществующая База'
+  },
+  {
+    path: '/assembly',
+    title: 'База продавцов'
   }
 ];
 </script>
