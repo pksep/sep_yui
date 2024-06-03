@@ -42,6 +42,10 @@
   <div class="slider-main">
     <Slider :items="files" />
   </div>
+  <h1 class="text">BreadCrumbs</h1>
+  <div class="slider-main">
+    <BreadCrumbs :items="crumbsItems" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -53,6 +57,7 @@ import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
 import Search from '@/components/Search/Search';
 import Slider from '@/components/Slider/Slider';
+import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
 import { BadgesType } from './components/Badges/enum';
@@ -83,6 +88,45 @@ const badgesItems = [
   {
     value: 'Отгружено',
     type: BadgesType.red
+  }
+];
+
+const crumbsItems = [
+  {
+    path: '/assembly',
+    title: 'Главная'
+  },
+  {
+    path: '/assembly',
+    title: 'База деталей'
+  },
+  {
+    path: '/assembly',
+    title: 'Редактор Детали '
+  },
+  {
+    path: '/assembly',
+    title: 'База материалов'
+  },
+  {
+    path: '/assembly',
+    title: 'База оборудования'
+  },
+  {
+    path: '/assembly',
+    title: 'База инструментов'
+  },
+  {
+    path: '/assembly',
+    title: 'База покупателей'
+  },
+  {
+    path: '/assembly',
+    title: 'База продавцов'
+  },
+  {
+    path: '',
+    title: 'Несуществующая База'
   }
 ];
 </script>
