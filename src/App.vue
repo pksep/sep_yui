@@ -119,6 +119,12 @@
         </tr>
       </table>
     </div>
+    <h1 class="text">Menu</h1>
+    <Menu
+      :name="'David Perov'"
+      :role="'administrator'"
+      :path="'https://sportishka.com/uploads/posts/2023-12/1702131190_sportishka-com-p-krasivie-mesta-v-prirode-oboi-3.jpg'"
+    />
   </div>
 </template>
 
@@ -131,6 +137,7 @@ import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
 import Search from '@/components/Search/Search';
 import Slider from '@/components/Slider/Slider';
+import Menu from '@/components/Menu/Menu';
 import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
