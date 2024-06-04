@@ -17,7 +17,12 @@
             }"
           >
             <span @click="toSelectCrumb(subCrumb, inx)">
-              {{ curtText(subCrumb) }}</span
+              {{ curtText(subCrumb)
+              }}<span
+                v-if="subCrumb.title.length > MAX_SYMBOLS"
+                class="fullName"
+                >{{ subCrumb.title }}</span
+              ></span
             >
           </li>
         </ul>
@@ -30,7 +35,10 @@
         <span
           @click="toSelectCrumb(crumb, inx)"
           :class="{ checked: inx === state.crumbs.length - 1 }"
-          >{{ curtText(crumb) }}</span
+          >{{ curtText(crumb)
+          }}<span v-if="crumb.title.length > MAX_SYMBOLS" class="fullName">{{
+            crumb.title
+          }}</span></span
         >
         <Icon :name="'rightSmall'" v-if="inx !== state.crumbs.length - 1" />
       </div>
@@ -114,7 +122,7 @@ const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 
 onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
 </script>
-<style lang="scss">
+<style lang="scss" scope>
 .bread-crumbs,
 .bread-subcrumbs {
   list-style-type: none;
@@ -125,10 +133,17 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   &__item {
     display: flex;
     align-items: center;
+    position: relative;
 
     span {
       cursor: pointer;
       white-space: nowrap;
+      &:hover {
+        .fullName {
+          z-index: 1;
+          opacity: 1;
+        }
+      }
     }
   }
 
@@ -219,5 +234,18 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   &__item.checked {
     background-color: $blue-EAF2FF;
   }
+}
+
+.fullName {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  padding: 5px;
+  background-color: $white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  z-index: -10000;
+  opacity: 0;
+  transition: 0.3s ease-in-out;
 }
 </style>

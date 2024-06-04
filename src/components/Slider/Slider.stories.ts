@@ -25,6 +25,9 @@ const meta = {
       control: { type: StorybookControl.object }
     }
   },
+  parameters: {
+    layout: 'fullscreen'
+  },
   tags: ['autodocs']
 } as Meta<typeof Slider>;
 
