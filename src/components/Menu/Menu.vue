@@ -5,8 +5,8 @@
       <div class="menu__avatar">
         <img :src="props.path" />
       </div>
-      <div :class="menu__heading">
-        <div class="menu__wrapper">
+      <div :class="classes">
+        <div class="menu__names">
           <p class="menu__name">{{ props.name }}</p>
           <p class="menu__role">{{ props.role }}</p>
         </div>
@@ -15,7 +15,7 @@
         /></Button>
       </div>
     </div>
-    <div class="menu__list">
+    <div class="menu__list" v-if="state.isShow">
       <ul class="list">
         <li class="list__item">
           <Icon name="profile" />
@@ -24,10 +24,9 @@
         <li class="list__item">
           <Icon name="dark" />
           <span class="list__item-text">Темная тема</span>
-          <Toggle @change="" :checked="state.isCheckedTheme" />
           <Toggle
-            checked
-            @change="(checked: boolean) => console.log(checked)"
+            @change="isChecked => (state.isCheckedTheme = isChecked)"
+            :checked="state.isCheckedTheme"
           />
         </li>
         <li class="list__item">
@@ -43,6 +42,7 @@
           <span class="list__item-text">Помощь</span>
         </li>
       </ul>
+      <Switch :items="['Ru', 'En']" />
     </div>
   </div>
 </template>
@@ -52,6 +52,7 @@ import { IMenuProps } from './interface';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import Toggle from '@/components/Toggle/Toggle';
+import Switch from '@/components/Switch/Switch';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
   name: '',
@@ -63,7 +64,12 @@ const state = reactive({
   isCheckedTheme: false
 });
 
-const classes = computed(() => {});
+const classes = computed(() => {
+  return {
+    menu__heading: true,
+    active: state.isShow
+  };
+});
 
 const nameIcon = computed(() => {
   return state.isShow ? 'chevronDown' : 'chevronUp';
@@ -72,7 +78,6 @@ const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 const toggleTheme = () => {
-  console.log(1123123);
   state.isCheckedTheme = !state.isCheckedTheme;
 };
 </script>
@@ -81,7 +86,14 @@ const toggleTheme = () => {
 .menu {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 25px;
+  position: relative;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
   &__avatar {
     width: 40px;
@@ -102,9 +114,28 @@ const toggleTheme = () => {
     justify-content: space-between;
     padding: 5px 15px;
     border-radius: 3px;
+    gap: 25px;
 
     &.active {
       background-color: $blue-F2F7FF;
+    }
+  }
+
+  &__list {
+    padding: 15px;
+    width: 261px;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
+    border-radius: 5px;
+    position: absolute;
+    z-index: 10000;
+    top: 70px;
+
+    .td-list {
+      min-width: 100%;
+
+      .td-item {
+        flex-grow: 1;
+      }
     }
   }
 
@@ -124,19 +155,29 @@ const toggleTheme = () => {
   &__button {
     background-color: $transparent;
     padding: 0;
+
+    &:hover {
+      background-color: $transparent;
+    }
   }
 }
 .list {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
 
   &__item {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
   }
 
   .toggle {
     margin: 0;
+    margin-left: auto;
     height: 16px;
+    width: 25px;
   }
 }
 </style>

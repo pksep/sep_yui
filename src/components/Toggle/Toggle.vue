@@ -2,12 +2,12 @@
   <div :class="classes" :disabled="props.disabled" :style="styles">
     <input
       class="toggle-input"
-      id="toggle"
+      :id="uniqueId"
       type="checkbox"
       v-model="isChecked"
       @change="onClick"
     />
-    <label class="toggle-label" for="toggle"></label>
+    <label class="toggle-label" :for="uniqueId"></label>
   </div>
 </template>
 
@@ -32,7 +32,13 @@ const styles = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
 
+const generateUniqueId = () => {
+  return 'toggle-' + Math.random().toString(36).substr(2, 9);
+};
+
 const isChecked = ref(props.checked);
+
+const uniqueId = ref(generateUniqueId());
 
 const onClick = () => emit('change', isChecked.value);
 </script>
