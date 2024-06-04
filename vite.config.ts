@@ -30,5 +30,12 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src')
     }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/assets/scss/_global.scss";`
+      }
+    }
   }
 });

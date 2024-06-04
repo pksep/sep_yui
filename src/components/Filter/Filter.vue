@@ -1,0 +1,263 @@
+<template>
+  <div class="filter">
+    <div
+      :class="{ filter__wrapper: true, active: state.isShow }"
+      @click="toggleShow"
+    >
+      <Icon :name="props.iconName" />
+      <span>{{ props.title }}</span>
+      <Badges
+        :disabled="true"
+        :type="getChoosen[0]?.type"
+        :text="getChoosen[0]?.value"
+        :style="'margin:0 3px;'"
+      />
+      <div class="filter__counter counter">
+        <span class="counter__value" v-if="getChoosen.length > 1"
+          >{{ '+' + getChoosen.length }}
+        </span>
+        <div class="counter__list">
+          <ul
+            class="filter__select-list select-counter"
+            :style="'padding: 2px; gap: 15px'"
+          >
+            <li
+              class="filter__select-item"
+              v-for="(item, inx) in getChoosen"
+              :key="inx"
+            >
+              <Badges :type="item.type" :disabled="true" :text="item.value" />
+            </li>
+          </ul>
+        </div>
+      </div>
+      <button type="button" class="filter__close" @click.stop="clearFilter">
+        <Icon :name="'exitBig'" />
+      </button>
+    </div>
+
+    <div class="filter__select-wrapper" v-if="state.isShow">
+      <ul class="filter__select-list selected">
+        <li
+          class="filter__select-item"
+          v-for="(item, inx) in getChoosen"
+          :key="inx"
+        >
+          <Badges
+            :disabled="true"
+            :choosed="item.choose"
+            :type="item.type"
+            @click="toogleChoosed(item)"
+            :text="item.value"
+            v-if="item.choose"
+          />
+        </li>
+      </ul>
+      <ul class="filter__select-list" v-if="state.isShow">
+        <li
+          class="filter__select-item"
+          v-for="(item, inx) in getNotChoosen"
+          :key="inx"
+          :style="inx === 0 ? { paddingTop: '10px' } : ''"
+        >
+          <Badges
+            :disabled="true"
+            :choosed="item.choose"
+            :type="item.type"
+            :text="item.value"
+            @click="toogleChoosed(item)"
+            v-if="!item.choose"
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, onMounted, reactive } from 'vue';
+import { IFilterProps, IStateItem } from './interface';
+import Badges from '@/components/Badges/Badges';
+import Icon from '@/components/Icon/Icon';
+import { IconNameEnum } from '../Icon/enum';
+import { isArray } from 'lodash';
+
+const props = withDefaults(defineProps<IFilterProps>(), {
+  iconName: IconNameEnum.filter,
+  multiselect: false
+});
+
+const state = reactive({
+  items: [] as IStateItem[],
+  isShow: false,
+  choosenStatus: false
+});
+
+const toggleShow = () => (state.isShow = !state.isShow);
+
+const clearFilter = (e: Event) => {
+  e.stopPropagation();
+  state.items.forEach((el, inx) => setDefaultChoosen(el, inx));
+  state.isShow = false;
+};
+
+const getChoosen = computed(() => state.items.filter(el => el.choose));
+
+const getNotChoosen = computed(() => state.items.filter(el => !el.choose));
+
+const toogleChoosed = (item: IStateItem) => {
+  if (props.multiselect) {
+    item.choose = !item.choose;
+  } else {
+    state.items.forEach(el => {
+      if (el !== item) {
+        el.choose = false;
+      }
+    });
+    item.choose = !item.choose;
+  }
+
+  if (!getChoosen.value.length) {
+    state.items.forEach((el, inx) => setDefaultChoosen(el, inx));
+  }
+};
+
+const setDefaultChoosen = (el: IStateItem, inx: number) => {
+  if (typeof props.defaultValue === 'string' && el.value === props.defaultValue)
+    el.choose = true;
+  else if (isArray(props.defaultValue)) {
+    props.defaultValue.forEach(defaultValue => {
+      if (defaultValue === el.value) el.choose = true;
+    });
+  } else if (inx === 0) {
+    // По умолчанию, если дефолтное значение не передано - отображаем первый элемент
+    el.choose = true;
+  } else {
+    el.choose = false;
+  }
+};
+
+onMounted(() => {
+  console.log(props);
+  state.items = props.items.map((item, inx) => {
+    const newItem = {
+      value: typeof item === 'string' ? item : item.value,
+      type: typeof item === 'string' ? 'blue' : item.type,
+      choose: false
+    };
+
+    setDefaultChoosen(newItem, inx);
+
+    return newItem;
+  }) as IStateItem[];
+});
+</script>
+
+<style lang="scss" scope>
+.filter {
+  display: grid;
+  width: fit-content;
+  position: relative;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border: 1px solid $white-E7E7E7;
+    color: $grey-757D8A;
+    transition: 0.3s ease-in-out;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      border: 1px solid $blue-9CBEFF;
+    }
+
+    &.active {
+      color: $blue-9CBEFF;
+      border: 1px solid $blue-9CBEFF;
+    }
+  }
+
+  &__counter {
+    color: $grey-757D8A;
+  }
+
+  &__select-wrapper {
+    position: absolute;
+    top: 62px;
+    z-index: 20;
+    left: 0;
+    background-color: $white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
+  }
+
+  &__select-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    width: 100%;
+    display: grid;
+    gap: 5px;
+
+    &.selected {
+      border-bottom: 0.5px solid $white-E7E7E7;
+      padding-bottom: 10px;
+    }
+
+    &.select-counter {
+      background-color: $white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
+
+      .filter__select-item:not(:first-of-type) {
+        margin-left: -12px;
+      }
+    }
+  }
+
+  &__close {
+    color: $grey-757D8A;
+    cursor: pointer;
+    background-color: $transparent;
+    border: 1px solid $transparent;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+  }
+}
+
+.counter {
+  position: relative;
+
+  &__list {
+    opacity: 0;
+    display: none;
+  }
+  &:hover {
+    .counter__list {
+      opacity: 1;
+      display: block;
+
+      .filter__select-list {
+        display: flex;
+        position: absolute;
+        justify-content: flex-start;
+
+        top: -30px;
+        width: auto;
+      }
+    }
+  }
+}
+</style>
