@@ -129,6 +129,7 @@
       @click="e => console.log('option:', e)"
       @themeChange="e => console.log('themeChange:', e)"
     />
+    <Colors />
   </div>
 </template>
 
@@ -142,6 +143,7 @@ import Switch from '@/components/Switch/Switch';
 import Search from '@/components/Search/Search';
 import Slider from '@/components/Slider/Slider';
 import Menu from '@/components/Menu/Menu';
+import Colors from '@/components/Colors/Colors';
 import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
