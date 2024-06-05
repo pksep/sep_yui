@@ -125,6 +125,9 @@
       :name="'David Perov'"
       :role="'administrator'"
       :path="'https://sportishka.com/uploads/posts/2023-12/1702131190_sportishka-com-p-krasivie-mesta-v-prirode-oboi-3.jpg'"
+      @languageSwitch="e => console.log('lang:', e)"
+      @click="e => console.log('option:', e)"
+      @themeChange="e => console.log('themeChange:', e)"
     />
   </div>
 </template>

@@ -1,6 +1,5 @@
 <template>
   <div class="menu">
-    <Icon name="notification" />
     <div class="menu__wrapper">
       <div class="menu__avatar">
         <img :src="props.path" />
@@ -19,30 +18,52 @@
       <ul class="list">
         <li class="list__item">
           <Icon name="profile" />
-          <span class="list__item-text">Профиль</span>
+          <span
+            class="list__item-text"
+            :data-type="MenuType.profile"
+            @click="e => choosedOptions(e)"
+            >Профиль</span
+          >
         </li>
         <li class="list__item">
           <Icon name="dark" />
-          <span class="list__item-text">Темная тема</span>
-          <Toggle
-            @change="isChecked => (state.isCheckedTheme = isChecked)"
-            :checked="state.isCheckedTheme"
-          />
+          <span
+            class="list__item-text"
+            :data-type="MenuType.theme"
+            @click="e => choosedOptions(e)"
+            >Темная тема</span
+          >
+          <Toggle @change="e => toggleTheme(e)" />
         </li>
         <li class="list__item">
           <Icon name="settings" />
-          <span class="list__item-text">Настройки</span>
+          <span
+            class="list__item-text"
+            :data-type="MenuType.options"
+            @click="e => choosedOptions(e)"
+            >Настройки</span
+          >
         </li>
         <li class="list__item">
           <Icon name="exit" />
-          <span class="list__item-text">Выход</span>
+          <span
+            class="list__item-text"
+            :data-type="MenuType.exit"
+            @click="e => choosedOptions(e)"
+            >Выход</span
+          >
         </li>
         <li class="list__item">
           <Icon name="help" />
-          <span class="list__item-text">Помощь</span>
+          <span
+            class="list__item-text"
+            :data-type="MenuType.help"
+            @click="e => choosedOptions(e)"
+            >Помощь</span
+          >
         </li>
       </ul>
-      <Switch :items="['Ru', 'En']" />
+      <Switch :items="['Ru', 'En']" @click="handleLanguageSwitch" />
     </div>
   </div>
 </template>
@@ -53,16 +74,47 @@ import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
+import { MenuType } from '@/components/Menu/enum';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
   name: '',
   role: '',
   path: ''
 });
+
 const state = reactive({
   isShow: false,
-  isCheckedTheme: false
+  option: ''
 });
+
+const emit = defineEmits<{
+  (
+    e: 'click',
+    event: {
+      type: MenuType;
+    }
+  ): void;
+  (
+    e: 'themeChange',
+    event: {
+      type: boolean;
+      value?: any;
+    }
+  ): void;
+  (
+    e: 'languageSwitch',
+    event: {
+      type: string;
+      value?: any;
+    }
+  ): void;
+}>();
+
+const choosedOptions = (e: MouseEvent): void => {
+  const target = e.target as HTMLElement;
+  state.option = target.dataset.type;
+  emit('click', { type: state.option });
+};
 
 const classes = computed(() => {
   return {
@@ -74,11 +126,17 @@ const classes = computed(() => {
 const nameIcon = computed(() => {
   return state.isShow ? 'chevronDown' : 'chevronUp';
 });
+
 const toggleShow = () => {
   state.isShow = !state.isShow;
 };
-const toggleTheme = () => {
-  state.isCheckedTheme = !state.isCheckedTheme;
+
+const toggleTheme = e => {
+  emit('themeChange', { type: e });
+};
+
+const handleLanguageSwitch = (language: string) => {
+  emit('languageSwitch', { type: language.target.textContent });
 };
 </script>
 
@@ -88,11 +146,12 @@ const toggleTheme = () => {
   align-items: center;
   gap: 25px;
   position: relative;
+  max-width: fit-content;
 
   &__wrapper {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
   }
 
   &__avatar {
@@ -112,9 +171,10 @@ const toggleTheme = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 15px;
+    padding: 0 13px 0 15px;
     border-radius: 3px;
     gap: 25px;
+    min-height: 40px;
 
     &.active {
       background-color: $blue-F2F7FF;
@@ -122,13 +182,14 @@ const toggleTheme = () => {
   }
 
   &__list {
-    padding: 15px;
-    width: 261px;
+    padding: 15px 9px;
+    width: 100%;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
+    background-color: $white;
     border-radius: 5px;
     position: absolute;
     z-index: 10000;
-    top: 70px;
+    top: 50px;
 
     .td-list {
       min-width: 100%;
@@ -155,6 +216,7 @@ const toggleTheme = () => {
   &__button {
     background-color: $transparent;
     padding: 0;
+    min-height: 40px;
 
     &:hover {
       background-color: $transparent;
@@ -165,12 +227,25 @@ const toggleTheme = () => {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 10px;
 
   &__item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
+    cursor: pointer;
+    padding: 6px 3px;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+
+    &:hover,
+    &:active {
+      background-color: $blue-F2F7FF;
+      color: $blue-70A6FF;
+    }
   }
 
   .toggle {
