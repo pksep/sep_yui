@@ -40,6 +40,7 @@
 
     <h1 class="text">Toggle</h1>
     <Toggle checked @change="(checked: boolean) => console.log(checked)" />
+    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
 
     <h1 class="text">Switch</h1>
     <Switch :items="array" />
