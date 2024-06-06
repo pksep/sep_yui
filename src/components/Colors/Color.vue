@@ -1,13 +1,15 @@
 <template>
   <div class="color">
     <div class="color__wrapper">
-      <div
-        class="color__preview"
-        :style="{ backgroundColor: props.color }"
-      ></div>
+      <div class="color__preview" :style="{ background: props.color }"></div>
       <div class="color__info">
         <p class="color__text">{{ props.text }}</p>
-        <p class="color__text-color">{{ props.color }}</p>
+        <p
+          class="color__text-color"
+          v-if="props.text != 'Gradient1' && props.text != 'Gradient2'"
+        >
+          {{ props.color }}
+        </p>
       </div>
     </div>
   </div>
@@ -49,6 +51,9 @@ const props = withDefaults(defineProps<IColorProps>(), {
   }
 
   &__info {
+    display: grid;
+    gap: 5px;
+    font-size: 22px;
     p {
       margin: 0;
     }

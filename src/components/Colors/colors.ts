@@ -179,10 +179,10 @@ export const colors = {
 
   Gradient1: {
     text: 'Gradient1',
-    color: '#D8F2DA'
+    color: 'linear-gradient(#77A6FF, #0ACED2, #1AE4B6) '
   },
   Gradient2: {
     text: 'Gradient2',
-    color: '#0FBE3F'
+    color: 'linear-gradient(#6096FB, #04DDE0, #00FFC5) '
   }
 };

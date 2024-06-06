@@ -87,6 +87,16 @@ const state = reactive({
   option: ''
 });
 
+interface IToggle {
+  value?: string;
+  type: boolean;
+}
+
+interface ISwitch {
+  value?: string;
+  type: string;
+}
+
 const emit = defineEmits<{
   (
     e: 'click',
@@ -94,20 +104,9 @@ const emit = defineEmits<{
       type: MenuType;
     }
   ): void;
-  (
-    e: 'themeChange',
-    event: {
-      type: boolean;
-      value?: any;
-    }
-  ): void;
-  (
-    e: 'languageSwitch',
-    event: {
-      type: string;
-      value?: any;
-    }
-  ): void;
+  (e: 'toggle', event: IToggle): void;
+  (e: 'switch', event: ISwitch): void;
+  (e: 'email', event: string): void;
 }>();
 
 const choosedOptions = (e: MouseEvent): void => {
