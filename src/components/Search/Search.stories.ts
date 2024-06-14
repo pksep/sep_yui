@@ -1,7 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Search from './Search.vue';
 import { StorybookControl } from '../../common/storybook';
-import { action } from '@storybook/addon-actions';
+import { fn } from '@storybook/test';
 
 const meta = {
   title: 'Search/Search',
@@ -12,9 +12,9 @@ const meta = {
     },
     placeholder: {
       control: { type: StorybookControl.text }
-    },
-    onEnter: { type: StorybookControl.text, action: 'entered' }
+    }
   },
+  args: { onEnter: fn() },
   tags: ['autodocs']
 } as Meta<typeof Search>;
 
@@ -32,6 +32,5 @@ export const Default = Template.bind({});
 
 Default.args = {
   showHistroy: true,
-  placeholder: 'Динозавры воскресли и стали курьерами доставки еды',
-  onEnter: action('onEnter')
+  placeholder: 'Динозавры воскресли и стали курьерами доставки еды'
 };
