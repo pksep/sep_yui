@@ -76,7 +76,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, reactive } from 'vue';
-import { IFilterProps, IStateItem } from './interface';
+import { IFilterOption, IFilterProps, IStateItem } from './interface';
 import Badges from '@/components/Badges/Badges';
 import Icon from '@/components/Icon/Icon';
 import { IconNameEnum } from '../Icon/enum';
@@ -88,8 +88,9 @@ const props = withDefaults(defineProps<IFilterProps>(), {
 });
 
 const state = reactive({
-  items: [] as IStateItem[],
+  options: [] as IStateItem[],
   isShow: false,
+  searchString: '',
   choosenStatus: false
 });
 
@@ -97,49 +98,60 @@ const toggleShow = () => (state.isShow = !state.isShow);
 
 const clearFilter = (e: Event) => {
   e.stopPropagation();
-  state.items.forEach((el, inx) => setDefaultChoosen(el, inx));
+  state.options.forEach((el: IStateItem, inx: number) =>
+    setDefaultChoosen(el, inx)
+  );
   state.isShow = false;
 };
 
-const getChoosen = computed(() => state.items.filter(el => el.choose));
+const getChoosen = computed(() =>
+  state.options.filter((el: IStateItem) => el.choose)
+);
 
-const getNotChoosen = computed(() => state.items.filter(el => !el.choose));
+const getNotChoosen = computed(() =>
+  state.options.filter((el: IStateItem) => {
+    let strCondition = true;
+    if (state.searchString) {
+      strCondition =
+        el.value.slice(0, el.value.length).toLowerCase() ===
+        el.value.toLowerCase();
+    }
+    return !el.choose && strCondition;
+  })
+);
 
 const toogleChoosed = (item: IStateItem) => {
   if (props.multiselect) {
     item.choose = !item.choose;
   } else {
-    state.items.forEach(el => {
-      if (el !== item) {
-        el.choose = false;
-      }
-    });
+    state.options.forEach(
+      (el: IStateItem) => el !== item && (el.choose = false)
+    );
     item.choose = !item.choose;
   }
 
   if (!getChoosen.value.length) {
-    state.items.forEach((el, inx) => setDefaultChoosen(el, inx));
+    state.options.forEach((el: IStateItem, inx: number) =>
+      setDefaultChoosen(el, inx)
+    );
   }
 };
 
 const setDefaultChoosen = (el: IStateItem, inx: number) => {
-  if (typeof props.defaultValue === 'string' && el.value === props.defaultValue)
-    el.choose = true;
+  const conditionsChoose =
+    typeof props.defaultValue === 'string' && el.value === props.defaultValue;
+
+  if (conditionsChoose) el.choose = true;
   else if (isArray(props.defaultValue)) {
-    props.defaultValue.forEach(defaultValue => {
-      if (defaultValue === el.value) el.choose = true;
-    });
-  } else if (inx === 0) {
+    props.defaultValue.forEach(
+      (defaultValue: string) => defaultValue === el.value && (el.choose = true)
+    );
     // По умолчанию, если дефолтное значение не передано - отображаем первый элемент
-    el.choose = true;
-  } else {
-    el.choose = false;
-  }
+  } else el.choose = inx === 0 ? true : false;
 };
 
 onMounted(() => {
-  console.log(props);
-  state.items = props.items.map((item, inx) => {
+  state.options = props.options.map((item: IFilterOption, inx: number) => {
     const newItem = {
       value: typeof item === 'string' ? item : item.value,
       type: typeof item === 'string' ? 'blue' : item.type,

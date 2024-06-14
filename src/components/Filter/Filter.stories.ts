@@ -37,7 +37,7 @@ const meta = {
     title: {
       control: { type: StorybookControl.text }
     },
-    items: {
+    options: {
       control: { type: StorybookControl.object }
     }
   },
@@ -62,5 +62,5 @@ export const Default = Template.bind({});
 
 Default.args = {
   title: 'Статус',
-  items: badgesItems
+  options: badgesItems
 };
