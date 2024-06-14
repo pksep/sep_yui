@@ -80,7 +80,7 @@ const showHistoryClickHandler = () => {
 
 const changeSearch = () => {
   emit('enter', state.searchValue);
-  if (props.showHistory) searchStore.addHistorySearch(state.searchValue);
+  if (props.showHistory) searchStore.addHistorySearch(state.searchValue.trim());
 };
 
 const hidehistory = () => {
