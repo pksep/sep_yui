@@ -97,7 +97,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 @import './Search.scss';
 
 .search {

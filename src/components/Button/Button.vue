@@ -33,10 +33,9 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   color: ''
 });
 
-const emit =
-  defineEmits<{
-    (e: 'click', id: number): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
 
 const classes = computed(() => ({
   button: true,
@@ -63,7 +62,7 @@ const styleChangeColor = computed(() => ({
 const onClick = () => emit('click', 1);
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .button {
   color: $white;
   outline: none;

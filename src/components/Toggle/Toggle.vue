@@ -43,7 +43,7 @@ const uniqueId = ref(generateUniqueId());
 const onClick = () => emit('change', isChecked.value);
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 @import './../../assets/scss/_global.scss';
 
 .toggle {

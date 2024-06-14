@@ -165,7 +165,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .filter {
   display: grid;
   width: fit-content;

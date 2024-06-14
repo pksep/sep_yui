@@ -129,7 +129,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .slider {
   width: 100%;
   height: 260px;

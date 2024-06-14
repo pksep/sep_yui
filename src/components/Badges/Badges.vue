@@ -46,7 +46,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .base {
   // padding: 4px 5px;
   border-radius: 5px;
