@@ -76,11 +76,7 @@ import Toggle from '@/components/Toggle/Toggle';
 import Switch from '@/components/Switch/Switch';
 import { MenuType } from '@/components/Menu/enum';
 
-const props = withDefaults(defineProps<IMenuProps>(), {
-  name: '',
-  role: '',
-  path: ''
-});
+const props = withDefaults(defineProps<IMenuProps>(), {});
 
 const state = reactive({
   isShow: false,
@@ -104,8 +100,8 @@ const emit = defineEmits<{
       type: MenuType;
     }
   ): void;
-  (e: 'toggle', event: IToggle): void;
-  (e: 'switch', event: ISwitch): void;
+  (e: 'themeChange', event: IToggle): void;
+  (e: 'languageSwitch', event: ISwitch): void;
   (e: 'email', event: string): void;
 }>();
 

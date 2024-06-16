@@ -1,7 +1,8 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Menu from './Menu.vue';
 import { StorybookControl } from '../../common/storybook';
-import { userEvent, within } from '@storybook/test';
+import { userEvent, within, fn } from '@storybook/test';
+import { action } from '@storybook/addon-actions';
 
 const meta = {
   title: 'Menu/Menu',
@@ -23,13 +24,6 @@ const meta = {
       }
     }
   },
-  args: {
-    onClick: e => {
-      return {
-        type: e.type
-      };
-    }
-  },
   tags: ['autodocs']
 } as Meta<typeof Menu>;
 
@@ -40,27 +34,21 @@ const Template: StoryFn<typeof Menu> = args => ({
   setup() {
     return { args };
   },
-  template: `<Menu v-bind="args" @click="args.onClick"/> `
+  template: `<Menu v-bind="args"/> `
 });
 
 export const Default = Template.bind({});
 Default.args = {
-  onClick: event => {
-    console.log('Clicked item type:', event.type);
-  }
+  onClick: action('click'),
+  onThemeChange: action('themeChange'),
+  onLanguageSwitch: action('languageSwitch'),
+  name: 'David Perov',
+  role: 'admin',
+  path: 'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'
 };
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-
-  const nameMenu = canvasElement.querySelector('.menu__name');
-  const roleMenu = canvasElement.querySelector('.menu__role');
-  const imageMenu = canvasElement.querySelector('.menu__avatar img');
   const buttonOpen = canvas.getByRole('button');
-
-  roleMenu.textContent = 'admin';
-  nameMenu.textContent = 'David Perov';
-  imageMenu.src =
-    'https://sportishka.com/uploads/posts/2023-12/1702131190_sportishka-com-p-krasivie-mesta-v-prirode-oboi-3.jpg';
 
   await userEvent.click(buttonOpen);
   await userEvent.click(buttonOpen, {

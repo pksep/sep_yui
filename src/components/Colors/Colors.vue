@@ -151,6 +151,7 @@ const filteredColors = str => {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     align-items: flex-start;
+    gap: 10px;
 
     h2 {
       grid-column: 1/13;
@@ -186,6 +187,7 @@ const filteredColors = str => {
     list-style-type: none;
     display: grid;
     gap: 10px;
+    padding-left: 0;
   }
 }
 </style>

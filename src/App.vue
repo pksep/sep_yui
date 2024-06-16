@@ -124,7 +124,7 @@
     <Menu
       :name="'David Perov'"
       :role="'administrator'"
-      :path="'https://sportishka.com/uploads/posts/2023-12/1702131190_sportishka-com-p-krasivie-mesta-v-prirode-oboi-3.jpg'"
+      :path="'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'"
       @switch="e => console.log('lang:', e)"
       @click="e => console.log('option:', e)"
       @toggle="e => console.log('themeChange:', e)"
