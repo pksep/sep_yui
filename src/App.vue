@@ -49,9 +49,7 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <div style="width: 1400px">
-      <Table />
-    </div>
+    <Table />
   </div>
 </template>
 

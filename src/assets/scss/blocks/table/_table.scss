@@ -2,19 +2,13 @@ table {
   width: inherit;
   position: relative;
   border-radius: 15px;
-  // border: 1px solid $white-E0E0E0;
   border-collapse: collapse;
   text-align: center;
   margin-bottom: 15px;
-  display: block;
   overflow: hidden;
 
   tr {
     border-radius: 15px;
-
-    &:last-of-type {
-      // border-bottom: none;
-    }
 
     &:nth-of-type(odd) {
       background-color: $white-F8F9FD;
@@ -28,31 +22,12 @@ table {
   th {
     border: 1px solid $white-E0E0E0;
     padding: 12px 8px;
-    // border-top: none;
     background-color: $blue-F2F7FF;
-
-    &:first-of-type {
-      // border-left: none;
-    }
-
-    &:last-of-type {
-      // border-right: none;
-    }
   }
 
   td {
     padding: 12px 8px;
     border: 1px solid $white-E0E0E0;
-    // border-bottom: none;
-    // border-top: none;
-
-    &:first-of-type {
-      // border-left: none;
-    }
-
-    &:last-of-type {
-      // border-right: none;
-    }
 
     img {
       object-fit: contain;

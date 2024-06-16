@@ -71,11 +71,12 @@
 <script setup lang="ts"></script>
 <style lang="scss" scoped>
 .table-wrapper {
-  overflow: hidden;
-  width: 500px;
+  overflow-x: scroll;
+  width: 100%;
+  padding-bottom: 15px;
 }
 .table {
-  padding-bottom: 15px;
-  overflow-x: scroll;
+  overflow: hidden;
+  border-radius: 15px;
 }
 </style>
