@@ -21,7 +21,7 @@
         <th class="table__th">Примечание</th>
       </tr>
       <tr class="table__tr">
-        <td class="table__td">2</td>
+        <td class="table__td">1</td>
         <td class="table__td">№ 24-1831 /0 18.03.2024</td>
         <td class="table__td">Нет Изделия</td>
         <td class="table__td">Нет Изделия</td>
