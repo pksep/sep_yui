@@ -1,7 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Menu from './Menu.vue';
 import { StorybookControl } from '../../common/storybook';
-import { userEvent, within, fn } from '@storybook/test';
+import { userEvent, within } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
 
 const meta = {
