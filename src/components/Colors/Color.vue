@@ -28,19 +28,19 @@ const props = withDefaults(defineProps<IColorProps>(), {
   -webkit-box-shadow: 0px 0.57px 1.79px 0px rgba(12, 20, 33, 1);
   -moz-box-shadow: 0px 0.57px 1.79px 0px rgba(12, 20, 33, 1);
   box-shadow: 0px 0.57px 1.79px 0px rgba(12, 20, 33, 1);
-  padding: 24px;
+  padding: 10px;
   border-radius: 30px;
-  width: fit-content;
+  width: 110px;
 
   &__wrapper {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 5px;
   }
 
   &__preview {
-    width: 96px;
-    height: 48px;
+    width: 25px;
+    height: 15px;
     border-radius: 14px;
     border: 1px solid $grey-DCDFED;
   }
@@ -48,12 +48,14 @@ const props = withDefaults(defineProps<IColorProps>(), {
   &__text-color {
     text-transform: uppercase;
     color: $grey-677074;
+    font-size: 14px;
   }
 
   &__info {
     display: grid;
     gap: 5px;
-    font-size: 22px;
+    font-size: 16px;
+
     p {
       margin: 0;
     }

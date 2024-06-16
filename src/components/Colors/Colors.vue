@@ -136,14 +136,14 @@ const filteredColors = str => {
   &__heading {
     grid-column: 1/13;
     background-color: $blue-77A6FF;
-    min-height: 554px;
+    min-height: 124px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 32px 32px 0 0;
     h2 {
       color: $white;
-      font-size: 180px;
+      font-size: 58px;
     }
   }
 
@@ -159,7 +159,7 @@ const filteredColors = str => {
   &__decor {
     display: flex;
     grid-column: 1/13;
-    gap: 34px;
+    gap: 10px;
   }
   &__color2 {
     h2 {
@@ -185,7 +185,7 @@ const filteredColors = str => {
   &__list {
     list-style-type: none;
     display: grid;
-    gap: 34px;
+    gap: 10px;
   }
 }
 </style>
