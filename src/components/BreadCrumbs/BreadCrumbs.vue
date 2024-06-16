@@ -122,7 +122,7 @@ const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 
 onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .bread-crumbs,
 .bread-subcrumbs {
   list-style-type: none;

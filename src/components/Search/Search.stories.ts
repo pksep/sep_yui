@@ -1,6 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Search from './Search.vue';
 import { StorybookControl } from '../../common/storybook';
+import { fn } from '@storybook/test';
 
 const meta = {
   title: 'Search/Search',
@@ -13,6 +14,7 @@ const meta = {
       control: { type: StorybookControl.text }
     }
   },
+  args: { onEnter: fn() },
   tags: ['autodocs']
 } as Meta<typeof Search>;
 

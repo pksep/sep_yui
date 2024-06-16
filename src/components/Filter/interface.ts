@@ -1,11 +1,11 @@
 import { IconNameEnum } from '../Icon/enum';
 
-export interface IPropsItem {
+export interface IFilterOption {
   value: string;
   type: string;
 }
 
-export interface IStateItem extends IPropsItem {
+export interface IStateItem extends IFilterOption {
   choose: boolean;
 }
 
@@ -13,6 +13,8 @@ export interface IFilterProps {
   title: string;
   iconName?: IconNameEnum;
   multiselect?: boolean;
-  items: string[] | IPropsItem[];
+  options: string[] | IFilterOption[];
   defaultValue?: string | string[];
+  closeOnSelect?: boolean;
+  searchable?: boolean;
 }
