@@ -1,6 +1,6 @@
 <template>
   <div class="slider">
-    <div class="slider__wrapper" v-if="state.files.length">
+    <div class="slider__wrapper">
       <button
         class="slider__button slider__button--prev"
         @click="prevSlide"
@@ -11,7 +11,10 @@
       <div class="slider__slides">
         <div
           class="placeholder"
-          v-if="!isImage(state.file.path) && !isVideo(state.file.path)"
+          v-if="
+            (!isImage(state.file.path) && !isVideo(state.file.path)) ||
+            state.files.length == 0
+          "
         >
           <Icon name="bgNotContent" width="110" height="110" />
           <p>Контент отсутствует</p>
