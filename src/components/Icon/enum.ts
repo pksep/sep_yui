@@ -23,5 +23,6 @@ export enum IconNameEnum {
   settingsDark = 'settingsDark',
   searchNormal = 'searchNormal',
   search = 'search',
-  filter = 'filter'
+  filter = 'filter',
+  bgNotContent = 'bgNotContent'
 }

@@ -9,6 +9,13 @@
         <Icon name="leftBig" />
       </button>
       <div class="slider__slides">
+        <div
+          class="placeholder"
+          v-if="!isImage(state.file.path) && !isVideo(state.file.path)"
+        >
+          <Icon name="bgNotContent" width="110" height="110" />
+          <p>Контент отсутствует</p>
+        </div>
         <img
           v-if="isImage(state.file.path)"
           @click="e => toFullsizeImage(e)"
@@ -130,6 +137,29 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.placeholder {
+  background-color: $white-F0F0F0;
+  border-radius: 15px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  width: inherit;
+  height: 100%;
+  color: $grey-A6A3AD;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  p {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
 .slider {
   width: 100%;
   height: 260px;
@@ -162,6 +192,8 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: inherit;
+    position: relative;
 
     img,
     video {
