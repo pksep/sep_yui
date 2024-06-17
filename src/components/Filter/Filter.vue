@@ -81,9 +81,11 @@ import Badges from '@/components/Badges/Badges';
 import Icon from '@/components/Icon/Icon';
 import { IconNameEnum } from '../Icon/enum';
 import { isArray } from 'lodash';
+import { FilterType } from './enum';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   iconName: IconNameEnum.filter,
+  type: FilterType,
   multiselect: false
 });
 
