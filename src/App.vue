@@ -46,7 +46,7 @@
     <Switch :items="array" />
 
     <h1 class="text">Slider</h1>
-    <div class="slider-main">
+    <div class="slider-main" style="margin-bottom: 20px">
       <Slider :items="files" />
     </div>
     <Table />
@@ -163,6 +163,5 @@ const breadCrumbsSelect = (item: IBreadCrumbsEmit) => {
 }
 .slider-main {
   width: 472px;
-  height: 220px;
 }
 </style>
