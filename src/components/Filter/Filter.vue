@@ -6,6 +6,7 @@
     >
       <Icon :name="props.iconName" />
       <span>{{ props.title }}</span>
+
       <Badges
         :disabled="true"
         :type="getChoosen[0]?.type"
@@ -53,7 +54,11 @@
           />
         </li>
       </ul>
-      <ul class="filter__select-list" v-if="state.isShow">
+      <Search
+        v-if="props.searchable"
+        @enter="e => (state.searchString = e.trim())"
+      />
+      <ul class="filter__select-list" v-if="state.isShow && !props.searchable">
         <li
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
@@ -70,6 +75,18 @@
           />
         </li>
       </ul>
+      <ul
+        class="filter__select-list filter__select-list--search"
+        v-if="state.isShow && props.searchable"
+      >
+        <li
+          class="filter__select-item"
+          v-for="(item, inx) in getNotChoosen"
+          :key="inx"
+        >
+          {{ item.value }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -78,14 +95,13 @@
 import { computed, onMounted, reactive } from 'vue';
 import { IFilterOption, IFilterProps, IStateItem } from './interface';
 import Badges from '@/components/Badges/Badges';
+import Search from '@/components/Search/Search';
 import Icon from '@/components/Icon/Icon';
 import { IconNameEnum } from '../Icon/enum';
 import { isArray } from 'lodash';
-import { FilterType } from './enum';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   iconName: IconNameEnum.filter,
-  type: FilterType,
   multiselect: false
 });
 
@@ -93,10 +109,18 @@ const state = reactive({
   options: [] as IStateItem[],
   isShow: false,
   searchString: '',
-  choosenStatus: false
+  choosenStatus: false,
+  searchItems: []
 });
 
 const toggleShow = () => (state.isShow = !state.isShow);
+
+const setSearchItem = e => {
+  if (!state.searchItems.includes(e)) {
+    state.searchItems.push(e);
+  }
+  console.log(state.searchItems, 'searchItems');
+};
 
 const clearFilter = (e: Event) => {
   e.stopPropagation();
@@ -179,6 +203,7 @@ onMounted(() => {
     width: fit-content;
     border: 1px solid $white-E7E7E7;
     color: $grey-757D8A;
+    background-color: $white;
     transition: 0.3s ease-in-out;
     padding: 10px;
     border-radius: 10px;
@@ -208,7 +233,6 @@ onMounted(() => {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
-    width: 100%;
   }
 
   &__select-list {
@@ -232,6 +256,16 @@ onMounted(() => {
 
       .filter__select-item:not(:first-of-type) {
         margin-left: -12px;
+      }
+    }
+
+    &--search {
+      height: 150px;
+      overflow-y: scroll;
+
+      .filter__select-item {
+        padding: 10px;
+        border-bottom: 1px solid $white-E7E7E7;
       }
     }
   }

@@ -1,15 +1,22 @@
 <template>
-  <div style="padding: 0 20px 400px 20px">
-    <h1 class="text">Badges</h1>
-    <Badges :type="'default'" :text="'Все'" />
-    <Badges :type="'blue'" :text="'Удалено'" />
-    <Badges :type="'red'" choosed :text="'Отгружено'" />
-    <Badges :type="'orange'" choosed :text="'Покупатели'" />
-    <Badges :type="'pink'" choosed :text="'Ожидает'" />
+  <div style="padding: 0 20px 400px 20px; background-color: black">
+    <!-- <h1 class="text">Badges</h1>
+    <Badges :type="BadgesType.default" :text="'Все'" />
+    <Badges :type="BadgesType.blue" :text="'Удалено'" />
+    <Badges :type="BadgesType.red" choosed :text="'Отгружено'" />
+    <Badges :type="BadgesType.orange" choosed :text="'Покупатели'" />
+    <Badges :type="BadgesType.pink' choosed :text="'Ожидает'" /> -->
 
     <h1 class="text">Filter</h1>
     <Filter :options="badgesItems" :title="'Статус'" :multiselect="true" />
-    <h1 class="text">Button</h1>
+    <br />
+    <Filter
+      :options="badgesItemsSeach"
+      :title="'Покупатели'"
+      :multiselect="true"
+      :searchable="true"
+    />
+    <!-- <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
       <Button :size="'small'" :type="'ghost'">Small Button</Button>
       <Button :size="'medium'" :type="'outline'">Medium Button</Button>
@@ -49,7 +56,7 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <Table />
+    <Table /> -->
   </div>
 </template>
 
@@ -96,6 +103,36 @@ const badgesItems = [
   {
     value: 'Отгружено',
     type: BadgesType.red
+  }
+];
+const badgesItemsSeach = [
+  {
+    value: 'Все',
+    type: BadgesType.default
+  },
+  {
+    value: 'Иванов Иван Сергеевич',
+    type: BadgesType.blue
+  },
+  {
+    value: 'Синев Ипполит Анатольевич',
+    type: BadgesType.blue
+  },
+  {
+    value: 'Цаплева Евгений Константинович',
+    type: BadgesType.blue
+  },
+  {
+    value: 'Иванов Иван Сергеевич',
+    type: BadgesType.blue
+  },
+  {
+    value: 'Синев Ипполит Анатольевич',
+    type: BadgesType.blue
+  },
+  {
+    value: 'Цаплева Евгений Константинович',
+    type: BadgesType.blue
   }
 ];
 
