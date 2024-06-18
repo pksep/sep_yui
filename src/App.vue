@@ -1,31 +1,37 @@
 <template>
   <div style="padding: 0 20px 400px 20px">
     <h1 class="text">Badges</h1>
-    <Badges :type="'default'" :text="'Все'" />
-    <Badges :type="'blue'" :text="'Удалено'" />
-    <Badges :type="'red'" choosed :text="'Отгружено'" />
-    <Badges :type="'orange'" choosed :text="'Покупатели'" />
-    <Badges :type="'pink'" choosed :text="'Ожидает'" />
+    <Badges :type="BadgesType.default" :text="'Все'" />
+    <Badges :type="BadgesType.blue" :text="'Удалено'" />
+    <Badges :type="BadgesType.red" choosed :text="'Отгружено'" />
+    <Badges :type="BadgesType.orange" choosed :text="'Покупатели'" />
+    <Badges :type="BadgesType.pink" choosed :text="'Ожидает'" />
 
     <h1 class="text">Filter</h1>
     <Filter :options="badgesItems" :title="'Статус'" :multiselect="true" />
     <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
-      <Button :size="'small'" :type="'ghost'">Small Button</Button>
-      <Button :size="'medium'" :type="'outline'">Medium Button</Button>
-      <Button :size="'large'" :type="'primary'">Large Button</Button>
-      <Button :size="'large'" disabled
-        ><Icon :name="'help'" /> Large Button</Button
+      <Button :size="SizesEnum.small" :type="ButtonType.ghost"
+        >Small Button</Button
       >
-      <Button :size="'large'" :type="'secondary'"
-        ><Icon :name="'help'" :width="54" :height="54" /> Large Icon
+      <Button :size="SizesEnum.medium" :type="ButtonType.outline"
+        >Medium Button</Button
+      >
+      <Button :size="SizesEnum.large" :type="ButtonType.primary"
+        >Large Button</Button
+      >
+      <Button :size="SizesEnum.large" disabled
+        ><Icon :name="IconNameEnum.help" /> Large Button</Button
+      >
+      <Button :size="SizesEnum.large" :type="ButtonType.secondary"
+        ><Icon :name="IconNameEnum.help" :width="54" :height="54" /> Large Icon
         Button</Button
       >
     </div>
 
     <h1 class="text">Icon</h1>
     <div class="icons">
-      <div v-for="item of Object.keys(IconNameEnum)" :key="item">
+      <div v-for="item of iconNames" :key="item">
         <Icon :name="item" />
       </div>
     </div>
@@ -39,8 +45,8 @@
     <Search />
 
     <h1 class="text">Toggle</h1>
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
+    <Toggle checked @change="(checked: number) => console.log(checked)" />
+    <Toggle checked @change="(checked: number) => console.log(checked)" />
 
     <h1 class="text">Switch</h1>
     <Switch :items="array" />
@@ -54,21 +60,23 @@
 </template>
 
 <script setup lang="ts">
-import Badges from '@/components/Badges/Badges';
-import Filter from '@/components/Filter/Filter';
-import Button from '@/components/Button/Button';
-import Icon from '@/components/Icon/Icon';
-import Toggle from '@/components/Toggle/Toggle';
-import Switch from '@/components/Switch/Switch';
-import Search from '@/components/Search/Search';
-import Slider from '@/components/Slider/Slider';
-import Table from '@/components/Table/Table';
-import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs';
+import Badges from '@/components/Badges/Badges.vue';
+import Filter from '@/components/Filter/Filter.vue';
+import Button from '@/components/Button/Button.vue';
+import Icon from '@/components/Icon/Icon.vue';
+import Toggle from '@/components/Toggle/Toggle.vue';
+import Switch from '@/components/Switch/Switch.vue';
+import Search from '@/components/Search/Search.vue';
+import Slider from '@/components/Slider/Slider.vue';
+import Table from '@/components/Table/Table.vue';
+import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs.vue';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
 import { BadgesType } from './components/Badges/enum';
 import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { SizesEnum } from './common/sizes';
+import { ButtonType } from './components/Button/enum';
 
 const array = ['Ru', 'En'];
 
@@ -137,6 +145,8 @@ const crumbsItems = ref([
     title: 'База продавцов'
   }
 ]);
+
+const iconNames = computed(() => Object.values(IconNameEnum) as IconNameEnum[]);
 
 const breadCrumbsSelect = (item: IBreadCrumbsEmit) => {
   crumbsItems.value = crumbsItems.value.slice(0, item.inx);

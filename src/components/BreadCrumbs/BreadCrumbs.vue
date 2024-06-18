@@ -79,7 +79,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'click', item: IBreadCrumbsItem): IBreadCrumbsEmit;
+  (e: 'click', item: IBreadCrumbsEmit): void;
 }>();
 
 const MAX_SYMBOLS = 15;
