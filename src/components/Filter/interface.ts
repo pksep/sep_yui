@@ -1,6 +1,4 @@
 import { IconNameEnum } from '../Icon/enum';
-import { FilterType } from './enum';
-
 export interface IFilterOption {
   value: string;
   type: string;
@@ -18,5 +16,4 @@ export interface IFilterProps {
   defaultValue?: string | string[];
   closeOnSelect?: boolean;
   searchable?: boolean;
-  type: FilterType;
 }

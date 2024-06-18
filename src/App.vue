@@ -1,11 +1,11 @@
 <template>
   <div style="padding: 0 20px 400px 20px; background-color: black">
-    <!-- <h1 class="text">Badges</h1>
-    <Badges :type="BadgesType.default" :text="'Все'" />
-    <Badges :type="BadgesType.blue" :text="'Удалено'" />
-    <Badges :type="BadgesType.red" choosed :text="'Отгружено'" />
-    <Badges :type="BadgesType.orange" choosed :text="'Покупатели'" />
-    <Badges :type="BadgesType.pink' choosed :text="'Ожидает'" /> -->
+    <h1 class="text">Badges</h1>
+    <Badges :type="BadgesTypeEnum.default" :text="'Все'" />
+    <Badges :type="BadgesTypeEnum.blue" :text="'Удалено'" />
+    <Badges :type="BadgesTypeEnum.red" choosed :text="'Отгружено'" />
+    <Badges :type="BadgesTypeEnum.orange" choosed :text="'Покупатели'" />
+    <Badges :type="BadgesTypeEnum.pink" choosed :text="'Ожидает'" />
 
     <h1 class="text">Filter</h1>
     <Filter :options="badgesItems" :title="'Статус'" :multiselect="true" />
@@ -16,7 +16,7 @@
       :multiselect="true"
       :searchable="true"
     />
-    <!-- <h1 class="text">Button</h1>
+    <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
       <Button :size="SizesEnum.small" :type="ButtonType.ghost"
         >Small Button</Button
@@ -62,7 +62,7 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <Table /> -->
+    <Table />
   </div>
 </template>
 
@@ -79,7 +79,7 @@ import Table from '@/components/Table/Table.vue';
 import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs.vue';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
-import { BadgesType } from './components/Badges/enum';
+import { BadgesTypeEnum } from './components/Badges/enum';
 import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface';
 import { computed, ref } from 'vue';
 import { SizesEnum } from './common/sizes';
@@ -102,45 +102,45 @@ const files = [
 const badgesItems = [
   {
     value: 'Все',
-    type: BadgesType.default
+    type: BadgesTypeEnum.default
   },
   {
     value: 'Удалено',
-    type: BadgesType.pink
+    type: BadgesTypeEnum.pink
   },
   {
     value: 'Отгружено',
-    type: BadgesType.red
+    type: BadgesTypeEnum.red
   }
 ];
 const badgesItemsSeach = [
   {
     value: 'Все',
-    type: BadgesType.default
+    type: BadgesTypeEnum.default
   },
   {
     value: 'Иванов Иван Сергеевич',
-    type: BadgesType.blue
+    type: BadgesTypeEnum.blue
   },
   {
     value: 'Синев Ипполит Анатольевич',
-    type: BadgesType.blue
+    type: BadgesTypeEnum.blue
   },
   {
     value: 'Цаплева Евгений Константинович',
-    type: BadgesType.blue
+    type: BadgesTypeEnum.blue
   },
   {
     value: 'Иванов Иван Сергеевич',
-    type: BadgesType.blue
+    type: BadgesTypeEnum.blue
   },
   {
     value: 'Синев Ипполит Анатольевич',
-    type: BadgesType.blue
+    type: BadgesTypeEnum.blue
   },
   {
     value: 'Цаплева Евгений Константинович',
-    type: BadgesType.blue
+    type: BadgesTypeEnum.blue
   }
 ];
 

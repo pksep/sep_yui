@@ -8,11 +8,11 @@
 
 <script lang="ts" setup>
 import { IBadgesProps } from './interface';
-import { BadgesType } from './enum';
+import { BadgesTypeEnum } from './enum';
 import { onMounted, computed, reactive } from 'vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {
-  type: BadgesType.default,
+  type: BadgesTypeEnum.default,
   choosed: false,
   disabled: false
 });
@@ -32,12 +32,12 @@ const isChoosen = () => {
 
 const classes = computed(() => ({
   base: true,
-  default: props.type === BadgesType.default,
-  blue: props.type === BadgesType.blue,
-  green: props.type === BadgesType.green,
-  orange: props.type === BadgesType.orange,
-  red: props.type === BadgesType.red,
-  pink: props.type === BadgesType.pink,
+  default: props.type === BadgesTypeEnum.default,
+  blue: props.type === BadgesTypeEnum.blue,
+  green: props.type === BadgesTypeEnum.green,
+  orange: props.type === BadgesTypeEnum.orange,
+  red: props.type === BadgesTypeEnum.red,
+  pink: props.type === BadgesTypeEnum.pink,
   choosed: state.choosed
 }));
 

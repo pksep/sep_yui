@@ -9,7 +9,7 @@
 
       <Badges
         :disabled="true"
-        :type="getChoosen[0]?.type"
+        :type="badgesTypeEnum[0]"
         :text="getChoosen[0]?.value"
         :style="'margin:0 3px;'"
       />
@@ -27,13 +27,17 @@
               v-for="(item, inx) in getChoosen"
               :key="inx"
             >
-              <Badges :type="item.type" :disabled="true" :text="item.value" />
+              <Badges
+                :type="badgesTypeEnum[inx]"
+                :disabled="true"
+                :text="item.value"
+              />
             </li>
           </ul>
         </div>
       </div>
       <button type="button" class="filter__close" @click.stop="clearFilter">
-        <Icon :name="'exitBig'" />
+        <Icon :name="IconNameEnum.exitBig" />
       </button>
     </div>
 
@@ -47,17 +51,14 @@
           <Badges
             :disabled="true"
             :choosed="item.choose"
-            :type="item.type"
+            :type="badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
             v-if="item.choose"
           />
         </li>
       </ul>
-      <Search
-        v-if="props.searchable"
-        @enter="e => (state.searchString = e.trim())"
-      />
+      <Search v-if="props.searchable" @enter="updateSearchString" />
       <ul class="filter__select-list" v-if="state.isShow && !props.searchable">
         <li
           class="filter__select-item"
@@ -68,7 +69,7 @@
           <Badges
             :disabled="true"
             :choosed="item.choose"
-            :type="item.type"
+            :type="badgesTypeEnum[inx]"
             :text="item.value"
             @click="toogleChoosed(item)"
             v-if="!item.choose"
@@ -94,9 +95,10 @@
 <script lang="ts" setup>
 import { computed, onMounted, reactive } from 'vue';
 import { IFilterOption, IFilterProps, IStateItem } from './interface';
-import Badges from '@/components/Badges/Badges';
-import Search from '@/components/Search/Search';
-import Icon from '@/components/Icon/Icon';
+import Badges from '@/components/Badges/Badges.vue';
+import { BadgesTypeEnum } from '@/components/Badges/enum';
+import Search from '@/components/Search/Search.vue';
+import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum';
 import { isArray } from 'lodash';
 
@@ -113,14 +115,12 @@ const state = reactive({
   searchItems: []
 });
 
-const toggleShow = () => (state.isShow = !state.isShow);
-
-const setSearchItem = e => {
-  if (!state.searchItems.includes(e)) {
-    state.searchItems.push(e);
-  }
-  console.log(state.searchItems, 'searchItems');
+const badgesTypeEnum = Object.values(BadgesTypeEnum);
+const updateSearchString = (value: string) => {
+  state.searchString = value.trim();
 };
+
+const toggleShow = () => (state.isShow = !state.isShow);
 
 const clearFilter = (e: Event) => {
   e.stopPropagation();
@@ -177,17 +177,19 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
 };
 
 onMounted(() => {
-  state.options = props.options.map((item: IFilterOption, inx: number) => {
-    const newItem = {
-      value: typeof item === 'string' ? item : item.value,
-      type: typeof item === 'string' ? 'blue' : item.type,
-      choose: false
-    };
+  state.options = props.options.map(
+    (item: string | IFilterOption, inx: number) => {
+      const newItem = {
+        value: typeof item === 'string' ? item : item.value,
+        type: typeof item === 'string' ? 'blue' : item.type,
+        choose: false
+      };
 
-    setDefaultChoosen(newItem, inx);
+      setDefaultChoosen(newItem, inx);
 
-    return newItem;
-  }) as IStateItem[];
+      return newItem;
+    }
+  ) as IStateItem[];
 });
 </script>
 

@@ -8,7 +8,7 @@
         :placeholder="props.placeholder"
         @keydown.enter="changeSearch"
       />
-      <Icon name="searchNormal" />
+      <Icon :name="IconNameEnum.searchNormal" />
     </div>
 
     <div class="search__history history" v-if="props.showHistory">
@@ -29,7 +29,7 @@
           <span @click="() => choosePost(item)">
             {{ item.length > 33 ? item.slice(0, 30) + '...' : item }}</span
           ><button type="button" @click="removeItem(item)">
-            <Icon name="exitSmall" />
+            <Icon :name="IconNameEnum.exitSmall" />
           </button>
         </li>
       </ul>
@@ -41,7 +41,8 @@
 import { onMounted, reactive, computed } from 'vue';
 import { ISearchProps } from './interface';
 import { useSearchStore } from '../../stores/search';
-import Icon from './../Icon/Icon';
+import { IconNameEnum } from '../Icon/enum';
+import Icon from './../Icon/Icon.vue';
 
 const searchStore = useSearchStore();
 
@@ -69,9 +70,7 @@ const classes = computed(() => ({
     state.getHistorySearch.length >= 5 && state.isShowList
 }));
 
-const choosePost = value => {
-  state.searchValue = value;
-};
+const choosePost = (value: string): string => (state.searchValue = value);
 
 const showHistoryClickHandler = () => {
   state.isShowList = !state.isShowList;
