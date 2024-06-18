@@ -6,13 +6,6 @@
     <Badges :type="BadgesType.red" choosed :text="'Отгружено'" />
     <Badges :type="BadgesType.orange" choosed :text="'Покупатели'" />
     <Badges :type="BadgesType.pink' choosed :text="'Ожидает'" /> -->
-  <div style="padding: 0 20px 400px 20px">
-    <h1 class="text">Badges</h1>
-    <Badges :type="BadgesType.default" :text="'Все'" />
-    <Badges :type="BadgesType.blue" :text="'Удалено'" />
-    <Badges :type="BadgesType.red" choosed :text="'Отгружено'" />
-    <Badges :type="BadgesType.orange" choosed :text="'Покупатели'" />
-    <Badges :type="BadgesType.pink" choosed :text="'Ожидает'" />
 
     <h1 class="text">Filter</h1>
     <Filter :options="badgesItems" :title="'Статус'" :multiselect="true" />
