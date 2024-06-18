@@ -4,7 +4,14 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: ['eslint:recommended', 'plugin:vue/vue3-essential', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-essential',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:storybook/recommended',
+    '@vue/eslint-config-typescript/recommended'
+  ],
   overrides: [
     {
       env: {
@@ -18,9 +25,10 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    parser: '@typescript-eslint/parser'
   },
-  plugins: ['vue', 'prettier'],
+  plugins: ['vue', '@typescript-eslint', 'prettier'],
   rules: {
     'no-unsafe-optional-chaining': 'off',
     'vue/multi-word-component-names': 'off',

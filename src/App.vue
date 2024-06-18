@@ -99,7 +99,7 @@ const badgesItems = [
   }
 ];
 
-let crumbsItems = ref([
+const crumbsItems = ref([
   {
     path: '/assembly',
     title: 'Главная'

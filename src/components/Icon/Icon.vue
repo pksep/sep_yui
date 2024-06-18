@@ -5,7 +5,7 @@
     :height="props.height"
     :style="props.color"
   >
-    <use :href="`#${props.name}`"></use>
+    <use :href="`#${props.name}`" />
   </svg>
 </template>
 
