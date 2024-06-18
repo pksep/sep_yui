@@ -46,14 +46,13 @@
   </ul>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, computed, watch } from 'vue';
+import { onMounted, reactive, computed } from 'vue';
 import {
   IBreadCrumbsItem,
-  BreadCrumbsItem,
   IBreadCrumbsEmit,
   IBreadCrumbsProps
 } from './interface';
-import Icon from './../Icon/Icon';
+import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 
@@ -80,7 +79,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'click', item: IBreadCrumbsItem): IBreadCrumbsEmit;
+  (e: 'click', item: IBreadCrumbsEmit): void;
 }>();
 
 const MAX_SYMBOLS = 15;

@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
 import { ISliderProps } from './interface';
-import Icon from './../Icon/Icon';
+import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 

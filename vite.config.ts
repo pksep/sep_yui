@@ -7,8 +7,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/components/index.ts'),
-      name: 'npo-sep-ui',
-      fileName: format => `npo-sep-ui.${format}.ts`
+      name: 'sep-yui',
+      fileName: format => `sep-yui.${format}.ts`
     },
     rollupOptions: {
       external: ['vue'],
