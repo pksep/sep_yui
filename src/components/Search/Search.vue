@@ -7,6 +7,7 @@
         v-model="state.searchValue"
         :placeholder="props.placeholder"
         @keydown.enter="changeSearch"
+        @input="changeSearchValue"
       />
       <Icon :name="IconNameEnum.searchNormal" />
     </div>
@@ -53,6 +54,7 @@ const props = withDefaults(defineProps<ISearchProps>(), {
 
 const emit = defineEmits<{
   (e: 'enter', value: string): void;
+  (e: 'change', value: string): void;
 }>();
 
 const state = reactive({
@@ -80,6 +82,9 @@ const showHistoryClickHandler = () => {
 const changeSearch = () => {
   emit('enter', state.searchValue);
   if (props.showHistory) searchStore.addHistorySearch(state.searchValue.trim());
+};
+const changeSearchValue = () => {
+  emit('input', state.searchValue);
 };
 
 const hidehistory = () => {

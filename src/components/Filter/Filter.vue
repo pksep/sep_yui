@@ -4,11 +4,18 @@
     <div :class="classesFilter" @click="toggleShow">
       <Icon :name="props.iconName" />
       <span>{{ props.title }}</span>
-
       <Badges
         :disabled="true"
-        :type="getChoosen[0]?.type"
-        :text="getChoosen[0]?.value"
+        :type="
+          getChoosen.length <= 1 && props.searchable
+            ? getChoosen.type == BadgesTypeEnum.default
+            : getChoosen[0]?.type
+        "
+        :text="
+          getChoosen.length > 1 && props.searchable
+            ? getChoosen[1]?.value
+            : getChoosen[0]?.value
+        "
         :style="'margin:0 3px;'"
       />
       <div :class="classes">
@@ -72,7 +79,7 @@
       <Search
         v-if="props.searchable"
         @enter="updateSearchString"
-        :showHistory="false"
+        @input="changeUpdateSearchString"
       />
       <!-- фильтр со статусом без поиска -->
       <ul class="filter__select-list" v-if="state.isShow && !props.searchable">
@@ -138,10 +145,21 @@ const emit = defineEmits<{
   (e: 'scroll', value: string): void;
 }>();
 
+const status = () =>
+  getChoosen.length <= 2 && props.searchable
+    ? getChoosen[0]?.value
+    : getChoosen[1]?.value;
+
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
 
 const updateSearchString = (value: string) => {
   state.searchString = value.trim();
+};
+
+const changeUpdateSearchString = (value: string) => {
+  setTimeout(() => {
+    state.searchString = value.trim();
+  }, 1000);
 };
 
 const toggleShow = () => (state.isShow = !state.isShow);
@@ -217,6 +235,7 @@ const hidefilters = () => {
     state.searchString = false;
   }
 };
+
 const classes = computed(() => ({
   filter__counter: true,
   counter: true,
@@ -227,7 +246,7 @@ const classesList = computed(() => ({
   'filter__select-list': true,
   selected: true,
   'selected--search': props.searchable,
-  'border-none': props.searchable && getChoosen.length > 0
+  'border-none': props.searchable && getChoosen.length > 1
 }));
 
 const classesFilter = computed(() => ({
@@ -253,6 +272,10 @@ onMounted(() => {
       };
 
       setDefaultChoosen(newItem, inx);
+
+      if (props.searchable && newItem.type === BadgesTypeEnum.default) {
+        newItem.value = 'Не выбрано';
+      }
 
       return newItem;
     }
