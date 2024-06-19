@@ -1,15 +1,13 @@
 <template>
   <div class="filter">
-    <div
-      :class="{ filter__wrapper: true, active: state.isShow }"
-      @click="toggleShow"
-    >
+    <!-- основная плашка с статусом и иконкой -->
+    <div :class="classesFilter" @click="toggleShow">
       <Icon :name="props.iconName" />
       <span>{{ props.title }}</span>
 
       <Badges
         :disabled="true"
-        :type="badgesTypeEnum[0]"
+        :type="getChoosen[0]?.type"
         :text="getChoosen[0]?.value"
         :style="'margin:0 3px;'"
       />
@@ -50,6 +48,7 @@
       v-if="state.isShow"
       @mouseleave="hidefilters"
     >
+      <!-- список выбранных фильтров -->
       <ul :class="classesList">
         <li
           class="filter__select-item"
@@ -62,11 +61,20 @@
             :type="props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
-            v-if="item.choose"
+            v-if="
+              props.searchable
+                ? item.type != BadgesTypeEnum.default
+                : item.choose
+            "
           />
         </li>
       </ul>
-      <Search v-if="props.searchable" @enter="updateSearchString" />
+      <Search
+        v-if="props.searchable"
+        @enter="updateSearchString"
+        :showHistory="false"
+      />
+      <!-- фильтр со статусом без поиска -->
       <ul class="filter__select-list" v-if="state.isShow && !props.searchable">
         <li
           class="filter__select-item"
@@ -84,9 +92,11 @@
           />
         </li>
       </ul>
+      <!-- фильтр если есть тип с поиском -->
       <ul
         class="filter__select-list filter__select-list--search"
         v-if="state.isShow && props.searchable"
+        @scroll="handleScroll"
       >
         <li
           class="filter__select-item"
@@ -124,6 +134,10 @@ const state = reactive({
   searchItems: []
 });
 
+const emit = defineEmits<{
+  (e: 'scroll', value: string): void;
+}>();
+
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
 
 const updateSearchString = (value: string) => {
@@ -140,17 +154,28 @@ const clearFilter = (e: Event) => {
   state.isShow = false;
 };
 
-const getChoosen = computed(() =>
-  state.options.filter((el: IStateItem) => el.choose)
-);
+const getChoosen = computed(() => {
+  return state.options.filter((el: IStateItem) => {
+    if (props.searchable && el.type != badgesTypeEnum.default) {
+      return el.choose;
+    } else {
+      return el.choose;
+    }
+  });
+});
 
 const getNotChoosen = computed(() =>
   state.options.filter((el: IStateItem) => {
     let strCondition = true;
     if (state.searchString) {
-      strCondition =
-        el.value.slice(0, el.value.length).toLowerCase() ===
-        el.value.toLowerCase();
+      strCondition = el.value
+        .toLowerCase()
+        .includes(state.searchString.toLowerCase());
+
+      if (strCondition) {
+        console.log(el.value, 'el.value');
+        return el;
+      }
     }
     return !el.choose && strCondition;
   })
@@ -186,8 +211,12 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
   } else el.choose = inx === 0 ? true : false;
 };
 
-const hidefilters = () => (state.isShow = false);
-
+const hidefilters = () => {
+  state.isShow = false;
+  if (state.searchString) {
+    state.searchString = false;
+  }
+};
 const classes = computed(() => ({
   filter__counter: true,
   counter: true,
@@ -197,8 +226,22 @@ const classes = computed(() => ({
 const classesList = computed(() => ({
   'filter__select-list': true,
   selected: true,
-  'selected--search': props.searchable
+  'selected--search': props.searchable,
+  'border-none': props.searchable && getChoosen.length > 0
 }));
+
+const classesFilter = computed(() => ({
+  filter__wrapper: true,
+  active: state.isShow,
+  'filter--search': props.searchable
+}));
+
+const handleScroll = (event: Event) => {
+  const target = event.target as HTMLElement;
+  if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+    emit('scroll', true);
+  }
+};
 
 onMounted(() => {
   state.options = props.options.map(
@@ -259,7 +302,7 @@ onMounted(() => {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
-    width: 100%;
+    width: 326px;
   }
 
   &__select-list {
@@ -356,5 +399,9 @@ onMounted(() => {
       z-index: 33;
     }
   }
+}
+
+.border-none {
+  border: none;
 }
 </style>

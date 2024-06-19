@@ -15,6 +15,7 @@
       :title="'Покупатели'"
       :multiselect="true"
       :searchable="true"
+      @scroll="e => console.log(e, 'e')"
     />
     <!-- <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
