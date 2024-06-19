@@ -1,5 +1,5 @@
 <template>
-  <div class="search" @mouseleave="hidehistory">
+  <div class="search" @mousemove="showhistory" @mouseleave="hidehistory">
     <div class="search__icon-wrapper">
       <input
         type="text"
@@ -84,7 +84,12 @@ const changeSearch = () => {
 
 const hidehistory = () => {
   state.isShowList = false;
+  state.isShowButtonHistory = false;
+};
+
+const showhistory = () => {
   state.isShowButtonHistory = true;
+  if (!state.isShowButtonHistory) state.isShowList = true;
 };
 
 const removeItem = (item: string) => {

@@ -13,27 +13,31 @@
         :text="getChoosen[0]?.value"
         :style="'margin:0 3px;'"
       />
-      <div class="filter__counter counter">
+      <div :class="classes">
         <span class="counter__value" v-if="getChoosen.length > 1"
           >{{ '+' + getChoosen.length }}
         </span>
         <div class="counter__list">
-          <ul
-            class="filter__select-list select-counter"
-            :style="'padding: 2px; gap: 15px'"
-          >
-            <li
-              class="filter__select-item"
-              v-for="(item, inx) in getChoosen"
-              :key="inx"
+          <div class="counter__list-wrapper">
+            <ul
+              class="filter__select-list select-counter"
+              :style="'padding: 2px; gap: 2px'"
             >
-              <Badges
-                :type="badgesTypeEnum[inx]"
-                :disabled="true"
-                :text="item.value"
-              />
-            </li>
-          </ul>
+              <li
+                class="filter__select-item"
+                v-for="(item, inx) in getChoosen"
+                :key="inx"
+              >
+                <Badges
+                  :type="
+                    props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]
+                  "
+                  :disabled="true"
+                  :text="item.value"
+                />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <button type="button" class="filter__close" @click.stop="clearFilter">
@@ -41,8 +45,12 @@
       </button>
     </div>
 
-    <div class="filter__select-wrapper" v-if="state.isShow">
-      <ul class="filter__select-list selected">
+    <div
+      class="filter__select-wrapper"
+      v-if="state.isShow"
+      @mouseleave="hidefilters"
+    >
+      <ul :class="classesList">
         <li
           class="filter__select-item"
           v-for="(item, inx) in getChoosen"
@@ -51,7 +59,7 @@
           <Badges
             :disabled="true"
             :choosed="item.choose"
-            :type="badgesTypeEnum[inx]"
+            :type="props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
             v-if="item.choose"
@@ -84,6 +92,7 @@
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
           :key="inx"
+          @click="toogleChoosed(item)"
         >
           {{ item.value }}
         </li>
@@ -116,6 +125,7 @@ const state = reactive({
 });
 
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
+
 const updateSearchString = (value: string) => {
   state.searchString = value.trim();
 };
@@ -157,9 +167,9 @@ const toogleChoosed = (item: IStateItem) => {
   }
 
   if (!getChoosen.value.length) {
-    state.options.forEach((el: IStateItem, inx: number) =>
-      setDefaultChoosen(el, inx)
-    );
+    state.options.forEach((el: IStateItem, inx: number) => {
+      setDefaultChoosen(el, inx);
+    });
   }
 };
 
@@ -175,6 +185,20 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
     // По умолчанию, если дефолтное значение не передано - отображаем первый элемент
   } else el.choose = inx === 0 ? true : false;
 };
+
+const hidefilters = () => (state.isShow = false);
+
+const classes = computed(() => ({
+  filter__counter: true,
+  counter: true,
+  'counter--search': props.searchable
+}));
+
+const classesList = computed(() => ({
+  'filter__select-list': true,
+  selected: true,
+  'selected--search': props.searchable
+}));
 
 onMounted(() => {
   state.options = props.options.map(
@@ -235,6 +259,7 @@ onMounted(() => {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
   }
 
   &__select-list {
@@ -255,10 +280,6 @@ onMounted(() => {
       background-color: $white;
       border-radius: 10px;
       box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
-
-      .filter__select-item:not(:first-of-type) {
-        margin-left: -12px;
-      }
     }
 
     &--search {
@@ -294,6 +315,12 @@ onMounted(() => {
     opacity: 0;
     display: none;
   }
+
+  &__list-wrapper {
+    width: 187px;
+    position: absolute;
+  }
+
   &:hover {
     .counter__list {
       opacity: 1;
@@ -303,10 +330,30 @@ onMounted(() => {
         display: flex;
         position: absolute;
         justify-content: flex-start;
-
+        flex-wrap: wrap;
         top: -30px;
         width: auto;
       }
+    }
+  }
+
+  &--search {
+    .filter__select-item {
+      width: max-content;
+    }
+
+    .base {
+      max-width: 187px;
+
+      span.badges-text {
+        color: $blue-407BFF;
+      }
+    }
+
+    &:hover .counter__list .filter__select-list {
+      display: flex;
+      top: 15px;
+      z-index: 33;
     }
   }
 }

@@ -1,0 +1,13 @@
+.counter--search,
+.selected--search {
+  .base span.badges-text {
+    color: $blue-407BFF;
+    background-color: $blue-D6E4FF;
+  }
+}
+
+.counter--search {
+  .filter__select-list {
+    flex-wrap: wrap;
+  }
+}

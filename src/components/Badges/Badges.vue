@@ -1,6 +1,6 @@
 <template>
   <div :class="classes" @click="isChoosen">
-    <span>
+    <span class="badges-text">
       {{ props.text }}
     </span>
   </div>
@@ -48,7 +48,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .base {
-  // padding: 4px 5px;
   border-radius: 5px;
   max-width: fit-content;
   cursor: pointer;

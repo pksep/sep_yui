@@ -1,11 +1,11 @@
 <template>
   <div style="padding: 0 20px 400px 20px; background-color: black">
-    <h1 class="text">Badges</h1>
+    <!-- <h1 class="text">Badges</h1>
     <Badges :type="BadgesTypeEnum.default" :text="'Все'" />
     <Badges :type="BadgesTypeEnum.blue" :text="'Удалено'" />
     <Badges :type="BadgesTypeEnum.red" choosed :text="'Отгружено'" />
     <Badges :type="BadgesTypeEnum.orange" choosed :text="'Покупатели'" />
-    <Badges :type="BadgesTypeEnum.pink" choosed :text="'Ожидает'" />
+    <Badges :type="BadgesTypeEnum.pink" choosed :text="'Ожидает'" /> -->
 
     <h1 class="text">Filter</h1>
     <Filter :options="badgesItems" :title="'Статус'" :multiselect="true" />
@@ -16,7 +16,7 @@
       :multiselect="true"
       :searchable="true"
     />
-    <h1 class="text">Button</h1>
+    <!-- <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
       <Button :size="SizesEnum.small" :type="ButtonType.ghost"
         >Small Button</Button
@@ -62,7 +62,7 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <Table />
+    <Table /> -->
   </div>
 </template>
 
@@ -111,6 +111,14 @@ const badgesItems = [
   {
     value: 'Отгружено',
     type: BadgesTypeEnum.red
+  },
+  {
+    value: 'Отгружено1',
+    type: BadgesTypeEnum.red
+  },
+  {
+    value: 'Отгружено2',
+    type: BadgesTypeEnum.red
   }
 ];
 const badgesItemsSeach = [
@@ -119,27 +127,27 @@ const badgesItemsSeach = [
     type: BadgesTypeEnum.default
   },
   {
-    value: 'Иванов Иван Сергеевич',
+    value: 'Иванов И.С',
     type: BadgesTypeEnum.blue
   },
   {
-    value: 'Синев Ипполит Анатольевич',
+    value: 'Синев И.А',
     type: BadgesTypeEnum.blue
   },
   {
-    value: 'Цаплева Евгений Константинович',
+    value: 'Цаплева Е.К',
     type: BadgesTypeEnum.blue
   },
   {
-    value: 'Иванов Иван Сергеевич',
+    value: 'Иванов И.С',
     type: BadgesTypeEnum.blue
   },
   {
-    value: 'Синев Ипполит Анатольевич',
+    value: 'Синев И.А',
     type: BadgesTypeEnum.blue
   },
   {
-    value: 'Цаплева Евгений Константинович',
+    value: 'Цаплева Е.К',
     type: BadgesTypeEnum.blue
   }
 ];

@@ -4,10 +4,6 @@
   position: relative;
   width: 100%;
 
-  &:not(:hover) .history {
-    display: none;
-  }
-
   &:hover .history {
     display: grid;
   }
@@ -71,6 +67,7 @@
   outline: none;
   background-color: $white;
   border-radius: 5px;
+  display: none;
 
   &__button-text {
     position: absolute;
