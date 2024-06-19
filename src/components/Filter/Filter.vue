@@ -283,7 +283,7 @@ onMounted(() => {
     }
 
     &--search {
-      height: 150px;
+      max-height: 150px;
       overflow-y: scroll;
 
       .filter__select-item {

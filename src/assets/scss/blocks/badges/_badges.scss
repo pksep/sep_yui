@@ -11,3 +11,8 @@
     flex-wrap: wrap;
   }
 }
+
+.filter__select-list.selected.selected--search {
+  display: flex;
+  flex-wrap: wrap;
+}
