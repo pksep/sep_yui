@@ -6,16 +6,8 @@
       <span>{{ props.title }}</span>
       <Badges
         :disabled="true"
-        :type="
-          getChoosen.length <= 1 && props.searchable
-            ? getChoosen.type == BadgesTypeEnum.default
-            : getChoosen[0]?.type
-        "
-        :text="
-          getChoosen.length > 1 && props.searchable
-            ? getChoosen[1]?.value
-            : getChoosen[0]?.value
-        "
+        :type="computedBadgeType"
+        :text="computedBadgeText"
         :style="'margin:0 3px;'"
       />
       <div :class="classes">
@@ -259,6 +251,24 @@ const handleScroll = (event: Event) => {
     emit('scroll', true);
   }
 };
+
+const computedBadgeType = computed(() => {
+  if (getChoosen.value.length <= 1 && props.searchable) {
+    return getChoosen.value[0]?.type === BadgesTypeEnum.default
+      ? undefined
+      : getChoosen.value[0]?.type;
+  } else {
+    return getChoosen.value[0]?.type;
+  }
+});
+
+const computedBadgeText = computed(() => {
+  if (getChoosen.value.length > 1 && props.searchable) {
+    return getChoosen.value[1]?.value;
+  } else {
+    return getChoosen.value[0]?.value;
+  }
+});
 
 onMounted(() => {
   state.options = props.options.map(
