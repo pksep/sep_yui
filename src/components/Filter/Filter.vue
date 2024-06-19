@@ -146,11 +146,6 @@ const emit = defineEmits<{
   (e: 'scroll', value: string): void;
 }>();
 
-const status = () =>
-  getChoosen.length <= 2 && props.searchable
-    ? getChoosen[0]?.value
-    : getChoosen[1]?.value;
-
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
 
 const updateSearchString = (value: string) => {
@@ -174,23 +169,16 @@ const clearFilter = (e: Event) => {
 };
 
 const getChoosen = computed(() => {
-  return state.options.filter((el: IStateItem) => {
-    if (props.searchable && el.type === badgesTypeEnum.default) {
-      return false;
-    }
-    return el.choose;
-  });
-});
+  let options = state.options.filter((el: IStateItem) => el.choose);
 
-// const getChoosen = computed(() => {
-//   return state.options.filter((el: IStateItem) => {
-//     if (props.searchable && el.type != badgesTypeEnum.default) {
-//       return el.choose;
-//     } else {
-//       return el.choose;
-//     }
-//   });
-// });
+  if (props.searchable && options.length > 1) {
+    options = options.filter(
+      (el: IStateItem) => el.type !== BadgesTypeEnum.default
+    );
+  }
+
+  return options;
+});
 
 const getNotChoosen = computed(() =>
   state.options.filter((el: IStateItem) => {
