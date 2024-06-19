@@ -80,6 +80,7 @@
         v-if="props.searchable"
         @enter="updateSearchString"
         @input="changeUpdateSearchString"
+        style="margin: 5px 0"
       />
       <!-- фильтр со статусом без поиска -->
       <ul class="filter__select-list" v-if="state.isShow && !props.searchable">
@@ -158,7 +159,7 @@ const updateSearchString = (value: string) => {
 
 const changeUpdateSearchString = (value: string) => {
   setTimeout(() => {
-    state.searchString = value.trim();
+    state.searchString = value;
   }, 1000);
 };
 
@@ -174,13 +175,22 @@ const clearFilter = (e: Event) => {
 
 const getChoosen = computed(() => {
   return state.options.filter((el: IStateItem) => {
-    if (props.searchable && el.type != badgesTypeEnum.default) {
-      return el.choose;
-    } else {
-      return el.choose;
+    if (props.searchable && el.type === badgesTypeEnum.default) {
+      return false;
     }
+    return el.choose;
   });
 });
+
+// const getChoosen = computed(() => {
+//   return state.options.filter((el: IStateItem) => {
+//     if (props.searchable && el.type != badgesTypeEnum.default) {
+//       return el.choose;
+//     } else {
+//       return el.choose;
+//     }
+//   });
+// });
 
 const getNotChoosen = computed(() =>
   state.options.filter((el: IStateItem) => {
@@ -246,7 +256,7 @@ const classesList = computed(() => ({
   'filter__select-list': true,
   selected: true,
   'selected--search': props.searchable,
-  'border-none': props.searchable && getChoosen.length > 1
+  'border-none': props.searchable && getChoosen.value.length < 2
 }));
 
 const classesFilter = computed(() => ({
@@ -276,7 +286,7 @@ onMounted(() => {
       if (props.searchable && newItem.type === BadgesTypeEnum.default) {
         newItem.value = 'Не выбрано';
       }
-
+      console.log(getChoosen.value.length, 'choosen');
       return newItem;
     }
   ) as IStateItem[];
@@ -424,7 +434,7 @@ onMounted(() => {
   }
 }
 
-.border-none {
-  border: none;
+ul.filter__select-list.selected.border-none {
+  border-bottom: none;
 }
 </style>
