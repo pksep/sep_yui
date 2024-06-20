@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<ISearchProps>(), {
 
 const emit = defineEmits<{
   (e: 'enter', value: string): void;
-  (e: 'change', value: string): void;
+  (e: 'input', value: string): void;
 }>();
 
 const state = reactive({

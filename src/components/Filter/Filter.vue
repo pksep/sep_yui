@@ -112,7 +112,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive, ComputedRef } from 'vue';
 import { IFilterOption, IFilterProps, IStateItem } from './interface';
 import Badges from '@/components/Badges/Badges.vue';
 import { BadgesTypeEnum } from '@/components/Badges/enum';
@@ -135,7 +135,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'scroll', value: string): void;
+  (e: 'scroll', value: boolean): void;
 }>();
 
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
@@ -181,7 +181,6 @@ const getNotChoosen = computed(() =>
         .includes(state.searchString.toLowerCase());
 
       if (strCondition) {
-        console.log(el.value, 'el.value');
         return el;
       }
     }
@@ -222,7 +221,7 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
 const hidefilters = () => {
   state.isShow = false;
   if (state.searchString) {
-    state.searchString = false;
+    state.searchString = '';
   }
 };
 
@@ -252,17 +251,19 @@ const handleScroll = (event: Event) => {
   }
 };
 
-const computedBadgeType = computed(() => {
-  if (getChoosen.value.length <= 1 && props.searchable) {
-    return getChoosen.value[0]?.type === BadgesTypeEnum.default
-      ? undefined
-      : getChoosen.value[0]?.type;
-  } else {
-    return getChoosen.value[0]?.type;
+const computedBadgeType: ComputedRef<BadgesTypeEnum | undefined> = computed(
+  () => {
+    if (getChoosen.value.length <= 1 && props.searchable) {
+      return getChoosen.value[0]?.type === BadgesTypeEnum.default
+        ? undefined
+        : (getChoosen.value[0]?.type as BadgesTypeEnum);
+    } else {
+      return getChoosen.value[0]?.type as BadgesTypeEnum;
+    }
   }
-});
+);
 
-const computedBadgeText = computed(() => {
+const computedBadgeText: ComputedRef<string> = computed(() => {
   if (getChoosen.value.length > 1 && props.searchable) {
     return getChoosen.value[1]?.value;
   } else {
