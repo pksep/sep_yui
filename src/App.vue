@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 0 20px 400px 20px">
-    <h1 class="text">Dropdown</h1>
+    <!-- <h1 class="text">Dropdown</h1>
     <div style="width: 200px">
       <Dropdown :options="optionsItems" />
     </div>
@@ -67,7 +67,16 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <Table />
+    <Table /> -->
+    <div style="width: 200px">
+      <Search
+        :searchOfBase="true"
+        :showHistory="false"
+        :options="optionsBase"
+      />
+      <br />
+      <Search :searchOfBase="false" :showHistory="false" />
+    </div>
   </div>
 </template>
 
@@ -204,6 +213,14 @@ const optionsItems = [
   'Option2MainOptionMainOption',
   'Option3',
   'Option4'
+];
+
+const optionsBase = [
+  'База деталей',
+  'База материалов',
+  'База оборудования',
+  'База сборочных единиц',
+  'База инструментов'
 ];
 
 const iconNames = computed(() => Object.values(IconNameEnum) as IconNameEnum[]);

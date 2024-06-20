@@ -1,17 +1,23 @@
 <template>
   <div class="search" @mousemove="showhistory" @mouseleave="hidehistory">
     <div class="search__icon-wrapper">
-      <input
-        type="text"
-        class="search__input"
-        v-model="state.searchValue"
-        :placeholder="props.placeholder"
-        @keydown.enter="changeSearch"
-        @input="changeSearchValue"
+      <Dropdown
+        v-if="props.searchOfBase && props.options"
+        :options="props.options"
+        @click="value => getValueOption(value)"
       />
-      <Icon :name="IconNameEnum.searchNormal" />
+      <div class="search__dropdown">
+        <input
+          type="text"
+          class="search__input"
+          v-model="state.searchValue"
+          :placeholder="props.placeholder"
+          @keydown.enter="changeSearch"
+          @input="changeSearchValue"
+        />
+        <Icon :name="IconNameEnum.searchNormal" />
+      </div>
     </div>
-
     <div class="search__history history" v-if="props.showHistory">
       <button
         type="button"
@@ -21,6 +27,7 @@
       >
         Просмотреть историю запросов
       </button>
+
       <ul :class="classes">
         <li
           class="history__item"
@@ -44,12 +51,14 @@ import { ISearchProps } from './interface';
 import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
+import Dropdown from './../Dropdown/Dropdown.vue';
 
 const searchStore = useSearchStore();
 
 const props = withDefaults(defineProps<ISearchProps>(), {
   showHistory: true,
-  placeholder: 'Поиск'
+  placeholder: 'Поиск',
+  options: []
 });
 
 const emit = defineEmits<{
@@ -71,6 +80,11 @@ const classes = computed(() => ({
   'history__list--scroll':
     state.getHistorySearch.length >= 5 && state.isShowList
 }));
+
+const getValueOption = (value: string) => {
+  state.choosenOption = value;
+  state.searchValue = value + '/';
+};
 
 const choosePost = (value: string): string => (state.searchValue = value);
 
@@ -103,6 +117,7 @@ const removeItem = (item: string) => {
 
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
+  if (props.searchOfBase) state.searchValue = props.options[0];
 });
 </script>
 
