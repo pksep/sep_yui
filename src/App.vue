@@ -68,7 +68,7 @@
       <Slider :items="files" />
     </div>
     <Table /> -->
-    <div style="width: 200px">
+    <div style="width: 250px">
       <Search
         :searchOfBase="true"
         :showHistory="false"

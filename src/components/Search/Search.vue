@@ -1,6 +1,6 @@
 <template>
   <div class="search" @mousemove="showhistory" @mouseleave="hidehistory">
-    <div class="search__icon-wrapper">
+    <div :class="classesDropdown">
       <Dropdown
         v-if="props.searchOfBase && props.options"
         :options="props.options"
@@ -81,6 +81,11 @@ const classes = computed(() => ({
     state.getHistorySearch.length >= 5 && state.isShowList
 }));
 
+const classesDropdown = computed(() => ({
+  'search__icon-wrapper': true,
+  'search-dropdown': props.searchOfBase
+}));
+
 const getValueOption = (value: string) => {
   state.choosenOption = value;
   state.searchValue = value + '/';
@@ -129,6 +134,7 @@ onMounted(() => {
     &:focus,
     &:focus-visible,
     &:active {
+      background-color: $white;
       & + svg {
         display: none;
       }
