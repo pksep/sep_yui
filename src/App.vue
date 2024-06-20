@@ -1,6 +1,11 @@
 <template>
-  <div style="padding: 0 20px 400px 20px; background-color: black">
-    <h1 class="text">Badges</h1>
+  <div style="padding: 0 20px 400px 20px">
+    <h1 class="text">Dropdown</h1>
+    <div style="width: 600px">
+      <!-- <Dropdown :options="optionsItems" /> -->
+      <Table />
+    </div>
+    <!-- <h1 class="text">Badges</h1>
     <Badges :type="BadgesTypeEnum.default" :text="'Все'" />
     <Badges :type="BadgesTypeEnum.blue" :text="'Удалено'" />
     <Badges :type="BadgesTypeEnum.red" choosed :text="'Отгружено'" />
@@ -63,7 +68,7 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <Table />
+    <Table /> -->
   </div>
 </template>
 
@@ -77,6 +82,7 @@ import Switch from '@/components/Switch/Switch.vue';
 import Search from '@/components/Search/Search.vue';
 import Slider from '@/components/Slider/Slider.vue';
 import Table from '@/components/Table/Table.vue';
+import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs.vue';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
@@ -122,6 +128,7 @@ const badgesItems = [
     type: BadgesTypeEnum.red
   }
 ];
+
 const badgesItemsSeach = [
   {
     value: 'Все',
@@ -191,6 +198,14 @@ const crumbsItems = ref([
     title: 'База продавцов'
   }
 ]);
+
+const optionsItems = [
+  'MainOptionMainOptionMainOption',
+  'Option1MainOptionMainOption',
+  'Option2MainOptionMainOption',
+  'Option3',
+  'Option4'
+];
 
 const iconNames = computed(() => Object.values(IconNameEnum) as IconNameEnum[]);
 

@@ -13,7 +13,7 @@
         <th class="table__th">Основание</th>
         <th class="table__th">Покупатель</th>
         <th class="table__th">Ур. комплектации</th>
-        <th class="table__th">Комплектация по остаткам</th>
+        <th class="table__th"><Dropdown :options="optionsItems" /></th>
         <th class="table__th">Готовность к отгрузке в %</th>
         <th class="table__th">Статус</th>
         <th class="table__th">Дата План. отгрузки</th>
@@ -62,13 +62,22 @@
         <td class="table__td">sdf</td>
         <td class="table__td">sdfsdf</td>
         <td class="table__td">sdfsdf</td>
-        <td class="table__td">hghfghfgh</td>
+        <td class="table__td">13123</td>
         <td class="table__td">1212344asdfas</td>
       </tr>
     </table>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Dropdown from '@/components/Dropdown/Dropdown.vue';
+const optionsItems = [
+  'Комплектация по остаткам ',
+  'Option1MainOptionMainOption',
+  'Option2MainOptionMainOption',
+  'Option3',
+  'Option4'
+];
+</script>
 <style lang="scss" scoped>
 .table-wrapper {
   overflow-x: scroll;
