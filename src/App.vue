@@ -1,11 +1,10 @@
 <template>
   <div style="padding: 0 20px 400px 20px">
     <h1 class="text">Dropdown</h1>
-    <div style="width: 600px">
-      <!-- <Dropdown :options="optionsItems" /> -->
-      <Table />
+    <div style="width: 200px">
+      <Dropdown :options="optionsItems" />
     </div>
-    <!-- <h1 class="text">Badges</h1>
+    <h1 class="text">Badges</h1>
     <Badges :type="BadgesTypeEnum.default" :text="'Все'" />
     <Badges :type="BadgesTypeEnum.blue" :text="'Удалено'" />
     <Badges :type="BadgesTypeEnum.red" choosed :text="'Отгружено'" />
@@ -68,7 +67,7 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <Table /> -->
+    <Table />
   </div>
 </template>
 

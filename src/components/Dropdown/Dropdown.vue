@@ -24,7 +24,7 @@ import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {
-  options: []
+  options: () => [] as string[]
 });
 
 const emit = defineEmits<{
@@ -33,7 +33,7 @@ const emit = defineEmits<{
 
 const state = reactive({
   isOpened: false,
-  choosedOption: props.options[0],
+  choosedOption: props.options[0] || '',
   lengthOption: 0
 });
 
@@ -45,7 +45,15 @@ const getChoosenOption = (value: string) => {
 
 const closeOpenList = (e: Event) => {
   state.isOpened = !state.isOpened;
-  e.currentTarget.classList.toggle('active');
+
+  const target = e.currentTarget as HTMLElement | null;
+  if (target) {
+    if (target.classList.contains('active')) {
+      target.classList.remove('active');
+    } else {
+      target.classList.add('active');
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
