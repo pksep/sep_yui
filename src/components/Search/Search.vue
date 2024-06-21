@@ -1,11 +1,6 @@
 <template>
   <div class="search" @mousemove="showhistory" @mouseleave="hidehistory">
     <div :class="classesDropdown">
-      <Dropdown
-        v-if="props.searchOfBase && props.options"
-        :options="props.options"
-        @click="value => getValueOption(value)"
-      />
       <div class="search__dropdown">
         <input
           type="text"
@@ -18,30 +13,19 @@
         <Icon :name="IconNameEnum.searchNormal" />
       </div>
     </div>
-    <div class="search__history history" v-if="props.showHistory">
-      <button
-        type="button"
-        v-if="state.isShowButtonHistory && state.getHistorySearch.length > 0"
-        @click="showHistoryClickHandler"
-        :class="'history__button-text'"
-      >
-        Просмотреть историю запросов
-      </button>
-
-      <ul :class="classes">
-        <li
-          class="history__item"
-          v-for="(item, index) of state.getHistorySearch"
-          :key="index"
-        >
-          <span @click="() => choosePost(item)">
-            {{ item.length > 33 ? item.slice(0, 30) + '...' : item }}</span
-          ><button type="button" @click="removeItem(item)">
-            <Icon :name="IconNameEnum.exitSmall" />
-          </button>
-        </li>
-      </ul>
-    </div>
+    <History
+      :showHistory="props.showHistory"
+      :isShowButtonHistory="state.isShowButtonHistory"
+      :isShowList="state.isShowList"
+      @choosePost="choosePost"
+      v-if="props.showHistory"
+    />
+    <SearchResult
+      :isShowList="state.isShowList"
+      @choosePost="choosePost"
+      v-if="props.global"
+      :getAllResults="state.getAllResults"
+    />
   </div>
 </template>
 
@@ -52,6 +36,8 @@ import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
 import Dropdown from './../Dropdown/Dropdown.vue';
+import History from './History.vue';
+import SearchResult from './SearchResult.vue';
 
 const searchStore = useSearchStore();
 
@@ -61,49 +47,23 @@ const props = withDefaults(defineProps<ISearchProps>(), {
   options: []
 });
 
-const emit = defineEmits<{
-  (e: 'enter', value: string): void;
-  (e: 'input', value: string): void;
-}>();
-
 const state = reactive({
   searchValue: '',
-  isClicked: false,
-  getHistorySearch: computed(() => searchStore.getHistorySearch),
   isShowList: false,
-  isShowButtonHistory: true
+  isShowButtonHistory: true,
+  getAllResults: computed(() => props.getAllResults())
 });
 
-const classes = computed(() => ({
-  history__list: true,
-  'history__list--opened': state.isShowList,
-  'history__list--scroll':
-    state.getHistorySearch.length >= 5 && state.isShowList
-}));
-
 const classesDropdown = computed(() => ({
-  'search__icon-wrapper': true,
-  'search-dropdown': props.searchOfBase
+  'search__icon-wrapper': true
 }));
 
 const getValueOption = (value: string) => {
   state.choosenOption = value;
-  state.searchValue = value + '/';
 };
 
-const choosePost = (value: string): string => (state.searchValue = value);
-
-const showHistoryClickHandler = () => {
-  state.isShowList = !state.isShowList;
-  state.isShowButtonHistory = !state.isShowButtonHistory;
-};
-
-const changeSearch = () => {
-  emit('enter', state.searchValue);
-  if (props.showHistory) searchStore.addHistorySearch(state.searchValue.trim());
-};
-const changeSearchValue = () => {
-  emit('input', state.searchValue);
+const choosePost = (value: string): string => {
+  state.searchValue = value;
 };
 
 const hidehistory = () => {
@@ -116,13 +76,25 @@ const showhistory = () => {
   if (!state.isShowButtonHistory) state.isShowList = true;
 };
 
-const removeItem = (item: string) => {
-  searchStore.removeHistorySearch(item);
+const emit = defineEmits<{
+  (e: 'enter', value: string): void;
+  (e: 'input', value: string): void;
+}>();
+
+const changeSearch = () => {
+  emit('enter', state.searchValue);
+  if (props.showHistory) searchStore.addHistorySearch(state.searchValue.trim());
 };
+
+const changeSearchValue = () => {
+  emit('input', state.searchValue);
+};
+
+// const getAllResults = () => props.getAllResults();
 
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
-  if (props.searchOfBase) state.searchValue = props.options[0];
+  console.log(state.getAllResults, 'search');
 });
 </script>
 

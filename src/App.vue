@@ -68,14 +68,18 @@
       <Slider :items="files" />
     </div>
     <Table /> -->
-    <div style="width: 250px">
+    <div style="width: 354px">
       <Search
         :searchOfBase="true"
         :showHistory="false"
         :options="optionsBase"
       />
       <br />
-      <Search :searchOfBase="false" :showHistory="false" />
+      <Search
+        :global="true"
+        :showHistory="false"
+        :getAllResults="getAllResults"
+      />
     </div>
   </div>
 </template>
@@ -227,6 +231,18 @@ const iconNames = computed(() => Object.values(IconNameEnum) as IconNameEnum[]);
 
 const breadCrumbsSelect = (item: IBreadCrumbsEmit) => {
   crumbsItems.value = crumbsItems.value.slice(0, item.inx);
+};
+
+const getAllResults = () => {
+  const arr = [
+    {
+      icon: 'searchNormal',
+      nameArea: 'Искомая база',
+      searchResult: 'Наименование/Артикул детали'
+    }
+  ];
+
+  return arr;
 };
 </script>
 
