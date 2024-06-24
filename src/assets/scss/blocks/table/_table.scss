@@ -39,4 +39,30 @@ table {
       margin: 0 auto;
     }
   }
+
+  .dropdown {
+    position: relative;
+
+    &__current {
+      background-color: $blue-F2F7FF;
+      margin-bottom: 0;
+
+      &.active {
+        border: none;
+      }
+    }
+
+    &__list {
+      position: absolute;
+      top: 58px;
+      left: 0;
+      border: none;
+
+      font-weight: 400;
+      text-align: left;
+      min-width: 200px;
+
+      border-radius: 0 0 5px 5px;
+    }
+  }
 }
