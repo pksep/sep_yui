@@ -1,7 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Badges from '@/components/Badges/Badges';
 import { StorybookControl } from '../../common/storybook';
-import { BadgesType } from './enum';
+import { BadgesTypeEnum } from './enum';
 import { fn } from '@storybook/test';
 
 const meta = {
@@ -13,8 +13,8 @@ const meta = {
     },
     type: {
       control: { type: StorybookControl.select },
-      options: BadgesType,
-      defaultValue: BadgesType.default
+      options: BadgesTypeEnum,
+      defaultValue: BadgesTypeEnum.default
     },
     choosed: {
       control: { type: StorybookControl.boolean },
@@ -59,24 +59,24 @@ export const Default: StoryFn<typeof Badges> = args => ({
 
 export const BlueBadges = Template.bind({});
 BlueBadges.args = {
-  type: BadgesType.blue,
+  type: BadgesTypeEnum.blue,
   text: 'Удалено'
 };
 
 export const GreenBadges = Template.bind({});
 GreenBadges.args = {
-  type: BadgesType.green,
+  type: BadgesTypeEnum.green,
   text: 'Отгружено'
 };
 
 export const OrangeBadges = Template.bind({});
 OrangeBadges.args = {
-  type: BadgesType.orange,
+  type: BadgesTypeEnum.orange,
   text: 'Заказано'
 };
 
 export const RedBadges = Template.bind({});
 RedBadges.args = {
-  type: BadgesType.red,
+  type: BadgesTypeEnum.red,
   text: 'Просрочено'
 };

@@ -40,25 +40,28 @@
             crumb.title
           }}</span></span
         >
-        <Icon :name="'rightSmall'" v-if="inx !== state.crumbs.length - 1" />
+        <Icon
+          :name="IconNameEnum.rightSmall"
+          v-if="inx !== state.crumbs.length - 1"
+        />
       </div>
     </li>
   </ul>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, computed, watch } from 'vue';
+import { onMounted, reactive, computed } from 'vue';
 import {
   IBreadCrumbsItem,
-  BreadCrumbsItem,
   IBreadCrumbsEmit,
   IBreadCrumbsProps
 } from './interface';
-import Icon from './../Icon/Icon';
+import Icon from './../Icon/Icon.vue';
+import { IconNameEnum } from './../Icon/enum';
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 
 const state = reactive({
-  items: [],
+  items: [] as IBreadCrumbsItem[],
   crumbs: computed(() => {
     const minLength = props.items.length < 4 ? props.items.length - 1 : 3;
     let condition = [props.items[0], ...props.items.slice(-minLength)];
@@ -80,12 +83,12 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'click', item: IBreadCrumbsItem): IBreadCrumbsEmit;
+  (e: 'click', item: IBreadCrumbsEmit): void;
 }>();
 
 const MAX_SYMBOLS = 15;
 
-const toSelectCrumb = (item, inx): void => {
+const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
   if (inx === state.items.length - 1) return;
 
   if (item.isSub) toggleShowList();
@@ -112,17 +115,17 @@ const classes = computed(() => {
 
 const toggleShowList = () => (state.isShowList = !state.isShowList);
 
-const curtText = ({ title }) => {
-  return title.length > MAX_SYMBOLS
-    ? title.slice(0, MAX_SYMBOLS) + '...'
-    : title;
+const curtText = (crumb: IBreadCrumbsItem): string => {
+  return crumb.title.length > MAX_SYMBOLS
+    ? crumb.title.slice(0, MAX_SYMBOLS) + '...'
+    : crumb.title;
 };
 
 const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 
 onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .bread-crumbs,
 .bread-subcrumbs {
   list-style-type: none;

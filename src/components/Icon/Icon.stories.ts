@@ -1,4 +1,4 @@
-import { StoryFn, Meta } from '@storybook/vue3';
+import { StoryFn } from '@storybook/vue3';
 import Icon from './Icon.vue';
 import { StorybookControl } from '../../common/storybook';
 import { IconNameEnum } from './enum';
@@ -24,21 +24,9 @@ const meta = {
     }
   },
   tags: ['autodocs']
-} as Meta<typeof Icon>;
+};
 
 export default meta;
-
-const Template: StoryFn<typeof Icon> = args => ({
-  components: { Icon },
-  setup() {
-    return { args };
-  },
-  template: `
-    <div style="display: flex; flex-direction: row; gap: 12px; color: args.color">
-      <Icon v-bind="args" />
-    </div>
-  `
-});
 
 export const Default: StoryFn<typeof Icon> = args => ({
   components: { Icon },

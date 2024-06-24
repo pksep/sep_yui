@@ -1,0 +1,31 @@
+.search {
+  &__dropdown {
+    position: relative;
+  }
+
+  .dropdown {
+    &__current {
+      margin-bottom: 0;
+    }
+
+    &__list {
+      position: absolute;
+      z-index: 2;
+    }
+  }
+}
+
+.search-dropdown {
+  background-color: $white;
+
+  input {
+    &:focus {
+      border-left: none;
+      border-radius: 0 5px 5px 0px;
+    }
+  }
+
+  .dropdown__current {
+    width: fit-content;
+  }
+}

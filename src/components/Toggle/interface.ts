@@ -1,4 +1,4 @@
 export interface IToggleProps {
-  disabled: boolean;
-  backgroundColor: string;
+  disabled?: boolean;
+  backgroundColor?: string;
 }

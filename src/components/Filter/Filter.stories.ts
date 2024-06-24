@@ -1,32 +1,32 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Filter from './Filter.vue';
 import { StorybookControl } from '../../common/storybook';
-import { BadgesType } from '@/components/Badges/enum';
+import { BadgesTypeEnum } from '../../components/Badges/enum';
 
 const badgesItems = [
   {
     value: 'Все',
-    type: BadgesType.default
+    type: BadgesTypeEnum.default
   },
   {
     value: 'Удалено',
-    type: BadgesType.pink
+    type: BadgesTypeEnum.pink
   },
   {
     value: 'Просрочено',
-    type: BadgesType.red
+    type: BadgesTypeEnum.red
   },
   {
     value: 'Покупатель',
-    type: BadgesType.blue
+    type: BadgesTypeEnum.blue
   },
   {
     value: 'Заказано',
-    type: BadgesType.orange
+    type: BadgesTypeEnum.orange
   },
   {
     value: 'Отгружено',
-    type: BadgesType.green
+    type: BadgesTypeEnum.green
   }
 ];
 
@@ -37,7 +37,7 @@ const meta = {
     title: {
       control: { type: StorybookControl.text }
     },
-    items: {
+    options: {
       control: { type: StorybookControl.object }
     }
   },
@@ -62,5 +62,5 @@ export const Default = Template.bind({});
 
 Default.args = {
   title: 'Статус',
-  items: badgesItems
+  options: badgesItems
 };

@@ -1,4 +1,4 @@
-type SliderItem = { type: string; path: string };
+type SliderItem = { type?: string; path: string };
 
 export interface ISliderProps {
   items: SliderItem[];

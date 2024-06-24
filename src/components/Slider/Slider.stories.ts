@@ -1,6 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Slider from './Slider.vue';
 import { StorybookControl } from '../../common/storybook';
+import { fn } from '@storybook/test';
 
 const files = [
   {
@@ -25,8 +26,9 @@ const meta = {
       control: { type: StorybookControl.object }
     }
   },
+  args: { onClick: fn() },
   parameters: {
-    layout: 'fullscreen'
+    layout: 'center'
   },
   tags: ['autodocs']
 } as Meta<typeof Slider>;
@@ -38,7 +40,10 @@ const Template: StoryFn<typeof Slider> = args => ({
   setup() {
     return { args };
   },
-  template: `<Slider v-bind="args" />`
+  template: `
+  <div style="width: 500px; heigth: 500px;">
+  <Slider v-bind="args" />
+  </div> `
 });
 
 export const Default = Template.bind({});

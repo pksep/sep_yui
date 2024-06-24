@@ -1,31 +1,49 @@
 <template>
   <div style="padding: 0 20px 400px 20px">
+    <h1 class="text">Dropdown</h1>
+    <div style="width: 200px">
+      <Dropdown :options="optionsItems" />
+    </div>
     <h1 class="text">Badges</h1>
-    <Badges :type="'default'" :text="'Все'" />
-    <Badges :type="'blue'" :text="'Удалено'" />
-    <Badges :type="'red'" choosed :text="'Отгружено'" />
-    <Badges :type="'orange'" choosed :text="'Покупатели'" />
-    <Badges :type="'pink'" choosed :text="'Ожидает'" />
+    <Badges :type="BadgesTypeEnum.default" :text="'Все'" />
+    <Badges :type="BadgesTypeEnum.blue" :text="'Удалено'" />
+    <Badges :type="BadgesTypeEnum.red" choosed :text="'Отгружено'" />
+    <Badges :type="BadgesTypeEnum.orange" choosed :text="'Покупатели'" />
+    <Badges :type="BadgesTypeEnum.pink" choosed :text="'Ожидает'" />
 
     <h1 class="text">Filter</h1>
-    <Filter :items="badgesItems" :title="'Статус'" :multiselect="true" />
+    <Filter :options="badgesItems" :title="'Статус'" :multiselect="true" />
+    <br />
+    <Filter
+      :options="badgesItemsSeach"
+      :title="'Покупатели'"
+      :multiselect="true"
+      :searchable="true"
+      @scroll="e => console.log(e, 'e')"
+    />
     <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
-      <Button :size="'small'" :type="'ghost'">Small Button</Button>
-      <Button :size="'medium'" :type="'outline'">Medium Button</Button>
-      <Button :size="'large'" :type="'primary'">Large Button</Button>
-      <Button :size="'large'" disabled
-        ><Icon :name="'help'" /> Large Button</Button
+      <Button :size="SizesEnum.small" :type="ButtonType.ghost"
+        >Small Button</Button
       >
-      <Button :size="'large'" :type="'secondary'"
-        ><Icon :name="'help'" :width="54" :height="54" /> Large Icon
+      <Button :size="SizesEnum.medium" :type="ButtonType.outline"
+        >Medium Button</Button
+      >
+      <Button :size="SizesEnum.large" :type="ButtonType.primary"
+        >Large Button</Button
+      >
+      <Button :size="SizesEnum.large" disabled
+        ><Icon :name="IconNameEnum.help" /> Large Button</Button
+      >
+      <Button :size="SizesEnum.large" :type="ButtonType.secondary"
+        ><Icon :name="IconNameEnum.help" :width="54" :height="54" /> Large Icon
         Button</Button
       >
     </div>
 
     <h1 class="text">Icon</h1>
     <div class="icons">
-      <div v-for="item of Object.keys(IconNameEnum)" :key="item">
+      <div v-for="item of iconNames" :key="item">
         <Icon :name="item" />
       </div>
     </div>
@@ -39,8 +57,8 @@
     <Search />
 
     <h1 class="text">Toggle</h1>
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
+    <Toggle checked @change="(checked: number) => console.log(checked)" />
+    <Toggle checked @change="(checked: number) => console.log(checked)" />
 
     <h1 class="text">Switch</h1>
     <Switch :items="array" />
@@ -49,76 +67,15 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <div style="width: 1400px">
-      <!-- <div class="table" style="margin-top: 10px">
-      </div> -->
-      <table class="table">
-        <tr class="table__tr">
-          <th class="table__th">№</th>
-          <th class="table__th">Заказ</th>
-          <th class="table__th">Артикул изделия</th>
-          <th class="table__th">Наименование изделия</th>
-          <th class="table__th">Комплектация/особенности заказа</th>
-          <th class="table__th">Кол-во, шт.</th>
-          <th class="table__th">Кол-во, дней</th>
-          <th class="table__th">Осталось дней</th>
-          <th class="table__th">Основание</th>
-          <th class="table__th">Покупатель</th>
-          <th class="table__th">Ур. комплектации</th>
-          <th class="table__th">Комплектация по остаткам</th>
-          <th class="table__th">Готовность к отгрузке в %</th>
-          <th class="table__th">Статус</th>
-          <th class="table__th">Дата План. отгрузки</th>
-          <th class="table__th">Дата Факт. отгрузки</th>
-          <th class="table__th">Примечание</th>
-        </tr>
-        <tr class="table__tr">
-          <td class="table__td">...</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">hghfghfgh</td>
-          <td class="table__td">Нет комплектации</td>
-          <td class="table__td">1</td>
-          <td class="table__td">12</td>
-          <td class="table__td"><Icon :name="'help'" /></td>
-          <td class="table__td">
-            <Badges :type="'red'" :text="'text'" />
-          </td>
-          <td class="table__td">
-            <img
-              src="https://s8.hostingkartinok.com/uploads/images/2016/08/a131e3cfd554b650c83ab2f5327b8b27.jpg"
-              alt=""
-            />
-          </td>
-          <td class="table__td">f</td>
-          <td class="table__td">dsfsdfsd</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">sdf</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">hghfghfgh</td>
-          <td class="table__td">1212asdfas</td>
-        </tr>
-        <tr class="table__tr">
-          <td class="table__td">...</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">hghfghfgh</td>
-          <td class="table__td">Нет комплектации</td>
-          <td class="table__td">1</td>
-          <td class="table__td">12</td>
-          <td class="table__td">33</td>
-          <td class="table__td">1</td>
-          <td class="table__td">f</td>
-          <td class="table__td">dsfsdfsd</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">sdf</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">sdfsdf</td>
-          <td class="table__td">hghfghfgh</td>
-          <td class="table__td">1212asdfas</td>
-        </tr>
-      </table>
+    <Table />
+    <div style="width: 553px">
+      <Search :showHistory="true" :options="optionsBase" />
+      <br />
+      <Search
+        :global="true"
+        :showHistory="false"
+        :globalResultsFunction="getAllResults"
+      />
     </div>
     <h1 class="text">Menu</h1>
     <Menu
@@ -134,22 +91,24 @@
 </template>
 
 <script setup lang="ts">
-import Badges from '@/components/Badges/Badges';
-import Filter from '@/components/Filter/Filter';
-import Button from '@/components/Button/Button';
-import Icon from '@/components/Icon/Icon';
-import Toggle from '@/components/Toggle/Toggle';
-import Switch from '@/components/Switch/Switch';
-import Search from '@/components/Search/Search';
-import Slider from '@/components/Slider/Slider';
-import Menu from '@/components/Menu/Menu';
-import Colors from '@/components/Colors/Colors';
-import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs';
+import Badges from '@/components/Badges/Badges.vue';
+import Filter from '@/components/Filter/Filter.vue';
+import Button from '@/components/Button/Button.vue';
+import Icon from '@/components/Icon/Icon.vue';
+import Toggle from '@/components/Toggle/Toggle.vue';
+import Switch from '@/components/Switch/Switch.vue';
+import Search from '@/components/Search/Search.vue';
+import Slider from '@/components/Slider/Slider.vue';
+import Table from '@/components/Table/Table.vue';
+import Dropdown from '@/components/Dropdown/Dropdown.vue';
+import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs.vue';
 import { IconNameEnum } from '@/components/Icon/enum';
 import '@/assets/icons/sprite';
-import { BadgesType } from './components/Badges/enum';
+import { BadgesTypeEnum } from './components/Badges/enum';
 import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { SizesEnum } from './common/sizes';
+import { ButtonType } from './components/Button/enum';
 
 const array = ['Ru', 'En'];
 
@@ -168,19 +127,58 @@ const files = [
 const badgesItems = [
   {
     value: 'Все',
-    type: BadgesType.default
+    type: BadgesTypeEnum.default
   },
   {
     value: 'Удалено',
-    type: BadgesType.pink
+    type: BadgesTypeEnum.pink
   },
   {
     value: 'Отгружено',
-    type: BadgesType.red
+    type: BadgesTypeEnum.red
+  },
+  {
+    value: 'Отгружено1',
+    type: BadgesTypeEnum.red
+  },
+  {
+    value: 'Отгружено2',
+    type: BadgesTypeEnum.red
   }
 ];
 
-let crumbsItems = ref([
+const badgesItemsSeach = [
+  {
+    value: 'Все',
+    type: BadgesTypeEnum.default
+  },
+  {
+    value: 'Иванов И.С',
+    type: BadgesTypeEnum.blue
+  },
+  {
+    value: 'Синев И.А',
+    type: BadgesTypeEnum.blue
+  },
+  {
+    value: 'Цаплева Е.К',
+    type: BadgesTypeEnum.blue
+  },
+  {
+    value: 'Иванов И.С',
+    type: BadgesTypeEnum.blue
+  },
+  {
+    value: 'Синев И.А',
+    type: BadgesTypeEnum.blue
+  },
+  {
+    value: 'Цаплева Е.К',
+    type: BadgesTypeEnum.blue
+  }
+];
+
+const crumbsItems = ref([
   {
     path: '/assembly',
     title: 'Главная'
@@ -219,8 +217,63 @@ let crumbsItems = ref([
   }
 ]);
 
+const optionsItems = [
+  'MainOptionMainOptionMainOption',
+  'Option1MainOptionMainOption',
+  'Option2MainOptionMainOption',
+  'Option3',
+  'Option4'
+];
+
+const optionsBase = [
+  'База деталей',
+  'База материалов',
+  'База оборудования',
+  'База сборочных единиц',
+  'База инструментов'
+];
+
+const iconNames = computed(() => Object.values(IconNameEnum) as IconNameEnum[]);
+
 const breadCrumbsSelect = (item: IBreadCrumbsEmit) => {
   crumbsItems.value = crumbsItems.value.slice(0, item.inx);
+};
+
+const getAllResults = () => {
+  const arr = [
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База сборок',
+      searchResult: 'Легко/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'Сборка по операциям',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудованияБаза оборудования',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудования1',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудования2',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудования3',
+      searchResult: 'Наименование/Артикул детали'
+    }
+  ];
+
+  return arr;
 };
 </script>
 
