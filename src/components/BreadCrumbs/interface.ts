@@ -1,6 +1,7 @@
 export interface IBreadCrumbsItem {
   path: string;
   title: string;
+  isSub?: boolean;
 }
 
 export interface IBreadCrumbsEmit extends IBreadCrumbsItem {

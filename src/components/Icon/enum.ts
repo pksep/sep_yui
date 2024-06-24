@@ -24,5 +24,7 @@ export enum IconNameEnum {
   searchNormal = 'searchNormal',
   search = 'search',
   filter = 'filter',
-  bgNotContent = 'bgNotContent'
+  bgNotContent = 'bgNotContent',
+  document = 'document',
+  baseDetail = 'baseDetail'
 }

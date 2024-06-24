@@ -1,5 +1,4 @@
 import { IconNameEnum } from '../Icon/enum';
-
 export interface IFilterOption {
   value: string;
   type: string;

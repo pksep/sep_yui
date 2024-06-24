@@ -1,8 +1,8 @@
-import { BadgesType } from './enum';
+import { BadgesTypeEnum } from './enum';
 
 export interface IBadgesProps {
   text: string;
-  type: BadgesType;
+  type: BadgesTypeEnum;
   choosed: boolean;
   disabled?: boolean;
 }

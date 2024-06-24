@@ -1,39 +1,36 @@
 <template>
-  <div class="search" @mouseleave="hidehistory">
-    <div class="search__icon-wrapper">
-      <input
-        type="text"
-        class="search__input"
-        v-model="state.searchValue"
-        :placeholder="props.placeholder"
-        @keydown.enter="changeSearch"
-      />
-      <Icon name="searchNormal" />
+  <div class="search" @mousemove="showhistory" @mouseleave="hidehistory">
+    <div :class="classesDropdown">
+      <div class="search__dropdown">
+        <input
+          type="text"
+          class="search__input"
+          v-model="state.searchValue"
+          :placeholder="props.placeholder"
+          @keydown.enter="changeSearch"
+          @input="changeSearchValue"
+          @focus="setFocusSearch"
+          @blur="setBlurSearch"
+        />
+        <Icon :name="IconNameEnum.searchNormal" />
+      </div>
     </div>
-
-    <div class="search__history history" v-if="props.showHistory">
-      <button
-        type="button"
-        v-if="state.isShowButtonHistory && state.getHistorySearch.length > 0"
-        @click="showHistoryClickHandler"
-        :class="'history__button-text'"
-      >
-        Просмотреть историю запросов
-      </button>
-      <ul :class="classes">
-        <li
-          class="history__item"
-          v-for="(item, index) of state.getHistorySearch"
-          :key="index"
-        >
-          <span @click="() => choosePost(item)">
-            {{ item.length > 33 ? item.slice(0, 30) + '...' : item }}</span
-          ><button type="button" @click="removeItem(item)">
-            <Icon name="exitSmall" />
-          </button>
-        </li>
-      </ul>
-    </div>
+    <History
+      :showHistory="props.showHistory"
+      :isShowButtonHistory="state.isShowButtonHistory"
+      :isShowList="state.isShowList"
+      @choosePost="choosePost"
+      v-if="props.showHistory"
+    />
+    <SearchResult
+      :isShowList="state.isShowList"
+      @choosePost="choosePost"
+      v-if="props.global"
+      :globalResultsFunction="state.globalResultsFunction"
+      :isShowResult="state.isShowResult"
+      :key="random(1, 999)"
+      :searchValue="state.searchValue"
+    />
   </div>
 </template>
 
@@ -41,7 +38,11 @@
 import { onMounted, reactive, computed } from 'vue';
 import { ISearchProps } from './interface';
 import { useSearchStore } from '../../stores/search';
-import Icon from './../Icon/Icon';
+import { IconNameEnum } from '../Icon/enum';
+import Icon from './../Icon/Icon.vue';
+import History from './History.vue';
+import SearchResult from './SearchResult.vue';
+import { random } from 'lodash';
 
 const searchStore = useSearchStore();
 
@@ -50,50 +51,61 @@ const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск'
 });
 
-const emit = defineEmits<{
-  (e: 'enter', value: string): void;
-}>();
-
 const state = reactive({
-  searchValue: '',
-  isClicked: false,
-  getHistorySearch: computed(() => searchStore.getHistorySearch),
   isShowList: false,
-  isShowButtonHistory: true
+  isShowButtonHistory: true,
+  globalResultsFunction: computed(() => {
+    return props.globalResultsFunction;
+  }),
+  isShowResult: false,
+  searchValue: ''
 });
 
-const classes = computed(() => ({
-  history__list: true,
-  'history__list--opened': state.isShowList,
-  'history__list--scroll':
-    state.getHistorySearch.length >= 5 && state.isShowList
+const setFocusSearch = () => {
+  state.isShowResult = true;
+};
+
+const setBlurSearch = () => {
+  state.isShowResult = false;
+};
+
+const classesDropdown = computed(() => ({
+  'search__icon-wrapper': true
 }));
 
-const choosePost = value => {
+const choosePost = (value: string) => {
   state.searchValue = value;
 };
 
-const showHistoryClickHandler = () => {
-  state.isShowList = !state.isShowList;
-  state.isShowButtonHistory = !state.isShowButtonHistory;
+const hidehistory = () => {
+  state.isShowList = false;
+  state.isShowResult = false;
+  state.isShowButtonHistory = false;
 };
+
+const showhistory = () => {
+  state.isShowButtonHistory = true;
+  state.isShowResult = true;
+  if (!state.isShowButtonHistory) state.isShowList = true;
+};
+
+const emit = defineEmits<{
+  (e: 'enter', value: string): void;
+  (e: 'input', value: string): void;
+}>();
 
 const changeSearch = () => {
   emit('enter', state.searchValue);
   if (props.showHistory) searchStore.addHistorySearch(state.searchValue.trim());
 };
 
-const hidehistory = () => {
-  state.isShowList = false;
-  state.isShowButtonHistory = true;
-};
-
-const removeItem = (item: string) => {
-  searchStore.removeHistorySearch(item);
+const changeSearchValue = () => {
+  emit('input', state.searchValue);
 };
 
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
+  console.log(state.isShowResult, 'state.isShowResult');
 });
 </script>
 
@@ -105,6 +117,7 @@ onMounted(() => {
     &:focus,
     &:focus-visible,
     &:active {
+      background-color: $white;
       & + svg {
         display: none;
       }

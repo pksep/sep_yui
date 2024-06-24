@@ -1,16 +1,15 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import BreadCrumbs from './BreadCrumbs';
+import BreadCrumbs from './BreadCrumbs.vue';
 import { StorybookControl } from '../../common/storybook';
 import { ref, Ref } from 'vue';
 import { IBreadCrumbsEmit } from './interface';
-import { fn } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
 interface ICrumbItem {
   path: string;
   title: string;
 }
 
-let crumbsItems: Ref<ICrumbItem[]> = ref([
+const crumbsItems: Ref<ICrumbItem[]> = ref([
   {
     path: '/assembly',
     title: 'Главная'

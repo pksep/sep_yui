@@ -6,7 +6,7 @@
         @click="prevSlide"
         :disabled="state.disabledPrev"
       >
-        <Icon name="leftBig" />
+        <Icon :name="IconNameEnum.leftBig" />
       </button>
       <div class="slider__slides">
         <div
@@ -20,16 +20,16 @@
           <p>Контент отсутствует</p>
         </div>
         <img
-          v-if="isImage(state.file.path)"
+          v-if="isImage(state.file?.path ?? '')"
           @click="e => toFullsizeImage(e)"
-          :src="state.file.path"
+          :src="state.file?.path ?? ''"
         />
         <video
-          v-if="isVideo(state.file.path)"
+          v-if="isVideo(state.file?.path ?? '')"
           @click="e => toFullsizeImage(e)"
-          controls="controls"
+          controls
         >
-          <source :src="state.file.path" />
+          <source :src="state.file?.path ?? ''" />
         </video>
       </div>
       <button
@@ -37,7 +37,7 @@
         @click="nextSlide"
         :disabled="state.disabledNext"
       >
-        <Icon name="rightBig" />
+        <Icon :name="IconNameEnum.rightBig" />
       </button>
     </div>
   </div>
@@ -45,13 +45,27 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
 import { ISliderProps } from './interface';
-import Icon from './../Icon/Icon';
+import Icon from './../Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum';
+
+interface IFile {
+  path: string;
+}
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
-const state = reactive({
+const state = reactive<{
+  files: IFile[];
+  file: IFile | null;
+  currentIndex: number;
+  defaultIndex: number;
+  disabledPrev: boolean;
+  disabledNext: boolean;
+  typeImages: string[];
+  typeVideos: string[];
+}>({
   files: props.items.length ? props.items : [],
-  file: {},
+  file: null,
   currentIndex: 0,
   defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
   disabledPrev: true,
@@ -99,10 +113,20 @@ const toFullsizeImage = (e: MouseEvent): void => {
     imageElement.classList.toggle('slider__full-size');
     if (imageElement.classList.contains('slider__full-size')) {
       window.addEventListener('keydown', closeFullSize);
-      document.querySelector('.slider__wrapper').style.cursor = 'zoom-out';
+      const sliderWrapper = document.querySelector(
+        '.slider__wrapper'
+      ) as HTMLElement;
+      if (sliderWrapper) {
+        sliderWrapper.style.cursor = 'zoom-out';
+      }
     } else {
       window.removeEventListener('keydown', closeFullSize);
-      document.querySelector('.slider__wrapper').style.cursor = 'zoom-in';
+      const sliderWrapper = document.querySelector(
+        '.slider__wrapper'
+      ) as HTMLElement;
+      if (sliderWrapper) {
+        sliderWrapper.style.cursor = 'zoom-in';
+      }
     }
   }
 };
