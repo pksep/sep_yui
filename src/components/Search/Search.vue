@@ -9,6 +9,8 @@
           :placeholder="props.placeholder"
           @keydown.enter="changeSearch"
           @input="changeSearchValue"
+          @focus="setFocusSearch"
+          @blur="setBlurSearch"
         />
         <Icon :name="IconNameEnum.searchNormal" />
       </div>
@@ -24,7 +26,10 @@
       :isShowList="state.isShowList"
       @choosePost="choosePost"
       v-if="props.global"
-      :getAllResults="state.getAllResults"
+      :globalResultsFuction="state.globalResultsFuction"
+      :isShowResult="state.isShowResult"
+      :key="random(1, 999)"
+      :searchValue="state.searchValue"
     />
   </div>
 </template>
@@ -35,44 +40,55 @@ import { ISearchProps } from './interface';
 import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
-import Dropdown from './../Dropdown/Dropdown.vue';
 import History from './History.vue';
 import SearchResult from './SearchResult.vue';
+import { random } from 'lodash';
 
 const searchStore = useSearchStore();
 
 const props = withDefaults(defineProps<ISearchProps>(), {
   showHistory: true,
-  placeholder: 'Поиск',
-  options: []
+  placeholder: 'Поиск'
 });
 
 const state = reactive({
-  searchValue: '',
   isShowList: false,
   isShowButtonHistory: true,
-  getAllResults: computed(() => props.getAllResults())
+  globalResultsFuction: computed(() => {
+    return () =>
+      props.globalResultsFuction
+        ? () => props.globalResultsFuction!()
+        : undefined;
+  }),
+  isShowResult: false,
+  searchValue: ''
 });
+
+const setFocusSearch = () => {
+  state.isShowResult = true;
+};
+
+const setBlurSearch = () => {
+  state.isShowResult = false;
+};
 
 const classesDropdown = computed(() => ({
   'search__icon-wrapper': true
 }));
 
-const getValueOption = (value: string) => {
-  state.choosenOption = value;
-};
-
-const choosePost = (value: string): string => {
+const choosePost = (value: string) => {
   state.searchValue = value;
 };
 
 const hidehistory = () => {
   state.isShowList = false;
+  state.isShowResult = false;
   state.isShowButtonHistory = false;
 };
 
 const showhistory = () => {
   state.isShowButtonHistory = true;
+  state.isShowResult = true;
   if (!state.isShowButtonHistory) state.isShowList = true;
 };
 
@@ -90,11 +106,9 @@ const changeSearchValue = () => {
   emit('input', state.searchValue);
 };
 
-// const getAllResults = () => props.getAllResults();
-
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
-  console.log(state.getAllResults, 'search');
+  console.log(state.isShowResult, 'state.isShowResult');
 });
 </script>
 

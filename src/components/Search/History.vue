@@ -15,8 +15,13 @@
         v-for="(item, index) in state.getHistorySearch"
         :key="index"
       >
-        <span @click="e => emit('choosePost', e.target.textContent)">
-          {{ valueListItem(item) }}</span
+        <span
+          @click="
+            e =>
+              emit('choosePost', (e.target as HTMLElement)?.textContent || '')
+          "
+        >
+          {{ trimText(item) }}</span
         ><button type="button" @click="removeItem(item)">
           <Icon :name="IconNameEnum.exitSmall" />
         </button>
@@ -31,6 +36,7 @@ import { ISearchProps } from './interface';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
 import { useSearchStore } from '../../stores/search';
+import { trimText } from './../../helpers/trimText';
 
 const searchStore = useSearchStore();
 
@@ -39,7 +45,6 @@ const props = defineProps<ISearchProps>();
 const state = reactive({
   getHistorySearch: computed(() => {
     return searchStore.getHistorySearch;
-    console.log(searchStore.getHistorySearch, ' searchStore.getHistorySearch');
   }),
   isShowList: props.isShowList,
   isShowButtonHistory: props.isShowButtonHistory
@@ -63,10 +68,6 @@ const showHistoryClickHandler = () => {
 
 const removeItem = (item: string) => {
   searchStore.removeHistorySearch(item);
-};
-
-const valueListItem = (item: string) => {
-  return item.length > 33 ? item.slice(0, 30) + '...' : item;
 };
 
 onMounted(() => {

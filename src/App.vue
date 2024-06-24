@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 0 20px 400px 20px">
-    <!-- <h1 class="text">Dropdown</h1>
+    <h1 class="text">Dropdown</h1>
     <div style="width: 200px">
       <Dropdown :options="optionsItems" />
     </div>
@@ -67,18 +67,14 @@
     <div class="slider-main">
       <Slider :items="files" />
     </div>
-    <Table /> -->
+    <Table />
     <div style="width: 354px">
-      <Search
-        :searchOfBase="true"
-        :showHistory="false"
-        :options="optionsBase"
-      />
+      <Search :showHistory="true" :options="optionsBase" />
       <br />
       <Search
         :global="true"
         :showHistory="false"
-        :getAllResults="getAllResults"
+        :globalResultsFuction="getAllResults"
       />
     </div>
   </div>
@@ -236,8 +232,33 @@ const breadCrumbsSelect = (item: IBreadCrumbsEmit) => {
 const getAllResults = () => {
   const arr = [
     {
-      icon: 'searchNormal',
-      nameArea: 'Искомая база',
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База сборок',
+      searchResult: 'Легко/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'Сборка по операциям',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудованияБаза оборудования',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудования1',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудования2',
+      searchResult: 'Наименование/Артикул детали'
+    },
+    {
+      icon: IconNameEnum.exitBig,
+      nameArea: 'База оборудования3',
       searchResult: 'Наименование/Артикул детали'
     }
   ];

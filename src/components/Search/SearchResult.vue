@@ -1,14 +1,23 @@
 <template>
   <div class="search__history history">
-    <ul :class="classes">
+    <ul :class="classes" v-if="state.globalResultsFunction">
       <li
         class="history__item"
-        v-for="(item, index) in props.getAllResults"
+        v-for="(item, index) in state.globalResultsFuction"
         :key="index"
       >
-        <span @click="e => emit('choosePost', e.target.textContent)">
-          {{ valueListItem(item) }}</span
-        >
+        <Icon :name="IconNameEnum.document" />
+        <p class="history__text" @click="handleChoosePost">
+          <span class="result"> {{ trimText(item?.nameArea, 15) }}</span>
+          <span class="result blue"
+            >/ {{ trimText(item?.searchResult, 23) }}</span
+          >
+        </p>
+      </li>
+    </ul>
+    <ul :class="classes" v-if="!state.globalResultsFuction.length">
+      <li class="history__item history__item--notfound">
+        <p class="history__text">По вашему запросу ничего не найдено</p>
       </li>
     </ul>
   </div>
@@ -16,35 +25,183 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, computed } from 'vue';
-import { ISearchProps } from './interface';
+import { ISearchProps, resultSearchType } from './interface';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
 import { useSearchStore } from '../../stores/search';
+import { trimText } from './../../helpers/trimText';
 
 const searchStore = useSearchStore();
 
 const props = defineProps<ISearchProps>();
-// const props = defineProps<{ getAllResults: () => {}[] }>();
+
 const state = reactive({
-  result: props.result,
-  isShowList: props.isShowList
+  isShowList: props.isShowList,
+  globalResultsFuction: props.globalResultsFuction,
+  isShowResult: props.isShowResult,
+  searchValue: props.searchValue
 });
 
 const removeItem = (item: string) => {
   searchStore.removeHistorySearch(item);
 };
 
-const valueListItem = (item: string) => {
-  return item.length > 33 ? item.slice(0, 30) + '...' : item;
+const classes = computed(() => ({
+  history__list: true,
+  'history__list--opened': state.isShowResult,
+  'history__list--scroll':
+    state.globalResultsFuction.length >= 5 && state.isShowResult
+}));
+
+const handleChoosePost = (e: MouseEvent) => {
+  const targetText = (e.target as HTMLElement)?.textContent;
+  if (targetText) {
+    $emit('choosePost', targetText);
+  }
 };
 
-// const getAllResults = () => props.getAllResults();
+// onMounted(() => {
 
-onMounted(() => {
-  // console.log(getAllResults, 'getAllResults');
-});
+// });
 </script>
 
 <style lang="scss" scoped>
-@import './Search.scss';
+.history {
+  color: $grey-282828;
+  outline: none;
+  background-color: $white;
+  border-radius: 5px;
+  display: none;
+
+  &__button-text {
+    position: absolute;
+    z-index: 100000;
+    margin: 0;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    color: $grey-282828;
+    border: 1px solid transparent;
+    outline: none;
+    background-color: $white;
+    border-radius: 5px;
+    width: inherit;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--closed {
+      display: none;
+    }
+  }
+
+  &__list {
+    display: grid;
+    width: inherit;
+    list-style-type: none;
+    // height: 0;
+    // opacity: 0;
+    transition: 0.3s ease-in-out;
+    padding: 0;
+    margin: 0;
+    background-color: $white;
+
+    &--opened {
+      opacity: 1;
+      height: fit-content;
+      transition: 0.3s ease-in-out;
+      position: absolute;
+      z-index: 2222222;
+      align-content: flex-start;
+    }
+
+    &--scroll {
+      height: 100px;
+      overflow-y: scroll;
+    }
+  }
+
+  &__item {
+    background: $white;
+    overflow: hidden;
+    // border-bottom: 1px solid $white-E7E7E7;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 5px;
+    position: relative;
+    height: 24px;
+    padding-bottom: 3px;
+
+    &:hover {
+      background-color: $blue-F2F7FF;
+    }
+
+    span {
+      display: flex;
+      height: 100%;
+      flex-grow: 1;
+      align-items: center;
+      padding: 5px 50px 5px 5px;
+      height: inherit;
+
+      &:hover {
+        background-color: $blue-F2F7FF;
+      }
+
+      &.result {
+        padding: 0;
+      }
+    }
+
+    &--notfound {
+      justify-content: center;
+      .history__text {
+        color: $grey-757D8A;
+      }
+    }
+    button {
+      display: none;
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      right: 10px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      button {
+        background: none;
+        border: 1px solid $transparent;
+        outline: none;
+        color: $grey-757D8A;
+        display: block;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &__text {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    text-wrap: nowrap;
+  }
+}
+
+.blue {
+  color: $blue-77A6FF;
+}
 </style>
