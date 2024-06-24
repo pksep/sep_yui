@@ -26,7 +26,7 @@
       :isShowList="state.isShowList"
       @choosePost="choosePost"
       v-if="props.global"
-      :globalResultsFuction="state.globalResultsFuction"
+      :globalResultsFunction="state.globalResultsFunction"
       :isShowResult="state.isShowResult"
       :key="random(1, 999)"
       :searchValue="state.searchValue"
@@ -54,11 +54,8 @@ const props = withDefaults(defineProps<ISearchProps>(), {
 const state = reactive({
   isShowList: false,
   isShowButtonHistory: true,
-  globalResultsFuction: computed(() => {
-    return () =>
-      props.globalResultsFuction
-        ? () => props.globalResultsFuction!()
-        : undefined;
+  globalResultsFunction: computed(() => {
+    return props.globalResultsFunction;
   }),
   isShowResult: false,
   searchValue: ''

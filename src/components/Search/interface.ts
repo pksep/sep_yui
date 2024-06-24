@@ -12,8 +12,9 @@ export interface ISearchProps {
   showHistory?: boolean;
   global?: boolean;
   options?: string[];
-  globalResultsFuction?: () => resultSearchType[];
+  globalResultsFunction?: () => resultSearchType[];
   isShowResult?: boolean;
   isShowList?: boolean;
   isShowButtonHistory?: boolean;
+  searchValue?: string;
 }

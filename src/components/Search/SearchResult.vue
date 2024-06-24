@@ -3,19 +3,19 @@
     <ul :class="classes" v-if="state.globalResultsFunction">
       <li
         class="history__item"
-        v-for="(item, index) in state.globalResultsFuction"
+        v-for="(item, index) in state.globalResultsFunction"
         :key="index"
       >
         <Icon :name="IconNameEnum.document" />
         <p class="history__text" @click="handleChoosePost">
-          <span class="result"> {{ trimText(item?.nameArea, 15) }}</span>
+          <span class="result"> {{ trimText(item.nameArea, 15) }}</span>
           <span class="result blue"
-            >/ {{ trimText(item?.searchResult, 23) }}</span
+            >/ {{ trimText(item.searchResult, 23) }}</span
           >
         </p>
       </li>
     </ul>
-    <ul :class="classes" v-if="!state.globalResultsFuction.length">
+    <ul :class="classes" v-if="!state.globalResultsFunction.length">
       <li class="history__item history__item--notfound">
         <p class="history__text">По вашему запросу ничего не найдено</p>
       </li>
@@ -24,45 +24,42 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, computed } from 'vue';
-import { ISearchProps, resultSearchType } from './interface';
+import { reactive, computed } from 'vue';
+import { ISearchProps } from './interface';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
-import { useSearchStore } from '../../stores/search';
 import { trimText } from './../../helpers/trimText';
-
-const searchStore = useSearchStore();
 
 const props = defineProps<ISearchProps>();
 
 const state = reactive({
   isShowList: props.isShowList,
-  globalResultsFuction: props.globalResultsFuction,
+  globalResultsFunction: computed(() => {
+    return typeof props.globalResultsFunction === 'function'
+      ? props.globalResultsFunction()
+      : [];
+  }),
   isShowResult: props.isShowResult,
   searchValue: props.searchValue
 });
 
-const removeItem = (item: string) => {
-  searchStore.removeHistorySearch(item);
-};
+const emit = defineEmits<{
+  (e: 'choosePost', value: string): void;
+}>();
 
 const classes = computed(() => ({
   history__list: true,
   'history__list--opened': state.isShowResult,
   'history__list--scroll':
-    state.globalResultsFuction.length >= 5 && state.isShowResult
+    state.globalResultsFunction.length >= 5 && state.isShowResult
 }));
 
 const handleChoosePost = (e: MouseEvent) => {
   const targetText = (e.target as HTMLElement)?.textContent;
   if (targetText) {
-    $emit('choosePost', targetText);
+    emit('choosePost', targetText);
   }
 };
-
-// onMounted(() => {
-
-// });
 </script>
 
 <style lang="scss" scoped>
