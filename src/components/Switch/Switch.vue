@@ -56,6 +56,7 @@ onMounted(() => {
   width: fit-content;
   border-radius: 5px;
   background-color: $white;
+  margin: 0;
 }
 
 .td-item {

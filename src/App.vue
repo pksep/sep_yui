@@ -77,6 +77,16 @@
         :globalResultsFunction="getAllResults"
       />
     </div>
+    <h1 class="text">Menu</h1>
+    <Menu
+      :name="'David Perov'"
+      :role="'administrator'"
+      :path="'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'"
+      @switch="e => console.log('lang:', e)"
+      @click="e => console.log('option:', e)"
+      @toggle="e => console.log('themeChange:', e)"
+    />
+    <Colors />
   </div>
 </template>
 
