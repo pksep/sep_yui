@@ -64,7 +64,7 @@
     <Switch :items="array" />
 
     <h1 class="text">Slider</h1>
-    <div class="slider-main">
+    <div class="slider-main" style="margin-bottom: 20px">
       <Slider :items="files" />
     </div>
     <Table />
@@ -115,6 +115,9 @@ const array = ['Ru', 'En'];
 const files = [
   {
     path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.jpg'
+  },
+  {
+    path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.woff'
   },
   {
     path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
@@ -297,6 +300,5 @@ const getAllResults = () => {
 }
 .slider-main {
   width: 472px;
-  height: 220px;
 }
 </style>
