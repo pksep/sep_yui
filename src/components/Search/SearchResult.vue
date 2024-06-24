@@ -1,5 +1,5 @@
 <template>
-  <div class="search__history history">
+  <div class="search__history history history">
     <ul :class="classes" v-if="state.globalResultsFunction">
       <li
         class="history__item"
@@ -8,10 +8,9 @@
       >
         <Icon :name="IconNameEnum.document" />
         <p class="history__text" @click="handleChoosePost">
-          <span class="result"> {{ trimText(item.nameArea, 15) }}</span>
-          <span class="result blue"
-            >/ {{ trimText(item.searchResult, 23) }}</span
-          >
+          <span class="result"> {{ trimText(item.nameArea) }}</span>
+          <span class="result blue">/</span>
+          <span class="result blue"> {{ trimText(item.searchResult) }}</span>
         </p>
       </li>
     </ul>
@@ -98,12 +97,12 @@ const handleChoosePost = (e: MouseEvent) => {
     display: grid;
     width: inherit;
     list-style-type: none;
-    // height: 0;
-    // opacity: 0;
     transition: 0.3s ease-in-out;
     padding: 0;
     margin: 0;
     background-color: $white;
+    border: 1px solid $blue-9CBEFF;
+    border-radius: 5px;
 
     &--opened {
       opacity: 1;
@@ -123,7 +122,6 @@ const handleChoosePost = (e: MouseEvent) => {
   &__item {
     background: $white;
     overflow: hidden;
-    // border-bottom: 1px solid $white-E7E7E7;
     text-align: left;
     display: flex;
     align-items: center;
@@ -156,6 +154,8 @@ const handleChoosePost = (e: MouseEvent) => {
 
     &--notfound {
       justify-content: center;
+      height: 34px;
+
       .history__text {
         color: $grey-757D8A;
       }

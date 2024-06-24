@@ -68,13 +68,13 @@
       <Slider :items="files" />
     </div>
     <Table />
-    <div style="width: 354px">
+    <div style="width: 553px">
       <Search :showHistory="true" :options="optionsBase" />
       <br />
       <Search
         :global="true"
         :showHistory="false"
-        :globalResultsFuction="getAllResults"
+        :globalResultsFunction="getAllResults"
       />
     </div>
   </div>
