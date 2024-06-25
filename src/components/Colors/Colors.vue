@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div class="colors">
     <div class="colors__heading">
       <h2>Colors</h2>
@@ -102,19 +102,19 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import Color from './Color';
+import Color from './Color.vue';
 import { ColorsType } from './enum';
-import { colors } from './colors';
+import { colors } from './colors.ts';
 
 const colorTypes = computed(() => [...new Set(Object.values(ColorsType))]);
 
-const searchColor = (str1, str2) => {
+const searchColor = (str1: string, str2: string) => {
   const cleanedStr1 = str1.replace(/\d/g, '');
   const cleanedStr2 = str2.replace(/\d/g, '');
   return cleanedStr1.toLowerCase() === cleanedStr2.toLowerCase();
 };
 
-const filteredColors = str => {
+const filteredColors = (str: string) => {
   return colorTypes.value.filter(type => {
     if (searchColor(type, str)) return type;
   });

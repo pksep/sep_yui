@@ -57,14 +57,14 @@
     <Search />
 
     <h1 class="text">Toggle</h1>
-    <Toggle checked @change="(checked: number) => console.log(checked)" />
-    <Toggle checked @change="(checked: number) => console.log(checked)" />
+    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
+    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
 
     <h1 class="text">Switch</h1>
     <Switch :items="array" />
 
     <h1 class="text">Slider</h1>
-    <div class="slider-main" style="margin-bottom: 20px">
+    <div class="slider-main">
       <Slider :items="files" />
     </div>
     <Table />
@@ -77,16 +77,6 @@
         :globalResultsFunction="getAllResults"
       />
     </div>
-    <h1 class="text">Menu</h1>
-    <Menu
-      :name="'David Perov'"
-      :role="'administrator'"
-      :path="'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'"
-      @switch="e => console.log('lang:', e)"
-      @click="e => console.log('option:', e)"
-      @toggle="e => console.log('themeChange:', e)"
-    />
-    <Colors />
   </div>
 </template>
 
@@ -115,9 +105,6 @@ const array = ['Ru', 'En'];
 const files = [
   {
     path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.jpg'
-  },
-  {
-    path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.woff'
   },
   {
     path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
@@ -300,5 +287,6 @@ const getAllResults = () => {
 }
 .slider-main {
   width: 472px;
+  height: 220px;
 }
 </style>
