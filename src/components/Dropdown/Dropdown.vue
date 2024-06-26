@@ -19,8 +19,8 @@
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { IDropdownProps } from './interface';
-import { IconNameEnum } from '../Icon/enum';
+import { IDropdownProps } from './interface/interface';
+import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {

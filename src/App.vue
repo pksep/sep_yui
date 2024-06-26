@@ -92,29 +92,29 @@ import Slider from '@/components/Slider/Slider.vue';
 import Table from '@/components/Table/Table.vue';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs.vue';
-import { IconNameEnum } from '@/components/Icon/enum';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
 import '@/assets/icons/sprite';
-import { BadgesTypeEnum } from './components/Badges/enum';
-import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface';
+import { BadgesTypeEnum } from './components/Badges/enum/enum';
+import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface/interface';
 import { computed, ref } from 'vue';
 import { SizesEnum } from './common/sizes';
-import { ButtonType } from './components/Button/enum';
+import { ButtonType } from './components/Button/enum/enum';
 
 const array = ['Ru', 'En'];
 
 const files = [
-  {
-    path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.jpg'
-  },
-  {
-    path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.woff'
-  },
-  {
-    path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
-  },
-  {
-    path: 'https://www.sunhome.ru/i/wallpapers/210/voronie-loshadi.orig.jpg'
-  }
+  // {
+  //   path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.jpg'
+  // },
+  // {
+  //   path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.woff'
+  // },
+  // {
+  //   path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
+  // },
+  // {
+  //   path: 'https://www.sunhome.ru/i/wallpapers/210/voronie-loshadi.orig.jpg'
+  // }
 ];
 
 const badgesItems = [

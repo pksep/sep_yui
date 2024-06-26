@@ -1,6 +1,6 @@
 <template>
   <div class="slider">
-    <div class="slider__wrapper">
+    <div class="slider__wrapper" ref="sliderWrapperRef">
       <button
         class="slider__button slider__button--prev"
         @click="prevSlide"
@@ -9,22 +9,19 @@
         <Icon :name="IconNameEnum.leftBig" />
       </button>
       <div class="slider__slides">
-        <!-- @fix выести условие в отдельную функцию -->
-        <div
-          class="placeholder"
-          v-if="
-            state.files.length === 0 ||
-            (!isImage(state.file?.path ?? '') &&
-              !isVideo(state.file?.path ?? ''))
-          "
-        >
+        <div class="placeholder" v-if="showPlaceholder()">
           <img src="./camera.svg" alt="" width="111px" height="111px" />
           <p>Контент отсутствует</p>
+        </div>
+        <div class="placeholder" v-if="showPlaceholderExtension()">
+          <img src="./closed-camera.svg" alt="" width="111px" height="111px" />
+          <p>{{ state.extension }}</p>
         </div>
         <img
           v-if="isImage(state.file?.path ?? '')"
           @click="e => toFullsizeImage(e)"
           :src="state.file?.path ?? ''"
+          ref="fullsizeImageRef"
         />
         <video
           v-if="isVideo(state.file?.path ?? '')"
@@ -45,40 +42,29 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue';
-import { ISliderProps } from './interface';
+import { onMounted, reactive, ref } from 'vue';
+import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
-import { IconNameEnum } from '../Icon/enum';
-
-interface IFile {
-  path: string;
-}
+import { IconNameEnum } from '../Icon/enum/enum';
+import { typeImages, typeVideos } from './../../common/extentions';
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
-/**
- * @fix вынести в отдельный интерфейс
- * **/
-const state = reactive<{
-  files: IFile[];
-  file: IFile | null;
-  currentIndex: number;
-  defaultIndex: number;
-  disabledPrev: boolean;
-  disabledNext: boolean;
-  typeImages: string[];
-  typeVideos: string[];
-}>({
+const state = reactive<ISlider>({
   files: props.items.length ? props.items : [],
   file: null,
   currentIndex: 0,
   defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
   disabledPrev: true,
   disabledNext: false,
-  // @fix вынести глобально в типы расширений
-  typeImages: ['.jpg', '.png', '.jpeg'],
-  typeVideos: ['.mp4', '.mp3']
+  typeImages: typeImages,
+  typeVideos: typeVideos
 });
+
+const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
+const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
+
+const CLASS_FULL_SIZE = 'slider__full-size';
 
 const checkPath = (str: string | null) => {
   if (!str) {
@@ -86,6 +72,10 @@ const checkPath = (str: string | null) => {
   }
   const regex = /\.\w+$/;
   const match = str.match(regex);
+
+  state.extension = match[0];
+
+  console.log(match, 'match');
   return match ? match[0] : null;
 };
 
@@ -101,20 +91,9 @@ const isVideo = (path: string | null): boolean => {
 
 const closeFullSize = (e: KeyboardEvent) => {
   if (e instanceof KeyboardEvent && e.key === 'Escape') {
-    /**
-     * @fix вешать на рефку а не получать
-     * const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
-     * if (sliderWrapperRef.value)
-     *   sliderWrapperRef.value.style.cursor = 'zoom-out';
-     **/
-    const fullSizeElement = document.querySelector('.slider__full-size');
-    if (fullSizeElement) {
-      fullSizeElement.classList.remove('slider__full-size');
+    if (fullsizeImageRef.value.classList.contains(CLASS_FULL_SIZE)) {
+      fullsizeImageRef.value.classList.remove(CLASS_FULL_SIZE);
       document.body.style.overflow = 'auto';
-      const img = fullSizeElement.querySelector('.slider__slide-full-size');
-      if (img) {
-        img.classList.remove('slider__slide-full-size');
-      }
     }
   }
 };
@@ -122,29 +101,18 @@ const closeFullSize = (e: KeyboardEvent) => {
 const toFullsizeImage = (e: MouseEvent): void => {
   if (e.type === 'click') {
     const imageElement = e.target as HTMLElement;
-    imageElement.classList.toggle('slider__full-size');
+    imageElement.classList.toggle(CLASS_FULL_SIZE);
 
-    if (imageElement.classList.contains('slider__full-size')) {
+    if (imageElement.classList.contains(CLASS_FULL_SIZE)) {
       window.addEventListener('keydown', closeFullSize);
-      /**
-       * @fix вешать на рефку а не получать
-       * const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
-       * if (sliderWrapperRef.value)
-       *   sliderWrapperRef.value.style.cursor = 'zoom-out';
-       **/
-      const sliderWrapper = document.querySelector(
-        '.slider__wrapper'
-      ) as HTMLElement;
-      if (sliderWrapper) {
-        sliderWrapper.style.cursor = 'zoom-out';
+
+      if (sliderWrapperRef.value) {
+        sliderWrapperRef.value.style.cursor = 'zoom-out';
       }
     } else {
       window.removeEventListener('keydown', closeFullSize);
-      const sliderWrapper = document.querySelector(
-        '.slider__wrapper'
-      ) as HTMLElement;
-      if (sliderWrapper) {
-        sliderWrapper.style.cursor = 'zoom-in';
+      if (sliderWrapperRef.value) {
+        sliderWrapperRef.value.style.cursor = 'zoom-in';
       }
     }
   }
@@ -171,6 +139,10 @@ const nextSlide = () => {
   }
   state.file = state.files[state.currentIndex];
 };
+
+const showPlaceholder = () => state.files.length === 0;
+const showPlaceholderExtension = () =>
+  !isImage(state.file?.path ?? '') && !isVideo(state.file?.path ?? '');
 
 onMounted(() => {
   if (!props.items) return 0;
@@ -284,6 +256,10 @@ onMounted(() => {
 
   img {
     height: auto;
+  }
+
+  p {
+    color: $grey-A6A3AD;
   }
 }
 </style>

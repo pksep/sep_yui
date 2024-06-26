@@ -1,5 +1,5 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import Colors from './Colors';
+import Colors from './Colors.vue';
 
 const meta = {
   title: 'Colors/Colors',

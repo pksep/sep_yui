@@ -1,4 +1,13 @@
-export const colors = {
+type colorT = {
+  text: string;
+  color: string;
+};
+
+type colorsT = {
+  [key: string]: colorT;
+};
+
+export const colors: colorsT = {
   White: {
     text: 'White',
     color: '#ffffff'

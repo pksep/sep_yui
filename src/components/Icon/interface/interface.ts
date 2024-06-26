@@ -1,4 +1,4 @@
-import { IconNameEnum } from './enum';
+import { IconNameEnum } from './enum/enum';
 import { ColorsEnum } from '../../common/colors';
 
 export interface IIconPorps {

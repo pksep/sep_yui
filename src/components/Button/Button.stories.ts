@@ -4,9 +4,9 @@ import Icon from '../Icon/Icon.vue';
 import { SizesEnum } from '../../common/sizes';
 import { ColorsEnum } from '../../common/colors';
 import { StorybookControl } from '../../common/storybook';
-import { ButtonType } from './enum';
+import { ButtonType } from './enum/enum';
 import { fn } from '@storybook/test';
-import { IconNameEnum } from '../Icon/enum';
+import { IconNameEnum } from '../Icon/enum/enum';
 
 const meta = {
   title: 'Button/Button',

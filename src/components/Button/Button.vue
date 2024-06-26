@@ -22,8 +22,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { SizesEnum } from '../../common/sizes';
-import { IButtonProps } from './interface';
-import { ButtonType } from './enum';
+import { IButtonProps } from './interface/interface';
+import { ButtonType } from './enum/enum';
 
 const props = withDefaults(defineProps<IButtonProps>(), {
   disabled: false,

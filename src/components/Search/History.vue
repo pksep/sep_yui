@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, computed } from 'vue';
-import { ISearchProps } from './interfaces/interface';
-import { IconNameEnum } from '../Icon/enum';
+import { reactive, computed } from 'vue';
+import { ISearchProps } from './interface/interface';
+import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { useSearchStore } from '../../stores/search';
 import { trimText } from './../../helpers/trimText';
@@ -70,12 +70,6 @@ const showHistoryClickHandler = () => {
 const removeItem = (item: string) => {
   searchStore.removeHistorySearch(item);
 };
-
-// @fix Консольки не нужны
-onMounted(() => {
-  console.log(props.showHistory, 'SS');
-  console.log(state.getHistorySearch, '111SS');
-});
 </script>
 
 <style lang="scss" scoped>

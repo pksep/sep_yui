@@ -66,7 +66,7 @@
           >
         </li>
       </ul>
-      <Switch :items="languages" @languageSwitch="handleLanguageSwitch" />
+      <Switch @languageSwitch="handleLanguageSwitch" />
     </div>
   </div>
 </template>
@@ -77,10 +77,10 @@ import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
 import Switch from '@/components/Switch/Switch.vue';
-import { MenuType } from '@/components/Menu/enum';
-import { ButtonType } from '@/components/Button/enum';
-import { IconNameEnum } from '@/components/Icon/enum';
-import { IChangeSwitchEmit } from '@/components/Switch/interface';
+import { MenuType } from '@/components/Menu/enum/enum';
+import { ButtonType } from '@/components/Button/enum/enum';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
+import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 
 const props = withDefaults(defineProps<IMenuProps>(), {});
 
@@ -136,8 +136,6 @@ const toggleShow = () => {
 const toggleTheme = (isChecked: boolean) => {
   console.log(isChecked, 'isChecked');
 };
-// @fix передаем из внешки
-const languages = ['Ru', 'En'];
 
 const handleLanguageSwitch = (index: IChangeSwitchEmit) => {
   console.log(index, 'switch');

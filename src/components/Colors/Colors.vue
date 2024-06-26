@@ -103,7 +103,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Color from './Color.vue';
-import { ColorsType } from './enum';
+import { ColorsType } from './enum/enum';
 import { colors } from './colors.ts';
 
 const colorTypes = computed(() => [...new Set(Object.values(ColorsType))]);

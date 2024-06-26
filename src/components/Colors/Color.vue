@@ -15,7 +15,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IColorProps } from './interface';
+import { IColorProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IColorProps>(), {
   text: '',

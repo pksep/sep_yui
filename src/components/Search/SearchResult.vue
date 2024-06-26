@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
-import { ISearchProps } from './interfaces/interface';
-import { IconNameEnum } from '../Icon/enum';
+import { ISearchProps } from './interface/interface';
+import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
 

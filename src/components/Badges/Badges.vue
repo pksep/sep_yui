@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts" setup>
-import { IBadgesProps } from './interface';
-import { BadgesTypeEnum } from './enum';
+import { IBadgesProps } from './interface/interface';
+import { BadgesTypeEnum } from './enum/enum';
 import { onMounted, computed, reactive } from 'vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {

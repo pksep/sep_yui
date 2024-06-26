@@ -113,12 +113,12 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ComputedRef } from 'vue';
-import { IFilterOption, IFilterProps, IStateItem } from './interface';
+import { IFilterOption, IFilterProps, IStateItem } from './interface/interface';
 import Badges from '@/components/Badges/Badges.vue';
-import { BadgesTypeEnum } from '@/components/Badges/enum';
+import { BadgesTypeEnum } from '@/components/Badges/enum/enum';
 import Search from '@/components/Search/Search.vue';
 import Icon from '@/components/Icon/Icon.vue';
-import { IconNameEnum } from '../Icon/enum';
+import { IconNameEnum } from '../Icon/enum/enum';
 import { isArray } from 'lodash';
 
 const props = withDefaults(defineProps<IFilterProps>(), {

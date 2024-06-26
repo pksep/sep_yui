@@ -101,8 +101,7 @@
     </table>
   </div>
 </template>
-<!-- @fix удалить пустой скрипт и понять сломается или нет -->
-<script setup lang="ts"></script>
+
 <style lang="scss" scoped>
 .table-wrapper {
   overflow-x: scroll;

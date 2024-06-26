@@ -55,9 +55,9 @@ import {
   IBreadCrumbsItem,
   IBreadCrumbsEmit,
   IBreadCrumbsProps
-} from './interface';
+} from './interface/interface';
 import Icon from './../Icon/Icon.vue';
-import { IconNameEnum } from './../Icon/enum';
+import { IconNameEnum } from './../Icon/enum/enum';
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 

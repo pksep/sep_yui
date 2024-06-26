@@ -13,7 +13,8 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { IToggleProps } from './interface';
+import { IToggleProps } from './interface/interface';
+import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const props = withDefaults(defineProps<IToggleProps>(), {
   disabled: false,
@@ -24,6 +25,10 @@ const emit = defineEmits<{
   (e: 'themeChange', isChecked: boolean): void;
 }>();
 
+const isChecked = ref(props.checked);
+
+const uniqueId = generateUniqueId();
+
 const classes = computed(() => ({
   toggle: true
 }));
@@ -31,20 +36,6 @@ const classes = computed(() => ({
 const styles = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
-
-/**
- * @fix Вынести глобально и заменить на uuid4
- **/
-const generateUniqueId = () => {
-  return 'toggle-' + Math.random().toString(36).substr(2, 9);
-};
-
-/**
- * @fix ref на верх
- **/
-const isChecked = ref(props.checked);
-
-const uniqueId = ref(generateUniqueId());
 
 const onClick = () => emit('themeChange', isChecked.value);
 </script>
