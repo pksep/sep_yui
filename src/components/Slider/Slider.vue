@@ -1,6 +1,6 @@
 <template>
   <div class="slider">
-    <div class="slider__wrapper" v-if="state.files.length">
+    <div class="slider__wrapper">
       <button
         class="slider__button slider__button--prev"
         @click="prevSlide"
@@ -9,6 +9,17 @@
         <Icon :name="IconNameEnum.leftBig" />
       </button>
       <div class="slider__slides">
+        <div
+          class="placeholder"
+          v-if="
+            state.files.length === 0 ||
+            (!isImage(state.file?.path ?? '') &&
+              !isVideo(state.file?.path ?? ''))
+          "
+        >
+          <img src="./camera.svg" alt="" width="111px" height="111px" />
+          <p>Контент отсутствует</p>
+        </div>
         <img
           v-if="isImage(state.file?.path ?? '')"
           @click="e => toFullsizeImage(e)"
@@ -186,6 +197,7 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-grow: 1;
 
     img,
     video {
@@ -238,6 +250,22 @@ onMounted(() => {
 
   &__slide-full-size {
     height: 100%;
+  }
+}
+
+.placeholder {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 20px;
+  border-radius: 15px;
+  background-color: $white-F0F0F0;
+
+  img {
+    height: auto;
   }
 }
 </style>
