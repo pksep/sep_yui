@@ -32,10 +32,16 @@ const styles = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
 
+/**
+ * @fix Вынести глобально и заменить на uuid4
+ **/
 const generateUniqueId = () => {
   return 'toggle-' + Math.random().toString(36).substr(2, 9);
 };
 
+/**
+ * @fix ref на верх
+ **/
 const isChecked = ref(props.checked);
 
 const uniqueId = ref(generateUniqueId());

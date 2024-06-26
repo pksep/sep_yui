@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive, computed } from 'vue';
-import { ISearchProps } from './interface';
+import { ISearchProps } from './interfaces/interface';
 import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
@@ -105,6 +105,7 @@ const changeSearchValue = () => {
 
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
+  // @fix убрать консоль
   console.log(state.isShowResult, 'state.isShowResult');
 });
 </script>

@@ -225,6 +225,7 @@ const hidefilters = () => {
   }
 };
 
+// classes перенсти выше
 const classes = computed(() => ({
   filter__counter: true,
   counter: true,

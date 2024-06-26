@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
-import { ISearchProps } from './interface';
+import { ISearchProps } from './interfaces/interface';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
@@ -33,11 +33,11 @@ const props = defineProps<ISearchProps>();
 
 const state = reactive({
   isShowList: props.isShowList,
-  globalResultsFunction: computed(() => {
-    return typeof props.globalResultsFunction === 'function'
+  globalResultsFunction: computed(() =>
+    typeof props.globalResultsFunction === 'function'
       ? props.globalResultsFunction()
-      : [];
-  }),
+      : []
+  ),
   isShowResult: props.isShowResult,
   searchValue: props.searchValue
 });
@@ -53,8 +53,11 @@ const classes = computed(() => ({
     state.globalResultsFunction.length >= 5 && state.isShowResult
 }));
 
+/**
+ * @fix не нужно получать событие, можно просто получить item на прямую
+ * */
 const handleChoosePost = (e: MouseEvent) => {
-  const targetText = (e.target as HTMLElement)?.textContent;
+  const targetText = (e.target as HTMLElement).textContent;
   if (targetText) {
     emit('choosePost', targetText);
   }

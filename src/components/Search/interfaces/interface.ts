@@ -1,4 +1,4 @@
-import { IconNameEnum } from '../Icon/enum';
+import { IconNameEnum } from '../../Icon/enum';
 
 export type resultSearchType = {
   icon: IconNameEnum;

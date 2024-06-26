@@ -11,6 +11,9 @@ const meta = {
       control: { type: StorybookControl.boolean },
       defaultValue: false
     },
+    /**
+     * @fix Удалить
+     */
     lang: {
       control: { type: StorybookControl.boolean },
       defaultValue: false

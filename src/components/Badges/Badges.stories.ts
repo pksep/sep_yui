@@ -1,5 +1,5 @@
-import { StoryFn, Meta } from '@storybook/vue3';
-import Badges from '@/components/Badges/Badges';
+import { StoryFn } from '@storybook/vue3';
+import Badges from './Badges.vue';
 import { StorybookControl } from '../../common/storybook';
 import { BadgesTypeEnum } from './enum';
 import { fn } from '@storybook/test';
@@ -33,7 +33,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: { onClick: fn() }
-} as Meta<typeof Badges>;
+};
 
 export default meta;
 

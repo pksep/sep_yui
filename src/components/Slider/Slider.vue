@@ -9,6 +9,7 @@
         <Icon :name="IconNameEnum.leftBig" />
       </button>
       <div class="slider__slides">
+        <!-- @fix выести условие в отдельную функцию -->
         <div
           class="placeholder"
           v-if="
@@ -55,6 +56,9 @@ interface IFile {
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
+/**
+ * @fix вынести в отдельный интерфейс
+ * **/
 const state = reactive<{
   files: IFile[];
   file: IFile | null;
@@ -71,6 +75,7 @@ const state = reactive<{
   defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
   disabledPrev: true,
   disabledNext: false,
+  // @fix вынести глобально в типы расширений
   typeImages: ['.jpg', '.png', '.jpeg'],
   typeVideos: ['.mp4', '.mp3']
 });
@@ -96,6 +101,12 @@ const isVideo = (path: string | null): boolean => {
 
 const closeFullSize = (e: KeyboardEvent) => {
   if (e instanceof KeyboardEvent && e.key === 'Escape') {
+    /**
+     * @fix вешать на рефку а не получать
+     * const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
+     * if (sliderWrapperRef.value)
+     *   sliderWrapperRef.value.style.cursor = 'zoom-out';
+     **/
     const fullSizeElement = document.querySelector('.slider__full-size');
     if (fullSizeElement) {
       fullSizeElement.classList.remove('slider__full-size');
@@ -112,8 +123,15 @@ const toFullsizeImage = (e: MouseEvent): void => {
   if (e.type === 'click') {
     const imageElement = e.target as HTMLElement;
     imageElement.classList.toggle('slider__full-size');
+
     if (imageElement.classList.contains('slider__full-size')) {
       window.addEventListener('keydown', closeFullSize);
+      /**
+       * @fix вешать на рефку а не получать
+       * const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
+       * if (sliderWrapperRef.value)
+       *   sliderWrapperRef.value.style.cursor = 'zoom-out';
+       **/
       const sliderWrapper = document.querySelector(
         '.slider__wrapper'
       ) as HTMLElement;

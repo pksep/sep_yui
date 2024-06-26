@@ -1,5 +1,7 @@
 <template>
+  <!-- @fix переименовать классы под список -->
   <ul class="td-list">
+    <!-- @fix class перенести в classes-->
     <li
       v-for="(item, index) of props.items"
       :key="index"

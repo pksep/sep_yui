@@ -1,4 +1,5 @@
 @import './../../assets/scss/global';
+// @fix стили тоже не должны быть в этой дериктории
 
 .search {
   position: relative;
@@ -34,9 +35,9 @@
       color: $blue-9CBEFF;
     }
 
-    &:focus+svg,
-    &:focus-visible+svg,
-    &:active+svg {
+    &:focus + svg,
+    &:focus-visible + svg,
+    &:active + svg {
       color: $blue-9CBEFF;
     }
   }
@@ -179,6 +180,5 @@
         }
       }
     }
-
   }
 }

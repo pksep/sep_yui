@@ -15,6 +15,7 @@
         v-for="(item, index) in state.getHistorySearch"
         :key="index"
       >
+        <!-- @fix вынести в отдельную функцию-->
         <span
           @click="
             e =>
@@ -32,7 +33,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, computed } from 'vue';
-import { ISearchProps } from './interface';
+import { ISearchProps } from './interfaces/interface';
 import { IconNameEnum } from '../Icon/enum';
 import Icon from './../Icon/Icon.vue';
 import { useSearchStore } from '../../stores/search';
@@ -70,6 +71,7 @@ const removeItem = (item: string) => {
   searchStore.removeHistorySearch(item);
 };
 
+// @fix Консольки не нужны
 onMounted(() => {
   console.log(props.showHistory, 'SS');
   console.log(state.getHistorySearch, '111SS');
@@ -77,5 +79,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+// @fix стили тоже должны быть изолированы и не зависить от searche
 @import './Search.scss';
 </style>

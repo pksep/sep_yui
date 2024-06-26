@@ -33,6 +33,7 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   color: ''
 });
 
+// @fix id: number нам не нужен, мы просто передаем событие e: MouseEvent
 const emit = defineEmits<{
   (e: 'click', id: number): void;
 }>();

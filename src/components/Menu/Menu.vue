@@ -96,10 +96,17 @@ const emit = defineEmits<{
       type: MenuType;
     }
   ): void;
+  // не верные типы передачи событий
   (e: 'themeChange', event: Event): void;
   (e: 'languageSwitch', event: Event): void;
 }>();
 
+/**
+ * @fix сюда передаем тип - куда нажал и значение, если оно есть
+ * @example
+ *  type: MenuType
+ * event('click',MenuType.profile )
+ **/
 const choosedOptions = (e: MouseEvent): void => {
   const target = e.target as HTMLElement;
   const optionType = target.dataset.type;
@@ -111,13 +118,12 @@ const choosedOptions = (e: MouseEvent): void => {
   }
 };
 
-const classes = computed(() => {
-  return {
-    menu__heading: true,
-    active: state.isShow
-  };
-});
+const classes = computed(() => ({
+  menu__heading: true,
+  active: state.isShow
+}));
 
+// @fix удалить
 // const nameIcon = computed(() => {
 //   return state.isShow ? 'chevronDown' : 'chevronUp';
 // });
@@ -126,10 +132,11 @@ const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 
+// @fix выбрана темная тема или нет
 const toggleTheme = (isChecked: boolean) => {
   console.log(isChecked, 'isChecked');
 };
-
+// @fix передаем из внешки
 const languages = ['Ru', 'En'];
 
 const handleLanguageSwitch = (index: IChangeSwitchEmit) => {

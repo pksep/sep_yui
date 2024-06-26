@@ -1,5 +1,6 @@
 <template>
   <ul class="bread-crumbs">
+    <!-- @fix вынести в classes -->
     <li
       :class="{ 'bread-crumbs__item': true }"
       v-for="(crumb, inx) in state.items"
