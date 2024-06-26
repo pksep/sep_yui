@@ -13,26 +13,21 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
-import { ISwitchProps } from './interface';
+import { ISwitchProps, IChangeSwitchEmit } from './interface';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {});
-
-interface IChangeSwitchEmit {
-  index: number;
-  value: string;
-}
 
 const state = reactive({
   activeIndex: 0
 });
 
 const emit = defineEmits<{
-  (e: 'change', event: IChangeSwitchEmit): void;
+  (e: 'languageSwitch', event: IChangeSwitchEmit): void;
 }>();
 
 const toChooseItem = (index: number) => {
   state.activeIndex = index;
-  emit('change', {
+  emit('languageSwitch', {
     index,
     value: props.items[index]
   });
@@ -56,6 +51,7 @@ onMounted(() => {
   width: fit-content;
   border-radius: 5px;
   background-color: $white;
+  margin: 0;
 }
 
 .td-item {

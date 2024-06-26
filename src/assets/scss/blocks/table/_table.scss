@@ -29,10 +29,15 @@ table {
     padding: 12px 8px;
     border: 1px solid $white-E0E0E0;
 
-    img {
-      object-fit: contain;
-      max-width: 100%;
-      height: auto;
+    img.link_img {
+      width: 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      padding-bottom: 20px;
+      outline: none;
+      cursor: pointer;
+      padding: 5px;
+      box-shadow: 0 2px #b2b1b1, 0 3px #a5a5a5, 0 4px 4px rgba(0, 0, 0, 0.4);
     }
 
     div {

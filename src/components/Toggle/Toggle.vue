@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<IToggleProps>(), {
 });
 
 const emit = defineEmits<{
-  (e: 'change', isChecked: number): void;
+  (e: 'themeChange', isChecked: boolean): void;
 }>();
 
 const classes = computed(() => ({
@@ -40,7 +40,7 @@ const isChecked = ref(props.checked);
 
 const uniqueId = ref(generateUniqueId());
 
-const onClick = () => emit('change', isChecked.value);
+const onClick = () => emit('themeChange', isChecked.value);
 </script>
 
 <style lang="scss" scoped>
