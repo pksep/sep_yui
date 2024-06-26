@@ -16,20 +16,20 @@
       </div>
     </div>
     <History
-      :showHistory="props.showHistory"
-      :isShowButtonHistory="state.isShowButtonHistory"
-      :isShowList="state.isShowList"
+      :show-history="props.showHistory"
+      :is-show-button-history="state.isShowButtonHistory"
+      :is-show-list="state.isShowList"
       @choosePost="choosePost"
       v-if="props.showHistory"
     />
     <SearchResult
-      :isShowList="state.isShowList"
+      :is-show-list="state.isShowList"
       @choosePost="choosePost"
       v-if="props.global"
-      :globalResultsFunction="state.globalResultsFunction"
-      :isShowResult="state.isShowResult"
+      :global-results-function="state.globalResultsFunction"
+      :is-show-result="state.isShowResult"
       :key="random(1, 999)"
-      :searchValue="state.searchValue"
+      :search-value="state.searchValue"
     />
   </div>
 </template>

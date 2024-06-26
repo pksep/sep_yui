@@ -69,12 +69,12 @@
     </div>
     <Table />
     <div style="width: 553px">
-      <Search :showHistory="true" :options="optionsBase" />
+      <Search :show-history="true" :options="optionsBase" />
       <br />
       <Search
         :global="true"
-        :showHistory="false"
-        :globalResultsFunction="getAllResults"
+        :show-history="false"
+        :global-results-function="getAllResults"
       />
     </div>
   </div>
