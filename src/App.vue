@@ -77,10 +77,11 @@
         :global-results-function="getAllResults"
       />
     </div>
-    <Menu
+    <UserMenu
       :items="array"
       @themeChange="e => console.log(e, 'e')"
       @languageSwitch="handleLanguageSwitch"
+      :closeAfterClick="true"
     />
   </div>
 </template>
@@ -97,7 +98,7 @@ import Slider from '@/components/Slider/Slider.vue';
 import Table from '@/components/Table/Table.vue';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs.vue';
-import Menu from '@/components/Menu/Menu.vue';
+import UserMenu from '@/components/UserMenu/UserMenu.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import '@/assets/icons/sprite';
 import { BadgesTypeEnum } from './components/Badges/enum/enum';

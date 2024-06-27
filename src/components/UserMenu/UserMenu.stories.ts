@@ -1,12 +1,12 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import Menu from './Menu.vue';
+import UserMenu from './UserMenu.vue';
 import { StorybookControl } from '../../common/storybook';
 import { userEvent, within } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
 
 const meta = {
-  title: 'Menu/Menu',
-  component: Menu,
+  title: 'UserMenu/UserMenu',
+  component: UserMenu,
   argTypes: {
     name: {
       control: {
@@ -25,16 +25,16 @@ const meta = {
     }
   },
   tags: ['autodocs']
-} as Meta<typeof Menu>;
+} as Meta<typeof UserMenu>;
 
 export default meta;
 
-const Template: StoryFn<typeof Menu> = args => ({
-  components: { Menu },
+const Template: StoryFn<typeof UserMenu> = args => ({
+  components: { UserMenu },
   setup() {
     return { args };
   },
-  template: `<Menu v-bind="args"/> `
+  template: `<UserMenu v-bind="args"/> `
 });
 
 export const Default = Template.bind({});

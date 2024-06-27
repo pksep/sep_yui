@@ -64,7 +64,9 @@ const removeItem = (item: string) => {
   searchStore.removeHistorySearch(item);
 };
 
-const handleChoosePost = (item: string) => emit('choosePost', item);
+const handleChoosePost = (item: string) => {
+  emit('choosePost', item);
+};
 </script>
 
 <style lang="scss" scoped>

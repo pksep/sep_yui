@@ -20,6 +20,7 @@
       :is-show-button-history="state.isShowButtonHistory"
       :is-show-list="state.isShowList"
       v-if="props.showHistory"
+      :closeAfterClick="props.closeAfterClick"
     />
     <SearchResult
       :is-show-list="state.isShowList"
@@ -28,6 +29,7 @@
       :is-show-result="state.isShowResult"
       :key="random(1, 999)"
       :search-value="state.searchValue"
+      :closeAfterClick="props.closeAfterClick"
     />
   </div>
 </template>

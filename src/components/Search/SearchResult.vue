@@ -53,7 +53,9 @@ const classes = computed(() => ({
     state.globalResultsFunction.length >= 5 && state.isShowResult
 }));
 
-const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
+const handleChoosePost = (item: resultSearchType) => {
+  emit('choosePost', item);
+};
 </script>
 
 <style lang="scss" scoped>

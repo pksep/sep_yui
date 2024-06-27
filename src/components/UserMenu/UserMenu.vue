@@ -85,7 +85,7 @@ import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
 import Switch from '@/components/Switch/Switch.vue';
-import { MenuType } from '@/components/Menu/enum/enum';
+import { MenuType } from '@/components/UserMenu/enum/enum';
 import { ButtonType } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
@@ -112,9 +112,13 @@ const emit = defineEmits<{
 const choosedOptions = (e: MouseEvent, type: MenuType): void => {
   const target = e.target as HTMLElement;
   const optionType = target.dataset.type;
+
   if (optionType !== undefined) {
     state.option = optionType;
     emit('click', state.option as MenuType);
+    if (props.closeAfterClick) {
+      state.isShow = false;
+    }
   } else {
     console.error('Option type is undefined');
   }

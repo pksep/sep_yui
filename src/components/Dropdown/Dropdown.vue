@@ -7,7 +7,7 @@
     </span>
     <ul class="dropdown__list" v-if="state.isOpened">
       <li
-        class="dropdown__item truncate"
+        :class="classes"
         v-for="option in options"
         @click="() => getChoosenOption(option)"
         :key="option"
@@ -18,13 +18,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, computed, ref } from 'vue';
 import { IDropdownProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {
-  options: () => [] as string[]
+  options: []
 });
 
 const emit = defineEmits<{
@@ -34,8 +34,16 @@ const emit = defineEmits<{
 const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
-  lengthOption: 0
+  lengthOption: 0,
+  activeOption: ACTIVE
 });
+
+const ACTIVE = 'active';
+
+const classes = computed(() => ({
+  'dropdown__item ': true,
+  truncate: true
+}));
 
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
@@ -43,15 +51,15 @@ const getChoosenOption = (value: string) => {
   state.isOpened = false;
 };
 
-const closeOpenList = (e: Event) => {
+const closeOpenList = (e: MouseEvent) => {
   state.isOpened = !state.isOpened;
 
   const target = e.currentTarget as HTMLElement | null;
   if (target) {
-    if (target.classList.contains('active')) {
-      target.classList.remove('active');
+    if (target.classList.contains(ACTIVE)) {
+      target.classList.remove(ACTIVE);
     } else {
-      target.classList.add('active');
+      target.classList.add(ACTIVE);
     }
   }
 };
@@ -100,6 +108,11 @@ const closeOpenList = (e: Event) => {
     cursor: pointer;
 
     &:hover {
+      background-color: $WHITE-ECF3FF;
+      border-radius: 5px;
+    }
+
+    &.active {
       background-color: $WHITE-ECF3FF;
       border-radius: 5px;
     }

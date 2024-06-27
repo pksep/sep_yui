@@ -4,4 +4,5 @@ export interface IMenuProps {
   role: string;
   path: string;
   items?: ISwitchProps;
+  closeAfterClick: boolean;
 }
