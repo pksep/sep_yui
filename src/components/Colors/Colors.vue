@@ -128,21 +128,21 @@ const filteredColors = (str: string) => {
   font-family: 'Arial', sans-serif;
 
   h2 {
-    color: $blue-77A6FF;
+    color: $BLUE-77A6FF;
     font-family: 'Arial', sans-serif;
     font-size: 58px;
   }
 
   &__heading {
     grid-column: 1/13;
-    background-color: $blue-77A6FF;
+    background-color: $BLUE-77A6FF;
     min-height: 124px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 32px 32px 0 0;
     h2 {
-      color: $white;
+      color: $WHITE;
       font-size: 58px;
     }
   }

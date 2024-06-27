@@ -53,7 +53,7 @@ onMounted(() => {
   padding: 6px;
   width: fit-content;
   border-radius: 5px;
-  background-color: $white;
+  background-color: $WHITE;
   margin: 0;
 }
 
@@ -66,8 +66,8 @@ onMounted(() => {
 }
 
 .switch-active {
-  background-color: $blue-77A6FF;
-  color: $white;
+  background-color: $BLUE-77A6FF;
+  color: $WHITE;
   border-radius: 5px;
   transition: 0.3s ease-in-out;
 }

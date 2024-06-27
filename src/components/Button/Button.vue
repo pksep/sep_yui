@@ -64,7 +64,7 @@ const onClick = () => emit('click');
 
 <style lang="scss" scoped>
 .button {
-  color: $white;
+  color: $WHITE;
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -99,61 +99,61 @@ const onClick = () => emit('click');
 }
 
 .primary {
-  background-color: $blue-77A6FF;
+  background-color: $BLUE-77A6FF;
 
   &:active {
-    background-color: $blue-548CF6;
+    background-color: $BLUE-548CF6;
   }
   &.disabled:disabled {
-    color: $grey-757D8A;
-    background-color: $white-F5F5F5;
+    color: $GREY-757D8A;
+    background-color: $WHITE-F5F5F5;
   }
 }
 
 .secondary {
-  background-color: $white-F8F9FD;
-  color: $blue-77A6FF;
+  background-color: $WHITE-F8F9FD;
+  color: $BLUE-77A6FF;
 
   &:active {
-    background-color: $white-ECF3FF;
+    background-color: $WHITE-ECF3FF;
   }
   &.disabled:disabled {
-    color: $grey-757D8A;
-    background-color: $white-F5F5F5;
+    color: $GREY-757D8A;
+    background-color: $WHITE-F5F5F5;
   }
 }
 
 .outline {
-  background-color: $transparent;
-  border: 1px solid $blue-9CBEFF;
-  color: $grey-282828;
+  background-color: $TRANSPARENT;
+  border: 1px solid $BLUE-9CBEFF;
+  color: $GREY-282828;
 
   &:active {
-    color: $white;
-    background-color: $blue-548CF6;
+    color: $WHITE;
+    background-color: $BLUE-548CF6;
   }
 
   &.disabled:disabled {
-    color: $grey-757D8A;
-    background-color: $white-F5F5F5;
-    border: 1px solid $white-E7E7E7;
+    color: $GREY-757D8A;
+    background-color: $WHITE-F5F5F5;
+    border: 1px solid $WHITE-E7E7E7;
   }
 }
 
 .ghost {
-  background-color: $transparent;
-  color: $grey-282828;
+  background-color: $TRANSPARENT;
+  color: $GREY-282828;
 
   &:hover {
-    background-color: $white-F8F9FD;
+    background-color: $WHITE-F8F9FD;
   }
 
   &:active {
-    color: $blue-77A6FF;
-    background-color: $white-ECF3FF;
+    color: $BLUE-77A6FF;
+    background-color: $WHITE-ECF3FF;
   }
   &.disabled:disabled {
-    background-color: $white-E6E6E6;
+    background-color: $WHITE-E6E6E6;
   }
 }
 

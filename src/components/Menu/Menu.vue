@@ -180,7 +180,7 @@ const handleLanguageSwitch = (event: { index: number; value: string }) => {
     min-height: 40px;
 
     &.active {
-      background-color: $blue-F2F7FF;
+      background-color: $BLUE-F2F7FF;
     }
   }
 
@@ -188,7 +188,7 @@ const handleLanguageSwitch = (event: { index: number; value: string }) => {
     padding: 15px 9px;
     width: 100%;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 5px;
     position: absolute;
     z-index: 10000;
@@ -209,20 +209,20 @@ const handleLanguageSwitch = (event: { index: number; value: string }) => {
   }
 
   &__name {
-    color: $grey-121212;
+    color: $GREY-121212;
   }
 
   &__role {
-    color: $grey-515151;
+    color: $GREY-515151;
   }
 
   &__button {
-    background-color: $transparent;
+    background-color: $TRANSPARENT;
     padding: 0;
     min-height: 40px;
 
     &:hover {
-      background-color: $transparent;
+      background-color: $TRANSPARENT;
     }
   }
 }
@@ -246,8 +246,8 @@ const handleLanguageSwitch = (event: { index: number; value: string }) => {
 
     &:hover,
     &:active {
-      background-color: $blue-F2F7FF;
-      color: $blue-70A6FF;
+      background-color: $BLUE-F2F7FF;
+      color: $BLUE-70A6FF;
     }
   }
 

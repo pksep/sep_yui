@@ -58,9 +58,9 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
 
 <style lang="scss" scoped>
 .history {
-  color: $grey-282828;
+  color: $GREY-282828;
   outline: none;
-  background-color: $white;
+  background-color: $WHITE;
   border-radius: 5px;
   display: none;
 
@@ -72,10 +72,10 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
     display: flex;
     align-items: center;
     padding: 8px 10px;
-    color: $grey-282828;
-    border: 1px solid transparent;
+    color: $GREY-282828;
+    border: 1px solid TRANSPARENT;
     outline: none;
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 5px;
     width: inherit;
 
@@ -95,8 +95,8 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
     transition: 0.3s ease-in-out;
     padding: 0;
     margin: 0;
-    background-color: $white;
-    border: 1px solid $blue-9CBEFF;
+    background-color: $WHITE;
+    border: 1px solid $BLUE-9CBEFF;
     border-radius: 5px;
 
     &--opened {
@@ -115,7 +115,7 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
   }
 
   &__item {
-    background: $white;
+    background: $WHITE;
     overflow: hidden;
     text-align: left;
     display: flex;
@@ -127,7 +127,7 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
     padding-bottom: 3px;
 
     &:hover {
-      background-color: $blue-F2F7FF;
+      background-color: $BLUE-F2F7FF;
     }
 
     span {
@@ -139,7 +139,7 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
       height: inherit;
 
       &:hover {
-        background-color: $blue-F2F7FF;
+        background-color: $BLUE-F2F7FF;
       }
 
       &.result {
@@ -152,7 +152,7 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
       height: 34px;
 
       .history__text {
-        color: $grey-757D8A;
+        color: $GREY-757D8A;
       }
     }
     button {
@@ -173,9 +173,9 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
 
       button {
         background: none;
-        border: 1px solid $transparent;
+        border: 1px solid $TRANSPARENT;
         outline: none;
-        color: $grey-757D8A;
+        color: $GREY-757D8A;
         display: block;
 
         &:hover {
@@ -194,6 +194,6 @@ const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
 }
 
 .blue {
-  color: $blue-77A6FF;
+  color: $BLUE-77A6FF;
 }
 </style>

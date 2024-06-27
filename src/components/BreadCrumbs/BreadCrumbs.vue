@@ -136,7 +136,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   list-style-type: none;
   padding: 0;
   margin: 0;
-  color: $grey-B8B8B8;
+  color: $GREY-B8B8B8;
 
   &__item {
     display: flex;
@@ -172,14 +172,14 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     }
 
     &.disabled {
-      color: $white-E0E0E0;
+      color: $WHITE-E0E0E0;
       user-select: none;
       pointer-events: none;
       cursor: auto;
     }
 
     &:hover {
-      color: $blue-77A6FF;
+      color: $BLUE-77A6FF;
     }
   }
 }
@@ -188,8 +188,8 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   display: flex;
 
   &--closed {
-    background-color: $blue-4480F345;
-    color: $blue-4480F3;
+    background-color: $BLUE-4480F345;
+    color: $BLUE-4480F3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,14 +201,14 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     transition: 0.3s ease-in-out;
 
     &:hover {
-      background-color: $blue-D6E4FF;
+      background-color: $BLUE-D6E4FF;
     }
   }
 
   &__item {
     span.checked {
-      background-color: $blue-D6E4FF;
-      color: $blue-77A6FF;
+      background-color: $BLUE-D6E4FF;
+      color: $BLUE-77A6FF;
       border-radius: 6px;
       padding: 3px 8px;
     }
@@ -224,10 +224,10 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   padding: 5px 12px;
   border-radius: 5px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
-  background-color: $white;
+  background-color: $WHITE;
   z-index: -10000;
   top: 25px;
-  color: $grey-282828;
+  color: $GREY-282828;
   transition: 0.3s ease-in-out;
 
   &.scroll {
@@ -246,7 +246,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   }
 
   &__item.checked {
-    background-color: $blue-EAF2FF;
+    background-color: $BLUE-EAF2FF;
   }
 }
 
@@ -255,7 +255,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   top: -30px;
   right: 0;
   padding: 5px;
-  background-color: $white;
+  background-color: $WHITE;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   z-index: -10000;

@@ -113,18 +113,18 @@ const handleLanguageSwitch = (event: { index: number; value: string }) => {
 const array = ['Ru', 'En'];
 
 const files = [
-  // {
-  //   path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.jpg'
-  // },
-  // {
-  //   path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.woff'
-  // },
-  // {
-  //   path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
-  // },
-  // {
-  //   path: 'https://www.sunhome.ru/i/wallpapers/210/voronie-loshadi.orig.jpg'
-  // }
+  {
+    path: 'https://www.sunhome.ru/i/wallpapers/14/loshadi-v4.orig.jpg'
+  },
+  {
+    path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.woff'
+  },
+  {
+    path: 'https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61557331a47cb7.87464437.mp4?filename=1109668_stairs_standard_dawn_1920x1080.mp4'
+  },
+  {
+    path: 'https://www.sunhome.ru/i/wallpapers/210/voronie-loshadi.orig.jpg'
+  }
 ];
 
 const badgesItems = [
@@ -288,11 +288,11 @@ const getAllResults = () => {
   gap: 5px;
 }
 .text {
-  color: black;
+  color: BLACK;
   font-family: 'Arial';
 
   &:hover {
-    color: blue;
+    color: BLUE;
   }
 }
 .icons {

@@ -78,39 +78,39 @@ const handleChoosePost = (item: string) => emit('choosePost', item);
 
   &__input {
     width: inherit;
-    color: $grey-9A9B9D;
+    color: $GREY-9A9B9D;
     padding: 12px 11px 12px 35px;
-    border: 1px solid transparent;
+    border: 1px solid TRANSPARENT;
     border-radius: 5px;
     transition: 0.3s ease-in-out;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: $blue-F8F9FD;
+    background-color: $BLUE-F8F9FD;
 
     &:hover,
     &:focus,
     &:focus-visible,
     &:active {
-      border: 1px solid $blue-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
       outline: none;
     }
 
     &:focus,
     &:focus-visible,
     &:active {
-      color: $blue-9CBEFF;
+      color: $BLUE-9CBEFF;
     }
 
     &:focus + svg,
     &:focus-visible + svg,
     &:active + svg {
-      color: $blue-9CBEFF;
+      color: $BLUE-9CBEFF;
     }
   }
 
   &__icon-wrapper {
-    color: $grey-9A9B9D;
+    color: $GREY-9A9B9D;
     position: relative;
     min-height: 49px;
     display: flex;
@@ -137,9 +137,9 @@ const handleChoosePost = (item: string) => emit('choosePost', item);
 }
 
 .history {
-  color: $grey-282828;
+  color: $GREY-282828;
   outline: none;
-  background-color: $white;
+  background-color: $WHITE;
   border-radius: 5px;
   display: none;
 
@@ -151,10 +151,10 @@ const handleChoosePost = (item: string) => emit('choosePost', item);
     display: flex;
     align-items: center;
     padding: 8px 10px;
-    color: $grey-282828;
-    border: 1px solid transparent;
+    color: $GREY-282828;
+    border: 1px solid TRANSPARENT;
     outline: none;
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 5px;
     width: inherit;
 
@@ -176,7 +176,7 @@ const handleChoosePost = (item: string) => emit('choosePost', item);
     transition: 0.3s ease-in-out;
     padding: 0;
     margin: 0;
-    background-color: $white;
+    background-color: $WHITE;
 
     &--opened {
       opacity: 1;
@@ -194,9 +194,9 @@ const handleChoosePost = (item: string) => emit('choosePost', item);
   }
 
   &__item {
-    background: $white;
+    background: $WHITE;
     overflow: hidden;
-    border-bottom: 1px solid $white-E7E7E7;
+    border-bottom: 1px solid $WHITE-E7E7E7;
     text-align: left;
     display: flex;
     align-items: center;
@@ -215,7 +215,7 @@ const handleChoosePost = (item: string) => emit('choosePost', item);
       height: inherit;
 
       &:hover {
-        background-color: $blue-F2F7FF;
+        background-color: $BLUE-F2F7FF;
       }
     }
 
@@ -237,9 +237,9 @@ const handleChoosePost = (item: string) => emit('choosePost', item);
 
       button {
         background: none;
-        border: 1px solid $transparent;
+        border: 1px solid $TRANSPARENT;
         outline: none;
-        color: $grey-757D8A;
+        color: $GREY-757D8A;
         display: block;
 
         &:hover {

@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<IColorProps>(), {
 </script>
 <style lang="scss">
 .color {
-  background-color: $white;
+  background-color: $WHITE;
   -webkit-box-shadow: 0px 0.57px 1.79px 0px rgba(12, 20, 33, 1);
   -moz-box-shadow: 0px 0.57px 1.79px 0px rgba(12, 20, 33, 1);
   box-shadow: 0px 0.57px 1.79px 0px rgba(12, 20, 33, 1);
@@ -42,12 +42,12 @@ const props = withDefaults(defineProps<IColorProps>(), {
     width: 25px;
     height: 15px;
     border-radius: 14px;
-    border: 1px solid $grey-DCDFED;
+    border: 1px solid $GREY-DCDFED;
   }
 
   &__text-color {
     text-transform: uppercase;
-    color: $grey-677074;
+    color: $GREY-677074;
     font-size: 14px;
   }
 

@@ -113,41 +113,41 @@ onMounted(() => {
 
   &__input {
     width: inherit;
-    color: $grey-9A9B9D;
+    color: $GREY-9A9B9D;
     padding: 12px 11px 12px 35px;
-    border: 1px solid transparent;
+    border: 1px solid TRANSPARENT;
     border-radius: 5px;
     transition: 0.3s ease-in-out;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: $blue-F8F9FD;
+    background-color: $BLUE-F8F9FD;
 
     &:hover,
     &:focus,
     &:focus-visible,
     &:active {
-      border: 1px solid $blue-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
       outline: none;
     }
 
     &:focus,
     &:focus-visible,
     &:active {
-      color: $blue-9CBEFF;
+      color: $BLUE-9CBEFF;
     }
 
     &:focus + svg,
     &:focus-visible + svg,
     &:active + svg {
-      color: $blue-9CBEFF;
+      color: $BLUE-9CBEFF;
     }
 
     &__input {
       &:focus,
       &:focus-visible,
       &:active {
-        background-color: $white;
+        background-color: $WHITE;
         & + svg {
           display: none;
         }
@@ -157,7 +157,7 @@ onMounted(() => {
   }
 
   &__icon-wrapper {
-    color: $grey-9A9B9D;
+    color: $GREY-9A9B9D;
     position: relative;
     min-height: 49px;
     display: flex;

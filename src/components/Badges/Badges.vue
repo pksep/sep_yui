@@ -70,44 +70,44 @@ onMounted(() => {
 }
 
 .default span {
-  color: $grey-757D8A;
-  background-color: $grey-E2E2E2;
+  color: $GREY-757D8A;
+  background-color: $GREY-E2E2E2;
 }
 
 .blue span {
-  color: $blue-5CBAFF;
-  background-color: $blue-E0F2FF;
+  color: $BLUE-5CBAFF;
+  background-color: $BLUE-E0F2FF;
 }
 
 .green span {
-  color: $green-0FBE3F;
-  background-color: $green-D8F2DA;
+  color: $GREEN-0FBE3F;
+  background-color: $GREEN-D8F2DA;
 }
 
 .orange span {
-  color: $orange-E8A702;
-  background-color: $orange-FAEED5;
+  color: $ORANGE-E8A702;
+  background-color: $ORANGE-FAEED5;
 }
 
 .red span {
-  color: $red-FF6868;
-  background-color: $red-FFE2E1;
+  color: $RED-FF6868;
+  background-color: $RED-FFE2E1;
 }
 
 .pink span {
-  color: $pink-FE3A8B;
-  background-color: $pink-FEDAE9;
+  color: $PINK-FE3A8B;
+  background-color: $PINK-FEDAE9;
 }
 
 .base.choosed {
   position: relative;
-  background-color: $blue-F2F7FF;
+  background-color: $BLUE-F2F7FF;
   padding: 3px 20px 3px 3px;
 
   &:before,
   &:after {
     @include pseudo(12px, 1px);
-    background-color: $grey-757D8A;
+    background-color: $GREY-757D8A;
     top: 50%;
     right: 5px;
     border-radius: 5px;

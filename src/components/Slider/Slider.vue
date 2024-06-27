@@ -10,11 +10,21 @@
       </button>
       <div class="slider__slides">
         <div class="placeholder" v-if="showPlaceholder()">
-          <img src="./camera.svg" alt="" width="111px" height="111px" />
+          <img
+            src="./../../assets/images/slider/camera.svg"
+            alt=""
+            width="111px"
+            height="111px"
+          />
           <p>Контент отсутствует</p>
         </div>
         <div class="placeholder" v-if="showPlaceholderExtension()">
-          <img src="./closed-camera.svg" alt="" width="111px" height="111px" />
+          <img
+            src="./../../assets/images/slider/closed-camera.svg"
+            alt=""
+            width="111px"
+            height="111px"
+          />
           <p>{{ state.extension }}</p>
         </div>
         <img
@@ -141,8 +151,11 @@ const nextSlide = () => {
 };
 
 const showPlaceholder = () => state.files.length === 0;
+
 const showPlaceholderExtension = () =>
-  !isImage(state.file?.path ?? '') && !isVideo(state.file?.path ?? '');
+  !isImage(state.file?.path ?? '') &&
+  !isVideo(state.file?.path ?? '') &&
+  state.files.length > 0;
 
 onMounted(() => {
   if (!props.items) return 0;
@@ -158,11 +171,11 @@ onMounted(() => {
 .slider {
   width: 100%;
   height: 260px;
-  border: 1px solid $white-E0E0E0;
+  border: 1px solid $WHITE-E0E0E0;
   border-radius: 10px;
   transition: 0.3s ease-in-out;
   &:hover {
-    border: 1px solid $blue-9CBEFF;
+    border: 1px solid $BLUE-9CBEFF;
   }
 
   &__wrapper {
@@ -176,13 +189,13 @@ onMounted(() => {
     cursor: zoom-in;
 
     &:hover {
-      background-color: $blue-F2F7FF;
+      background-color: $BLUE-F2F7FF;
       border-radius: 10px;
     }
   }
 
   &__slides {
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -205,8 +218,8 @@ onMounted(() => {
 
   &__button {
     width: 64px;
-    background-color: $white;
-    border: 1px solid $transparent;
+    background-color: $WHITE;
+    border: 1px solid $TRANSPARENT;
     outline: none;
     border-radius: 10px;
     padding: 0 20px;
@@ -214,13 +227,13 @@ onMounted(() => {
     cursor: pointer;
 
     &:active {
-      background-color: $blue-D6E4FF;
-      color: $blue-77A6FF;
+      background-color: $BLUE-D6E4FF;
+      color: $BLUE-77A6FF;
     }
 
     &:disabled {
-      background-color: $white-F5F5F5;
-      color: $grey-A6A3AD;
+      background-color: $WHITE-F5F5F5;
+      color: $GREY-A6A3AD;
     }
   }
 
@@ -252,14 +265,14 @@ onMounted(() => {
   flex-grow: 1;
   gap: 20px;
   border-radius: 15px;
-  background-color: $white-F0F0F0;
+  background-color: $WHITE-F0F0F0;
 
   img {
     height: auto;
   }
 
   p {
-    color: $grey-A6A3AD;
+    color: $GREY-A6A3AD;
   }
 }
 </style>

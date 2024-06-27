@@ -44,7 +44,7 @@ const onClick = () => emit('themeChange', isChecked.value);
 @import './../../assets/scss/_global.scss';
 
 .toggle {
-  color: $white;
+  color: $WHITE;
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -69,7 +69,7 @@ const onClick = () => emit('themeChange', isChecked.value);
   left: 0;
   width: 26px;
   height: 16px;
-  background-color: $grey-E2E2E2;
+  background-color: $GREY-E2E2E2;
   border-radius: 34px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -83,12 +83,12 @@ const onClick = () => emit('themeChange', isChecked.value);
   border-radius: 50%;
   top: 3px;
   left: 3px;
-  background-color: $white;
+  background-color: $WHITE;
   transition: transform 0.3s;
 }
 
 .toggle .toggle-input:checked + .toggle-label {
-  background-color: $blue-9CBEFF;
+  background-color: $BLUE-9CBEFF;
 }
 
 .toggle .toggle-input:checked + .toggle-label::before {

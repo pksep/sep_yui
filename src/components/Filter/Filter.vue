@@ -303,9 +303,9 @@ onMounted(() => {
     display: flex;
     align-items: center;
     width: fit-content;
-    border: 1px solid $white-E7E7E7;
-    color: $grey-757D8A;
-    background-color: $white;
+    border: 1px solid $WHITE-E7E7E7;
+    color: $GREY-757D8A;
+    background-color: $WHITE;
     transition: 0.3s ease-in-out;
     padding: 10px;
     border-radius: 10px;
@@ -313,17 +313,17 @@ onMounted(() => {
     user-select: none;
 
     &:hover {
-      border: 1px solid $blue-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
     }
 
     &.active {
-      color: $blue-9CBEFF;
-      border: 1px solid $blue-9CBEFF;
+      color: $BLUE-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
     }
   }
 
   &__counter {
-    color: $grey-757D8A;
+    color: $GREY-757D8A;
   }
 
   &__select-wrapper {
@@ -331,7 +331,7 @@ onMounted(() => {
     top: 62px;
     z-index: 20;
     left: 0;
-    background-color: $white;
+    background-color: $WHITE;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
@@ -348,12 +348,12 @@ onMounted(() => {
     gap: 5px;
 
     &.selected {
-      border-bottom: 0.5px solid $white-E7E7E7;
+      border-bottom: 0.5px solid $WHITE-E7E7E7;
       padding-bottom: 10px;
     }
 
     &.select-counter {
-      background-color: $white;
+      background-color: $WHITE;
       border-radius: 10px;
       box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
     }
@@ -364,16 +364,16 @@ onMounted(() => {
 
       .filter__select-item {
         padding: 10px;
-        border-bottom: 1px solid $white-E7E7E7;
+        border-bottom: 1px solid $WHITE-E7E7E7;
       }
     }
   }
 
   &__close {
-    color: $grey-757D8A;
+    color: $GREY-757D8A;
     cursor: pointer;
-    background-color: $transparent;
-    border: 1px solid $transparent;
+    background-color: $TRANSPARENT;
+    border: 1px solid $TRANSPARENT;
     outline: none;
     display: flex;
     align-items: center;
@@ -422,7 +422,7 @@ onMounted(() => {
       max-width: 187px;
 
       span.badges-text {
-        color: $blue-407BFF;
+        color: $BLUE-407BFF;
       }
     }
 

@@ -63,17 +63,17 @@ const closeOpenList = (e: Event) => {
   &__current {
     width: inherit;
     padding: 6px 5px;
-    background-color: $white;
+    background-color: $WHITE;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid $transparent;
+    border: 1px solid $TRANSPARENT;
     margin-bottom: 5px;
     border-radius: 5px;
     cursor: pointer;
 
     &.active {
-      border: 1px solid $blue-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
     }
 
     svg {
@@ -88,9 +88,9 @@ const closeOpenList = (e: Event) => {
     padding: 6px 5px;
     max-height: 120px;
     overflow-y: scroll;
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 5px;
-    border: 1px solid $blue-9CBEFF;
+    border: 1px solid $BLUE-9CBEFF;
     display: grid;
     gap: 10px;
   }
@@ -100,7 +100,7 @@ const closeOpenList = (e: Event) => {
     cursor: pointer;
 
     &:hover {
-      background-color: $white-ECF3FF;
+      background-color: $WHITE-ECF3FF;
       border-radius: 5px;
     }
   }
