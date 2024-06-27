@@ -1,6 +1,5 @@
 <template>
   <ul class="bread-crumbs">
-    <!-- @fix вынести в classes -->
     <li :class="classesItem" v-for="(crumb, inx) in state.items" :key="inx">
       <div v-if="isShowSubList(inx)">
         <span class="bread-crumbs--closed" @click="toggleShowList">...</span>
@@ -97,15 +96,13 @@ const classesItem = computed(() => ({
   'bread-crumbs__item': true
 }));
 
-const classes = computed(() => {
-  return {
-    crumbs: {
-      'bread-subcrumbs': true,
-      scroll: true,
-      active: state.isShowList
-    }
-  };
-});
+const classes = computed(() => ({
+  crumbs: {
+    'bread-subcrumbs': true,
+    scroll: true,
+    active: state.isShowList
+  }
+}));
 
 const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
   if (inx === state.items.length - 1) return;
