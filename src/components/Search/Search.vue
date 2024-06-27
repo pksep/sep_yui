@@ -19,12 +19,10 @@
       :show-history="props.showHistory"
       :is-show-button-history="state.isShowButtonHistory"
       :is-show-list="state.isShowList"
-      @choosePost="choosePost"
       v-if="props.showHistory"
     />
     <SearchResult
       :is-show-list="state.isShowList"
-      @choosePost="choosePost"
       v-if="props.global"
       :global-results-function="state.globalResultsFunction"
       :is-show-result="state.isShowResult"
@@ -61,6 +59,11 @@ const state = reactive({
   searchValue: ''
 });
 
+const emit = defineEmits<{
+  (e: 'enter', value: string): void;
+  (e: 'input', value: string): void;
+}>();
+
 const setFocusSearch = () => {
   state.isShowResult = true;
 };
@@ -73,10 +76,6 @@ const classesDropdown = computed(() => ({
   'search__icon-wrapper': true
 }));
 
-const choosePost = (value: string) => {
-  state.searchValue = value;
-};
-
 const hidehistory = () => {
   state.isShowList = false;
   state.isShowResult = false;
@@ -88,11 +87,6 @@ const showhistory = () => {
   state.isShowResult = true;
   if (!state.isShowButtonHistory) state.isShowList = true;
 };
-
-const emit = defineEmits<{
-  (e: 'enter', value: string): void;
-  (e: 'input', value: string): void;
-}>();
 
 const changeSearch = () => {
   emit('enter', state.searchValue);
@@ -109,18 +103,71 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import './Search.scss';
-
 .search {
+  position: relative;
+  width: 100%;
+
+  &:hover .history {
+    display: grid;
+  }
+
   &__input {
+    width: inherit;
+    color: $grey-9A9B9D;
+    padding: 12px 11px 12px 35px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: $blue-F8F9FD;
+
+    &:hover,
     &:focus,
     &:focus-visible,
     &:active {
-      background-color: $white;
-      & + svg {
-        display: none;
+      border: 1px solid $blue-9CBEFF;
+      outline: none;
+    }
+
+    &:focus,
+    &:focus-visible,
+    &:active {
+      color: $blue-9CBEFF;
+    }
+
+    &:focus + svg,
+    &:focus-visible + svg,
+    &:active + svg {
+      color: $blue-9CBEFF;
+    }
+
+    &__input {
+      &:focus,
+      &:focus-visible,
+      &:active {
+        background-color: $white;
+        & + svg {
+          display: none;
+        }
+        padding-left: 10px;
       }
-      padding-left: 10px;
+    }
+  }
+
+  &__icon-wrapper {
+    color: $grey-9A9B9D;
+    position: relative;
+    min-height: 49px;
+    display: flex;
+    align-items: center;
+    width: inherit;
+
+    svg {
+      position: absolute;
+      left: 10px;
+      top: 8px;
     }
   }
 }

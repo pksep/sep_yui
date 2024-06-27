@@ -77,7 +77,11 @@
         :global-results-function="getAllResults"
       />
     </div>
-    <Menu :items="array" />
+    <Menu
+      :items="array"
+      @themeChange="e => console.log(e, 'e')"
+      @languageSwitch="handleLanguageSwitch"
+    />
   </div>
 </template>
 
@@ -101,6 +105,10 @@ import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface/interface';
 import { computed, ref } from 'vue';
 import { SizesEnum } from './common/sizes';
 import { ButtonType } from './components/Button/enum/enum';
+
+const handleLanguageSwitch = (event: { index: number; value: string }) => {
+  console.log(event, 'switch');
+};
 
 const array = ['Ru', 'En'];
 

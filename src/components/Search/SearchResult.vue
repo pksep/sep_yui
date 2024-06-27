@@ -7,7 +7,7 @@
         :key="index"
       >
         <Icon :name="IconNameEnum.document" />
-        <p class="history__text" @click="handleChoosePost">
+        <p class="history__text" @click="handleChoosePost(item)">
           <span class="result"> {{ trimText(item.nameArea) }}</span>
           <span class="result blue">/</span>
           <span class="result blue"> {{ trimText(item.searchResult) }}</span>
@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
-import { ISearchProps } from './interface/interface';
+import { ISearchProps, resultSearchType } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
@@ -53,15 +53,7 @@ const classes = computed(() => ({
     state.globalResultsFunction.length >= 5 && state.isShowResult
 }));
 
-/**
- * @fix не нужно получать событие, можно просто получить item на прямую
- * */
-const handleChoosePost = (e: MouseEvent) => {
-  const targetText = (e.target as HTMLElement).textContent;
-  if (targetText) {
-    emit('choosePost', targetText);
-  }
-};
+const handleChoosePost = (item: resultSearchType) => emit('choosePost', item);
 </script>
 
 <style lang="scss" scoped>

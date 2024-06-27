@@ -36,7 +36,10 @@
             @click="choosedOptions"
             >Темная тема</span
           >
-          <Toggle @themeChange="isChecked => toggleTheme(isChecked)" />
+          <Toggle
+            @themeChange="isChecked => toggleTheme(isChecked)"
+            :checked="state.isChecked"
+          />
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.settings" />
@@ -68,9 +71,9 @@
       </ul>
 
       <Switch
-        @languageSwitch="handleLanguageSwitch"
         v-if="props.items"
         :items="props.items"
+        @languageSwitch="handleLanguageSwitch(props.items)"
       />
     </div>
   </div>
@@ -91,7 +94,8 @@ const props = withDefaults(defineProps<IMenuProps>(), {});
 
 const state = reactive({
   isShow: false,
-  option: ''
+  option: '',
+  isChecked: false
 });
 
 const emit = defineEmits<{
@@ -102,7 +106,7 @@ const emit = defineEmits<{
     }
   ): void;
   (e: 'themeChange', event: MouseEvent): void;
-  (e: 'languageSwitch', event: MouseEvent): void;
+  (e: 'languageSwitch', value: { index: number; value: string }): void;
 }>();
 
 const choosedOptions = (e: MouseEvent, type: MenuType): void => {
@@ -121,7 +125,6 @@ const classes = computed(() => ({
   active: state.isShow
 }));
 
-// @fix удалить
 const nameIcon = computed(() => {
   return state.isShow ? IconNameEnum.chevronDown : IconNameEnum.chevronUp;
 });
@@ -130,13 +133,13 @@ const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 
-// @fix выбрана темная тема или нет
 const toggleTheme = (isChecked: boolean) => {
-  console.log(isChecked, 'isChecked');
+  emit('themeChange', isChecked);
+  state.isChecked = isChecked;
 };
 
-const handleLanguageSwitch = (index: IChangeSwitchEmit) => {
-  console.log(index, 'switch');
+const handleLanguageSwitch = (event: { index: number; value: string }) => {
+  emit('languageSwitch', event);
 };
 </script>
 
