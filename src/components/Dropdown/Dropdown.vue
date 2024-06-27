@@ -18,10 +18,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, computed, ref } from 'vue';
+import { onMounted, reactive, computed, ref } from 'vue';
 import { IDropdownProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
+import { useDropdownStore } from './../../stores/dropdown';
+
+const dropdownStore = useDropdownStore();
 
 const props = withDefaults(defineProps<IDropdownProps>(), {
   options: []
@@ -35,19 +38,24 @@ const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
   lengthOption: 0,
-  activeOption: ACTIVE
+  activeOption: ACTIVE,
+  getChooseOption: computed(() => {
+    return dropdownStore.getChooseOption;
+  })
 });
 
 const ACTIVE = 'active';
 
 const classes = computed(() => ({
   'dropdown__item ': true,
-  truncate: true
+  truncate: true,
+  active: state.getChooseOption === [] ? false : state.getChooseOption
 }));
 
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
+  dropdownStore.setChooseOption(state.choosedOption);
   state.isOpened = false;
 };
 
@@ -63,6 +71,8 @@ const closeOpenList = (e: MouseEvent) => {
     }
   }
 };
+
+onMounted(() => {});
 </script>
 <style lang="scss" scoped>
 .dropdown {
