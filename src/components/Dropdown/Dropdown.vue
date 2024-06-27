@@ -111,6 +111,8 @@ onMounted(() => {});
     border: 1px solid $BLUE-9CBEFF;
     display: grid;
     gap: 10px;
+    position: absolute;
+    z-index: 2222222;
   }
 
   &__item {
