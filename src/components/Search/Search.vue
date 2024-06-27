@@ -27,7 +27,7 @@
       v-if="props.global"
       :global-results-function="state.globalResultsFunction"
       :is-show-result="state.isShowResult"
-      :key="random(1, 999)"
+      :key="state.generateUniqueId"
       :search-value="state.searchValue"
       :closeAfterClick="props.closeAfterClick"
     />
@@ -42,7 +42,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import History from './History.vue';
 import SearchResult from './SearchResult.vue';
-import { random } from 'lodash';
+import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const searchStore = useSearchStore();
 
@@ -58,7 +58,8 @@ const state = reactive({
     return props.globalResultsFunction;
   }),
   isShowResult: false,
-  searchValue: ''
+  searchValue: '',
+  generateUniqueId: generateUniqueId
 });
 
 const emit = defineEmits<{

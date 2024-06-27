@@ -19,7 +19,6 @@
       :title="'Покупатели'"
       :multiselect="true"
       :searchable="true"
-      @scroll="e => console.log(e, 'e')"
     />
     <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
@@ -57,8 +56,8 @@
     <Search />
 
     <h1 class="text">Toggle</h1>
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
+    <Toggle checked />
+    <Toggle checked />
 
     <h1 class="text">Slider</h1>
     <div class="slider-main">

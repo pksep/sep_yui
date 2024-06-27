@@ -4,7 +4,7 @@
       <li
         class="history__item"
         v-for="(item, index) in state.globalResultsFunction"
-        :key="index"
+        :key="state.generateUniqueId"
       >
         <Icon :name="IconNameEnum.document" />
         <p class="history__text" @click="handleChoosePost(item)">
@@ -28,6 +28,7 @@ import { ISearchProps, resultSearchType } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
+import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const props = defineProps<ISearchProps>();
 
@@ -39,7 +40,8 @@ const state = reactive({
       : []
   ),
   isShowResult: props.isShowResult,
-  searchValue: props.searchValue
+  searchValue: props.searchValue,
+  generateUniqueId: generateUniqueId
 });
 
 const emit = defineEmits<{

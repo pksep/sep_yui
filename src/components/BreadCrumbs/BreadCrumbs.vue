@@ -1,13 +1,17 @@
 <template>
   <ul class="bread-crumbs">
-    <li :class="classesItem" v-for="(crumb, inx) in state.items" :key="inx">
+    <li
+      :class="classesItem"
+      v-for="(crumb, inx) in state.items"
+      :key="state.generateUniqueId"
+    >
       <div v-if="isShowSubList(inx)">
         <span class="bread-crumbs--closed" @click="toggleShowList">...</span>
 
         <ul :class="classes.crumbs">
           <li
             v-for="(subCrumb, inx) in state.subCrumbs"
-            :key="subCrumb.title"
+            :key="state.generateUniqueId"
             :class="classesItem"
           >
             <span @click="toSelectCrumb(subCrumb, inx)">
@@ -46,6 +50,7 @@ import {
 } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from './../Icon/enum/enum';
+import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 type IBreadCrumbItems = {
   path: string;
@@ -83,7 +88,8 @@ const state = reactive({
   fullTitle: computed(() => (crumb: IBreadCrumbItems) => {
     return computed(() => crumb.title.length > MAX_SYMBOLS);
   }),
-  isShowList: false
+  isShowList: false,
+  generateUniqueId: generateUniqueId
 });
 
 const emit = defineEmits<{

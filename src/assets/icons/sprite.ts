@@ -172,13 +172,11 @@ const createInsertSprite = (svgContent: string) => {
   const svgElement = div.firstElementChild as SVGSVGElement;
   if (svgElement) {
     document.body.appendChild(svgElement);
-    console.log('SVG sprite inserted into DOM');
   } else {
     console.error('Failed to insert SVG sprite into DOM');
   }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOMContentLoaded event fired');
   createInsertSprite(sprite);
 });

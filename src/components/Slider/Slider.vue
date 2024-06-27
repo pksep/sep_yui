@@ -85,7 +85,6 @@ const checkPath = (str: string | null) => {
 
   state.extension = match[0];
 
-  console.log(match, 'match');
   return match ? match[0] : null;
 };
 

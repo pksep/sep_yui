@@ -23,7 +23,7 @@
               <li
                 class="filter__select-item"
                 v-for="(item, inx) in getChoosen"
-                :key="inx"
+                :key="state.generateUniqueId"
               >
                 <Badges
                   :type="
@@ -52,7 +52,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getChoosen"
-          :key="inx"
+          :key="state.generateUniqueId"
         >
           <Badges
             :disabled="true"
@@ -60,11 +60,7 @@
             :type="props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
-            v-if="
-              props.searchable
-                ? item.type != BadgesTypeEnum.default
-                : item.choose
-            "
+            v-if="choosedCondition"
           />
         </li>
       </ul>
@@ -79,7 +75,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
-          :key="inx"
+          :key="state.generateUniqueId"
           :style="inx === 0 ? { paddingTop: '10px' } : ''"
         >
           <Badges
@@ -101,7 +97,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
-          :key="inx"
+          :key="state.generateUniqueId"
           @click="toogleChoosed(item)"
         >
           {{ item.value }}
@@ -120,6 +116,7 @@ import Search from '@/components/Search/Search.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { isArray } from 'lodash';
+import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   iconName: IconNameEnum.filter,
@@ -131,12 +128,21 @@ const state = reactive({
   isShow: false,
   searchString: '',
   choosenStatus: false,
-  searchItems: []
+  searchItems: [],
+  generateUniqueId: generateUniqueId
 });
 
 const emit = defineEmits<{
   (e: 'scroll', value: boolean): void;
 }>();
+
+const computedBadgeText: ComputedRef<string> = computed(() => {
+  if (getChoosen.value.length > 1 && props.searchable) {
+    return getChoosen.value[1]?.value;
+  } else {
+    return getChoosen.value[0]?.value;
+  }
+});
 
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
 
@@ -152,7 +158,7 @@ const changeUpdateSearchString = (value: string) => {
 
 const toggleShow = () => (state.isShow = !state.isShow);
 
-const clearFilter = (e: Event) => {
+const clearFilter = (e: MouseEvent) => {
   e.stopPropagation();
   state.options.forEach((el: IStateItem, inx: number) =>
     setDefaultChoosen(el, inx)
@@ -264,13 +270,11 @@ const computedBadgeType: ComputedRef<BadgesTypeEnum | undefined> = computed(
   }
 );
 
-const computedBadgeText: ComputedRef<string> = computed(() => {
-  if (getChoosen.value.length > 1 && props.searchable) {
-    return getChoosen.value[1]?.value;
-  } else {
-    return getChoosen.value[0]?.value;
-  }
-});
+const choosedCondition = (item: any) => {
+  computed(() =>
+    props.searchable ? item.type != BadgesTypeEnum.default : item.choose
+  );
+};
 
 onMounted(() => {
   state.options = props.options.map(
@@ -286,7 +290,6 @@ onMounted(() => {
       if (props.searchable && newItem.type === BadgesTypeEnum.default) {
         newItem.value = 'Не выбрано';
       }
-      console.log(getChoosen.value.length, 'choosen');
       return newItem;
     }
   ) as IStateItem[];
