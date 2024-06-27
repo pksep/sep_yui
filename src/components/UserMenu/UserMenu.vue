@@ -71,9 +71,10 @@
       </ul>
 
       <Switch
-        v-if="props.items"
-        :items="props.items"
-        @languageSwitch="handleLanguageSwitch(props.items)"
+        v-if="props.languages.items"
+        :items="props.languages.items"
+        :defaultValue="props.languages.defaultValue"
+        @languageSwitch="handleLanguageSwitch"
       />
     </div>
   </div>
@@ -106,7 +107,7 @@ const emit = defineEmits<{
     }
   ): void;
   (e: 'themeChange', event: MouseEvent): void;
-  (e: 'languageSwitch', value: { index: number; value: string }): void;
+  (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
 const choosedOptions = (e: MouseEvent, type: MenuType): void => {
@@ -142,7 +143,8 @@ const toggleTheme = (isChecked: boolean) => {
   state.isChecked = isChecked;
 };
 
-const handleLanguageSwitch = (event: { index: number; value: string }) => {
+// vunesti v interface
+const handleLanguageSwitch = (event: IChangeSwitchEmit) => {
   emit('languageSwitch', event);
 };
 </script>

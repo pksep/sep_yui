@@ -60,9 +60,6 @@
     <Toggle checked @change="(checked: boolean) => console.log(checked)" />
     <Toggle checked @change="(checked: boolean) => console.log(checked)" />
 
-    <h1 class="text">Switch</h1>
-    <Switch :items="array" />
-
     <h1 class="text">Slider</h1>
     <div class="slider-main">
       <Slider :items="files" />
@@ -77,12 +74,7 @@
         :global-results-function="getAllResults"
       />
     </div>
-    <UserMenu
-      :items="array"
-      @themeChange="e => console.log(e, 'e')"
-      @languageSwitch="handleLanguageSwitch"
-      :closeAfterClick="true"
-    />
+    <UserMenu :languages="userMenuLanguageProps" :closeAfterClick="true" />
   </div>
 </template>
 
@@ -107,11 +99,7 @@ import { computed, ref } from 'vue';
 import { SizesEnum } from './common/sizes';
 import { ButtonType } from './components/Button/enum/enum';
 
-const handleLanguageSwitch = (event: { index: number; value: string }) => {
-  console.log(event, 'switch');
-};
-
-const array = ['Ru', 'En'];
+const userMenuLanguageProps = { items: ['Ru', 'En'], defaultValue: 'En' };
 
 const files = [
   {

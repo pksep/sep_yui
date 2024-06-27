@@ -7,8 +7,8 @@
     </span>
     <ul class="dropdown__list" v-if="state.isOpened">
       <li
-        :class="classes"
-        v-for="option in options"
+        :class="[classes, { active: option === state.choosedOption }]"
+        v-for="option in props.options"
         @click="() => getChoosenOption(option)"
         :key="option"
       >
@@ -18,17 +18,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, computed, ref } from 'vue';
+import { reactive, computed } from 'vue';
 import { IDropdownProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
-import { useDropdownStore } from './../../stores/dropdown';
 
-const dropdownStore = useDropdownStore();
-
-const props = withDefaults(defineProps<IDropdownProps>(), {
-  options: []
-});
+const props = withDefaults(defineProps<IDropdownProps>(), {});
 
 const emit = defineEmits<{
   (e: 'click', value: string): void;
@@ -37,25 +32,19 @@ const emit = defineEmits<{
 const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
-  lengthOption: 0,
-  activeOption: ACTIVE,
-  getChooseOption: computed(() => {
-    return dropdownStore.getChooseOption;
-  })
+  lengthOption: 0
 });
 
 const ACTIVE = 'active';
 
 const classes = computed(() => ({
   'dropdown__item ': true,
-  truncate: true,
-  active: state.getChooseOption === [] ? false : state.getChooseOption
+  truncate: true
 }));
 
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
-  dropdownStore.setChooseOption(state.choosedOption);
   state.isOpened = false;
 };
 
@@ -71,8 +60,6 @@ const closeOpenList = (e: MouseEvent) => {
     }
   }
 };
-
-onMounted(() => {});
 </script>
 <style lang="scss" scoped>
 .dropdown {
