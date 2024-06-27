@@ -16,7 +16,7 @@
           >
             <span @click="toSelectCrumb(subCrumb, inx)">
               {{ curtText(subCrumb)
-              }}<span v-if="state.fullTitle(crumb).value" class="fullName">{{
+              }}<span v-if="state.fullTitle(crumb)" class="fullName">{{
                 subCrumb.title
               }}</span></span
             >
@@ -24,12 +24,12 @@
         </ul>
       </div>
 
-      <div :class="state.getClassesLink(crumb).value" v-if="!crumb.isSub">
+      <div :class="state.getClassesLink(crumb)" v-if="!crumb.isSub">
         <span
-          :class="state.getClassesSpan(inx).value"
+          :class="state.getClassesSpan(inx)"
           @click="toSelectCrumb(crumb, inx)"
           >{{ curtText(crumb)
-          }}<span v-if="state.fullTitle(crumb).value" class="fullName">{{
+          }}<span v-if="state.fullTitle(crumb)" class="fullName">{{
             crumb.title
           }}</span></span
         >
@@ -46,16 +46,12 @@ import { onMounted, reactive, computed } from 'vue';
 import {
   IBreadCrumbsItem,
   IBreadCrumbsEmit,
-  IBreadCrumbsProps
+  IBreadCrumbsProps,
+  IBreadCrumbItems
 } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from './../Icon/enum/enum';
 import { generateUniqueId } from './../../helpers/genarate-unic-id';
-
-type IBreadCrumbItems = {
-  path: string;
-  title: string;
-};
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 

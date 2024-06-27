@@ -1,3 +1,8 @@
+export type IBreadCrumbItems = {
+  path: string;
+  title: string;
+};
+
 export interface IBreadCrumbsItem {
   path: string;
   title: string;

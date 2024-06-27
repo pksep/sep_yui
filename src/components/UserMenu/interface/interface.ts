@@ -3,6 +3,6 @@ export interface IMenuProps {
   name: string;
   role: string;
   path: string;
-  languages?: ISwitchProps;
+  items?: ISwitchProps;
   closeAfterClick: boolean;
 }

@@ -83,7 +83,6 @@ import Filter from '@/components/Filter/Filter.vue';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
-import Switch from '@/components/Switch/Switch.vue';
 import Search from '@/components/Search/Search.vue';
 import Slider from '@/components/Slider/Slider.vue';
 import Table from '@/components/Table/Table.vue';
