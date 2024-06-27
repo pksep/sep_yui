@@ -1,11 +1,7 @@
 <template>
   <ul class="bread-crumbs">
     <!-- @fix вынести в classes -->
-    <li
-      :class="{ 'bread-crumbs__item': true }"
-      v-for="(crumb, inx) in state.items"
-      :key="inx"
-    >
+    <li :class="classesItem" v-for="(crumb, inx) in state.items" :key="inx">
       <div v-if="isShowSubList(inx)">
         <span class="bread-crumbs--closed" @click="toggleShowList">...</span>
 
@@ -13,31 +9,24 @@
           <li
             v-for="(subCrumb, inx) in state.subCrumbs"
             :key="subCrumb.title"
-            :class="{
-              'bread-subcrumbs__item': true
-            }"
+            :class="classesItem"
           >
             <span @click="toSelectCrumb(subCrumb, inx)">
               {{ curtText(subCrumb)
-              }}<span
-                v-if="subCrumb.title.length > MAX_SYMBOLS"
-                class="fullName"
-                >{{ subCrumb.title }}</span
-              ></span
+              }}<span v-if="state.fullTitle(crumb).value" class="fullName">{{
+                subCrumb.title
+              }}</span></span
             >
           </li>
         </ul>
       </div>
 
-      <div
-        :class="{ 'bread-crumbs__link': true, disabled: !crumb.path }"
-        v-if="!crumb.isSub"
-      >
+      <div :class="state.getClassesLink(crumb).value" v-if="!crumb.isSub">
         <span
+          :class="state.getClassesSpan(inx).value"
           @click="toSelectCrumb(crumb, inx)"
-          :class="{ checked: inx === state.crumbs.length - 1 }"
           >{{ curtText(crumb)
-          }}<span v-if="crumb.title.length > MAX_SYMBOLS" class="fullName">{{
+          }}<span v-if="state.fullTitle(crumb).value" class="fullName">{{
             crumb.title
           }}</span></span
         >
@@ -58,6 +47,11 @@ import {
 } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from './../Icon/enum/enum';
+
+type IBreadCrumbItems = {
+  path: string;
+  title: string;
+};
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 
@@ -80,6 +74,16 @@ const state = reactive({
       return el;
     });
   }),
+  getClassesLink: computed(() => (crumb: IBreadCrumbItems) => ({
+    'bread-crumbs__link': true,
+    disabled: !crumb.path
+  })),
+  getClassesSpan: computed(() => (inx: number) => ({
+    checked: inx === state.crumbs.length - 1
+  })),
+  fullTitle: computed(() => (crumb: IBreadCrumbItems) => {
+    return computed(() => crumb.title.length > MAX_SYMBOLS);
+  }),
   isShowList: false
 });
 
@@ -88,6 +92,20 @@ const emit = defineEmits<{
 }>();
 
 const MAX_SYMBOLS = 15;
+
+const classesItem = computed(() => ({
+  'bread-crumbs__item': true
+}));
+
+const classes = computed(() => {
+  return {
+    crumbs: {
+      'bread-subcrumbs': true,
+      scroll: true,
+      active: state.isShowList
+    }
+  };
+});
 
 const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
   if (inx === state.items.length - 1) return;
@@ -103,17 +121,6 @@ const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
       });
   });
 };
-
-const classes = computed(() => {
-  return {
-    crumbs: {
-      'bread-subcrumbs': true,
-      scroll: true,
-      active: state.isShowList
-    }
-  };
-});
-
 const toggleShowList = () => (state.isShowList = !state.isShowList);
 
 const curtText = (crumb: IBreadCrumbsItem): string => {
@@ -138,6 +145,12 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     display: flex;
     align-items: center;
     position: relative;
+
+    div {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+    }
 
     span {
       cursor: pointer;

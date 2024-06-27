@@ -1,7 +1,7 @@
 import { StoryFn } from '@storybook/vue3';
 import Badges from './Badges.vue';
 import { StorybookControl } from '../../common/storybook';
-import { BadgesTypeEnum } from './enum';
+import { BadgesTypeEnum } from './enum/enum';
 import { fn } from '@storybook/test';
 
 const meta = {
