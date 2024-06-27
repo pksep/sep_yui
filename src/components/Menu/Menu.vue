@@ -13,7 +13,7 @@
           :type="ButtonType.ghost"
           class="menu__button"
           @click="toggleShow"
-          ><Icon :name="IconNameEnum.dark"
+          ><Icon :name="nameIcon"
         /></Button>
       </div>
     </div>
@@ -24,7 +24,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.profile"
-            @click="e => choosedOptions(e)"
+            @click="choosedOptions"
             >Профиль</span
           >
         </li>
@@ -33,7 +33,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.theme"
-            @click="e => choosedOptions(e)"
+            @click="choosedOptions"
             >Темная тема</span
           >
           <Toggle @themeChange="isChecked => toggleTheme(isChecked)" />
@@ -43,7 +43,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.options"
-            @click="(e: MouseEvent) => choosedOptions(e)"
+            @click="choosedOptions"
             >Настройки</span
           >
         </li>
@@ -52,7 +52,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.exit"
-            @click="(e: MouseEvent) => choosedOptions(e)"
+            @click="choosedOptions"
             >Выход</span
           >
         </li>
@@ -61,18 +61,23 @@
           <span
             class="list__item-text"
             :data-type="MenuType.help"
-            @click="(e: MouseEvent) => choosedOptions(e)"
+            @click="choosedOptions"
             >Помощь</span
           >
         </li>
       </ul>
-      <Switch @languageSwitch="handleLanguageSwitch" />
+
+      <Switch
+        @languageSwitch="handleLanguageSwitch"
+        v-if="props.items"
+        :items="props.items"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from 'vue';
-import { IMenuProps } from './interface';
+import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
@@ -96,23 +101,16 @@ const emit = defineEmits<{
       type: MenuType;
     }
   ): void;
-  // не верные типы передачи событий
-  (e: 'themeChange', event: Event): void;
-  (e: 'languageSwitch', event: Event): void;
+  (e: 'themeChange', event: MouseEvent): void;
+  (e: 'languageSwitch', event: MouseEvent): void;
 }>();
 
-/**
- * @fix сюда передаем тип - куда нажал и значение, если оно есть
- * @example
- *  type: MenuType
- * event('click',MenuType.profile )
- **/
-const choosedOptions = (e: MouseEvent): void => {
+const choosedOptions = (e: MouseEvent, type: MenuType): void => {
   const target = e.target as HTMLElement;
   const optionType = target.dataset.type;
   if (optionType !== undefined) {
     state.option = optionType;
-    emit('click', { type: state.option as MenuType });
+    emit('click', state.option as MenuType);
   } else {
     console.error('Option type is undefined');
   }
@@ -124,9 +122,9 @@ const classes = computed(() => ({
 }));
 
 // @fix удалить
-// const nameIcon = computed(() => {
-//   return state.isShow ? 'chevronDown' : 'chevronUp';
-// });
+const nameIcon = computed(() => {
+  return state.isShow ? IconNameEnum.chevronDown : IconNameEnum.chevronUp;
+});
 
 const toggleShow = () => {
   state.isShow = !state.isShow;
