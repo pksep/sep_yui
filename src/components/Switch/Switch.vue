@@ -2,7 +2,7 @@
   <ul class="switch-list">
     <li
       v-for="(item, index) of props.items"
-      :key="state.generateUniqueId"
+      :key="item"
       :class="getClasses(index)"
       @click="toChooseItem(index)"
     >
@@ -14,13 +14,11 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
-import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {});
 
 const state = reactive({
-  activeIndex: 0,
-  generateUniqueId: generateUniqueId
+  activeIndex: 0
 });
 
 const emit = defineEmits<{

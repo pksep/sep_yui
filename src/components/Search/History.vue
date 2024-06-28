@@ -13,7 +13,7 @@
       <li
         class="history__item"
         v-for="item in state.getHistorySearch"
-        :key="state.generateUniqueId"
+        :key="item"
       >
         <span @click="handleChoosePost(item)"> {{ trimText(item) }}</span
         ><button type="button" @click="removeItem(item)">
@@ -31,7 +31,6 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { useSearchStore } from '../../stores/search';
 import { trimText } from './../../helpers/trimText';
-import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const searchStore = useSearchStore();
 
@@ -42,8 +41,7 @@ const state = reactive({
     return searchStore.getHistorySearch;
   }),
   isShowList: props.isShowList,
-  isShowButtonHistory: props.isShowButtonHistory,
-  generateUniqueId: generateUniqueId
+  isShowButtonHistory: props.isShowButtonHistory
 });
 
 const emit = defineEmits<{

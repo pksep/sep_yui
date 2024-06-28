@@ -26,7 +26,7 @@
       v-if="props.global"
       :global-results-function="state.globalResultsFunction"
       :is-show-result="state.isShowResult"
-      :key="state.generateUniqueId"
+      :key="state.generateUniqueId()"
       :search-value="state.searchValue"
     />
   </div>

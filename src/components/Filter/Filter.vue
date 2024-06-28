@@ -23,7 +23,7 @@
               <li
                 class="filter__select-item"
                 v-for="(item, inx) in getChoosen"
-                :key="state.generateUniqueId"
+                :key="item"
               >
                 <Badges
                   :type="
@@ -52,7 +52,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getChoosen"
-          :key="state.generateUniqueId"
+          :key="item"
         >
           <Badges
             :disabled="true"
@@ -75,7 +75,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
-          :key="state.generateUniqueId"
+          :key="item"
           :style="inx === 0 ? { paddingTop: '10px' } : ''"
         >
           <Badges
@@ -97,7 +97,7 @@
         <li
           class="filter__select-item"
           v-for="item in getNotChoosen"
-          :key="state.generateUniqueId"
+          :key="item"
           @click="toogleChoosed(item)"
         >
           {{ item.value }}
@@ -116,7 +116,6 @@ import Search from '@/components/Search/Search.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { isArray } from 'lodash';
-import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   iconName: IconNameEnum.filter,
@@ -128,13 +127,31 @@ const state = reactive({
   isShow: false,
   searchString: '',
   choosenStatus: false,
-  searchItems: [],
-  generateUniqueId: generateUniqueId
+  searchItems: []
 });
 
 const emit = defineEmits<{
   (e: 'scroll', value: boolean): void;
 }>();
+
+const classes = computed(() => ({
+  filter__counter: true,
+  counter: true,
+  'counter--search': props.searchable
+}));
+
+const classesList = computed(() => ({
+  'filter__select-list': true,
+  selected: true,
+  'selected--search': props.searchable,
+  'border-none': props.searchable && getChoosen.value.length < 2
+}));
+
+const classesFilter = computed(() => ({
+  filter__wrapper: true,
+  active: state.isShow,
+  'filter--search': props.searchable
+}));
 
 const computedBadgeText: ComputedRef<string> = computed(() => {
   if (getChoosen.value.length > 1 && props.searchable) {
@@ -230,26 +247,6 @@ const hidefilters = () => {
     state.searchString = '';
   }
 };
-
-// classes перенсти выше
-const classes = computed(() => ({
-  filter__counter: true,
-  counter: true,
-  'counter--search': props.searchable
-}));
-
-const classesList = computed(() => ({
-  'filter__select-list': true,
-  selected: true,
-  'selected--search': props.searchable,
-  'border-none': props.searchable && getChoosen.value.length < 2
-}));
-
-const classesFilter = computed(() => ({
-  filter__wrapper: true,
-  active: state.isShow,
-  'filter--search': props.searchable
-}));
 
 const handleScroll = (event: Event) => {
   const target = event.target as HTMLElement;

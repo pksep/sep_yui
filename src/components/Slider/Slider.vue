@@ -52,11 +52,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, ref, Ref } from 'vue';
+import { onMounted, computed, reactive, ref, Ref } from 'vue';
 import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
-import { typeImages, typeVideos } from './../../common/extentions';
+import { ImageExtensions, VideoExtensions } from './../../common/extentions';
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
@@ -67,8 +67,8 @@ const state = reactive<ISlider>({
   defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
   disabledPrev: true,
   disabledNext: false,
-  typeImages: typeImages,
-  typeVideos: typeVideos,
+  typeImages: computed(() => [...new Set(Object.values(ImageExtensions))]),
+  typeVideos: computed(() => [...new Set(Object.values(VideoExtensions))]),
   extension: ''
 });
 

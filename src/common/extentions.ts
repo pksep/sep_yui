@@ -1,4 +1,14 @@
-type imagesT = string[];
+enum ImageExtensionsEnum {
+  jpg = '.jpg',
+  png = '.png',
+  jpeg = '.jpeg'
+}
 
-export const typeImages: imagesT = ['.jpg', '.png', '.jpeg'];
-export const typeVideos: imagesT = ['.mp4', '.mp3'];
+enum VideoExtensionsEnum {
+  mp4 = '.mp4',
+  mp3 = '.mp3'
+}
+
+export const ImageExtensions = ImageExtensionsEnum;
+
+export const VideoExtensions = VideoExtensionsEnum;

@@ -1,13 +1,13 @@
-type colorT = {
+type ColorType = {
   text: string;
   color: string;
 };
 
-type colorsT = {
-  [key: string]: colorT;
+type ColorsType = {
+  [key: string]: ColorType;
 };
 
-export const colors: colorsT = {
+export const colors: ColorsType = {
   White: {
     text: 'White',
     color: '#ffffff'
