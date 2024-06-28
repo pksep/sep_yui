@@ -19,7 +19,6 @@
       :title="'Покупатели'"
       :multiselect="true"
       :searchable="true"
-      @scroll="e => console.log(e, 'e')"
     />
     <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
@@ -57,11 +56,8 @@
     <Search />
 
     <h1 class="text">Toggle</h1>
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
-    <Toggle checked @change="(checked: boolean) => console.log(checked)" />
-
-    <h1 class="text">Switch</h1>
-    <Switch :items="array" />
+    <Toggle checked />
+    <Toggle checked />
 
     <h1 class="text">Slider</h1>
     <div class="slider-main">
@@ -77,6 +73,11 @@
         :global-results-function="getAllResults"
       />
     </div>
+    <UserMenu
+      :user="user"
+      :languages="userMenuLanguageProps"
+      :closeAfterClick="true"
+    />
   </div>
 </template>
 
@@ -86,21 +87,27 @@ import Filter from '@/components/Filter/Filter.vue';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
-import Switch from '@/components/Switch/Switch.vue';
 import Search from '@/components/Search/Search.vue';
 import Slider from '@/components/Slider/Slider.vue';
 import Table from '@/components/Table/Table.vue';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import BreadCrumbs from '@/components/BreadCrumbs/BreadCrumbs.vue';
-import { IconNameEnum } from '@/components/Icon/enum';
+import UserMenu from '@/components/UserMenu/UserMenu.vue';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
 import '@/assets/icons/sprite';
-import { BadgesTypeEnum } from './components/Badges/enum';
-import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface';
+import { BadgesTypeEnum } from './components/Badges/enum/enum';
+import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface/interface';
 import { computed, ref } from 'vue';
 import { SizesEnum } from './common/sizes';
-import { ButtonType } from './components/Button/enum';
+import { ButtonType } from './components/Button/enum/enum';
 
-const array = ['Ru', 'En'];
+const userMenuLanguageProps = { items: ['Ru', 'En'], defaultValue: 'En' };
+
+const user = {
+  name: 'David',
+  role: 'admin',
+  path: 'www.image.ru'
+};
 
 const files = [
   {
@@ -278,11 +285,11 @@ const getAllResults = () => {
   gap: 5px;
 }
 .text {
-  color: black;
+  color: BLACK;
   font-family: 'Arial';
 
   &:hover {
-    color: blue;
+    color: BLUE;
   }
 }
 .icons {

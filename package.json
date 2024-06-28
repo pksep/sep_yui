@@ -1,7 +1,7 @@
 {
   "name": "sep-yui",
   "author": "Perov David",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",
   "types": "./dist/index.d.ts",
@@ -28,6 +28,7 @@
     "@storybook/test": "^8.0.7",
     "@storybook/vue3": "^8.0.7",
     "@storybook/vue3-vite": "^8.0.7",
+    "@types/uuid4": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-vue": "^5.0.4",
@@ -41,6 +42,7 @@
     "sass": "^1.74.1",
     "storybook": "^8.0.7",
     "typescript": "^5.2.2",
+    "uuid4": "^2.0.3",
     "vite": "^5.2.0",
     "vite-plugin-dts": "^3.8.1",
     "vue-tsc": "^2.0.6"

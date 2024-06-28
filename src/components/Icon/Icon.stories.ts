@@ -1,7 +1,7 @@
 import { StoryFn } from '@storybook/vue3';
 import Icon from './Icon.vue';
 import { StorybookControl } from '../../common/storybook';
-import { IconNameEnum } from './enum';
+import { IconNameEnum } from './enum/enum';
 
 const meta = {
   title: 'Icon/Icon',

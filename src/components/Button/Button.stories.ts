@@ -1,12 +1,12 @@
-import { StoryFn, Meta } from '@storybook/vue3';
+import { StoryFn } from '@storybook/vue3';
 import Button from './Button.vue';
 import Icon from '../Icon/Icon.vue';
 import { SizesEnum } from '../../common/sizes';
 import { ColorsEnum } from '../../common/colors';
 import { StorybookControl } from '../../common/storybook';
-import { ButtonType } from './enum';
+import { ButtonType } from './enum/enum';
 import { fn } from '@storybook/test';
-import { IconNameEnum } from '../Icon/enum';
+import { IconNameEnum } from '../Icon/enum/enum';
 
 const meta = {
   title: 'Button/Button',
@@ -54,7 +54,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: { onClick: fn() }
-} as Meta<typeof Button>;
+};
 
 export default meta;
 

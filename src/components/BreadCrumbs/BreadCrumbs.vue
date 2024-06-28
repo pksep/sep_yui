@@ -1,9 +1,9 @@
 <template>
   <ul class="bread-crumbs">
     <li
-      :class="{ 'bread-crumbs__item': true }"
+      :class="classesItem"
       v-for="(crumb, inx) in state.items"
-      :key="inx"
+      :key="crumb.path"
     >
       <div v-if="isShowSubList(inx)">
         <span class="bread-crumbs--closed" @click="toggleShowList">...</span>
@@ -11,32 +11,25 @@
         <ul :class="classes.crumbs">
           <li
             v-for="(subCrumb, inx) in state.subCrumbs"
-            :key="subCrumb.title"
-            :class="{
-              'bread-subcrumbs__item': true
-            }"
+            :key="subCrumb.path"
+            :class="classesItem"
           >
             <span @click="toSelectCrumb(subCrumb, inx)">
               {{ curtText(subCrumb)
-              }}<span
-                v-if="subCrumb.title.length > MAX_SYMBOLS"
-                class="fullName"
-                >{{ subCrumb.title }}</span
-              ></span
+              }}<span v-if="state.fullTitle(crumb)" class="fullName">{{
+                subCrumb.title
+              }}</span></span
             >
           </li>
         </ul>
       </div>
 
-      <div
-        :class="{ 'bread-crumbs__link': true, disabled: !crumb.path }"
-        v-if="!crumb.isSub"
-      >
+      <div :class="state.getClassesLink(crumb)" v-if="!crumb.isSub">
         <span
+          :class="state.getClassesSpan(inx)"
           @click="toSelectCrumb(crumb, inx)"
-          :class="{ checked: inx === state.crumbs.length - 1 }"
           >{{ curtText(crumb)
-          }}<span v-if="crumb.title.length > MAX_SYMBOLS" class="fullName">{{
+          }}<span v-if="state.fullTitle(crumb)" class="fullName">{{
             crumb.title
           }}</span></span
         >
@@ -53,10 +46,11 @@ import { onMounted, reactive, computed } from 'vue';
 import {
   IBreadCrumbsItem,
   IBreadCrumbsEmit,
-  IBreadCrumbsProps
-} from './interface';
+  IBreadCrumbsProps,
+  IBreadCrumbItems
+} from './interface/interface';
 import Icon from './../Icon/Icon.vue';
-import { IconNameEnum } from './../Icon/enum';
+import { IconNameEnum } from './../Icon/enum/enum';
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 
@@ -79,6 +73,16 @@ const state = reactive({
       return el;
     });
   }),
+  getClassesLink: computed(() => (crumb: IBreadCrumbItems) => ({
+    'bread-crumbs__link': true,
+    disabled: !crumb.path
+  })),
+  getClassesSpan: computed(() => (inx: number) => ({
+    checked: inx === state.crumbs.length - 1
+  })),
+  fullTitle: computed(() => (crumb: IBreadCrumbItems) => {
+    return computed(() => crumb.title.length > MAX_SYMBOLS);
+  }),
   isShowList: false
 });
 
@@ -87,6 +91,18 @@ const emit = defineEmits<{
 }>();
 
 const MAX_SYMBOLS = 15;
+
+const classesItem = computed(() => ({
+  'bread-crumbs__item': true
+}));
+
+const classes = computed(() => ({
+  crumbs: {
+    'bread-subcrumbs': true,
+    scroll: true,
+    active: state.isShowList
+  }
+}));
 
 const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
   if (inx === state.items.length - 1) return;
@@ -102,17 +118,6 @@ const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
       });
   });
 };
-
-const classes = computed(() => {
-  return {
-    crumbs: {
-      'bread-subcrumbs': true,
-      scroll: true,
-      active: state.isShowList
-    }
-  };
-});
-
 const toggleShowList = () => (state.isShowList = !state.isShowList);
 
 const curtText = (crumb: IBreadCrumbsItem): string => {
@@ -131,12 +136,18 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   list-style-type: none;
   padding: 0;
   margin: 0;
-  color: $grey-B8B8B8;
+  color: $GREY-B8B8B8;
 
   &__item {
     display: flex;
     align-items: center;
     position: relative;
+
+    div {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+    }
 
     span {
       cursor: pointer;
@@ -161,14 +172,14 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     }
 
     &.disabled {
-      color: $white-E0E0E0;
+      color: $WHITE-E0E0E0;
       user-select: none;
       pointer-events: none;
       cursor: auto;
     }
 
     &:hover {
-      color: $blue-77A6FF;
+      color: $BLUE-77A6FF;
     }
   }
 }
@@ -177,8 +188,8 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   display: flex;
 
   &--closed {
-    background-color: $blue-4480F345;
-    color: $blue-4480F3;
+    background-color: $BLUE-4480F345;
+    color: $BLUE-4480F3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,14 +201,14 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     transition: 0.3s ease-in-out;
 
     &:hover {
-      background-color: $blue-D6E4FF;
+      background-color: $BLUE-D6E4FF;
     }
   }
 
   &__item {
     span.checked {
-      background-color: $blue-D6E4FF;
-      color: $blue-77A6FF;
+      background-color: $BLUE-D6E4FF;
+      color: $BLUE-77A6FF;
       border-radius: 6px;
       padding: 3px 8px;
     }
@@ -213,10 +224,10 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   padding: 5px 12px;
   border-radius: 5px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
-  background-color: $white;
+  background-color: $WHITE;
   z-index: -10000;
   top: 25px;
-  color: $grey-282828;
+  color: $GREY-282828;
   transition: 0.3s ease-in-out;
 
   &.scroll {
@@ -235,7 +246,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   }
 
   &__item.checked {
-    background-color: $blue-EAF2FF;
+    background-color: $BLUE-EAF2FF;
   }
 }
 
@@ -244,7 +255,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   top: -30px;
   right: 0;
   padding: 5px;
-  background-color: $white;
+  background-color: $WHITE;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   z-index: -10000;

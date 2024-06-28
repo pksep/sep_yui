@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { ColorsEnum } from '@/common/colors';
-import { IIconPorps } from './interface';
+import { IIconPorps } from './interface/interface';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
   width: 24,

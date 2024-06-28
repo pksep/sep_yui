@@ -11,23 +11,23 @@ table {
     border-radius: 15px;
 
     &:nth-of-type(odd) {
-      background-color: $white-F8F9FD;
+      background-color: $WHITE-F8F9FD;
     }
 
     &:not(:last-of-type) {
-      border-bottom: 1px solid $white-E0E0E0;
+      border-bottom: 1px solid $WHITE-E0E0E0;
     }
   }
 
   th {
-    border: 1px solid $white-E0E0E0;
+    border: 1px solid $WHITE-E0E0E0;
     padding: 12px 8px;
-    background-color: $blue-F2F7FF;
+    background-color: $BLUE-F2F7FF;
   }
 
   td {
     padding: 12px 8px;
-    border: 1px solid $white-E0E0E0;
+    border: 1px solid $WHITE-E0E0E0;
 
     img.link_img {
       width: 20px;
@@ -49,7 +49,7 @@ table {
     position: relative;
 
     &__current {
-      background-color: $blue-F2F7FF;
+      background-color: $BLUE-F2F7FF;
       margin-bottom: 0;
 
       &.active {

@@ -2,7 +2,7 @@ import { StoryFn, Meta } from '@storybook/vue3';
 import BreadCrumbs from './BreadCrumbs.vue';
 import { StorybookControl } from '../../common/storybook';
 import { ref, Ref } from 'vue';
-import { IBreadCrumbsEmit } from './interface';
+import { IBreadCrumbsEmit } from './interface/interface';
 import { action } from '@storybook/addon-actions';
 interface ICrumbItem {
   path: string;

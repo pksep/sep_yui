@@ -1,6 +1,6 @@
 <template>
   <div class="slider">
-    <div class="slider__wrapper">
+    <div class="slider__wrapper" ref="sliderWrapperRef">
       <button
         class="slider__button slider__button--prev"
         @click="prevSlide"
@@ -9,21 +9,29 @@
         <Icon :name="IconNameEnum.leftBig" />
       </button>
       <div class="slider__slides">
-        <div
-          class="placeholder"
-          v-if="
-            state.files.length === 0 ||
-            (!isImage(state.file?.path ?? '') &&
-              !isVideo(state.file?.path ?? ''))
-          "
-        >
-          <img src="./camera.svg" alt="" width="111px" height="111px" />
+        <div class="placeholder" v-if="showPlaceholder()">
+          <img
+            src="./../../assets/images/slider/camera.svg"
+            alt=""
+            width="111px"
+            height="111px"
+          />
           <p>Контент отсутствует</p>
+        </div>
+        <div class="placeholder" v-if="showPlaceholderExtension()">
+          <img
+            src="./../../assets/images/slider/closed-camera.svg"
+            alt=""
+            width="111px"
+            height="111px"
+          />
+          <p>.{{ state.extension }}</p>
         </div>
         <img
           v-if="isImage(state.file?.path ?? '')"
           @click="e => toFullsizeImage(e)"
           :src="state.file?.path ?? ''"
+          ref="fullsizeImageRef"
         />
         <video
           v-if="isVideo(state.file?.path ?? '')"
@@ -44,66 +52,64 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue';
-import { ISliderProps } from './interface';
+import { onMounted, reactive, ref, Ref } from 'vue';
+import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
-import { IconNameEnum } from '../Icon/enum';
-
-interface IFile {
-  path: string;
-}
+import { IconNameEnum } from '../Icon/enum/enum';
+import {
+  ImageExtensionsEnum,
+  VideoExtensionsEnum
+} from './../../common/extentions';
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
-const state = reactive<{
-  files: IFile[];
-  file: IFile | null;
-  currentIndex: number;
-  defaultIndex: number;
-  disabledPrev: boolean;
-  disabledNext: boolean;
-  typeImages: string[];
-  typeVideos: string[];
-}>({
+const state = reactive<ISlider>({
   files: props.items.length ? props.items : [],
   file: null,
   currentIndex: 0,
   defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
   disabledPrev: true,
   disabledNext: false,
-  typeImages: ['.jpg', '.png', '.jpeg'],
-  typeVideos: ['.mp4', '.mp3']
+  extension: null
 });
 
-const checkPath = (str: string | null) => {
-  if (!str) {
-    return null;
-  }
+const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
+const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
+
+const CLASS_FULL_SIZE = 'slider__full-size';
+
+const checkPath = (str: string | null): string | null => {
+  if (!str) return null;
   const regex = /\.\w+$/;
   const match = str.match(regex);
-  return match ? match[0] : null;
+
+  state.extension = match ? match[0].replace('.', '') : null;
+
+  return state.extension;
 };
 
 const isImage = (path: string | null): boolean => {
-  const extension = checkPath(path);
-  return extension ? state.typeImages.includes(extension) : false;
+  const extension: any = checkPath(path);
+  return extension
+    ? Object.values(ImageExtensionsEnum).includes(extension)
+    : false;
 };
 
 const isVideo = (path: string | null): boolean => {
-  const extension = checkPath(path);
-  return extension ? state.typeVideos.includes(extension) : false;
+  const extension: any = checkPath(path);
+  return extension
+    ? Object.values(VideoExtensionsEnum).includes(extension)
+    : false;
 };
 
 const closeFullSize = (e: KeyboardEvent) => {
   if (e instanceof KeyboardEvent && e.key === 'Escape') {
-    const fullSizeElement = document.querySelector('.slider__full-size');
-    if (fullSizeElement) {
-      fullSizeElement.classList.remove('slider__full-size');
+    if (
+      fullsizeImageRef.value &&
+      fullsizeImageRef.value.classList.contains(CLASS_FULL_SIZE)
+    ) {
+      fullsizeImageRef.value.classList.remove(CLASS_FULL_SIZE);
       document.body.style.overflow = 'auto';
-      const img = fullSizeElement.querySelector('.slider__slide-full-size');
-      if (img) {
-        img.classList.remove('slider__slide-full-size');
-      }
     }
   }
 };
@@ -111,22 +117,18 @@ const closeFullSize = (e: KeyboardEvent) => {
 const toFullsizeImage = (e: MouseEvent): void => {
   if (e.type === 'click') {
     const imageElement = e.target as HTMLElement;
-    imageElement.classList.toggle('slider__full-size');
-    if (imageElement.classList.contains('slider__full-size')) {
+    imageElement.classList.toggle(CLASS_FULL_SIZE);
+
+    if (imageElement.classList.contains(CLASS_FULL_SIZE)) {
       window.addEventListener('keydown', closeFullSize);
-      const sliderWrapper = document.querySelector(
-        '.slider__wrapper'
-      ) as HTMLElement;
-      if (sliderWrapper) {
-        sliderWrapper.style.cursor = 'zoom-out';
+
+      if (sliderWrapperRef.value) {
+        sliderWrapperRef.value.style.cursor = 'zoom-out';
       }
     } else {
       window.removeEventListener('keydown', closeFullSize);
-      const sliderWrapper = document.querySelector(
-        '.slider__wrapper'
-      ) as HTMLElement;
-      if (sliderWrapper) {
-        sliderWrapper.style.cursor = 'zoom-in';
+      if (sliderWrapperRef.value) {
+        sliderWrapperRef.value.style.cursor = 'zoom-in';
       }
     }
   }
@@ -154,9 +156,19 @@ const nextSlide = () => {
   state.file = state.files[state.currentIndex];
 };
 
+const showPlaceholder = () => state.files.length === 0;
+
+const showPlaceholderExtension = () =>
+  isImage(state.file?.path ?? null) == false &&
+  isVideo(state.file?.path ?? null) == false &&
+  state.files.length > 0;
+
 onMounted(() => {
   if (!props.items) return 0;
   state.files = props.items;
+
+  if (state.files.length === 0) state.disabledNext = true;
+
   if (props.defaultIndex) {
     state.file = state.files[state.defaultIndex];
   }
@@ -168,11 +180,11 @@ onMounted(() => {
 .slider {
   width: 100%;
   height: 260px;
-  border: 1px solid $white-E0E0E0;
+  border: 1px solid $WHITE-E0E0E0;
   border-radius: 10px;
   transition: 0.3s ease-in-out;
   &:hover {
-    border: 1px solid $blue-9CBEFF;
+    border: 1px solid $BLUE-9CBEFF;
   }
 
   &__wrapper {
@@ -186,13 +198,13 @@ onMounted(() => {
     cursor: zoom-in;
 
     &:hover {
-      background-color: $blue-F2F7FF;
+      background-color: $BLUE-F2F7FF;
       border-radius: 10px;
     }
   }
 
   &__slides {
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -215,8 +227,8 @@ onMounted(() => {
 
   &__button {
     width: 64px;
-    background-color: $white;
-    border: 1px solid $transparent;
+    background-color: $WHITE;
+    border: 1px solid $TRANSPARENT;
     outline: none;
     border-radius: 10px;
     padding: 0 20px;
@@ -224,13 +236,13 @@ onMounted(() => {
     cursor: pointer;
 
     &:active {
-      background-color: $blue-D6E4FF;
-      color: $blue-77A6FF;
+      background-color: $BLUE-D6E4FF;
+      color: $BLUE-77A6FF;
     }
 
     &:disabled {
-      background-color: $white-F5F5F5;
-      color: $grey-A6A3AD;
+      background-color: $WHITE-F5F5F5;
+      color: $GREY-A6A3AD;
     }
   }
 
@@ -262,10 +274,14 @@ onMounted(() => {
   flex-grow: 1;
   gap: 20px;
   border-radius: 15px;
-  background-color: $white-F0F0F0;
+  background-color: $WHITE-F0F0F0;
 
   img {
     height: auto;
+  }
+
+  p {
+    color: $GREY-A6A3AD;
   }
 }
 </style>

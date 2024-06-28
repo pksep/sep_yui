@@ -10,10 +10,6 @@ const meta = {
     disabled: {
       control: { type: StorybookControl.boolean },
       defaultValue: false
-    },
-    lang: {
-      control: { type: StorybookControl.boolean },
-      defaultValue: false
     }
   },
   tags: ['autodocs'],
@@ -34,15 +30,5 @@ const Template: StoryFn<typeof Toggle> = args => ({
   `
 });
 
-export const Default: StoryFn<typeof Toggle> = args => ({
-  components: { Toggle },
-  setup() {
-    return { args };
-  },
-  template: '<Toggle v-bind="args"/>'
-});
-
+export const Default = Template.bind({});
 export const PrimaryToggle = Template.bind({});
-PrimaryToggle.args = {
-  lang: false
-};

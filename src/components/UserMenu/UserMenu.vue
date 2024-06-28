@@ -2,18 +2,18 @@
   <div class="menu">
     <div class="menu__wrapper">
       <div class="menu__avatar">
-        <img :src="props.path" />
+        <img :src="props.user.path" />
       </div>
       <div :class="classes">
         <div class="menu__names">
-          <p class="menu__name">{{ props.name }}</p>
-          <p class="menu__role">{{ props.role }}</p>
+          <p class="menu__name">{{ props.user.name }}</p>
+          <p class="menu__role">{{ props.user.role }}</p>
         </div>
         <Button
           :type="ButtonType.ghost"
           class="menu__button"
           @click="toggleShow"
-          ><Icon :name="IconNameEnum.dark"
+          ><Icon :name="nameIcon"
         /></Button>
       </div>
     </div>
@@ -23,36 +23,31 @@
           <Icon :name="IconNameEnum.profile" />
           <span
             class="list__item-text"
-            :data-type="MenuType.profile"
-            @click="e => choosedOptions(e)"
+            @click="choosedOptions(MenuType.profile)"
             >Профиль</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.dark" />
-          <span
-            class="list__item-text"
-            :data-type="MenuType.theme"
-            @click="e => choosedOptions(e)"
+          <span class="list__item-text" @click="choosedOptions(MenuType.theme)"
             >Темная тема</span
           >
-          <Toggle @themeChange="isChecked => toggleTheme(isChecked)" />
+          <Toggle
+            @themeChange="isChecked => toggleTheme(isChecked)"
+            :checked="state.isChecked"
+          />
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.settings" />
           <span
             class="list__item-text"
-            :data-type="MenuType.options"
-            @click="(e: MouseEvent) => choosedOptions(e)"
+            @click="choosedOptions(MenuType.options)"
             >Настройки</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.exit" />
-          <span
-            class="list__item-text"
-            :data-type="MenuType.exit"
-            @click="(e: MouseEvent) => choosedOptions(e)"
+          <span class="list__item-text" @click="choosedOptions(MenuType.exit)"
             >Выход</span
           >
         </li>
@@ -61,83 +56,98 @@
           <span
             class="list__item-text"
             :data-type="MenuType.help"
-            @click="(e: MouseEvent) => choosedOptions(e)"
+            @click="choosedOptions(MenuType.help)"
             >Помощь</span
           >
         </li>
       </ul>
-      <Switch :items="languages" @languageSwitch="handleLanguageSwitch" />
+
+      <Switch
+        v-if="props.languages?.items"
+        :items="props.languages?.items"
+        :defaultValue="props.languages?.defaultValue"
+        @languageSwitch="handleLanguageSwitch"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from 'vue';
-import { IMenuProps } from './interface';
+import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
 import Switch from '@/components/Switch/Switch.vue';
-import { MenuType } from '@/components/Menu/enum';
-import { ButtonType } from '@/components/Button/enum';
-import { IconNameEnum } from '@/components/Icon/enum';
-import { IChangeSwitchEmit } from '@/components/Switch/interface';
+import { MenuType } from '@/components/UserMenu/enum/enum';
+import { ButtonType } from '@/components/Button/enum/enum';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
+import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 
 const props = withDefaults(defineProps<IMenuProps>(), {});
 
 const state = reactive({
   isShow: false,
-  option: ''
+  option: '',
+  isChecked: false
 });
 
 const emit = defineEmits<{
-  (
-    e: 'click',
-    event: {
-      type: MenuType;
-    }
-  ): void;
-  (e: 'themeChange', event: Event): void;
-  (e: 'languageSwitch', event: Event): void;
+  (e: 'click', type: MenuType): void;
+  (e: 'themeChange', value: boolean): void;
+  (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
-const choosedOptions = (e: MouseEvent): void => {
-  const target = e.target as HTMLElement;
-  const optionType = target.dataset.type;
-  if (optionType !== undefined) {
-    state.option = optionType;
-    emit('click', { type: state.option as MenuType });
+const classes = computed(() => ({
+  menu__heading: true,
+  active: state.isShow
+}));
+
+const choosedOptions = (type: MenuType): void => {
+  if (type !== undefined) {
+    state.option = type;
+    emit('click', type);
+    if (props.closeAfterClick) {
+      state.isShow = false;
+    }
   } else {
     console.error('Option type is undefined');
   }
 };
+// const choosedOptions = (e: MouseEvent, type: MenuType): void => {
+//   const target = e.target as HTMLElement;
+//   const optionType = target.dataset.type;
+//   console.log(target.dataset.type, 'TYPE');
 
-const classes = computed(() => {
-  return {
-    menu__heading: true,
-    active: state.isShow
-  };
+//   if (optionType !== undefined) {
+//     state.option = type;
+//     emit('click', state.option);
+//     if (props.closeAfterClick) {
+//       state.isShow = false;
+//     }
+//   } else {
+//     console.error('Option type is undefined');
+//   }
+// };
+
+const nameIcon = computed(() => {
+  return state.isShow ? IconNameEnum.chevronDown : IconNameEnum.chevronUp;
 });
-
-// const nameIcon = computed(() => {
-//   return state.isShow ? 'chevronDown' : 'chevronUp';
-// });
 
 const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 
 const toggleTheme = (isChecked: boolean) => {
-  console.log(isChecked, 'isChecked');
+  emit('themeChange', isChecked);
+  state.isChecked = isChecked;
 };
 
-const languages = ['Ru', 'En'];
-
-const handleLanguageSwitch = (index: IChangeSwitchEmit) => {
-  console.log(index, 'switch');
+const handleLanguageSwitch = (event: IChangeSwitchEmit) => {
+  emit('languageSwitch', event);
 };
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .menu {
   display: flex;
   align-items: center;
@@ -174,7 +184,7 @@ const handleLanguageSwitch = (index: IChangeSwitchEmit) => {
     min-height: 40px;
 
     &.active {
-      background-color: $blue-F2F7FF;
+      background-color: $BLUE-F2F7FF;
     }
   }
 
@@ -182,7 +192,7 @@ const handleLanguageSwitch = (index: IChangeSwitchEmit) => {
     padding: 15px 9px;
     width: 100%;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 5px;
     position: absolute;
     z-index: 10000;
@@ -203,20 +213,20 @@ const handleLanguageSwitch = (index: IChangeSwitchEmit) => {
   }
 
   &__name {
-    color: $grey-121212;
+    color: $GREY-121212;
   }
 
   &__role {
-    color: $grey-515151;
+    color: $GREY-515151;
   }
 
   &__button {
-    background-color: $transparent;
+    background-color: $TRANSPARENT;
     padding: 0;
     min-height: 40px;
 
     &:hover {
-      background-color: $transparent;
+      background-color: $TRANSPARENT;
     }
   }
 }
@@ -240,8 +250,8 @@ const handleLanguageSwitch = (index: IChangeSwitchEmit) => {
 
     &:hover,
     &:active {
-      background-color: $blue-F2F7FF;
-      color: $blue-70A6FF;
+      background-color: $BLUE-F2F7FF;
+      color: $BLUE-70A6FF;
     }
   }
 

@@ -1,9 +1,9 @@
 <template>
-  <ul class="td-list">
+  <ul class="switch-list">
     <li
       v-for="(item, index) of props.items"
-      :key="index"
-      :class="['td-item', { 'td-active': state.activeIndex === index }]"
+      :key="item"
+      :class="getClasses(index)"
       @click="toChooseItem(index)"
     >
       {{ item }}
@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
-import { ISwitchProps, IChangeSwitchEmit } from './interface';
+import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {});
 
@@ -24,6 +24,11 @@ const state = reactive({
 const emit = defineEmits<{
   (e: 'languageSwitch', event: IChangeSwitchEmit): void;
 }>();
+
+const getClasses = (index: number) => ({
+  'switch-item': true,
+  'switch-active': state.activeIndex === index
+});
 
 const toChooseItem = (index: number) => {
   state.activeIndex = index;
@@ -41,30 +46,29 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import './../../assets/scss/_global.scss';
-
-.td-list {
+.switch-list {
   display: flex;
   align-items: center;
   list-style: none;
   padding: 6px;
-  width: fit-content;
+  width: inherit;
   border-radius: 5px;
-  background-color: $white;
+  background-color: $WHITE;
   margin: 0;
 }
 
-.td-item {
+.switch-item {
   padding: 3.5px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  width: inherit;
 }
 
-.td-active {
-  background-color: $blue-77A6FF;
-  color: $white;
+.switch-active {
+  background-color: $BLUE-77A6FF;
+  color: $WHITE;
   border-radius: 5px;
   transition: 0.3s ease-in-out;
 }

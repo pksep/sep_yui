@@ -3,11 +3,11 @@
     <ul :class="classes" v-if="state.globalResultsFunction">
       <li
         class="history__item"
-        v-for="(item, index) in state.globalResultsFunction"
-        :key="index"
+        v-for="item in state.globalResultsFunction"
+        :key="item.nameArea + item.searchResult"
       >
         <Icon :name="IconNameEnum.document" />
-        <p class="history__text" @click="handleChoosePost">
+        <p class="history__text" @click="handleChoosePost(item)">
           <span class="result"> {{ trimText(item.nameArea) }}</span>
           <span class="result blue">/</span>
           <span class="result blue"> {{ trimText(item.searchResult) }}</span>
@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
-import { ISearchProps } from './interface';
-import { IconNameEnum } from '../Icon/enum';
+import { ISearchProps, resultSearchType } from './interface/interface';
+import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
 
@@ -33,17 +33,17 @@ const props = defineProps<ISearchProps>();
 
 const state = reactive({
   isShowList: props.isShowList,
-  globalResultsFunction: computed(() => {
-    return typeof props.globalResultsFunction === 'function'
+  globalResultsFunction: computed(() =>
+    typeof props.globalResultsFunction === 'function'
       ? props.globalResultsFunction()
-      : [];
-  }),
+      : []
+  ),
   isShowResult: props.isShowResult,
   searchValue: props.searchValue
 });
 
 const emit = defineEmits<{
-  (e: 'choosePost', value: string): void;
+  (e: 'choosePost', post: resultSearchType): void;
 }>();
 
 const classes = computed(() => ({
@@ -53,19 +53,16 @@ const classes = computed(() => ({
     state.globalResultsFunction.length >= 5 && state.isShowResult
 }));
 
-const handleChoosePost = (e: MouseEvent) => {
-  const targetText = (e.target as HTMLElement)?.textContent;
-  if (targetText) {
-    emit('choosePost', targetText);
-  }
+const handleChoosePost = (item: resultSearchType) => {
+  emit('choosePost', item);
 };
 </script>
 
 <style lang="scss" scoped>
 .history {
-  color: $grey-282828;
+  color: $GREY-282828;
   outline: none;
-  background-color: $white;
+  background-color: $WHITE;
   border-radius: 5px;
   display: none;
 
@@ -77,10 +74,10 @@ const handleChoosePost = (e: MouseEvent) => {
     display: flex;
     align-items: center;
     padding: 8px 10px;
-    color: $grey-282828;
-    border: 1px solid transparent;
+    color: $GREY-282828;
+    border: 1px solid TRANSPARENT;
     outline: none;
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 5px;
     width: inherit;
 
@@ -100,8 +97,8 @@ const handleChoosePost = (e: MouseEvent) => {
     transition: 0.3s ease-in-out;
     padding: 0;
     margin: 0;
-    background-color: $white;
-    border: 1px solid $blue-9CBEFF;
+    background-color: $WHITE;
+    border: 1px solid $BLUE-9CBEFF;
     border-radius: 5px;
 
     &--opened {
@@ -120,7 +117,7 @@ const handleChoosePost = (e: MouseEvent) => {
   }
 
   &__item {
-    background: $white;
+    background: $WHITE;
     overflow: hidden;
     text-align: left;
     display: flex;
@@ -132,7 +129,7 @@ const handleChoosePost = (e: MouseEvent) => {
     padding-bottom: 3px;
 
     &:hover {
-      background-color: $blue-F2F7FF;
+      background-color: $BLUE-F2F7FF;
     }
 
     span {
@@ -144,7 +141,7 @@ const handleChoosePost = (e: MouseEvent) => {
       height: inherit;
 
       &:hover {
-        background-color: $blue-F2F7FF;
+        background-color: $BLUE-F2F7FF;
       }
 
       &.result {
@@ -157,7 +154,7 @@ const handleChoosePost = (e: MouseEvent) => {
       height: 34px;
 
       .history__text {
-        color: $grey-757D8A;
+        color: $GREY-757D8A;
       }
     }
     button {
@@ -178,9 +175,9 @@ const handleChoosePost = (e: MouseEvent) => {
 
       button {
         background: none;
-        border: 1px solid $transparent;
+        border: 1px solid $TRANSPARENT;
         outline: none;
-        color: $grey-757D8A;
+        color: $GREY-757D8A;
         display: block;
 
         &:hover {
@@ -199,6 +196,6 @@ const handleChoosePost = (e: MouseEvent) => {
 }
 
 .blue {
-  color: $blue-77A6FF;
+  color: $BLUE-77A6FF;
 }
 </style>

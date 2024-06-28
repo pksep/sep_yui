@@ -7,8 +7,8 @@
     </span>
     <ul class="dropdown__list" v-if="state.isOpened">
       <li
-        class="dropdown__item truncate"
-        v-for="option in options"
+        :class="[classes, { active: option === state.choosedOption }]"
+        v-for="option in props.options"
         @click="() => getChoosenOption(option)"
         :key="option"
       >
@@ -18,14 +18,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { IDropdownProps } from './interface';
-import { IconNameEnum } from '../Icon/enum';
+import { reactive, computed } from 'vue';
+import { IDropdownProps } from './interface/interface';
+import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 
-const props = withDefaults(defineProps<IDropdownProps>(), {
-  options: () => [] as string[]
-});
+const props = withDefaults(defineProps<IDropdownProps>(), {});
 
 const emit = defineEmits<{
   (e: 'click', value: string): void;
@@ -37,21 +35,28 @@ const state = reactive({
   lengthOption: 0
 });
 
+const ACTIVE = 'active';
+
+const classes = computed(() => ({
+  'dropdown__item ': true,
+  truncate: true
+}));
+
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
   state.isOpened = false;
 };
 
-const closeOpenList = (e: Event) => {
+const closeOpenList = (e: MouseEvent) => {
   state.isOpened = !state.isOpened;
 
   const target = e.currentTarget as HTMLElement | null;
   if (target) {
-    if (target.classList.contains('active')) {
-      target.classList.remove('active');
+    if (target.classList.contains(ACTIVE)) {
+      target.classList.remove(ACTIVE);
     } else {
-      target.classList.add('active');
+      target.classList.add(ACTIVE);
     }
   }
 };
@@ -63,17 +68,17 @@ const closeOpenList = (e: Event) => {
   &__current {
     width: inherit;
     padding: 6px 5px;
-    background-color: $white;
+    background-color: $WHITE;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid $transparent;
+    border: 1px solid $TRANSPARENT;
     margin-bottom: 5px;
     border-radius: 5px;
     cursor: pointer;
 
     &.active {
-      border: 1px solid $blue-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
     }
 
     svg {
@@ -88,11 +93,13 @@ const closeOpenList = (e: Event) => {
     padding: 6px 5px;
     max-height: 120px;
     overflow-y: scroll;
-    background-color: $white;
+    background-color: $WHITE;
     border-radius: 5px;
-    border: 1px solid $blue-9CBEFF;
+    border: 1px solid $BLUE-9CBEFF;
     display: grid;
     gap: 10px;
+    position: absolute;
+    z-index: 2222222;
   }
 
   &__item {
@@ -100,7 +107,12 @@ const closeOpenList = (e: Event) => {
     cursor: pointer;
 
     &:hover {
-      background-color: $white-ECF3FF;
+      background-color: $WHITE-ECF3FF;
+      border-radius: 5px;
+    }
+
+    &.active {
+      background-color: $WHITE-ECF3FF;
       border-radius: 5px;
     }
   }

@@ -23,7 +23,7 @@
               <li
                 class="filter__select-item"
                 v-for="(item, inx) in getChoosen"
-                :key="inx"
+                :key="item.value"
               >
                 <Badges
                   :type="
@@ -52,7 +52,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getChoosen"
-          :key="inx"
+          :key="item.value"
         >
           <Badges
             :disabled="true"
@@ -60,11 +60,7 @@
             :type="props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
-            v-if="
-              props.searchable
-                ? item.type != BadgesTypeEnum.default
-                : item.choose
-            "
+            v-if="choosedCondition"
           />
         </li>
       </ul>
@@ -79,7 +75,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
-          :key="inx"
+          :key="item.value"
           :style="inx === 0 ? { paddingTop: '10px' } : ''"
         >
           <Badges
@@ -100,8 +96,8 @@
       >
         <li
           class="filter__select-item"
-          v-for="(item, inx) in getNotChoosen"
-          :key="inx"
+          v-for="item in getNotChoosen"
+          :key="item.value"
           @click="toogleChoosed(item)"
         >
           {{ item.value }}
@@ -113,12 +109,12 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ComputedRef } from 'vue';
-import { IFilterOption, IFilterProps, IStateItem } from './interface';
+import { IFilterOption, IFilterProps, IStateItem } from './interface/interface';
 import Badges from '@/components/Badges/Badges.vue';
-import { BadgesTypeEnum } from '@/components/Badges/enum';
+import { BadgesTypeEnum } from '@/components/Badges/enum/enum';
 import Search from '@/components/Search/Search.vue';
 import Icon from '@/components/Icon/Icon.vue';
-import { IconNameEnum } from '../Icon/enum';
+import { IconNameEnum } from '../Icon/enum/enum';
 import { isArray } from 'lodash';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
@@ -138,6 +134,33 @@ const emit = defineEmits<{
   (e: 'scroll', value: boolean): void;
 }>();
 
+const classes = computed(() => ({
+  filter__counter: true,
+  counter: true,
+  'counter--search': props.searchable
+}));
+
+const classesList = computed(() => ({
+  'filter__select-list': true,
+  selected: true,
+  'selected--search': props.searchable,
+  'border-none': props.searchable && getChoosen.value.length < 2
+}));
+
+const classesFilter = computed(() => ({
+  filter__wrapper: true,
+  active: state.isShow,
+  'filter--search': props.searchable
+}));
+
+const computedBadgeText: ComputedRef<string> = computed(() => {
+  if (getChoosen.value.length > 1 && props.searchable) {
+    return getChoosen.value[1]?.value;
+  } else {
+    return getChoosen.value[0]?.value;
+  }
+});
+
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
 
 const updateSearchString = (value: string) => {
@@ -152,7 +175,7 @@ const changeUpdateSearchString = (value: string) => {
 
 const toggleShow = () => (state.isShow = !state.isShow);
 
-const clearFilter = (e: Event) => {
+const clearFilter = (e: MouseEvent) => {
   e.stopPropagation();
   state.options.forEach((el: IStateItem, inx: number) =>
     setDefaultChoosen(el, inx)
@@ -225,25 +248,6 @@ const hidefilters = () => {
   }
 };
 
-const classes = computed(() => ({
-  filter__counter: true,
-  counter: true,
-  'counter--search': props.searchable
-}));
-
-const classesList = computed(() => ({
-  'filter__select-list': true,
-  selected: true,
-  'selected--search': props.searchable,
-  'border-none': props.searchable && getChoosen.value.length < 2
-}));
-
-const classesFilter = computed(() => ({
-  filter__wrapper: true,
-  active: state.isShow,
-  'filter--search': props.searchable
-}));
-
 const handleScroll = (event: Event) => {
   const target = event.target as HTMLElement;
   if (target.scrollHeight - target.scrollTop === target.clientHeight) {
@@ -263,13 +267,11 @@ const computedBadgeType: ComputedRef<BadgesTypeEnum | undefined> = computed(
   }
 );
 
-const computedBadgeText: ComputedRef<string> = computed(() => {
-  if (getChoosen.value.length > 1 && props.searchable) {
-    return getChoosen.value[1]?.value;
-  } else {
-    return getChoosen.value[0]?.value;
-  }
-});
+const choosedCondition = (item: any) => {
+  computed(() =>
+    props.searchable ? item.type != BadgesTypeEnum.default : item.choose
+  );
+};
 
 onMounted(() => {
   state.options = props.options.map(
@@ -285,7 +287,6 @@ onMounted(() => {
       if (props.searchable && newItem.type === BadgesTypeEnum.default) {
         newItem.value = 'Не выбрано';
       }
-      console.log(getChoosen.value.length, 'choosen');
       return newItem;
     }
   ) as IStateItem[];
@@ -302,9 +303,9 @@ onMounted(() => {
     display: flex;
     align-items: center;
     width: fit-content;
-    border: 1px solid $white-E7E7E7;
-    color: $grey-757D8A;
-    background-color: $white;
+    border: 1px solid $WHITE-E7E7E7;
+    color: $GREY-757D8A;
+    background-color: $WHITE;
     transition: 0.3s ease-in-out;
     padding: 10px;
     border-radius: 10px;
@@ -312,17 +313,17 @@ onMounted(() => {
     user-select: none;
 
     &:hover {
-      border: 1px solid $blue-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
     }
 
     &.active {
-      color: $blue-9CBEFF;
-      border: 1px solid $blue-9CBEFF;
+      color: $BLUE-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
     }
   }
 
   &__counter {
-    color: $grey-757D8A;
+    color: $GREY-757D8A;
   }
 
   &__select-wrapper {
@@ -330,7 +331,7 @@ onMounted(() => {
     top: 62px;
     z-index: 20;
     left: 0;
-    background-color: $white;
+    background-color: $WHITE;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
@@ -347,12 +348,12 @@ onMounted(() => {
     gap: 5px;
 
     &.selected {
-      border-bottom: 0.5px solid $white-E7E7E7;
+      border-bottom: 0.5px solid $WHITE-E7E7E7;
       padding-bottom: 10px;
     }
 
     &.select-counter {
-      background-color: $white;
+      background-color: $WHITE;
       border-radius: 10px;
       box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
     }
@@ -363,16 +364,16 @@ onMounted(() => {
 
       .filter__select-item {
         padding: 10px;
-        border-bottom: 1px solid $white-E7E7E7;
+        border-bottom: 1px solid $WHITE-E7E7E7;
       }
     }
   }
 
   &__close {
-    color: $grey-757D8A;
+    color: $GREY-757D8A;
     cursor: pointer;
-    background-color: $transparent;
-    border: 1px solid $transparent;
+    background-color: $TRANSPARENT;
+    border: 1px solid $TRANSPARENT;
     outline: none;
     display: flex;
     align-items: center;
@@ -421,7 +422,7 @@ onMounted(() => {
       max-width: 187px;
 
       span.badges-text {
-        color: $blue-407BFF;
+        color: $BLUE-407BFF;
       }
     }
 

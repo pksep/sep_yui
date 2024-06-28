@@ -1,5 +1,5 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import Dropdown from '@/components/Dropdown/Dropdown.vue';
+import Dropdown from './Dropdown.vue';
 import { StorybookControl } from '../../common/storybook';
 import { fn } from '@storybook/test';
 

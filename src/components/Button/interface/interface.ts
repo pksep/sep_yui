@@ -1,5 +1,5 @@
 import { SizesEnum } from '@/common/sizes';
-import { ButtonType } from './enum';
+import { ButtonType } from '../enum/enum';
 
 export interface IButtonProps {
   disabled: boolean;
