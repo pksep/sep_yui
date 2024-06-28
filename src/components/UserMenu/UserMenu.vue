@@ -22,17 +22,13 @@
         <li class="list__item">
           <span
             class="list__item-text"
-            :data-type="MenuType.profile"
-            @click="e => choosedOptions(e, MenuType.profile)"
+            @click="choosedOptions(MenuType.profile)"
             >Профиль</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.dark" />
-          <span
-            class="list__item-text"
-            :data-type="MenuType.theme"
-            @click="e => choosedOptions(e, MenuType.theme)"
+          <span class="list__item-text" @click="choosedOptions(MenuType.theme)"
             >Темная тема</span
           >
           <Toggle
@@ -44,17 +40,13 @@
           <Icon :name="IconNameEnum.settings" />
           <span
             class="list__item-text"
-            :data-type="MenuType.options"
-            @click="e => choosedOptions(e, MenuType.options)"
+            @click="choosedOptions(MenuType.options)"
             >Настройки</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.exit" />
-          <span
-            class="list__item-text"
-            :data-type="MenuType.exit"
-            @click="e => choosedOptions(e, MenuType.exit)"
+          <span class="list__item-text" @click="choosedOptions(MenuType.exit)"
             >Выход</span
           >
         </li>
@@ -63,7 +55,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.help"
-            @click="e => choosedOptions(e, MenuType.help)"
+            @click="choosedOptions(MenuType.help)"
             >Помощь</span
           >
         </li>
@@ -99,13 +91,8 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (
-    e: 'click',
-    event: {
-      type: MenuType;
-    }
-  ): void;
-  (e: 'themeChange', event: MouseEvent): void;
+  (e: 'click', type: MenuType): void;
+  (e: 'themeChange', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
@@ -114,13 +101,10 @@ const classes = computed(() => ({
   active: state.isShow
 }));
 
-const choosedOptions = (e: MouseEvent, type: MenuType): void => {
-  const target = e.target as HTMLElement;
-  const optionType = target.dataset.type;
-
-  if (optionType !== undefined) {
+const choosedOptions = (type: MenuType): void => {
+  if (type !== undefined) {
     state.option = type;
-    emit('click', state.option);
+    emit('click', type);
     if (props.closeAfterClick) {
       state.isShow = false;
     }
@@ -128,6 +112,21 @@ const choosedOptions = (e: MouseEvent, type: MenuType): void => {
     console.error('Option type is undefined');
   }
 };
+// const choosedOptions = (e: MouseEvent, type: MenuType): void => {
+//   const target = e.target as HTMLElement;
+//   const optionType = target.dataset.type;
+//   console.log(target.dataset.type, 'TYPE');
+
+//   if (optionType !== undefined) {
+//     state.option = type;
+//     emit('click', state.option);
+//     if (props.closeAfterClick) {
+//       state.isShow = false;
+//     }
+//   } else {
+//     console.error('Option type is undefined');
+//   }
+// };
 
 const nameIcon = computed(() => {
   return state.isShow ? IconNameEnum.chevronDown : IconNameEnum.chevronUp;
@@ -147,7 +146,7 @@ const handleLanguageSwitch = (event: IChangeSwitchEmit) => {
 };
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .menu {
   display: flex;
   align-items: center;

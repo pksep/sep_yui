@@ -9,7 +9,7 @@ import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Table from './Table/Table.vue';
 import Toggle from './Toggle/Toggle.vue';
-import Menu from './Menu/Menu.vue';
+import UserMenu from './UserMenu/UserMenu.vue';
 
 export {
   Badges,
@@ -23,5 +23,5 @@ export {
   Slider,
   Toggle,
   Table,
-  Menu
+  UserMenu
 };
