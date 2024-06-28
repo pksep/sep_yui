@@ -16,4 +16,5 @@ export interface ISlider {
   disabledNext: boolean;
   typeImages: string[];
   typeVideos: string[];
+  extension: string;
 }

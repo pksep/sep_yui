@@ -1,5 +1,5 @@
-import { IconNameEnum } from './enum/enum';
-import { ColorsEnum } from '../../common/colors';
+import { IconNameEnum } from './../enum/enum';
+import { ColorsEnum } from '../../../common/colors';
 
 export interface IIconPorps {
   height?: number;

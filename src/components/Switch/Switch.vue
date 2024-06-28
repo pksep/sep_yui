@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, computed } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 import { generateUniqueId } from './../../helpers/genarate-unic-id';
 

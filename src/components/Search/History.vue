@@ -12,10 +12,10 @@
     <ul :class="classes">
       <li
         class="history__item"
-        v-for="(item, index) in state.getHistorySearch"
+        v-for="item in state.getHistorySearch"
         :key="state.generateUniqueId"
       >
-        <span @click="handleChoosePost"> {{ trimText(item) }}</span
+        <span @click="handleChoosePost(item)"> {{ trimText(item) }}</span
         ><button type="button" @click="removeItem(item)">
           <Icon :name="IconNameEnum.exitSmall" />
         </button>

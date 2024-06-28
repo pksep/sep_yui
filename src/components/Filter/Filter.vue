@@ -96,7 +96,7 @@
       >
         <li
           class="filter__select-item"
-          v-for="(item, inx) in getNotChoosen"
+          v-for="item in getNotChoosen"
           :key="state.generateUniqueId"
           @click="toogleChoosed(item)"
         >

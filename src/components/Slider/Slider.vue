@@ -52,7 +52,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, Ref } from 'vue';
 import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -68,7 +68,8 @@ const state = reactive<ISlider>({
   disabledPrev: true,
   disabledNext: false,
   typeImages: typeImages,
-  typeVideos: typeVideos
+  typeVideos: typeVideos,
+  extension: ''
 });
 
 const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
@@ -83,9 +84,11 @@ const checkPath = (str: string | null) => {
   const regex = /\.\w+$/;
   const match = str.match(regex);
 
-  state.extension = match[0];
-
-  return match ? match[0] : null;
+  if (match != null) {
+    state.extension = match[0];
+  } else {
+    return;
+  }
 };
 
 const isImage = (path: string | null): boolean => {
@@ -100,7 +103,10 @@ const isVideo = (path: string | null): boolean => {
 
 const closeFullSize = (e: KeyboardEvent) => {
   if (e instanceof KeyboardEvent && e.key === 'Escape') {
-    if (fullsizeImageRef.value.classList.contains(CLASS_FULL_SIZE)) {
+    if (
+      fullsizeImageRef.value &&
+      fullsizeImageRef.value.classList.contains(CLASS_FULL_SIZE)
+    ) {
       fullsizeImageRef.value.classList.remove(CLASS_FULL_SIZE);
       document.body.style.overflow = 'auto';
     }

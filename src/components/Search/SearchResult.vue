@@ -3,7 +3,7 @@
     <ul :class="classes" v-if="state.globalResultsFunction">
       <li
         class="history__item"
-        v-for="(item, index) in state.globalResultsFunction"
+        v-for="item in state.globalResultsFunction"
         :key="state.generateUniqueId"
       >
         <Icon :name="IconNameEnum.document" />
@@ -45,7 +45,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'choosePost', value: string): void;
+  (e: 'choosePost', post: resultSearchType): void;
 }>();
 
 const classes = computed(() => ({

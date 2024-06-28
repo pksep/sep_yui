@@ -73,7 +73,11 @@
         :global-results-function="getAllResults"
       />
     </div>
-    <UserMenu :languages="userMenuLanguageProps" :closeAfterClick="true" />
+    <UserMenu
+      :user="user"
+      :languages="userMenuLanguageProps"
+      :closeAfterClick="true"
+    />
   </div>
 </template>
 
@@ -98,6 +102,12 @@ import { SizesEnum } from './common/sizes';
 import { ButtonType } from './components/Button/enum/enum';
 
 const userMenuLanguageProps = { items: ['Ru', 'En'], defaultValue: 'En' };
+
+const user = {
+  name: 'David',
+  role: 'admin',
+  path: 'www.image.ru'
+};
 
 const files = [
   {

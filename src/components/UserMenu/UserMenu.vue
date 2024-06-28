@@ -2,12 +2,12 @@
   <div class="menu">
     <div class="menu__wrapper">
       <div class="menu__avatar">
-        <img :src="props.path" />
+        <img :src="props.user.path" />
       </div>
       <div :class="classes">
         <div class="menu__names">
-          <p class="menu__name">{{ props.name }}</p>
-          <p class="menu__role">{{ props.role }}</p>
+          <p class="menu__name">{{ props.user.name }}</p>
+          <p class="menu__role">{{ props.user.role }}</p>
         </div>
         <Button
           :type="ButtonType.ghost"
@@ -20,11 +20,10 @@
     <div class="menu__list" v-if="state.isShow">
       <ul class="list">
         <li class="list__item">
-          <Icon :name="IconNameEnum.profile" />
           <span
             class="list__item-text"
             :data-type="MenuType.profile"
-            @click="choosedOptions"
+            @click="e => choosedOptions(e, MenuType.profile)"
             >Профиль</span
           >
         </li>
@@ -33,7 +32,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.theme"
-            @click="choosedOptions"
+            @click="e => choosedOptions(e, MenuType.theme)"
             >Темная тема</span
           >
           <Toggle
@@ -46,7 +45,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.options"
-            @click="choosedOptions"
+            @click="e => choosedOptions(e, MenuType.options)"
             >Настройки</span
           >
         </li>
@@ -55,7 +54,7 @@
           <span
             class="list__item-text"
             :data-type="MenuType.exit"
-            @click="choosedOptions"
+            @click="e => choosedOptions(e, MenuType.exit)"
             >Выход</span
           >
         </li>
@@ -64,16 +63,16 @@
           <span
             class="list__item-text"
             :data-type="MenuType.help"
-            @click="choosedOptions"
+            @click="e => choosedOptions(e, MenuType.help)"
             >Помощь</span
           >
         </li>
       </ul>
 
       <Switch
-        v-if="props.languages.items"
-        :items="props.languages.items"
-        :defaultValue="props.languages.defaultValue"
+        v-if="props.languages?.items"
+        :items="props.languages?.items"
+        :defaultValue="props.languages?.defaultValue"
         @languageSwitch="handleLanguageSwitch"
       />
     </div>
@@ -110,13 +109,18 @@ const emit = defineEmits<{
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
+const classes = computed(() => ({
+  menu__heading: true,
+  active: state.isShow
+}));
+
 const choosedOptions = (e: MouseEvent, type: MenuType): void => {
   const target = e.target as HTMLElement;
   const optionType = target.dataset.type;
 
   if (optionType !== undefined) {
-    state.option = optionType;
-    emit('click', state.option as MenuType);
+    state.option = type;
+    emit('click', state.option);
     if (props.closeAfterClick) {
       state.isShow = false;
     }
@@ -124,11 +128,6 @@ const choosedOptions = (e: MouseEvent, type: MenuType): void => {
     console.error('Option type is undefined');
   }
 };
-
-const classes = computed(() => ({
-  menu__heading: true,
-  active: state.isShow
-}));
 
 const nameIcon = computed(() => {
   return state.isShow ? IconNameEnum.chevronDown : IconNameEnum.chevronUp;
@@ -143,7 +142,6 @@ const toggleTheme = (isChecked: boolean) => {
   state.isChecked = isChecked;
 };
 
-// vunesti v interface
 const handleLanguageSwitch = (event: IChangeSwitchEmit) => {
   emit('languageSwitch', event);
 };
