@@ -1,13 +1,17 @@
 <template>
   <ul class="bread-crumbs">
-    <li :class="classesItem" v-for="(crumb, inx) in state.items" :key="crumb">
+    <li
+      :class="classesItem"
+      v-for="(crumb, inx) in state.items"
+      :key="crumb.path"
+    >
       <div v-if="isShowSubList(inx)">
         <span class="bread-crumbs--closed" @click="toggleShowList">...</span>
 
         <ul :class="classes.crumbs">
           <li
             v-for="(subCrumb, inx) in state.subCrumbs"
-            :key="subCrumb"
+            :key="subCrumb.path"
             :class="classesItem"
           >
             <span @click="toSelectCrumb(subCrumb, inx)">

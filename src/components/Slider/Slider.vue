@@ -25,7 +25,7 @@
             width="111px"
             height="111px"
           />
-          <p>{{ state.extension }}</p>
+          <p>.{{ state.extension }}</p>
         </div>
         <img
           v-if="isImage(state.file?.path ?? '')"
@@ -52,11 +52,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, computed, reactive, ref, Ref } from 'vue';
+import { onMounted, reactive, ref, Ref } from 'vue';
 import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
-import { ImageExtensions, VideoExtensions } from './../../common/extentions';
+import {
+  ImageExtensionsEnum,
+  VideoExtensionsEnum
+} from './../../common/extentions';
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
@@ -67,9 +70,7 @@ const state = reactive<ISlider>({
   defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
   disabledPrev: true,
   disabledNext: false,
-  typeImages: computed(() => [...new Set(Object.values(ImageExtensions))]),
-  typeVideos: computed(() => [...new Set(Object.values(VideoExtensions))]),
-  extension: ''
+  extension: null
 });
 
 const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
@@ -77,29 +78,28 @@ const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
 
 const CLASS_FULL_SIZE = 'slider__full-size';
 
-const checkPath = (str: string | null) => {
-  if (!str) {
-    return null;
-  }
+const checkPath = (str: string | null): string | null => {
+  if (!str) return null;
   const regex = /\.\w+$/;
   const match = str.match(regex);
 
-  if (match != null) {
-    state.extension = match[0];
-  } else {
-    return null;
-  }
-  return match ? match[0] : null;
+  state.extension = match ? match[0].replace('.', '') : null;
+
+  return state.extension;
 };
 
 const isImage = (path: string | null): boolean => {
-  const extension = checkPath(path);
-  return extension ? state.typeImages.includes(extension) : false;
+  const extension: any = checkPath(path);
+  return extension
+    ? Object.values(ImageExtensionsEnum).includes(extension)
+    : false;
 };
 
 const isVideo = (path: string | null): boolean => {
-  const extension = checkPath(path);
-  return extension ? state.typeVideos.includes(extension) : false;
+  const extension: any = checkPath(path);
+  return extension
+    ? Object.values(VideoExtensionsEnum).includes(extension)
+    : false;
 };
 
 const closeFullSize = (e: KeyboardEvent) => {

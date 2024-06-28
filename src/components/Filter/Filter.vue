@@ -23,7 +23,7 @@
               <li
                 class="filter__select-item"
                 v-for="(item, inx) in getChoosen"
-                :key="item"
+                :key="item.value"
               >
                 <Badges
                   :type="
@@ -52,7 +52,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getChoosen"
-          :key="item"
+          :key="item.value"
         >
           <Badges
             :disabled="true"
@@ -75,7 +75,7 @@
         <li
           class="filter__select-item"
           v-for="(item, inx) in getNotChoosen"
-          :key="item"
+          :key="item.value"
           :style="inx === 0 ? { paddingTop: '10px' } : ''"
         >
           <Badges
@@ -97,7 +97,7 @@
         <li
           class="filter__select-item"
           v-for="item in getNotChoosen"
-          :key="item"
+          :key="item.value"
           @click="toogleChoosed(item)"
         >
           {{ item.value }}

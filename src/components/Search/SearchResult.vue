@@ -4,7 +4,7 @@
       <li
         class="history__item"
         v-for="item in state.globalResultsFunction"
-        :key="item"
+        :key="item.nameArea + item.searchResult"
       >
         <Icon :name="IconNameEnum.document" />
         <p class="history__text" @click="handleChoosePost(item)">

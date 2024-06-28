@@ -14,7 +14,5 @@ export interface ISlider {
   defaultIndex: number;
   disabledPrev: boolean;
   disabledNext: boolean;
-  typeImages: string[];
-  typeVideos: string[];
-  extension: string;
+  extension: null | string;
 }
