@@ -53,7 +53,7 @@ onMounted(() => {
   align-items: center;
   list-style: none;
   padding: 6px;
-  width: fit-content;
+  width: inherit;
   border-radius: 5px;
   background-color: $WHITE;
   margin: 0;
@@ -65,6 +65,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  width: inherit;
 }
 
 .switch-active {

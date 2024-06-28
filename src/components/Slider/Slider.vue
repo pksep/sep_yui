@@ -87,8 +87,9 @@ const checkPath = (str: string | null) => {
   if (match != null) {
     state.extension = match[0];
   } else {
-    return;
+    return null;
   }
+  return match ? match[0] : null;
 };
 
 const isImage = (path: string | null): boolean => {
@@ -158,13 +159,16 @@ const nextSlide = () => {
 const showPlaceholder = () => state.files.length === 0;
 
 const showPlaceholderExtension = () =>
-  !isImage(state.file?.path ?? '') &&
-  !isVideo(state.file?.path ?? '') &&
+  isImage(state.file?.path ?? null) == false &&
+  isVideo(state.file?.path ?? null) == false &&
   state.files.length > 0;
 
 onMounted(() => {
   if (!props.items) return 0;
   state.files = props.items;
+
+  if (state.files.length === 0) state.disabledNext = true;
+
   if (props.defaultIndex) {
     state.file = state.files[state.defaultIndex];
   }

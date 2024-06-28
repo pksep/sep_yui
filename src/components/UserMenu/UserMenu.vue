@@ -20,6 +20,7 @@
     <div class="menu__list" v-if="state.isShow">
       <ul class="list">
         <li class="list__item">
+          <Icon :name="IconNameEnum.profile" />
           <span
             class="list__item-text"
             @click="choosedOptions(MenuType.profile)"
