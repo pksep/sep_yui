@@ -1,6 +1,6 @@
 import { StoryFn } from '@storybook/vue3';
 import Icon from './Icon.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { IconNameEnum } from './enum/enum';
 
 const meta = {
@@ -8,19 +8,19 @@ const meta = {
   component: Icon,
   argTypes: {
     height: {
-      control: { type: StorybookControl.number },
+      control: { type: StorybookControlEnum.number },
       defaultValue: 24
     },
     width: {
-      control: { type: StorybookControl.number },
+      control: { type: StorybookControlEnum.number },
       defaultValue: 24
     },
     name: {
-      control: { type: StorybookControl.select },
+      control: { type: StorybookControlEnum.select },
       options: IconNameEnum
     },
     color: {
-      control: { type: StorybookControl.color }
+      control: { type: StorybookControlEnum.color }
     }
   },
   tags: ['autodocs']

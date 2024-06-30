@@ -80,8 +80,8 @@ const CLASS_FULL_SIZE = 'slider__full-size';
 
 const checkPath = (str: string | null): string | null => {
   if (!str) return null;
-  const regex = /\.\w+$/;
-  const match = str.match(regex);
+  const regexExtension = /\.\w+$/;
+  const match = str.match(regexExtension);
 
   state.extension = match ? match[0].replace('.', '') : null;
 

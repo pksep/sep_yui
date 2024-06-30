@@ -45,7 +45,7 @@
     <div
       class="filter__select-wrapper"
       v-if="state.isShow"
-      @mouseleave="hidefilters"
+      @mouseleave="hideFilters"
     >
       <!-- список выбранных фильтров -->
       <ul :class="classesList">
@@ -241,7 +241,7 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
   } else el.choose = inx === 0 ? true : false;
 };
 
-const hidefilters = () => {
+const hideFilters = () => {
   state.isShow = false;
   if (state.searchString) {
     state.searchString = '';

@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Dropdown from './Dropdown.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
 const optionsItems = [
@@ -16,7 +16,7 @@ const meta = {
   component: Dropdown,
   argTypes: {
     optionsItems: {
-      type: StorybookControl.object,
+      type: StorybookControlEnum.object,
       defaultValue: optionsItems,
       onClick: { action: 'clicked' }
     }

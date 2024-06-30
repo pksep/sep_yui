@@ -25,11 +25,6 @@ const emit = defineEmits<{
   (e: 'choose', state: boolean): void;
 }>();
 
-const isChoosen = () => {
-  emit('choose', state.choosed);
-  if (!props.disabled) state.choosed = !state.choosed;
-};
-
 const classes = computed(() => ({
   base: true,
   default: props.type === BadgesTypeEnum.default,
@@ -40,6 +35,11 @@ const classes = computed(() => ({
   pink: props.type === BadgesTypeEnum.pink,
   choosed: state.choosed
 }));
+
+const isChoosen = () => {
+  emit('choose', state.choosed);
+  if (!props.disabled) state.choosed = !state.choosed;
+};
 
 onMounted(() => {
   state.choosed = props.choosed;

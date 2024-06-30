@@ -103,10 +103,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Color from './Color.vue';
-import { ColorsType } from './enum/enum';
+import { ColorsTypeEnum } from './enum/enum';
 import { colors } from './colors.ts';
 
-const colorTypes = computed(() => [...new Set(Object.values(ColorsType))]);
+const colorTypes = computed(() => [...new Set(Object.values(ColorsTypeEnum))]);
 
 const searchColor = (str1: string, str2: string) => {
   const cleanedStr1 = str1.replace(/\d/g, '');

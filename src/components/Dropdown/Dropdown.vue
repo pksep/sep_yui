@@ -25,15 +25,15 @@ import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {});
 
-const emit = defineEmits<{
-  (e: 'click', value: string): void;
-}>();
-
 const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
   lengthOption: 0
 });
+
+const emit = defineEmits<{
+  (e: 'click', value: string): void;
+}>();
 
 const ACTIVE = 'active';
 

@@ -10,7 +10,7 @@
           <p class="menu__role">{{ props.user.role }}</p>
         </div>
         <Button
-          :type="ButtonType.ghost"
+          :type="ButtonTypeEnum.ghost"
           class="menu__button"
           @click="toggleShow"
           ><Icon :name="nameIcon"
@@ -23,13 +23,15 @@
           <Icon :name="IconNameEnum.profile" />
           <span
             class="list__item-text"
-            @click="choosedOptions(MenuType.profile)"
+            @click="choosedOptions(MenuTypeEnum.profile)"
             >Профиль</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.dark" />
-          <span class="list__item-text" @click="choosedOptions(MenuType.theme)"
+          <span
+            class="list__item-text"
+            @click="choosedOptions(MenuTypeEnum.theme)"
             >Темная тема</span
           >
           <Toggle
@@ -41,13 +43,15 @@
           <Icon :name="IconNameEnum.settings" />
           <span
             class="list__item-text"
-            @click="choosedOptions(MenuType.options)"
+            @click="choosedOptions(MenuTypeEnum.options)"
             >Настройки</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.exit" />
-          <span class="list__item-text" @click="choosedOptions(MenuType.exit)"
+          <span
+            class="list__item-text"
+            @click="choosedOptions(MenuTypeEnum.exit)"
             >Выход</span
           >
         </li>
@@ -55,8 +59,8 @@
           <Icon :name="IconNameEnum.help" />
           <span
             class="list__item-text"
-            :data-type="MenuType.help"
-            @click="choosedOptions(MenuType.help)"
+            :data-type="MenuTypeEnum.help"
+            @click="choosedOptions(MenuTypeEnum.help)"
             >Помощь</span
           >
         </li>
@@ -78,8 +82,8 @@ import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
 import Switch from '@/components/Switch/Switch.vue';
-import { MenuType } from '@/components/UserMenu/enum/enum';
-import { ButtonType } from '@/components/Button/enum/enum';
+import { MenuTypeEnum } from '@/components/UserMenu/enum/enum';
+import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 
@@ -92,7 +96,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'click', type: MenuType): void;
+  (e: 'click', type: MenuTypeEnum): void;
   (e: 'themeChange', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
@@ -102,7 +106,7 @@ const classes = computed(() => ({
   active: state.isShow
 }));
 
-const choosedOptions = (type: MenuType): void => {
+const choosedOptions = (type: MenuTypeEnum): void => {
   if (type !== undefined) {
     state.option = type;
     emit('click', type);
@@ -113,7 +117,7 @@ const choosedOptions = (type: MenuType): void => {
     console.error('Option type is undefined');
   }
 };
-// const choosedOptions = (e: MouseEvent, type: MenuType): void => {
+// const choosedOptions = (e: MouseEvent, type: MenuTypeEnum): void => {
 //   const target = e.target as HTMLElement;
 //   const optionType = target.dataset.type;
 //   console.log(target.dataset.type, 'TYPE');

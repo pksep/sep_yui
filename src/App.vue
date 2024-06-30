@@ -22,19 +22,19 @@
     />
     <h1 class="text">Button</h1>
     <div class="buttons-wrapper">
-      <Button :size="SizesEnum.small" :type="ButtonType.ghost"
+      <Button :size="SizesEnum.small" :type="ButtonTypeEnum.ghost"
         >Small Button</Button
       >
-      <Button :size="SizesEnum.medium" :type="ButtonType.outline"
+      <Button :size="SizesEnum.medium" :type="ButtonTypeEnum.outline"
         >Medium Button</Button
       >
-      <Button :size="SizesEnum.large" :type="ButtonType.primary"
+      <Button :size="SizesEnum.large" :type="ButtonTypeEnum.primary"
         >Large Button</Button
       >
       <Button :size="SizesEnum.large" disabled
         ><Icon :name="IconNameEnum.help" /> Large Button</Button
       >
-      <Button :size="SizesEnum.large" :type="ButtonType.secondary"
+      <Button :size="SizesEnum.large" :type="ButtonTypeEnum.secondary"
         ><Icon :name="IconNameEnum.help" :width="54" :height="54" /> Large Icon
         Button</Button
       >
@@ -99,7 +99,7 @@ import { BadgesTypeEnum } from './components/Badges/enum/enum';
 import { IBreadCrumbsEmit } from './components/BreadCrumbs/interface/interface';
 import { computed, ref } from 'vue';
 import { SizesEnum } from './common/sizes';
-import { ButtonType } from './components/Button/enum/enum';
+import { ButtonTypeEnum } from './components/Button/enum/enum';
 
 const userMenuLanguageProps = { items: ['Ru', 'En'], defaultValue: 'En' };
 

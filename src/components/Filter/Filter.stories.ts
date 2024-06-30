@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Filter from './Filter.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { BadgesTypeEnum } from '../../components/Badges/enum';
 
 const badgesItems = [
@@ -35,10 +35,10 @@ const meta = {
   component: Filter,
   argTypes: {
     title: {
-      control: { type: StorybookControl.text }
+      control: { type: StorybookControlEnum.text }
     },
     options: {
-      control: { type: StorybookControl.object }
+      control: { type: StorybookControlEnum.object }
     }
   },
   tags: ['autodocs']

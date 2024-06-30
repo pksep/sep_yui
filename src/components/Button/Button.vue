@@ -23,12 +23,12 @@
 import { computed } from 'vue';
 import { SizesEnum } from '../../common/sizes';
 import { IButtonProps } from './interface/interface';
-import { ButtonType } from './enum/enum';
+import { ButtonTypeEnum } from './enum/enum';
 
 const props = withDefaults(defineProps<IButtonProps>(), {
   disabled: false,
   size: SizesEnum.medium,
-  type: ButtonType.primary,
+  type: ButtonTypeEnum.primary,
   pill: false,
   color: ''
 });
@@ -42,10 +42,10 @@ const classes = computed(() => ({
   [props.size]: true,
   disabled: props.disabled,
   pill: props.pill,
-  primary: props.type === ButtonType.primary,
-  secondary: props.type === ButtonType.secondary,
-  outline: props.type === ButtonType.outline,
-  ghost: props.type === ButtonType.ghost
+  primary: props.type === ButtonTypeEnum.primary,
+  secondary: props.type === ButtonTypeEnum.secondary,
+  outline: props.type === ButtonTypeEnum.outline,
+  ghost: props.type === ButtonTypeEnum.ghost
 }));
 
 const styles = computed(() => ({

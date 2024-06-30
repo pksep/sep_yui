@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Toggle from './Toggle.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
 const meta = {
@@ -8,7 +8,7 @@ const meta = {
   component: Toggle,
   argTypes: {
     disabled: {
-      control: { type: StorybookControl.boolean },
+      control: { type: StorybookControlEnum.boolean },
       defaultValue: false
     }
   },
