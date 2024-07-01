@@ -37,17 +37,36 @@ const emit = defineEmits<{
 
 const ACTIVE = 'active';
 
+/**
+ * Создаем проверки для классов, устанавливаем их элементам списка
+ */
 const classes = computed(() => ({
   'dropdown__item ': true,
   truncate: true
 }));
 
+/**
+ * @param value: string
+ * @returns
+ */
+
+/**
+ * Получает знаение выбранного элемента списка и передает по событию родителю. Закрывает список.
+ */
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
   state.isOpened = false;
 };
 
+/**
+ * @event e: MouseEvent ( click )
+ * @returns
+ */
+
+/**
+ * Закрывает открытый список, и также открывает его.
+ */
 const closeOpenList = (e: MouseEvent) => {
   state.isOpened = !state.isOpened;
 

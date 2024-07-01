@@ -48,10 +48,16 @@ const classes = computed(() => ({
   ghost: props.type === ButtonTypeEnum.ghost
 }));
 
+/**
+ * Проверка и установка стилей на бэкграунд кнопки
+ */
 const styles = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
 
+/**
+ * Проверка и установка стилей на цвет текста кнопки
+ */
 const styleChangeColor = computed(() => ({
   color:
     props.color === 'primary' || props.color === 'secondary'
@@ -59,6 +65,9 @@ const styleChangeColor = computed(() => ({
       : props.color
 }));
 
+/**
+ *  Передает событие клик родителю
+ */
 const onClick = () => emit('click');
 </script>
 

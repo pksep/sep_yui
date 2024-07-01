@@ -46,6 +46,9 @@ const emit = defineEmits<{
   (e: 'choosePost', post: resultSearchType): void;
 }>();
 
+/**
+ * высчитывает и устанавливает классы для списка
+ */
 const classes = computed(() => ({
   history__list: true,
   'history__list--opened': state.isShowResult,
@@ -53,6 +56,18 @@ const classes = computed(() => ({
     state.globalResultsFunction.length >= 5 && state.isShowResult
 }));
 
+/**
+ * @param item:  {
+      icon: IconNameEnum;
+      nameArea: string;
+      searchResult: string;
+    };
+ * @returns
+ */
+
+/**
+ * получает выбранный элемент списка и отправляет его родителю
+ */
 const handleChoosePost = (item: resultSearchType) => {
   emit('choosePost', item);
 };

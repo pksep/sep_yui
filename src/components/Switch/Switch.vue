@@ -25,10 +25,20 @@ const emit = defineEmits<{
   (e: 'languageSwitch', event: IChangeSwitchEmit): void;
 }>();
 
+/**
+ * @param index:  number
+ * @returns
+ */
+
 const getClasses = (index: number) => ({
   'switch-item': true,
   'switch-active': state.activeIndex === index
 });
+
+/**
+ * @param index:  number
+ * @returns
+ */
 
 const toChooseItem = (index: number) => {
   state.activeIndex = index;

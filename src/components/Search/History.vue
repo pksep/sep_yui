@@ -60,9 +60,19 @@ const showHistoryClickHandler = () => {
   state.isShowButtonHistory = !state.isShowButtonHistory;
 };
 
+/**
+ * @param item: string
+ * @returns
+ */
+
 const removeItem = (item: string) => {
   searchStore.removeHistorySearch(item);
 };
+
+/**
+ * @param item: string
+ * @returns
+ */
 
 const handleChoosePost = (item: string) => {
   emit('choosePost', item);

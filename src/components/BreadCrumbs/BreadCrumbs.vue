@@ -92,10 +92,16 @@ const emit = defineEmits<{
 
 const MAX_SYMBOLS = 15;
 
+/**
+ * Создает проверку на классы для пунктов в открытом списке
+ */
 const classesItem = computed(() => ({
   'bread-crumbs__item': true
 }));
 
+/**
+ * Создает проверку на классы для пунктов в скрытом списке
+ */
 const classes = computed(() => ({
   crumbs: {
     'bread-subcrumbs': true,
@@ -104,6 +110,20 @@ const classes = computed(() => ({
   }
 }));
 
+/**
+ *
+ * @param : 
+ *    item: {
+  path: string;
+  title: string;
+  }
+  * @param :
+  *  inx: number
+ * @returns
+ */
+/**
+ * Выбрать пункт навигации хлебных крошек
+ */
 const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
   if (inx === state.items.length - 1) return;
 
@@ -118,14 +138,39 @@ const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
       });
   });
 };
+
+/**
+ * Показать скрытый список либо закрыть его
+ */
 const toggleShowList = () => (state.isShowList = !state.isShowList);
 
+/**
+ * @param : 
+ *    crumb: {
+    path: string;
+    title: string;
+    }
+ * @returns
+ */
+
+/**
+ * Обрезает текст хлебной крошки
+ */
 const curtText = (crumb: IBreadCrumbsItem): string => {
   return crumb.title.length > MAX_SYMBOLS
     ? crumb.title.slice(0, MAX_SYMBOLS) + '...'
     : crumb.title;
 };
 
+/**
+ * @param :
+ *    inx: number
+ * @returns
+ */
+
+/**
+ * Проверка кол-ва хлебных крошек, если больше 4, то поялвяется скрытый список
+ */
 const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 
 onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));

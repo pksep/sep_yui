@@ -101,11 +101,22 @@ const emit = defineEmits<{
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
+/**
+ * Высчитывает классы для всего Меню
+ */
 const classes = computed(() => ({
   menu__heading: true,
   active: state.isShow
 }));
 
+/**
+ * @enum type:  MenuTypeEnum
+ * @returns
+ */
+
+/**
+ * Высчитывает какую опцию выбрали
+ */
 const choosedOptions = (type: MenuTypeEnum): void => {
   if (type !== undefined) {
     state.option = type;
@@ -117,37 +128,47 @@ const choosedOptions = (type: MenuTypeEnum): void => {
     console.error('Option type is undefined');
   }
 };
-// const choosedOptions = (e: MouseEvent, type: MenuTypeEnum): void => {
-//   const target = e.target as HTMLElement;
-//   const optionType = target.dataset.type;
-//   console.log(target.dataset.type, 'TYPE');
 
-//   if (optionType !== undefined) {
-//     state.option = type;
-//     emit('click', state.option);
-//     if (props.closeAfterClick) {
-//       state.isShow = false;
-//     }
-//   } else {
-//     console.error('Option type is undefined');
-//   }
-// };
-
+/**
+ * Высчитывает наименование иконки, показать список, скрыть. Меняет иконку.
+ */
 const nameIcon = computed(() => {
   return state.isShow ? IconNameEnum.chevronDown : IconNameEnum.chevronUp;
 });
 
+/**
+ * Переключает видимость списка
+ */
 const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 
+/**
+ * @param isChecked:  boolean
+ * @returns
+ */
+
+/**
+ * Меняет тему, передает значение выбора родителю
+ */
 const toggleTheme = (isChecked: boolean) => {
   emit('themeChange', isChecked);
   state.isChecked = isChecked;
 };
 
-const handleLanguageSwitch = (event: IChangeSwitchEmit) => {
-  emit('languageSwitch', event);
+/**
+ * @param object:  {
+      index: number,
+      value: string
+    }
+ * @returns
+ */
+
+/**
+ * Меняет язык, передает значение родителю
+ */
+const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
+  emit('languageSwitch', object);
 };
 </script>
 

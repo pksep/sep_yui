@@ -1,4 +1,4 @@
-export enum StorybookControl {
+export enum StorybookControlEnum {
   boolean = 'boolean',
   radio = 'radio',
   select = 'select',

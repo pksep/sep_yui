@@ -65,39 +65,63 @@ const emit = defineEmits<{
   (e: 'input', value: string): void;
 }>();
 
+/**
+ * Во время фокуса, показывает результат поиска
+ */
 const setFocusSearch = () => {
   state.isShowResult = true;
 };
 
+/**
+ * Во время нефокуса, скрывает результат поиска
+ */
 const setBlurSearch = () => {
   state.isShowResult = false;
 };
 
+/**
+ * высчитывает классы для выпадающего списка запросов
+ */
 const classesDropdown = computed(() => ({
   'search__icon-wrapper': true
 }));
 
+/**
+ *скрывает историю поиска
+ */
 const hidehistory = () => {
   state.isShowList = false;
   state.isShowResult = false;
   state.isShowButtonHistory = false;
 };
 
+/**
+ * Показывает историю поиска
+ */
 const showhistory = () => {
   state.isShowButtonHistory = true;
   state.isShowResult = true;
   if (!state.isShowButtonHistory) state.isShowList = true;
 };
 
+/**
+ * отправляет родителю значение поисковой строки, если это передан пропс, чтобы показывать историю поиска, то заносит значение в хранилище
+ */
 const changeSearch = () => {
   emit('enter', state.searchValue);
   if (props.showHistory) searchStore.addHistorySearch(state.searchValue.trim());
 };
 
+/**
+ * отправляет родителю значение поисковой строки
+ */
 const changeSearchValue = () => {
   emit('input', state.searchValue);
 };
 
+/**
+ * если есть пропс с дефолтным значением, то записывает его в строку поиска
+ */
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
 });

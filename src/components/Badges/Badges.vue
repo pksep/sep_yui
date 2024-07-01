@@ -25,6 +25,10 @@ const emit = defineEmits<{
   (e: 'choose', state: boolean): void;
 }>();
 
+/**
+ * Создает проверки классов для выбранного статуса.
+ */
+
 const classes = computed(() => ({
   base: true,
   default: props.type === BadgesTypeEnum.default,
@@ -36,6 +40,9 @@ const classes = computed(() => ({
   choosed: state.choosed
 }));
 
+/**
+ * Создает проверку на выбор статуса
+ */
 const isChoosen = () => {
   emit('choose', state.choosed);
   if (!props.disabled) state.choosed = !state.choosed;

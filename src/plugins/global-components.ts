@@ -1,17 +1,17 @@
 import { App } from 'vue';
 
-import Badges from './Badges/Badges.vue';
-import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
-import Button from './Button/Button.vue';
-import Switch from './Switch/Switch.vue';
-import Dropdown from './Dropdown/Dropdown.vue';
-import Filter from './Filter/Filter.vue';
-import Icon from './Icon/Icon.vue';
-import Search from './Search/Search.vue';
-import Slider from './Slider/Slider.vue';
-import Table from './Table/Table.vue';
-import Toggle from './Toggle/Toggle.vue';
-import UserMenu from './UserMenu/UserMenu.vue';
+import Badges from './../components/Badges/Badges.vue';
+import BreadCrumbs from './../components/BreadCrumbs/BreadCrumbs.vue';
+import Button from './../components/Button/Button.vue';
+import Switch from './../components/Switch/Switch.vue';
+import Dropdown from './../components/Dropdown/Dropdown.vue';
+import Filter from './../components/Filter/Filter.vue';
+import Icon from './../components/Icon/Icon.vue';
+import Search from './../components/Search/Search.vue';
+import Slider from './../components/Slider/Slider.vue';
+import Table from './../components/Table/Table.vue';
+import Toggle from './../components/Toggle/Toggle.vue';
+import UserMenu from './../components/UserMenu/UserMenu.vue';
 
 const components = {
   Badges,

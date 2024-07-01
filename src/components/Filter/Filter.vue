@@ -60,7 +60,6 @@
             :type="props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
-            v-if="choosedCondition"
           />
         </li>
       </ul>
@@ -134,12 +133,18 @@ const emit = defineEmits<{
   (e: 'scroll', value: boolean): void;
 }>();
 
+/**
+ * Создаем проверки для классов, устанавливаем их фильтрам, которые попали в скрытый список всех выбранных фильтров.
+ */
 const classes = computed(() => ({
   filter__counter: true,
   counter: true,
   'counter--search': props.searchable
 }));
 
+/**
+ * Создаем проверки для классов, устанавливаем их выбранным фильтрам
+ */
 const classesList = computed(() => ({
   'filter__select-list': true,
   selected: true,
@@ -147,12 +152,18 @@ const classesList = computed(() => ({
   'border-none': props.searchable && getChoosen.value.length < 2
 }));
 
+/**
+ * Создаем проверки для классов, устанавливаем их основной плашке фильтра.
+ */
 const classesFilter = computed(() => ({
   filter__wrapper: true,
   active: state.isShow,
   'filter--search': props.searchable
 }));
 
+/**
+ * Создаем проверки для передаваемого текста в фильтры.
+ */
 const computedBadgeText: ComputedRef<string> = computed(() => {
   if (getChoosen.value.length > 1 && props.searchable) {
     return getChoosen.value[1]?.value;
@@ -161,20 +172,50 @@ const computedBadgeText: ComputedRef<string> = computed(() => {
   }
 });
 
+/**
+ * Вытаскиваем значения из энама
+ */
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
 
+/**
+ * @param value: string
+ * @returns
+ */
+
+/**
+ * получаем значение поиска, обрезаем пробелы по концам строки, записываем в стейт
+ */
 const updateSearchString = (value: string) => {
   state.searchString = value.trim();
 };
 
+/**
+ * @param value: string
+ * @returns
+ */
+
+/**
+ * получаем значение поиска по каждому изменению, записываем в стейт через 1 секунду
+ */
 const changeUpdateSearchString = (value: string) => {
   setTimeout(() => {
     state.searchString = value;
   }, 1000);
 };
 
+/**
+ * показываем, скрываем список фильтров
+ */
 const toggleShow = () => (state.isShow = !state.isShow);
 
+/**
+ * @event e: MouseEvent (click)
+ * @returns
+ */
+
+/**
+ * устанавливаем состояние всего компонента в дефолтное
+ */
 const clearFilter = (e: MouseEvent) => {
   e.stopPropagation();
   state.options.forEach((el: IStateItem, inx: number) =>
@@ -183,6 +224,9 @@ const clearFilter = (e: MouseEvent) => {
   state.isShow = false;
 };
 
+/**
+ * получаем все выбранные фильтры.
+ */
 const getChoosen = computed(() => {
   let options = state.options.filter((el: IStateItem) => el.choose);
 
@@ -195,6 +239,9 @@ const getChoosen = computed(() => {
   return options;
 });
 
+/**
+ * получаем все невыбранные фильтры.
+ */
 const getNotChoosen = computed(() =>
   state.options.filter((el: IStateItem) => {
     let strCondition = true;
@@ -211,6 +258,18 @@ const getNotChoosen = computed(() =>
   })
 );
 
+/**
+ * @param item: {
+      value: string;
+      type: string;
+      choose: boolean;
+  * }
+ * @returns
+ */
+
+/**
+ * меняем состояние фильтра с выбранного на невыбранного и наоборот
+ */
 const toogleChoosed = (item: IStateItem) => {
   if (props.multiselect) {
     item.choose = !item.choose;
@@ -228,6 +287,19 @@ const toogleChoosed = (item: IStateItem) => {
   }
 };
 
+/**
+ * @param el: {
+      value: string,
+      type: string,
+      choose: boolean
+  * }
+ * @param inx: number
+ * @returns
+ */
+
+/**
+ * проверяем переданное дефолтное значение, если нет, то устанавливаем первый фильтр списка, либо ставим фильтр соответствующий дефолтному
+ */
 const setDefaultChoosen = (el: IStateItem, inx: number) => {
   const conditionsChoose =
     typeof props.defaultValue === 'string' && el.value === props.defaultValue;
@@ -241,6 +313,9 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
   } else el.choose = inx === 0 ? true : false;
 };
 
+/**
+ * скрываем список фильтров, обнуляем поиск.
+ */
 const hideFilters = () => {
   state.isShow = false;
   if (state.searchString) {
@@ -248,6 +323,14 @@ const hideFilters = () => {
   }
 };
 
+/**
+ * @param event: (scroll)
+ * @returns
+ */
+
+/**
+ * работает при скролле списка, передает булево значение в родителя
+ */
 const handleScroll = (event: Event) => {
   const target = event.target as HTMLElement;
   if (target.scrollHeight - target.scrollTop === target.clientHeight) {
@@ -255,6 +338,9 @@ const handleScroll = (event: Event) => {
   }
 };
 
+/**
+ * высчитывает тип фильтра
+ */
 const computedBadgeType: ComputedRef<BadgesTypeEnum | undefined> = computed(
   () => {
     if (getChoosen.value.length <= 1 && props.searchable) {
@@ -267,12 +353,9 @@ const computedBadgeType: ComputedRef<BadgesTypeEnum | undefined> = computed(
   }
 );
 
-const choosedCondition = (item: any) => {
-  computed(() =>
-    props.searchable ? item.type != BadgesTypeEnum.default : item.choose
-  );
-};
-
+/**
+ * Записываем в список фильтров переданные фильтры. Устанавливает в дефолтное состояние все фильтры и также обнуляет выбранные фильтры, кроме одного.
+ */
 onMounted(() => {
   state.options = props.options.map(
     (item: string | IFilterOption, inx: number) => {
