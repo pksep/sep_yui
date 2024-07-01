@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="icon"
+    class="icon-ui-kit"
     :width="props.width"
     :height="props.height"
     :style="props.color"

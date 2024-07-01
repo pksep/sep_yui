@@ -30,14 +30,14 @@ const emit = defineEmits<{
  */
 
 const classes = computed(() => ({
-  base: true,
-  default: props.type === BadgesTypeEnum.default,
-  blue: props.type === BadgesTypeEnum.blue,
-  green: props.type === BadgesTypeEnum.green,
-  orange: props.type === BadgesTypeEnum.orange,
-  red: props.type === BadgesTypeEnum.red,
-  pink: props.type === BadgesTypeEnum.pink,
-  choosed: state.choosed
+  'base-ui-kit': true,
+  'default-ui-kit': props.type === BadgesTypeEnum.default,
+  'blue-ui-kit': props.type === BadgesTypeEnum.blue,
+  'green-ui-kit': props.type === BadgesTypeEnum.green,
+  'orange-ui-kit': props.type === BadgesTypeEnum.orange,
+  'red-ui-kit': props.type === BadgesTypeEnum.red,
+  'pink-ui-kit': props.type === BadgesTypeEnum.pink,
+  'choosed-ui-kit': state.choosed
 }));
 
 /**
@@ -48,13 +48,16 @@ const isChoosen = () => {
   if (!props.disabled) state.choosed = !state.choosed;
 };
 
+/**
+ * Устанавливает выбранные статусы из пропсов
+ */
 onMounted(() => {
   state.choosed = props.choosed;
 });
 </script>
 
 <style lang="scss" scoped>
-.base {
+.base-ui-kit {
   border-radius: 5px;
   max-width: fit-content;
   cursor: pointer;
@@ -76,37 +79,37 @@ onMounted(() => {
   }
 }
 
-.default span {
+.default-ui-kit span {
   color: $GREY-757D8A;
   background-color: $GREY-E2E2E2;
 }
 
-.blue span {
+.blue-ui-kit span {
   color: $BLUE-5CBAFF;
   background-color: $BLUE-E0F2FF;
 }
 
-.green span {
+.green-ui-kit span {
   color: $GREEN-0FBE3F;
   background-color: $GREEN-D8F2DA;
 }
 
-.orange span {
+.orange-ui-kit span {
   color: $ORANGE-E8A702;
   background-color: $ORANGE-FAEED5;
 }
 
-.red span {
+.red-ui-kit span {
   color: $RED-FF6868;
   background-color: $RED-FFE2E1;
 }
 
-.pink span {
+.pink-ui-kit span {
   color: $PINK-FE3A8B;
   background-color: $PINK-FEDAE9;
 }
 
-.base.choosed {
+.base-ui-kit.choosed-ui-kit {
   position: relative;
   background-color: $BLUE-F2F7FF;
   padding: 3px 20px 3px 3px;

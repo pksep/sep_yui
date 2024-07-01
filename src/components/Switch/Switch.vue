@@ -30,9 +30,12 @@ const emit = defineEmits<{
  * @returns
  */
 
+/**
+ * Устанавливает и вычисляет классы для элементов списка
+ */
 const getClasses = (index: number) => ({
-  'switch-item': true,
-  'switch-active': state.activeIndex === index
+  'switch-ui-kit-item': true,
+  'switch-ui-kit-active': state.activeIndex === index
 });
 
 /**
@@ -40,6 +43,9 @@ const getClasses = (index: number) => ({
  * @returns
  */
 
+/**
+ * Получает выбранный элемнт списка, делает его активным и передает его родителю.
+ */
 const toChooseItem = (index: number) => {
   state.activeIndex = index;
   emit('languageSwitch', {
@@ -48,6 +54,9 @@ const toChooseItem = (index: number) => {
   });
 };
 
+/**
+ * Устанавливает и делает активным дефолтный элемент если он передан и содержится в массиве элементов.
+ */
 onMounted(() => {
   if (props.defaultValue && props.items.includes(props.defaultValue)) {
     state.activeIndex = props.items.indexOf(props.defaultValue);
@@ -56,7 +65,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.switch-list {
+.switch-ui-kit-list {
   display: flex;
   align-items: center;
   list-style: none;
@@ -67,7 +76,7 @@ onMounted(() => {
   margin: 0;
 }
 
-.switch-item {
+.switch-ui-kit-item {
   padding: 3.5px 10px;
   display: flex;
   align-items: center;
@@ -76,7 +85,7 @@ onMounted(() => {
   width: inherit;
 }
 
-.switch-active {
+.switch-ui-kit-active {
   background-color: $BLUE-77A6FF;
   color: $WHITE;
   border-radius: 5px;

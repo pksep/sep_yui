@@ -38,14 +38,14 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  button: true,
+  'button-ui-kit': true,
   [props.size]: true,
-  disabled: props.disabled,
-  pill: props.pill,
-  primary: props.type === ButtonTypeEnum.primary,
-  secondary: props.type === ButtonTypeEnum.secondary,
-  outline: props.type === ButtonTypeEnum.outline,
-  ghost: props.type === ButtonTypeEnum.ghost
+  'disabled-ui-kit': props.disabled,
+  'pill-ui-kit': props.pill,
+  'primary-ui-kit': props.type === ButtonTypeEnum.primary,
+  'secondary-ui-kit': props.type === ButtonTypeEnum.secondary,
+  'outline-ui-kit': props.type === ButtonTypeEnum.outline,
+  'ghost-ui-kit': props.type === ButtonTypeEnum.ghost
 }));
 
 /**
@@ -72,7 +72,7 @@ const onClick = () => emit('click');
 </script>
 
 <style lang="scss" scoped>
-.button {
+button.button-ui-kit {
   color: $WHITE;
   outline: none;
   border: none;
@@ -88,26 +88,26 @@ const onClick = () => emit('click');
   }
 }
 
-.small {
+button.small-ui-kit {
   padding: 13px 11px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
 }
 
-.medium {
+button.medium-ui-kit {
   min-height: 50px;
   padding: 16px 13px;
 }
 
-.large {
+button.large-ui-kit {
   min-height: 70px;
   padding: 5px 13px;
   font-size: 18px;
   line-height: 22px;
 }
 
-.primary {
+button.primary-ui-kit {
   background-color: $BLUE-77A6FF;
 
   &:active {
@@ -119,20 +119,20 @@ const onClick = () => emit('click');
   }
 }
 
-.secondary {
+button.secondary-ui-kit {
   background-color: $WHITE-F8F9FD;
   color: $BLUE-77A6FF;
 
   &:active {
     background-color: $WHITE-ECF3FF;
   }
-  &.disabled:disabled {
+  &.disabled-ui-kit:disabled {
     color: $GREY-757D8A;
     background-color: $WHITE-F5F5F5;
   }
 }
 
-.outline {
+button.outline-ui-kit {
   background-color: $TRANSPARENT;
   border: 1px solid $BLUE-9CBEFF;
   color: $GREY-282828;
@@ -142,14 +142,14 @@ const onClick = () => emit('click');
     background-color: $BLUE-548CF6;
   }
 
-  &.disabled:disabled {
+  &.disabled-ui-kit:disabled {
     color: $GREY-757D8A;
     background-color: $WHITE-F5F5F5;
     border: 1px solid $WHITE-E7E7E7;
   }
 }
 
-.ghost {
+button.ghost-ui-kit {
   background-color: $TRANSPARENT;
   color: $GREY-282828;
 
@@ -161,12 +161,12 @@ const onClick = () => emit('click');
     color: $BLUE-77A6FF;
     background-color: $WHITE-ECF3FF;
   }
-  &.disabled:disabled {
+  &.disabled-ui-kit:disabled {
     background-color: $WHITE-E6E6E6;
   }
 }
 
-.pill {
+button.pill-ui-kit {
   border-radius: 10px;
 }
 </style>

@@ -1,19 +1,19 @@
-.counter--search,
-.selected--search,
-.filter--search {
-  .base span.badges-text {
+.counter-ui-kit--search,
+.selected-ui-kit--search,
+.filter-ui-kit--search {
+  .base-ui-kit span.badges-text {
     color: $BLUE-407BFF;
     background-color: $BLUE-D6E4FF;
   }
 }
 
-.counter--search {
-  .filter__select-list {
+.counter-ui-kit--search {
+  .filter-ui-kit__select-list {
     flex-wrap: wrap;
   }
 }
 
-.filter__select-list.selected.selected--search {
+.filter-ui-kit__select-list.selected-ui-kit.selected-ui-kit--search {
   display: flex;
   flex-wrap: wrap;
 }

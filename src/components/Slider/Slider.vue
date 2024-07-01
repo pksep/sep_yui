@@ -1,15 +1,15 @@
 <template>
-  <div class="slider">
-    <div class="slider__wrapper" ref="sliderWrapperRef">
+  <div class="slider-ui-kit">
+    <div class="slider-ui-kit__wrapper" ref="slider-ui-kitWrapperRef">
       <button
-        class="slider__button slider__button--prev"
+        class="slider-ui-kit__button slider-ui-kit__button--prev"
         @click="prevSlide"
         :disabled="state.disabledPrev"
       >
         <Icon :name="IconNameEnum.leftBig" />
       </button>
-      <div class="slider__slides">
-        <div class="placeholder" v-if="showPlaceholder()">
+      <div class="slider-ui-kit__slides">
+        <div class="placeholder-ui-kit" v-if="showPlaceholder()">
           <img
             src="./../../assets/images/slider/camera.svg"
             alt=""
@@ -18,7 +18,7 @@
           />
           <p>Контент отсутствует</p>
         </div>
-        <div class="placeholder" v-if="showPlaceholderExtension()">
+        <div class="placeholder-ui-kit" v-if="showPlaceholderExtension()">
           <img
             src="./../../assets/images/slider/closed-camera.svg"
             alt=""
@@ -42,7 +42,7 @@
         </video>
       </div>
       <button
-        class="slider__button slider__button--next"
+        class="slider-ui-kit__button slider-ui-kit__button--next"
         @click="nextSlide"
         :disabled="state.disabledNext"
       >
@@ -76,7 +76,7 @@ const state = reactive<ISlider>({
 const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
 const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
 
-const CLASS_FULL_SIZE = 'slider__full-size';
+const CLASS_FULL_SIZE = 'slider-ui-kit__full-size';
 
 /**
  * @param str:  string | null
@@ -232,7 +232,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.slider {
+.slider-ui-kit {
   width: 100%;
   height: 260px;
   border: 1px solid $WHITE-E0E0E0;
@@ -320,7 +320,7 @@ onMounted(() => {
   }
 }
 
-.placeholder {
+.placeholder-ui-kit {
   display: flex;
   height: 100%;
   flex-direction: column;

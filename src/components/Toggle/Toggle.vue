@@ -1,13 +1,13 @@
 <template>
   <div :class="classes" :disabled="props.disabled" :style="styles">
     <input
-      class="toggle-input"
+      class="toggle-ui-kit-input"
       :id="uniqueId"
       type="checkbox"
       v-model="isChecked"
       @change="onClick"
     />
-    <label class="toggle-label" :for="uniqueId"></label>
+    <label class="toggle-ui-kit-label" :for="uniqueId"></label>
   </div>
 </template>
 
@@ -25,25 +25,40 @@ const emit = defineEmits<{
   (e: 'themeChange', isChecked: boolean): void;
 }>();
 
+/**
+ * Проверяет на состояние выбра - не выбран элемент
+ */
 const isChecked = ref(props.checked);
 
+/**
+ * высчитывает уникальный id
+ */
 const uniqueId = generateUniqueId();
 
+/**
+ * Высчитывает классы для всего Тоггла
+ */
 const classes = computed(() => ({
-  toggle: true
+  'toggle-ui-kit': true
 }));
 
+/**
+ * Высчитывает стили для всего Тоггла, меняет фон элемента
+ */
 const styles = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
 
+/**
+ * По событию click передает значение выбран-не выбран элемент.
+ */
 const onClick = () => emit('themeChange', isChecked.value);
 </script>
 
 <style lang="scss" scoped>
 @import './../../assets/scss/_global.scss';
 
-.toggle {
+.toggle-ui-kit {
   color: $WHITE;
   outline: none;
   border: none;
@@ -51,7 +66,7 @@ const onClick = () => emit('themeChange', isChecked.value);
   border-radius: 5px;
 }
 
-.toggle {
+.toggle-ui-kit {
   position: relative;
   display: inline-block;
   width: 40px;
@@ -59,11 +74,11 @@ const onClick = () => emit('themeChange', isChecked.value);
   margin: 10px;
 }
 
-.toggle .toggle-input {
+.toggle-ui-kit .toggle-ui-kit-input {
   display: none;
 }
 
-.toggle .toggle-label {
+.toggle-ui-kit .toggle-ui-kit-label {
   position: absolute;
   top: 0;
   left: 0;
@@ -75,7 +90,7 @@ const onClick = () => emit('themeChange', isChecked.value);
   transition: background-color 0.3s;
 }
 
-.toggle .toggle-label::before {
+.toggle-ui-kit .toggle-ui-kit-label::before {
   content: '';
   position: absolute;
   width: 10px;
@@ -87,11 +102,11 @@ const onClick = () => emit('themeChange', isChecked.value);
   transition: transform 0.3s;
 }
 
-.toggle .toggle-input:checked + .toggle-label {
+.toggle-ui-kit .toggle-ui-kit-input:checked + .toggle-ui-kit-label {
   background-color: $BLUE-9CBEFF;
 }
 
-.toggle .toggle-input:checked + .toggle-label::before {
+.toggle-ui-kit .toggle-ui-kit-input:checked + .toggle-ui-kit-label::before {
   transform: translateX(10px);
 }
 </style>
