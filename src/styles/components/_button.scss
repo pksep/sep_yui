@@ -1,7 +1,7 @@
 // TODO:
 // Убрать теги, должны быть только классы,
 // теги использовать в крайних случаях
-button.button-yui-kit {
+.button-yui-kit {
   color: $WHITE;
   outline: none;
   border: none;
@@ -17,26 +17,26 @@ button.button-yui-kit {
   }
 }
 
-button.small-yui-kit {
+.small-yui-kit {
   padding: 13px 11px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
 }
 
-button.medium-yui-kit {
+.medium-yui-kit {
   min-height: 50px;
   padding: 16px 13px;
 }
 
-button.large-yui-kit {
+.large-yui-kit {
   min-height: 70px;
   padding: 5px 13px;
   font-size: 18px;
   line-height: 22px;
 }
 
-button.primary-yui-kit {
+.primary-yui-kit {
   background-color: $BLUE-77A6FF;
 
   &:active {
@@ -48,7 +48,7 @@ button.primary-yui-kit {
   }
 }
 
-button.secondary-yui-kit {
+.secondary-yui-kit {
   background-color: $WHITE-F8F9FD;
   color: $BLUE-77A6FF;
 
@@ -61,7 +61,7 @@ button.secondary-yui-kit {
   }
 }
 
-button.outline-yui-kit {
+.outline-yui-kit {
   background-color: $TRANSPARENT;
   border: 1px solid $BLUE-9CBEFF;
   color: $GREY-282828;
@@ -78,7 +78,7 @@ button.outline-yui-kit {
   }
 }
 
-button.ghost-yui-kit {
+.ghost-yui-kit {
   background-color: $TRANSPARENT;
   color: $GREY-282828;
 
@@ -95,6 +95,6 @@ button.ghost-yui-kit {
   }
 }
 
-button.pill-yui-kit {
+.pill-yui-kit {
   border-radius: 10px;
 }
