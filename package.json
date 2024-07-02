@@ -1,7 +1,7 @@
 {
   "name": "sep-yui",
   "author": "Perov David",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",
   "types": "./dist/index.d.ts",
