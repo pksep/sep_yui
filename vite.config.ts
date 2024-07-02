@@ -6,7 +6,7 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/components/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'sep-yui',
       fileName: format => `sep-yui.${format}.ts`
     },
