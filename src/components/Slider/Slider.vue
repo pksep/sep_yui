@@ -105,7 +105,7 @@ const checkPath = (str: string | null): string | null => {
  * проверяет файл на расширение растровой графики
  */
 const isImage = (path: string | null): boolean => {
-  const extension: any = checkPath(path);
+  const extension = checkPath(path) as ImageExtensionsEnum;
   return extension
     ? Object.values(ImageExtensionsEnum).includes(extension)
     : false;
@@ -120,7 +120,7 @@ const isImage = (path: string | null): boolean => {
  * проверяет файл на расширение видео
  */
 const isVideo = (path: string | null): boolean => {
-  const extension: any = checkPath(path);
+  const extension = checkPath(path) as VideoExtensionsEnum;
   return extension
     ? Object.values(VideoExtensionsEnum).includes(extension)
     : false;
