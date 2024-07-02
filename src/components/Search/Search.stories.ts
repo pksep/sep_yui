@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Search from './Search.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
 const meta = {
@@ -8,10 +8,10 @@ const meta = {
   component: Search,
   argTypes: {
     showHistory: {
-      control: { type: StorybookControl.boolean }
+      control: { type: StorybookControlEnum.boolean }
     },
     placeholder: {
-      control: { type: StorybookControl.text }
+      control: { type: StorybookControlEnum.text }
     }
   },
   args: { onEnter: fn() },

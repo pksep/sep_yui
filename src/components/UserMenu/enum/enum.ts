@@ -1,4 +1,4 @@
-export enum MenuType {
+export enum MenuTypeEnum {
   profile = 'profile',
   theme = 'theme',
   options = 'options',

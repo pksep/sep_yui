@@ -103,17 +103,37 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Color from './Color.vue';
-import { ColorsType } from './enum/enum';
+import { ColorsTypeEnum } from './enum/enum';
 import { colors } from './colors.ts';
 
-const colorTypes = computed(() => [...new Set(Object.values(ColorsType))]);
+/**
+ * Вытаскиваем значения ключей из энамов
+ */
+const colorTypes = computed(() => [...new Set(Object.values(ColorsTypeEnum))]);
 
+/**
+ * @param str1: string,
+ * @param str2: string,
+ * @returns
+ */
+
+/**
+ * Ищем цвет
+ */
 const searchColor = (str1: string, str2: string) => {
   const cleanedStr1 = str1.replace(/\d/g, '');
   const cleanedStr2 = str2.replace(/\d/g, '');
   return cleanedStr1.toLowerCase() === cleanedStr2.toLowerCase();
 };
 
+/**
+ * @param str: string,
+ * @returns
+ */
+
+/**
+ * Фильтруем и находим тип цвета
+ */
 const filteredColors = (str: string) => {
   return colorTypes.value.filter(type => {
     if (searchColor(type, str)) return type;

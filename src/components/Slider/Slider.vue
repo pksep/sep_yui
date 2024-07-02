@@ -1,15 +1,15 @@
 <template>
-  <div class="slider">
-    <div class="slider__wrapper" ref="sliderWrapperRef">
+  <div class="slider-ui-kit">
+    <div class="slider-ui-kit__wrapper" ref="slider-ui-kitWrapperRef">
       <button
-        class="slider__button slider__button--prev"
+        class="slider-ui-kit__button slider-ui-kit__button--prev"
         @click="prevSlide"
         :disabled="state.disabledPrev"
       >
         <Icon :name="IconNameEnum.leftBig" />
       </button>
-      <div class="slider__slides">
-        <div class="placeholder" v-if="showPlaceholder()">
+      <div class="slider-ui-kit__slides">
+        <div class="placeholder-ui-kit" v-if="showPlaceholder()">
           <img
             src="./../../assets/images/slider/camera.svg"
             alt=""
@@ -18,7 +18,7 @@
           />
           <p>Контент отсутствует</p>
         </div>
-        <div class="placeholder" v-if="showPlaceholderExtension()">
+        <div class="placeholder-ui-kit" v-if="showPlaceholderExtension()">
           <img
             src="./../../assets/images/slider/closed-camera.svg"
             alt=""
@@ -42,7 +42,7 @@
         </video>
       </div>
       <button
-        class="slider__button slider__button--next"
+        class="slider-ui-kit__button slider-ui-kit__button--next"
         @click="nextSlide"
         :disabled="state.disabledNext"
       >
@@ -76,18 +76,34 @@ const state = reactive<ISlider>({
 const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
 const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
 
-const CLASS_FULL_SIZE = 'slider__full-size';
+const CLASS_FULL_SIZE = 'slider-ui-kit__full-size';
 
+/**
+ * @param str:  string | null
+ * @returns
+ */
+
+/**
+ * проверяет путь файла и получает расширение
+ */
 const checkPath = (str: string | null): string | null => {
   if (!str) return null;
-  const regex = /\.\w+$/;
-  const match = str.match(regex);
+  const regexExtension = /\.\w+$/;
+  const match = str.match(regexExtension);
 
   state.extension = match ? match[0].replace('.', '') : null;
 
   return state.extension;
 };
 
+/**
+ * @param path:  string | null
+ * @returns
+ */
+
+/**
+ * проверяет файл на расширение растровой графики
+ */
 const isImage = (path: string | null): boolean => {
   const extension: any = checkPath(path);
   return extension
@@ -95,6 +111,14 @@ const isImage = (path: string | null): boolean => {
     : false;
 };
 
+/**
+ * @param path:  string | null
+ * @returns
+ */
+
+/**
+ * проверяет файл на расширение видео
+ */
 const isVideo = (path: string | null): boolean => {
   const extension: any = checkPath(path);
   return extension
@@ -102,6 +126,14 @@ const isVideo = (path: string | null): boolean => {
     : false;
 };
 
+/**
+ * @event e:  KeyboardEvent (Escape)
+ * @returns
+ */
+
+/**
+ * Закрывает полноразмерный просмотр слайда
+ */
 const closeFullSize = (e: KeyboardEvent) => {
   if (e instanceof KeyboardEvent && e.key === 'Escape') {
     if (
@@ -114,6 +146,14 @@ const closeFullSize = (e: KeyboardEvent) => {
   }
 };
 
+/**
+ * @event e:  MouseEvent (click)
+ * @returns
+ */
+
+/**
+ * Открывает полноразмерный просмотр слайда
+ */
 const toFullsizeImage = (e: MouseEvent): void => {
   if (e.type === 'click') {
     const imageElement = e.target as HTMLElement;
@@ -134,6 +174,9 @@ const toFullsizeImage = (e: MouseEvent): void => {
   }
 };
 
+/**
+ * Перелистывает к предыдущему слайду
+ */
 const prevSlide = () => {
   if (state.currentIndex > 0) {
     state.currentIndex--;
@@ -145,6 +188,9 @@ const prevSlide = () => {
   state.file = state.files[state.currentIndex];
 };
 
+/**
+ * Перелистывает к следующему слайду
+ */
 const nextSlide = () => {
   if (state.currentIndex < state.files.length - 1) {
     state.currentIndex++;
@@ -156,13 +202,22 @@ const nextSlide = () => {
   state.file = state.files[state.currentIndex];
 };
 
+/**
+ * Показывает заглушку на контент, если файлов нет
+ */
 const showPlaceholder = () => state.files.length === 0;
 
+/**
+ * Показывает заглушку на контент, когда файл есть, но не принадлежит к картинкам и видео
+ */
 const showPlaceholderExtension = () =>
   isImage(state.file?.path ?? null) == false &&
   isVideo(state.file?.path ?? null) == false &&
   state.files.length > 0;
 
+/**
+ * Проверяет на наличие файлов, устанавливает их в стейты, далее устаналвивает слайд по дефолту если пропс есть, либо показывает действующий слайд.
+ */
 onMounted(() => {
   if (!props.items) return 0;
   state.files = props.items;
@@ -177,7 +232,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.slider {
+.slider-ui-kit {
   width: 100%;
   height: 260px;
   border: 1px solid $WHITE-E0E0E0;
@@ -265,7 +320,7 @@ onMounted(() => {
   }
 }
 
-.placeholder {
+.placeholder-ui-kit {
   display: flex;
   height: 100%;
   flex-direction: column;

@@ -1,11 +1,11 @@
 <template>
-  <div class="dropdown">
-    <span class="dropdown__current" @click="e => closeOpenList(e)">
-      <span class="truncate">{{ state.choosedOption }}</span>
+  <div class="dropdown-ui-kit">
+    <span class="dropdown-ui-kit__current" @click="e => closeOpenList(e)">
+      <span class="truncate-ui-kit">{{ state.choosedOption }}</span>
       <Icon :name="IconNameEnum.chevronDown" v-if="state.isOpened" />
       <Icon :name="IconNameEnum.chevronUp" v-if="!state.isOpened" />
     </span>
-    <ul class="dropdown__list" v-if="state.isOpened">
+    <ul class="dropdown-ui-kit__list" v-if="state.isOpened">
       <li
         :class="[classes, { active: option === state.choosedOption }]"
         v-for="option in props.options"
@@ -25,29 +25,48 @@ import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {});
 
-const emit = defineEmits<{
-  (e: 'click', value: string): void;
-}>();
-
 const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
   lengthOption: 0
 });
 
-const ACTIVE = 'active';
+const emit = defineEmits<{
+  (e: 'click', value: string): void;
+}>();
 
+const ACTIVE = 'active-ui-kit';
+
+/**
+ * Создаем проверки для классов, устанавливаем их элементам списка
+ */
 const classes = computed(() => ({
-  'dropdown__item ': true,
-  truncate: true
+  'dropdown-ui-kit__item': true,
+  'truncate-ui-kit': true
 }));
 
+/**
+ * @param value: string
+ * @returns
+ */
+
+/**
+ * Получает знаение выбранного элемента списка и передает по событию родителю. Закрывает список.
+ */
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
   state.isOpened = false;
 };
 
+/**
+ * @event e: MouseEvent ( click )
+ * @returns
+ */
+
+/**
+ * Закрывает открытый список, и также открывает его.
+ */
 const closeOpenList = (e: MouseEvent) => {
   state.isOpened = !state.isOpened;
 
@@ -62,7 +81,7 @@ const closeOpenList = (e: MouseEvent) => {
 };
 </script>
 <style lang="scss" scoped>
-.dropdown {
+.dropdown-ui-kit {
   width: 100%;
 
   &__current {
@@ -77,7 +96,7 @@ const closeOpenList = (e: MouseEvent) => {
     border-radius: 5px;
     cursor: pointer;
 
-    &.active {
+    &.active-ui-kit {
       border: 1px solid $BLUE-9CBEFF;
     }
 
@@ -111,14 +130,14 @@ const closeOpenList = (e: MouseEvent) => {
       border-radius: 5px;
     }
 
-    &.active {
+    &.active-ui-kit {
       background-color: $WHITE-ECF3FF;
       border-radius: 5px;
     }
   }
 }
 
-.truncate {
+.truncate-ui-kit {
   display: inline-block;
   max-width: 100%;
   white-space: nowrap;

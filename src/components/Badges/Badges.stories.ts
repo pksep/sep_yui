@@ -1,6 +1,6 @@
 import { StoryFn } from '@storybook/vue3';
 import Badges from './Badges.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { BadgesTypeEnum } from './enum/enum';
 import { fn } from '@storybook/test';
 
@@ -9,24 +9,24 @@ const meta = {
   component: Badges,
   argTypes: {
     text: {
-      control: { type: StorybookControl.text }
+      control: { type: StorybookControlEnum.text }
     },
     type: {
-      control: { type: StorybookControl.select },
+      control: { type: StorybookControlEnum.select },
       options: BadgesTypeEnum,
       defaultValue: BadgesTypeEnum.default
     },
     choosed: {
-      control: { type: StorybookControl.boolean },
+      control: { type: StorybookControlEnum.boolean },
       defaultValue: false
     },
     leftIcon: {
-      control: { type: StorybookControl.text },
+      control: { type: StorybookControlEnum.text },
       description: 'SVG markup for left icon',
       defaultValue: ''
     },
     rightIcon: {
-      control: { type: StorybookControl.text },
+      control: { type: StorybookControlEnum.text },
       description: 'SVG markup for right icon',
       defaultValue: ''
     }

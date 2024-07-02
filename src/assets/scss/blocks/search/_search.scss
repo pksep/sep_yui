@@ -1,9 +1,9 @@
-.search {
+.search-ui-kit {
   &__dropdown {
     position: relative;
   }
 
-  .dropdown {
+  .dropdown-ui-kit {
     &__current {
       margin-bottom: 0;
     }
@@ -15,7 +15,7 @@
   }
 }
 
-.search-dropdown {
+.search-dropdown-ui-kit {
   background-color: $WHITE;
 
   input {
@@ -25,7 +25,7 @@
     }
   }
 
-  .dropdown__current {
+  .dropdown-ui-kit__current {
     width: fit-content;
   }
 }

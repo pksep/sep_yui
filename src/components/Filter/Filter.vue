@@ -1,5 +1,5 @@
 <template>
-  <div class="filter">
+  <div class="filter-ui-kit">
     <!-- основная плашка с статусом и иконкой -->
     <div :class="classesFilter" @click="toggleShow">
       <Icon :name="props.iconName" />
@@ -11,17 +11,17 @@
         :style="'margin:0 3px;'"
       />
       <div :class="classes">
-        <span class="counter__value" v-if="getChoosen.length > 1"
+        <span class="counter-ui-kit__value" v-if="getChoosen.length > 1"
           >{{ '+' + getChoosen.length }}
         </span>
-        <div class="counter__list">
-          <div class="counter__list-wrapper">
+        <div class="counter-ui-kit__list">
+          <div class="counter-ui-kit__list-wrapper">
             <ul
-              class="filter__select-list select-counter"
+              class="filter-ui-kit__select-list select-ui-kit-counter"
               :style="'padding: 2px; gap: 2px'"
             >
               <li
-                class="filter__select-item"
+                class="filter-ui-kit__select-item"
                 v-for="(item, inx) in getChoosen"
                 :key="item.value"
               >
@@ -37,20 +37,24 @@
           </div>
         </div>
       </div>
-      <button type="button" class="filter__close" @click.stop="clearFilter">
+      <button
+        type="button"
+        class="filter-ui-kit__close"
+        @click.stop="clearFilter"
+      >
         <Icon :name="IconNameEnum.exitBig" />
       </button>
     </div>
 
     <div
-      class="filter__select-wrapper"
+      class="filter-ui-kit__select-wrapper"
       v-if="state.isShow"
-      @mouseleave="hidefilters"
+      @mouseleave="hideFilters"
     >
       <!-- список выбранных фильтров -->
       <ul :class="classesList">
         <li
-          class="filter__select-item"
+          class="filter-ui-kit__select-item"
           v-for="(item, inx) in getChoosen"
           :key="item.value"
         >
@@ -60,7 +64,6 @@
             :type="props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
-            v-if="choosedCondition"
           />
         </li>
       </ul>
@@ -71,9 +74,12 @@
         style="margin: 5px 0"
       />
       <!-- фильтр со статусом без поиска -->
-      <ul class="filter__select-list" v-if="state.isShow && !props.searchable">
+      <ul
+        class="filter-ui-kit__select-list"
+        v-if="state.isShow && !props.searchable"
+      >
         <li
-          class="filter__select-item"
+          class="filter-ui-kit__select-item"
           v-for="(item, inx) in getNotChoosen"
           :key="item.value"
           :style="inx === 0 ? { paddingTop: '10px' } : ''"
@@ -90,12 +96,12 @@
       </ul>
       <!-- фильтр если есть тип с поиском -->
       <ul
-        class="filter__select-list filter__select-list--search"
+        class="filter-ui-kit__select-list filter-ui-kit__select-list--search"
         v-if="state.isShow && props.searchable"
         @scroll="handleScroll"
       >
         <li
-          class="filter__select-item"
+          class="filter-ui-kit__select-item"
           v-for="item in getNotChoosen"
           :key="item.value"
           @click="toogleChoosed(item)"
@@ -134,25 +140,37 @@ const emit = defineEmits<{
   (e: 'scroll', value: boolean): void;
 }>();
 
+/**
+ * Создаем проверки для классов, устанавливаем их фильтрам, которые попали в скрытый список всех выбранных фильтров.
+ */
 const classes = computed(() => ({
-  filter__counter: true,
-  counter: true,
-  'counter--search': props.searchable
+  'filter-ui-kit__counter': true,
+  'counter-ui-kit': true,
+  'counter-ui-kit--search': props.searchable
 }));
 
+/**
+ * Создаем проверки для классов, устанавливаем их выбранным фильтрам
+ */
 const classesList = computed(() => ({
-  'filter__select-list': true,
-  selected: true,
-  'selected--search': props.searchable,
-  'border-none': props.searchable && getChoosen.value.length < 2
+  'filter-ui-kit__select-list': true,
+  'selected-ui-kit': true,
+  'selected-ui-kit--search': props.searchable,
+  'border-none-ui-kit': props.searchable && getChoosen.value.length < 2
 }));
 
+/**
+ * Создаем проверки для классов, устанавливаем их основной плашке фильтра.
+ */
 const classesFilter = computed(() => ({
-  filter__wrapper: true,
-  active: state.isShow,
-  'filter--search': props.searchable
+  'filter-ui-kit__wrapper': true,
+  'active-ui-kit': state.isShow,
+  'filter-ui-kit--search': props.searchable
 }));
 
+/**
+ * Создаем проверки для передаваемого текста в фильтры.
+ */
 const computedBadgeText: ComputedRef<string> = computed(() => {
   if (getChoosen.value.length > 1 && props.searchable) {
     return getChoosen.value[1]?.value;
@@ -161,20 +179,50 @@ const computedBadgeText: ComputedRef<string> = computed(() => {
   }
 });
 
+/**
+ * Вытаскиваем значения из энама
+ */
 const badgesTypeEnum = Object.values(BadgesTypeEnum);
 
+/**
+ * @param value: string
+ * @returns
+ */
+
+/**
+ * получаем значение поиска, обрезаем пробелы по концам строки, записываем в стейт
+ */
 const updateSearchString = (value: string) => {
   state.searchString = value.trim();
 };
 
+/**
+ * @param value: string
+ * @returns
+ */
+
+/**
+ * получаем значение поиска по каждому изменению, записываем в стейт через 1 секунду
+ */
 const changeUpdateSearchString = (value: string) => {
   setTimeout(() => {
     state.searchString = value;
   }, 1000);
 };
 
+/**
+ * показываем, скрываем список фильтров
+ */
 const toggleShow = () => (state.isShow = !state.isShow);
 
+/**
+ * @event e: MouseEvent (click)
+ * @returns
+ */
+
+/**
+ * устанавливаем состояние всего компонента в дефолтное
+ */
 const clearFilter = (e: MouseEvent) => {
   e.stopPropagation();
   state.options.forEach((el: IStateItem, inx: number) =>
@@ -183,6 +231,9 @@ const clearFilter = (e: MouseEvent) => {
   state.isShow = false;
 };
 
+/**
+ * получаем все выбранные фильтры.
+ */
 const getChoosen = computed(() => {
   let options = state.options.filter((el: IStateItem) => el.choose);
 
@@ -195,6 +246,9 @@ const getChoosen = computed(() => {
   return options;
 });
 
+/**
+ * получаем все невыбранные фильтры.
+ */
 const getNotChoosen = computed(() =>
   state.options.filter((el: IStateItem) => {
     let strCondition = true;
@@ -211,6 +265,18 @@ const getNotChoosen = computed(() =>
   })
 );
 
+/**
+ * @param item: {
+      value: string;
+      type: string;
+      choose: boolean;
+  * }
+ * @returns
+ */
+
+/**
+ * меняем состояние фильтра с выбранного на невыбранного и наоборот
+ */
 const toogleChoosed = (item: IStateItem) => {
   if (props.multiselect) {
     item.choose = !item.choose;
@@ -228,6 +294,19 @@ const toogleChoosed = (item: IStateItem) => {
   }
 };
 
+/**
+ * @param el: {
+      value: string,
+      type: string,
+      choose: boolean
+  * }
+ * @param inx: number
+ * @returns
+ */
+
+/**
+ * проверяем переданное дефолтное значение, если нет, то устанавливаем первый фильтр списка, либо ставим фильтр соответствующий дефолтному
+ */
 const setDefaultChoosen = (el: IStateItem, inx: number) => {
   const conditionsChoose =
     typeof props.defaultValue === 'string' && el.value === props.defaultValue;
@@ -241,13 +320,24 @@ const setDefaultChoosen = (el: IStateItem, inx: number) => {
   } else el.choose = inx === 0 ? true : false;
 };
 
-const hidefilters = () => {
+/**
+ * скрываем список фильтров, обнуляем поиск.
+ */
+const hideFilters = () => {
   state.isShow = false;
   if (state.searchString) {
     state.searchString = '';
   }
 };
 
+/**
+ * @param event: (scroll)
+ * @returns
+ */
+
+/**
+ * работает при скролле списка, передает булево значение в родителя
+ */
 const handleScroll = (event: Event) => {
   const target = event.target as HTMLElement;
   if (target.scrollHeight - target.scrollTop === target.clientHeight) {
@@ -255,6 +345,9 @@ const handleScroll = (event: Event) => {
   }
 };
 
+/**
+ * высчитывает тип фильтра
+ */
 const computedBadgeType: ComputedRef<BadgesTypeEnum | undefined> = computed(
   () => {
     if (getChoosen.value.length <= 1 && props.searchable) {
@@ -267,12 +360,9 @@ const computedBadgeType: ComputedRef<BadgesTypeEnum | undefined> = computed(
   }
 );
 
-const choosedCondition = (item: any) => {
-  computed(() =>
-    props.searchable ? item.type != BadgesTypeEnum.default : item.choose
-  );
-};
-
+/**
+ * Записываем в список фильтров переданные фильтры. Устанавливает в дефолтное состояние все фильтры и также обнуляет выбранные фильтры, кроме одного.
+ */
 onMounted(() => {
   state.options = props.options.map(
     (item: string | IFilterOption, inx: number) => {
@@ -294,7 +384,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.filter {
+.filter-ui-kit {
   display: grid;
   width: fit-content;
   position: relative;
@@ -384,7 +474,7 @@ onMounted(() => {
   }
 }
 
-.counter {
+.counter-ui-kit {
   position: relative;
 
   &__list {
@@ -398,11 +488,11 @@ onMounted(() => {
   }
 
   &:hover {
-    .counter__list {
+    .counter-ui-kit__list {
       opacity: 1;
       display: block;
 
-      .filter__select-list {
+      .filter-ui-kit__select-list {
         display: flex;
         position: absolute;
         justify-content: flex-start;
@@ -414,19 +504,19 @@ onMounted(() => {
   }
 
   &--search {
-    .filter__select-item {
+    .filter-ui-kit__select-item {
       width: max-content;
     }
 
-    .base {
+    .base-ui-kit {
       max-width: 187px;
 
-      span.badges-text {
+      span.badges-text-ui-kit {
         color: $BLUE-407BFF;
       }
     }
 
-    &:hover .counter__list .filter__select-list {
+    &:hover .counter-ui-kit__list .filter-ui-kit__select-list {
       display: flex;
       top: 15px;
       z-index: 33;
@@ -434,7 +524,7 @@ onMounted(() => {
   }
 }
 
-ul.filter__select-list.selected.border-none {
+ul.filter-ui-kit__select-list.selected-ui-kit.border-none-ui-kit {
   border-bottom: none;
 }
 </style>

@@ -1,12 +1,14 @@
 <template>
-  <ul class="bread-crumbs">
+  <ul class="bread-crumbs-ui-kit">
     <li
       :class="classesItem"
       v-for="(crumb, inx) in state.items"
       :key="crumb.path"
     >
       <div v-if="isShowSubList(inx)">
-        <span class="bread-crumbs--closed" @click="toggleShowList">...</span>
+        <span class="bread-crumbs-ui-kit--closed" @click="toggleShowList"
+          >...</span
+        >
 
         <ul :class="classes.crumbs">
           <li
@@ -16,7 +18,7 @@
           >
             <span @click="toSelectCrumb(subCrumb, inx)">
               {{ curtText(subCrumb)
-              }}<span v-if="state.fullTitle(crumb)" class="fullName">{{
+              }}<span v-if="state.fullTitle(crumb)" class="fullName-ui-kit">{{
                 subCrumb.title
               }}</span></span
             >
@@ -29,7 +31,7 @@
           :class="state.getClassesSpan(inx)"
           @click="toSelectCrumb(crumb, inx)"
           >{{ curtText(crumb)
-          }}<span v-if="state.fullTitle(crumb)" class="fullName">{{
+          }}<span v-if="state.fullTitle(crumb)" class="fullName-ui-kit">{{
             crumb.title
           }}</span></span
         >
@@ -74,15 +76,15 @@ const state = reactive({
     });
   }),
   getClassesLink: computed(() => (crumb: IBreadCrumbItems) => ({
-    'bread-crumbs__link': true,
-    disabled: !crumb.path
+    'bread-crumbs-ui-kit__link': true,
+    'disabled-ui-kit': !crumb.path
   })),
   getClassesSpan: computed(() => (inx: number) => ({
-    checked: inx === state.crumbs.length - 1
+    'checked-ui-kit': inx === state.crumbs.length - 1
   })),
-  fullTitle: computed(() => (crumb: IBreadCrumbItems) => {
-    return computed(() => crumb.title.length > MAX_SYMBOLS);
-  }),
+  fullTitle: computed(
+    () => (crumb: IBreadCrumbItems) => crumb.title.length > MAX_SYMBOLS
+  ),
   isShowList: false
 });
 
@@ -92,18 +94,38 @@ const emit = defineEmits<{
 
 const MAX_SYMBOLS = 15;
 
+/**
+ * Создает проверку на классы для пунктов в открытом списке
+ */
 const classesItem = computed(() => ({
-  'bread-crumbs__item': true
+  'bread-crumbs-ui-kit__item': true
 }));
 
+/**
+ * Создает проверку на классы для пунктов в скрытом списке
+ */
 const classes = computed(() => ({
   crumbs: {
-    'bread-subcrumbs': true,
-    scroll: true,
-    active: state.isShowList
+    'bread-subcrumbs-ui-kit': true,
+    'scroll-ui-kit': true,
+    'active-ui-kit': state.isShowList
   }
 }));
 
+/**
+ *
+ * @param : 
+ *    item: {
+  path: string;
+  title: string;
+  }
+  * @param :
+  *  inx: number
+ * @returns
+ */
+/**
+ * Выбрать пункт навигации хлебных крошек
+ */
 const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
   if (inx === state.items.length - 1) return;
 
@@ -118,21 +140,49 @@ const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
       });
   });
 };
+
+/**
+ * Показать скрытый список либо закрыть его
+ */
 const toggleShowList = () => (state.isShowList = !state.isShowList);
 
+/**
+ * @param : 
+ *    crumb: {
+    path: string;
+    title: string;
+    }
+ * @returns
+ */
+
+/**
+ * Обрезает текст хлебной крошки
+ */
 const curtText = (crumb: IBreadCrumbsItem): string => {
   return crumb.title.length > MAX_SYMBOLS
     ? crumb.title.slice(0, MAX_SYMBOLS) + '...'
     : crumb.title;
 };
 
+/**
+ * @param :
+ *    inx: number
+ * @returns
+ */
+
+/**
+ * Проверка кол-ва хлебных крошек, если больше 4, то поялвяется скрытый список
+ */
 const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 
+/**
+ * Соединяет в общий массив с хлебными крошками, массив с крошками из скрытого списка.
+ */
 onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
 </script>
 <style lang="scss" scoped>
-.bread-crumbs,
-.bread-subcrumbs {
+.bread-crumbs-ui-kit,
+.bread-subcrumbs-ui-kit {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -153,7 +203,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
       cursor: pointer;
       white-space: nowrap;
       &:hover {
-        .fullName {
+        .fullName-ui-kit {
           z-index: 1;
           opacity: 1;
         }
@@ -164,14 +214,13 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   &__link {
     display: flex;
     align-items: center;
-    transition: 0.3s ease-in-out;
 
     span {
       white-space: nowrap;
       cursor: pointer;
     }
 
-    &.disabled {
+    &.disabled-ui-kit {
       color: $WHITE-E0E0E0;
       user-select: none;
       pointer-events: none;
@@ -184,7 +233,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   }
 }
 
-.bread-crumbs {
+.bread-crumbs-ui-kit {
   display: flex;
 
   &--closed {
@@ -198,7 +247,6 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     padding: 6px;
     border-radius: 6px;
     margin-right: 5px;
-    transition: 0.3s ease-in-out;
 
     &:hover {
       background-color: $BLUE-D6E4FF;
@@ -218,7 +266,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   }
 }
 
-.bread-subcrumbs {
+.bread-subcrumbs-ui-kit {
   opacity: 0;
   position: absolute;
   padding: 5px 12px;
@@ -228,14 +276,13 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   z-index: -10000;
   top: 25px;
   color: $GREY-282828;
-  transition: 0.3s ease-in-out;
 
-  &.scroll {
+  &.scroll-ui-kit {
     height: 80px;
     overflow-y: scroll;
   }
 
-  &.active {
+  &.active-ui-kit {
     opacity: 1;
     z-index: 10000;
   }
@@ -245,12 +292,12 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     border-radius: 2px;
   }
 
-  &__item.checked {
+  &__item.checked-ui-kit {
     background-color: $BLUE-EAF2FF;
   }
 }
 
-.fullName {
+.fullName-ui-kit {
   position: absolute;
   top: -30px;
   right: 0;
@@ -260,6 +307,5 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   border-radius: 5px;
   z-index: -10000;
   opacity: 0;
-  transition: 0.3s ease-in-out;
 }
 </style>

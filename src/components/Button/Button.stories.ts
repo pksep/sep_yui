@@ -3,8 +3,8 @@ import Button from './Button.vue';
 import Icon from '../Icon/Icon.vue';
 import { SizesEnum } from '../../common/sizes';
 import { ColorsEnum } from '../../common/colors';
-import { StorybookControl } from '../../common/storybook';
-import { ButtonType } from './enum/enum';
+import { StorybookControlEnum } from '../../common/storybook';
+import { ButtonTypeEnum } from './enum/enum';
 import { fn } from '@storybook/test';
 import { IconNameEnum } from '../Icon/enum/enum';
 
@@ -13,41 +13,41 @@ const meta = {
   component: Button,
   argTypes: {
     disabled: {
-      control: { type: StorybookControl.boolean },
+      control: { type: StorybookControlEnum.boolean },
       defaultValue: false
     },
     pill: {
-      control: { type: StorybookControl.boolean },
+      control: { type: StorybookControlEnum.boolean },
       defaultValue: false
     },
     size: {
-      control: { type: StorybookControl.radio },
+      control: { type: StorybookControlEnum.radio },
       options: SizesEnum
     },
     type: {
-      control: { type: StorybookControl.select },
-      options: ButtonType
+      control: { type: StorybookControlEnum.select },
+      options: ButtonTypeEnum
     },
     content: {
-      control: { type: StorybookControl.text },
+      control: { type: StorybookControlEnum.text },
       description: 'Кастомный контент кнопки',
       defaultValue: {
         summary: 'Button'
       }
     },
     iconName: {
-      control: { type: StorybookControl.select },
+      control: { type: StorybookControlEnum.select },
       description: 'Имя иконки',
       options: IconNameEnum
     },
     iconPosition: {
-      control: { type: StorybookControl.radio },
+      control: { type: StorybookControlEnum.radio },
       options: ['left', 'right'],
       description: 'Позиция иконки',
       defaultValue: 'left'
     },
     iconColor: {
-      control: { type: StorybookControl.select },
+      control: { type: StorybookControlEnum.select },
       description: 'Цвет иконки',
       options: ColorsEnum
     }
@@ -88,27 +88,27 @@ export const Default: StoryFn<typeof Button> = args => ({
 
 export const Primary = Template.bind({});
 Primary.args = {
-  type: ButtonType.primary
+  type: ButtonTypeEnum.primary
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type: ButtonType.secondary
+  type: ButtonTypeEnum.secondary
 };
 
 export const Outline = Template.bind({});
 Outline.args = {
-  type: ButtonType.outline
+  type: ButtonTypeEnum.outline
 };
 
 export const Ghost = Template.bind({});
 Ghost.args = {
-  type: ButtonType.ghost
+  type: ButtonTypeEnum.ghost
 };
 
 export const BtnWithIcon = Template.bind({});
 BtnWithIcon.args = {
-  type: ButtonType.primary,
+  type: ButtonTypeEnum.primary,
   iconName: 'arrowLeft',
   iconPosition: 'left',
   content: 'Button with Icon'

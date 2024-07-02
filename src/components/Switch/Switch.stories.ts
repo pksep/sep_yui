@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Switch from './Switch.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 
 const items = ['text1', 'text2', 'text3'];
 
@@ -9,7 +9,7 @@ const meta = {
   component: Switch,
   argTypes: {
     items: {
-      control: { type: StorybookControl.object }
+      control: { type: StorybookControlEnum.object }
     }
   },
   tags: ['autodocs']

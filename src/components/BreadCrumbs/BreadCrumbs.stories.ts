@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import BreadCrumbs from './BreadCrumbs.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { ref, Ref } from 'vue';
 import { IBreadCrumbsEmit } from './interface/interface';
 import { action } from '@storybook/addon-actions';
@@ -57,7 +57,7 @@ const meta = {
   component: BreadCrumbs,
   argTypes: {
     items: {
-      type: StorybookControl.object,
+      type: StorybookControlEnum.object,
       defaultValue: crumbsItems,
       onClick: { action: 'clicked' }
     }

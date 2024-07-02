@@ -1,35 +1,37 @@
 <template>
-  <div class="menu">
-    <div class="menu__wrapper">
-      <div class="menu__avatar">
+  <div class="menu-ui-kit">
+    <div class="menu-ui-kit__wrapper">
+      <div class="menu-ui-kit__avatar">
         <img :src="props.user.path" />
       </div>
       <div :class="classes">
-        <div class="menu__names">
-          <p class="menu__name">{{ props.user.name }}</p>
-          <p class="menu__role">{{ props.user.role }}</p>
+        <div class="menu-ui-kit__names">
+          <p class="menu-ui-kit__name">{{ props.user.name }}</p>
+          <p class="menu-ui-kit__role">{{ props.user.role }}</p>
         </div>
         <Button
-          :type="ButtonType.ghost"
-          class="menu__button"
+          :type="ButtonTypeEnum.ghost"
+          class="menu-ui-kit__button"
           @click="toggleShow"
           ><Icon :name="nameIcon"
         /></Button>
       </div>
     </div>
-    <div class="menu__list" v-if="state.isShow">
+    <div class="menu-ui-kit__list list" v-if="state.isShow">
       <ul class="list">
         <li class="list__item">
           <Icon :name="IconNameEnum.profile" />
           <span
             class="list__item-text"
-            @click="choosedOptions(MenuType.profile)"
+            @click="choosedOptions(MenuTypeEnum.profile)"
             >Профиль</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.dark" />
-          <span class="list__item-text" @click="choosedOptions(MenuType.theme)"
+          <span
+            class="list__item-text"
+            @click="choosedOptions(MenuTypeEnum.theme)"
             >Темная тема</span
           >
           <Toggle
@@ -41,13 +43,15 @@
           <Icon :name="IconNameEnum.settings" />
           <span
             class="list__item-text"
-            @click="choosedOptions(MenuType.options)"
+            @click="choosedOptions(MenuTypeEnum.options)"
             >Настройки</span
           >
         </li>
         <li class="list__item">
           <Icon :name="IconNameEnum.exit" />
-          <span class="list__item-text" @click="choosedOptions(MenuType.exit)"
+          <span
+            class="list__item-text"
+            @click="choosedOptions(MenuTypeEnum.exit)"
             >Выход</span
           >
         </li>
@@ -55,8 +59,8 @@
           <Icon :name="IconNameEnum.help" />
           <span
             class="list__item-text"
-            :data-type="MenuType.help"
-            @click="choosedOptions(MenuType.help)"
+            :data-type="MenuTypeEnum.help"
+            @click="choosedOptions(MenuTypeEnum.help)"
             >Помощь</span
           >
         </li>
@@ -78,8 +82,8 @@ import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
 import Toggle from '@/components/Toggle/Toggle.vue';
 import Switch from '@/components/Switch/Switch.vue';
-import { MenuType } from '@/components/UserMenu/enum/enum';
-import { ButtonType } from '@/components/Button/enum/enum';
+import { MenuTypeEnum } from '@/components/UserMenu/enum/enum';
+import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 
@@ -92,17 +96,28 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'click', type: MenuType): void;
+  (e: 'click', type: MenuTypeEnum): void;
   (e: 'themeChange', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
+/**
+ * Высчитывает классы для всего Меню
+ */
 const classes = computed(() => ({
-  menu__heading: true,
-  active: state.isShow
+  'menu-ui-kit__heading': true,
+  'active-ui-kit': state.isShow
 }));
 
-const choosedOptions = (type: MenuType): void => {
+/**
+ * @enum type:  MenuTypeEnum
+ * @returns
+ */
+
+/**
+ * Высчитывает какую опцию выбрали
+ */
+const choosedOptions = (type: MenuTypeEnum): void => {
   if (type !== undefined) {
     state.option = type;
     emit('click', type);
@@ -113,42 +128,52 @@ const choosedOptions = (type: MenuType): void => {
     console.error('Option type is undefined');
   }
 };
-// const choosedOptions = (e: MouseEvent, type: MenuType): void => {
-//   const target = e.target as HTMLElement;
-//   const optionType = target.dataset.type;
-//   console.log(target.dataset.type, 'TYPE');
 
-//   if (optionType !== undefined) {
-//     state.option = type;
-//     emit('click', state.option);
-//     if (props.closeAfterClick) {
-//       state.isShow = false;
-//     }
-//   } else {
-//     console.error('Option type is undefined');
-//   }
-// };
-
+/**
+ * Высчитывает наименование иконки, показать список, скрыть. Меняет иконку.
+ */
 const nameIcon = computed(() => {
   return state.isShow ? IconNameEnum.chevronDown : IconNameEnum.chevronUp;
 });
 
+/**
+ * Переключает видимость списка
+ */
 const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 
+/**
+ * @param isChecked:  boolean
+ * @returns
+ */
+
+/**
+ * Меняет тему, передает значение выбора родителю
+ */
 const toggleTheme = (isChecked: boolean) => {
   emit('themeChange', isChecked);
   state.isChecked = isChecked;
 };
 
-const handleLanguageSwitch = (event: IChangeSwitchEmit) => {
-  emit('languageSwitch', event);
+/**
+ * @param object:  {
+      index: number,
+      value: string
+    }
+ * @returns
+ */
+
+/**
+ * Меняет язык, передает значение родителю
+ */
+const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
+  emit('languageSwitch', object);
 };
 </script>
 
 <style lang="scss" scoped>
-.menu {
+.menu-ui-kit {
   display: flex;
   align-items: center;
   gap: 25px;
@@ -183,7 +208,7 @@ const handleLanguageSwitch = (event: IChangeSwitchEmit) => {
     gap: 25px;
     min-height: 40px;
 
-    &.active {
+    &.active-ui-kit {
       background-color: $BLUE-F2F7FF;
     }
   }

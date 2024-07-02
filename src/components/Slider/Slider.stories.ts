@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Slider from './Slider.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
 const files = [
@@ -23,10 +23,10 @@ const meta = {
   component: Slider,
   argTypes: {
     defaultIndex: {
-      control: { type: StorybookControl.number }
+      control: { type: StorybookControlEnum.number }
     },
     items: {
-      control: { type: StorybookControl.object }
+      control: { type: StorybookControlEnum.object }
     }
   },
   args: { onClick: fn() },

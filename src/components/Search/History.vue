@@ -1,17 +1,17 @@
 <template>
-  <div class="search__history history" v-if="props.showHistory">
+  <div class="search-ui-kit__history history-ui-kit" v-if="props.showHistory">
     <button
       type="button"
       v-if="state.getHistorySearch.length > 0"
       @click="showHistoryClickHandler"
-      :class="'history__button-text'"
+      :class="'history-ui-kit__button-text'"
     >
       Просмотреть историю запросов
     </button>
 
     <ul :class="classes">
       <li
-        class="history__item"
+        class="history-ui-kit__item"
         v-for="item in state.getHistorySearch"
         :key="item"
       >
@@ -49,9 +49,9 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  history__list: true,
-  'history__list--opened': state.isShowList,
-  'history__list--scroll':
+  'history-ui-kit__list': true,
+  'history-ui-kit__list--opened': state.isShowList,
+  'history-ui-kit__list--scroll':
     state.getHistorySearch.length >= 5 && state.isShowList
 }));
 
@@ -60,9 +60,19 @@ const showHistoryClickHandler = () => {
   state.isShowButtonHistory = !state.isShowButtonHistory;
 };
 
+/**
+ * @param item: string
+ * @returns
+ */
+
 const removeItem = (item: string) => {
   searchStore.removeHistorySearch(item);
 };
+
+/**
+ * @param item: string
+ * @returns
+ */
 
 const handleChoosePost = (item: string) => {
   emit('choosePost', item);
@@ -70,11 +80,11 @@ const handleChoosePost = (item: string) => {
 </script>
 
 <style lang="scss" scoped>
-.search {
+.search-ui-kit {
   position: relative;
   width: 100%;
 
-  &:hover .history {
+  &:hover .history-ui-kit {
     display: grid;
   }
 
@@ -138,7 +148,7 @@ const handleChoosePost = (item: string) => {
   }
 }
 
-.history {
+.history-ui-kit {
   color: $GREY-282828;
   outline: none;
   background-color: $WHITE;

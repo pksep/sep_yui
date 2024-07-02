@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import UserMenu from './UserMenu.vue';
-import { StorybookControl } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 import { userEvent, within } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
 
@@ -10,17 +10,17 @@ const meta = {
   argTypes: {
     name: {
       control: {
-        type: StorybookControl.text
+        type: StorybookControlEnum.text
       }
     },
     role: {
       control: {
-        type: StorybookControl.text
+        type: StorybookControlEnum.text
       }
     },
     path: {
       control: {
-        type: StorybookControl.text
+        type: StorybookControlEnum.text
       }
     }
   },
