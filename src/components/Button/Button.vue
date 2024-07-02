@@ -38,14 +38,14 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  'button-ui-kit': true,
+  'button-yui-kit': true,
   [props.size]: true,
-  'disabled-ui-kit': props.disabled,
-  'pill-ui-kit': props.pill,
-  'primary-ui-kit': props.type === ButtonTypeEnum.primary,
-  'secondary-ui-kit': props.type === ButtonTypeEnum.secondary,
-  'outline-ui-kit': props.type === ButtonTypeEnum.outline,
-  'ghost-ui-kit': props.type === ButtonTypeEnum.ghost
+  'disabled-yui-kit': props.disabled,
+  'pill-yui-kit': props.pill,
+  'primary-yui-kit': props.type === ButtonTypeEnum.primary,
+  'secondary-yui-kit': props.type === ButtonTypeEnum.secondary,
+  'outline-yui-kit': props.type === ButtonTypeEnum.outline,
+  'ghost-yui-kit': props.type === ButtonTypeEnum.ghost
 }));
 
 /**
@@ -70,103 +70,3 @@ const styleChangeColor = computed(() => ({
  */
 const onClick = () => emit('click');
 </script>
-
-<style lang="scss" scoped>
-button.button-ui-kit {
-  color: $WHITE;
-  outline: none;
-  border: none;
-  box-sizing: border-box;
-  border-radius: 5px;
-  transition: 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-
-  &:hover:not(:disabled) {
-    cursor: pointer;
-  }
-}
-
-button.small-ui-kit {
-  padding: 13px 11px;
-  font-size: 14px;
-  line-height: 16px;
-  min-height: 40px;
-}
-
-button.medium-ui-kit {
-  min-height: 50px;
-  padding: 16px 13px;
-}
-
-button.large-ui-kit {
-  min-height: 70px;
-  padding: 5px 13px;
-  font-size: 18px;
-  line-height: 22px;
-}
-
-button.primary-ui-kit {
-  background-color: $BLUE-77A6FF;
-
-  &:active {
-    background-color: $BLUE-548CF6;
-  }
-  &.disabled:disabled {
-    color: $GREY-757D8A;
-    background-color: $WHITE-F5F5F5;
-  }
-}
-
-button.secondary-ui-kit {
-  background-color: $WHITE-F8F9FD;
-  color: $BLUE-77A6FF;
-
-  &:active {
-    background-color: $WHITE-ECF3FF;
-  }
-  &.disabled-ui-kit:disabled {
-    color: $GREY-757D8A;
-    background-color: $WHITE-F5F5F5;
-  }
-}
-
-button.outline-ui-kit {
-  background-color: $TRANSPARENT;
-  border: 1px solid $BLUE-9CBEFF;
-  color: $GREY-282828;
-
-  &:active {
-    color: $WHITE;
-    background-color: $BLUE-548CF6;
-  }
-
-  &.disabled-ui-kit:disabled {
-    color: $GREY-757D8A;
-    background-color: $WHITE-F5F5F5;
-    border: 1px solid $WHITE-E7E7E7;
-  }
-}
-
-button.ghost-ui-kit {
-  background-color: $TRANSPARENT;
-  color: $GREY-282828;
-
-  &:hover {
-    background-color: $WHITE-F8F9FD;
-  }
-
-  &:active {
-    color: $BLUE-77A6FF;
-    background-color: $WHITE-ECF3FF;
-  }
-  &.disabled-ui-kit:disabled {
-    background-color: $WHITE-E6E6E6;
-  }
-}
-
-button.pill-ui-kit {
-  border-radius: 10px;
-}
-</style>

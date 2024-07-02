@@ -1,24 +1,24 @@
 <template>
-  <div class="search-ui-kit__history history-ui-kit">
+  <div class="search-yui-kit__history history-yui-kit">
     <ul :class="classes" v-if="state.globalResultsFunction">
       <li
-        class="history-ui-kit__item"
+        class="history-yui-kit__item"
         v-for="item in state.globalResultsFunction"
         :key="item.nameArea + item.searchResult"
       >
         <Icon :name="IconNameEnum.document" />
-        <p class="history-ui-kit__text" @click="handleChoosePost(item)">
-          <span class="result-ui-kit"> {{ trimText(item.nameArea) }}</span>
-          <span class="result-ui-kit blue-ui-kit">/</span>
-          <span class="result-ui-kit blue-ui-kit">
+        <p class="history-yui-kit__text" @click="handleChoosePost(item)">
+          <span class="result-yui-kit"> {{ trimText(item.nameArea) }}</span>
+          <span class="result-yui-kit blue-yui-kit">/</span>
+          <span class="result-yui-kit blue-yui-kit">
             {{ trimText(item.searchResult) }}</span
           >
         </p>
       </li>
     </ul>
     <ul :class="classes" v-if="!state.globalResultsFunction.length">
-      <li class="history-ui-kit__item history-ui-kit__item--notfound">
-        <p class="history-ui-kit__text">По вашему запросу ничего не найдено</p>
+      <li class="history-yui-kit__item history-yui-kit__item--notfound">
+        <p class="history-yui-kit__text">По вашему запросу ничего не найдено</p>
       </li>
     </ul>
   </div>
@@ -52,9 +52,9 @@ const emit = defineEmits<{
  * высчитывает и устанавливает классы для списка
  */
 const classes = computed(() => ({
-  'history-ui-kit__list': true,
-  'history-ui-kit__list--opened': state.isShowResult,
-  'history-ui-kit__list--scroll':
+  'history-yui-kit__list': true,
+  'history-yui-kit__list--opened': state.isShowResult,
+  'history-yui-kit__list--scroll':
     state.globalResultsFunction.length >= 5 && state.isShowResult
 }));
 
@@ -76,7 +76,7 @@ const handleChoosePost = (item: resultSearchType) => {
 </script>
 
 <style lang="scss" scoped>
-.history-ui-kit {
+.history-yui-kit {
   color: $GREY-282828;
   outline: none;
   background-color: $WHITE;
@@ -212,7 +212,7 @@ const handleChoosePost = (item: resultSearchType) => {
   }
 }
 
-.blue-ui-kit {
+.blue-yui-kit {
   color: $BLUE-77A6FF;
 }
 </style>

@@ -1,19 +1,19 @@
-.counter-ui-kit--search,
-.selected-ui-kit--search,
-.filter-ui-kit--search {
-  .base-ui-kit span.badges-text {
+.counter-yui-kit--search,
+.selected-yui-kit--search,
+.filter-yui-kit--search {
+  .base-yui-kit span.badges-text {
     color: $BLUE-407BFF;
     background-color: $BLUE-D6E4FF;
   }
 }
 
-.counter-ui-kit--search {
-  .filter-ui-kit__select-list {
+.counter-yui-kit--search {
+  .filter-yui-kit__select-list {
     flex-wrap: wrap;
   }
 }
 
-.filter-ui-kit__select-list.selected-ui-kit.selected-ui-kit--search {
+.filter-yui-kit__select-list.selected-yui-kit.selected-yui-kit--search {
   display: flex;
   flex-wrap: wrap;
 }

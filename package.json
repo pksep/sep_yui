@@ -59,6 +59,6 @@
       "import": "./dist/sep-yui.es.ts",
       "require": "./dist/sep-yui.umd.ts"
     },
-    "./styles": "./dist/style.css"
+    "./styles": "./dist/index.css"
   }
 }

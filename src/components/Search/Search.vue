@@ -1,10 +1,14 @@
 <template>
-  <div class="search-ui-kit" @mousemove="showhistory" @mouseleave="hidehistory">
+  <div
+    class="search-yui-kit"
+    @mousemove="showhistory"
+    @mouseleave="hidehistory"
+  >
     <div :class="classesDropdown">
-      <div class="search-ui-kit__dropdown">
+      <div class="search-yui-kit__dropdown">
         <input
           type="text"
-          class="search-ui-kit__input"
+          class="search-yui-kit__input"
           v-model="state.searchValue"
           :placeholder="props.placeholder"
           @keydown.enter="changeSearch"
@@ -83,7 +87,7 @@ const setBlurSearch = () => {
  * высчитывает классы для выпадающего списка запросов
  */
 const classesDropdown = computed(() => ({
-  'search-ui-kit__icon-wrapper': true
+  'search-yui-kit__icon-wrapper': true
 }));
 
 /**
@@ -128,7 +132,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.search-ui-kit {
+.search-yui-kit {
   position: relative;
   width: 100%;
 

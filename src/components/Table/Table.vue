@@ -1,6 +1,6 @@
 <template>
-  <div class="table-wrapper-ui-kit">
-    <table class="table-ui-kit">
+  <div class="table-wrapper-yui-kit">
+    <table class="table-yui-kit">
       <tr class="table__tr">
         <th class="table__th">№</th>
         <th class="table__th">Заказ</th>
@@ -103,12 +103,12 @@
 </template>
 
 <style lang="scss" scoped>
-.table-wrapper-ui-kit {
+.table-wrapper-yui-kit {
   overflow-x: scroll;
   width: 100%;
   padding-bottom: 15px;
 }
-.table-ui-kit {
+.table-yui-kit {
   overflow: hidden;
   border-radius: 15px;
 }

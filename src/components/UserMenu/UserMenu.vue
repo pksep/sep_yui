@@ -1,23 +1,23 @@
 <template>
-  <div class="menu-ui-kit">
-    <div class="menu-ui-kit__wrapper">
-      <div class="menu-ui-kit__avatar">
+  <div class="menu-yui-kit">
+    <div class="menu-yui-kit__wrapper">
+      <div class="menu-yui-kit__avatar">
         <img :src="props.user.path" />
       </div>
       <div :class="classes">
-        <div class="menu-ui-kit__names">
-          <p class="menu-ui-kit__name">{{ props.user.name }}</p>
-          <p class="menu-ui-kit__role">{{ props.user.role }}</p>
+        <div class="menu-yui-kit__names">
+          <p class="menu-yui-kit__name">{{ props.user.name }}</p>
+          <p class="menu-yui-kit__role">{{ props.user.role }}</p>
         </div>
         <Button
           :type="ButtonTypeEnum.ghost"
-          class="menu-ui-kit__button"
+          class="menu-yui-kit__button"
           @click="toggleShow"
           ><Icon :name="nameIcon"
         /></Button>
       </div>
     </div>
-    <div class="menu-ui-kit__list list" v-if="state.isShow">
+    <div class="menu-yui-kit__list list" v-if="state.isShow">
       <ul class="list">
         <li class="list__item">
           <Icon :name="IconNameEnum.profile" />
@@ -105,8 +105,8 @@ const emit = defineEmits<{
  * Высчитывает классы для всего Меню
  */
 const classes = computed(() => ({
-  'menu-ui-kit__heading': true,
-  'active-ui-kit': state.isShow
+  'menu-yui-kit__heading': true,
+  'active-yui-kit': state.isShow
 }));
 
 /**
@@ -173,7 +173,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
 </script>
 
 <style lang="scss" scoped>
-.menu-ui-kit {
+.menu-yui-kit {
   display: flex;
   align-items: center;
   gap: 25px;
@@ -208,7 +208,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     gap: 25px;
     min-height: 40px;
 
-    &.active-ui-kit {
+    &.active-yui-kit {
       background-color: $BLUE-F2F7FF;
     }
   }

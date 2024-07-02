@@ -37,7 +37,10 @@ table {
       outline: none;
       cursor: pointer;
       padding: 5px;
-      box-shadow: 0 2px #b2b1b1, 0 3px #a5a5a5, 0 4px 4px rgba(0, 0, 0, 0.4);
+      box-shadow:
+        0 2px #b2b1b1,
+        0 3px #a5a5a5,
+        0 4px 4px rgba(0, 0, 0, 0.4);
     }
 
     div {
@@ -45,14 +48,14 @@ table {
     }
   }
 
-  .dropdown-ui-kit {
+  .dropdown-yui-kit {
     position: relative;
 
     &__current {
       background-color: $BLUE-F2F7FF;
       margin-bottom: 0;
 
-      &.active-ui-kit {
+      &.active-yui-kit {
         border: none;
       }
     }

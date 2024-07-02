@@ -1,17 +1,17 @@
 <template>
-  <div class="search-ui-kit__history history-ui-kit" v-if="props.showHistory">
+  <div class="search-yui-kit__history history-yui-kit" v-if="props.showHistory">
     <button
       type="button"
       v-if="state.getHistorySearch.length > 0"
       @click="showHistoryClickHandler"
-      :class="'history-ui-kit__button-text'"
+      :class="'history-yui-kit__button-text'"
     >
       Просмотреть историю запросов
     </button>
 
     <ul :class="classes">
       <li
-        class="history-ui-kit__item"
+        class="history-yui-kit__item"
         v-for="item in state.getHistorySearch"
         :key="item"
       >
@@ -49,9 +49,9 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  'history-ui-kit__list': true,
-  'history-ui-kit__list--opened': state.isShowList,
-  'history-ui-kit__list--scroll':
+  'history-yui-kit__list': true,
+  'history-yui-kit__list--opened': state.isShowList,
+  'history-yui-kit__list--scroll':
     state.getHistorySearch.length >= 5 && state.isShowList
 }));
 
@@ -80,11 +80,11 @@ const handleChoosePost = (item: string) => {
 </script>
 
 <style lang="scss" scoped>
-.search-ui-kit {
+.search-yui-kit {
   position: relative;
   width: 100%;
 
-  &:hover .history-ui-kit {
+  &:hover .history-yui-kit {
     display: grid;
   }
 
@@ -148,7 +148,7 @@ const handleChoosePost = (item: string) => {
   }
 }
 
-.history-ui-kit {
+.history-yui-kit {
   color: $GREY-282828;
   outline: none;
   background-color: $WHITE;

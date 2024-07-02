@@ -1,12 +1,12 @@
 <template>
-  <ul class="bread-crumbs-ui-kit">
+  <ul class="bread-crumbs-yui-kit">
     <li
       :class="classesItem"
       v-for="(crumb, inx) in state.items"
       :key="crumb.path"
     >
       <div v-if="isShowSubList(inx)">
-        <span class="bread-crumbs-ui-kit--closed" @click="toggleShowList"
+        <span class="bread-crumbs-yui-kit--closed" @click="toggleShowList"
           >...</span
         >
 
@@ -18,7 +18,7 @@
           >
             <span @click="toSelectCrumb(subCrumb, inx)">
               {{ curtText(subCrumb)
-              }}<span v-if="state.fullTitle(crumb)" class="fullName-ui-kit">{{
+              }}<span v-if="state.fullTitle(crumb)" class="fullName-yui-kit">{{
                 subCrumb.title
               }}</span></span
             >
@@ -31,7 +31,7 @@
           :class="state.getClassesSpan(inx)"
           @click="toSelectCrumb(crumb, inx)"
           >{{ curtText(crumb)
-          }}<span v-if="state.fullTitle(crumb)" class="fullName-ui-kit">{{
+          }}<span v-if="state.fullTitle(crumb)" class="fullName-yui-kit">{{
             crumb.title
           }}</span></span
         >
@@ -76,11 +76,11 @@ const state = reactive({
     });
   }),
   getClassesLink: computed(() => (crumb: IBreadCrumbItems) => ({
-    'bread-crumbs-ui-kit__link': true,
-    'disabled-ui-kit': !crumb.path
+    'bread-crumbs-yui-kit__link': true,
+    'disabled-yui-kit': !crumb.path
   })),
   getClassesSpan: computed(() => (inx: number) => ({
-    'checked-ui-kit': inx === state.crumbs.length - 1
+    'checked-yui-kit': inx === state.crumbs.length - 1
   })),
   fullTitle: computed(
     () => (crumb: IBreadCrumbItems) => crumb.title.length > MAX_SYMBOLS
@@ -98,7 +98,7 @@ const MAX_SYMBOLS = 15;
  * Создает проверку на классы для пунктов в открытом списке
  */
 const classesItem = computed(() => ({
-  'bread-crumbs-ui-kit__item': true
+  'bread-crumbs-yui-kit__item': true
 }));
 
 /**
@@ -106,9 +106,9 @@ const classesItem = computed(() => ({
  */
 const classes = computed(() => ({
   crumbs: {
-    'bread-subcrumbs-ui-kit': true,
-    'scroll-ui-kit': true,
-    'active-ui-kit': state.isShowList
+    'bread-subcrumbs-yui-kit': true,
+    'scroll-yui-kit': true,
+    'active-yui-kit': state.isShowList
   }
 }));
 
@@ -181,8 +181,8 @@ const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
 </script>
 <style lang="scss" scoped>
-.bread-crumbs-ui-kit,
-.bread-subcrumbs-ui-kit {
+.bread-crumbs-yui-kit,
+.bread-subcrumbs-yui-kit {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -203,7 +203,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
       cursor: pointer;
       white-space: nowrap;
       &:hover {
-        .fullName-ui-kit {
+        .fullName-yui-kit {
           z-index: 1;
           opacity: 1;
         }
@@ -220,7 +220,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
       cursor: pointer;
     }
 
-    &.disabled-ui-kit {
+    &.disabled-yui-kit {
       color: $WHITE-E0E0E0;
       user-select: none;
       pointer-events: none;
@@ -233,7 +233,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   }
 }
 
-.bread-crumbs-ui-kit {
+.bread-crumbs-yui-kit {
   display: flex;
 
   &--closed {
@@ -266,7 +266,7 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   }
 }
 
-.bread-subcrumbs-ui-kit {
+.bread-subcrumbs-yui-kit {
   opacity: 0;
   position: absolute;
   padding: 5px 12px;
@@ -277,12 +277,12 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   top: 25px;
   color: $GREY-282828;
 
-  &.scroll-ui-kit {
+  &.scroll-yui-kit {
     height: 80px;
     overflow-y: scroll;
   }
 
-  &.active-ui-kit {
+  &.active-yui-kit {
     opacity: 1;
     z-index: 10000;
   }
@@ -292,12 +292,12 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
     border-radius: 2px;
   }
 
-  &__item.checked-ui-kit {
+  &__item.checked-yui-kit {
     background-color: $BLUE-EAF2FF;
   }
 }
 
-.fullName-ui-kit {
+.fullName-yui-kit {
   position: absolute;
   top: -30px;
   right: 0;

@@ -30,14 +30,14 @@ const emit = defineEmits<{
  */
 
 const classes = computed(() => ({
-  'base-ui-kit': true,
-  'default-ui-kit': props.type === BadgesTypeEnum.default,
-  'blue-ui-kit': props.type === BadgesTypeEnum.blue,
-  'green-ui-kit': props.type === BadgesTypeEnum.green,
-  'orange-ui-kit': props.type === BadgesTypeEnum.orange,
-  'red-ui-kit': props.type === BadgesTypeEnum.red,
-  'pink-ui-kit': props.type === BadgesTypeEnum.pink,
-  'choosed-ui-kit': state.choosed
+  'base-yui-kit': true,
+  'default-yui-kit': props.type === BadgesTypeEnum.default,
+  'blue-yui-kit': props.type === BadgesTypeEnum.blue,
+  'green-yui-kit': props.type === BadgesTypeEnum.green,
+  'orange-yui-kit': props.type === BadgesTypeEnum.orange,
+  'red-yui-kit': props.type === BadgesTypeEnum.red,
+  'pink-yui-kit': props.type === BadgesTypeEnum.pink,
+  'choosed-yui-kit': state.choosed
 }));
 
 /**
@@ -57,7 +57,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.base-ui-kit {
+.base-yui-kit {
   border-radius: 5px;
   max-width: fit-content;
   cursor: pointer;
@@ -79,37 +79,37 @@ onMounted(() => {
   }
 }
 
-.default-ui-kit span {
+.default-yui-kit span {
   color: $GREY-757D8A;
   background-color: $GREY-E2E2E2;
 }
 
-.blue-ui-kit span {
+.blue-yui-kit span {
   color: $BLUE-5CBAFF;
   background-color: $BLUE-E0F2FF;
 }
 
-.green-ui-kit span {
+.green-yui-kit span {
   color: $GREEN-0FBE3F;
   background-color: $GREEN-D8F2DA;
 }
 
-.orange-ui-kit span {
+.orange-yui-kit span {
   color: $ORANGE-E8A702;
   background-color: $ORANGE-FAEED5;
 }
 
-.red-ui-kit span {
+.red-yui-kit span {
   color: $RED-FF6868;
   background-color: $RED-FFE2E1;
 }
 
-.pink-ui-kit span {
+.pink-yui-kit span {
   color: $PINK-FE3A8B;
   background-color: $PINK-FEDAE9;
 }
 
-.base-ui-kit.choosed-ui-kit {
+.base-yui-kit.choosed-yui-kit {
   position: relative;
   background-color: $BLUE-F2F7FF;
   padding: 3px 20px 3px 3px;

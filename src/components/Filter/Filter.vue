@@ -1,5 +1,5 @@
 <template>
-  <div class="filter-ui-kit">
+  <div class="filter-yui-kit">
     <!-- основная плашка с статусом и иконкой -->
     <div :class="classesFilter" @click="toggleShow">
       <Icon :name="props.iconName" />
@@ -11,17 +11,17 @@
         :style="'margin:0 3px;'"
       />
       <div :class="classes">
-        <span class="counter-ui-kit__value" v-if="getChoosen.length > 1"
+        <span class="counter-yui-kit__value" v-if="getChoosen.length > 1"
           >{{ '+' + getChoosen.length }}
         </span>
-        <div class="counter-ui-kit__list">
-          <div class="counter-ui-kit__list-wrapper">
+        <div class="counter-yui-kit__list">
+          <div class="counter-yui-kit__list-wrapper">
             <ul
-              class="filter-ui-kit__select-list select-ui-kit-counter"
+              class="filter-yui-kit__select-list select-yui-kit-counter"
               :style="'padding: 2px; gap: 2px'"
             >
               <li
-                class="filter-ui-kit__select-item"
+                class="filter-yui-kit__select-item"
                 v-for="(item, inx) in getChoosen"
                 :key="item.value"
               >
@@ -39,7 +39,7 @@
       </div>
       <button
         type="button"
-        class="filter-ui-kit__close"
+        class="filter-yui-kit__close"
         @click.stop="clearFilter"
       >
         <Icon :name="IconNameEnum.exitBig" />
@@ -47,14 +47,14 @@
     </div>
 
     <div
-      class="filter-ui-kit__select-wrapper"
+      class="filter-yui-kit__select-wrapper"
       v-if="state.isShow"
       @mouseleave="hideFilters"
     >
       <!-- список выбранных фильтров -->
       <ul :class="classesList">
         <li
-          class="filter-ui-kit__select-item"
+          class="filter-yui-kit__select-item"
           v-for="(item, inx) in getChoosen"
           :key="item.value"
         >
@@ -75,11 +75,11 @@
       />
       <!-- фильтр со статусом без поиска -->
       <ul
-        class="filter-ui-kit__select-list"
+        class="filter-yui-kit__select-list"
         v-if="state.isShow && !props.searchable"
       >
         <li
-          class="filter-ui-kit__select-item"
+          class="filter-yui-kit__select-item"
           v-for="(item, inx) in getNotChoosen"
           :key="item.value"
           :style="inx === 0 ? { paddingTop: '10px' } : ''"
@@ -96,12 +96,12 @@
       </ul>
       <!-- фильтр если есть тип с поиском -->
       <ul
-        class="filter-ui-kit__select-list filter-ui-kit__select-list--search"
+        class="filter-yui-kit__select-list filter-yui-kit__select-list--search"
         v-if="state.isShow && props.searchable"
         @scroll="handleScroll"
       >
         <li
-          class="filter-ui-kit__select-item"
+          class="filter-yui-kit__select-item"
           v-for="item in getNotChoosen"
           :key="item.value"
           @click="toogleChoosed(item)"
@@ -144,28 +144,28 @@ const emit = defineEmits<{
  * Создаем проверки для классов, устанавливаем их фильтрам, которые попали в скрытый список всех выбранных фильтров.
  */
 const classes = computed(() => ({
-  'filter-ui-kit__counter': true,
-  'counter-ui-kit': true,
-  'counter-ui-kit--search': props.searchable
+  'filter-yui-kit__counter': true,
+  'counter-yui-kit': true,
+  'counter-yui-kit--search': props.searchable
 }));
 
 /**
  * Создаем проверки для классов, устанавливаем их выбранным фильтрам
  */
 const classesList = computed(() => ({
-  'filter-ui-kit__select-list': true,
-  'selected-ui-kit': true,
-  'selected-ui-kit--search': props.searchable,
-  'border-none-ui-kit': props.searchable && getChoosen.value.length < 2
+  'filter-yui-kit__select-list': true,
+  'selected-yui-kit': true,
+  'selected-yui-kit--search': props.searchable,
+  'border-none-yui-kit': props.searchable && getChoosen.value.length < 2
 }));
 
 /**
  * Создаем проверки для классов, устанавливаем их основной плашке фильтра.
  */
 const classesFilter = computed(() => ({
-  'filter-ui-kit__wrapper': true,
-  'active-ui-kit': state.isShow,
-  'filter-ui-kit--search': props.searchable
+  'filter-yui-kit__wrapper': true,
+  'active-yui-kit': state.isShow,
+  'filter-yui-kit--search': props.searchable
 }));
 
 /**
@@ -384,7 +384,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.filter-ui-kit {
+.filter-yui-kit {
   display: grid;
   width: fit-content;
   position: relative;
@@ -474,7 +474,7 @@ onMounted(() => {
   }
 }
 
-.counter-ui-kit {
+.counter-yui-kit {
   position: relative;
 
   &__list {
@@ -488,11 +488,11 @@ onMounted(() => {
   }
 
   &:hover {
-    .counter-ui-kit__list {
+    .counter-yui-kit__list {
       opacity: 1;
       display: block;
 
-      .filter-ui-kit__select-list {
+      .filter-yui-kit__select-list {
         display: flex;
         position: absolute;
         justify-content: flex-start;
@@ -504,19 +504,19 @@ onMounted(() => {
   }
 
   &--search {
-    .filter-ui-kit__select-item {
+    .filter-yui-kit__select-item {
       width: max-content;
     }
 
-    .base-ui-kit {
+    .base-yui-kit {
       max-width: 187px;
 
-      span.badges-text-ui-kit {
+      span.badges-text-yui-kit {
         color: $BLUE-407BFF;
       }
     }
 
-    &:hover .counter-ui-kit__list .filter-ui-kit__select-list {
+    &:hover .counter-yui-kit__list .filter-yui-kit__select-list {
       display: flex;
       top: 15px;
       z-index: 33;
@@ -524,7 +524,7 @@ onMounted(() => {
   }
 }
 
-ul.filter-ui-kit__select-list.selected-ui-kit.border-none-ui-kit {
+ul.filter-yui-kit__select-list.selected-yui-kit.border-none-yui-kit {
   border-bottom: none;
 }
 </style>

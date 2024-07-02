@@ -1,13 +1,13 @@
 <template>
   <div :class="classes" :disabled="props.disabled" :style="styles">
     <input
-      class="toggle-ui-kit-input"
+      class="toggle-yui-kit-input"
       :id="uniqueId"
       type="checkbox"
       v-model="isChecked"
       @change="onClick"
     />
-    <label class="toggle-ui-kit-label" :for="uniqueId"></label>
+    <label class="toggle-yui-kit-label" :for="uniqueId"></label>
   </div>
 </template>
 
@@ -39,7 +39,7 @@ const uniqueId = generateUniqueId();
  * Высчитывает классы для всего Тоггла
  */
 const classes = computed(() => ({
-  'toggle-ui-kit': true
+  'toggle-yui-kit': true
 }));
 
 /**
@@ -58,7 +58,7 @@ const onClick = () => emit('themeChange', isChecked.value);
 <style lang="scss" scoped>
 @import './../../assets/scss/_global.scss';
 
-.toggle-ui-kit {
+.toggle-yui-kit {
   color: $WHITE;
   outline: none;
   border: none;
@@ -66,7 +66,7 @@ const onClick = () => emit('themeChange', isChecked.value);
   border-radius: 5px;
 }
 
-.toggle-ui-kit {
+.toggle-yui-kit {
   position: relative;
   display: inline-block;
   width: 40px;
@@ -74,11 +74,11 @@ const onClick = () => emit('themeChange', isChecked.value);
   margin: 10px;
 }
 
-.toggle-ui-kit .toggle-ui-kit-input {
+.toggle-yui-kit .toggle-yui-kit-input {
   display: none;
 }
 
-.toggle-ui-kit .toggle-ui-kit-label {
+.toggle-yui-kit .toggle-yui-kit-label {
   position: absolute;
   top: 0;
   left: 0;
@@ -90,7 +90,7 @@ const onClick = () => emit('themeChange', isChecked.value);
   transition: background-color 0.3s;
 }
 
-.toggle-ui-kit .toggle-ui-kit-label::before {
+.toggle-yui-kit .toggle-yui-kit-label::before {
   content: '';
   position: absolute;
   width: 10px;
@@ -102,11 +102,11 @@ const onClick = () => emit('themeChange', isChecked.value);
   transition: transform 0.3s;
 }
 
-.toggle-ui-kit .toggle-ui-kit-input:checked + .toggle-ui-kit-label {
+.toggle-yui-kit .toggle-yui-kit-input:checked + .toggle-yui-kit-label {
   background-color: $BLUE-9CBEFF;
 }
 
-.toggle-ui-kit .toggle-ui-kit-input:checked + .toggle-ui-kit-label::before {
+.toggle-yui-kit .toggle-yui-kit-input:checked + .toggle-yui-kit-label::before {
   transform: translateX(10px);
 }
 </style>

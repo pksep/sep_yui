@@ -34,8 +34,8 @@ const emit = defineEmits<{
  * Устанавливает и вычисляет классы для элементов списка
  */
 const getClasses = (index: number) => ({
-  'switch-ui-kit-item': true,
-  'switch-ui-kit-active': state.activeIndex === index
+  'switch-yui-kit-item': true,
+  'switch-yui-kit-active': state.activeIndex === index
 });
 
 /**
@@ -65,7 +65,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.switch-ui-kit-list {
+.switch-yui-kit-list {
   display: flex;
   align-items: center;
   list-style: none;
@@ -76,7 +76,7 @@ onMounted(() => {
   margin: 0;
 }
 
-.switch-ui-kit-item {
+.switch-yui-kit-item {
   padding: 3.5px 10px;
   display: flex;
   align-items: center;
@@ -85,7 +85,7 @@ onMounted(() => {
   width: inherit;
 }
 
-.switch-ui-kit-active {
+.switch-yui-kit-active {
   background-color: $BLUE-77A6FF;
   color: $WHITE;
   border-radius: 5px;

@@ -1,9 +1,9 @@
-.search-ui-kit {
+.search-yui-kit {
   &__dropdown {
     position: relative;
   }
 
-  .dropdown-ui-kit {
+  .dropdown-yui-kit {
     &__current {
       margin-bottom: 0;
     }
@@ -15,7 +15,7 @@
   }
 }
 
-.search-dropdown-ui-kit {
+.search-dropdown-yui-kit {
   background-color: $WHITE;
 
   input {
@@ -25,7 +25,7 @@
     }
   }
 
-  .dropdown-ui-kit__current {
+  .dropdown-yui-kit__current {
     width: fit-content;
   }
 }

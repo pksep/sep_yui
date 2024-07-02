@@ -1,3 +1,50 @@
-import Button from './Button/';
+import { App } from 'vue';
+import Badges from './Badges/Badges.vue';
+import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
+import Button from './Button/Button.vue';
+import Switch from './Switch/Switch.vue';
+import Dropdown from './Dropdown/Dropdown.vue';
+import Filter from './Filter/Filter.vue';
+import Icon from './Icon/Icon.vue';
+import Search from './Search/Search.vue';
+import Slider from './Slider/Slider.vue';
+import Toggle from './Toggle/Toggle.vue';
+import UserMenu from './UserMenu/UserMenu.vue';
 
-export { Button };
+const components = {
+  Badges,
+  BreadCrumbs,
+  Button,
+  Switch,
+  Dropdown,
+  Filter,
+  Icon,
+  Search,
+  Slider,
+  Toggle,
+  UserMenu
+};
+
+const install = (app: App): void => {
+  Object.keys(components).forEach(key => {
+    app.component(key, components[key as keyof typeof components]);
+  });
+};
+
+export default {
+  install
+};
+
+export {
+  Badges,
+  BreadCrumbs,
+  Button,
+  Switch,
+  Dropdown,
+  Filter,
+  Icon,
+  Search,
+  Slider,
+  Toggle,
+  UserMenu
+};

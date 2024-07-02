@@ -1,5 +1,6 @@
 import { App, Plugin } from 'vue';
 import * as components from './components';
+import './styles/index.scss';
 
 const YLibrary = {
   install(app: App) {
