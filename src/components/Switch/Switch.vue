@@ -1,5 +1,5 @@
 <template>
-  <ul class="switch-list">
+  <ul class="switch-yui-kit-list">
     <li
       v-for="(item, index) of props.items"
       :key="item"
