@@ -24,6 +24,7 @@ import { computed } from 'vue';
 import { SizesEnum } from '../../common/sizes';
 import { IButtonProps } from './interface/interface';
 import { ButtonTypeEnum } from './enum/enum';
+import '@/styles/components/_button.scss';
 
 const props = withDefaults(defineProps<IButtonProps>(), {
   disabled: false,
