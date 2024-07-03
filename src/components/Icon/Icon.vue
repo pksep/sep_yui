@@ -6,11 +6,12 @@
     :style="props.color"
     :viewBox="`0 0 24 24`"
   >
-    <g v-html="icon()" />
+    <g v-html="icon" />
   </svg>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { ColorsEnum } from '@/common/colors';
 import { IIconPorps } from './interface/interface';
 import Icons from './index.ts';
@@ -22,7 +23,7 @@ const props = withDefaults(defineProps<IIconPorps>(), {
 });
 type IconName = keyof typeof Icons;
 
-const icon = () => {
+const icon = computed(() => {
   return Icons[props.name as IconName]?.path;
-};
+});
 </script>
