@@ -26,5 +26,12 @@ export enum IconNameEnum {
   filter = 'filter',
   bgNotContent = 'bgNotContent',
   document = 'document',
-  baseDetail = 'baseDetail'
+  baseDetail = 'baseDetail',
+  addPlus = 'addPlus',
+  closeVision = 'closeVision',
+  openVision = 'openVision',
+  trash = 'trash',
+  printer = 'printer',
+  uploadCloud = 'uploadCloud',
+  archive = 'archive'
 }
