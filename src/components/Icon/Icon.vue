@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { ColorsEnum } from '@/common/colors';
 import { IIconPorps } from './interface/interface';
-import Icons from '@/assets/icons/index.ts';
+import Icons from './index.ts';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
   width: 24,

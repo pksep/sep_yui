@@ -17,7 +17,7 @@ main.ts
 
     const app = createApp(App);
 
-    app.use(library)
+    app.use(Ylibrary)
     app.mount('#app');
 ```
 #### 1.1 Для выборочного импорта компонентов, можно использовать подключение такого вида.
