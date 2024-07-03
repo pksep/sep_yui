@@ -1,8 +1,3 @@
-## License
-This project is licensed under the terms of the [SEP_YUI License](./LICENSE_EN.txt).
-
-Этот проект лицензирован от [SEP_YUI License](./LICENSE_RU.txt).
-
 ## SEP-YUI Библиотека
 Призванна решать проблемы переиспользования компонентов из одного проекта в другой. Она решает проблемы путем установления независимости одного компонента от другого. 
 
