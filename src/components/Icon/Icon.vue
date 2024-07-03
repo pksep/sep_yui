@@ -4,18 +4,26 @@
     :width="props.width"
     :height="props.height"
     :style="props.color"
+    :viewBox="`0 0 24 24`"
   >
-    <use :href="`#${props.name}`" />
+    <g v-html="icon" />
   </svg>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { ColorsEnum } from '@/common/colors';
 import { IIconPorps } from './interface/interface';
+import Icons from './index.ts';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
   width: 24,
   height: 24,
   color: ColorsEnum.black
+});
+type IconName = keyof typeof Icons;
+
+const icon = computed(() => {
+  return Icons[props.name as IconName]?.path;
 });
 </script>

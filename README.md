@@ -1,26 +1,56 @@
-# Library SEP-YUI
+# Как работать с библиотекой
 
+### Установить нпм-пакет с библиотекой к себе в проект
+### Для работы библиотеки необходимы: node.js >= 20.14.0 и npm >= 10.7.0 
 
-#Как работать с библиотекой
+```bash
+bash
+    npm i sep-yui
+```
 
-<ol>
-  <li>Установить нпм-пакет с библиотекой к себе в проект
-<code>npm i spe-yui</code></li>
-  <li>Далее необходимо импортировать компоненты библиотеки в главный файл App.vue</li>
-  <li>Стили импортируются через путь "sep-yui/styles";</li>
-  <li>Спрайт подключается отдельно.</li>
-  <li>Далее подключаем импортированый компонент в проект, пробрасываем пропсы в него и пользуемся как при обычной разработке.</li>
-</ol>
+#### 1. Для использования библиотеки в проекте, необходимо импортировать компоненты библиотеки в главный файл проекта main.ts таким образом:
+```ts
+main.ts
+    import { createApp } from 'vue'
+////your code
+    import Ylibrary from 'sep-yui';
 
-#Разработчикам библиотеки
-<ul>
-<li>npm ci - for install all dependencies</li>
-<li>npm run dev - for development</li>
-<li>npm run build - for build production</li>
-<li>npm run build -  for build production and  publishing library, up version package</li>
-<li>npm run preview - for watch build</li>
-<li>npm run storybook - for testing components in storybook</li>
-<li>npm run build-storybook - for build storybook</li>
-</ul>
+    const app = createApp(App);
 
-Your welcome and your pleasure for codding!
+    app.use(Ylibrary)
+    app.mount('#app');
+```
+#### 1.1 Для выборочного импорта компонентов, можно использовать подключение такого вида.
+```ts
+main.ts
+    import { createApp } from 'vue'
+////your code
+    import {Toggle} from 'sep-yui'
+
+    const app = createApp(App);
+
+    app.component('Toggle', Toggle);
+    app.mount('#app');
+```
+#### 2. Стили импортируются через путь "sep-yui/styles" также в файле main.ts
+```ts
+main.ts
+    import { createApp } from 'vue'
+////your code
+    import 'sep-yui/styles'
+```
+#### 3. Далее просто пишем название компонента внутри проекта и используем как при обычной разработке на Vue. 
+```ts
+App.vue
+<template>
+    <Toggle 
+    {
+        props...
+    }
+    />
+</template>
+<script setup lang="ts">
+</script>
+<styles lang="scss">
+</styles>
+```
