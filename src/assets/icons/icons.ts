@@ -4,7 +4,7 @@ export const help: IvectorIcon = {
   name: 'help',
   style: 'line',
   path: `
-  <path d="M11.5 19.5C15.6421 19.5 19 16.1421 19 12C19 7.85786 15.6421 4.5 11.5 4.5C7.35786 4.5 4 7.85786 4 12C4 16.1421 7.35786 19.5 11.5 19.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path fill="none" d="M11.5 19.5C15.6421 19.5 19 16.1421 19 12C19 7.85786 15.6421 4.5 11.5 4.5C7.35786 4.5 4 7.85786 4 12C4 16.1421 7.35786 19.5 11.5 19.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
   </path>
   <path d="M11.5 9V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
   </path>
@@ -35,20 +35,20 @@ export const arrowLeft: IvectorIcon = {
   name: 'arrowLeft',
   style: 'line',
   path: `
-    <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />`
+    <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  />
+    <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>`
 };
 export const chevronDown: IvectorIcon = {
   name: 'chevronDown',
   style: 'line',
   path: `
-    <path d="M8 10L12 14L16 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />`
+    <path d="M8 10L12 14L16 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`
 };
 export const chevronUp: IvectorIcon = {
   name: 'chevronUp',
   style: 'line',
   path: `
-    <path d="M16 14L12 10L8 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />`
+    <path d="M16 14L12 10L8 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`
 };
 export const dark: IvectorIcon = {
   name: 'dark',
@@ -56,13 +56,13 @@ export const dark: IvectorIcon = {
   path: `
     <path
       d="M15.3636 16.6364C15.3636 15.6117 14.9566 14.6289 14.232 13.9044C13.5074 13.1798 12.5247 12.7727 11.5 12.7727C10.4753 12.7727 9.49257 13.1798 8.768 13.9044C8.04342 14.6289 7.63636 15.6117 7.63636 16.6364"
-      stroke="currentColor" stroke-width="1.54545" stroke-linecap="round" stroke-linejoin="round" />
+      stroke="currentColor" stroke-width="1.54545" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     <path d="M11.5 9.68182V4.27273" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
       stroke-linejoin="round" />
     <path d="M5.48818 10.6245L6.58545 11.7218" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
       stroke-linejoin="round" />
     <path d="M3 16.6364H4.54545" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
-      stroke-linejoin="round" />
+      stroke-linejoin="round"  />
     <path d="M18.4545 16.6364H20" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
       stroke-linejoin="round" />
     <path d="M16.4145 11.7218L17.5118 10.6245" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
@@ -70,7 +70,7 @@ export const dark: IvectorIcon = {
     <path d="M20 19.7273H3" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
       stroke-linejoin="round" />
     <path d="M14.5909 6.59091L11.5 9.68182L8.40909 6.59091" stroke="currentColor" stroke-width="1.54545"
-      stroke-linecap="round" stroke-linejoin="round" />`
+      stroke-linecap="round" stroke-linejoin="round" fill="none"/>`
 };
 export const exitBig: IvectorIcon = {
   name: 'exitBig',
@@ -99,13 +99,13 @@ export const leftBigSmall: IvectorIcon = {
   style: 'line',
   path: `
     <path d="M12.5 15L10 12L12.5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round" />`
+      stroke-linejoin="round" fill="none"/>`
 };
 export const leftBig: IvectorIcon = {
   name: 'leftBig',
   style: 'line',
   path: `
-     <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 `
 };
 export const light: IvectorIcon = {
@@ -114,7 +114,7 @@ export const light: IvectorIcon = {
   path: `
     <path
       d="M15.3636 16.6364C15.3636 15.6117 14.9566 14.6289 14.232 13.9044C13.5074 13.1798 12.5247 12.7727 11.5 12.7727C10.4753 12.7727 9.49257 13.1798 8.76799 13.9044C8.04342 14.6289 7.63636 15.6117 7.63636 16.6364"
-      stroke="currentColor" stroke-width="1.54545" stroke-linecap="round" stroke-linejoin="round" />
+      stroke="currentColor" stroke-width="1.54545" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     <path d="M11.5 4.27273V9.68182" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
       stroke-linejoin="round" />
     <path d="M5.48818 10.6245L6.58545 11.7218" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
@@ -128,7 +128,7 @@ export const light: IvectorIcon = {
     <path d="M20 19.7273H3" stroke="currentColor" stroke-width="1.54545" stroke-linecap="round"
       stroke-linejoin="round" />
     <path d="M8.40909 7.36364L11.5 4.27273L14.5909 7.36364" stroke="currentColor" stroke-width="1.54545"
-      stroke-linecap="round" stroke-linejoin="round" />`
+      stroke-linecap="round" stroke-linejoin="round" fill="none"/>`
 };
 export const notificationYes: IvectorIcon = {
   name: 'notificationYes',
@@ -143,15 +143,15 @@ export const plusSmall: IvectorIcon = {
   name: 'plusSmall',
   style: 'line',
   path: `
- <path d="M12.0001 6.34315V17.6569" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M6.3432 12H17.6569" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />`
+<path d="M12 6.34315V17.6569" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.34314 12H17.6568" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>`
 };
 export const plus: IvectorIcon = {
   name: 'plus',
   style: 'line',
   path: `
-     <path d="M12.0001 6.34315V17.6569" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M6.3432 12H17.6569" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />`
+<path d="M12.0001 3.51472V20.4853" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3.51477 12H20.4853" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
 };
 export const profileIcon: IvectorIcon = {
   name: 'profileIcon',
@@ -170,16 +170,16 @@ export const profile: IvectorIcon = {
   path: `
     <path
       d="M19 19.875V18.125C19 17.1967 18.6313 16.3065 17.9749 15.6501C17.3185 14.9937 16.4283 14.625 15.5 14.625H8.5C7.57174 14.625 6.6815 14.9937 6.02513 15.6501C5.36875 16.3065 5 17.1967 5 18.125V19.875"
-      stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+      stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
     <path
       d="M12 11.125C13.933 11.125 15.5 9.558 15.5 7.625C15.5 5.692 13.933 4.125 12 4.125C10.067 4.125 8.5 5.692 8.5 7.625C8.5 9.558 10.067 11.125 12 11.125Z"
-      stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />`
+      stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>`
 };
 export const rightBig: IvectorIcon = {
   name: 'rightBig',
   style: 'line',
   path: `
-    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
 `
 };
 export const rightSmall: IvectorIcon = {
@@ -187,7 +187,7 @@ export const rightSmall: IvectorIcon = {
   style: 'line',
   path: `
     <path d="M11 9L13.5529 11.9551L11.1066 14.9991" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round" />`
+      stroke-linejoin="round"  fill="none" />`
 };
 export const settings: IvectorIcon = {
   name: 'settings',
@@ -195,10 +195,10 @@ export const settings: IvectorIcon = {
   path: `
     <path
       d="M12 14.4545C13.3556 14.4545 14.4545 13.3556 14.4545 12C14.4545 10.6444 13.3556 9.54546 12 9.54546C10.6444 9.54546 9.54544 10.6444 9.54544 12C9.54544 13.3556 10.6444 14.4545 12 14.4545Z"
-      stroke="currentColor" stroke-width="1.63636" stroke-linecap="round" stroke-linejoin="round" />
+      stroke="currentColor" stroke-width="1.63636" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
     <path
       d="M18.0545 14.4545C17.9456 14.7013 17.9131 14.9751 17.9613 15.2405C18.0094 15.5059 18.1359 15.7508 18.3245 15.9436L18.3736 15.9927C18.5258 16.1447 18.6465 16.3252 18.7288 16.5238C18.8112 16.7225 18.8536 16.9354 18.8536 17.1505C18.8536 17.3655 18.8112 17.5784 18.7288 17.7771C18.6465 17.9757 18.5258 18.1562 18.3736 18.3082C18.2217 18.4603 18.0412 18.581 17.8425 18.6634C17.6439 18.7457 17.431 18.7881 17.2159 18.7881C17.0009 18.7881 16.7879 18.7457 16.5893 18.6634C16.3906 18.581 16.2102 18.4603 16.0582 18.3082L16.0091 18.2591C15.8163 18.0705 15.5714 17.9439 15.3059 17.8958C15.0405 17.8477 14.7668 17.8802 14.52 17.9891C14.278 18.0928 14.0716 18.265 13.9263 18.4845C13.7809 18.704 13.7029 18.9613 13.7018 19.2245V19.3636C13.7018 19.7976 13.5294 20.2138 13.2225 20.5207C12.9157 20.8276 12.4994 21 12.0655 21C11.6315 21 11.2152 20.8276 10.9084 20.5207C10.6015 20.2138 10.4291 19.7976 10.4291 19.3636V19.29C10.4228 19.0192 10.3351 18.7565 10.1775 18.5362C10.0199 18.3159 9.79969 18.1481 9.54545 18.0545C9.29868 17.9456 9.02493 17.9131 8.75952 17.9613C8.4941 18.0094 8.24919 18.1359 8.05636 18.3245L8.00727 18.3736C7.8553 18.5258 7.67483 18.6465 7.47617 18.7288C7.27752 18.8112 7.06459 18.8536 6.84955 18.8536C6.6345 18.8536 6.42157 18.8112 6.22292 18.7288C6.02426 18.6465 5.84379 18.5258 5.69182 18.3736C5.53967 18.2217 5.41898 18.0412 5.33663 17.8425C5.25428 17.6439 5.21189 17.431 5.21189 17.2159C5.21189 17.0009 5.25428 16.7879 5.33663 16.5893C5.41898 16.3906 5.53967 16.2102 5.69182 16.0582L5.74091 16.0091C5.92953 15.8163 6.05606 15.5714 6.10419 15.3059C6.15231 15.0405 6.11982 14.7668 6.01091 14.52C5.90719 14.278 5.73498 14.0716 5.51547 13.9263C5.29596 13.7809 5.03873 13.7029 4.77545 13.7018H4.63636C4.20237 13.7018 3.78616 13.5294 3.47928 13.2225C3.1724 12.9157 3 12.4994 3 12.0655C3 11.6315 3.1724 11.2152 3.47928 10.9084C3.78616 10.6015 4.20237 10.4291 4.63636 10.4291H4.71C4.98081 10.4228 5.24346 10.3351 5.46379 10.1775C5.68412 10.0199 5.85195 9.79969 5.94545 9.54545C6.05437 9.29868 6.08686 9.02493 6.03873 8.75952C5.99061 8.4941 5.86408 8.24919 5.67545 8.05636L5.62636 8.00727C5.47422 7.8553 5.35352 7.67483 5.27118 7.47617C5.18883 7.27752 5.14644 7.06459 5.14644 6.84955C5.14644 6.6345 5.18883 6.42157 5.27118 6.22292C5.35352 6.02426 5.47422 5.84379 5.62636 5.69182C5.77834 5.53967 5.95881 5.41898 6.15746 5.33663C6.35611 5.25428 6.56905 5.21189 6.78409 5.21189C6.99913 5.21189 7.21207 5.25428 7.41072 5.33663C7.60937 5.41898 7.78984 5.53967 7.94182 5.69182L7.99091 5.74091C8.18374 5.92953 8.42865 6.05606 8.69406 6.10419C8.95948 6.15231 9.23322 6.11982 9.48 6.01091H9.54545C9.78745 5.90719 9.99383 5.73498 10.1392 5.51547C10.2846 5.29596 10.3626 5.03873 10.3636 4.77545V4.63636C10.3636 4.20237 10.536 3.78616 10.8429 3.47928C11.1498 3.1724 11.566 3 12 3C12.434 3 12.8502 3.1724 13.1571 3.47928C13.464 3.78616 13.6364 4.20237 13.6364 4.63636V4.71C13.6374 4.97328 13.7154 5.23051 13.8608 5.45002C14.0062 5.66953 14.2126 5.84174 14.4545 5.94545C14.7013 6.05437 14.9751 6.08686 15.2405 6.03873C15.5059 5.99061 15.7508 5.86408 15.9436 5.67545L15.9927 5.62636C16.1447 5.47422 16.3252 5.35352 16.5238 5.27118C16.7225 5.18883 16.9354 5.14644 17.1505 5.14644C17.3655 5.14644 17.5784 5.18883 17.7771 5.27118C17.9757 5.35352 18.1562 5.47422 18.3082 5.62636C18.4603 5.77834 18.581 5.95881 18.6634 6.15746C18.7457 6.35611 18.7881 6.56905 18.7881 6.78409C18.7881 6.99913 18.7457 7.21207 18.6634 7.41072C18.581 7.60937 18.4603 7.78984 18.3082 7.94182L18.2591 7.99091C18.0705 8.18374 17.9439 8.42865 17.8958 8.69406C17.8477 8.95948 17.8802 9.23322 17.9891 9.48V9.54545C18.0928 9.78745 18.265 9.99383 18.4845 10.1392C18.704 10.2846 18.9613 10.3626 19.2245 10.3636H19.3636C19.7976 10.3636 20.2138 10.536 20.5207 10.8429C20.8276 11.1498 21 11.566 21 12C21 12.434 20.8276 12.8502 20.5207 13.1571C20.2138 13.464 19.7976 13.6364 19.3636 13.6364H19.29C19.0267 13.6374 18.7695 13.7154 18.55 13.8608C18.3305 14.0062 18.1583 14.2126 18.0545 14.4545Z"
-      stroke="currentColor" stroke-width="1.63636" stroke-linecap="round" stroke-linejoin="round" />`
+      stroke="currentColor" stroke-width="1.63636" stroke-linecap="round" stroke-linejoin="round"  fill="none" />`
 };
 export const settingsDark: IvectorIcon = {
   name: 'settingsDark',
@@ -214,42 +214,126 @@ export const searchNormal: IvectorIcon = {
   path: `
     <path
       d="M9.58329 17.5C13.9555 17.5 17.5 13.9556 17.5 9.58332C17.5 5.21107 13.9555 1.66666 9.58329 1.66666C5.21104 1.66666 1.66663 5.21107 1.66663 9.58332C1.66663 13.9556 5.21104 17.5 9.58329 17.5Z"
-      stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+      stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"  fill="none" />
     <path d="M18.3333 18.3333L16.6666 16.6667" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
-      stroke-linejoin="round" />`
+      stroke-linejoin="round"  />`
 };
 export const search: IvectorIcon = {
   name: 'search',
   style: 'line',
   path: `
-<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
+  <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>`
 };
 export const filter: IvectorIcon = {
   name: 'filter',
   style: 'line',
   path: `
-<path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+<path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>`
 };
 export const bgNotContent: IvectorIcon = {
   name: 'bgNotContent',
   style: 'line',
   path: `
-<path d="M106.375 87.875C106.375 90.3283 105.4 92.681 103.666 94.4157C101.931 96.1504 99.5783 97.125 97.125 97.125H13.875C11.4217 97.125 9.06897 96.1504 7.33426 94.4157C5.59955 92.681 4.625 90.3283 4.625 87.875V37C4.625 34.5467 5.59955 32.194 7.33426 30.4593C9.06897 28.7246 11.4217 27.75 13.875 27.75H32.375L41.625 13.875H69.375L78.625 27.75H97.125C99.5783 27.75 101.931 28.7246 103.666 30.4593C105.4 32.194 106.375 34.5467 106.375 37V87.875Z" stroke="currentColor" stroke-width="9.25" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M55.5 78.625C65.7173 78.625 74 70.3423 74 60.125C74 49.9077 65.7173 41.625 55.5 41.625C45.2827 41.625 37 49.9077 37 60.125C37 70.3423 45.2827 78.625 55.5 78.625Z" stroke="currentColor" stroke-width="9.25" stroke-linecap="round" stroke-linejoin="round"/>`
+<path d="M106.375 87.875C106.375 90.3283 105.4 92.681 103.666 94.4157C101.931 96.1504 99.5783 97.125 97.125 97.125H13.875C11.4217 97.125 9.06897 96.1504 7.33426 94.4157C5.59955 92.681 4.625 90.3283 4.625 87.875V37C4.625 34.5467 5.59955 32.194 7.33426 30.4593C9.06897 28.7246 11.4217 27.75 13.875 27.75H32.375L41.625 13.875H69.375L78.625 27.75H97.125C99.5783 27.75 101.931 28.7246 103.666 30.4593C105.4 32.194 106.375 34.5467 106.375 37V87.875Z" stroke="currentColor" stroke-width="9.25" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
+<path d="M55.5 78.625C65.7173 78.625 74 70.3423 74 60.125C74 49.9077 65.7173 41.625 55.5 41.625C45.2827 41.625 37 49.9077 37 60.125C37 70.3423 45.2827 78.625 55.5 78.625Z" stroke="currentColor" stroke-width="9.25" stroke-linecap="round" stroke-linejoin="round"  fill="none" />`
 };
 export const document: IvectorIcon = {
   name: 'document',
   style: 'line',
   path: `
-    <path d="M5.80953 11.0953H9.52382M5.80953 9.23811H9.52382M8.28596 2.42913C8.22682 2.42859 8.16029 2.42859 8.08436 2.42859H5.31442C4.62102 2.42859 4.27406 2.42859 4.00922 2.56353C3.77626 2.68223 3.58699 2.8715 3.46829 3.10446C3.33334 3.36931 3.33334 3.71626 3.33334 4.40966V11.5906C3.33334 12.284 3.33334 12.6305 3.46829 12.8954C3.58699 13.1283 3.77626 13.3179 4.00922 13.4366C4.2738 13.5714 4.62035 13.5714 5.3124 13.5714L10.021 13.5714C10.713 13.5714 11.0591 13.5714 11.3236 13.4366C11.5566 13.3179 11.7465 13.1283 11.8652 12.8954C12 12.6308 12 12.2848 12 11.5927V6.34449C12 6.26855 11.9999 6.20202 11.9994 6.14287M8.28596 2.42913C8.46267 2.43074 8.57403 2.4373 8.68079 2.46293C8.80712 2.49326 8.9282 2.54328 9.03898 2.61116C9.16389 2.6877 9.27113 2.79495 9.48513 3.00895L11.42 4.94377C11.6341 5.1579 11.7405 5.26467 11.8171 5.38961C11.885 5.50039 11.9352 5.62118 11.9656 5.74751C11.9912 5.85427 11.9978 5.96616 11.9994 6.14287M8.28596 2.42913L8.28572 4.16205C8.28572 4.85545 8.28572 5.20202 8.42067 5.46686C8.53937 5.69982 8.72864 5.88936 8.9616 6.00806C9.22618 6.14287 9.57273 6.14287 10.2648 6.14287H11.9994" stroke="currentColor" stroke-width="0.619048" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M5.80953 11.0953H9.52382M5.80953 9.23811H9.52382M8.28596 2.42913C8.22682 2.42859 8.16029 2.42859 8.08436 2.42859H5.31442C4.62102 2.42859 4.27406 2.42859 4.00922 2.56353C3.77626 2.68223 3.58699 2.8715 3.46829 3.10446C3.33334 3.36931 3.33334 3.71626 3.33334 4.40966V11.5906C3.33334 12.284 3.33334 12.6305 3.46829 12.8954C3.58699 13.1283 3.77626 13.3179 4.00922 13.4366C4.2738 13.5714 4.62035 13.5714 5.3124 13.5714L10.021 13.5714C10.713 13.5714 11.0591 13.5714 11.3236 13.4366C11.5566 13.3179 11.7465 13.1283 11.8652 12.8954C12 12.6308 12 12.2848 12 11.5927V6.34449C12 6.26855 11.9999 6.20202 11.9994 6.14287M8.28596 2.42913C8.46267 2.43074 8.57403 2.4373 8.68079 2.46293C8.80712 2.49326 8.9282 2.54328 9.03898 2.61116C9.16389 2.6877 9.27113 2.79495 9.48513 3.00895L11.42 4.94377C11.6341 5.1579 11.7405 5.26467 11.8171 5.38961C11.885 5.50039 11.9352 5.62118 11.9656 5.74751C11.9912 5.85427 11.9978 5.96616 11.9994 6.14287M8.28596 2.42913L8.28572 4.16205C8.28572 4.85545 8.28572 5.20202 8.42067 5.46686C8.53937 5.69982 8.72864 5.88936 8.9616 6.00806C9.22618 6.14287 9.57273 6.14287 10.2648 6.14287H11.9994" stroke="currentColor" stroke-width="0.619048" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
 `
 };
 export const baseDetail: IvectorIcon = {
   name: 'baseDetail',
   style: 'line',
   path: `
-   <path d="M9.64648 3.12137V7.0835V8.78804C9.64648 9.64157 8.05537 10.3335 6.09263 10.3335C4.1299 10.3335 2.53879 9.64157 2.53879 8.78804V7.0835V3.12137M9.64648 3.12137C9.64648 2.26784 8.05537 1.8335 6.09263 1.8335C4.1299 1.8335 2.53879 2.26784 2.53879 3.12137M9.64648 3.12137C9.64648 3.5835 8.05537 4.0835 6.09263 4.0835C4.1299 4.0835 2.53879 3.5835 2.53879 3.12137" stroke="currentColor" stroke-width="0.507692" stroke-linecap="round" stroke-linejoin="round"/>
+   <path d="M9.64648 3.12137V7.0835V8.78804C9.64648 9.64157 8.05537 10.3335 6.09263 10.3335C4.1299 10.3335 2.53879 9.64157 2.53879 8.78804V7.0835V3.12137M9.64648 3.12137C9.64648 2.26784 8.05537 1.8335 6.09263 1.8335C4.1299 1.8335 2.53879 2.26784 2.53879 3.12137M9.64648 3.12137C9.64648 3.5835 8.05537 4.0835 6.09263 4.0835C4.1299 4.0835 2.53879 3.5835 2.53879 3.12137" stroke="currentColor" stroke-width="0.507692" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
     <path d="M4.76812 8.8335C4.70383 8.8335 4.65467 8.81477 4.62063 8.77732C4.5866 8.73986 4.56958 8.68743 4.56958 8.62001V7.92338C4.56958 7.77357 4.64521 7.69866 4.79648 7.69866H5.06876L4.79648 7.79417C4.89859 7.65934 4.97989 7.51327 5.0404 7.35597C5.10469 7.19492 5.15196 7.01514 5.18221 6.81664C5.21247 6.61814 5.22759 6.39155 5.22759 6.13687V5.59192C5.22759 5.50578 5.25028 5.44211 5.29567 5.40091C5.34105 5.35597 5.40533 5.3335 5.48853 5.3335H6.91801C7.00499 5.3335 7.06928 5.35597 7.11088 5.40091C7.15626 5.44211 7.17895 5.50578 7.17895 5.59192V7.90653L6.96906 7.69866H7.38883C7.46068 7.69866 7.51552 7.71739 7.55334 7.75484C7.59493 7.7923 7.61573 7.84848 7.61573 7.92338V8.62001C7.61573 8.76234 7.54955 8.8335 7.41719 8.8335C7.35291 8.8335 7.30374 8.81477 7.26971 8.77732C7.23567 8.73986 7.21866 8.68743 7.21866 8.62001V8.06383H4.96099V8.62001C4.96099 8.76234 4.8967 8.8335 4.76812 8.8335ZM5.30134 7.69866H6.74216V5.69305H5.63602V6.21552C5.63602 6.49642 5.60765 6.76795 5.55093 7.03013C5.4942 7.28855 5.41101 7.5114 5.30134 7.69866Z" fill="currentColor"/>
+`
+};
+export const addPlus: IvectorIcon = {
+  name: 'addPlus',
+  style: 'line',
+  path: `
+   <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+export const closeVision: IvectorIcon = {
+  name: 'closeVision',
+  style: 'line',
+  path: `
+   <g clip-path="url(#clip0_2721_198626)">
+<path d="M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65663 6.06 6.06003M9.9 4.24002C10.5883 4.0789 11.2931 3.99836 12 4.00003C19 4.00003 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19M14.12 14.12C13.8454 14.4148 13.5141 14.6512 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.4811 9.80385 14.1962C9.51897 13.9113 9.29439 13.572 9.14351 13.1984C8.99262 12.8249 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2219 9.18488 10.8539C9.34884 10.4859 9.58525 10.1547 9.88 9.88003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M1 1L23 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<defs>
+<clipPath id="clip0_2721_198626" >
+<rect width="24" height="24" fill="currentColor"/>
+</clipPath>
+</defs>
+`
+};
+export const openVision: IvectorIcon = {
+  name: 'openVision',
+  style: 'line',
+  path: `
+   <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+`
+};
+export const trash: IvectorIcon = {
+  name: 'trash',
+  style: 'line',
+  path: `
+   <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M10 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M14 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+export const printer: IvectorIcon = {
+  name: 'printer',
+  style: 'line',
+  path: `
+   <g clip-path="url(#clip0_2392_27633)">
+<path d="M4 5.99998V1.33331H12V5.99998" stroke="currentColor" stroke-width="1.375" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M4.00001 12H2.66668C2.31305 12 1.97392 11.8595 1.72387 11.6095C1.47382 11.3594 1.33334 11.0203 1.33334 10.6667V7.33333C1.33334 6.97971 1.47382 6.64057 1.72387 6.39052C1.97392 6.14048 2.31305 6 2.66668 6H13.3333C13.687 6 14.0261 6.14048 14.2762 6.39052C14.5262 6.64057 14.6667 6.97971 14.6667 7.33333V10.6667C14.6667 11.0203 14.5262 11.3594 14.2762 11.6095C14.0261 11.8595 13.687 12 13.3333 12H12" stroke="currentColor" stroke-width="1.375" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M12 9.33331H4V14.6666H12V9.33331Z" stroke="currentColor" stroke-width="1.375" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</g>
+<defs>
+<clipPath id="clip0_2392_27633">
+<rect width="16" height="16" fill="currentColor"/>
+</clipPath>
+</defs>
+`
+};
+export const uploadCloud: IvectorIcon = {
+  name: 'uploadCloud',
+  style: 'line',
+  path: `
+   <g clip-path="url(#clip0_2300_18152)">
+<path d="M10.6667 10.6667L8.00001 8L5.33334 10.6667" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"fill="none" />
+<path d="M8 8V14" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M13.5936 12.26C14.2439 11.9055 14.7575 11.3446 15.0536 10.6658C15.3496 9.98692 15.4111 9.22883 15.2284 8.51114C15.0458 7.79344 14.6293 7.15702 14.0448 6.70231C13.4602 6.2476 12.7409 6.0005 12.0003 6.00001H11.1603C10.9585 5.2195 10.5824 4.4949 10.0603 3.88067C9.53813 3.26644 8.88354 2.77858 8.14571 2.45375C7.40788 2.12892 6.60601 1.97558 5.80039 2.00526C4.99477 2.03495 4.20635 2.24688 3.49443 2.62512C2.7825 3.00336 2.16558 3.53808 1.69006 4.18906C1.21453 4.84005 0.892769 5.59037 0.748962 6.38361C0.605156 7.17684 0.643046 7.99236 0.859785 8.76885C1.07652 9.54534 1.46647 10.2626 2.00031 10.8667" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M10.6667 10.6667L8.00001 8L5.33334 10.6667" stroke="blacurrentColorck" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</g>
+<defs>
+<clipPath id="clip0_2300_18152">
+<rect width="16" height="16" fill="currentColor"/>
+</clipPath>
+</defs>
+`
+};
+export const archive: IvectorIcon = {
+  name: 'archive',
+  style: 'line',
+  path: `
+   <path d="M14 5.33344V13.2001C14 13.6419 13.6418 14.0001 13.2 14.0001H2.8C2.35817 14.0001 2 13.6419 2 13.2001V5.33344" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M14.5332 2H1.4665C1.02468 2 0.666504 2.35817 0.666504 2.8V4.53333C0.666504 4.97516 1.02468 5.33333 1.4665 5.33333H14.5332C14.975 5.33333 15.3332 4.97516 15.3332 4.53333V2.8C15.3332 2.35817 14.975 2 14.5332 2Z" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M6.6665 8H9.33317" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
 `
 };
