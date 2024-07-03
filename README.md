@@ -1,13 +1,56 @@
 # Как работать с библиотекой
 
-# Установить нпм-пакет с библиотекой к себе в проект
+### Установить нпм-пакет с библиотекой к себе в проект
+### Для работы библиотеки необходимы: node.js >= 20.14.0 и npm >= 10.7.0 
 
-$ npm i sep-yui
+``` 
+bash
+    npm i sep-yui
+```
 
-1. Для использования библиотеки в проекте, необходимо импортировать компоненты библиотеки в главный файл проекта main.ts таким образом:
-$ import Ylibrary from 'sep-yui';
-$ app.use(library)
-1.1 Для выборочного импорта компонентов, можно использовать подключение такого вида.
-$ import {Toggle} from 'sep-yui'
-2. Стили импортируются через путь "sep-yui/styles" также в файле main.ts
-3. Далее просто пишем название компонента внутри проекта и используем как при обычной разработке на Vue. 
+#### 1. Для использования библиотеки в проекте, необходимо импортировать компоненты библиотеки в главный файл проекта main.ts таким образом:
+```
+main.ts
+    import { createApp } from 'vue'
+////your code
+    import Ylibrary from 'sep-yui';
+
+    const app = createApp(App);
+
+    app.use(library)
+    app.mount('#app');
+```
+#### 1.1 Для выборочного импорта компонентов, можно использовать подключение такого вида.
+```
+main.ts
+    import { createApp } from 'vue'
+////your code
+    import {Toggle} from 'sep-yui'
+
+    const app = createApp(App);
+
+    app.component('Toggle', Toggle);
+    app.mount('#app');
+```
+#### 2. Стили импортируются через путь "sep-yui/styles" также в файле main.ts
+```
+main.ts
+    import { createApp } from 'vue'
+////your code
+    import 'sep-yui/styles'
+```
+#### 3. Далее просто пишем название компонента внутри проекта и используем как при обычной разработке на Vue. 
+```
+App.vue
+<template>
+    <Toggle 
+    {
+        props...
+    }
+    />
+</template>
+<script setup lang="ts">
+</script>
+<styles lang="scss">
+</styles>
+```
