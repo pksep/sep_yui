@@ -1,3 +1,3 @@
-import * as Icons from '../../assets/icons/icons.ts';
+import * as Icons from './icons.ts';
 
 export default Icons;

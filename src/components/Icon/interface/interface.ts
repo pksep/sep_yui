@@ -7,3 +7,9 @@ export interface IIconPorps {
   name: IconNameEnum;
   color?: ColorsEnum;
 }
+
+export interface IVectorIcon {
+  name: string;
+  style: 'line' | 'solid';
+  path: string;
+}
