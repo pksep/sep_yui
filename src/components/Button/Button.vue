@@ -38,14 +38,14 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  'button-ui-kit': true,
+  'button--yui--kit': true,
   [props.size]: true,
-  'disabled-ui-kit': props.disabled,
-  'pill-ui-kit': props.pill,
-  'primary-ui-kit': props.type === ButtonTypeEnum.primary,
-  'secondary-ui-kit': props.type === ButtonTypeEnum.secondary,
-  'outline-ui-kit': props.type === ButtonTypeEnum.outline,
-  'ghost-ui-kit': props.type === ButtonTypeEnum.ghost
+  'disabled--yui--kit': props.disabled,
+  'pill--yui--kit': props.pill,
+  'primary--yui--kit': props.type === ButtonTypeEnum.primary,
+  'secondary--yui--kit': props.type === ButtonTypeEnum.secondary,
+  'outline--yui--kit': props.type === ButtonTypeEnum.outline,
+  'ghost--yui--kit': props.type === ButtonTypeEnum.ghost
 }));
 
 /**
@@ -72,7 +72,7 @@ const onClick = () => emit('click');
 </script>
 
 <style lang="scss" scoped>
-.button-ui-kit {
+.button--yui--kit {
   color: $WHITE;
   outline: none;
   border: none;
@@ -88,26 +88,26 @@ const onClick = () => emit('click');
   }
 }
 
-.small-ui-kit {
+.small--yui--kit {
   padding: 13px 11px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
 }
 
-.medium-ui-kit {
+.medium--yui--kit {
   min-height: 50px;
   padding: 16px 13px;
 }
 
-.large-ui-kit {
+.large--yui--kit {
   min-height: 70px;
   padding: 5px 13px;
   font-size: 18px;
   line-height: 22px;
 }
 
-.primary-ui-kit {
+.primary--yui--kit {
   background-color: $BLUE-77A6FF;
 
   &:active {
@@ -119,20 +119,20 @@ const onClick = () => emit('click');
   }
 }
 
-.secondary-ui-kit {
+.secondary--yui--kit {
   background-color: $WHITE-F8F9FD;
   color: $BLUE-77A6FF;
 
   &:active {
     background-color: $WHITE-ECF3FF;
   }
-  &.disabled-ui-kit:disabled {
+  &.disabled--yui--kit:disabled {
     color: $GREY-757D8A;
     background-color: $WHITE-F5F5F5;
   }
 }
 
-.outline-ui-kit {
+.outline--yui--kit {
   background-color: $TRANSPARENT;
   border: 1px solid $BLUE-9CBEFF;
   color: $GREY-282828;
@@ -142,14 +142,14 @@ const onClick = () => emit('click');
     background-color: $BLUE-548CF6;
   }
 
-  &.disabled-ui-kit:disabled {
+  &.disabled--yui--kit:disabled {
     color: $GREY-757D8A;
     background-color: $WHITE-F5F5F5;
     border: 1px solid $WHITE-E7E7E7;
   }
 }
 
-.ghost-ui-kit {
+.ghost--yui--kit {
   background-color: $TRANSPARENT;
   color: $GREY-282828;
 
@@ -161,12 +161,12 @@ const onClick = () => emit('click');
     color: $BLUE-77A6FF;
     background-color: $WHITE-ECF3FF;
   }
-  &.disabled-ui-kit:disabled {
+  &.disabled--yui--kit:disabled {
     background-color: $WHITE-E6E6E6;
   }
 }
 
-.pill-ui-kit {
+.pill--yui--kit {
   border-radius: 10px;
 }
 </style>

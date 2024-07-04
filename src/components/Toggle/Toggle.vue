@@ -64,49 +64,47 @@ const onClick = () => emit('themeChange', isChecked.value);
   border: none;
   box-sizing: border-box;
   border-radius: 5px;
-}
-
-.toggle-yui-kit {
   position: relative;
   display: inline-block;
-  width: 40px;
-  height: 24px;
-  margin: 10px;
+  width: 25px;
+  height: 16px;
+
+  .toggle-yui-kit-input {
+    display: none;
+  }
+
+  .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
+    background-color: $BLUE-9CBEFF;
+  }
+
+  .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
+    transform: translateX(10px);
+  }
 }
 
-.toggle-yui-kit .toggle-yui-kit-input {
-  display: none;
-}
-
-.toggle-yui-kit .toggle-yui-kit-label {
+label.toggle-yui-kit-label {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 26px;
   height: 16px;
   background-color: $GREY-E2E2E2;
   border-radius: 34px;
   cursor: pointer;
   transition: background-color 0.3s;
-}
+  margin: 0;
 
-.toggle-yui-kit .toggle-yui-kit-label::before {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  top: 3px;
-  left: 3px;
-  background-color: $WHITE;
-  transition: transform 0.3s;
-}
-
-.toggle-yui-kit .toggle-yui-kit-input:checked + .toggle-yui-kit-label {
-  background-color: $BLUE-9CBEFF;
-}
-
-.toggle-yui-kit .toggle-yui-kit-input:checked + .toggle-yui-kit-label::before {
-  transform: translateX(10px);
+  &:before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    background-color: $WHITE;
+    transition: transform 0.3s;
+  }
 }
 </style>
