@@ -27,7 +27,7 @@ const components = {
 
 const install = (app: App): void => {
   Object.keys(components).forEach(key => {
-    app.component(key, components[key as keyof typeof components]);
+    app.component('Y' + key, components[key as keyof typeof components]);
   });
 };
 

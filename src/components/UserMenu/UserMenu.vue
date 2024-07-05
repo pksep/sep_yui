@@ -166,6 +166,9 @@ const toggleShow = () => {
  * Меняет тему, передает значение выбора родителю
  */
 const toggleTheme = (isCheckedTheme: boolean) => {
+  if (props.closeAfterClick) {
+    state.isShow = false;
+  }
   emit('themeChange', isCheckedTheme);
   state.isCheckedTheme = isCheckedTheme;
 };
@@ -182,6 +185,9 @@ const toggleTheme = (isCheckedTheme: boolean) => {
  * Меняет язык, передает значение родителю
  */
 const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
+  if (props.closeAfterClick) {
+    state.isShow = false;
+  }
   emit('languageSwitch', object);
 };
 </script>
@@ -199,7 +205,6 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     align-items: center;
     gap: 9px;
     background-color: $WHITE;
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
   }
 
   &__avatar {
