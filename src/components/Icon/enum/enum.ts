@@ -45,6 +45,7 @@ export enum IconNameEnum {
   theDatabaseOfMaterials = 'theDatabaseOfMaterials',
   theBaseOfTheTool = 'theBaseOfTheTool',
   fileDatabase = 'fileDatabase',
+  baseOfEquipmentAndInventory = 'baseOfEquipmentAndInventory',
   mainPage = 'mainPage',
   shopping = 'shopping',
   shippingTasks = 'shippingTasks',
@@ -52,5 +53,7 @@ export enum IconNameEnum {
   production = 'production',
   wastes = 'wastes',
   writeDowns = 'writeDowns',
-  theComplaint = 'theComplaint'
+  theComplaint = 'theComplaint',
+  usersGroup = 'usersGroup',
+  reports = 'reports'
 }
