@@ -56,6 +56,10 @@ import { IconNameEnum } from './../Icon/enum/enum';
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 
+const emit = defineEmits<{
+  (e: 'click', item: IBreadCrumbsEmit): void;
+}>();
+
 const state = reactive({
   items: [] as IBreadCrumbsItem[],
   crumbs: computed(() => {
@@ -87,14 +91,6 @@ const state = reactive({
   ),
   isShowList: false
 });
-
-/**
- * TODO:
- *  - эмиты выше стейта должны быть
- **/
-const emit = defineEmits<{
-  (e: 'click', item: IBreadCrumbsEmit): void;
-}>();
 
 const MAX_SYMBOLS = 15;
 
