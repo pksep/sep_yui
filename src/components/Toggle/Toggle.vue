@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<IToggleProps>(), {
 });
 
 const emit = defineEmits<{
-  (e: 'themeChange', isChecked: boolean): void;
+  (e: 'change', isChecked: boolean): void;
 }>();
 
 /**

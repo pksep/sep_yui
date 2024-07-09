@@ -32,10 +32,7 @@
             >Темная тема</span
           >
 
-          <Toggle
-            @themeChange="isCheckedTheme => toggleTheme(isCheckedTheme)"
-            :checked="state.isCheckedTheme"
-          />
+          <Toggle @change="toggleThemeChange" :checked="state.isBlackTheme" />
         </li>
         <li
           class="list-yui-ki__item"
@@ -88,7 +85,7 @@ const props = withDefaults(defineProps<IMenuProps>(), {});
 const state = reactive({
   isShow: false,
   option: '',
-  isCheckedTheme: false
+  isBlackTheme: props.isBlackTheme ?? false
 });
 
 const emit = defineEmits<{
@@ -109,7 +106,7 @@ const classes = computed(() => ({
  * Высчитывает наименование иконки, показать темную или светлую иконку темы. Меняет иконку.
  */
 const iconTheme = computed(() =>
-  state.isCheckedTheme ? IconNameEnum.dark : IconNameEnum.light
+  state.isBlackTheme ? IconNameEnum.dark : IconNameEnum.light
 );
 
 /**
@@ -158,19 +155,18 @@ const toggleShow = () => {
 };
 
 /**
- * @param isCheckedTheme:  boolean
+ * @param isBlackTheme:  boolean
  * @returns
  */
 
 /**
  * Меняет тему, передает значение выбора родителю
  */
-const toggleTheme = (isCheckedTheme: boolean) => {
-  if (props.closeAfterClick) {
-    state.isShow = false;
-  }
-  emit('themeChange', isCheckedTheme);
-  state.isCheckedTheme = isCheckedTheme;
+const toggleThemeChange = (isBlackTheme: boolean): void => {
+  if (props.closeAfterClick) state.isShow = false;
+
+  emit('themeChange', isBlackTheme);
+  state.isBlackTheme = isBlackTheme;
 };
 
 /**
