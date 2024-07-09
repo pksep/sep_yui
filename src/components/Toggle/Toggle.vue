@@ -52,7 +52,7 @@ const styles = computed(() => ({
 /**
  * По событию click передает значение выбран-не выбран элемент.
  */
-const onClick = () => emit('themeChange', isChecked.value);
+const onClick = () => emit('change', isChecked.value);
 </script>
 
 <style lang="scss" scoped>

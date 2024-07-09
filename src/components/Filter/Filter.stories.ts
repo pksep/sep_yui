@@ -1,7 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Filter from './Filter.vue';
 import { StorybookControlEnum } from '../../common/storybook';
-import { BadgesTypeEnum } from '../../components/Badges/enum';
+import { BadgesTypeEnum } from '../Badges/enum/enum';
 
 const badgesItems = [
   {

@@ -2,7 +2,7 @@
   <div class="menu-yui-kit">
     <div class="menu-yui-kit__wrapper">
       <div class="menu-yui-kit__avatar">
-        <img :src="props.user.path" v-if="existUserPath" />
+        <img :src="props.user.avatar" v-if="existUserPath" />
         <Icon :name="IconNameEnum.profile" v-else />
       </div>
       <div :class="classes" @click="toggleShow">
@@ -141,9 +141,9 @@ const nameIcon = computed(() => {
  */
 const existUserPath = computed(() => {
   return (
-    props.user.path !== '' &&
-    props.user.path !== null &&
-    props.user.path !== undefined
+    props.user.avatar !== '' &&
+    props.user.avatar !== null &&
+    props.user.avatar !== undefined
   );
 });
 

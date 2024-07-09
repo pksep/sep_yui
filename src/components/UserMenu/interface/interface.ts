@@ -6,7 +6,7 @@ import { ISwitchProps } from '@/components/Switch/interface/interface';
 type userT = {
   name: string;
   role: string;
-  path: string;
+  avatar: string;
 };
 
 export interface IAdminPanel {

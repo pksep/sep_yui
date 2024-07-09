@@ -18,7 +18,7 @@ const meta = {
         type: StorybookControlEnum.text
       }
     },
-    path: {
+    avatar: {
       control: {
         type: StorybookControlEnum.text
       }
@@ -44,7 +44,8 @@ Default.args = {
   onLanguageSwitch: action('languageSwitch'),
   name: 'David Perov',
   role: 'admin',
-  path: 'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'
+  avatar:
+    'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'
 };
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);

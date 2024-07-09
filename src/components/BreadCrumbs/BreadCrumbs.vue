@@ -88,6 +88,10 @@ const state = reactive({
   isShowList: false
 });
 
+/**
+ * TODO:
+ *  - эмиты выше стейта должны быть
+ **/
 const emit = defineEmits<{
   (e: 'click', item: IBreadCrumbsEmit): void;
 }>();
