@@ -2,9 +2,14 @@
   <div>
     <UserMenu :user="user" :languages="langs" :isBlackTheme="true" />
   </div>
+
+  <div class="search">
+    <Search :global="true" />
+  </div>
 </template>
 <script setup lang="ts">
 import UserMenu from './components/UserMenu/UserMenu';
+import Search from './components/Search/Search';
 
 const user = {
   name: 'David Perov',
@@ -18,3 +23,8 @@ const langs = {
   defaultValue: 'En'
 };
 </script>
+<style lang="scss">
+.search {
+  width: 553px;
+}
+</style>

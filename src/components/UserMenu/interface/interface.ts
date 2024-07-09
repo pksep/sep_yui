@@ -1,16 +1,13 @@
 import { ISwitchProps } from '@/components/Switch/interface/interface';
 
-/**
- * TODO: дать осознанное название
- */
-type userT = {
+type userType = {
   name: string;
   role: string;
   avatar: string;
 };
 
 export interface IAdminPanel {
-  user: userT;
+  user: userType;
 }
 
 export interface IMenuLanguagesProps {

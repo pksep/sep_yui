@@ -140,8 +140,12 @@ onMounted(() => {
     display: grid;
   }
 
+  &__dropdown {
+    width: 100%;
+  }
+
   &__input {
-    width: inherit;
+    width: 100%;
     color: $GREY-9A9B9D;
     padding: 12px 11px 12px 35px;
     border: 1px solid TRANSPARENT;
