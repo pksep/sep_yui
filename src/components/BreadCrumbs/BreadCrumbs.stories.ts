@@ -35,11 +35,11 @@ const crumbsItems: Ref<ICrumbItem[]> = ref([
     title: 'База инструментов'
   },
   {
-    path: '/',
+    path: '/story/breadcrumbs',
     title: 'База покупателей'
   },
   {
-    path: '',
+    path: '/story',
     title: 'Несуществующая База'
   },
   {
