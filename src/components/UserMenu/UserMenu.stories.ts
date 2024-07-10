@@ -1,5 +1,5 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import UserMenu from './UserMenu.vue';
+import UserMenu from './UserMenu';
 import { StorybookControlEnum } from '../../common/storybook';
 import { userEvent, within } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
@@ -42,10 +42,12 @@ Default.args = {
   onClick: action('click'),
   onThemeChange: action('themeChange'),
   onLanguageSwitch: action('languageSwitch'),
-  name: 'David Perov',
-  role: 'admin',
-  avatar:
-    'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'
+  user: {
+    name: 'David Perov',
+    role: 'admin',
+    avatar:
+      'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'
+  }
 };
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);

@@ -10,6 +10,7 @@ import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
+import { createPinia } from 'pinia';
 
 const components = {
   Badges,
@@ -25,7 +26,10 @@ const components = {
   UserMenu
 };
 
+const pinia = createPinia();
+
 const install = (app: App): void => {
+  app.use(pinia);
   Object.keys(components).forEach(key => {
     app.component('Y' + key, components[key as keyof typeof components]);
   });

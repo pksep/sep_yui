@@ -83,6 +83,7 @@ onMounted(() => {
   justify-content: center;
   cursor: pointer;
   width: inherit;
+  min-height: 26px;
 }
 
 .switch-yui-kit-active {

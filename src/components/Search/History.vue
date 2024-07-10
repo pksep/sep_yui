@@ -169,6 +169,7 @@ const handleChoosePost = (item: string) => {
     background-color: $WHITE;
     border-radius: 5px;
     width: inherit;
+    justify-content: center;
 
     &:hover {
       cursor: pointer;

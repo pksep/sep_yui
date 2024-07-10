@@ -49,19 +49,7 @@ import { generateUniqueId } from './../../helpers/genarate-unic-id';
 const searchStore = useSearchStore();
 
 const props = withDefaults(defineProps<ISearchProps>(), {
-  showHistory: true,
   placeholder: 'Поиск'
-});
-
-const state = reactive({
-  isShowList: false,
-  isShowButtonHistory: true,
-  globalResultsFunction: computed(() => {
-    return props.globalResultsFunction;
-  }),
-  isShowResult: false,
-  searchValue: '',
-  generateUniqueId: generateUniqueId
 });
 
 const emit = defineEmits<{
@@ -69,11 +57,32 @@ const emit = defineEmits<{
   (e: 'input', value: string): void;
 }>();
 
+const state = reactive({
+  isShowList: false,
+  isShowButtonHistory: props.showHistory ?? false,
+  globalResultsFunction: computed(() => {
+    return props.globalResultsFunction;
+  }),
+  isShowResult: false,
+  searchValue: '',
+  generateUniqueId: generateUniqueId,
+  IconSearchShow: false
+});
+
+/**
+ * высчитывает классы для выпадающего списка запросов
+ */
+const classesDropdown = computed(() => ({
+  'search-yui-kit__icon-wrapper': true,
+  'show-icon': state.IconSearchShow
+}));
+
 /**
  * Во время фокуса, показывает результат поиска
  */
 const setFocusSearch = () => {
   state.isShowResult = true;
+  state.IconSearchShow = true;
 };
 
 /**
@@ -81,14 +90,8 @@ const setFocusSearch = () => {
  */
 const setBlurSearch = () => {
   state.isShowResult = false;
+  state.IconSearchShow = false;
 };
-
-/**
- * высчитывает классы для выпадающего списка запросов
- */
-const classesDropdown = computed(() => ({
-  'search-yui-kit__icon-wrapper': true
-}));
 
 /**
  *скрывает историю поиска
@@ -113,6 +116,7 @@ const showhistory = () => {
  */
 const changeSearch = () => {
   emit('enter', state.searchValue);
+
   if (props.showHistory) searchStore.addHistorySearch(state.searchValue.trim());
 };
 
@@ -132,6 +136,16 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.show-icon {
+  input {
+    padding-left: 10px;
+  }
+
+  svg {
+    display: none;
+  }
+}
+
 .search-yui-kit {
   position: relative;
   width: 100%;
@@ -140,8 +154,12 @@ onMounted(() => {
     display: grid;
   }
 
+  &__dropdown {
+    width: 100%;
+  }
+
   &__input {
-    width: inherit;
+    width: 100%;
     color: $GREY-9A9B9D;
     padding: 12px 11px 12px 35px;
     border: 1px solid TRANSPARENT;

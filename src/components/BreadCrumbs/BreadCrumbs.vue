@@ -56,6 +56,10 @@ import { IconNameEnum } from './../Icon/enum/enum';
 
 const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
 
+const emit = defineEmits<{
+  (e: 'click', item: IBreadCrumbsEmit): void;
+}>();
+
 const state = reactive({
   items: [] as IBreadCrumbsItem[],
   crumbs: computed(() => {
@@ -78,6 +82,7 @@ const state = reactive({
   getClassesLink: computed(() => (crumb: IBreadCrumbItems) => ({
     'bread-crumbs-yui-kit__link': true,
     'disabled-yui-kit': !crumb.path
+    // active: matchedPath === crumb.path
   })),
   getClassesSpan: computed(() => (inx: number) => ({
     'checked-yui-kit': inx === state.crumbs.length - 1
@@ -88,19 +93,12 @@ const state = reactive({
   isShowList: false
 });
 
-/**
- * TODO:
- *  - эмиты выше стейта должны быть
- **/
-const emit = defineEmits<{
-  (e: 'click', item: IBreadCrumbsEmit): void;
-}>();
-
 const MAX_SYMBOLS = 15;
 
 /**
  * Создает проверку на классы для пунктов в открытом списке
  */
+
 const classesItem = computed(() => ({
   'bread-crumbs-yui-kit__item': true
 }));
@@ -118,7 +116,7 @@ const classes = computed(() => ({
 
 /**
  *
- * @param : 
+ * @param :
  *    item: {
   path: string;
   title: string;
@@ -151,7 +149,7 @@ const toSelectCrumb = (item: IBreadCrumbsItem, inx: number): void => {
 const toggleShowList = () => (state.isShowList = !state.isShowList);
 
 /**
- * @param : 
+ * @param :
  *    crumb: {
     path: string;
     title: string;
@@ -182,7 +180,9 @@ const isShowSubList = (inx: number) => state.items.length >= 5 && inx === 1;
 /**
  * Соединяет в общий массив с хлебными крошками, массив с крошками из скрытого списка.
  */
-onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
+onMounted(() => {
+  return (state.items = state.crumbs.concat(state.subCrumbs));
+});
 </script>
 <style lang="scss" scoped>
 .bread-crumbs-yui-kit,
@@ -218,6 +218,13 @@ onMounted(() => (state.items = state.crumbs.concat(state.subCrumbs)));
   &__link {
     display: flex;
     align-items: center;
+
+    &.active {
+      color: $BLUE-77A6FF;
+      background-color: $BLUE-D6E4FF;
+      border-radius: 6px;
+      padding: 3px 8px;
+    }
 
     span {
       white-space: nowrap;
