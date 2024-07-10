@@ -277,7 +277,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   margin: 0;
   display: grid;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 
   &__item {
     display: flex;
