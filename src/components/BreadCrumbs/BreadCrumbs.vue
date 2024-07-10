@@ -95,15 +95,6 @@ const state = reactive({
 
 const MAX_SYMBOLS = 15;
 
-const currentPath = window.location.href;
-
-/**
- * Создает проверку на классы для пунктов в открытом списке
- */
-const classesCrumbs = computed(() => ({
-  'bread-crumbs-yui-kit__item crumbs-item': true
-}));
-
 /**
  * Создает проверку на классы для пунктов в открытом списке
  */
