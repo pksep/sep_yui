@@ -69,7 +69,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed } from 'vue';
 import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
