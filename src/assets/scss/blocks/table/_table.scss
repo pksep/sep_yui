@@ -1,4 +1,4 @@
-table {
+table.table-yui-kit {
   width: inherit;
   position: relative;
   border-radius: 15px;
@@ -7,7 +7,7 @@ table {
   margin-bottom: 15px;
   overflow: hidden;
 
-  tr {
+  tr.table-yui-ki__tr {
     border-radius: 15px;
 
     &:nth-of-type(odd) {
@@ -19,13 +19,13 @@ table {
     }
   }
 
-  th {
+  th.table-yui-ki__th {
     border: 1px solid $WHITE-E0E0E0;
     padding: 12px 8px;
     background-color: $BLUE-F2F7FF;
   }
 
-  td {
+  td.table-yui-ki__td {
     padding: 12px 8px;
     border: 1px solid $WHITE-E0E0E0;
 
