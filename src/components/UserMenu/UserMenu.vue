@@ -16,18 +16,18 @@
       </div>
     </div>
     <div class="menu-yui-kit__list" v-if="state.isShow">
-      <ul class="list-yui-ki">
+      <ul class="list-yui-kit">
         <li
-          class="list-yui-ki__item"
+          class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.profile)"
         >
           <Icon :name="IconNameEnum.profile" />
-          <span class="list-yui-ki__item-text">Профиль</span>
+          <span class="list-yui-kit__item-text">Профиль</span>
         </li>
-        <li class="list-yui-ki__item">
+        <li class="list-yui-kit__item">
           <Icon :name="iconTheme" />
           <span
-            class="list-yui-ki__item-text"
+            class="list-yui-kit__item-text"
             @click="choosedOptions(MenuTypeEnum.theme)"
             >Темная тема</span
           >
@@ -35,25 +35,25 @@
           <Toggle @change="toggleThemeChange" :checked="state.isBlackTheme" />
         </li>
         <li
-          class="list-yui-ki__item"
+          class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.options)"
         >
           <Icon :name="IconNameEnum.settings" />
-          <span class="list-yui-ki__item-text">Настройки</span>
+          <span class="list-yui-kit__item-text">Настройки</span>
         </li>
         <li
-          class="list-yui-ki__item"
+          class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.exit)"
         >
           <Icon :name="IconNameEnum.exit" />
-          <span class="list-yui-ki__item-text">Выход</span>
+          <span class="list-yui-kit__item-text">Выход</span>
         </li>
         <li
-          class="list-yui-ki__item"
+          class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.help)"
         >
           <Icon :name="IconNameEnum.help" />
-          <span class="list-yui-ki__item-text" :data-type="MenuTypeEnum.help"
+          <span class="list-yui-kit__item-text" :data-type="MenuTypeEnum.help"
             >Помощь</span
           >
         </li>
@@ -69,7 +69,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref } from 'vue';
 import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
@@ -195,12 +195,14 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   gap: 25px;
   position: relative;
   max-width: fit-content;
+  min-width: 212px;
 
   &__wrapper {
     display: flex;
     align-items: center;
     gap: 9px;
     background-color: $WHITE;
+    width: 100%;
   }
 
   &__avatar {
@@ -213,22 +215,28 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 
     img {
       object-fit: cover;
-      max-width: 100%;
+      width: 100%;
+      height: 100%;
     }
+  }
+
+  &__names {
+    max-width: 94px;
   }
 
   &__heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 13px 0 15px;
+    padding: 5px 10px 3px 15px;
     border-radius: 3px;
-    gap: 25px;
-    min-height: 40px;
+    gap: 20px;
     cursor: pointer;
+    width: inherit;
 
     &.active-yui-kit {
       background-color: $BLUE-F2F7FF;
@@ -236,7 +244,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   }
 
   &__list {
-    padding: 15px 9px;
+    padding: 15px 8px 15px 15px;
     width: 100%;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
     background-color: $WHITE;
@@ -254,16 +262,20 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
 
   &__name {
     color: $GREY-121212;
+    margin-bottom: 2px;
+    font-size: 14px;
+    line-height: 16px;
   }
 
   &__role {
     color: $GREY-515151;
+    font-size: 12px;
+    line-height: 14px;
   }
 
   &__button {
     background-color: $TRANSPARENT;
     padding: 0;
-    min-height: 40px;
 
     &:hover {
       background-color: $TRANSPARENT;
@@ -271,13 +283,13 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   }
 }
 
-.list-yui-ki {
+.list-yui-kit {
   list-style-type: none;
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 10px;
-  margin-bottom: 30px;
+  gap: 8px;
+  margin-bottom: 29px;
 
   &__item {
     display: flex;
@@ -288,6 +300,8 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     padding: 6px 3px;
     transition: 0.3s ease-in-out;
     border-radius: 5px;
+    font-size: 14px;
+    line-height: 16px;
 
     &:hover,
     &:active {
@@ -300,5 +314,10 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     margin: 0;
     margin-left: auto;
   }
+}
+
+.switch-yui-kit-list {
+  background-color: $BLUE-F2F7FF;
+  padding: 2px;
 }
 </style>

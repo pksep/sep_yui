@@ -22,6 +22,11 @@ const meta = {
       control: {
         type: StorybookControlEnum.text
       }
+    },
+    languages: {
+      control: {
+        type: StorybookControlEnum.boolean
+      }
     }
   },
   tags: ['autodocs']
@@ -47,8 +52,12 @@ Default.args = {
     role: 'admin',
     avatar:
       'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'
+  },
+  languages: {
+    items: ['En', 'Ru']
   }
 };
+
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const buttonOpen = canvas.getByRole('button');
