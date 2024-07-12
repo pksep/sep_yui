@@ -7,7 +7,13 @@ table.table-yui-kit {
   margin-bottom: 15px;
   overflow: hidden;
 
-  tr.table-yui-ki__tr {
+  th.table-yui-kit__th {
+    border: 1px solid $WHITE-E0E0E0;
+    padding: 12px 8px;
+    background-color: $BLUE-F2F7FF;
+  }
+
+  tr.table-yui-kit__tr {
     border-radius: 15px;
 
     &:nth-of-type(odd) {
@@ -19,13 +25,7 @@ table.table-yui-kit {
     }
   }
 
-  th.table-yui-ki__th {
-    border: 1px solid $WHITE-E0E0E0;
-    padding: 12px 8px;
-    background-color: $BLUE-F2F7FF;
-  }
-
-  td.table-yui-ki__td {
+  td.table-yui-kit__td {
     padding: 12px 8px;
     border: 1px solid $WHITE-E0E0E0;
 
