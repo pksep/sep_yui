@@ -161,7 +161,7 @@ onMounted(() => {
   &__input {
     width: 100%;
     color: $GREY-9A9B9D;
-    padding: 12px 11px 12px 35px;
+    padding: 12px 11px 12px 40px;
     border: 1px solid TRANSPARENT;
     border-radius: 5px;
     transition: 0.3s ease-in-out;
@@ -169,6 +169,10 @@ onMounted(() => {
     white-space: nowrap;
     text-overflow: ellipsis;
     background-color: $BLUE-F8F9FD;
+
+    font-size: 14px;
+    line-height: 16px;
+    font-family: $PRIMARY-FONT;
 
     &:hover,
     &:focus,
@@ -214,7 +218,7 @@ onMounted(() => {
     svg {
       position: absolute;
       left: 10px;
-      top: 8px;
+      top: 11px;
     }
   }
 }

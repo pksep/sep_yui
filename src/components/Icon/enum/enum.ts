@@ -55,5 +55,6 @@ export enum IconNameEnum {
   writeDowns = 'writeDowns',
   theComplaint = 'theComplaint',
   usersGroup = 'usersGroup',
-  reports = 'reports'
+  reports = 'reports',
+  editing = 'editing'
 }

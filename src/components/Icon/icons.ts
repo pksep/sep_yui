@@ -584,3 +584,13 @@ export const reports: IVectorIcon = {
 </g>
 `
 };
+export const editing: IVectorIcon = {
+  name: 'editing',
+  style: 'line',
+  path: `
+<g id="menu/editing">
+<path d="M8 13.3336H14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M11 2.33377C11.2652 2.06855 11.6249 1.91956 12 1.91956C12.1857 1.91956 12.3696 1.95614 12.5412 2.02721C12.7128 2.09828 12.8687 2.20245 13 2.33377C13.1313 2.46509 13.2355 2.62099 13.3066 2.79257C13.3776 2.96415 13.4142 3.14805 13.4142 3.33377C13.4142 3.51949 13.3776 3.70338 13.3066 3.87497C13.2355 4.04655 13.1313 4.20245 13 4.33377L4.66667 12.6671L2 13.3338L2.66667 10.6671L11 2.33377Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</g>
+`
+};
