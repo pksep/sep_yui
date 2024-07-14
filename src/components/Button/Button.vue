@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<IButtonProps>(), {
 });
 
 const emit = defineEmits<{
-  (e: 'click'): void;
+  (e: 'click', event: MouseEvent): void;
 }>();
 
 const classes = computed(() => ({
@@ -68,7 +68,7 @@ const styleChangeColor = computed(() => ({
 /**
  *  Передает событие клик родителю
  */
-const onClick = () => emit('click');
+const onClick = (e: MouseEvent) => emit('click', e);
 </script>
 
 <style lang="scss" scoped>
@@ -113,7 +113,7 @@ const onClick = () => emit('click');
   &:active {
     background-color: $BLUE-548CF6;
   }
-  &.disabled:disabled {
+  &.disabled-yui-kit {
     color: $GREY-757D8A;
     background-color: $WHITE-F5F5F5;
   }
@@ -126,7 +126,7 @@ const onClick = () => emit('click');
   &:active {
     background-color: $WHITE-ECF3FF;
   }
-  &.disabled-yui-kit:disabled {
+  &.disabled-yui-kit {
     color: $GREY-757D8A;
     background-color: $WHITE-F5F5F5;
   }
@@ -142,7 +142,7 @@ const onClick = () => emit('click');
     background-color: $BLUE-548CF6;
   }
 
-  &.disabled-yui-kit:disabled {
+  &.disabled-yui-kit {
     color: $GREY-757D8A;
     background-color: $WHITE-F5F5F5;
     border: 1px solid $WHITE-E7E7E7;
@@ -161,11 +161,13 @@ const onClick = () => emit('click');
     color: $BLUE-77A6FF;
     background-color: $WHITE-ECF3FF;
   }
-  &.disabled-yui-kit:disabled {
+  &.disabled-yui-kit {
     background-color: $WHITE-E6E6E6;
   }
 }
-
+.disabled-yui-kit {
+  cursor: auto;
+}
 .pill-yui-kit {
   border-radius: 10px;
 }

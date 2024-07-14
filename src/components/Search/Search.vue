@@ -10,7 +10,7 @@
           type="text"
           class="search-yui-kit__input"
           v-model="state.searchValue"
-          :placeholder="props.placeholder"
+          :placeholder="state.placeholder"
           @keydown.enter="changeSearch"
           @input="changeSearchValue"
           @focus="setFocusSearch"
@@ -24,6 +24,7 @@
       :is-show-button-history="state.isShowButtonHistory"
       :is-show-list="state.isShowList"
       v-if="props.showHistory"
+      @choosePost="choosenPost"
     />
     <SearchResult
       :is-show-list="state.isShowList"
@@ -57,6 +58,8 @@ const emit = defineEmits<{
   (e: 'input', value: string): void;
 }>();
 
+// const searchRef = ref(null);
+
 const state = reactive({
   isShowList: false,
   isShowButtonHistory: props.showHistory ?? false,
@@ -66,8 +69,14 @@ const state = reactive({
   isShowResult: false,
   searchValue: '',
   generateUniqueId: generateUniqueId,
-  IconSearchShow: false
+  IconSearchShow: true,
+  placeholder: props.placeholder ?? ''
 });
+
+const choosenPost = (value: string) => {
+  state.searchValue = value;
+  state.isShowList = false;
+};
 
 /**
  * высчитывает классы для выпадающего списка запросов
@@ -83,6 +92,7 @@ const classesDropdown = computed(() => ({
 const setFocusSearch = () => {
   state.isShowResult = true;
   state.IconSearchShow = true;
+  state.placeholder = '';
 };
 
 /**
@@ -91,6 +101,7 @@ const setFocusSearch = () => {
 const setBlurSearch = () => {
   state.isShowResult = false;
   state.IconSearchShow = false;
+  state.placeholder = props.placeholder;
 };
 
 /**
@@ -100,6 +111,9 @@ const hidehistory = () => {
   state.isShowList = false;
   state.isShowResult = false;
   state.isShowButtonHistory = false;
+  state.searchValue = '';
+  state.placeholder = props.placeholder;
+  state.IconSearchShow = false;
 };
 
 /**
