@@ -69,7 +69,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed } from 'vue';
 import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
@@ -237,6 +237,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     gap: 20px;
     cursor: pointer;
     width: inherit;
+    height: 40px;
 
     &.active-yui-kit {
       background-color: $BLUE-F2F7FF;
@@ -276,6 +277,8 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   &__button {
     background-color: $TRANSPARENT;
     padding: 0;
+    margin-right: -8px;
+    height: inherit;
 
     &:hover {
       background-color: $TRANSPARENT;
@@ -319,5 +322,9 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
 .switch-yui-kit-list {
   background-color: $BLUE-F2F7FF;
   padding: 2px;
+}
+
+.switch-yui-kit-item {
+  height: 26px;
 }
 </style>
