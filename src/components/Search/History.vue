@@ -2,7 +2,7 @@
   <div class="search-yui-kit__history history-yui-kit" v-if="props.showHistory">
     <button
       type="button"
-      v-if="state.getHistorySearch.length > 0"
+      v-if="state.getHistorySearch.length > 0 && state.isShowButtonHistory"
       @click="showHistoryClickHandler"
       :class="'history-yui-kit__button-text'"
     >
@@ -56,8 +56,8 @@ const classes = computed(() => ({
 }));
 
 const showHistoryClickHandler = () => {
-  state.isShowList = !state.isShowList;
-  state.isShowButtonHistory = !state.isShowButtonHistory;
+  state.isShowList = true;
+  state.isShowButtonHistory = false;
 };
 
 /**

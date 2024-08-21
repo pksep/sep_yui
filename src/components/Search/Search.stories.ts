@@ -25,7 +25,7 @@ const Template: StoryFn<typeof Search> = args => ({
   setup() {
     return { args };
   },
-  template: `<div style="width: 472px">
+  template: `<div style="width: 470px">
   <Search v-bind="args" />
   </div>`
 });
@@ -33,6 +33,6 @@ const Template: StoryFn<typeof Search> = args => ({
 export const Default = Template.bind({});
 
 Default.args = {
-  showHistroy: true,
-  placeholder: 'Динозавры воскресли и стали курьерами доставки еды'
+  showHistory: true
+  // placeholder: 'Поиск'
 };
