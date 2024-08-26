@@ -14,13 +14,7 @@ const attrs = useAttrs();
 const dialog = ref<HTMLDialogElement>();
 const visible = ref(false);
 
-const showDialog = () => {
-  if (props.open) {
-    dialog.value?.showModal();
-  } else {
-    dialog.value.close();
-  }
-};
+const showDialog = () => props.open ? dialog.value.showModal() : dialog.value.close();
 
 defineExpose({
   show: showDialog,
