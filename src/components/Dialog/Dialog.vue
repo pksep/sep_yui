@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, useAttrs, watchEffect } from 'vue';
-import { onClickOutside } from '@vueuse/core'
+import { onClickOutside } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 
 const props = defineProps<IDialogProps>();
@@ -14,26 +14,23 @@ const attrs = useAttrs();
 const dialog = ref<HTMLDialogElement>();
 const visible = ref(false);
 
+const showDialog = () => {
+  if (props.open) {
+    dialog.value?.showModal();
+  } else {
+    dialog.value.close();
+  }
+};
+
 defineExpose({
   show: showDialog,
   close: (returnVal?: string): void => dialog.value?.close(returnVal),
   visible
 });
 
-function showDialog() {
-  if (props.open) {
-    dialog.value?.showModal();
-  } else {
-    dialog.value.close();
-  }
-}
-
-onClickOutside(
-  visible,
-  (event) => {
-    dialog.value.close()
-  },
-)
+onClickOutside(visible, () => {
+  dialog.value.close();
+});
 
 onMounted(() => {
   watchEffect(() => {
@@ -41,7 +38,7 @@ onMounted(() => {
       showDialog();
       visible.value = props.open;
     }
-    });
+  });
 });
 </script>
 
