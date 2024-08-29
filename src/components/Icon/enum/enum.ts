@@ -52,6 +52,7 @@ export enum IconNameEnum {
   warehouse = 'warehouse',
   production = 'production',
   wastes = 'wastes',
+  paperClip = 'paperClip',
   writeDowns = 'writeDowns',
   theComplaint = 'theComplaint',
   usersGroup = 'usersGroup',
