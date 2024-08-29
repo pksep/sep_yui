@@ -15,7 +15,7 @@ const dialog = ref<HTMLDialogElement>();
 const visible = ref(false);
 
 const showDialog = () =>
-  props.open ? dialog.value.showModal() : dialog.value.close();
+  props.open ? dialog.value?.showModal() : dialog.value?.close();
 
 defineExpose({
   show: showDialog,
@@ -23,8 +23,8 @@ defineExpose({
   visible
 });
 
-onClickOutside(visible, () => {
-  dialog.value.close();
+onClickOutside(dialog, () => {
+  dialog.value?.close();
 });
 
 onMounted(() => {

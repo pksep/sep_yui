@@ -103,6 +103,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/blocks/table/_table.scss';
+
 .table-wrapper-yui-kit {
   overflow-x: scroll;
   width: 100%;
