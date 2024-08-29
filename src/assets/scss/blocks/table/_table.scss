@@ -40,10 +40,6 @@ table.table-yui-kit {
     &.ban {
       background-color: #ffefee;
     }
-
-    &:nth-of-type(odd) {
-      background-color: $WHITE-F8F9FD;
-    }
   }
 
   td.table-yui-kit__td:not(last-child) {
