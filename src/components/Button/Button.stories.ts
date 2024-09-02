@@ -115,9 +115,9 @@ BtnWithIcon.args = {
 };
 
 export const BtnWithCloudIcon = Template.bind({});
-BtnWithIcon.args = {
-  type: ButtonTypeEnum.primary,
+BtnWithCloudIcon.args = {
+  type: ButtonTypeEnum.outline,
   iconName: 'uploadCloud',
   iconPosition: 'left',
-  content: 'Button with Icon'
+  content: 'Button with CloudIcon'
 };
