@@ -4,7 +4,7 @@
     :width="props.width"
     :height="props.height"
     :style="props.color"
-    :viewBox="`0 0 24 24`"
+    :viewBox="Icons[props.name as IconName]?.viewbox || `0 0 24 24`"
   >
     <g v-html="icon" />
   </svg>
