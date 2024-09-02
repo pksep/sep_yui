@@ -7,6 +7,7 @@ table.table-yui-kit {
   border-collapse: separate;
   text-align: center;
   margin-bottom: 15px;
+  border: 0.5px solid $WHITE-E0E0E0;
   overflow: hidden;
 
   & th.table-yui-kit__th,
@@ -15,24 +16,24 @@ table.table-yui-kit {
    }
   & th.table-yui-kit__th {
     padding: 12px 8px;
+    border-bottom: 0.5px solid $WHITE-E0E0E0;
     &.colored {
         background-color: $BLUE-F2F7FF;
     }
   }
-  th.table-yui-kit__th:last-child, th.table-yui-kit__th:first-child {
-        border-left: 0.5px solid $WHITE-E0E0E0;
-  }
-  th.table-yui-kit__th:not(last-child) {
+  & th.table-yui-kit__th:not(:last-child) {
     border-right: 0.5px solid $WHITE-E0E0E0;
-    border-top: 0.5px solid $WHITE-E0E0E0;
-    border-bottom: 0.5px solid $WHITE-E0E0E0;
+    }
+  & tr.table-yui-kit__tr:not(:last-child) {
+        & td.table-yui-kit__td {
+            border-bottom: 0.5px solid $WHITE-E0E0E0;
+        }
   }
 
-  tr.table-yui-kit__tr {
-    border-bottom: 0.5px solid $WHITE-E0E0E0;
-    &:hover,&.active {
+  & tr.table-yui-kit__tr {
+    &:hover, &.active {
         color: inherit;
-        background-color: #eaf2ff;
+        background-color: #eaf2ff !important;
     }
     &.ava {
       background-color: #fff6e4;
@@ -42,17 +43,11 @@ table.table-yui-kit {
     }
   }
 
-  td.table-yui-kit__td:not(last-child) {
+  & td.table-yui-kit__td:not(:last-child) {
     border-right: 0.5px solid $WHITE-E0E0E0;
-    border-bottom: 0.5px solid $WHITE-E0E0E0;
   }
 
-
-  td.table-yui-kit__td:first-child, td.table-yui-kit__td:last-child {
-      border-left: 0.5px solid $WHITE-E0E0E0;
-  }
-
-  td.table-yui-kit__td {
+  & td.table-yui-kit__td {
     padding: 12px 8px;
 
     img.link_img {

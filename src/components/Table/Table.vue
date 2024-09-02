@@ -112,6 +112,5 @@
 }
 .table-yui-kit {
   overflow: hidden;
-  border-radius: 15px;
 }
 </style>
