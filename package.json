@@ -31,6 +31,7 @@
     "@storybook/test": "^8.0.7",
     "@storybook/vue3": "^8.0.7",
     "@storybook/vue3-vite": "^8.0.7",
+    "@types/lodash": "^4.17.7",
     "@types/uuid4": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
