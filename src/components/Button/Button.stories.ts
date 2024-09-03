@@ -121,3 +121,19 @@ BtnWithCloudIcon.args = {
   iconPosition: 'left',
   content: 'Button with CloudIcon'
 };
+
+export const BtnWithArchiveIcon = Template.bind({});
+BtnWithArchiveIcon.args = {
+  type: ButtonTypeEnum.primary,
+  iconName: 'archive',
+  iconPosition: 'left',
+  content: 'Button with archive'
+};
+
+export const BtnWithEditingIcon = Template.bind({});
+BtnWithEditingIcon.args = {
+  type: ButtonTypeEnum.primary,
+  iconName: 'editing',
+  iconPosition: 'left',
+  content: 'Button with editing'
+};
