@@ -17,7 +17,7 @@ const Template: StoryFn = args => ({
     return { args };
   },
   template: `
-        <Card>
+        <Card :style="{width: '350px'}">
             Simple text
         </Card>
   `

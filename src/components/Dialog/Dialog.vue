@@ -1,36 +1,31 @@
+<!-- https://kkuegler.github.io/v-native-dialog/?path=/story/components-native-dialog--demo -->
+
 <template>
-  <dialog ref="dialog" v-bind="attrs" class="dialog-yui-kit">
+  <dialog ref="dialog" class="dialog-yui-kit">
     <slot />
   </dialog>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, useAttrs, watchEffect } from 'vue';
-import { onClickOutside } from '@vueuse/core';
-import type { IDialogProps } from './interface/interface';
+import { onmounted, ref, useattrs, watcheffect } from 'vue';
+import { onclickoutside } from '@vueuse/core';
+import type { idialogprops } from './interface/interface';
 
-const props = defineProps<IDialogProps>();
-const attrs = useAttrs();
-const dialog = ref<HTMLDialogElement>();
+const props = defineprops<idialogprops>();
+const dialog = ref<htmldialogelement | null>(null);
 const visible = ref(false);
 
-const showDialog = () =>
-  props.open ? dialog.value?.showModal() : dialog.value?.close();
+const showdialog = () =>
+  props.open ? dialog.value?.showmodal() : dialog.value?.close();
 
-defineExpose({
-  show: showDialog,
-  close: (returnVal?: string): void => dialog.value?.close(returnVal),
-  visible
-});
-
-onClickOutside(dialog, () => {
+onclickoutside(dialog, () => {
   dialog.value?.close();
 });
 
-onMounted(() => {
-  watchEffect(() => {
+onmounted(() => {
+  watcheffect(() => {
     if (props.open !== visible.value) {
-      showDialog();
+      showdialog();
       visible.value = props.open;
     }
   });
@@ -39,7 +34,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .dialog-yui-kit {
-  background: $BLUE-F2F7FF;
+  background: $blue-f2f7ff;
   border: none;
   padding: 8em;
   border-radius: 5px;
@@ -47,7 +42,7 @@ onMounted(() => {
     outline: none;
   }
   &[open]::backdrop {
-    background-color: $BLACK;
+    background-color: $black;
     opacity: 0.4;
   }
 }
