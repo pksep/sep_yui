@@ -8,7 +8,15 @@ table.table-yui-kit {
   text-align: center;
   margin-bottom: 15px;
   border: 0.5px solid $WHITE-E0E0E0;
-  overflow: hidden;
+
+  & th.table-yui-kit__th {
+    &:last-child {
+        border-radius: 0 10px 0 0;
+    }
+    &:first-child {
+        border-radius: 10px 0 0 0;
+    }
+  }
 
   & th.table-yui-kit__th,
   & td.table-yui-kit__td {
