@@ -765,7 +765,7 @@ export const crossLarge: IVectorIcon = {
   name: 'crossLarge',
   style: 'line',
   path: `
-    <path d="M18 6.62714L6 18.6271" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" fill="none"/>
-    <path d="M6 6.62714L18 18.6271" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" fill="none"/>
+    <path d="M18 6.62714L6 18.6271" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" fill="none"/>
+    <path d="M6 6.62714L18 18.6271" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" fill="none"/>
   `
 };
