@@ -1,7 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import { StorybookControlEnum } from '../../common/storybook';
 import Dialog from './Dialog.vue';
-import Button from '@/components/Button/Button.vue';
+import Button from '../Button/Button.vue';
 import { action } from '@storybook/addon-actions';
 import { userEvent, within } from '@storybook/test';
 
@@ -25,8 +25,8 @@ const Template: StoryFn<typeof Dialog> = args => ({
     return { args };
   },
   template: `
-        <Button @click="args.open=true"> Open Dialog </Button>
-        <Dialog v-bind="args" :open="args.open"/>
+    <Button @click="args.open=true"> Open Dialog </Button>
+    <Dialog v-bind="args" :open="args.open" :width="'300px'" :height="'300px'" />
   `
 });
 
