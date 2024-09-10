@@ -760,3 +760,12 @@ export const folder: IVectorIcon = {
     <path d="M14.3333 12.1667C14.3333 12.5203 14.1929 12.8594 13.9428 13.1095C13.6928 13.3595 13.3536 13.5 13 13.5H2.33333C1.97971 13.5 1.64057 13.3595 1.39052 13.1095C1.14048 12.8594 1 12.5203 1 12.1667V2.83333C1 2.47971 1.14048 2.14057 1.39052 1.89052C1.64057 1.64048 1.97971 1.5 2.33333 1.5H5.66667L7 3.5H13C13.3536 3.5 13.6928 3.64048 13.9428 3.89052C14.1929 4.14057 14.3333 4.47971 14.3333 4.83333V12.1667Z" stroke="currentColor" fill="none" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
   `
 };
+
+export const crossLarge: IVectorIcon = {
+  name: 'crossLarge',
+  style: 'line',
+  path: `
+    <path d="M18 6.62714L6 18.6271" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" fill="none"/>
+    <path d="M6 6.62714L18 18.6271" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" fill="none"/>
+  `
+};
