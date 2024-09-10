@@ -3,7 +3,7 @@
     class="icon-yui-kit"
     :width="props.width"
     :height="props.height"
-    :style="props.color"
+    :style="styles"
     :viewBox="Icons[props.name as IconName]?.viewbox || `0 0 24 24`"
   >
     <g v-html="icon" />
@@ -21,6 +21,11 @@ const props = withDefaults(defineProps<IIconPorps>(), {
   height: 24,
   color: ColorsEnum.black
 });
+
+const styles = computed(() => ({
+  color: props.color
+}));
+
 type IconName = keyof typeof Icons;
 
 const icon = computed(() => {
