@@ -10,6 +10,9 @@ const meta = {
   argTypes: {
     items: {
       control: { type: StorybookControlEnum.object }
+    },
+    isIcons: {
+      control: { type: StorybookControlEnum.boolean }
     }
   },
   tags: ['autodocs']
@@ -27,5 +30,6 @@ const Template: StoryFn<typeof Switch> = args => ({
 
 export const Default = Template.bind({});
 Default.args = {
-  items: items
+  items: items,
+  isIcons: false
 };

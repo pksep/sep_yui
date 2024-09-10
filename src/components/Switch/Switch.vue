@@ -6,14 +6,19 @@
       :class="getClasses(index)"
       @click="toChooseItem(index)"
     >
-      {{ item }}
+      <Icon :name="item as IconNameEnum" v-if="props.isIcons" />
+      <template v-else>
+        {{ item }}
+      </template>
     </li>
   </ul>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
+import Icon from '@/components/Icon/Icon.vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
+import { IconNameEnum } from '../Icon/enum/enum';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {});
 
