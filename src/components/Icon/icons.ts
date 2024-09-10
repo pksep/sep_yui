@@ -639,10 +639,10 @@ export const editing: IVectorIcon = {
   style: 'line',
   viewbox: '0 0 16 14',
   path: `
-<g id="menu/editing">
-<path d="M8 13.3336H14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-<path d="M11 2.33377C11.2652 2.06855 11.6249 1.91956 12 1.91956C12.1857 1.91956 12.3696 1.95614 12.5412 2.02721C12.7128 2.09828 12.8687 2.20245 13 2.33377C13.1313 2.46509 13.2355 2.62099 13.3066 2.79257C13.3776 2.96415 13.4142 3.14805 13.4142 3.33377C13.4142 3.51949 13.3776 3.70338 13.3066 3.87497C13.2355 4.04655 13.1313 4.20245 13 4.33377L4.66667 12.6671L2 13.3338L2.66667 10.6671L11 2.33377Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-</g>
+    <g id="menu/editing">
+      <path d="M8 13.3336H14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M11 2.33377C11.2652 2.06855 11.6249 1.91956 12 1.91956C12.1857 1.91956 12.3696 1.95614 12.5412 2.02721C12.7128 2.09828 12.8687 2.20245 13 2.33377C13.1313 2.46509 13.2355 2.62099 13.3066 2.79257C13.3776 2.96415 13.4142 3.14805 13.4142 3.33377C13.4142 3.51949 13.3776 3.70338 13.3066 3.87497C13.2355 4.04655 13.1313 4.20245 13 4.33377L4.66667 12.6671L2 13.3338L2.66667 10.6671L11 2.33377Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
 `
 };
 
@@ -650,6 +650,113 @@ export const paperClip: IVectorIcon = {
   name: 'paperClip',
   style: 'line',
   path: `
-        <path d="M20.4398 11.0509L11.2498 20.2409C10.124 21.3667 8.59699 21.9992 7.0048 21.9992C5.41262 21.9992 3.88565 21.3667 2.7598 20.2409C1.63396 19.1151 1.00146 17.5881 1.00146 15.9959C1.00146 14.4037 1.63396 12.8767 2.7598 11.7509L11.9498 2.5609C12.7004 1.81033 13.7183 1.38867 14.7798 1.38867C15.8413 1.38867 16.8592 1.81033 17.6098 2.5609C18.3604 3.31146 18.782 4.32944 18.782 5.3909C18.782 6.45235 18.3604 7.47033 17.6098 8.2209L8.4098 17.4109C8.03452 17.7862 7.52553 17.997 6.9948 17.997C6.46407 17.997 5.95508 17.7862 5.5798 17.4109C5.20452 17.0356 4.99369 16.5266 4.99369 15.9959C4.99369 15.4652 5.20452 14.9562 5.5798 14.5809L14.0698 6.1009" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-    `
+    <path d="M20.4398 11.0509L11.2498 20.2409C10.124 21.3667 8.59699 21.9992 7.0048 21.9992C5.41262 21.9992 3.88565 21.3667 2.7598 20.2409C1.63396 19.1151 1.00146 17.5881 1.00146 15.9959C1.00146 14.4037 1.63396 12.8767 2.7598 11.7509L11.9498 2.5609C12.7004 1.81033 13.7183 1.38867 14.7798 1.38867C15.8413 1.38867 16.8592 1.81033 17.6098 2.5609C18.3604 3.31146 18.782 4.32944 18.782 5.3909C18.782 6.45235 18.3604 7.47033 17.6098 8.2209L8.4098 17.4109C8.03452 17.7862 7.52553 17.997 6.9948 17.997C6.46407 17.997 5.95508 17.7862 5.5798 17.4109C5.20452 17.0356 4.99369 16.5266 4.99369 15.9959C4.99369 15.4652 5.20452 14.9562 5.5798 14.5809L14.0698 6.1009" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  `
+};
+
+export const shadedArrowDown: IVectorIcon = {
+  name: 'shadedArrowDown',
+  style: 'line',
+  path: `
+    <path d="M4 6L0.535898 6.52533e-07L7.4641 4.68497e-08L4 6Z" fill="none" stroke="currentColor" />
+  `
+};
+
+export const shadedArrowRight: IVectorIcon = {
+  name: 'shadedArrowRight',
+  style: 'line',
+  path: `
+    <path d="M6 4L-3.26266e-07 7.4641L-2.34249e-08 0.535898L6 4Z" fill="none" stroke="currentColor" />
+  `
+};
+
+export const shadedArrowLeft: IVectorIcon = {
+  name: 'shadedArrowLeft',
+  style: 'line',
+  path: `
+    <path d="M4.76995e-08 4L6 0.535898L6 7.4641L4.76995e-08 4Z" fill="none" stroke="currentColor" />
+  `
+};
+
+export const shadedArrowUp: IVectorIcon = {
+  name: 'shadedArrowUp',
+  style: 'line',
+  path: `
+    <path d="M4 0L7.4641 6L0.535898 6L4 0Z" fill="none" stroke="currentColor" />
+  `
+};
+
+export const star: IVectorIcon = {
+  name: 'star',
+  style: 'line',
+  path: `
+    <path d="M11 1L14.09 7.26L21 8.27L16 13.14L17.18 20.02L11 16.77L4.82 20.02L6 13.14L1 8.27L7.91 7.26L11 1Z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const info: IVectorIcon = {
+  name: 'info',
+  style: 'line',
+  path: `
+    <g id="info">
+      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 16V12" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 8H12.01" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>  
+  `
+};
+
+export const files: IVectorIcon = {
+  name: 'files',
+  style: 'line',
+  path: `
+    <path d="M20.0306 6.21938L16.2806 2.46938C16.2109 2.39975 16.1282 2.34454 16.0371 2.3069C15.9461 2.26926 15.8485 2.24992 15.75 2.25H8.25C7.85218 2.25 7.47064 2.40804 7.18934 2.68934C6.90804 2.97064 6.75 3.35218 6.75 3.75V5.25H5.25C4.85218 5.25 4.47064 5.40804 4.18934 5.68934C3.90804 5.97064 3.75 6.35218 3.75 6.75V20.25C3.75 20.6478 3.90804 21.0294 4.18934 21.3107C4.47064 21.592 4.85218 21.75 5.25 21.75H15.75C16.1478 21.75 16.5294 21.592 16.8107 21.3107C17.092 21.0294 17.25 20.6478 17.25 20.25V18.75H18.75C19.1478 18.75 19.5294 18.592 19.8107 18.3107C20.092 18.0294 20.25 17.6478 20.25 17.25V6.75C20.2501 6.65148 20.2307 6.55391 20.1931 6.46286C20.1555 6.37182 20.1003 6.28908 20.0306 6.21938ZM15.75 20.25H5.25V6.75H12.4397L15.75 10.0603V20.25ZM18.75 17.25H17.25V9.75C17.2501 9.65148 17.2307 9.55391 17.1931 9.46286C17.1555 9.37182 17.1003 9.28908 17.0306 9.21937L13.2806 5.46938C13.2109 5.39975 13.1282 5.34454 13.0371 5.3069C12.9461 5.26926 12.8485 5.24992 12.75 5.25H8.25V3.75H15.4397L18.75 7.06031V17.25ZM13.5 14.25C13.5 14.4489 13.421 14.6397 13.2803 14.7803C13.1397 14.921 12.9489 15 12.75 15H8.25C8.05109 15 7.86032 14.921 7.71967 14.7803C7.57902 14.6397 7.5 14.4489 7.5 14.25C7.5 14.0511 7.57902 13.8603 7.71967 13.7197C7.86032 13.579 8.05109 13.5 8.25 13.5H12.75C12.9489 13.5 13.1397 13.579 13.2803 13.7197C13.421 13.8603 13.5 14.0511 13.5 14.25ZM13.5 17.25C13.5 17.4489 13.421 17.6397 13.2803 17.7803C13.1397 17.921 12.9489 18 12.75 18H8.25C8.05109 18 7.86032 17.921 7.71967 17.7803C7.57902 17.6397 7.5 17.4489 7.5 17.25C7.5 17.0511 7.57902 16.8603 7.71967 16.7197C7.86032 16.579 8.05109 16.5 8.25 16.5H12.75C12.9489 16.5 13.1397 16.579 13.2803 16.7197C13.421 16.8603 13.5 17.0511 13.5 17.25Z" fill="black"/>
+  `
+};
+
+export const moreHorizontal: IVectorIcon = {
+  name: 'moreHorizontal',
+  style: 'line',
+  path: `
+    <g id="moreHorizontal">
+      <path d="M12 13.6271C12.5523 13.6271 13 13.1794 13 12.6271C13 12.0749 12.5523 11.6271 12 11.6271C11.4477 11.6271 11 12.0749 11 12.6271C11 13.1794 11.4477 13.6271 12 13.6271Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19 13.6271C19.5523 13.6271 20 13.1794 20 12.6271C20 12.0749 19.5523 11.6271 19 11.6271C18.4477 11.6271 18 12.0749 18 12.6271C18 13.1794 18.4477 13.6271 19 13.6271Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 13.6271C5.55228 13.6271 6 13.1794 6 12.6271C6 12.0749 5.55228 11.6271 5 11.6271C4.44772 11.6271 4 12.0749 4 12.6271C4 13.1794 4.44772 13.6271 5 13.6271Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>  
+  `
+};
+
+export const fileText: IVectorIcon = {
+  name: 'fileText',
+  style: 'line',
+  path: `
+    <g id="fileText">
+      <path d="M14 2.87256H6C5.46957 2.87256 4.96086 3.08327 4.58579 3.45834C4.21071 3.83342 4 4.34213 4 4.87256V20.8726C4 21.403 4.21071 21.9117 4.58579 22.2868C4.96086 22.6618 5.46957 22.8726 6 22.8726H18C18.5304 22.8726 19.0391 22.6618 19.4142 22.2868C19.7893 21.9117 20 21.403 20 20.8726V8.87256L14 2.87256Z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 2.87256V8.87256H20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 13.8726H8" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 17.8726H8" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 9.87256H9H8" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>  
+  `
+};
+
+export const gitPullRequest: IVectorIcon = {
+  name: 'gitPullRequest',
+  style: 'line',
+  path: `
+    <g id="gitPullRequest">
+      <path d="M18 21C19.6569 21 21 19.6569 21 18C21 16.3431 19.6569 15 18 15C16.3431 15 15 16.3431 15 18C15 19.6569 16.3431 21 18 21Z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M6 9C7.65685 9 9 7.65685 9 6C9 4.34315 7.65685 3 6 3C4.34315 3 3 4.34315 3 6C3 7.65685 4.34315 9 6 9Z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M13 6H16C16.5304 6 17.0391 6.21071 17.4142 6.58579C17.7893 6.96086 18 7.46957 18 8V15" stroke="currentColor" fill="none"stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M6 9V21" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>  
+  `
+};
+
+export const folder: IVectorIcon = {
+  name: 'folder',
+  style: 'line',
+  path: `
+    <path d="M14.3333 12.1667C14.3333 12.5203 14.1929 12.8594 13.9428 13.1095C13.6928 13.3595 13.3536 13.5 13 13.5H2.33333C1.97971 13.5 1.64057 13.3595 1.39052 13.1095C1.14048 12.8594 1 12.5203 1 12.1667V2.83333C1 2.47971 1.14048 2.14057 1.39052 1.89052C1.64057 1.64048 1.97971 1.5 2.33333 1.5H5.66667L7 3.5H13C13.3536 3.5 13.6928 3.64048 13.9428 3.89052C14.1929 4.14057 14.3333 4.47971 14.3333 4.83333V12.1667Z" stroke="currentColor" fill="none" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+  `
 };

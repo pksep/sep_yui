@@ -57,5 +57,16 @@ export enum IconNameEnum {
   theComplaint = 'theComplaint',
   usersGroup = 'usersGroup',
   reports = 'reports',
-  editing = 'editing'
+  editing = 'editing',
+  shadedArrowDown = 'shadedArrowDown',
+  shadedArrowRight = 'shadedArrowRight',
+  shadedArrowLeft = 'shadedArrowLeft',
+  shadedArrowUp = 'shadedArrowUp',
+  star = 'star',
+  info = 'info',
+  files = 'files',
+  moreHorizontal = 'moreHorizontal',
+  fileText = 'fileText',
+  gitPullRequest = 'gitPullRequest',
+  folder = 'folder'
 }
