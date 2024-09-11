@@ -4,7 +4,10 @@ import Input from './Input.vue';
 const meta = {
   title: 'Input/Input',
   component: Input,
-  argTypes: {},
+  args: {
+    placeholder: 'Введите текст',
+    inputMessage: 'Текст'
+  },
   tags: ['autodocs']
 } as Meta<typeof Input>;
 
