@@ -18,10 +18,10 @@ const Template: StoryFn<typeof DragAndDrop> = args => ({
     return { args };
   },
   template: `
-        <div :style="{height: '50px', width: '30rem' }">
-            <DragAndDrop v-bind="args" />
-        </div>
-     `
+      <div :style="{height: '50px', width: '30rem' }">
+          <DragAndDrop v-bind="args" />
+      </div>
+    `
 });
 
 export const Default = Template.bind({});

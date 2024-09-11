@@ -1,3 +1,3 @@
 export interface IDragAndDropProps {
-  IsOne?: boolean;
+  singleFileMode?: boolean;
 }
