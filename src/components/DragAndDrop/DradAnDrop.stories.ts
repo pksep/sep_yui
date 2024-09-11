@@ -6,7 +6,7 @@ const meta = {
   component: DragAndDrop,
   tags: ['autodocs'],
   parameters: {
-    backgrounds: { default: '#E3E3E3'}
+    backgrounds: { default: '#E3E3E3' }
   }
 };
 

@@ -16,7 +16,7 @@
     </label>
     <input
       id="docsFileSelected"
-      @change="e => addDock()"
+      @change="addDock()"
       type="file"
       style="display: none"
       required
@@ -43,24 +43,24 @@ const state = reactive({
 const fileRef = ref(null);
 
 const onChange = () => {
-  state.docFiles = [...fileRef.value.files];
+  state.docFiles = [...fileRef.value?.files];
 };
 
-const dragover = event => {
+const dragover = (event: Event) => {
   event.preventDefault();
-  const label = event.currentTarget.children[0];
+  const label = event.currentTarget?.children[0];
   if (!label.classList.contains('active')) label.classList.add('active');
 };
 
-const dragleave = event => {
-  event.currentTarget.children[0].classList.remove('active');
+const dragleave = (event: Event) => {
+  event.currentTarget?.children[0].classList.remove('active');
 };
 
-const drop = async event => {
+const drop = async (event: Event) => {
   event.preventDefault();
-  fileRef.value.files = event.dataTransfer.files;
+  if (fileRef.value === null) fileRef.value.files = event.dataTransfer.files;
   await addDock();
-  event.currentTarget.children[0].classList.remove('active');
+  event.currentTarget?.children[0].classList.remove('active');
 };
 
 const addDock = async () => {
@@ -70,7 +70,7 @@ const addDock = async () => {
 };
 
 onMounted(() => {
-  fileRef.value.addEventListener('cancel', () => {
+  fileRef.value?.addEventListener('cancel', () => {
     state.isPressed = false;
   });
 });
@@ -79,7 +79,6 @@ onMounted(() => {
 <style scoped>
 div.dnd-yui-kit,
 label.dnd-yui-kit__label {
-  margin-top: 16px;
   width: 100%;
   height: 100%;
   background: white;
@@ -94,9 +93,8 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   border-radius: none;
   font-size: 20px;
   color: #a6a3ad;
-  margin-left: 1px;
   svg {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 }
 
@@ -114,7 +112,7 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
     }
   }
   &.active {
-    border: 2.5px dotted #77a6ff;
+    border: 2.5px dashed #77a6ff;
     background: #f9fbff;
   }
 }
