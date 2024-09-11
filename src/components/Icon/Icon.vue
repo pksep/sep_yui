@@ -12,14 +12,12 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { ColorsEnum } from '@/common/colors';
 import { IIconPorps } from './interface/interface';
 import Icons from './index.ts';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
   width: 24,
-  height: 24,
-  color: ColorsEnum.black
+  height: 24
 });
 
 const styles = computed(() => ({

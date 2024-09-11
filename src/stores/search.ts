@@ -11,10 +11,12 @@ export const useSearchStore = defineStore('search', {
   },
   actions: {
     addHistorySearch(value: string): void {
-      if (value) {
-        if (this._historySearch[0] === value) return;
-        this._historySearch.unshift(value);
-      }
+      if (!value) return;
+
+      this._historySearch = this._historySearch.filter(
+        (el: string) => el !== value
+      );
+      this._historySearch.unshift(value);
 
       if (this._historySearch.length > 10) this._historySearch.pop();
 

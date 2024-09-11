@@ -1,6 +1,6 @@
 import { IconNameEnum } from '../../Icon/enum/enum';
 
-export type resultSearchType = {
+export type ResultSearchType = {
   icon: IconNameEnum;
   nameArea: string;
   searchResult: string;
@@ -12,9 +12,11 @@ export interface ISearchProps {
   showHistory?: boolean;
   global?: boolean;
   options?: string[];
-  globalResultsFunction?: () => resultSearchType[];
+  globalResultsFunction?: () => ResultSearchType[];
   isShowResult?: boolean;
   isShowList?: boolean;
   isShowButtonHistory?: boolean;
   searchValue?: string;
+  width?: string;
+  height?: string;
 }
