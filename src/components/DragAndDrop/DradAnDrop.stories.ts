@@ -1,13 +1,15 @@
 import { StoryFn } from '@storybook/vue3';
 import DragAndDrop from './DragAndDrop.vue';
+import { fn } from '@storybook/test';
 
 const meta = {
   title: 'DragAndDrop/DragAndDrop',
   component: DragAndDrop,
   tags: ['autodocs'],
   parameters: {
-    backgrounds: { default: '#E3E3E3' }
-  }
+    backgrounds: { default: 'Gray' }
+  },
+  args: { fileDropped: fn() }
 };
 
 export default meta;
