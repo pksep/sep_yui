@@ -25,14 +25,14 @@ const Template: StoryFn<typeof Search> = args => ({
   setup() {
     return { args };
   },
-  template: `<div style="width: 470px">
-  <Search v-bind="args" />
-  </div>`
+  template: `
+    <div style="width: 470px">
+      <Search v-bind="args" />
+    </div>`
 });
 
 export const Default = Template.bind({});
 
 Default.args = {
   showHistory: true
-  // placeholder: 'Поиск'
 };

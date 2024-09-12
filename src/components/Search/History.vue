@@ -190,6 +190,8 @@ const handleChoosePost = (item: string) => {
     padding: 0;
     margin: 0;
     background-color: $WHITE;
+    padding-left: 10px;
+    padding-right: 10px;
 
     &--opened {
       opacity: 1;
@@ -209,15 +211,17 @@ const handleChoosePost = (item: string) => {
   &__item {
     background: $WHITE;
     overflow: hidden;
-    border-bottom: 1px solid $WHITE-E7E7E7;
+
     text-align: left;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 5px;
     position: relative;
-    height: 24px;
-    padding-bottom: 3px;
+    height: 30px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $WHITE-E7E7E7;
+    }
 
     span {
       display: flex;
@@ -225,7 +229,8 @@ const handleChoosePost = (item: string) => {
       flex-grow: 1;
       align-items: center;
       padding: 5px 50px 5px 5px;
-      height: inherit;
+      height: 24px;
+      border-radius: 5px;
 
       &:hover {
         background-color: $BLUE-F2F7FF;
@@ -234,10 +239,8 @@ const handleChoosePost = (item: string) => {
 
     button {
       display: none;
-      width: 24px;
-      height: 24px;
       position: absolute;
-      right: 10px;
+      right: 0px;
 
       svg {
         width: 24px;
@@ -253,7 +256,11 @@ const handleChoosePost = (item: string) => {
         border: 1px solid $TRANSPARENT;
         outline: none;
         color: $GREY-757D8A;
-        display: block;
+        height: 20px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &:hover {
           cursor: pointer;
