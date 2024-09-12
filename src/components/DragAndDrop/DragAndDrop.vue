@@ -8,20 +8,20 @@
     <label
       for="docsFileSelected"
       class="dnd-yui-kit__label"
-      :class="{ pressed: state.isPressed }"
-      @click="state.isPressed = !state.isPressed"
+      :class="{ 'is-pressed': state.isPressed }"
+      @click="togglePress"
     >
-      <Icon name="paperClip" stroke-width="2" />
+      <Icon :name="IconNameEnum.paperClip" stroke-width="2" />
       <span class="dnd-yui-kit__span"> Кликните или перенесите файлы </span>
     </label>
     <input
       id="docsFileSelected"
-      @change="e => addDock()"
+      @change="onChange"
       type="file"
       style="display: none"
       required
-      :multiple="!props.IsOne"
-      ref="fileRef"
+      :multiple="!props.singleFileMode"
+      ref="fileInputRef"
     />
   </div>
 </template>
@@ -29,48 +29,60 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 import { IDragAndDropProps } from './interface/interface.ts';
-import Icon from "../Icon/Icon.vue";
+import Icon from '../Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum/enum.ts';
 
-const props = withDefaults(defineProps<IDragAndDropProps>(), {});
-
-const emits = defineEmits(['unmount']);
-
-const state = reactive({
-  isPressed: false,
-  docFiles: []
+const props = withDefaults(defineProps<IDragAndDropProps>(), {
+  singleFileMode: false
 });
 
-const fileRef = ref(null);
+const emits = defineEmits<{
+  (event: 'fileDropped', fileList: FileList | null): void;
+}>();
 
-const onChange = () => {
-  state.docFiles = [...fileRef.value.files];
+const state = reactive({
+  isPressed: false
+});
+
+const fileInputRef = ref<HTMLInputElement | null>(null);
+
+const onChange = (event: Event): void => {
+  const target = event.target as HTMLInputElement;
+  addDock(target.files);
 };
 
-const dragover = event => {
+const dragover = (event: Event): void => {
   event.preventDefault();
-  const label = event.currentTarget.children[0];
+  const label = (event.currentTarget as HTMLElement)?.children[0];
   if (!label.classList.contains('active')) label.classList.add('active');
 };
 
-const dragleave = event => {
-  event.currentTarget.children[0].classList.remove('active');
+const dragleave = (event: Event) => {
+  const target = event.currentTarget as HTMLElement;
+  target.children[0].classList.remove('active');
 };
 
-const drop = async event => {
+const drop = (event: DragEvent): void => {
   event.preventDefault();
-  fileRef.value.files = event.dataTransfer.files;
-  await addDock();
-  event.currentTarget.children[0].classList.remove('active');
+
+  addDock(event.dataTransfer?.files || null);
+
+  const target = event.currentTarget as HTMLElement;
+  target.children[0].classList.remove('active');
 };
 
-const addDock = async () => {
+const togglePress = (): void => {
+  state.isPressed = !state.isPressed;
+};
+
+const addDock = (files: FileList | null): void => {
   state.isPressed = false;
-  onChange();
-  await emits('unmount', state.docFiles);
+
+  emits('fileDropped', files);
 };
 
 onMounted(() => {
-  fileRef.value.addEventListener('cancel', () => {
+  fileInputRef.value?.addEventListener('cancel', () => {
     state.isPressed = false;
   });
 });
@@ -79,7 +91,6 @@ onMounted(() => {
 <style scoped>
 div.dnd-yui-kit,
 label.dnd-yui-kit__label {
-  margin-top: 16px;
   width: 100%;
   height: 100%;
   background: white;
@@ -93,28 +104,28 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   border-radius: 5px;
   border-radius: none;
   font-size: 20px;
+  font-weight: 700;
   color: #a6a3ad;
-  margin-left: 1px;
   svg {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 }
 
 div.dnd-yui-kit label.dnd-yui-kit__label {
   &:hover,
-  &.pressed {
+  &.is-pressed {
     border: 1.5px solid #77a6ff;
     background: #f9fbff;
   }
   &.active,
-  &.pressed {
+  &.is-pressed {
     & span.dnd-yui-kit__span,
     svg {
       color: #77a6ff;
     }
   }
   &.active {
-    border: 2.5px dotted #77a6ff;
+    border: 2.5px dashed #77a6ff;
     background: #f9fbff;
   }
 }
