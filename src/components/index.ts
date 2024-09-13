@@ -4,6 +4,9 @@ import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
 import Dropdown from './Dropdown/Dropdown.vue';
+import Dialog from "./Dialog/Dialog.vue";
+import DragAndDrop from "./DragAndDrop/DragAndDrop.vue";
+import Card from "./Card/Card.vue";
 import Filter from './Filter/Filter.vue';
 import Icon from './Icon/Icon.vue';
 import Search from './Search/Search.vue';
@@ -15,6 +18,9 @@ import { createPinia } from 'pinia';
 const components = {
   Badges,
   BreadCrumbs,
+  Dialog,
+  DragAndDrop,
+  Card,
   Button,
   Switch,
   Dropdown,
@@ -43,6 +49,9 @@ export {
   Badges,
   BreadCrumbs,
   Button,
+  Dialog,
+  Card,
+  DragAndDrop,
   Switch,
   Dropdown,
   Filter,
