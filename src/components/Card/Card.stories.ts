@@ -22,7 +22,7 @@ const Template: StoryFn = args => ({
     return { args };
   },
   template: `
-        <Card v-bind="args" :class="{ pressed: args.pressed}" :style="{width: '162px', height: '140px'}">
+        <Card v-bind="args" @click="args.pressed = !args.pressed" :class="{ pressed: args.pressed}" :style="{width: '162px', height: '140px'}">
             Simple text
         </Card>
   `
