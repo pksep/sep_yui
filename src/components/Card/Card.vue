@@ -10,12 +10,13 @@
   align-items: center;
   justify-content: center;
   padding: 10px;
-  box-shadow: 0px 4px 9.8px 0px #0000000D;
+  box-shadow: 0px 4px 9.8px 0px #0000000d;
   background: white;
   border-radius: 15px;
-  &:hover, &.pressed {
-      border-color: #9CBEFF;
-      border-style: solid;
+  &:hover,
+  &.pressed {
+    border-color: #9cbeff;
+    border-style: solid;
   }
   &:hover {
     border-width: 0.5px;
