@@ -12,8 +12,8 @@ import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 
 const props = defineProps<IDialogProps>();
+const dialog = ref<HTMLDialogElement | null>(null);
 const attrs = useAttrs();
-const dialog = ref<HTMLDialogElement>();
 const visible = ref(false);
 
 const stylesContent = computed(() => ({
@@ -23,12 +23,6 @@ const stylesContent = computed(() => ({
 
 const showDialog = () =>
   props.open ? dialog.value?.showModal() : dialog.value?.close();
-
-defineExpose({
-  show: showDialog,
-  close: (returnVal?: string): void => dialog.value?.close(returnVal),
-  visible
-});
 
 useEventListener(dialog, 'click', e => {
   if (e.target === dialog.value) {
