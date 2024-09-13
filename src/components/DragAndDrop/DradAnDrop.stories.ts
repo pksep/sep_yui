@@ -1,13 +1,15 @@
 import { StoryFn } from '@storybook/vue3';
 import DragAndDrop from './DragAndDrop.vue';
+import { fn } from '@storybook/test';
 
 const meta = {
   title: 'DragAndDrop/DragAndDrop',
   component: DragAndDrop,
   tags: ['autodocs'],
   parameters: {
-    backgrounds: { default: '#E3E3E3' }
-  }
+    backgrounds: { default: 'Gray' }
+  },
+  args: { onChange: fn() }
 };
 
 export default meta;
@@ -19,7 +21,7 @@ const Template: StoryFn<typeof DragAndDrop> = args => ({
   },
   template: `
       <div :style="{height: '50px', width: '30rem' }">
-          <DragAndDrop v-bind="args" />
+          <DragAndDrop v-bind="args" @fileDropped="args.onChange" />
       </div>
     `
 });

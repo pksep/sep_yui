@@ -77,7 +77,6 @@ const togglePress = (): void => {
 
 const addDock = (files: FileList | null): void => {
   state.isPressed = false;
-
   emits('fileDropped', files);
 };
 
@@ -88,7 +87,9 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/assets/scss/_variables.scss';
+
 div.dnd-yui-kit,
 label.dnd-yui-kit__label {
   width: 100%;
@@ -103,6 +104,7 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   justify-content: center;
   border-radius: 5px;
   border-radius: none;
+  font-family: $PRIMARY-FONT;
   font-size: 20px;
   font-weight: 700;
   color: #a6a3ad;
