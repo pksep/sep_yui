@@ -1,12 +1,17 @@
 import { StoryFn } from '@storybook/vue3';
+import { StorybookControlEnum } from '../../common/storybook';
 import Card from './Card.vue';
 
 const meta = {
   title: 'Card/Card',
   component: Card,
-  argTypes: {},
-  tags: ['autodocs'],
-  args: { }
+  argTypes: {
+    pressed: {
+      control: { type: StorybookControlEnum.boolean },
+      defaultValue: false
+    }
+  },
+  tags: ['autodocs']
 };
 
 export default meta;
@@ -17,7 +22,7 @@ const Template: StoryFn = args => ({
     return { args };
   },
   template: `
-        <Card :style="{width: '350px'}">
+        <Card v-bind="args" :class="{ pressed: args.pressed}" :style="{width: '162px', height: '140px'}">
             Simple text
         </Card>
   `
@@ -25,3 +30,8 @@ const Template: StoryFn = args => ({
 
 export const Default = Template.bind({});
 Default.args = {};
+
+export const Pressed = Template.bind({});
+Pressed.args = {
+  pressed: true
+};
