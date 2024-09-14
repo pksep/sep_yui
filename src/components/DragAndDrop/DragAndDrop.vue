@@ -95,6 +95,7 @@ label.dnd-yui-kit__label {
   width: 100%;
   height: 100%;
   background: white;
+  border-radius: 5px;
 }
 
 div.dnd-yui-kit label.dnd-yui-kit__label {
@@ -102,8 +103,6 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   background: white;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
-  border-radius: none;
   font-family: $PRIMARY-FONT;
   font-size: 20px;
   font-weight: 700;

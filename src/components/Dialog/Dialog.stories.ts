@@ -14,6 +14,9 @@ const meta = {
       defaultValue: true
     }
   },
+  args: {
+    open: false
+  },
   tags: ['autodocs']
 } as Meta<typeof Dialog>;
 
@@ -26,7 +29,7 @@ const Template: StoryFn<typeof Dialog> = args => ({
   },
   template: `
     <Button @click="args.open=true"> Open Dialog </Button>
-    <Dialog v-bind="args" :open="args.open" :width="'300px'" :height="'300px'" />
+    <Dialog v-bind="args" :open="args.open"  width="300px" height="300px" @close="args.open=false" />
   `
 });
 

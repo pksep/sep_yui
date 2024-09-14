@@ -9,7 +9,7 @@ const meta = {
   parameters: {
     backgrounds: { default: 'Gray' }
   },
-  args: { onChange: fn() }
+  args: { fileDropped: fn() }
 };
 
 export default meta;
@@ -21,7 +21,7 @@ const Template: StoryFn<typeof DragAndDrop> = args => ({
   },
   template: `
       <div :style="{height: '50px', width: '30rem' }">
-          <DragAndDrop v-bind="args" @fileDropped="args.onChange" />
+          <DragAndDrop v-bind="args" @fileDropped="args.fileDropped" />
       </div>
     `
 });

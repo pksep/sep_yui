@@ -1,8 +1,8 @@
 name: Build and pusblish npm package
 on:
   push:
-    branches:
-      - 'main'
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:
