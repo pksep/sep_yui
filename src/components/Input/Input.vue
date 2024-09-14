@@ -2,22 +2,31 @@
   <fieldset class="input-yui-kit">
     <legend class="input-yui-kit__legend">{{ props.inputMessage }}</legend>
     <input class="input-yui-kit__input" :placeholder="props.placeholder" />
+    <Button type="ghost" class="input-yui-kit__close" > <Icon :name="IconNameEnum.exitSmall" /> </Button>
   </fieldset>
 </template>
 
 <script setup lang="ts">
+import { ref, watch, reactive } from 'vue'
 import type { IInputProps } from './interface/interface.ts';
+import Icon from './../Icon/Icon.vue';
+import Button from "../Button/Button.vue"
+import { IconNameEnum } from '../Icon/enum/enum';
 
 const props = withDefaults(defineProps<IInputProps>(), {});
+
 </script>
 
 <style scoped lang="scss">
 fieldset.input-yui-kit {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.9fr 0.1fr;
   border: none;
   padding: 0 15px;
+  border-radius: 5px;
   & .input-yui-kit__legend {
     display: none;
-    border-radius: 5px;
   }
   &:hover,
   &:focus-visible,
@@ -26,14 +35,20 @@ fieldset.input-yui-kit {
     color: $BLUE-9CBEFF;
     & .input-yui-kit__legend {
       display: block;
-      border-radius: 5px;
     }
   }
 }
 
+.input-yui-kit__close {
+  display: none;
+  margin-bottom: 5px;
+  justify-self: end;
+}
+
 input.input-yui-kit__input {
   background-color: $WHITE;
-  height: 44px;
+  height: 24px;
+  margin-bottom: 5px;
   font-size: 16px;
   border: none;
   outline: none;
