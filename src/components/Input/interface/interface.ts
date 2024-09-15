@@ -1,5 +1,6 @@
 export interface IInputProps {
   placeholder: string;
   inputMessage: string;
-  inputType: string;
+  inputType: 'text' | 'email';
+  required: boolean;
 }

@@ -7,9 +7,13 @@ const meta = {
   title: 'Input/Input',
   component: Input,
   argTypes: {
-    type: {
+    class: {
       control: { type: StorybookControlEnum.select },
       options: InputTypeEnum
+    },
+    required: {
+      control: { type: StorybookControlEnum.boolean },
+      defaultValue: false
     }
   },
   args: {
@@ -26,32 +30,30 @@ const Template: StoryFn<typeof Input> = args => ({
   setup() {
     return { args };
   },
-  template: `<Input v-bind="args" :class="args.type" :disabled="args.type === 'disabled'" />`
+  template: `<Input v-bind="args" :disabled="args.class === 'disabled'" />`
 });
 
 export const InputDefault = Template.bind({});
 InputDefault.args = {
-  type: InputTypeEnum.inital
+  class: InputTypeEnum.inital
 };
-
 
 export const InputDisabled = Template.bind({});
 InputDisabled.args = {
-  type: InputTypeEnum.disabled
+  class: InputTypeEnum.disabled
 };
-
 
 export const InputError = Template.bind({});
 InputError.args = {
-  type: InputTypeEnum.error
+  class: InputTypeEnum.error
 };
 
 export const InputWarning = Template.bind({});
 InputWarning.args = {
-  type: InputTypeEnum.warning
+  class: InputTypeEnum.warning
 };
 
 export const InputSuccess = Template.bind({});
 InputSuccess.args = {
-  type: InputTypeEnum.success
+  class: InputTypeEnum.success
 };
