@@ -51,5 +51,9 @@ Default.args = {
       background: 'red'
     }
   },
-  railStyle: {}
+  railStyle: {
+    y: {
+      background: 'black'
+    }
+  }
 };

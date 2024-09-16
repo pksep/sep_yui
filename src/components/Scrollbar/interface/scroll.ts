@@ -18,9 +18,11 @@ export interface IScrollbarProps {
   railStyle?: {
     y?: {
       background: string;
+      right?: string;
     };
     x?: {
       background: string;
+      right?: string;
     };
   };
 }
