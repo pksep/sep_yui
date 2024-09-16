@@ -92,7 +92,6 @@ const closeOpenList = (e: MouseEvent) => {
     align-items: center;
     justify-content: space-between;
     border: 1px solid $TRANSPARENT;
-    margin-bottom: 5px;
     border-radius: 5px;
     cursor: pointer;
 
