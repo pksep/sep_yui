@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import { StorybookControlEnum } from '../../common/storybook';
-import { InputTypeEnum } from './enum/enum';
+import { InputTypeEnum, TextFieldTypes } from './enum/enum';
 import Input from './Input.vue';
 
 const meta = {
@@ -18,6 +18,7 @@ const meta = {
   },
   args: {
     placeholder: 'Введите текст',
+    type: TextFieldTypes.text,
     inputMessage: 'Текст'
   },
   tags: ['autodocs']

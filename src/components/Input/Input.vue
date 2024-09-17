@@ -8,6 +8,7 @@
       v-model="state.inputElement"
       @input="handleInput"
       @change="changeInput"
+      @focus="handleInput"
       :type="props.inputType"
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
@@ -32,7 +33,7 @@ import Button from '../Button/Button.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 
 const props = withDefaults(defineProps<IInputProps>(), {
-  inputType: 'text',
+  type: 'text',
   required: false
 });
 
@@ -47,7 +48,7 @@ const clearInput = () => {
 };
 
 const handleInput = () => {
-  state.isPressed = true;
+  state.isPressed = state.inputElement?.length > 0;
 };
 
 const changeInput = () => {
@@ -99,7 +100,6 @@ fieldset.input-yui-kit {
       color: $RED-F42C2B;
     }
   }
-  &:hover,
   &.pressed {
     & .input-yui-kit__legend {
       display: block;

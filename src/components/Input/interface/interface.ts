@@ -1,6 +1,8 @@
+import { TextFieldTypes } from "../enum/enum"
+
 export interface IInputProps {
-  placeholder: string;
+  placeholder?: string;
   inputMessage: string;
-  inputType: 'text' | 'email' | 'password' | 'tel' | 'url' | 'week';
-  required: boolean;
+  type: TextFieldTypes;
+  required?: boolean;
 }
