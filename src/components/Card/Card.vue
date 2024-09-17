@@ -15,9 +15,10 @@
   border-radius: 15px;
   cursor: pointer;
   font-size: 14px;
-  &:hover, &.pressed {
-      border-color: #9CBEFF;
-      border-style: solid;
+  &:hover,
+  &.pressed {
+    border-color: #9cbeff;
+    border-style: solid;
   }
   &:hover {
     border-width: 0.5px;
