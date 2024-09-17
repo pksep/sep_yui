@@ -2,8 +2,8 @@
   <div class="dropdown-yui-kit">
     <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
       <span class="truncate-yui-kit">{{ state.choosedOption }}</span>
-      <Icon :name="IconNameEnum.chevronDown" v-if="state.isOpened" />
-      <Icon :name="IconNameEnum.chevronUp" v-if="!state.isOpened" />
+      <Icon :name="IconNameEnum.chevronUp" v-if="state.isOpened" />
+      <Icon :name="IconNameEnum.chevronDown" v-if="!state.isOpened" />
     </span>
     <ul class="dropdown-yui-kit__list" v-if="state.isOpened">
       <li
