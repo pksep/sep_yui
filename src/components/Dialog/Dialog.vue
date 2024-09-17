@@ -44,7 +44,7 @@ onMounted(() => {
 .dialog-yui-kit {
   background: $BLUE-F2F7FF;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   padding: 0px;
   &:focus-visible {
     outline: none;
