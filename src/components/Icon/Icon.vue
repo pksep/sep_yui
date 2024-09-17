@@ -26,7 +26,9 @@ const styles = computed(() => ({
 
 type IconName = keyof typeof Icons;
 
+const camelize = s => s.replace(/-./g, x=>x[1].toUpperCase())
+
 const icon = computed(() => {
-  return Icons[props.name as IconName]?.path;
+  return Icons[camelize(props.name) as IconName]?.path;
 });
 </script>
