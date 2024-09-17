@@ -9,6 +9,14 @@ table.table-yui-kit {
   margin-bottom: 15px;
   border: 0.5px solid $WHITE-E0E0E0;
 
+  & .table-yui-kit__th {
+      position: sticky;
+      top: 0px;
+      background: white;
+    }
+  & .table-yui-kit__empty {
+    height: 100%;
+  }
   & th.table-yui-kit__th {
     &:last-child {
         border-radius: 0 10px 0 0;
@@ -45,9 +53,17 @@ table.table-yui-kit {
     }
     &.ava {
       background-color: #fff6e4;
+      &:hover,
+      &.active {
+        background-color: #ffebc1;
+       }
     }
     &.ban {
       background-color: #ffefee;
+      &:hover,
+      &.active {
+        background-color: #ffd3ca;
+      }
     }
   }
 
@@ -56,7 +72,10 @@ table.table-yui-kit {
   }
 
   & td.table-yui-kit__td {
-    padding: 12px 8px;
+    padding: 10px 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
     img.link_img {
       width: 20px;
