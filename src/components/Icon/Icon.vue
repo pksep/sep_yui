@@ -4,7 +4,7 @@
     :width="props.width"
     :height="props.height"
     :style="styles"
-    :viewBox="Icons[props.name as IconName]?.viewbox || `0 0 24 24`"
+    :viewBox="Icons[camelize(props.name) as IconName]?.viewbox || `0 0 24 24`"
   >
     <g v-html="icon" />
   </svg>
@@ -26,7 +26,11 @@ const styles = computed(() => ({
 
 type IconName = keyof typeof Icons;
 
+const camelize = (s: string) => {
+  return s.replace(/-./g, (x: string) => x[1].toUpperCase());
+};
+
 const icon = computed(() => {
-  return Icons[props.name as IconName]?.path;
+  return Icons[camelize(props.name) as IconName]?.path;
 });
 </script>
