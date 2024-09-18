@@ -109,7 +109,7 @@ Ghost.args = {
 export const BtnWithIcon = Template.bind({});
 BtnWithIcon.args = {
   type: ButtonTypeEnum.primary,
-  iconName: 'arrowLeft',
+  iconName: 'plus',
   iconPosition: 'left',
   content: 'Button with Icon'
 };
@@ -117,7 +117,7 @@ BtnWithIcon.args = {
 export const BtnWithCloudIcon = Template.bind({});
 BtnWithCloudIcon.args = {
   type: ButtonTypeEnum.outline,
-  iconName: 'uploadCloud',
+  iconName: 'upload-cloud',
   iconPosition: 'left',
   content: 'Button with CloudIcon'
 };
