@@ -14,11 +14,11 @@ table.table-yui-kit {
   border-collapse: separate;
   text-align: center;
 
-  & .table-yui-kit__th {
+  & thead.table-yui-kit__thead {
       position: sticky;
       top: 0px;
       background: white;
-    }
+  }
   & .table-yui-kit__empty {
     height: 100%;
   }
@@ -42,9 +42,11 @@ table.table-yui-kit {
         background-color: $BLUE-F2F7FF;
     }
   }
+
   & th.table-yui-kit__th:not(:last-child) {
     border-right: 0.5px solid $WHITE-E0E0E0;
-    }
+  }
+
   & tr.table-yui-kit__tr:not(:last-child) {
         & td.table-yui-kit__td {
             border-bottom: 0.5px solid $WHITE-E0E0E0;
