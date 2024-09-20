@@ -1,3 +1,10 @@
+div.table-yui-kit__border {
+  border: 0.5px solid $WHITE-E0E0E0;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  overflow: auto;
+}
+
 table.table-yui-kit {
   width: inherit;
   position: relative;
@@ -6,8 +13,6 @@ table.table-yui-kit {
   border-spacing: 0;
   border-collapse: separate;
   text-align: center;
-  margin-bottom: 15px;
-  border: 0.5px solid $WHITE-E0E0E0;
 
   & .table-yui-kit__th {
       position: sticky;

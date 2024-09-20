@@ -1,5 +1,6 @@
 <template>
   <div class="table-wrapper-yui-kit">
+   <div class="table-yui-kit__border">
     <table class="table-yui-kit">
       <tr class="table-yui-kit__tr">
         <th class="table-yui-kit__th">№</th>
@@ -99,6 +100,7 @@
         </td>
       </tr>
     </table>
+   </div>
   </div>
 </template>
 
