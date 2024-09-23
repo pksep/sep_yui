@@ -1,7 +1,7 @@
 <template>
   <div
     class="dropdown-yui-kit"
-    :style="{ width: addPxValues(props.width, '6px') }"
+    :style="{ width: props.width }"
   >
     <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
       <span class="truncate-yui-kit">{{ state.choosedOption }}</span>
@@ -64,13 +64,6 @@ const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
   state.isOpened = false;
-};
-
-const addPxValues = (pxString: string, appendValue: string) => {
-  const currentValue = parseInt(pxString.replace('px', ''));
-  const appendValueInt = parseInt(appendValue.replace('px', ''));
-  const result = currentValue + appendValueInt;
-  return result + 'px';
 };
 
 /**
