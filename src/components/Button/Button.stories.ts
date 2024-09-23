@@ -67,7 +67,7 @@ const Template: StoryFn<typeof Button> = args => ({
     <div style="display: flex; flex-direction: row; gap: 12px;">
       <Button v-bind="args" :color="args.iconColor">
       <template v-slot:left-icon>
-      <Icon v-if="args.iconPosition === 'left'" :name="args.iconName"/>
+      <Icon width="16" height="16" v-if="args.iconPosition === 'left'" :name="args.iconName"/>
     </template>
     {{ args.content || 'Button' }}
       <template v-slot:right-icon>

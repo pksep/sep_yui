@@ -1,19 +1,24 @@
 <template>
-  <div class="dropdown-yui-kit">
+  <div
+    class="dropdown-yui-kit"
+    :style="{ width: addPxValues(props.width, '6px') }"
+  >
     <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
       <span class="truncate-yui-kit">{{ state.choosedOption }}</span>
       <Icon :name="IconNameEnum.chevronUp" v-if="state.isOpened" />
       <Icon :name="IconNameEnum.chevronDown" v-if="!state.isOpened" />
     </span>
     <ul class="dropdown-yui-kit__list" v-if="state.isOpened">
-      <li
-        :class="[classes, { active: option === state.choosedOption }]"
-        v-for="option in props.options"
-        @click="() => getChoosenOption(option)"
-        :key="option"
-      >
-        {{ option }}
-      </li>
+      <Scroll :style="{ width: props.width }">
+        <li
+          :class="[classes, { active: option === state.choosedOption }]"
+          v-for="option in props.options"
+          @click="() => getChoosenOption(option)"
+          :key="option"
+        >
+          {{ option }}
+        </li>
+      </Scroll>
     </ul>
   </div>
 </template>
@@ -21,6 +26,7 @@
 import { reactive, computed } from 'vue';
 import { IDropdownProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
+import Scroll from '../Scrollbar/Scrollbar.vue';
 import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {});
@@ -28,7 +34,8 @@ const props = withDefaults(defineProps<IDropdownProps>(), {});
 const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
-  lengthOption: 0
+  lengthOption: 0,
+  width: '100%'
 });
 
 const emit = defineEmits<{
@@ -59,6 +66,13 @@ const getChoosenOption = (value: string) => {
   state.isOpened = false;
 };
 
+const addPxValues = (pxString: string, appendValue: string) => {
+  const currentValue = parseInt(pxString.replace('px', ''));
+  const appendValueInt = parseInt(appendValue.replace('px', ''));
+  const result = currentValue + appendValueInt;
+  return result + 'px';
+};
+
 /**
  * @event e: MouseEvent ( click )
  * @returns
@@ -86,7 +100,7 @@ const closeOpenList = (e: MouseEvent) => {
 
   &__current {
     width: inherit;
-    padding: 6px 5px;
+    padding: 6px 10px;
     background-color: $WHITE;
     display: flex;
     align-items: center;
@@ -106,18 +120,21 @@ const closeOpenList = (e: MouseEvent) => {
 
   &__list {
     list-style-type: none;
+    display: grid;
     margin: 0;
     padding: 0;
     padding: 6px 5px;
     max-height: 120px;
-    overflow-y: scroll;
-    background-color: $WHITE;
-    border-radius: 5px;
-    border: 1px solid $BLUE-9CBEFF;
-    display: grid;
-    gap: 10px;
     position: absolute;
     z-index: 2222222;
+  }
+  &__list > div {
+    background-color: $WHITE;
+    border: 1px solid $BLUE-9CBEFF;
+    border-radius: 5px;
+    display: grid;
+    max-height: 120px;
+    gap: 10px;
   }
 
   &__item {
@@ -138,9 +155,17 @@ const closeOpenList = (e: MouseEvent) => {
 
 .truncate-yui-kit {
   display: inline-block;
-  max-width: 100%;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.dropdown-yui-kit__list {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  & ::-webkit-scrollbar {
+    display: none; /* Скрывает скроллбар в Chrome, Safari и Opera */
+  }
 }
 </style>
