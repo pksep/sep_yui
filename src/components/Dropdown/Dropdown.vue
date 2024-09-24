@@ -10,7 +10,14 @@
       v-if="state.isOpened"
       :style="{ width: props.width }"
     >
-      <Scroll :style="{ width: props.width }">
+      <Scroll
+        :style="{ width: props.width }"
+        :railStyle="{
+          y: {
+            right: '6px'
+          }
+        }"
+      >
         <li
           :class="[classes, { active: option === state.choosedOption }]"
           v-for="option in props.options"
@@ -35,8 +42,7 @@ const props = withDefaults(defineProps<IDropdownProps>(), {});
 const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
-  lengthOption: 0,
-  width: '100%'
+  lengthOption: 0
 });
 
 const emit = defineEmits<{
@@ -113,9 +119,9 @@ const closeOpenList = (e: MouseEvent) => {
   }
 
   &__list {
+    margin-top: 5px;
     list-style-type: none;
     display: grid;
-    margin: 0;
     padding: 0;
     background-color: $WHITE;
     border: 1px solid $BLUE-9CBEFF;
@@ -129,6 +135,7 @@ const closeOpenList = (e: MouseEvent) => {
   }
   &__list > div:first-child {
     display: grid;
+    max-height: 120px;
     gap: 10px;
   }
 
