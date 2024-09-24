@@ -74,13 +74,6 @@ const getChoosenOption = (value: string) => {
   state.isOpened = false;
 };
 
-const addPxValues = (pxString: string, appendValue: string) => {
-  const currentValue = parseInt(pxString.replace('px', ''));
-  const appendValueInt = parseInt(appendValue.replace('px', ''));
-  const result = currentValue + appendValueInt;
-  return result + 'px';
-};
-
 /**
  * @event e: MouseEvent ( click )
  * @returns
