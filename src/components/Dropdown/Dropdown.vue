@@ -1,15 +1,23 @@
 <template>
-  <div
-    class="dropdown-yui-kit"
-    :style="{ width: addPxValues(props.width, '6px') }"
-  >
+  <div class="dropdown-yui-kit" :style="{ width: props.width }">
     <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
       <span class="truncate-yui-kit">{{ state.choosedOption }}</span>
       <Icon :name="IconNameEnum.chevronUp" v-if="state.isOpened" />
       <Icon :name="IconNameEnum.chevronDown" v-if="!state.isOpened" />
     </span>
-    <ul class="dropdown-yui-kit__list" v-if="state.isOpened">
-      <Scroll :style="{ width: props.width }">
+    <ul
+      class="dropdown-yui-kit__list"
+      v-if="state.isOpened"
+      :style="{ width: props.width }"
+    >
+      <Scroll
+        :style="{ width: props.width }"
+        :railStyle="{
+          y: {
+            right: '6px'
+          }
+        }"
+      >
         <li
           :class="[classes, { active: option === state.choosedOption }]"
           v-for="option in props.options"
@@ -119,19 +127,21 @@ const closeOpenList = (e: MouseEvent) => {
   }
 
   &__list {
+    margin-top: 5px;
     list-style-type: none;
     display: grid;
-    margin: 0;
     padding: 0;
+    background-color: $WHITE;
+    border: 1px solid $BLUE-9CBEFF;
     padding: 6px 5px;
     max-height: 120px;
+    border-radius: 5px;
     position: absolute;
+    overflow: auto;
+    overflow-x: hidden;
     z-index: 2222222;
   }
   &__list > div {
-    background-color: $WHITE;
-    border: 1px solid $BLUE-9CBEFF;
-    border-radius: 5px;
     display: grid;
     max-height: 120px;
     gap: 10px;

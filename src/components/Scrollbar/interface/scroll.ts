@@ -6,22 +6,22 @@ export interface IScrollbarProps {
 
   thrumbStyle?: {
     y?: {
-      background: string;
+      background?: string;
       width?: string;
     };
     x?: {
-      background: string;
+      background?: string;
       width?: string;
     };
   };
 
   railStyle?: {
     y?: {
-      background: string;
+      background?: string;
       right?: string;
     };
     x?: {
-      background: string;
+      background?: string;
       right?: string;
     };
   };
