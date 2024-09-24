@@ -42,7 +42,8 @@ const props = withDefaults(defineProps<IDropdownProps>(), {});
 const state = reactive({
   isOpened: false,
   choosedOption: props.options[0] || '',
-  lengthOption: 0
+  lengthOption: 0,
+  width: '100%'
 });
 
 const emit = defineEmits<{
@@ -71,6 +72,13 @@ const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
   state.isOpened = false;
+};
+
+const addPxValues = (pxString: string, appendValue: string) => {
+  const currentValue = parseInt(pxString.replace('px', ''));
+  const appendValueInt = parseInt(appendValue.replace('px', ''));
+  const result = currentValue + appendValueInt;
+  return result + 'px';
 };
 
 /**
@@ -133,7 +141,7 @@ const closeOpenList = (e: MouseEvent) => {
     overflow-x: hidden;
     z-index: 2222222;
   }
-  &__list > div:first-child {
+  &__list > div {
     display: grid;
     max-height: 120px;
     gap: 10px;
