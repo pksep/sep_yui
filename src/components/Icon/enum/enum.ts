@@ -69,5 +69,6 @@ export enum IconNameEnum {
   crossLarge = 'cross-large',
   profileIcon = 'profileIcon',
   profile = 'profile',
-  rightBig = 'rightBig'
+  rightBig = 'rightBig',
+  alertTriangle = 'alert-triangle'
 }
