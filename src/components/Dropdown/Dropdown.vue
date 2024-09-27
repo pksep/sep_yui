@@ -179,3 +179,10 @@ const closeOpenList = (e: MouseEvent) => {
   }
 }
 </style>
+
+<style>
+.ps__thumb-x,
+.ps__rail-x {
+  display: none !important;
+}
+</style>
