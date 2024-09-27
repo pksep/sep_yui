@@ -101,7 +101,7 @@ const closeOpenList = (e: MouseEvent) => {
 
   &__current {
     width: inherit;
-    padding: 6.2px 10px;
+    padding: 6px 10px;
     background-color: $WHITE;
     display: flex;
     align-items: center;
@@ -129,7 +129,6 @@ const closeOpenList = (e: MouseEvent) => {
     max-height: 120px;
     border-radius: 5px;
     position: absolute;
-    padding: 5px 6px;
     overflow: auto;
     overflow-x: hidden;
     z-index: 2222222;
@@ -141,13 +140,15 @@ const closeOpenList = (e: MouseEvent) => {
   }
 
   &__item {
-    :first-child {
+    &:first-child {
       margin-top: 10px;
     }
-    margin-top: 5px;
-    padding: 0 5px;
+    &:last-child {
+      margin-bottom: 15px;
+    }
+    padding: 5px 10px;
+    margin-bottom: 6px;
     margin-left: 10px;
-    margin-bottom: 1px;
     cursor: pointer;
 
     &:hover {
