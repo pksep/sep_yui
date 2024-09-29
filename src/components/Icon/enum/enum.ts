@@ -67,8 +67,8 @@ export enum IconNameEnum {
   gitPullRequest = 'git-pull-request',
   folder = 'folder',
   crossLarge = 'cross-large',
-  profileIcon = 'profileIcon',
+  profileIcon = 'profile-icon',
   profile = 'profile',
-  rightBig = 'rightBig',
+  rightBig = 'right-big',
   alertTriangle = 'alert-triangle'
 }
