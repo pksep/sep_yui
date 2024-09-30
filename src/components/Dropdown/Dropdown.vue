@@ -141,15 +141,13 @@ const closeOpenList = (e: MouseEvent) => {
 
   &__item {
     &:first-child {
-      margin-top: 10px;
-    }
-    &:last-child {
-      margin-bottom: 15px;
+      margin-top: 5px;
     }
     padding: 5px 10px;
-    margin-bottom: 6px;
-    margin-left: 10px;
     cursor: pointer;
+    &:nth-last-child(3) {
+      margin-bottom: 10px;
+    }
 
     &:hover {
       background-color: $WHITE-ECF3FF;
