@@ -31,7 +31,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { IDropdownProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Scroll from '../Scrollbar/Scrollbar.vue';
@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<IDropdownProps>(), {});
 
 const state = reactive({
   isOpened: false,
-  choosedOption: props.options[0] || '',
+  choosedOption: props.defaultOption || props.options[0] || '',
   lengthOption: 0,
   width: '100%'
 });
@@ -66,13 +66,24 @@ const classes = computed(() => ({
  */
 
 /**
- * Получает знаение выбранного элемента списка и передает по событию родителю. Закрывает список.
+ * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
   state.isOpened = false;
 };
+
+watch(() => [
+  props.defaultOption,
+  state.choosedOption 
+],
+  () => {
+    if (props.defaultOption) {
+      state.choosedOption = props.defaultOption;
+    }
+  }
+);
 
 /**
  * @event e: MouseEvent ( click )
