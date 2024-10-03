@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, computed, CSSProperties, watch } from 'vue';
+import { onMounted, reactive, computed, CSSProperties } from 'vue';
 import { ISearchProps } from './interface/interface';
 import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -70,13 +70,6 @@ const state = reactive({
   generateUniqueId: generateUniqueId,
   placeholder: props.placeholder ?? ''
 });
-
-watch(
-  () => state.searchValue,
-  (newValue, oldValue) => {
-    console.log(`Значение изменилось с ${oldValue} на ${newValue}`);
-  }
-);
 
 const searchStyles: CSSProperties = {
   position: 'relative',

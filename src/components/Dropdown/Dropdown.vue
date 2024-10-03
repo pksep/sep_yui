@@ -74,15 +74,14 @@ const getChoosenOption = (value: string) => {
   state.isOpened = false;
 };
 
-watch(() => [
-  props.defaultOption,
-  state.choosedOption 
-],
+watch(
+  () => props.defaultOption,
   () => {
     if (props.defaultOption) {
       state.choosedOption = props.defaultOption;
     }
-  }
+  },
+  { immediate: true }
 );
 
 /**
