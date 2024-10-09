@@ -181,11 +181,10 @@ const handleChoosePost = (item: string) => {
   }
 
   &__list {
-    display: grid;
+    display: none;
     width: inherit;
     list-style-type: none;
     height: 0;
-    opacity: 0;
     transition: 0.3s ease-in-out;
     padding: 0;
     margin: 0;
@@ -194,7 +193,7 @@ const handleChoosePost = (item: string) => {
     padding-right: 10px;
 
     &--opened {
-      opacity: 1;
+      display: grid;
       height: fit-content;
       transition: 0.3s ease-in-out;
       position: absolute;

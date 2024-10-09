@@ -156,7 +156,7 @@ const closeOpenList = (e: MouseEvent) => {
     padding: 5px 10px;
     cursor: pointer;
     &:nth-last-child(3) {
-      margin-bottom: 10px;
+      margin-bottom: 2px;
     }
 
     &:hover {
