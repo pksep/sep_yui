@@ -1,7 +1,9 @@
 <template>
   <div class="dropdown-yui-kit" :style="{ width: props.width }">
     <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
-      <span class="truncate-yui-kit">{{ state.choosedOption }}</span>
+      <span class="truncate-yui-kit dropdown-yui-kit__text">{{
+        state.choosedOption
+      }}</span>
       <Icon :name="IconNameEnum.chevronUp" v-if="state.isOpened" />
       <Icon :name="IconNameEnum.chevronDown" v-if="!state.isOpened" />
     </span>
@@ -111,7 +113,7 @@ const closeOpenList = (e: MouseEvent) => {
 
   &__current {
     width: inherit;
-    padding: 6px 10px;
+    padding: 0px 10px;
     background-color: $WHITE;
     display: flex;
     align-items: center;
@@ -129,6 +131,9 @@ const closeOpenList = (e: MouseEvent) => {
     }
   }
 
+  &__text {
+    padding: 9.5px 0;
+  }
   &__list {
     margin-top: 5px;
     list-style-type: none;
