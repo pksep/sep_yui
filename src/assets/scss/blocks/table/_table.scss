@@ -54,6 +54,9 @@ table.table-yui-kit {
   }
 
   & tr.table-yui-kit__tr {
+    &.passive {
+      background: #f8f8f9;
+    }
     &:hover, &.active {
         color: inherit;
         background-color: #eaf2ff !important;
