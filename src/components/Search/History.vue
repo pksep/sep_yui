@@ -9,17 +9,26 @@
       Просмотреть историю запросов
     </button>
 
-    <ul :class="classes">
-      <li
-        class="history-yui-kit__item"
-        v-for="item in state.getHistorySearch"
-        :key="item"
+    <ul :class="classes" :style="{ width: props.width }">
+      <Scroll
+      :style="{ width: props.width }"
+        :railStyle="{
+          y: {
+            right: '6px'
+          }
+        }"
       >
-        <span @click="handleChoosePost(item)"> {{ trimText(item) }}</span
-        ><button type="button" @click="removeItem(item)">
-          <Icon :name="IconNameEnum.exitSmall" />
-        </button>
-      </li>
+        <li
+          class="history-yui-kit__item"
+          v-for="item in state.getHistorySearch"
+          :key="item"
+        >
+          <span @click="handleChoosePost(item)"> {{ trimText(item) }}</span
+          ><button type="button" @click="removeItem(item)">
+            <Icon :name="IconNameEnum.exitSmall" />
+          </button>
+        </li>
+      </Scroll>
     </ul>
   </div>
 </template>
@@ -29,6 +38,7 @@ import { reactive, computed } from 'vue';
 import { ISearchProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
+import Scroll from '../Scrollbar/Scrollbar.vue';
 import { useSearchStore } from '../../stores/search';
 import { trimText } from './../../helpers/trimText';
 
@@ -191,6 +201,13 @@ const handleChoosePost = (item: string) => {
     background-color: $WHITE;
     padding-left: 10px;
     padding-right: 10px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+
+    & ::-webkit-scrollbar {
+      display: none; /* Скрывает скроллбар в Chrome, Safari и Opera */
+    }
+
 
     &--opened {
       display: grid;
@@ -203,7 +220,11 @@ const handleChoosePost = (item: string) => {
 
     &--scroll {
       height: 100px;
-      overflow-y: scroll;
+    }
+    &--scroll > div {
+      display: grid;
+      overflow-y: auto;
+      height: 100px;
     }
   }
 

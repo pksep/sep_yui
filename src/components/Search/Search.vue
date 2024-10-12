@@ -23,6 +23,7 @@
       :show-history="props.showHistory"
       :is-show-button-history="state.isShowButtonHistory"
       :is-show-list="state.isShowList"
+      :width="props.width"
       v-if="props.showHistory"
       @choosePost="choosenPost"
     />

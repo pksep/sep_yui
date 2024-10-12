@@ -14,7 +14,7 @@ const meta = {
       control: { type: StorybookControlEnum.text }
     }
   },
-  args: { onEnter: fn() },
+  args: { onEnter: fn(), width: '470px' },
   tags: ['autodocs']
 } as Meta<typeof Search>;
 
@@ -26,7 +26,7 @@ const Template: StoryFn<typeof Search> = args => ({
     return { args };
   },
   template: `
-    <div style="width: 470px">
+    <div :style="{ width: args.width }">
       <Search v-bind="args" />
     </div>`
 });
