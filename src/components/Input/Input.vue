@@ -1,8 +1,8 @@
 <template>
   <fieldset class="input-yui-kit" :class="{ pressed: state.isPressed }">
     <legend class="input-yui-kit__legend">
-      {{ props.inputMessage }}
-      <span class="input-yui-kit__star" v-if="props.required">*</span>
+      {{ props.inputMessage
+      }}<span class="input-yui-kit__star" v-if="props.required">*</span>
     </legend>
     <input
       v-model="state.inputElement"
@@ -32,6 +32,10 @@ import Icon from './../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 
+const emits = defineEmits<{
+    (e: 'input', value: string): void
+}>()
+
 const props = withDefaults(defineProps<IInputProps>(), {
   type: 'text',
   required: false
@@ -47,8 +51,9 @@ const clearInput = () => {
   state.isPressed = false;
 };
 
-const handleInput = () => {
+const handleInput = (val: string) => {
   state.isPressed = state.inputElement?.length > 0;
+  emits('input', val);
 };
 
 const changeInput = () => {
@@ -63,7 +68,7 @@ watch(
 );
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @mixin fieldset-border($color) {
   border: 1px solid $color;
   &:has(.input-yui-kit__input:focus-visible) {
@@ -89,14 +94,22 @@ watch(
 fieldset.input-yui-kit {
   display: grid;
   align-items: center;
+  background-color: $WHITE;
   grid-template-columns: 0.9fr 0.1fr;
   padding: 0 15px;
+  padding-right: 7px;
   border-radius: 5px;
   @include fieldset-border($BLUE-9CBEFF);
   border: none;
   & .input-yui-kit__legend {
     display: none;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
     & .input-yui-kit__star {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
       color: $RED-F42C2B;
     }
   }
@@ -105,15 +118,13 @@ fieldset.input-yui-kit {
       display: block;
     }
   }
-}
-
-.input-yui-kit__close {
-  margin-bottom: 5px;
-  justify-self: end;
+  & .input-yui-kit__close {
+    margin-bottom: 5px;
+    justify-self: end;
+  }
 }
 
 input.input-yui-kit__input {
-  background-color: $WHITE;
   height: 44px;
   margin-bottom: 5px;
   font-size: 16px;
