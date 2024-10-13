@@ -33,8 +33,8 @@ import Button from '../Button/Button.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 
 const emits = defineEmits<{
-    (e: 'input', value: string): void
-}>()
+  (e: 'input', value: string): void;
+}>();
 
 const props = withDefaults(defineProps<IInputProps>(), {
   type: 'text',
