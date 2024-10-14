@@ -1,8 +1,8 @@
-name: Publish rls version npm package for develop
-
+name: Build and pusblish npm package for production
 on:
   push:
-    branches: ['main']
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:
@@ -36,26 +36,39 @@ jobs:
     runs-on: self-hosted
     needs: build
     permissions:
-      contents: write
+      contents: read
+      id-token: write
     steps:
-      - name: Init repositroy
-        run: |
-          mkdir -p ${GITHUB_SHA}
-          cd ${GITHUB_SHA}
-          git init
-          git config --global init.defaultBranch 'main'
-          git remote add origin "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@${HOSTNAME}/${REPOSITORY}.git"
-        env:
-          HOSTNAME: github.com
-          GITHUB_TOKEN: ${{ github.token }}
-          REPOSITORY: ${{ github.repository }}
       - uses: actions/download-artifact@v4
         with:
           name: published-to-npm-folder
           path: .
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: version update
+        run: npm version patch
+      - run: npm publish --provenance=false --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: update-package-json
+          path: package.json
+
+  update-package-json:
+    runs-on: self-hosted
+    needs: publish
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: update-package-json
+          path: .
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: 'rls-${{ github.number }}'
-          push_options: '-u --force'
-          file_pattern: 'dist package.json README.md'
-          create_branch: true
+          branch: ${{ github.event.repository.default_branch }}
