@@ -52,10 +52,11 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: published-to-npm-folder
-          path: .
+          path: ${{ github.sha }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: 'rls-${{ github.number }}'
+          branch: 'rls'
+          repository: ${{ github.sha }}
           push_options: '-u --force'
           file_pattern: 'dist package.json README.md'
           create_branch: true
