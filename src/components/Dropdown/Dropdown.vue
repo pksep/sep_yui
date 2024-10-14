@@ -1,7 +1,9 @@
 <template>
   <div class="dropdown-yui-kit" :style="{ width: props.width }">
     <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
-      <span class="truncate-yui-kit">{{ state.choosedOption }}</span>
+      <span class="truncate-yui-kit dropdown-yui-kit__text">{{
+        state.choosedOption
+      }}</span>
       <Icon :name="IconNameEnum.chevronUp" v-if="state.isOpened" />
       <Icon :name="IconNameEnum.chevronDown" v-if="!state.isOpened" />
     </span>
@@ -31,7 +33,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { IDropdownProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Scroll from '../Scrollbar/Scrollbar.vue';
@@ -41,7 +43,7 @@ const props = withDefaults(defineProps<IDropdownProps>(), {});
 
 const state = reactive({
   isOpened: false,
-  choosedOption: props.options[0] || '',
+  choosedOption: props.defaultOption || props.options[0] || '',
   lengthOption: 0,
   width: '100%'
 });
@@ -66,13 +68,23 @@ const classes = computed(() => ({
  */
 
 /**
- * Получает знаение выбранного элемента списка и передает по событию родителю. Закрывает список.
+ * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   emit('click', state.choosedOption);
   state.isOpened = false;
 };
+
+watch(
+  () => props.defaultOption,
+  () => {
+    if (props.defaultOption) {
+      state.choosedOption = props.defaultOption;
+    }
+  },
+  { immediate: true }
+);
 
 /**
  * @event e: MouseEvent ( click )
@@ -101,7 +113,7 @@ const closeOpenList = (e: MouseEvent) => {
 
   &__current {
     width: inherit;
-    padding: 6px 10px;
+    padding: 0px 10px;
     background-color: $WHITE;
     display: flex;
     align-items: center;
@@ -119,6 +131,9 @@ const closeOpenList = (e: MouseEvent) => {
     }
   }
 
+  &__text {
+    padding: 9.5px 0;
+  }
   &__list {
     margin-top: 5px;
     list-style-type: none;
@@ -126,7 +141,6 @@ const closeOpenList = (e: MouseEvent) => {
     padding: 0;
     background-color: $WHITE;
     border: 1px solid $BLUE-9CBEFF;
-    padding: 6px 5px;
     max-height: 120px;
     border-radius: 5px;
     position: absolute;
@@ -141,8 +155,14 @@ const closeOpenList = (e: MouseEvent) => {
   }
 
   &__item {
-    padding: 6px 5px;
+    &:first-child {
+      margin-top: 5px;
+    }
+    padding: 5px 10px;
     cursor: pointer;
+    &:nth-last-child(3) {
+      margin-bottom: 2px;
+    }
 
     &:hover {
       background-color: $WHITE-ECF3FF;
@@ -170,5 +190,12 @@ const closeOpenList = (e: MouseEvent) => {
   & ::-webkit-scrollbar {
     display: none; /* Скрывает скроллбар в Chrome, Safari и Opera */
   }
+}
+</style>
+
+<style>
+.ps__thumb-x,
+.ps__rail-x {
+  display: none !important;
 }
 </style>
