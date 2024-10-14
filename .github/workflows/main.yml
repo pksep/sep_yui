@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
         run: pnpm run lint
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: lint
     steps:
       - name: Check out repository
@@ -51,7 +51,7 @@ jobs:
           name: published-to-npm-folder
           path: ./npm-package
   publish:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     permissions:
       contents: read
@@ -76,7 +76,7 @@ jobs:
           path: package.json
 
   update-package-json:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: publish
     permissions:
       contents: write

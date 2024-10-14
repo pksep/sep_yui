@@ -5,7 +5,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
         run: pnpm run lint
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: lint
     steps:
       - name: Check out repository
@@ -49,7 +49,7 @@ jobs:
           name: published-to-npm-folder
           path: ./npm-package
   publish:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     permissions:
       contents: write
@@ -58,8 +58,9 @@ jobs:
         run: |
           git init
           git config --global init.defaultBranch 'main'
-          git remote add origin "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
+          git remote add origin "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@${HOSTNAME}/${REPOSITORY}.git"
         env:
+          HOSTNAME: github.com
           GITHUB_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
       - uses: actions/download-artifact@v4
