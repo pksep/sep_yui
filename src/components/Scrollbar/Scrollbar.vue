@@ -1,10 +1,12 @@
 <template>
   <div ref="scrollbar">
     <PerfectSrollbarComponent
+      @scroll="scroll"
       :options="props.options"
       :tag="props.tag"
       :class="props.class"
       :style="props.style"
+      ref="scrollbar"
     >
       <slot />
     </PerfectSrollbarComponent>
@@ -16,10 +18,17 @@ import { onMounted, ref, watch } from 'vue';
 import { PerfectScrollbar as PerfectSrollbarComponent } from 'vue3-perfect-scrollbar';
 import 'vue3-perfect-scrollbar/style.css';
 import { IScrollbarProps } from './interface/scroll';
+import { ScrollbarEmits } from './emits/scrollEmits.ts';
 
 const props = withDefaults(defineProps<IScrollbarProps>(), {});
 
 const scrollbar = ref<HTMLElement | null>(null);
+
+const emits = defineEmits<ScrollbarEmits>();
+
+const scroll = (event: Event) => {
+  emits('scroll', event);
+};
 
 const config = { attributes: true, attributeFilter: ['style'] };
 
@@ -84,6 +93,15 @@ watch(
   },
   { immediate: true }
 );
+
+const scrollToTop = () => {
+  if (!scrollbar.value) return;
+  scrollbar.value.children[0].scrollTop = 0;
+};
+
+defineExpose({
+  scrollToTop: scrollToTop
+});
 
 onMounted(() => {
   updateCSSVariables();

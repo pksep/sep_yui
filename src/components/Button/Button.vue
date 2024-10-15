@@ -89,7 +89,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
 }
 
 .small-yui-kit {
-  padding: 13px 11px;
+  padding: 13px 11.5px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
