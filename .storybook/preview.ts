@@ -1,7 +1,6 @@
 import { type Preview, setup } from '@storybook/vue3';
 import { type App } from 'vue';
 import "@fontsource-variable/inter"
-import "@fontsource/source-sans-pro/600.css"
 
 import { createPinia } from 'pinia';
 

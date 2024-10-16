@@ -2,7 +2,7 @@
   <fieldset class="input-yui-kit" :class="{ pressed: state.isPressed }">
     <legend class="input-yui-kit__legend">
       {{ props.inputMessage
-      }}<span class="input-yui-kit__star" v-if="props.required">*</span>
+      }}<sup class="input-yui-kit__star" v-if="props.required">*</sup>
     </legend>
     <input
       v-model="state.inputElement"
@@ -57,7 +57,8 @@ const handleInput = (val: string) => {
 };
 
 const changeInput = () => {
-  state.isPressed = false;
+  // TODO: bug after seconds not disable state
+  setTimeout(() => (state.isPressed = false), 150);
 };
 
 watch(
@@ -75,7 +76,7 @@ watch(
     border: 1.5px solid $color;
     & .input-yui-kit__legend {
       color: $color;
-      display: block;
+      display: inline-block;
     }
   }
   & .input-yui-kit__legend {
@@ -86,7 +87,7 @@ watch(
   &.pressed {
     border: 1.5px solid $color;
   }
-  .input-yui-kit__close {
+  & .input-yui-kit__close {
     color: $color;
   }
 }
@@ -95,19 +96,20 @@ fieldset.input-yui-kit {
   display: grid;
   align-items: center;
   background-color: $WHITE;
-  grid-template-columns: 0.9fr 0.1fr;
+  grid-template-columns: 1fr 0.01fr;
   padding: 0 15px;
   padding-right: 7px;
   border-radius: 5px;
   @include fieldset-border($BLUE-9CBEFF);
   border: none;
+  column-gap: 4px;
   & .input-yui-kit__legend {
     display: none;
-    font-family: 'Source Sans Pro', sans-serif;
     font-size: 13px;
     font-weight: 600;
+    padding-left: 4px;
+    padding-right: 9px;
     & .input-yui-kit__star {
-      font-family: 'Source Sans Pro', sans-serif;
       font-size: 11px;
       font-weight: 600;
       color: $RED-F42C2B;
@@ -129,7 +131,11 @@ input.input-yui-kit__input {
   margin-bottom: 5px;
   font-size: 16px;
   border: none;
+  width: inherit;
   outline: none;
+  &:focus::placeholder {
+    color: transparent;
+  }
 }
 
 fieldset.input-yui-kit:disabled {
