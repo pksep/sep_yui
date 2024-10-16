@@ -132,7 +132,7 @@ const closeOpenList = (e: MouseEvent) => {
   }
 
   &__text {
-    padding: 9.5px 0;
+    padding: 8.5px 0;
   }
   &__list {
     margin-top: 5px;
