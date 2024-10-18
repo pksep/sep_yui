@@ -80,44 +80,44 @@ onMounted(() => {
 }
 
 .default-yui-kit span {
-  color: $GREY-757D8A;
-  background-color: $GREY-E2E2E2;
+  color: var(--grey6);
+  background-color: var(--grey3);
 }
 
 .blue-yui-kit span {
-  color: $BLUE-5CBAFF;
-  background-color: $BLUE-E0F2FF;
+  color: var(--blue14);
+  background-color: var(--blue13);
 }
 
 .green-yui-kit span {
-  color: $GREEN-0FBE3F;
-  background-color: $GREEN-D8F2DA;
+  color: var(--green2);
+  background-color: var(--green1);
 }
 
 .orange-yui-kit span {
-  color: $ORANGE-E8A702;
-  background-color: $ORANGE-FAEED5;
+  color: var(--orange8);
+  background-color: var(--orange7);
 }
 
 .red-yui-kit span {
-  color: $RED-FF6868;
-  background-color: $RED-FFE2E1;
+  color: var(--red4);
+  background-color: var(--red3);
 }
 
 .pink-yui-kit span {
-  color: $PINK-FE3A8B;
-  background-color: $PINK-FEDAE9;
+  color: var(--pink2);
+  background-color: var(--pink1);
 }
 
 .base-yui-kit.choosed-yui-kit {
   position: relative;
-  background-color: $BLUE-F2F7FF;
+  background-color: var(--blue9);
   padding: 3px 20px 3px 3px;
 
   &:before,
   &:after {
     @include pseudo(12px, 1px);
-    background-color: $GREY-757D8A;
+    background-color: var(--grey6);
     top: 50%;
     right: 5px;
     border-radius: 5px;
