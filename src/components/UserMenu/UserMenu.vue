@@ -63,7 +63,7 @@
         v-if="props.languages?.items"
         :items="props.languages?.items"
         :defaultValue="props.languages?.defaultValue"
-        @languageSwitch="handleLanguageSwitch"
+        @change="handleLanguageSwitch"
       />
     </div>
   </div>
