@@ -84,6 +84,7 @@ onMounted(() => {
 .switch-yui-kit-item {
   padding: 3.5px 10px;
   display: flex;
+  font-size: 14px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
