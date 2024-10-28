@@ -2,7 +2,7 @@
   <div
     :class="`notification-yui-kit notification-yui-kit_${props.messageType}`"
   >
-    <Icon :name="IconNameEnum.crossLarge" class="notification-yui-kit__exit" />
+    <Icon :name="IconNameEnum.crossSmall" class="notification-yui-kit__exit" />
     <div class="notification-yui-kit__block">
       <Icon
         :name="state.messageMap[props.messageType].icon"
@@ -87,8 +87,6 @@ const state = reactive({
   padding-top: 5px;
   & .notification-yui-kit__exit {
     justify-self: end;
-    width: 16px;
-    height: 16px;
   }
 }
 
@@ -98,7 +96,7 @@ const state = reactive({
     'a b'
     'a c';
   row-gap: 5px;
-  column-gap: 10px;
+  column-gap: 15px;
   align-items: center;
   justify-content: start;
   margin-bottom: 20px;

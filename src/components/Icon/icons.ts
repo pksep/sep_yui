@@ -798,6 +798,15 @@ export const folder: IVectorIcon = {
   `
 };
 
+export const crossSmall: IVectorIcon = {
+  name: 'cross-small',
+  style: 'line',
+  path: `
+<path d="M16 8.62714L8 16.6271" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 8.62714L16 16.6271" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+}
+
 export const crossLarge: IVectorIcon = {
   name: 'cross-large',
   style: 'line',
