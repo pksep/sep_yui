@@ -1,25 +1,38 @@
 <template>
   <div
-    :class="`notification-yui-kit notification-yui-kit_${props.messageType}`"
+    popover
+    id="push-notify"
+    :class="`notification-yui-kit_${props.messageType}`"
+    :style="{ width: props.width }"
   >
-    <div class="notification-yui-kit__block">
-      <Icon
-        :name="state.messageMap[props.messageType].icon"
-        class="notification-yui-kit__block-icon"
-      />
-      <h4 class="notification-yui-kit__block-title">
-        {{ state.messageMap[props.messageType].title }}
-      </h4>
-      <span class="notification-yui-kit__block-text">
-        {{ state.messageMap[props.messageType].description }}
-      </span>
+    <div class="notification-yui-kit">
+      <div class="notification-yui-kit__block">
+        <Icon
+          :name="state.messageMap[props.messageType].icon"
+          class="notification-yui-kit__block-icon"
+        />
+        <h4 class="notification-yui-kit__block-title">
+          {{ state.messageMap[props.messageType].title }}
+        </h4>
+        <span class="notification-yui-kit__block-text">
+          {{ state.messageMap[props.messageType].description }}
+        </span>
+      </div>
+      <Button
+        class="notification-yui-kit__exit"
+        type="ghost"
+        popovertarget="push-notify"
+        popovertargetaction="hide"
+      >
+        <Icon :name="IconNameEnum.crossSmall" />
+      </Button>
     </div>
-    <Icon :name="IconNameEnum.crossSmall" class="notification-yui-kit__exit" />
   </div>
 </template>
 
 <script setup lang="ts">
 import Icon from './../Icon/Icon.vue';
+import Button from '../Button/Button';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { reactive } from 'vue';
 import { MessageTypes } from './enum/enum';
@@ -29,7 +42,8 @@ const props = withDefaults(defineProps<IPushNotificationProps>(), {
   messageType: 'info',
   messageField: {
     description: 'Уведомляем о операции'
-  }
+  },
+  width: '305px'
 });
 
 const state = reactive({
@@ -75,19 +89,29 @@ const state = reactive({
   --primary-color: var(--blue1);
 }
 
+#push-notify {
+  outline: 0;
+  border: 0;
+  padding: 0;
+  padding-top: 5px;
+  margin: 0 auto;
+  margin-right: 15px;
+  border-bottom: 2px solid;
+  border-color: var(--primary-color);
+  background-color: var(--white);
+  border-radius: 8px;
+  background: none;
+}
+
 .notification-yui-kit {
   display: grid;
   grid-auto-flow: column;
-  background-color: var(--white);
-  border-bottom: 2px solid;
-  border-color: var(--primary-color);
-  border-radius: 8px;
   box-shadow: 0px 0px 11.2px 0px #8888880f;
   padding-left: 15px;
   padding-right: 5px;
-  padding-top: 5px;
   & .notification-yui-kit__exit {
     justify-self: end;
+    align-self: start;
   }
 }
 

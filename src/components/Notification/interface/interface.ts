@@ -8,4 +8,5 @@ interface CustomMessageFields {
 export interface IPushNotificationProps {
   messageType: MessageTypes;
   messageField: CustomMessageFields;
+  width: string;
 }

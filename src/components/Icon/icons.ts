@@ -68,14 +68,14 @@ export const chevronUp: IVectorIcon = {
 };
 
 export const checkbox: IVectorIcon = {
-    name: 'checkbox',
-    style: 'line',
-    fill: 'none',
-    path: `
+  name: 'checkbox',
+  style: 'line',
+  fill: 'none',
+  path: `
 <path d="M12 0C9.62663 0 7.30655 0.703788 5.33316 2.02236C3.35977 3.34094 1.8217 5.21509 0.913451 7.4078C0.00519943 9.60051 -0.232441 12.0133 0.230582 14.3411C0.693605 16.6689 1.83649 18.8071 3.51472 20.4853C5.19295 22.1635 7.33115 23.3064 9.65892 23.7694C11.9867 24.2324 14.3995 23.9948 16.5922 23.0866C18.7849 22.1783 20.6591 20.6402 21.9776 18.6668C23.2962 16.6935 24 14.3734 24 12C24 8.8174 22.7357 5.76516 20.4853 3.51472C18.2348 1.26428 15.1826 0 12 0Z" fill="currentColor"/>
 <path d="M19 7L9 17.01L6 14.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     `
-}
+};
 
 export const dark: IVectorIcon = {
   name: 'dark',
@@ -135,7 +135,7 @@ export const exitCircle: IVectorIcon = {
 <path d="M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M9 9L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   `
-}
+};
 
 export const leftBigSmall: IVectorIcon = {
   name: 'left-big-small',
@@ -805,7 +805,7 @@ export const crossSmall: IVectorIcon = {
 <path d="M16 8.62714L8 16.6271" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M8 8.62714L16 16.6271" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
   `
-}
+};
 
 export const crossLarge: IVectorIcon = {
   name: 'cross-large',
