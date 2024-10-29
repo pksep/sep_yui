@@ -28,7 +28,7 @@ const Template: StoryFn<typeof PushNotification> = args => ({
     return { args };
   },
   template: `
-  <div :style="{ width: '305px', height: '80px' }">
+  <div :style="{ width: '305px' }">
     <PushNotification v-bind="args"/>
   </div>
   `
