@@ -100,7 +100,6 @@ const state = reactive({
   border-color: var(--primary-color);
   background-color: var(--white);
   border-radius: 8px;
-  background: none;
 }
 
 .notification-yui-kit {
