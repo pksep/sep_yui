@@ -93,7 +93,6 @@ const state = reactive({
   outline: 0;
   border: 0;
   padding: 0;
-  padding-top: 5px;
   margin: 0 auto;
   margin-right: 15px;
   border-bottom: 2px solid;
@@ -102,10 +101,16 @@ const state = reactive({
   border-radius: 8px;
 }
 
+.button-yui-kit {
+  padding: 0;
+}
+
 .notification-yui-kit {
   display: grid;
   grid-auto-flow: column;
   box-shadow: 0px 0px 11.2px 0px #8888880f;
+  padding-top: 5px;
+  padding-bottom: 3px;
   padding-left: 15px;
   padding-right: 5px;
   & .notification-yui-kit__exit {
@@ -124,8 +129,8 @@ const state = reactive({
   column-gap: 15px;
   align-items: center;
   justify-content: start;
-  margin-top: 13px;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   & .notification-yui-kit__block-icon {
     grid-area: a;
     color: var(--primary-color);
