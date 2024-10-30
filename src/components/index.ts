@@ -14,6 +14,7 @@ import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
 import Scroll from './Scrollbar/Scrollbar.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
+import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
 
 const components = {
@@ -27,6 +28,7 @@ const components = {
   Dropdown,
   Filter,
   Icon,
+  PushNotification,
   Scroll,
   Search,
   Slider,
@@ -59,6 +61,7 @@ export {
   Filter,
   Icon,
   Search,
+  PushNotification,
   Scroll,
   Slider,
   Toggle,
