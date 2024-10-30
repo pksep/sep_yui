@@ -18,31 +18,32 @@
           {{ state.messageMap[props.messageType].description }}
         </span>
       </div>
-      <Button
+      <YButton
         class="notification-yui-kit__exit"
-        type="ghost"
+        :type="ButtonTypeEnum.ghost"
         popovertarget="push-notify"
         popovertargetaction="hide"
       >
         <Icon :name="IconNameEnum.crossSmall" />
-      </Button>
+      </YButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Icon from './../Icon/Icon.vue';
-import Button from '../Button/Button';
+import YButton from '../Button/Button.vue';
+import { ButtonTypeEnum } from '../Button/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { reactive } from 'vue';
 import { MessageTypes } from './enum/enum';
 import type { IPushNotificationProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IPushNotificationProps>(), {
-  messageType: 'info',
-  messageField: {
+  messageType: MessageTypes.info,
+  messageField: () => ({
     description: 'Уведомляем о операции'
-  },
+  }),
   width: '305px'
 });
 
