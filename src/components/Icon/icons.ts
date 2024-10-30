@@ -65,7 +65,7 @@ export const chevronRight: IVectorIcon = {
   viewbox: '0 0 24 25',
   style: 'line',
   path: `
-<path d="M9 18.6271L15 12.6271L9 6.62714" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 18.6271L15 12.6271L9 6.62714" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   `
 };
 
@@ -74,7 +74,7 @@ export const chevronLeft: IVectorIcon = {
   viewbox: '0 0 24 25',
   style: 'line',
   path: `
-<path d="M15 18.6271L9 12.6271L15 6.62714" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 18.6271L9 12.6271L15 6.62714" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     `
 };
 
