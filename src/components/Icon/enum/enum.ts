@@ -12,6 +12,7 @@ export enum IconNameEnum {
   exitBig = 'exit-big',
   exitSmall = 'exit-small',
   exit = 'exit',
+  externalLink = 'external-link',
   leftBigSmall = 'left-big-small',
   light = 'light',
   leftBig = 'left-big',
