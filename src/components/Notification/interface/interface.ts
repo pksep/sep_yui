@@ -1,12 +1,8 @@
-import { MessageTypes } from '../enum/enum';
-
-interface CustomMessageFields {
-  title?: string;
-  description: string;
-}
+import { MessageTypeEnum } from '../enum/enum';
 
 export interface IPushNotificationProps {
-  messageType: MessageTypes;
-  messageField: CustomMessageFields;
-  width: string;
+  type: MessageTypeEnum;
+  title?: string;
+  pushKey: number;
+  description?: string;
 }

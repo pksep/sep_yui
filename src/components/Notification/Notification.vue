@@ -1,27 +1,22 @@
 <template>
-  <div
-    popover
-    id="push-notify"
-    :class="`notification-yui-kit_${props.messageType}`"
-    :style="{ width: props.width }"
-  >
+  <div popover="manual" :id="props.pushKey" :class="`push-notification-yui-kit push-notification-yui-kit_${props.type}`">
     <div class="notification-yui-kit">
       <div class="notification-yui-kit__block">
         <Icon
-          :name="state.messageMap[props.messageType].icon"
+          :name="state.message.icon"
           class="notification-yui-kit__block-icon"
         />
         <h4 class="notification-yui-kit__block-title">
-          {{ state.messageMap[props.messageType].title }}
+          {{ state.message.title }}
         </h4>
         <span class="notification-yui-kit__block-text">
-          {{ state.messageMap[props.messageType].description }}
+          {{ state.message.description }}
         </span>
       </div>
       <YButton
         class="notification-yui-kit__exit"
         :type="ButtonTypeEnum.ghost"
-        popovertarget="push-notify"
+        :popovertarget="props.pushKey"
         popovertargetaction="hide"
       >
         <Icon :name="IconNameEnum.crossSmall" />
@@ -34,63 +29,47 @@
 import Icon from './../Icon/Icon.vue';
 import YButton from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum';
-import { IconNameEnum } from '../Icon/enum/enum';
 import { reactive } from 'vue';
-import { MessageTypes } from './enum/enum';
+import { IconNameEnum } from '../Icon/enum/enum';
+import {
+  MessageTypeEnum,
+  MessageTitleDefaultEnum,
+  MessageIconEnum
+} from './enum/enum';
 import type { IPushNotificationProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IPushNotificationProps>(), {
-  messageType: MessageTypes.info,
-  messageField: () => ({
-    description: 'Уведомляем о операции'
-  }),
-  width: '305px'
+  type: MessageTypeEnum.info,
+  description: ''
 });
 
 const state = reactive({
-  messageMap: {
-    [MessageTypes.info]: {
-      icon: IconNameEnum.info,
-      title: props.messageField.title || 'Уведомление',
-      description: props.messageField.description
-    },
-    [MessageTypes.error]: {
-      icon: IconNameEnum.exitCircle,
-      title: props.messageField.title || 'Ошибка',
-      description: props.messageField.description
-    },
-    [MessageTypes.warning]: {
-      icon: IconNameEnum.alertTriangle,
-      title: props.messageField.title || 'Предупреждение',
-      description: props.messageField.description
-    },
-    [MessageTypes.success]: {
-      icon: IconNameEnum.checkbox,
-      title: props.messageField.title || 'Успешно',
-      description: props.messageField.description
-    }
+  message: {
+    icon: MessageIconEnum[props.type] as unknown as IconNameEnum,
+    title: props.title || MessageTitleDefaultEnum[props.type],
+    description: props.description
   }
 });
 </script>
 
 <style lang="scss" scoped>
-.notification-yui-kit_success {
+.push-notification-yui-kit_success {
   --primary-color: var(--green2);
 }
 
-.notification-yui-kit_warning {
+.push-notification-yui-kit_warning {
   --primary-color: var(--orange4);
 }
 
-.notification-yui-kit_error {
+.push-notification-yui-kit_error {
   --primary-color: var(--red4);
 }
 
-.notification-yui-kit_info {
+.push-notification-yui-kit_info {
   --primary-color: var(--blue1);
 }
 
-#push-notify {
+.push-notification-yui-kit {
   outline: 0;
   border: 0;
   padding: 0;
