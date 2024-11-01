@@ -13,6 +13,7 @@ import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
 import Scroll from './Scrollbar/Scrollbar.vue';
+import Checkbox from './Checkbox/Checkbox.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
 import { createPinia } from 'pinia';
 
@@ -30,6 +31,7 @@ const components = {
   Scroll,
   Search,
   Slider,
+  Checkbox,
   Toggle,
   UserMenu
 };
@@ -61,6 +63,7 @@ export {
   Search,
   Scroll,
   Slider,
+  Checkbox,
   Toggle,
   UserMenu
 };
