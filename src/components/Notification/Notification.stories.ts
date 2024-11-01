@@ -13,16 +13,16 @@ const meta = {
       options: MessageTypeEnum
     },
     pushKey: {
-      control: { type: StorybookControlEnum.number,
-      min: 1,
-      max: 10,
-      step: 1
-      }
+      control: { type: StorybookControlEnum.number, min: 1, max: 10, step: 1 }
+    },
+    timeout: {
+      control: { type: StorybookControlEnum.number, min: 0, max: 100, step: 1 }
     }
   },
   args: {
     description: 'Уведомляем о операции',
-    pushKey: 1
+    pushKey: 1,
+    timeout: 3
   },
   tags: ['autodocs']
 } as Meta<typeof PushNotification>;

@@ -1,5 +1,10 @@
 <template>
-  <div popover="manual" :id="props.pushKey" :class="`push-notification-yui-kit push-notification-yui-kit_${props.type}`">
+  <div
+    popover="manual"
+    :id="props.pushKey"
+    :class="`push-notification-yui-kit push-notification-yui-kit_${props.type}`"
+    ref="popover"
+  >
     <div class="notification-yui-kit">
       <div class="notification-yui-kit__block">
         <Icon
@@ -29,8 +34,9 @@
 import Icon from './../Icon/Icon.vue';
 import YButton from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum';
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import { IconNameEnum } from '../Icon/enum/enum';
+import { useEventListener } from '@vueuse/core';
 import {
   MessageTypeEnum,
   MessageTitleDefaultEnum,
@@ -40,7 +46,16 @@ import type { IPushNotificationProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IPushNotificationProps>(), {
   type: MessageTypeEnum.info,
-  description: ''
+  description: '',
+  timeout: 3
+});
+
+const popover = ref<HTMLDivElement | null>(null);
+
+useEventListener(popover, 'toggle', () => {
+  if (props.timeout > 0) {
+    setTimeout(() => popover.value?.hidePopover(), props.timeout * 1000);
+  }
 });
 
 const state = reactive({

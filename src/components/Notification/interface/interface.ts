@@ -5,4 +5,5 @@ export interface IPushNotificationProps {
   title?: string;
   pushKey: number;
   description?: string;
+  timeout?: number;
 }
