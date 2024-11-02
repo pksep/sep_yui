@@ -22,7 +22,7 @@
         class="notification-yui-kit__exit"
         :type="ButtonTypeEnum.ghost"
         :popovertarget="props.pushKey.toString()"
-        popovertargetaction="hide"
+        :popovertargetaction="hide"
       >
         <Icon :name="IconNameEnum.crossSmall" />
       </YButton>
@@ -50,6 +50,10 @@ const props = withDefaults(defineProps<IPushNotificationProps>(), {
   timeout: 3
 });
 
+const emits = defineEmits<{
+  (e: 'close'): void;
+}>();
+
 const popover = ref<HTMLDivElement | null>(null);
 
 useEventListener(popover, 'toggle', () => {
@@ -57,6 +61,11 @@ useEventListener(popover, 'toggle', () => {
     setTimeout(() => popover.value?.hidePopover(), props.timeout * 1000);
   }
 });
+
+const hide = (): string => {
+  emits('close');
+  return 'hide';
+};
 
 const state = reactive({
   message: {
