@@ -1,7 +1,7 @@
 <template>
   <div
     popover="manual"
-    :id="props.pushKey"
+    :id="props.pushKey.toString()"
     :class="`push-notification-yui-kit push-notification-yui-kit_${props.type}`"
     ref="popover"
   >
@@ -21,7 +21,7 @@
       <YButton
         class="notification-yui-kit__exit"
         :type="ButtonTypeEnum.ghost"
-        :popovertarget="props.pushKey"
+        :popovertarget="props.pushKey.toString()"
         popovertargetaction="hide"
       >
         <Icon :name="IconNameEnum.crossSmall" />
