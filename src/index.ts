@@ -1,5 +1,6 @@
 import { App, Plugin } from 'vue';
 import * as components from './components';
+import '@/assets/scss/_variables-native.scss';
 import '@/assets/scss/blocks/table/_table.scss';
 
 const YLibrary = {

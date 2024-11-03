@@ -1,7 +1,7 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Textarea from './Textarea.vue';
 import { InputTypeEnum } from '../Input/enum/enum';
-import { StorybookControlEnum, TextFieldTypes } from '../../common/storybook';
+import { StorybookControlEnum } from '../../common/storybook';
 
 const meta = {
   title: 'Textarea/Textarea',
@@ -18,8 +18,7 @@ const meta = {
   },
   args: {
     placeholder: 'Введите текст',
-    type: TextFieldTypes.text,
-    inputMessage: 'Текст'
+    title: 'Текст'
   },
   tags: ['autodocs']
 } as Meta<typeof Textarea>;
@@ -32,31 +31,31 @@ const Template: StoryFn<typeof Textarea> = args => ({
     return { args };
   },
   template: `
-      <Textarea v-bind="args"/>
+      <Textarea v-bind="args" :disabled="args.class === 'disabled'" />
   `
 });
 
-export const TextAreaDefault = Template.bind({});
-TextAreaDefault.args = {
+export const TextareaDefault = Template.bind({});
+TextareaDefault.args = {
   class: InputTypeEnum.inital
 };
 
-export const InputDisabled = Template.bind({});
-InputDisabled.args = {
+export const TextareaDisabled = Template.bind({});
+TextareaDisabled.args = {
   class: InputTypeEnum.disabled
 };
 
-export const InputError = Template.bind({});
-InputError.args = {
+export const TextareaError = Template.bind({});
+TextareaError.args = {
   class: InputTypeEnum.error
 };
 
-export const InputWarning = Template.bind({});
-InputWarning.args = {
+export const TextareaWarning = Template.bind({});
+TextareaWarning.args = {
   class: InputTypeEnum.warning
 };
 
-export const InputSuccess = Template.bind({});
-InputSuccess.args = {
+export const TextareaSuccess = Template.bind({});
+TextareaSuccess.args = {
   class: InputTypeEnum.success
 };
