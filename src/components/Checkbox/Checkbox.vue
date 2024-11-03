@@ -2,10 +2,13 @@
   <input
     type="checkbox"
     :class="`checkbox-yui-kit checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular}`"
+    @change="onClick"
+    :checked="state.isChecked"
   />
 </template>
 
 <script setup lang="ts">
+import { reactive } from 'vue';
 import type { ICheckboxProps } from './interface/interface';
 import { CheckboxSizeEnum, CheckboxCircularEnum } from './enum/enum';
 
@@ -13,6 +16,19 @@ const props = withDefaults(defineProps<ICheckboxProps>(), {
   size: CheckboxSizeEnum.medium,
   circular: CheckboxCircularEnum.rounded
 });
+
+const emits = defineEmits<{
+  (e: 'change', isChecked: boolean): void;
+}>();
+
+const state = reactive({
+  isChecked: false
+});
+
+const onClick = () => {
+  state.isChecked = !state.isChecked;
+  emits('change', state.isChecked);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -40,6 +56,7 @@ const props = withDefaults(defineProps<ICheckboxProps>(), {
   border: none;
   outline: none;
   content: none;
+  appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   -o-appearance: none;
