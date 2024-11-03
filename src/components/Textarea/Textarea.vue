@@ -5,20 +5,19 @@
       <sup class="textarea-yui-kit__star" v-if="props.required">*</sup>
     </legend>
     <Scroll
-        :style="{ width: '100%' }"
-        :railStyle="{
-          y: {
-            right: '6px'
-          }
-        }"
+      :style="{ width: '100%' }"
+      :railStyle="{
+        y: {
+          right: '6px'
+        }
+      }"
     >
-    <textarea
-      @input="handleInput"
-      @focus="handleInput"
-      class="textarea-yui-kit__textarea"
-      :placeholder="props.placeholder"
-      :required="props.required"
-    />
+      <textarea
+        @input="e => handleInput(e)"
+        class="textarea-yui-kit__textarea"
+        :placeholder="props.placeholder"
+        :required="props.required"
+      />
     </Scroll>
   </fieldset>
 </template>
@@ -26,23 +25,26 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import type { ITextareaProps } from './interface/interface';
-import Scroll from '../Scrollbar/Scrollbar.vue'
+import Scroll from '../Scrollbar/Scrollbar.vue';
 
 const props = withDefaults(defineProps<ITextareaProps>(), {
   required: false
 });
 
 const state = reactive({
-  isPressed: false
+  isPressed: false,
+  inputElement: ''
 });
 
 const emits = defineEmits<{
   (e: 'input', value: string): void;
 }>();
 
-const handleInput = (val: string) => {
+const handleInput = (e: Event): void => {
+  const target = (e.target as HTMLTextAreaElement) || null;
+  state.inputElement = target?.value;
   state.isPressed = state.inputElement?.length > 0;
-  emits('input', val);
+  emits('input', target?.value);
 };
 </script>
 
