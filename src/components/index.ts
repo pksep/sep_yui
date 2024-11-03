@@ -14,6 +14,7 @@ import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
 import Scroll from './Scrollbar/Scrollbar.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
+import Textarea from './Textarea/Textarea.vue';
 import { createPinia } from 'pinia';
 
 const components = {
@@ -25,6 +26,7 @@ const components = {
   Button,
   Switch,
   Dropdown,
+  Textarea,
   Filter,
   Icon,
   Scroll,
@@ -56,6 +58,7 @@ export {
   DragAndDrop,
   Switch,
   Dropdown,
+  Textarea,
   Filter,
   Icon,
   Search,
