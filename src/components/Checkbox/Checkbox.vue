@@ -25,7 +25,7 @@ const state = reactive({
   isChecked: false
 });
 
-const onClick = () => {
+const onClick = (): void => {
   state.isChecked = !state.isChecked;
   emits('change', state.isChecked);
 };
