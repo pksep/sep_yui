@@ -17,6 +17,8 @@
         class="textarea-yui-kit__textarea"
         :placeholder="props.placeholder"
         :required="props.required"
+        :maxlength="props.maxlength"
+        :value="props.value || null"
       />
     </Scroll>
   </fieldset>
@@ -103,11 +105,16 @@ textarea.textarea-yui-kit__textarea {
   height: 118px;
   margin-bottom: 5px;
   overflow-y: scroll;
+  background: var(--white);
   appearance: none;
   resize: none;
+  padding-top: 10px;
   font-size: 16px;
   border: none;
   outline: none;
+  &::placeholder {
+    font-size: 16px;
+  }
   &:focus::placeholder {
     color: transparent;
   }
