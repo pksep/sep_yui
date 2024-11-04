@@ -1,5 +1,5 @@
-import { type Preview, setup } from '@storybook/vue3';
-import { type App } from 'vue';
+import { Preview, setup } from '@storybook/vue3';
+import type { App } from 'vue';
 import "@fontsource-variable/inter"
 import '@/assets/scss/_variables-native.scss';
 

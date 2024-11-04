@@ -60,6 +60,24 @@ export const chevronDown: IVectorIcon = {
     <path d="M8 10L12 14L16 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`
 };
 
+export const chevronRight: IVectorIcon = {
+  name: 'chevron-right',
+  viewbox: '0 0 24 25',
+  style: 'line',
+  path: `
+<path d="M9 18.6271L15 12.6271L9 6.62714" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  `
+};
+
+export const chevronLeft: IVectorIcon = {
+  name: 'chevron-left',
+  viewbox: '0 0 24 25',
+  style: 'line',
+  path: `
+<path d="M15 18.6271L9 12.6271L15 6.62714" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    `
+};
+
 export const chevronUp: IVectorIcon = {
   name: 'chevron-up',
   style: 'line',
@@ -104,6 +122,16 @@ export const exitSmall: IVectorIcon = {
   path: `
     <path d="M16 8L8 16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M8 8L16 16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />`
+};
+
+export const externalLink: IVectorIcon = {
+  name: 'external-link',
+  style: 'line',
+  fill: 'none',
+  path: `<path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 3H21V9" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 14L21 3" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  `
 };
 
 export const exit: IVectorIcon = {
