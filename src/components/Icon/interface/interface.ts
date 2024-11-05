@@ -13,6 +13,5 @@ export interface IVectorIcon {
   viewbox?: string;
   fill?: string;
   style: 'line' | 'solid';
-  fill?: string;
   path: string;
 }

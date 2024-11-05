@@ -81,7 +81,7 @@ const state = reactive({
 });
 
 onMounted(() => {
-  if(props.showPopover) {
+  if (props.showPopover) {
     popover.value?.showPopover();
   }
 });
