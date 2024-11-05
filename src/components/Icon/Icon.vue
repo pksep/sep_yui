@@ -4,8 +4,8 @@
     :width="props.width"
     :height="props.height"
     :style="styles"
-    :fill="icon?.fill"
-    :viewBox="icon?.viewbox || `0 0 24 24`"
+    :fill="Icons[camelize(props.name) as IconName]?.fill"
+    :viewBox="Icons[camelize(props.name) as IconName]?.viewbox || `0 0 24 24`"
   >
     <g v-html="icon?.path" />
   </svg>
