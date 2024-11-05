@@ -38,7 +38,7 @@ const Template: StoryFn<typeof PushNotification> = args => ({
   template: `
     <template v-for="i in args.pushKey" :key="i">
         <Button :popovertarget="i"> Get push notification </Button>
-            <PushNotification :pushKey="i" :type="args.type" :description="args.description" :timeout="args.timeout" :showPopover="args.showPopover" :style="{ width: '305px', 'margin-top': i*8+'vh'}" />
+        <PushNotification :pushKey="i" :type="args.type" :description="args.description" :timeout="args.timeout" :showPopover="args.showPopover" :style="{ width: '305px', 'margin-top': (i*20+75*(i-1))+'px' }" />
     </template>
   `
 });
