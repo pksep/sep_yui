@@ -5,10 +5,10 @@
       <sup class="textarea-yui-kit__star" v-if="props.required">*</sup>
     </legend>
     <Scroll
-      :style="{ width: '100%' }"
+      :style="{ width: '100%', height: '90px' }"
       :railStyle="{
         y: {
-          right: '6px'
+          right: '5px'
         }
       }"
     >
@@ -73,36 +73,32 @@ const handleInput = (e: Event): void => {
 fieldset.textarea-yui-kit {
   display: grid;
   align-items: center;
-  background-color: $WHITE;
-  grid-template-columns: 1fr 0.01fr;
-  padding: 0 15px;
-  padding-right: 7px;
   border-radius: 5px;
+  padding: 0 15px;
+  padding-right: 0;
   @include fieldset-border($BLUE-9CBEFF);
   border: none;
   column-gap: 4px;
+  & > div:first-child {
+    background-color: $WHITE;
+    padding-right: 7px;
+  }
   & .textarea-yui-kit__legend {
     display: none;
     font-size: 13px;
     font-weight: 600;
-    padding-left: 4px;
-    padding-right: 9px;
+    padding-right: 4px;
     & .textarea-yui-kit__star {
       font-size: 11px;
       font-weight: 600;
       color: #da1414;
     }
   }
-  &.pressed {
-    & .textarea-yui-kit__legend {
-      display: block;
-    }
-  }
 }
 
 textarea.textarea-yui-kit__textarea {
   width: inherit;
-  height: 118px;
+  height: 98px;
   margin-bottom: 5px;
   overflow-y: scroll;
   background: var(--white);
