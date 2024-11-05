@@ -16,6 +16,7 @@ import Scroll from './Scrollbar/Scrollbar.vue';
 import Modal from './Modal/Modal.vue';
 import Checkbox from './Checkbox/Checkbox.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
+import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
 
 const components = {
@@ -29,6 +30,7 @@ const components = {
   Dropdown,
   Filter,
   Icon,
+  PushNotification,
   Scroll,
   Search,
   Modal,
@@ -63,6 +65,7 @@ export {
   Filter,
   Icon,
   Search,
+  PushNotification,
   Scroll,
   Modal,
   Slider,
