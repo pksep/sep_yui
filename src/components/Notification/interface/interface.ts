@@ -6,4 +6,5 @@ export interface IPushNotificationProps {
   pushKey: number;
   description?: string;
   timeout?: number;
+  showPopover?: boolean;
 }

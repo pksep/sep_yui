@@ -34,7 +34,7 @@
 import Icon from './../Icon/Icon.vue';
 import YButton from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum';
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { useEventListener } from '@vueuse/core';
 import {
@@ -47,7 +47,8 @@ import type { IPushNotificationProps } from './interface/interface';
 const props = withDefaults(defineProps<IPushNotificationProps>(), {
   type: MessageTypeEnum.info,
   description: '',
-  timeout: 3
+  timeout: 3,
+  showPopover: true
 });
 
 const emits = defineEmits<{
@@ -67,12 +68,26 @@ const hide = (): string => {
   return 'hide';
 };
 
+const showPopover = (): void => {
+  popover.value?.showPopover();
+};
+
 const state = reactive({
   message: {
     icon: MessageIconEnum[props.type] as unknown as IconNameEnum,
     title: props.title || MessageTitleDefaultEnum[props.type],
     description: props.description
   }
+});
+
+onMounted(() => {
+  if(props.showPopover) {
+    popover.value?.showPopover();
+  }
+});
+
+defineExpose({
+  showPopover
 });
 </script>
 

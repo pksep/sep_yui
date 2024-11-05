@@ -22,7 +22,8 @@ const meta = {
   args: {
     description: 'Уведомляем о операции',
     pushKey: 1,
-    timeout: 3
+    timeout: 3,
+    showPopover: false
   },
   tags: ['autodocs']
 } as Meta<typeof PushNotification>;
@@ -37,9 +38,8 @@ const Template: StoryFn<typeof PushNotification> = args => ({
   template: `
     <template v-for="i in args.pushKey" :key="i">
         <Button :popovertarget="i"> Get push notification </Button>
-            <PushNotification :pushKey="i" :type="args.type" :description="args.description" :style="{ width: '305px', 'margin-top': i*8+'vh'}" />
+            <PushNotification :pushKey="i" :type="args.type" :description="args.description" :timeout="args.timeout" :showPopover="args.showPopover" :style="{ width: '305px', 'margin-top': i*8+'vh'}" />
     </template>
-    </div>
   `
 });
 
