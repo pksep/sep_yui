@@ -47,6 +47,7 @@ const handleInput = (e: Event): void => {
   state.inputElement = target?.value;
   state.isPressed = state.inputElement?.length > 0;
   emits('input', target?.value);
+  target.style.height = 'auto';
   target.style.height = `${target.scrollHeight}px`;
 };
 </script>
@@ -103,6 +104,7 @@ fieldset.textarea-yui-kit {
 }
 
 textarea.textarea-yui-kit__textarea {
+  padding-right: 10px;
   width: inherit;
   min-height: 80px;
   margin-bottom: 5px;
