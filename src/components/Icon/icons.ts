@@ -85,6 +85,16 @@ export const chevronUp: IVectorIcon = {
     <path d="M16 14L12 10L8 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`
 };
 
+export const checkbox: IVectorIcon = {
+  name: 'checkbox',
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M12 0C9.62663 0 7.30655 0.703788 5.33316 2.02236C3.35977 3.34094 1.8217 5.21509 0.913451 7.4078C0.00519943 9.60051 -0.232441 12.0133 0.230582 14.3411C0.693605 16.6689 1.83649 18.8071 3.51472 20.4853C5.19295 22.1635 7.33115 23.3064 9.65892 23.7694C11.9867 24.2324 14.3995 23.9948 16.5922 23.0866C18.7849 22.1783 20.6591 20.6402 21.9776 18.6668C23.2962 16.6935 24 14.3734 24 12C24 8.8174 22.7357 5.76516 20.4853 3.51472C18.2348 1.26428 15.1826 0 12 0Z" fill="currentColor"/>
+<path d="M19 7L9 17.01L6 14.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    `
+};
+
 export const dark: IVectorIcon = {
   name: 'dark',
   style: 'line',
@@ -111,6 +121,7 @@ export const dark: IVectorIcon = {
 export const exitBig: IVectorIcon = {
   name: 'exit-big',
   style: 'line',
+  fill: 'none',
   path: `
     <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />`
@@ -141,6 +152,17 @@ export const exit: IVectorIcon = {
     <path fill-rule="evenodd" clip-rule="evenodd"
       d="M20.7569 12.5228L17.944 15.2781C17.1669 16.0531 16.0008 14.8906 16.7779 14.1155L17.7274 13.1721C17.9436 12.9574 17.8725 12.7834 17.5686 12.7834H8.29528C7.83503 12.7834 7.4685 12.4153 7.4685 11.9612C7.4685 11.5082 7.83866 11.1392 8.29528 11.1392H17.5686C17.8713 11.1392 17.9436 10.965 17.7274 10.7503L16.7779 9.80675C16.0008 9.03193 17.1668 7.86914 17.944 8.64416L20.753 11.3712C21.0814 11.6899 21.082 12.2044 20.7569 12.5229L20.7569 12.5228ZM15.9011 6.61737C16.2766 6.99289 16.2766 7.60188 15.9011 7.97763C15.5254 8.35315 14.9164 8.35315 14.5409 7.97763C12.3408 5.77758 8.77377 5.77758 6.57382 7.97763C4.37386 10.1777 4.37377 13.7447 6.57382 15.9447C8.77387 18.1447 12.3409 18.1447 14.5409 15.9447C14.9164 15.569 15.5254 15.569 15.9011 15.9447C16.2766 16.3202 16.2766 16.9292 15.9011 17.3049C12.9498 20.2562 8.16472 20.2562 5.21346 17.3049C2.2622 14.3536 2.26215 9.56853 5.21346 6.61727C8.16477 3.66601 12.9498 3.66596 15.9011 6.61727V6.61737Z"
       fill="currentColor" />`
+};
+
+export const exitCircle: IVectorIcon = {
+  name: 'exit-circle',
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#FF6868" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 9L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  `
 };
 
 export const leftBigSmall: IVectorIcon = {
@@ -801,6 +823,15 @@ export const folder: IVectorIcon = {
   style: 'line',
   path: `
     <path d="M14.3333 12.1667C14.3333 12.5203 14.1929 12.8594 13.9428 13.1095C13.6928 13.3595 13.3536 13.5 13 13.5H2.33333C1.97971 13.5 1.64057 13.3595 1.39052 13.1095C1.14048 12.8594 1 12.5203 1 12.1667V2.83333C1 2.47971 1.14048 2.14057 1.39052 1.89052C1.64057 1.64048 1.97971 1.5 2.33333 1.5H5.66667L7 3.5H13C13.3536 3.5 13.6928 3.64048 13.9428 3.89052C14.1929 4.14057 14.3333 4.47971 14.3333 4.83333V12.1667Z" stroke="currentColor" fill="none" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const crossSmall: IVectorIcon = {
+  name: 'cross-small',
+  style: 'line',
+  path: `
+<path d="M16 8.62714L8 16.6271" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 8.62714L16 16.6271" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
   `
 };
 
