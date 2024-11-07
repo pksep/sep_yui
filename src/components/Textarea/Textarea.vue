@@ -47,6 +47,7 @@ const handleInput = (e: Event): void => {
   state.inputElement = target?.value;
   state.isPressed = state.inputElement?.length > 0;
   emits('input', target?.value);
+  target.style.height = `${target.scrollHeight}px`;
 };
 </script>
 
@@ -71,19 +72,24 @@ const handleInput = (e: Event): void => {
 }
 
 fieldset.textarea-yui-kit {
+  position: relative;
   display: grid;
   align-items: center;
   border-radius: 5px;
-  padding: 0 15px;
-  padding-right: 0;
+  padding: 10px 15px;
+  box-sizing: border-box;
   @include fieldset-border($BLUE-9CBEFF);
-  border: none;
+  border-color: transparent;
   column-gap: 4px;
   & > div:first-child {
     background-color: $WHITE;
     padding-right: 7px;
   }
   & .textarea-yui-kit__legend {
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    background: white;
     display: none;
     font-size: 13px;
     font-weight: 600;
@@ -98,13 +104,12 @@ fieldset.textarea-yui-kit {
 
 textarea.textarea-yui-kit__textarea {
   width: inherit;
-  height: 98px;
+  min-height: 80px;
   margin-bottom: 5px;
   overflow-y: scroll;
   background: var(--white);
   appearance: none;
   resize: none;
-  padding-top: 10px;
   font-size: 16px;
   border: none;
   outline: none;
