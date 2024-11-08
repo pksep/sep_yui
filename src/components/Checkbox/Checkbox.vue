@@ -41,28 +41,19 @@ const onClick = (): void => {
 }
 
 .checkbox-yui-kit_small {
-  --size: 16px;
+  --size: 12px;
 }
 
 .checkbox-yui-kit_medium {
-  --size: 20px;
+  --size: 16px;
 }
 
 .checkbox-yui-kit_big {
-  --size: 24px;
+  --size: 20px;
 }
 
 .checkbox-yui-kit {
-  border: none;
   outline: none;
-  content: none;
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -o-appearance: none;
-}
-
-.checkbox-yui-kit:before {
   content: url('data:image/svg+xml,<svg viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.66667 0.666748L3 7.34008L1 5.34008" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>');
   width: var(--size);
   height: var(--size);
@@ -71,10 +62,14 @@ const onClick = (): void => {
   background: var(--white);
   border: var(--radius) solid var(--blue1);
   border-radius: 2px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -o-appearance: none;
 }
 
-.checkbox-yui-kit:checked:before {
-  color: white;
+.checkbox-yui-kit:checked {
+  color: var(--white);
   background: var(--blue1);
 }
 </style>
