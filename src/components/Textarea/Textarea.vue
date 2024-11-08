@@ -8,7 +8,7 @@
       :style="{ width: '100%', height: '90px' }"
       :railStyle="{
         y: {
-          right: '5px'
+          right: '0px'
         }
       }"
     >
@@ -56,7 +56,7 @@ const handleInput = (e: Event): void => {
 @mixin fieldset-border($color) {
   border: 1px solid $color;
   &:has(.textarea-yui-kit__textarea:focus-visible) {
-    border: 1.5px solid $color;
+    border: 1px solid $color;
     & .textarea-yui-kit__legend {
       color: $color;
       display: inline-block;
@@ -73,6 +73,7 @@ const handleInput = (e: Event): void => {
 }
 
 fieldset.textarea-yui-kit {
+  --background: var(--white);
   position: relative;
   display: grid;
   align-items: center;
@@ -81,6 +82,7 @@ fieldset.textarea-yui-kit {
   box-sizing: border-box;
   @include fieldset-border($BLUE-9CBEFF);
   border-color: transparent;
+  background: var(--background);
   column-gap: 4px;
   & > div:first-child {
     background-color: $WHITE;
@@ -88,13 +90,14 @@ fieldset.textarea-yui-kit {
   }
   & .textarea-yui-kit__legend {
     position: absolute;
-    top: -8px;
+    top: -11px;
     left: 15px;
-    background: white;
+    background: var(--background);
     display: none;
     font-size: 13px;
     font-weight: 600;
     padding-right: 4px;
+    padding-left: 4px;
     & .textarea-yui-kit__star {
       font-size: 11px;
       font-weight: 600;
@@ -104,12 +107,12 @@ fieldset.textarea-yui-kit {
 }
 
 textarea.textarea-yui-kit__textarea {
-  padding-right: 10px;
+  padding-right: 20px;
   width: inherit;
   min-height: 80px;
   margin-bottom: 5px;
   overflow-y: scroll;
-  background: var(--white);
+  background: var(--background);
   appearance: none;
   resize: none;
   font-size: 16px;
