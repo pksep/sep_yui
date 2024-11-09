@@ -6,7 +6,7 @@ export enum InputTypeEnum {
   disabled = 'disabled'
 }
 
-export enum TextFieldTypes {
+export enum TextFieldEnum {
   text = 'text',
   email = 'email',
   password = 'password',

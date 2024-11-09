@@ -1,8 +1,8 @@
-import { TextFieldTypes } from '../enum/enum';
+import { TextFieldEnum } from '../enum/enum';
 
 export interface IInputProps {
   placeholder?: string;
   inputMessage: string;
-  type: TextFieldTypes;
+  type: TextFieldEnum;
   required?: boolean;
 }

@@ -9,13 +9,13 @@
       @input="handleInput"
       @change="changeInput"
       @focus="handleInput"
-      :type="props.inputType"
+      :type="props.type"
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
       :required="props.required"
     />
     <Button
-      type="ghost"
+      :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @click="clearInput"
       v-if="state.isPressed"
@@ -30,6 +30,8 @@ import { watch, reactive } from 'vue';
 import type { IInputProps } from './interface/interface.ts';
 import Icon from './../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
+import { ButtonTypeEnum } from '../Button/enum/enum'
+import { TextFieldEnum } from '../Input/enum/enum'
 import { IconNameEnum } from '../Icon/enum/enum';
 
 const emits = defineEmits<{
@@ -37,13 +39,13 @@ const emits = defineEmits<{
 }>();
 
 const props = withDefaults(defineProps<IInputProps>(), {
-  type: 'text',
+  type: TextFieldEnum.text,
   required: false
 });
 
 const state = reactive({
   isPressed: false,
-  inputElement: null
+  inputElement: ''
 });
 
 const clearInput = () => {
@@ -64,7 +66,7 @@ const changeInput = () => {
 watch(
   () => state.inputElement,
   value => {
-    state.isPressed = value.length > 0;
+    state.isPressed = value?.length > 0;
   }
 );
 </script>
