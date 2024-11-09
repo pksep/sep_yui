@@ -95,6 +95,7 @@ watch(
 fieldset.input-yui-kit {
   --background: var(--white);
   display: grid;
+  position: relative;
   align-items: center;
   background-color: var(--background);
   grid-template-columns: 1fr 0.01fr;
@@ -106,8 +107,8 @@ fieldset.input-yui-kit {
   column-gap: 4px;
   & .input-yui-kit__legend {
     position: absolute;
-    top: 3px;
-    left: 15px;
+    top: -10px;
+    left: 19px;
     background: var(--background);
     display: none;
     font-size: 13px;
@@ -117,7 +118,7 @@ fieldset.input-yui-kit {
     & .input-yui-kit__star {
       font-size: 11px;
       font-weight: 600;
-      color: $RED-F42C2B;
+      color: var(--red6);
     }
   }
   &.pressed {
@@ -162,10 +163,10 @@ fieldset.input-yui-kit.success {
 }
 
 fieldset.input-yui-kit.error {
-  @include fieldset-border($RED-F42C2B);
+  @include fieldset-border(var(--red6));
 }
 
 fieldset.input-yui-kit.warning {
-  @include fieldset-border($YELLOW-F79400);
+  @include fieldset-border(var(--orange6));
 }
 </style>
