@@ -27,7 +27,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'languageSwitch', event: IChangeSwitchEmit): void;
+  (e: 'change', event: IChangeSwitchEmit): void;
 }>();
 
 /**
@@ -53,7 +53,7 @@ const getClasses = (index: number) => ({
  */
 const toChooseItem = (index: number) => {
   state.activeIndex = index;
-  emit('languageSwitch', {
+  emit('change', {
     index,
     value: props.items[index]
   });
@@ -84,11 +84,12 @@ onMounted(() => {
 .switch-yui-kit-item {
   padding: 3.5px 10px;
   display: flex;
+  font-size: 14px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   width: inherit;
-  min-height: 26px;
+  height: 24px;
 }
 
 .switch-yui-kit-active {

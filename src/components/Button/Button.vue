@@ -89,7 +89,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
 }
 
 .small-yui-kit {
-  padding: 13px 11px;
+  padding: 13px 11.5px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
@@ -110,7 +110,8 @@ const onClick = (e: MouseEvent) => emit('click', e);
 .primary-yui-kit {
   background-color: $BLUE-77A6FF;
 
-  &:active {
+  &:active,
+  &.active {
     background-color: $BLUE-548CF6;
   }
   &.disabled-yui-kit {
@@ -123,7 +124,8 @@ const onClick = (e: MouseEvent) => emit('click', e);
   background-color: $WHITE-F8F9FD;
   color: $BLUE-77A6FF;
 
-  &:active {
+  &:active,
+  &.active {
     background-color: $WHITE-ECF3FF;
   }
   &.disabled-yui-kit {
@@ -137,7 +139,8 @@ const onClick = (e: MouseEvent) => emit('click', e);
   border: 1px solid $BLUE-9CBEFF;
   color: $GREY-282828;
 
-  &:active {
+  &:active,
+  &.active {
     color: $WHITE;
     background-color: $BLUE-548CF6;
   }
@@ -157,7 +160,8 @@ const onClick = (e: MouseEvent) => emit('click', e);
     background-color: $WHITE-F8F9FD;
   }
 
-  &:active {
+  &:active,
+  &.active {
     color: $BLUE-77A6FF;
     background-color: $WHITE-ECF3FF;
   }

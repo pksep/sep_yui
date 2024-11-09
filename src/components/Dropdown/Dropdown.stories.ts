@@ -22,7 +22,10 @@ const meta = {
     }
   },
   tags: ['autodocs'],
-  args: { onClick: fn() }
+  args: {
+    onClick: fn(),
+    width: '200px'
+  }
 } as Meta<typeof Dropdown>;
 
 export default meta;
@@ -33,9 +36,7 @@ const Template: StoryFn<typeof Dropdown> = args => ({
     return { args };
   },
   template: `
-  <div style="width: 200px;">
   <Dropdown v-bind="args" />
-</div>
   `
 });
 

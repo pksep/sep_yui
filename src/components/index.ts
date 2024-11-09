@@ -4,24 +4,38 @@ import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
 import Dropdown from './Dropdown/Dropdown.vue';
+import Dialog from './Dialog/Dialog.vue';
+import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
+import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
 import Icon from './Icon/Icon.vue';
 import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
+import Scroll from './Scrollbar/Scrollbar.vue';
+import Modal from './Modal/Modal.vue';
+import Checkbox from './Checkbox/Checkbox.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
+import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
 
 const components = {
   Badges,
   BreadCrumbs,
+  Dialog,
+  DragAndDrop,
+  Card,
   Button,
   Switch,
   Dropdown,
   Filter,
   Icon,
+  PushNotification,
+  Scroll,
   Search,
+  Modal,
   Slider,
+  Checkbox,
   Toggle,
   UserMenu
 };
@@ -43,12 +57,19 @@ export {
   Badges,
   BreadCrumbs,
   Button,
+  Dialog,
+  Card,
+  DragAndDrop,
   Switch,
   Dropdown,
   Filter,
   Icon,
   Search,
+  PushNotification,
+  Scroll,
+  Modal,
   Slider,
+  Checkbox,
   Toggle,
   UserMenu
 };

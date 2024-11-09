@@ -1,6 +1,7 @@
-import { type Preview, setup } from '@storybook/vue3';
-import { type App } from 'vue';
+import { Preview, setup } from '@storybook/vue3';
+import type { App } from 'vue';
 import "@fontsource-variable/inter"
+import '@/assets/scss/_variables-native.scss';
 
 import { createPinia } from 'pinia';
 
@@ -12,6 +13,11 @@ setup((app: App) => {
 
 const preview: Preview = {
   parameters: {
+        backgrounds: {
+          values: [
+            { name: 'Gray', value: '#E3E3E3' },
+          ]
+     },
     controls: {
       matchers: {
         color: /(background|color)$/i,

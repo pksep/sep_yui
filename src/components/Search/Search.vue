@@ -1,6 +1,7 @@
 <template>
   <div
     class="search-yui-kit"
+    :style="searchStyles"
     @mousemove="showhistory"
     @mouseleave="hidehistory"
   >
@@ -14,7 +15,6 @@
           @keydown.enter="changeSearch"
           @input="changeSearchValue"
           @focus="setFocusSearch"
-          @blur="setBlurSearch"
         />
         <Icon :name="IconNameEnum.searchNormal" />
       </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, computed } from 'vue';
+import { onMounted, reactive, computed, CSSProperties } from 'vue';
 import { ISearchProps } from './interface/interface';
 import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -50,15 +50,14 @@ import { generateUniqueId } from './../../helpers/genarate-unic-id';
 const searchStore = useSearchStore();
 
 const props = withDefaults(defineProps<ISearchProps>(), {
-  placeholder: 'Поиск'
+  placeholder: 'Поиск',
+  height: '42px'
 });
 
 const emit = defineEmits<{
   (e: 'enter', value: string): void;
   (e: 'input', value: string): void;
 }>();
-
-// const searchRef = ref(null);
 
 const state = reactive({
   isShowList: false,
@@ -69,9 +68,14 @@ const state = reactive({
   isShowResult: false,
   searchValue: '',
   generateUniqueId: generateUniqueId,
-  IconSearchShow: true,
   placeholder: props.placeholder ?? ''
 });
+
+const searchStyles: CSSProperties = {
+  position: 'relative',
+  width: '100%',
+  height: props.height
+};
 
 const choosenPost = (value: string) => {
   state.searchValue = value;
@@ -82,8 +86,7 @@ const choosenPost = (value: string) => {
  * высчитывает классы для выпадающего списка запросов
  */
 const classesDropdown = computed(() => ({
-  'search-yui-kit__icon-wrapper': true,
-  'show-icon': state.IconSearchShow
+  'search-yui-kit__icon-wrapper': true
 }));
 
 /**
@@ -91,29 +94,17 @@ const classesDropdown = computed(() => ({
  */
 const setFocusSearch = () => {
   state.isShowResult = true;
-  state.IconSearchShow = true;
   state.placeholder = '';
 };
 
 /**
- * Во время нефокуса, скрывает результат поиска
- */
-const setBlurSearch = () => {
-  state.isShowResult = false;
-  state.IconSearchShow = false;
-  state.placeholder = props.placeholder;
-};
-
-/**
- *скрывает историю поиска
+ * Скрывает историю поиска
  */
 const hidehistory = () => {
   state.isShowList = false;
   state.isShowResult = false;
   state.isShowButtonHistory = false;
-  state.searchValue = '';
   state.placeholder = props.placeholder;
-  state.IconSearchShow = false;
 };
 
 /**
@@ -150,32 +141,45 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.show-icon {
-  input {
-    padding-left: 10px;
-  }
-
-  svg {
-    display: none;
-  }
-}
-
 .search-yui-kit {
-  position: relative;
-  width: 100%;
-
   &:hover .history {
     display: grid;
   }
 
   &__dropdown {
     width: 100%;
+    height: inherit;
+
+    &:hover {
+      color: $BLUE-9CBEFF;
+      &::placeholder {
+        color: $BLUE-9CBEFF;
+      }
+    }
+
+    &:active,
+    &:focus-within {
+      svg {
+        display: none;
+      }
+
+      input {
+        padding-left: 12px;
+        color: $BLACK;
+        caret-color: $BLUE-9CBEFF;
+        background-color: $WHITE;
+
+        &::placeholder {
+          color: $WHITE;
+        }
+      }
+    }
   }
 
   &__input {
     width: 100%;
     color: $GREY-9A9B9D;
-    padding: 12px 11px 12px 40px;
+    height: inherit;
     border: 1px solid TRANSPARENT;
     border-radius: 5px;
     transition: 0.3s ease-in-out;
@@ -187,6 +191,7 @@ onMounted(() => {
     font-size: 14px;
     line-height: 16px;
     font-family: $PRIMARY-FONT;
+    padding-left: 44px;
 
     &:hover,
     &:focus,
@@ -196,16 +201,10 @@ onMounted(() => {
       outline: none;
     }
 
-    &:focus,
-    &:focus-visible,
-    &:active {
-      color: $BLUE-9CBEFF;
-    }
-
-    &:focus + svg,
-    &:focus-visible + svg,
-    &:active + svg {
-      color: $BLUE-9CBEFF;
+    &:hover {
+      &::placeholder {
+        color: $BLUE-9CBEFF;
+      }
     }
 
     &__input {
@@ -216,22 +215,22 @@ onMounted(() => {
         & + svg {
           display: none;
         }
-        padding-left: 10px;
+        padding-left: 12px;
       }
     }
   }
 
   &__icon-wrapper {
+    height: inherit;
     color: $GREY-9A9B9D;
     position: relative;
-    min-height: 49px;
     display: flex;
     align-items: center;
     width: inherit;
 
     svg {
       position: absolute;
-      left: 10px;
+      left: 12px;
       top: 11px;
     }
   }

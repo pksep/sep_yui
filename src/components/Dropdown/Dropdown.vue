@@ -1,41 +1,68 @@
 <template>
-  <div class="dropdown-yui-kit">
-    <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
-      <span class="truncate-yui-kit">{{ state.choosedOption }}</span>
-      <Icon :name="IconNameEnum.chevronDown" v-if="state.isOpened" />
-      <Icon :name="IconNameEnum.chevronUp" v-if="!state.isOpened" />
+  <div
+    class="dropdown-yui-kit"
+    :style="{ width: props.width }"
+    v-on-click-outside.bubble="dropdownHandler"
+  >
+    <span
+      :class="[
+        'dropdown-yui-kit__current',
+        { 'active-yui-kit': state.isOpened }
+      ]"
+      @click="closeOpenList"
+    >
+      <span class="truncate-yui-kit dropdown-yui-kit__text">{{
+        state.choosedOption
+      }}</span>
+      <Icon :name="IconNameEnum.chevronUp" v-if="state.isOpened" />
+      <Icon :name="IconNameEnum.chevronDown" v-if="!state.isOpened" />
     </span>
-    <ul class="dropdown-yui-kit__list" v-if="state.isOpened">
-      <li
-        :class="[classes, { active: option === state.choosedOption }]"
-        v-for="option in props.options"
-        @click="() => getChoosenOption(option)"
-        :key="option"
+    <ul
+      class="dropdown-yui-kit__list"
+      v-if="state.isOpened"
+      :style="{ width: props.width }"
+    >
+      <Scroll
+        :style="{ width: props.width }"
+        :railStyle="{
+          y: {
+            right: '6px'
+          }
+        }"
       >
-        {{ option }}
-      </li>
+        <li
+          :class="[classes, { active: option === state.choosedOption }]"
+          v-for="option in props.options"
+          @click="() => getChoosenOption(option)"
+          :key="option"
+        >
+          {{ option }}
+        </li>
+      </Scroll>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { IDropdownProps } from './interface/interface';
+import type { OnClickOutsideHandler } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 import { IconNameEnum } from '../Icon/enum/enum';
+import Scroll from '../Scrollbar/Scrollbar.vue';
 import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {});
 
 const state = reactive({
   isOpened: false,
-  choosedOption: props.options[0] || '',
-  lengthOption: 0
+  choosedOption: props.defaultOption || props.options[0] || '',
+  lengthOption: 0,
+  width: '100%'
 });
 
 const emit = defineEmits<{
-  (e: 'click', value: string): void;
+  (e: 'change', value: string): void;
 }>();
-
-const ACTIVE = 'active-yui-kit';
 
 /**
  * Создаем проверки для классов, устанавливаем их элементам списка
@@ -51,33 +78,37 @@ const classes = computed(() => ({
  */
 
 /**
- * Получает знаение выбранного элемента списка и передает по событию родителю. Закрывает список.
+ * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
-  emit('click', state.choosedOption);
+  emit('change', state.choosedOption);
   state.isOpened = false;
 };
 
+watch(
+  () => props.defaultOption,
+  () => {
+    if (props.defaultOption) {
+      state.choosedOption = props.defaultOption;
+    }
+  },
+  { immediate: true }
+);
+
 /**
- * @event e: MouseEvent ( click )
  * @returns
  */
 
 /**
  * Закрывает открытый список, и также открывает его.
  */
-const closeOpenList = (e: MouseEvent) => {
+const closeOpenList = () => {
   state.isOpened = !state.isOpened;
+};
 
-  const target = e.currentTarget as HTMLElement | null;
-  if (target) {
-    if (target.classList.contains(ACTIVE)) {
-      target.classList.remove(ACTIVE);
-    } else {
-      target.classList.add(ACTIVE);
-    }
-  }
+const dropdownHandler: OnClickOutsideHandler = () => {
+  state.isOpened = false;
 };
 </script>
 <style lang="scss" scoped>
@@ -86,13 +117,12 @@ const closeOpenList = (e: MouseEvent) => {
 
   &__current {
     width: inherit;
-    padding: 6px 5px;
+    padding: 0px 10px;
     background-color: $WHITE;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border: 1px solid $TRANSPARENT;
-    margin-bottom: 5px;
     border-radius: 5px;
     cursor: pointer;
 
@@ -105,28 +135,48 @@ const closeOpenList = (e: MouseEvent) => {
     }
   }
 
+  &__text {
+    padding: 8.5px 0;
+  }
   &__list {
+    margin-top: 5px;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
-    padding: 6px 5px;
-    max-height: 120px;
-    overflow-y: scroll;
-    background-color: $WHITE;
-    border-radius: 5px;
-    border: 1px solid $BLUE-9CBEFF;
     display: grid;
-    gap: 10px;
+    padding: 0;
+    background-color: $WHITE;
+    border: 1px solid $BLUE-9CBEFF;
+    max-height: 120px;
+    border-radius: 5px;
     position: absolute;
+    overflow: auto;
+    overflow-x: hidden;
     z-index: 2222222;
+  }
+  &__list > div {
+    display: grid;
+    max-height: 120px;
+    gap: 10px;
   }
 
   &__item {
-    padding: 6px 5px;
+    &:first-child {
+      margin-top: 5px;
+    }
+    padding: 5px 10px;
     cursor: pointer;
+    &:nth-last-child(3) {
+      margin-bottom: 2px;
+    }
+
+    &.active {
+      color: var(--black);
+      background-color: var(--blue10);
+      border-radius: 5px;
+    }
 
     &:hover {
-      background-color: $WHITE-ECF3FF;
+      color: var(--black);
+      background-color: var(--blue9);
       border-radius: 5px;
     }
 
@@ -139,9 +189,24 @@ const closeOpenList = (e: MouseEvent) => {
 
 .truncate-yui-kit {
   display: inline-block;
-  max-width: 100%;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.dropdown-yui-kit__list {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  & ::-webkit-scrollbar {
+    display: none; /* Скрывает скроллбар в Chrome, Safari и Opera */
+  }
+}
+</style>
+
+<style>
+.ps__thumb-x,
+.ps__rail-x {
+  display: none !important;
 }
 </style>

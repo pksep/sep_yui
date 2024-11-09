@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
-import { ISearchProps, resultSearchType } from './interface/interface';
+import { ISearchProps, ResultSearchType } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
@@ -45,7 +45,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'choosePost', post: resultSearchType): void;
+  (e: 'choosePost', post: ResultSearchType): void;
 }>();
 
 /**
@@ -70,7 +70,7 @@ const classes = computed(() => ({
 /**
  * получает выбранный элемент списка и отправляет его родителю
  */
-const handleChoosePost = (item: resultSearchType) => {
+const handleChoosePost = (item: ResultSearchType) => {
   emit('choosePost', item);
 };
 </script>

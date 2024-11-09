@@ -1,0 +1,74 @@
+name: Build and pusblish npm package for production
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build project
+        run: pnpm run build
+      - name: Copy package and README
+        run: |
+          mkdir -p npm-package
+          cp -r package.json npm-package/package.json
+          cp -r README.md npm-package/README.md
+          cp -r dist npm-package/dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: published-to-npm-folder
+          path: ./npm-package
+  publish:
+    runs-on: self-hosted
+    needs: build
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: published-to-npm-folder
+          path: .
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: version update
+        run: npm version patch
+      - run: npm publish --provenance=false --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: update-package-json
+          path: package.json
+
+  update-package-json:
+    runs-on: self-hosted
+    needs: publish
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: update-package-json
+          path: .
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: ${{ github.event.repository.default_branch }}

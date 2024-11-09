@@ -1,3 +1,10 @@
+div.table-yui-kit__border {
+  border: 0.5px solid $WHITE-E0E0E0;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  overflow: clip;
+}
+
 table.table-yui-kit {
   width: inherit;
   position: relative;
@@ -6,9 +13,15 @@ table.table-yui-kit {
   border-spacing: 0;
   border-collapse: separate;
   text-align: center;
-  margin-bottom: 15px;
-  border: 0.5px solid $WHITE-E0E0E0;
 
+  & thead.table-yui-kit__thead {
+      position: sticky;
+      top: 0px;
+      background: white;
+  }
+  & .table-yui-kit__empty {
+    height: 100%;
+  }
   & th.table-yui-kit__th {
     &:last-child {
         border-radius: 0 10px 0 0;
@@ -29,9 +42,11 @@ table.table-yui-kit {
         background-color: $BLUE-F2F7FF;
     }
   }
+
   & th.table-yui-kit__th:not(:last-child) {
     border-right: 0.5px solid $WHITE-E0E0E0;
-    }
+  }
+
   & tr.table-yui-kit__tr:not(:last-child) {
         & td.table-yui-kit__td {
             border-bottom: 0.5px solid $WHITE-E0E0E0;
@@ -39,15 +54,26 @@ table.table-yui-kit {
   }
 
   & tr.table-yui-kit__tr {
+    &.passive {
+      background: #f8f8f9;
+    }
     &:hover, &.active {
         color: inherit;
         background-color: #eaf2ff !important;
     }
     &.ava {
       background-color: #fff6e4;
+      &:hover,
+      &.active {
+        background-color: #ffebc1;
+       }
     }
     &.ban {
       background-color: #ffefee;
+      &:hover,
+      &.active {
+        background-color: #ffd3ca;
+      }
     }
   }
 
@@ -56,7 +82,9 @@ table.table-yui-kit {
   }
 
   & td.table-yui-kit__td {
-    padding: 12px 8px;
+    padding: 11.5px 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     img.link_img {
       width: 20px;

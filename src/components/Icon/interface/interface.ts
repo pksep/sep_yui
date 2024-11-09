@@ -5,12 +5,13 @@ export interface IIconPorps {
   height?: number;
   width?: number;
   name: IconNameEnum;
-  color?: ColorsEnum;
+  color?: ColorsEnum | string;
 }
 
 export interface IVectorIcon {
   name: string;
   viewbox?: string;
+  fill?: string;
   style: 'line' | 'solid';
   path: string;
 }
