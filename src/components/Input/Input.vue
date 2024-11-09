@@ -93,9 +93,10 @@ watch(
 }
 
 fieldset.input-yui-kit {
+  --background: var(--white);
   display: grid;
   align-items: center;
-  background-color: $WHITE;
+  background-color: var(--background);
   grid-template-columns: 1fr 0.01fr;
   padding: 0 15px;
   padding-right: 7px;
@@ -104,6 +105,10 @@ fieldset.input-yui-kit {
   border: none;
   column-gap: 4px;
   & .input-yui-kit__legend {
+    position: absolute;
+    top: 3px;
+    left: 15px;
+    background: var(--background);
     display: none;
     font-size: 13px;
     font-weight: 600;
