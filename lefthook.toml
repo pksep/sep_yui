@@ -1,0 +1,15 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+[pre-push.commands.lint]
+run = "pnpm lint"
+
+[pre-push.commands.type-check]
+run = "pnpm vue-tsc src"
+
+[[pre-push.only]]
+ref = "sep-2229"
+
+[pre-push.commands.protected]
+run = "echo 'Protected branch' && exit 1"
