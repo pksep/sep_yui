@@ -62,7 +62,7 @@ const clearInput = () => {
   inputRef.value?.focus();
 };
 
-const handleInput = (e: Event) => {
+const handleInput = (e: EventTarget) => {
   emits('input', e.target.value);
 };
 
