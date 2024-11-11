@@ -6,10 +6,10 @@
 run = "pnpm lint"
 
 [pre-push.commands.type-check]
-run = "pnpm vue-tsc src"
+run = "pnpm vue-tsc"
 
 [[pre-push.only]]
-ref = "sep-2229"
+ref = "main"
 
 [pre-push.commands.protected]
 run = "echo 'Protected branch' && exit 1"

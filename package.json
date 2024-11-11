@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "lint": "eslint --fix --ext .ts,.vue src",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "preinstall": "lefthook install"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.21",
