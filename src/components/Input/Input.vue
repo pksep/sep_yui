@@ -62,8 +62,9 @@ const clearInput = () => {
   inputRef.value?.focus();
 };
 
-const handleInput = (e: EventTarget) => {
-  emits('input', e.target.value);
+const handleInput = (e: Event) => {
+  const target = e.currentTarget as HTMLInputElement;
+  emits('input', target.value);
 };
 
 const handleFocus = () => {
