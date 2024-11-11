@@ -1,23 +1,30 @@
 <template>
-  <fieldset class="input-yui-kit" :class="{ pressed: state.isPressed }">
+  <fieldset
+    class="input-yui-kit"
+    :class="{
+      pressed: state.isPressed
+    }"
+    @focusout="handleBlur"
+  >
     <legend class="input-yui-kit__legend">
       {{ props.inputMessage
       }}<sup class="input-yui-kit__star" v-if="props.required">*</sup>
     </legend>
     <input
+      ref="inputRef"
       v-model="state.inputElement"
       @input="handleInput"
-      @change="changeInput"
-      @focus="handleInput"
+      @focus="handleFocus"
       :type="props.type"
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
       :required="props.required"
+      input-message=""
     />
     <Button
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
-      @click="clearInput"
+      @mousedown.prevent="clearInput"
       v-if="state.isPressed"
     >
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
@@ -26,12 +33,12 @@
 </template>
 
 <script setup lang="ts">
-import { watch, reactive } from 'vue';
+import { watch, reactive, ref } from 'vue';
 import type { IInputProps } from './interface/interface.ts';
 import Icon from './../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
-import { ButtonTypeEnum } from '../Button/enum/enum'
-import { TextFieldEnum } from '../Input/enum/enum'
+import { ButtonTypeEnum } from '../Button/enum/enum';
+import { TextFieldEnum } from '../Input/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 
 const emits = defineEmits<{
@@ -48,19 +55,23 @@ const state = reactive({
   inputElement: ''
 });
 
+const inputRef = ref<HTMLInputElement | null>(null);
+
 const clearInput = () => {
   state.inputElement = '';
-  state.isPressed = false;
+  inputRef.value?.focus();
 };
 
 const handleInput = (val: string) => {
-  state.isPressed = state.inputElement?.length > 0;
   emits('input', val);
 };
 
-const changeInput = () => {
-  // TODO: bug after seconds not disable state
-  setTimeout(() => (state.isPressed = false), 150);
+const handleFocus = () => {
+  state.isPressed = state.inputElement?.length > 0;
+};
+
+const handleBlur = () => {
+  state.isPressed = false;
 };
 
 watch(
@@ -101,11 +112,10 @@ fieldset.input-yui-kit {
   align-items: center;
   background-color: var(--background);
   grid-template-columns: 1fr 0.01fr;
-  padding: 0 15px;
-  padding-right: 7px;
+  padding: 0 7px 0 15px;
   border-radius: 5px;
   @include fieldset-border($BLUE-9CBEFF);
-  border: none;
+  border-color: $TRANSPARENT;
   column-gap: 4px;
   & .input-yui-kit__legend {
     position: absolute;
@@ -135,14 +145,15 @@ fieldset.input-yui-kit {
 }
 
 input.input-yui-kit__input {
+  box-sizing: border-box;
   height: 44px;
   margin-bottom: 5px;
   font-size: 16px;
-  border: none;
+  border-color: $TRANSPARENT;
   width: inherit;
   outline: none;
   &:focus::placeholder {
-    color: transparent;
+    color: $TRANSPARENT;
   }
 }
 
@@ -153,7 +164,7 @@ fieldset.input-yui-kit:disabled {
     color: $GREY-A6A3AD;
   }
   &:hover {
-    border: none;
+    border-color: $TRANSPARENT;
     & .input-yui-kit__legend {
       display: none;
     }

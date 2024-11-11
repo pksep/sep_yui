@@ -1,5 +1,5 @@
 export enum InputTypeEnum {
-  inital = 'inital',
+  initial = 'initial',
   error = 'error',
   warning = 'warning',
   success = 'success',
@@ -12,5 +12,6 @@ export enum TextFieldEnum {
   password = 'password',
   tel = 'tel',
   url = 'url',
-  week = 'week'
+  week = 'week',
+  number = 'number'
 }
