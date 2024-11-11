@@ -13,7 +13,6 @@
     <input
       ref="inputRef"
       v-model="state.inputElement"
-      @input="handleInput"
       @focus="handleFocus"
       :type="props.type"
       class="input-yui-kit__input"
@@ -41,10 +40,6 @@ import { ButtonTypeEnum } from '../Button/enum/enum';
 import { TextFieldEnum } from '../Input/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 
-const emits = defineEmits<{
-  (e: 'input', value: string): void;
-}>();
-
 const props = withDefaults(defineProps<IInputProps>(), {
   type: TextFieldEnum.text,
   required: false
@@ -60,10 +55,6 @@ const inputRef = ref<HTMLInputElement | null>(null);
 const clearInput = () => {
   state.inputElement = '';
   inputRef.value?.focus();
-};
-
-const handleInput = (val: string) => {
-  emits('input', val);
 };
 
 const handleFocus = () => {
