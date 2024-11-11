@@ -1,8 +1,8 @@
 <template>
   <fieldset class="textarea-yui-kit" :class="{ pressed: state.isPressed }">
     <legend class="textarea-yui-kit__legend">
-      {{ props.title }}
-      <sup class="textarea-yui-kit__star" v-if="props.required">*</sup>
+      {{ props.title
+      }}<sup class="textarea-yui-kit__star" v-if="props.required">*</sup>
     </legend>
     <Scroll
       :style="{ width: '100%', height: '90px' }"
@@ -91,7 +91,7 @@ fieldset.textarea-yui-kit {
   & .textarea-yui-kit__legend {
     position: absolute;
     top: -11px;
-    left: 15px;
+    left: 19px;
     background: var(--background);
     display: none;
     font-size: 13px;
