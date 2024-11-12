@@ -115,22 +115,29 @@ fieldset.input-yui-kit {
   grid-template-columns: 1fr 0.01fr;
   padding: 0 7px 0 15px;
   border-radius: 5px;
+  max-width: 366px;
+  height: 44px;
   @include fieldset-border($BLUE-9CBEFF);
   border-color: $TRANSPARENT;
   column-gap: 4px;
+  &:has(.input-yui-kit__input:focus-visible),
+  &:hover {
+    padding-left: 14.5px;
+  }
   & .input-yui-kit__legend {
     position: absolute;
-    top: -10px;
+    bottom: 36px;
     left: 19px;
     background: var(--background);
     display: none;
     font-size: 13px;
     font-weight: 600;
-    padding-left: 4px;
-    padding-right: 9px;
+    padding-inline: 4px;
     & .input-yui-kit__star {
+      font-family: $STAR-FONT;
       font-size: 11px;
       font-weight: 600;
+      vertical-align: 2px;
       color: var(--red6);
     }
   }
@@ -140,16 +147,20 @@ fieldset.input-yui-kit {
     }
   }
   & .input-yui-kit__close {
-    margin-bottom: 5px;
     justify-self: end;
   }
 }
 
+fieldset:has(.input-yui-kit__input:focus-visible) legend,
+fieldset.input-yui-kit:hover legend {
+  bottom: 35.5px;
+  left: 18.5px;
+}
+
 input.input-yui-kit__input {
   box-sizing: border-box;
-  height: 44px;
-  margin-bottom: 5px;
   font-size: 16px;
+  line-height: 19px;
   border-color: $TRANSPARENT;
   width: inherit;
   outline: none;
@@ -182,5 +193,9 @@ fieldset.input-yui-kit.error {
 
 fieldset.input-yui-kit.warning {
   @include fieldset-border(var(--orange6));
+}
+
+fieldset.input-yui-kit.ordinary legend {
+  display: none !important;
 }
 </style>

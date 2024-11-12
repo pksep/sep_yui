@@ -58,3 +58,8 @@ export const InputSuccess = Template.bind({});
 InputSuccess.args = {
   class: InputTypeEnum.success
 };
+
+export const InputOrdinary = Template.bind({});
+InputOrdinary.args = {
+  class: InputTypeEnum.ordinary
+};
