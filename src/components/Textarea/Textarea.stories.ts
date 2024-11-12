@@ -2,6 +2,7 @@ import { StoryFn, Meta } from '@storybook/vue3';
 import Textarea from './Textarea.vue';
 import { InputTypeEnum } from '../Input/enum/enum';
 import { StorybookControlEnum } from '../../common/storybook';
+import type { ITextareaProps } from './interface/interface';
 
 const meta = {
   title: 'Textarea/Textarea',
@@ -25,7 +26,7 @@ const meta = {
 
 export default meta;
 
-const Template: StoryFn<typeof Textarea> = args => ({
+const Template: StoryFn<typeof Textarea> = (args: ITextareaProps) => ({
   components: { Textarea },
   setup() {
     return { args };
@@ -58,4 +59,9 @@ TextareaWarning.args = {
 export const TextareaSuccess = Template.bind({});
 TextareaSuccess.args = {
   class: InputTypeEnum.success
+};
+
+export const TextareaOrdinary = Template.bind({});
+TextareaOrdinary.args = {
+  class: InputTypeEnum.ordinary
 };
