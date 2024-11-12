@@ -54,17 +54,19 @@ const handleInput = (e: Event): void => {
 
 <style lang="scss" scoped>
 @mixin fieldset-border($color) {
+  --display: block;
   border: 1px solid $color;
   &:has(.textarea-yui-kit__textarea:focus-visible) {
     border: 1px solid $color;
     & .textarea-yui-kit__legend {
+      --display: inline-block;
       color: $color;
-      display: inline-block;
+      display: var(--display);
     }
   }
   & .textarea-yui-kit__legend {
     color: $color;
-    display: block;
+    display: var(--display);
   }
   &:hover {
     border: 1.5px solid $color;
@@ -149,6 +151,17 @@ fieldset.textarea-yui-kit.error {
 
 fieldset.textarea-yui-kit.warning {
   @include fieldset-border(var(--orange6));
+}
+
+fieldset.textarea-yui-kit.ordinary .textarea-yui-kit__legend {
+  --display: none;
+}
+fieldset.textarea-yui-kit.ordinary:has(
+    .textarea-yui-kit__textarea:focus-visible
+  ) {
+  & .textarea-yui-kit__legend {
+    --display: none;
+  }
 }
 
 fieldset.textarea-yui-kit .textarea-yui-kit__textarea {
