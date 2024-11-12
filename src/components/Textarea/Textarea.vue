@@ -66,8 +66,7 @@ const handleInput = (e: Event): void => {
     color: $color;
     display: block;
   }
-  &:hover,
-  &.pressed {
+  &:hover {
     border: 1.5px solid $color;
   }
 }
