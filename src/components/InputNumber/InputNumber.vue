@@ -1,0 +1,265 @@
+<template>
+  <fieldset
+    class="input-yui-kit"
+    :class="{
+      pressed: state.isPressed
+    }"
+    @focusout="handleBlur"
+  >
+    <legend class="input-yui-kit__legend">
+      {{ props.inputMessage
+      }}<sup class="input-yui-kit__star" v-if="props.required">*</sup>
+    </legend>
+    <input
+      ref="inputNumberRef"
+      v-model="state.inputElement"
+      @focus="handleFocus"
+      @input="handleInput"
+      class="input-yui-kit__input"
+      :placeholder="props.placeholder"
+      :required="props.required"
+      :min="props.min"
+      :max="props.max"
+      type="number"
+    />
+
+    <div class="input-yui-kit__buttons">
+      <button
+        class="input-yui-kit__button-up"
+        @mousedown.prevent="upValue"
+        :disabled="props.max !== undefined && state.inputElement >= props.max"
+      >
+        <Icon name="chevronUp" />
+      </button>
+      <button
+        class="input-yui-kit__button-down"
+        @mousedown.prevent="downValue"
+        :disabled="props.min !== undefined && state.inputElement <= props.min"
+      >
+        <Icon name="chevronDown" />
+      </button>
+    </div>
+  </fieldset>
+</template>
+
+<script setup lang="ts">
+import { watch, reactive, ref } from 'vue';
+import type { IInputNumberProps } from './interface/interface.ts';
+import { Icon } from '@/components';
+
+const emits = defineEmits<{
+  (e: 'input', value: string): void;
+}>();
+
+const props = withDefaults(defineProps<IInputNumberProps>(), {
+  disabled: false
+});
+
+const state = reactive({
+  isPressed: false,
+  inputElement: ''
+});
+
+const inputNumberRef = ref<HTMLInputElement | null>(null);
+
+const handleInput = (e: Event) => {
+  const target = e.currentTarget as HTMLInputElement;
+  const value = +target.value;
+
+  if (props.max !== undefined && value > props.max) {
+    state.inputElement = props.max.toString();
+    emits('input', props.max.toString());
+  } else if (props.min !== undefined && value < props.min) {
+    state.inputElement = props.min.toString();
+    emits('input', props.min.toString());
+  } else {
+    state.inputElement = target.value;
+    emits('input', target.value);
+  }
+
+  state.isPressed = target.value !== '';
+};
+
+const handleFocus = () => {
+  state.isPressed = state.inputElement !== '';
+};
+
+const handleBlur = () => {
+  state.isPressed = false;
+};
+
+const upValue = () => {
+  state.inputElement = +state.inputElement + 1;
+  inputNumberRef.value?.focus();
+};
+
+const downValue = () => {
+  state.inputElement = +state.inputElement - 1;
+  inputNumberRef.value?.focus();
+};
+
+watch(
+  () => state.inputElement,
+  value => {
+    state.isPressed = value !== '';
+  }
+);
+</script>
+
+<style lang="scss" scoped>
+@mixin fieldset-border($color) {
+  border: 1px solid $color;
+  &:has(.input-yui-kit__input:focus-visible) {
+    border: 1.5px solid $color;
+    & .input-yui-kit__legend {
+      color: $color;
+      display: inline-block;
+    }
+  }
+  & .input-yui-kit__legend {
+    color: $color;
+    display: block;
+  }
+  &:hover,
+  &.pressed {
+    border: 1.5px solid $color;
+  }
+}
+
+fieldset.input-yui-kit {
+  --background: var(--white);
+  display: grid;
+  position: relative;
+  align-items: center;
+  background-color: var(--background);
+  grid-template-columns: 1fr 0.01fr;
+  padding: 0 7px 0 15px;
+  border-radius: 5px;
+  max-width: 366px;
+  height: 44px;
+  @include fieldset-border($BLUE-9CBEFF);
+  border-color: $TRANSPARENT;
+  column-gap: 4px;
+  &:has(.input-yui-kit__input:focus-visible),
+  &:hover {
+    padding-left: 14.5px;
+    padding-right: 6.5px;
+  }
+  & .input-yui-kit__legend {
+    position: absolute;
+    bottom: 36px;
+    left: 19px;
+    background: var(--background);
+    display: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding-inline: 4px;
+    & .input-yui-kit__star {
+      //font-family: $STAR-FONT;
+      font-size: 11px;
+      font-weight: 600;
+      vertical-align: 2px;
+      color: var(--red6);
+    }
+  }
+  &.pressed {
+    & .input-yui-kit__legend {
+      display: block;
+    }
+  }
+  & .input-yui-kit__buttons {
+    justify-self: end;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 3.23px 0 #36363617;
+    border-radius: 4.5px;
+
+    & button {
+      width: 18px;
+      height: 12px;
+      border: 0.3px solid $WHITE-E7E7E7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      overflow: hidden;
+
+      &:not(:disabled):hover {
+        border-color: $BLUE-77A6FF;
+
+        & * {
+          color: $BLUE-77A6FF;
+        }
+      }
+    }
+
+    & .input-yui-kit__button-up {
+      border-radius: 4.5px 4.5px 0 0;
+    }
+    & .input-yui-kit__button-down {
+      border-radius: 0 0 4.5px 4.5px;
+    }
+  }
+}
+
+fieldset:has(.input-yui-kit__input:focus-visible) legend,
+fieldset.input-yui-kit:hover legend {
+  bottom: 35.5px;
+  left: 18.5px;
+}
+
+input.input-yui-kit__input {
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 19px;
+  border-color: $TRANSPARENT;
+  width: inherit;
+  outline: none;
+  &:focus::placeholder {
+    color: $TRANSPARENT;
+  }
+}
+
+fieldset.input-yui-kit:disabled {
+  background-color: $WHITE-F5F5F5;
+  & input.input-yui-kit__input {
+    background-color: $WHITE-F5F5F5;
+    color: $GREY-A6A3AD;
+  }
+  &:hover {
+    border-color: $TRANSPARENT;
+    & .input-yui-kit__legend {
+      display: none;
+    }
+  }
+}
+
+fieldset.input-yui-kit.success {
+  @include fieldset-border($GREEN-0FBE3F);
+}
+
+fieldset.input-yui-kit.error {
+  @include fieldset-border(var(--red6));
+}
+
+fieldset.input-yui-kit.warning {
+  @include fieldset-border(var(--orange6));
+}
+
+fieldset.input-yui-kit.ordinary legend {
+  display: none !important;
+}
+
+/* Hide default arrows on input[type=number] for WebKit browsers */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox specific (hides default spinner) */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+</style>
