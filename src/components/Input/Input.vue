@@ -86,16 +86,18 @@ watch(
 <style lang="scss" scoped>
 @mixin fieldset-border($color) {
   border: 1px solid $color;
+  --display: block;
   &:has(.input-yui-kit__input:focus-visible) {
+    --display: inline-block;
     border: 1.5px solid $color;
     & .input-yui-kit__legend {
       color: $color;
-      display: inline-block;
+      display: var(--display);
     }
   }
   & .input-yui-kit__legend {
     color: $color;
-    display: block;
+    display: var(--display);
   }
   &:hover,
   &.pressed {
@@ -126,7 +128,7 @@ fieldset.input-yui-kit {
   }
   & .input-yui-kit__legend {
     position: absolute;
-    bottom: 36px;
+    bottom: 37px;
     left: 19px;
     background: var(--background);
     display: none;
@@ -149,12 +151,6 @@ fieldset.input-yui-kit {
   & .input-yui-kit__close {
     justify-self: end;
   }
-}
-
-fieldset:has(.input-yui-kit__input:focus-visible) legend,
-fieldset.input-yui-kit:hover legend {
-  bottom: 35.5px;
-  left: 18.5px;
 }
 
 input.input-yui-kit__input {
@@ -195,7 +191,13 @@ fieldset.input-yui-kit.warning {
   @include fieldset-border(var(--orange6));
 }
 
-fieldset.input-yui-kit.ordinary legend {
-  display: none !important;
+fieldset.input-yui-kit.ordinary .input-yui-kit__legend {
+    --display: none;
+}
+
+fieldset.input-yui-kit__ordinary:has(.input-yui-kit__input:focus-visible) {
+        & .input-yui-kit__legend {
+            --display: none;
+    }
 }
 </style>
