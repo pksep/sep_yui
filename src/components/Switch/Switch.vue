@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import Icon from '@/components/Icon/Icon.vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -58,6 +58,15 @@ const toChooseItem = (index: number) => {
     value: props.items[index]
   });
 };
+
+watch(
+  () => props.defaultValue,
+  () => {
+    if (props.defaultValue && props.items.includes(props.defaultValue)) {
+      state.activeIndex = props.items.indexOf(props.defaultValue);
+    }
+  }
+);
 
 /**
  * Устанавливает и делает активным дефолтный элемент если он передан и содержится в массиве элементов.
