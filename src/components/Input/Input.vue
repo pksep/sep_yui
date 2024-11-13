@@ -130,7 +130,7 @@ fieldset.input-yui-kit {
   align-items: center;
   background-color: var(--background);
   grid-template-columns: 1fr min-content;
-  padding: 0 2px 0 15px;
+  padding: 0 2px 0 14px;
   border-radius: 5px;
   height: 44px;
   column-gap: 4px;
