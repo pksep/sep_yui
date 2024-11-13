@@ -81,7 +81,7 @@ const handleInput = (e: Event) => {
 };
 
 const handleFocus = () => {
-  state.isPressed = state.inputElement !== '';
+  state.isPressed = true;
 };
 
 const handleBlur = () => {
@@ -108,65 +108,36 @@ watch(
 
 <style lang="scss" scoped>
 @mixin fieldset-border($color) {
-  border: 1px solid $color;
-  &:has(.input-yui-kit__input:focus-visible) {
-    border: 1.5px solid $color;
-    & .input-yui-kit__legend {
-      color: $color;
-      display: inline-block;
-    }
-  }
-  & .input-yui-kit__legend {
-    color: $color;
-    display: block;
-  }
-  &:hover,
-  &.pressed {
-    border: 1.5px solid $color;
-  }
-}
-
-fieldset.input-yui-kit {
-  --background: var(--white);
-  display: grid;
-  position: relative;
-  align-items: center;
-  background-color: var(--background);
-  grid-template-columns: 1fr 0.01fr;
-  padding: 0 7px 0 15px;
-  border-radius: 5px;
-  max-width: 366px;
-  height: 44px;
-  @include fieldset-border($BLUE-9CBEFF);
-  border-color: $TRANSPARENT;
-  column-gap: 4px;
-  &:has(.input-yui-kit__input:focus-visible),
-  &:hover {
-    padding-left: 14.5px;
-    padding-right: 6.5px;
-  }
-  & .input-yui-kit__legend {
+  border: none;
+  &::before {
+    content: '';
     position: absolute;
-    bottom: 36px;
-    left: 19px;
-    background: var(--background);
-    display: none;
-    font-size: 13px;
-    font-weight: 600;
-    padding-inline: 4px;
-    & .input-yui-kit__star {
-      //font-family: $STAR-FONT;
-      font-size: 11px;
-      font-weight: 600;
-      vertical-align: 2px;
-      color: var(--red6);
-    }
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid $color;
+    border-radius: 5px;
+    transition: border 0.2s ease;
+    pointer-events: none;
   }
-  &.pressed {
-    & .input-yui-kit__legend {
-      display: block;
-    }
+
+  &.initial::before,
+  &.disabled::before,
+  &.ordinary::before {
+    border-color: $TRANSPARENT;
   }
+
+  &:has(.input-yui-kit__input:focus-visible)::before {
+    border-width: 1.5px;
+    border-color: $color;
+  }
+
+  &.pressed::before,
+  &:hover::before {
+    border-width: 1.5px;
+  }
+
   & .input-yui-kit__buttons {
     justify-self: end;
     display: grid;
@@ -176,8 +147,9 @@ fieldset.input-yui-kit {
     border-radius: 4.5px;
 
     & button {
-      width: 18px;
-      height: 12px;
+      width: 24px;
+      height: 16px;
+      background-color: $WHITE;
       border: 0.3px solid $WHITE-E7E7E7;
       display: flex;
       justify-content: center;
@@ -201,12 +173,57 @@ fieldset.input-yui-kit {
       border-radius: 0 0 4.5px 4.5px;
     }
   }
+
+  & .input-yui-kit__legend {
+    color: $color;
+  }
 }
 
-fieldset:has(.input-yui-kit__input:focus-visible) legend,
-fieldset.input-yui-kit:hover legend {
-  bottom: 35.5px;
-  left: 18.5px;
+fieldset.input-yui-kit {
+  --background: var(--white);
+  display: grid;
+  align-items: center;
+  background-color: var(--background);
+  grid-template-columns: 1fr min-content;
+  padding: 0 10px 0 15px;
+  border-radius: 5px;
+  height: 44px;
+  column-gap: 4px;
+  position: relative;
+  @include fieldset-border($BLUE-9CBEFF);
+  & .input-yui-kit__legend {
+    position: absolute;
+    bottom: 35px;
+    left: 19px;
+    background: var(--background);
+    display: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding-inline: 4px;
+
+    & .input-yui-kit__star {
+      //font-family: $STAR-FONT;
+      font-size: 11px;
+      font-weight: 600;
+      vertical-align: 2px;
+      color: var(--red6);
+    }
+  }
+
+  &.pressed .input-yui-kit__legend,
+  &.error .input-yui-kit__legend,
+  &.success .input-yui-kit__legend,
+  &.warning .input-yui-kit__legend {
+    display: block;
+  }
+
+  &.ordinary .input-yui-kit__legend {
+    display: none;
+  }
+
+  & .input-yui-kit__close {
+    justify-self: end;
+  }
 }
 
 input.input-yui-kit__input {
@@ -216,6 +233,7 @@ input.input-yui-kit__input {
   border-color: $TRANSPARENT;
   width: inherit;
   outline: none;
+
   &:focus::placeholder {
     color: $TRANSPARENT;
   }
@@ -223,15 +241,18 @@ input.input-yui-kit__input {
 
 fieldset.input-yui-kit:disabled {
   background-color: $WHITE-F5F5F5;
+
   & input.input-yui-kit__input {
     background-color: $WHITE-F5F5F5;
     color: $GREY-A6A3AD;
   }
-  &:hover {
-    border-color: $TRANSPARENT;
-    & .input-yui-kit__legend {
-      display: none;
-    }
+
+  &:hover::before {
+    border-color: transparent;
+  }
+
+  & .input-yui-kit__legend {
+    display: none;
   }
 }
 
@@ -247,8 +268,14 @@ fieldset.input-yui-kit.warning {
   @include fieldset-border(var(--orange6));
 }
 
-fieldset.input-yui-kit.ordinary legend {
-  display: none !important;
+fieldset.input-yui-kit.ordinary .input-yui-kit__legend {
+  --display: none;
+}
+
+fieldset.input-yui-kit__ordinary:has(.input-yui-kit__input:focus-visible) {
+  & .input-yui-kit__legend {
+    --display: none;
+  }
 }
 
 /* Hide default arrows on input[type=number] for WebKit browsers */
