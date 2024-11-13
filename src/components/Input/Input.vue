@@ -121,20 +121,17 @@ watch(
 fieldset.input-yui-kit {
   --background: var(--white);
   display: grid;
-  position: relative;
   align-items: center;
   background-color: var(--background);
-  grid-template-columns: 1fr 0.01fr;
-  padding: 0 7px 0 15px;
+  grid-template-columns: 1fr min-content;
+  padding: 0 4px 0 15px;
   border-radius: 5px;
-  max-width: 366px;
   height: 44px;
   column-gap: 4px;
   @include fieldset-border($BLUE-9CBEFF);
-
   & .input-yui-kit__legend {
     position: absolute;
-    bottom: 37px;
+    bottom: 35px;
     left: 19px;
     background: var(--background);
     display: none;
