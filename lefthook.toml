@@ -6,8 +6,11 @@ run = "pnpm lint"
 [pre-push.commands.type-check]
 run = "pnpm vue-tsc"
 
-[[pre-push.only]]
+[[pre-commit.only]]
 ref = "main"
 
-[pre-push.commands.protected]
+[[pre-commit.only]]
+ref = "canary"
+
+[pre-commit.commands.protected]
 run = "echo 'Protected branch' && exit 1"
