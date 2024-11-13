@@ -38,7 +38,7 @@ const Template: StoryFn<typeof Textarea> = (args: ITextareaProps) => ({
 
 export const TextareaDefault = Template.bind({});
 TextareaDefault.args = {
-  class: InputTypeEnum.inital
+  class: InputTypeEnum.initial
 };
 
 export const TextareaDisabled = Template.bind({});

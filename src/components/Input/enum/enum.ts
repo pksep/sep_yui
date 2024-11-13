@@ -1,5 +1,5 @@
 export enum InputTypeEnum {
-  inital = 'inital',
+  initial = 'initial',
   error = 'error',
   warning = 'warning',
   success = 'success',
