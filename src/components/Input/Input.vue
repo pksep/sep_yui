@@ -25,8 +25,8 @@
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @mousedown.prevent="clearInput"
-      v-if="state.isPressed"
     >
+      <!--      v-if="state.isPressed"-->
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
     </Button>
   </fieldset>
@@ -68,7 +68,7 @@ const handleInput = (e: Event) => {
 };
 
 const handleFocus = () => {
-  state.isPressed = state.inputElement?.length > 0;
+  state.isPressed = true;
 };
 
 const handleBlur = () => {
@@ -95,7 +95,6 @@ watch(
     bottom: 0;
     border: 1px solid $color;
     border-radius: 5px;
-    transition: border 0.2s ease;
     pointer-events: none;
   }
 
@@ -113,6 +112,7 @@ watch(
   &.pressed::before,
   &:hover::before {
     border-width: 1.5px;
+    border-color: $color;
   }
 
   & .input-yui-kit__legend {
@@ -130,7 +130,7 @@ fieldset.input-yui-kit {
   align-items: center;
   background-color: var(--background);
   grid-template-columns: 1fr min-content;
-  padding: 0 4px 0 15px;
+  padding: 0 2px 0 15px;
   border-radius: 5px;
   height: 44px;
   column-gap: 4px;
@@ -168,6 +168,9 @@ fieldset.input-yui-kit {
 
   & .input-yui-kit__close {
     justify-self: end;
+    &:hover {
+      background-color: $TRANSPARENT;
+    }
   }
 }
 
