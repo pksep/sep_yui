@@ -85,24 +85,34 @@ watch(
 
 <style lang="scss" scoped>
 @mixin fieldset-border($color) {
-  border: 1px solid $color;
-  --display: block;
-  &:has(.input-yui-kit__input:focus-visible) {
-    --display: inline-block;
-    border: 1.5px solid $color;
-    & .input-yui-kit__legend {
-      color: $color;
-      display: var(--display);
-    }
+  border: none;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid $color;
+    border-radius: 5px;
+    transition: border 0.2s ease;
+    pointer-events: none;
   }
+
+  &:has(.input-yui-kit__input:focus-visible)::before {
+    border-width: 1.5px;
+    border-color: $color;
+  }
+
+  &.pressed::before,
+  &:hover::before {
+    border-width: 1.5px;
+  }
+
   & .input-yui-kit__legend {
     color: $color;
-    display: var(--display);
   }
-  &:hover,
-  &.pressed {
-    border: 1.5px solid $color;
-  }
+
   & .input-yui-kit__close {
     color: $color;
   }
@@ -119,13 +129,13 @@ fieldset.input-yui-kit {
   border-radius: 5px;
   max-width: 366px;
   height: 44px;
-  @include fieldset-border($BLUE-9CBEFF);
-  border-color: $TRANSPARENT;
   column-gap: 4px;
-  &:has(.input-yui-kit__input:focus-visible),
-  &:hover {
-    padding-left: 14.5px;
-  }
+  @include fieldset-border($BLUE-9CBEFF);
+  //&:has(.input-yui-kit__input:focus-visible),
+  //&:hover {
+  //  padding-left: 14.5px;
+  //}
+
   & .input-yui-kit__legend {
     position: absolute;
     bottom: 37px;
@@ -135,6 +145,7 @@ fieldset.input-yui-kit {
     font-size: 13px;
     font-weight: 600;
     padding-inline: 4px;
+
     & .input-yui-kit__star {
       font-family: $STAR-FONT;
       font-size: 11px;
@@ -143,12 +154,13 @@ fieldset.input-yui-kit {
       color: var(--red6);
     }
   }
-  &.pressed {
-    & .input-yui-kit__legend {
-      display: block;
-    }
+
+  &.pressed .input-yui-kit__legend {
+    display: block;
   }
+
   & .input-yui-kit__close {
+    padding-inline: 0;
     justify-self: end;
   }
 }
@@ -171,11 +183,13 @@ fieldset.input-yui-kit:disabled {
     background-color: $WHITE-F5F5F5;
     color: $GREY-A6A3AD;
   }
-  &:hover {
-    border-color: $TRANSPARENT;
-    & .input-yui-kit__legend {
-      display: none;
-    }
+
+  &:hover::before {
+    border-color: transparent;
+  }
+
+  & .input-yui-kit__legend {
+    display: none;
   }
 }
 
@@ -192,12 +206,12 @@ fieldset.input-yui-kit.warning {
 }
 
 fieldset.input-yui-kit.ordinary .input-yui-kit__legend {
-    --display: none;
+  --display: none;
 }
 
 fieldset.input-yui-kit__ordinary:has(.input-yui-kit__input:focus-visible) {
-        & .input-yui-kit__legend {
-            --display: none;
-    }
+  & .input-yui-kit__legend {
+    --display: none;
+  }
 }
 </style>
