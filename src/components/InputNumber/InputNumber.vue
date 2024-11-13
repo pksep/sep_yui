@@ -138,6 +138,7 @@ watch(
   &.pressed::before,
   &:hover::before {
     border-width: 1.5px;
+    border-color: $color;
   }
 
   & .input-yui-kit__buttons {
@@ -158,6 +159,7 @@ watch(
       align-items: center;
       padding: 0;
       overflow: hidden;
+      cursor: pointer;
 
       &:not(:disabled):hover {
         border-color: $BLUE-77A6FF;
@@ -229,12 +231,13 @@ fieldset.input-yui-kit {
 }
 
 input.input-yui-kit__input {
-  box-sizing: border-box;
   font-size: 16px;
   line-height: 19px;
   border-color: $TRANSPARENT;
   width: inherit;
   outline: none;
+  border-right: none;
+  padding-right: 0;
 
   &:focus::placeholder {
     color: $TRANSPARENT;
