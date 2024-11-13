@@ -131,10 +131,6 @@ fieldset.input-yui-kit {
   height: 44px;
   column-gap: 4px;
   @include fieldset-border($BLUE-9CBEFF);
-  //&:has(.input-yui-kit__input:focus-visible),
-  //&:hover {
-  //  padding-left: 14.5px;
-  //}
 
   & .input-yui-kit__legend {
     position: absolute;
