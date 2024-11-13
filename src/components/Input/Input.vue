@@ -128,6 +128,7 @@ fieldset.input-yui-kit {
   border-radius: 5px;
   height: 44px;
   column-gap: 4px;
+  position: relative;
   @include fieldset-border($BLUE-9CBEFF);
   & .input-yui-kit__legend {
     position: absolute;
@@ -153,7 +154,6 @@ fieldset.input-yui-kit {
   }
 
   & .input-yui-kit__close {
-    padding-inline: 0;
     justify-self: end;
   }
 }
@@ -165,6 +165,7 @@ input.input-yui-kit__input {
   border-color: $TRANSPARENT;
   width: inherit;
   outline: none;
+
   &:focus::placeholder {
     color: $TRANSPARENT;
   }
@@ -172,6 +173,7 @@ input.input-yui-kit__input {
 
 fieldset.input-yui-kit:disabled {
   background-color: $WHITE-F5F5F5;
+
   & input.input-yui-kit__input {
     background-color: $WHITE-F5F5F5;
     color: $GREY-A6A3AD;
