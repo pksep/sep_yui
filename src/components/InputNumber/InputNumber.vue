@@ -5,6 +5,7 @@
       pressed: state.isPressed
     }"
     @focusout="handleBlur"
+    :disabled="props.disabled"
   >
     <legend class="input-yui-kit__legend">
       {{ props.inputMessage
@@ -27,16 +28,16 @@
       <button
         class="input-yui-kit__button-up"
         @mousedown.prevent="upValue"
-        :disabled="props.max !== undefined && state.inputElement >= props.max"
+        :disabled="props.max !== undefined && +state.inputElement >= props.max"
       >
-        <Icon name="chevronUp" />
+        <Icon :name="IconNameEnum.chevronUp" />
       </button>
       <button
         class="input-yui-kit__button-down"
         @mousedown.prevent="downValue"
-        :disabled="props.min !== undefined && state.inputElement <= props.min"
+        :disabled="props.min !== undefined && +state.inputElement <= props.min"
       >
-        <Icon name="chevronDown" />
+        <Icon :name="IconNameEnum.chevronDown" />
       </button>
     </div>
   </fieldset>
@@ -46,6 +47,7 @@
 import { watch, reactive, ref } from 'vue';
 import type { IInputNumberProps } from './interface/interface.ts';
 import { Icon } from '@/components';
+import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
 
 const emits = defineEmits<{
   (e: 'input', value: string): void;
@@ -89,12 +91,12 @@ const handleBlur = () => {
 };
 
 const upValue = () => {
-  state.inputElement = +state.inputElement + 1;
+  state.inputElement = (+state.inputElement + 1).toString();
   inputNumberRef.value?.focus();
 };
 
 const downValue = () => {
-  state.inputElement = +state.inputElement - 1;
+  state.inputElement = (+state.inputElement - 1).toString();
   inputNumberRef.value?.focus();
 };
 
