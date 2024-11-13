@@ -25,8 +25,8 @@
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @mousedown.prevent="clearInput"
+      v-if="state.isPressed"
     >
-      <!--      v-if="state.isPressed"-->
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
     </Button>
   </fieldset>
