@@ -4,30 +4,20 @@
       {{ props.title
       }}<sup class="textarea-yui-kit__star" v-if="props.required">*</sup>
     </legend>
-    <Scroll
-      :style="{ width: '100%', height: '90px' }"
-      :railStyle="{
-        y: {
-          right: '0px'
-        }
-      }"
-    >
-      <textarea
-        @input="e => handleInput(e)"
-        class="textarea-yui-kit__textarea"
-        :placeholder="props.placeholder"
-        :required="props.required"
-        :maxlength="props.maxlength"
-        :value="props.value || null"
-      />
-    </Scroll>
+    <textarea
+      @input="e => handleInput(e)"
+      class="textarea-yui-kit__textarea"
+      :placeholder="props.placeholder"
+      :required="props.required"
+      :maxlength="props.maxlength"
+      :value="props.value || null"
+    />
   </fieldset>
 </template>
 
 <script setup lang="ts">
 import { reactive } from 'vue';
 import type { ITextareaProps } from './interface/interface';
-import Scroll from '../Scrollbar/Scrollbar.vue';
 
 const props = withDefaults(defineProps<ITextareaProps>(), {
   required: false
@@ -47,8 +37,6 @@ const handleInput = (e: Event): void => {
   state.inputElement = target?.value;
   state.isPressed = state.inputElement?.length > 0;
   emits('input', target?.value);
-  target.style.height = 'auto';
-  target.style.height = `${target.scrollHeight}px`;
 };
 </script>
 
@@ -112,13 +100,12 @@ textarea.textarea-yui-kit__textarea {
   width: inherit;
   min-height: 80px;
   margin-bottom: 5px;
-  overflow-y: scroll;
   background: var(--background);
   appearance: none;
   resize: none;
-  font-size: 16px;
   border: none;
   outline: none;
+  font-size: 16px;
   &::placeholder {
     font-size: 16px;
   }
@@ -162,20 +149,5 @@ fieldset.textarea-yui-kit.ordinary:has(
   & .textarea-yui-kit__legend {
     --display: none;
   }
-}
-
-fieldset.textarea-yui-kit .textarea-yui-kit__textarea {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  & ::-webkit-scrollbar {
-    display: none; /* Скрывает скроллбар в Chrome, Safari и Opera */
-  }
-}
-</style>
-
-<style>
-.ps__thumb-x,
-.ps__rail-x {
-  display: none !important;
 }
 </style>

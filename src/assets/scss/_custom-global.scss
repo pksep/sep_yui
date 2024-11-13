@@ -1,3 +1,38 @@
 [class*="yui-kit"] {
   font-family: $PRIMARY-FONT;
 }
+
+@supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-color: var(--scrollbar-thumb-color-hovered) var(--scrollbar-bg-color);
+      scrollbar-width: var(--scrollbar-width);
+    }
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+
+  background-color: var(--scrollbar-bg-color);
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-bg-color);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: var(--scrollbar-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  border-width: var(--scrollbar-border-width-base);
+  border-style: solid;
+  border-color: var(--scrollbar-bg-color);
+  border-radius: var(--scrollbar-border-radius);
+  background-color: var(--scrollbar-thumb-color-base);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-width: var(--scrollbar-border-width-hovered);
+  background-color: var(--scrollbar-thumb-color-hovered);
+}
