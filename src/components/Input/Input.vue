@@ -111,24 +111,23 @@ watch(
 fieldset.input-yui-kit {
   --background: var(--white);
   display: grid;
-  position: relative;
   align-items: center;
   background-color: var(--background);
-  grid-template-columns: 1fr 0.01fr;
-  padding: 0 7px 0 15px;
+  grid-template-columns: 1fr min-content;
+  padding: 0 4px 0 15px;
   border-radius: 5px;
-  max-width: 366px;
   height: 44px;
   @include fieldset-border($BLUE-9CBEFF);
   border-color: $TRANSPARENT;
   column-gap: 4px;
+  position: relative;
   &:has(.input-yui-kit__input:focus-visible),
   &:hover {
     padding-left: 14.5px;
   }
   & .input-yui-kit__legend {
     position: absolute;
-    bottom: 37px;
+    bottom: 35px;
     left: 19px;
     background: var(--background);
     display: none;
@@ -192,12 +191,12 @@ fieldset.input-yui-kit.warning {
 }
 
 fieldset.input-yui-kit.ordinary .input-yui-kit__legend {
-    --display: none;
+  --display: none;
 }
 
 fieldset.input-yui-kit__ordinary:has(.input-yui-kit__input:focus-visible) {
-        & .input-yui-kit__legend {
-            --display: none;
-    }
+  & .input-yui-kit__legend {
+    --display: none;
+  }
 }
 </style>
