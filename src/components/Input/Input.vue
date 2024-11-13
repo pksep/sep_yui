@@ -99,6 +99,12 @@ watch(
     pointer-events: none;
   }
 
+  &.initial::before,
+  &.disabled::before,
+  &.ordinary::before {
+    border-color: $TRANSPARENT;
+  }
+
   &:has(.input-yui-kit__input:focus-visible)::before {
     border-width: 1.5px;
     border-color: $color;
@@ -149,8 +155,15 @@ fieldset.input-yui-kit {
     }
   }
 
-  &.pressed .input-yui-kit__legend {
+  &.pressed .input-yui-kit__legend,
+  &.error .input-yui-kit__legend,
+  &.success .input-yui-kit__legend,
+  &.warning .input-yui-kit__legend {
     display: block;
+  }
+
+  &.ordinary .input-yui-kit__legend {
+    display: none;
   }
 
   & .input-yui-kit__close {
