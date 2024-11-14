@@ -57,21 +57,21 @@ const state = reactive({
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
-const clearInput = () => {
+const clearInput = (): void => {
   state.inputElement = '';
   inputRef.value?.focus();
 };
 
-const handleInput = (e: Event) => {
+const handleInput = (e: Event): void => {
   const target = e.currentTarget as HTMLInputElement;
   emits('input', target.value);
 };
 
-const handleFocus = () => {
+const handleFocus = (): void => {
   state.isPressed = true;
 };
 
-const handleBlur = () => {
+const handleBlur = (): void => {
   state.isPressed = false;
 };
 
