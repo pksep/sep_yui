@@ -52,7 +52,7 @@ fieldset.input-yui-kit {
   @include fieldset-border($BLUE-9CBEFF);
   & .input-yui-kit__legend {
     position: absolute;
-    bottom: 35px;
+    top: -8px;
     left: 19px;
     background: var(--background);
     display: none;
@@ -62,9 +62,9 @@ fieldset.input-yui-kit {
 
     & .input-yui-kit__star {
       font-family: $STAR-FONT;
+      margin-top: -1px;
       font-size: 11px;
       font-weight: 600;
-      vertical-align: 2px;
       color: var(--red6);
     }
   }
@@ -73,7 +73,7 @@ fieldset.input-yui-kit {
   &.error .input-yui-kit__legend,
   &.success .input-yui-kit__legend,
   &.warning .input-yui-kit__legend {
-    display: block;
+    display: flex;
   }
 
   &.ordinary .input-yui-kit__legend {
