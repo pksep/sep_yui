@@ -26,14 +26,14 @@
       <button
         class="input-yui-kit__button-up"
         @mousedown.prevent="upValue"
-        :disabled="state.inputElement >= props.max"
+        :disabled="+state.inputElement >= props.max"
       >
         <Icon :name="IconNameEnum.chevronUp" />
       </button>
       <button
         class="input-yui-kit__button-down"
         @mousedown.prevent="downValue"
-        :disabled="state.inputElement <= props.min"
+        :disabled="+state.inputElement <= props.min"
       >
         <Icon :name="IconNameEnum.chevronDown" />
       </button>
@@ -49,11 +49,11 @@ import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
 
 interface IState {
   isPressed: boolean;
-  inputElement: number | '';
+  inputElement: number | string;
 }
 
 const emits = defineEmits<{
-  (e: 'input', value: string): void;
+  (e: 'input', value: number): void;
 }>();
 
 const props = withDefaults(defineProps<IInputNumberProps>(), {
@@ -68,43 +68,46 @@ const state = reactive<IState>({
 
 const inputNumberRef = ref<HTMLInputElement | null>(null);
 
-const handleInput = (e: Event) => {
+const handleInput = (e: Event): void => {
   const target = e.currentTarget as HTMLInputElement;
   const value = target.value;
-  if (value > props.max) {
+  if (+value > props.max) {
     state.inputElement = props.max;
-  } else if (props.min && value < props.min) {
+  } else if (props.min && +value < props.min) {
     state.inputElement = props.min;
   } else {
     state.inputElement = value;
   }
 
-  if (e.data?.toLowerCase() === 'e') {
+  if (+value === 0) {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
 
   emits('input', +state.inputElement);
 };
 
-const handleFocus = () => {
+const handleFocus = (): void => {
   state.isPressed = true;
 };
 
-const handleBlur = () => {
+const handleBlur = (): void => {
   if (state.inputElement === '') {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
+  state.inputElement = +state.inputElement;
+  emits('input', +state.inputElement);
   state.isPressed = false;
-  emits('input', state.inputElement);
 };
 
-const upValue = () => {
-  emits('input', ++state.inputElement);
+const upValue = (): void => {
+  state.inputElement = +state.inputElement + 1;
+  emits('input', state.inputElement);
   inputNumberRef.value?.focus();
 };
 
-const downValue = () => {
-  emits('input', --state.inputElement);
+const downValue = (): void => {
+  state.inputElement = +state.inputElement - 1;
+  emits('input', state.inputElement);
   inputNumberRef.value?.focus();
 };
 </script>
