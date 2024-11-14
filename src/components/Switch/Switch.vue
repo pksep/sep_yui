@@ -62,9 +62,9 @@ const toChooseItem = (index: number) => {
 watch(
   () => props.defaultValue,
   () => {
-    if (props.defaultValue && props.items.includes(props.defaultValue)) {
-      state.activeIndex = props.items.indexOf(props.defaultValue);
-    }
+    state.activeIndex = props.defaultValue
+      ? props.items?.indexOf(props.defaultValue)
+      : 0;
   }
 );
 
