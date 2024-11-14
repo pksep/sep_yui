@@ -17,7 +17,6 @@ const meta = {
     }
   },
   args: {
-    placeholder: 'Введите текст',
     inputMessage: 'Текст'
   },
   tags: ['autodocs']
