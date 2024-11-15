@@ -110,10 +110,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
 .primary-yui-kit {
   background-color: var(--blue1);
 
-  &:hover {
-    background-color: var(--blue6);
-  }
-
+  &:hover,
   &:active,
   &.active {
     background-color: #548CF6;
