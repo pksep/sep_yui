@@ -79,25 +79,25 @@ fieldset.input-yui-kit {
   &.ordinary .input-yui-kit__legend {
     display: none;
   }
-}
 
-input.input-yui-kit__input {
-  box-sizing: border-box;
-  font-size: 16px;
-  line-height: 19px;
-  border-color: $TRANSPARENT;
-  width: inherit;
-  outline: none;
+  & .input-yui-kit__input {
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 19px;
+    border-color: $TRANSPARENT;
+    width: inherit;
+    outline: none;
 
-  &:focus::placeholder {
-    color: $TRANSPARENT;
+    &:focus::placeholder {
+      color: $TRANSPARENT;
+    }
   }
 }
 
 fieldset.input-yui-kit:disabled {
   background-color: $WHITE-F5F5F5;
 
-  & input.input-yui-kit__input {
+  & .input-yui-kit__input {
     background-color: $WHITE-F5F5F5;
     color: $GREY-A6A3AD;
   }
