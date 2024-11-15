@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import type { ICheckboxProps } from './interface/interface';
 import { CheckboxSizeEnum, CheckboxCircularEnum } from './enum/enum';
 
@@ -23,6 +23,10 @@ const emits = defineEmits<{
 
 const state = reactive({
   isChecked: false
+});
+
+watchEffect(() => {
+  state.isChecked = props.checked;
 });
 
 const onClick = (): void => {
