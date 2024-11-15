@@ -133,10 +133,10 @@ fieldset.input-yui-kit {
       align-items: center;
       padding: 0;
       overflow: hidden;
-      cursor: pointer;
 
       &:not(:disabled):hover {
         border-color: $BLUE-77A6FF;
+        cursor: pointer;
 
         & * {
           color: $BLUE-77A6FF;
