@@ -19,7 +19,7 @@ const meta = {
   },
   args: {
     placeholder: 'Введите текст',
-    title: 'Текст'
+    inputMessage: 'Текст'
   },
   tags: ['autodocs']
 } as Meta<typeof Textarea>;

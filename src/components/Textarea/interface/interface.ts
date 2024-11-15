@@ -1,7 +1,6 @@
 export interface ITextareaProps {
-  title: string;
   placeholder?: string;
+  inputMessage?: string;
   required?: boolean;
-  maxlength?: string;
-  value?: string;
+  maxlength?: number;
 }
