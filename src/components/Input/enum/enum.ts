@@ -6,3 +6,12 @@ export enum InputTypeEnum {
   disabled = 'disabled',
   ordinary = 'ordinary'
 }
+
+export enum TextFieldEnum {
+  text = 'text',
+  email = 'email',
+  password = 'password',
+  tel = 'tel',
+  url = 'url',
+  week = 'week'
+}
