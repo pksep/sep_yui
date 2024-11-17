@@ -113,7 +113,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
   &:hover,
   &:active,
   &.active {
-    background-color: #548CF6;
+    background-color: #548cf6;
   }
   &.disabled-yui-kit {
     color: var(--grey6);
@@ -143,7 +143,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
   &:active,
   &.active {
     color: var(--white);
-    background-color: #548CF6;
+    background-color: #548cf6;
   }
 
   &.disabled-yui-kit {
