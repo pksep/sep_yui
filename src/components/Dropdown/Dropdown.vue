@@ -22,23 +22,14 @@
       v-if="state.isOpened"
       :style="{ width: props.width }"
     >
-      <Scroll
-        :style="{ width: props.width }"
-        :railStyle="{
-          y: {
-            right: '6px'
-          }
-        }"
+      <li
+        :class="[classes, { active: option === state.choosedOption }]"
+        v-for="option in props.options"
+        @click="() => getChoosenOption(option)"
+        :key="option"
       >
-        <li
-          :class="[classes, { active: option === state.choosedOption }]"
-          v-for="option in props.options"
-          @click="() => getChoosenOption(option)"
-          :key="option"
-        >
-          {{ option }}
-        </li>
-      </Scroll>
+        {{ option }}
+      </li>
     </ul>
   </div>
 </template>
@@ -48,7 +39,6 @@ import { IDropdownProps } from './interface/interface';
 import type { OnClickOutsideHandler } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { IconNameEnum } from '../Icon/enum/enum';
-import Scroll from '../Scrollbar/Scrollbar.vue';
 import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {});
@@ -193,20 +183,5 @@ const dropdownHandler: OnClickOutsideHandler = () => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.dropdown-yui-kit__list {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  & ::-webkit-scrollbar {
-    display: none; /* Скрывает скроллбар в Chrome, Safari и Opera */
-  }
-}
-</style>
-
-<style>
-.ps__thumb-x,
-.ps__rail-x {
-  display: none !important;
 }
 </style>
