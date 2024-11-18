@@ -1,7 +1,7 @@
 {
   "name": "sep-yui",
   "author": "Perov David",
-  "version": "0.0.56",
+  "version": "0.0.61",
   "packageManager": "pnpm@9.9.0",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",
@@ -16,7 +16,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@fontsource-variable/inter": "^5.0.21",
+    "@fontsource-variable/inter": "^5.1.0",
+    "@fontsource/source-sans-pro": "^5.1.0",
+    "@storybook/addon-a11y": "^8.1.9",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.3",
     "pinia": "^2.1.7",
