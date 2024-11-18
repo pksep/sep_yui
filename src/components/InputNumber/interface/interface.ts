@@ -3,4 +3,5 @@ export interface IInputNumberProps {
   required?: boolean;
   min?: number;
   max?: number;
+  modelValue: number;
 }

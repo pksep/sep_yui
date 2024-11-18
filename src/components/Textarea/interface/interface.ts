@@ -3,4 +3,5 @@ export interface ITextareaProps {
   inputMessage?: string;
   required?: boolean;
   maxlength?: number;
+  modelValue: string;
 }

@@ -42,29 +42,32 @@ import { TextFieldEnum } from '../Input/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 
 const emits = defineEmits<{
-  (e: 'input', value: string): void;
+  (e: 'update:modelValue', value: string): void;
 }>();
 
 const props = withDefaults(defineProps<IInputProps>(), {
+  modelValue: '',
   type: TextFieldEnum.text,
   required: false
 });
 
 const state = reactive({
   isPressed: false,
-  inputElement: ''
+  inputElement: props.modelValue
 });
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
 const clearInput = (): void => {
   state.inputElement = '';
+  emits('update:modelValue', '');
   inputRef.value?.focus();
 };
 
 const handleInput = (e: Event): void => {
   const target = e.currentTarget as HTMLInputElement;
-  emits('input', target.value);
+  state.inputElement = target.value;
+  emits('update:modelValue', target.value);
 };
 
 const handleFocus = (): void => {
@@ -74,6 +77,13 @@ const handleFocus = (): void => {
 const handleBlur = (): void => {
   state.isPressed = false;
 };
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    state.inputElement = newValue;
+  }
+);
 
 watch(
   () => state.inputElement,

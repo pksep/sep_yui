@@ -5,4 +5,5 @@ export interface IInputProps {
   inputMessage: string;
   type: TextFieldEnum;
   required?: boolean;
+  modelValue: string;
 }
