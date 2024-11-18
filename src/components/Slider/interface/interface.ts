@@ -11,8 +11,5 @@ export interface ISlider {
   files: IFile[];
   file: IFile | null;
   currentIndex: number;
-  defaultIndex: number;
-  disabledPrev: boolean;
-  disabledNext: boolean;
   extension: null | string;
 }
