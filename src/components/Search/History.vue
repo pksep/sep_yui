@@ -230,17 +230,12 @@ const handleChoosePost = (item: string) => {
       padding: 5px 50px 5px 5px;
       height: 24px;
       border-radius: 5px;
-
-      &:hover {
-        background-color: $BLUE-F2F7FF;
-      }
     }
 
     button {
       display: none;
       position: absolute;
       right: 0px;
-
       svg {
         width: 24px;
         height: 24px;
@@ -249,7 +244,9 @@ const handleChoosePost = (item: string) => {
 
     &:hover {
       cursor: pointer;
-
+      span {
+        background-color: $BLUE-F2F7FF;
+      }
       button {
         background: none;
         border: 1px solid $TRANSPARENT;
