@@ -73,7 +73,6 @@ export const chevronDown2: IVectorIcon = {
   `
 };
 
-
 export const chevronRight: IVectorIcon = {
   name: 'chevron-right',
   viewbox: '0 0 24 25',
@@ -103,14 +102,14 @@ export const chevronUp: IVectorIcon = {
 };
 
 export const chevronUp2: IVectorIcon = {
-   name: 'chevron-up2',
-   style: 'line',
-   fill: 'none',
-   viewbox: '0 0 10 6',
-   path: `
+  name: 'chevron-up2',
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 10 6',
+  path: `
    <path d="M9 5L5 1L1 5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
    `
-}
+};
 
 export const checkbox: IVectorIcon = {
   name: 'checkbox',
