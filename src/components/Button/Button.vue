@@ -73,7 +73,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
 
 <style lang="scss" scoped>
 .button-yui-kit {
-  color: $WHITE;
+  color: var(--white);
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -108,65 +108,66 @@ const onClick = (e: MouseEvent) => emit('click', e);
 }
 
 .primary-yui-kit {
-  background-color: $BLUE-77A6FF;
+  background-color: var(--blue1);
 
+  &:hover,
   &:active,
   &.active {
-    background-color: $BLUE-548CF6;
+    background-color: #548cf6;
   }
   &.disabled-yui-kit {
-    color: $GREY-757D8A;
-    background-color: $WHITE-F5F5F5;
+    color: var(--grey6);
+    background-color: var(--grey1);
   }
 }
 
 .secondary-yui-kit {
-  background-color: $WHITE-F8F9FD;
-  color: $BLUE-77A6FF;
+  background-color: var(--blue15);
+  color: var(--blue1);
 
   &:active,
   &.active {
-    background-color: $WHITE-ECF3FF;
+    background-color: var(--blue10);
   }
   &.disabled-yui-kit {
-    color: $GREY-757D8A;
-    background-color: $WHITE-F5F5F5;
+    color: var(--grey6);
+    background-color: var(--grey1);
   }
 }
 
 .outline-yui-kit {
-  background-color: $TRANSPARENT;
-  border: 1px solid $BLUE-9CBEFF;
-  color: $GREY-282828;
+  background-color: transparent;
+  border: 1px solid var(--blue16);
+  color: var(--black2);
 
   &:active,
   &.active {
-    color: $WHITE;
-    background-color: $BLUE-548CF6;
+    color: var(--white);
+    background-color: #548cf6;
   }
 
   &.disabled-yui-kit {
-    color: $GREY-757D8A;
-    background-color: $WHITE-F5F5F5;
-    border: 1px solid $WHITE-E7E7E7;
+    color: var(--grey6);
+    background-color: var(--grey1);
+    border: 1px solid var(--grey7);
   }
 }
 
 .ghost-yui-kit {
-  background-color: $TRANSPARENT;
-  color: $GREY-282828;
+  background-color: transparent;
+  color: var(--black2);
 
   &:hover {
-    background-color: $WHITE-F8F9FD;
+    background-color: var(--blue15);
   }
 
   &:active,
   &.active {
-    color: $BLUE-77A6FF;
-    background-color: $WHITE-ECF3FF;
+    color: var(--blue1);
+    background-color: var(--blue10);
   }
   &.disabled-yui-kit {
-    background-color: $WHITE-E6E6E6;
+    background-color: var(--grey2);
   }
 }
 .disabled-yui-kit {

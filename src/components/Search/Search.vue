@@ -80,6 +80,7 @@ const searchStyles: CSSProperties = {
 const choosenPost = (value: string) => {
   state.searchValue = value;
   state.isShowList = false;
+  emit('input', value);
 };
 
 /**
