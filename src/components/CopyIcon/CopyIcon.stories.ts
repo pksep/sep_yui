@@ -10,8 +10,7 @@ const meta = {
   argTypes: {
     content: {
       control: { type: StorybookControlEnum.text },
-      description: 'контент для копии',
-      defaultValue: ''
+      description: 'Контент для копии'
     }
   },
   tags: ['autodocs'],
@@ -19,17 +18,6 @@ const meta = {
 };
 
 export default meta;
-
-const Template: StoryFn<typeof CopyIcon> = args => ({
-  setup() {
-    return { args };
-  },
-  template: `
-    <div style="display: flex; flex-direction: row; gap: 12px;">
-      <CopyIcon :content="args.content"/>
-    </div>
-  `
-});
 
 export const Default: StoryFn<typeof CopyIcon> = args => ({
   components: { CopyIcon },
