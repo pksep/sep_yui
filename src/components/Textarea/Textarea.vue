@@ -5,14 +5,15 @@
     @focusout="handleBlur"
   >
     <legend class="input-yui-kit__legend">
-      {{ props.inputMessage
-      }}<sup class="input-yui-kit__star" v-if="props.required">*</sup>
+      {{ props.inputMessage }}
+      <sup class="input-yui-kit__star" v-if="props.required">*</sup>
     </legend>
     <textarea
-      @input="e => handleInput(e)"
+      v-model="state.inputElement"
+      @focus="handleFocus"
+      @input="handleInput"
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
-      @focus="handleFocus"
       :required="props.required"
       :maxlength="props.maxlength"
     />
@@ -20,25 +21,25 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import type { ITextareaProps } from './interface/interface';
 
 const props = withDefaults(defineProps<ITextareaProps>(), {
-  required: false
-});
-
-const state = reactive({
-  isPressed: false,
-  inputElement: ''
+  required: false,
+  modelValue: ''
 });
 
 const emits = defineEmits<{
-  (e: 'input', value: string): void;
+  (e: 'update:modelValue', value: string): void;
 }>();
 
-const handleInput = (e: Event): void => {
-  const target = e.currentTarget as HTMLInputElement;
-  emits('input', target.value);
+const state = reactive({
+  isPressed: false,
+  inputElement: props.modelValue
+});
+
+const handleInput = (): void => {
+  emits('update:modelValue', state.inputElement);
 };
 
 const handleFocus = (): void => {
@@ -48,6 +49,13 @@ const handleFocus = (): void => {
 const handleBlur = (): void => {
   state.isPressed = false;
 };
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    state.inputElement = newValue;
+  }
+);
 </script>
 
 <style lang="scss" scoped>
