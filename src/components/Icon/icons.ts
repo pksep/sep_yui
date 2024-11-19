@@ -56,21 +56,8 @@ export const arrowLeft: IVectorIcon = {
 export const chevronDown: IVectorIcon = {
   name: 'chevron-down',
   style: 'line',
-  fill: 'none',
-  viewbox: '0 0 14 8',
   path: `
-    <path d="M13 1L7 7L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  `
-};
-
-export const chevronDown2: IVectorIcon = {
-  name: 'chevron-down2',
-  style: 'line',
-  fill: 'none',
-  viewbox: '0 0 10 6',
-  path: `
-    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-  `
+  <path d="M8 10L12 14L16 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`
 };
 
 export const chevronRight: IVectorIcon = {
@@ -94,21 +81,9 @@ export const chevronLeft: IVectorIcon = {
 export const chevronUp: IVectorIcon = {
   name: 'chevron-up',
   style: 'line',
-  viewbox: '0 0 15 8',
-  fill: 'none',
   path: `
-    <path d="M1.97559 7L7.97559 1L13.9756 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M16 14L12 10L8 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   `
-};
-
-export const chevronUp2: IVectorIcon = {
-  name: 'chevron-up2',
-  style: 'line',
-  fill: 'none',
-  viewbox: '0 0 10 6',
-  path: `
-   <path d="M9 5L5 1L1 5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-   `
 };
 
 export const checkbox: IVectorIcon = {
