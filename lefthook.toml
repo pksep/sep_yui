@@ -2,6 +2,7 @@
 #   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
 [pre-push.commands.lint]
 run = "pnpm lint"
+stage_fixed=true
 
 [pre-push.commands.type-check]
 run = "pnpm vue-tsc"
