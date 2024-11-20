@@ -11,7 +11,7 @@
           <p class="menu-yui-kit__role">{{ props.user.role }}</p>
         </div>
         <Button :type="ButtonTypeEnum.ghost" class="menu-yui-kit__button"
-          ><Icon :name="nameIcon"
+          ><Icon class="menu-yui-kit__button-icon" :name="nameIcon"
         /></Button>
       </div>
     </div>
@@ -279,6 +279,10 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     padding: 0;
     margin-right: -8px;
     height: inherit;
+    &-icon {
+      width: 16px;
+      height: 16px;
+    }
 
     &:hover {
       background-color: $TRANSPARENT;
