@@ -1,7 +1,7 @@
 <template>
   <ul class="bread-crumbs-yui-kit">
     <li
-      :class="classesItem"
+      :class="classesItem.crumbs"
       v-for="(crumb, inx) in state.items"
       :key="crumb.path"
     >
@@ -14,19 +14,25 @@
           <li
             v-for="(subCrumb, inx) in state.subCrumbs"
             :key="subCrumb.path"
-            :class="classesItem"
+            :class="classesItem.subcrumbs"
           >
-            <span @click="toSelectCrumb(subCrumb, inx)">
-              {{ curtText(subCrumb)
-              }}<span v-if="state.fullTitle(crumb)" class="fullName-yui-kit">{{
-                subCrumb.title
-              }}</span></span
+            <span
+              :title="subCrumb.title"
+              @click="toSelectCrumb(subCrumb, inx)"
+              :class="{
+                'disabled-yui-kit': !subCrumb.path
+              }"
             >
+              {{ curtText(subCrumb) }}
+            </span>
           </li>
         </ul>
       </div>
 
-      <div :class="state.getClassesLink(crumb)" v-if="!crumb.isSub">
+      <div
+        :class="state.getClassesLink(crumb, inx === state.crumbs.length - 1)"
+        v-if="!crumb.isSub"
+      >
         <span
           :class="state.getClassesSpan(inx)"
           @click="toSelectCrumb(crumb, inx)"
@@ -79,10 +85,10 @@ const state = reactive({
       return el;
     });
   }),
-  getClassesLink: computed(() => (crumb: IBreadCrumbItems) => ({
+  getClassesLink: computed(() => (crumb: IBreadCrumbItems, active = false) => ({
     'bread-crumbs-yui-kit__link': true,
-    'disabled-yui-kit': !crumb.path
-    // active: matchedPath === crumb.path
+    'disabled-yui-kit': !crumb.path,
+    active
   })),
   getClassesSpan: computed(() => (inx: number) => ({
     'checked-yui-kit': inx === state.crumbs.length - 1
@@ -100,7 +106,12 @@ const MAX_SYMBOLS = 15;
  */
 
 const classesItem = computed(() => ({
-  'bread-crumbs-yui-kit__item': true
+  crumbs: {
+    'bread-crumbs-yui-kit__item': true
+  },
+  subcrumbs: {
+    'bread-subcrumbs-yui-kit__item': true
+  }
 }));
 
 /**
@@ -162,7 +173,7 @@ const toggleShowList = () => (state.isShowList = !state.isShowList);
  */
 const curtText = (crumb: IBreadCrumbsItem): string => {
   return crumb.title.length > MAX_SYMBOLS
-    ? crumb.title.slice(0, MAX_SYMBOLS) + '...'
+    ? crumb.title.slice(0, MAX_SYMBOLS).trim() + '...'
     : crumb.title;
 };
 
@@ -201,17 +212,6 @@ onMounted(() => {
       min-height: 100%;
       display: flex;
       align-items: center;
-    }
-
-    span {
-      cursor: pointer;
-      white-space: nowrap;
-      &:hover {
-        .fullName-yui-kit {
-          z-index: 1;
-          opacity: 1;
-        }
-      }
     }
   }
 
@@ -258,6 +258,7 @@ onMounted(() => {
     padding: 6px;
     border-radius: 6px;
     margin-right: 5px;
+    cursor: pointer;
 
     &:hover {
       background-color: $BLUE-D6E4FF;
@@ -285,12 +286,13 @@ onMounted(() => {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
   background-color: $WHITE;
   z-index: -10000;
-  top: 25px;
+  top: 31px;
   color: $GREY-282828;
 
   &.scroll-yui-kit {
-    height: 80px;
+    max-height: 130px;
     overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   &.active-yui-kit {
@@ -299,8 +301,22 @@ onMounted(() => {
   }
 
   &__item {
-    padding: 0 7px 5px 7px;
+    padding: 5px 7px 5px 5px;
     border-radius: 2px;
+
+    &:not(:has(.disabled-yui-kit)):hover {
+      background-color: $BLUE-D6E4FF;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    & span.disabled-yui-kit {
+      color: $WHITE-E0E0E0;
+      user-select: none;
+      pointer-events: none;
+      cursor: default;
+      background-color: $TRANSPARENT;
+    }
   }
 
   &__item.checked-yui-kit {
@@ -311,7 +327,7 @@ onMounted(() => {
 .fullName-yui-kit {
   position: absolute;
   top: -30px;
-  right: 0;
+  left: 60px;
   padding: 5px;
   background-color: $WHITE;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
