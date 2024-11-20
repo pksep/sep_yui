@@ -1,7 +1,7 @@
 {
   "name": "sep-yui",
   "author": "Perov David",
-  "version": "0.0.63",
+  "version": "0.0.65",
   "packageManager": "pnpm@9.9.0",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",
@@ -14,7 +14,7 @@
     "lint": "eslint --fix --ext .ts,.vue src",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "postinstall": "lefthook install"
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.1.0",
