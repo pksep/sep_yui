@@ -224,7 +224,7 @@ defineExpose({
 
   &__wrapper {
     width: inherit;
-    height: inherit;
+    height: 100%;
     padding: 20px 18px;
     transition: 0.3s ease-in-out;
     display: flex;
