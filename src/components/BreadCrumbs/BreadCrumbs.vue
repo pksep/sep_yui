@@ -202,6 +202,11 @@ onMounted(() => {
   padding: 0;
   margin: 0;
   color: $GREY-B8B8B8;
+  font-size: 12px;
+
+  & svg {
+    margin: 0 -5px;
+  }
 
   &__item {
     display: flex;
@@ -332,7 +337,7 @@ onMounted(() => {
 
 .fullName-yui-kit {
   position: absolute;
-  top: -30px;
+  top: -20px;
   left: 60px;
   padding: 5px;
   background-color: $WHITE;
