@@ -97,7 +97,9 @@ const checkPath = (str: string | null): string | null => {
 const isImage = (path: string | null): boolean => {
   const extension = checkPath(path) as ImageExtensionsEnum;
   return extension
-    ? Object.values(ImageExtensionsEnum).includes(extension)
+    ? Object.values(ImageExtensionsEnum).includes(
+        extension.toLowerCase() as ImageExtensionsEnum
+      )
     : false;
 };
 
@@ -214,32 +216,30 @@ defineExpose({
 .slider-yui-kit {
   width: 100%;
   height: 260px;
-  border: 1px solid $WHITE-E0E0E0;
-  border-radius: 10px;
+  overflow: hidden;
+  border: 0.5px solid $WHITE-E0E0E0;
+  border-radius: 15px;
   transition: 0.3s ease-in-out;
+
   &:hover {
-    border: 1px solid $BLUE-9CBEFF;
+    border-color: $BLUE-9CBEFF;
   }
 
   &__wrapper {
     width: inherit;
-    height: inherit;
+    height: 100%;
     padding: 20px 18px;
     transition: 0.3s ease-in-out;
     display: flex;
     justify-content: space-between;
     gap: 20px;
     cursor: zoom-in;
-
-    &:hover {
-      background-color: $BLUE-F2F7FF;
-      border-radius: 10px;
-    }
+    background-color: $BLUE-F2F7FF;
   }
 
   &__slides {
     background-color: $WHITE;
-    border-radius: 10px;
+    border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -307,7 +307,7 @@ defineExpose({
   justify-content: center;
   flex-grow: 1;
   gap: 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: $WHITE-F0F0F0;
 
   img {
