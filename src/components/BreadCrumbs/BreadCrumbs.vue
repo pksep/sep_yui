@@ -219,6 +219,12 @@ onMounted(() => {
     display: flex;
     align-items: center;
 
+    &:hover {
+      .fullName-yui-kit {
+        opacity: 1;
+      }
+    }
+
     &.active {
       color: $BLUE-77A6FF;
       background-color: $BLUE-D6E4FF;
@@ -248,7 +254,7 @@ onMounted(() => {
   display: flex;
 
   &--closed {
-    background-color: $BLUE-4480F345;
+    background-color: $BLUE-ECF3FF;
     color: $BLUE-4480F3;
     display: flex;
     align-items: center;
