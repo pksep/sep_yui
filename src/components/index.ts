@@ -5,10 +5,12 @@ import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
 import Dropdown from './Dropdown/Dropdown.vue';
 import Dialog from './Dialog/Dialog.vue';
+import Details from './Details/Details.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
 import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
 import Icon from './Icon/Icon.vue';
+import Input from './Input/Input.vue';
 import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
@@ -29,9 +31,11 @@ const components = {
   Button,
   Switch,
   Dropdown,
+  Details,
   Textarea,
   Filter,
   Icon,
+  Input,
   PushNotification,
   Scroll,
   Search,
@@ -62,11 +66,13 @@ export {
   Dialog,
   Card,
   DragAndDrop,
+  Details,
   Switch,
   Dropdown,
   Textarea,
   Filter,
   Icon,
+  Input,
   Search,
   PushNotification,
   Scroll,
