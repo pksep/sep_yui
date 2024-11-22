@@ -212,6 +212,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
     position: relative;
+    height: 21px;
 
     div {
       min-height: 100%;
@@ -301,7 +302,7 @@ onMounted(() => {
   color: $GREY-282828;
 
   &.scroll-yui-kit {
-    max-height: 130px;
+    max-height: 92px;
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -343,7 +344,7 @@ onMounted(() => {
   background-color: $WHITE;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-  z-index: -10000;
+  z-index: 1;
   opacity: 0;
 }
 </style>
