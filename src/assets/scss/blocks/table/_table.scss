@@ -1,5 +1,4 @@
 div.table-yui-kit__border {
-  --margin-bottom: 15px;
   border: 0.5px solid $WHITE-E0E0E0;
   border-radius: 15px;
   overflow: clip;
@@ -15,8 +14,9 @@ table.table-yui-kit {
   text-align: center;
 
   & thead.table-yui-kit__thead {
+      --top: 0px;
       position: sticky;
-      top: 0px;
+      top: var(--top);
       background: white;
   }
   & .table-yui-kit__empty {
@@ -54,6 +54,8 @@ table.table-yui-kit {
   }
 
   & tr.table-yui-kit__tr {
+    --cursor: pointer;
+    cursor: var(--cursor);
     &.passive {
       background: #f8f8f9;
     }
