@@ -14,8 +14,9 @@ table.table-yui-kit {
   text-align: center;
 
   & thead.table-yui-kit__thead {
+      --top: 0px;
       position: sticky;
-      top: 0px;
+      top: var(--top);
       background: white;
   }
   & .table-yui-kit__empty {
@@ -53,25 +54,28 @@ table.table-yui-kit {
   }
 
   & tr.table-yui-kit__tr {
+    --cursor: pointer;
+    background-color: var(--background);
+    cursor: var(--cursor);
     &.passive {
-      background: #f8f8f9;
+      --background: #f8f8f9;
     }
     &:hover, &.active {
+        --background: var(--blue11);
         color: inherit;
-        background-color: #eaf2ff !important;
     }
     &.ava {
-      background-color: #fff6e4;
+     --background: var(--orange10);
       &:hover,
       &.active {
-        background-color: #ffebc1;
+        --background: #ffebc1;
        }
     }
     &.ban {
-      background-color: #ffefee;
+      --background: #ffefee;
       &:hover,
       &.active {
-        background-color: #ffd3ca;
+        --background: #ffd3ca;
       }
     }
   }

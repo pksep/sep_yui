@@ -21,6 +21,7 @@ import UserMenu from './UserMenu/UserMenu.vue';
 import Textarea from './Textarea/Textarea.vue';
 import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
+import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
 
 const components = {
   Badges,
@@ -43,7 +44,8 @@ const components = {
   Slider,
   Checkbox,
   Toggle,
-  UserMenu
+  UserMenu,
+  CopyIcon
 };
 
 const pinia = createPinia();
@@ -80,5 +82,6 @@ export {
   Slider,
   Checkbox,
   Toggle,
-  UserMenu
+  UserMenu,
+  CopyIcon
 };

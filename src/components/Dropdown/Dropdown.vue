@@ -122,6 +122,8 @@ const dropdownHandler: OnClickOutsideHandler = () => {
 
     svg {
       flex-shrink: 0;
+      height: 16px;
+      width: 16px;
     }
   }
 
