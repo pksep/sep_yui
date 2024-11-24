@@ -56,6 +56,9 @@ details.details-yui-kit[open] {
   background: #f9fbff;
   border-radius: 5px;
   padding-bottom: 15px;
+  & > * {
+      padding-left: 15px;
+  }
   & summary.details-yui-kit__summary {
     & svg.chevron-up {
       display: block;

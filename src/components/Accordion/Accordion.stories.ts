@@ -26,7 +26,7 @@ const Template: StoryFn = args => ({
     <template #summary>
         Откройте для детальной информации
     </template>
-        Детальная информация
+        <span> Детальная информация </span>
     </Accordion>
   `
 });
