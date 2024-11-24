@@ -1,6 +1,6 @@
 <template>
-  <details class="details-yui-kit">
-    <summary class="details-yui-kit__summary">
+  <details class="accordion-yui-kit">
+    <summary class="accordion-yui-kit__summary">
       <slot name="summary" />
       <Icon
         :name="IconNameEnum.chevronUp"
@@ -23,7 +23,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
 </script>
 
 <style scoped>
-summary.details-yui-kit__summary {
+summary.accordion-yui-kit__summary {
   padding: 15px;
   list-style: none;
   background: #f9fbff;
@@ -52,14 +52,14 @@ summary.details-yui-kit__summary {
   }
 }
 
-details.details-yui-kit[open] {
+details.accordion-yui-kit[open] {
   background: #f9fbff;
   border-radius: 5px;
   padding-bottom: 15px;
   & > * {
-      padding-left: 15px;
+    padding-left: 15px;
   }
-  & summary.details-yui-kit__summary {
+  & summary.accordion-yui-kit__summary {
     & svg.chevron-up {
       display: block;
       justify-self: end;
@@ -70,7 +70,7 @@ details.details-yui-kit[open] {
   }
 }
 
-summary::-webkit-details-marker {
+summary::-webkit-accordion-marker {
   display: none;
 }
 </style>
