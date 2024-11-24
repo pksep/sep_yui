@@ -1,10 +1,10 @@
 import { StoryFn } from '@storybook/vue3';
 import { StorybookControlEnum } from '../../common/storybook';
-import Details from './Details.vue';
+import Accordion from './Accordion.vue';
 
 const meta = {
-  title: 'Details/Details',
-  component: Details,
+  title: 'Accordion/Accordion',
+  component: Accordion,
   argTypes: {
     pressed: {
       control: { type: StorybookControlEnum.boolean },
@@ -17,17 +17,17 @@ const meta = {
 export default meta;
 
 const Template: StoryFn = args => ({
-  components: { Details },
+  components: { Accordion },
   setup() {
     return { args };
   },
   template: `
-    <Details>
+    <Accordion>
     <template #summary>
         Откройте для детальной информации
     </template>
         Детальная информация
-    </Details>
+    </Accordion>
   `
 });
 

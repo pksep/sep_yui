@@ -2,15 +2,23 @@
   <details class="details-yui-kit">
     <summary class="details-yui-kit__summary">
       <slot name="summary" />
-      <Icon :name="IconNameEnum.chevronUp" class="chevron-up" stroke-width="2" />
-      <Icon :name="IconNameEnum.chevronDown" class="chevron-down" stroke-width="2" />
+      <Icon
+        :name="IconNameEnum.chevronUp"
+        class="chevron-up"
+        stroke-width="2"
+      />
+      <Icon
+        :name="IconNameEnum.chevronDown"
+        class="chevron-down"
+        stroke-width="2"
+      />
     </summary>
     <slot />
   </details>
 </template>
 
 <script setup lang="ts">
-import Icon from "../Icon/Icon.vue";
+import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 </script>
 
