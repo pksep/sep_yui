@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-yui-kit">
+  <div class="menu-yui-kit" ref="menuRef">
     <div class="menu-yui-kit__wrapper">
       <div class="menu-yui-kit__avatar">
         <img :src="props.user.avatar" v-if="existUserPath" />
@@ -69,7 +69,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
@@ -113,6 +113,26 @@ const iconTheme = computed(() =>
  * @enum type:  MenuTypeEnum
  * @returns
  */
+
+/**
+ * Закрытие меню при клике вне его
+ */
+
+const menuRef = ref<HTMLElement | null>(null);
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (menuRef.value && !menuRef.value.contains(event.target as Node)) {
+    state.isShow = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 
 /**
  * Высчитывает какую опцию выбрали
@@ -236,7 +256,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     border-radius: 3px;
     gap: 20px;
     cursor: pointer;
-    width: inherit;
+    width: 100%;
     height: 40px;
 
     &.active-yui-kit {
@@ -277,7 +297,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   &__button {
     background-color: $TRANSPARENT;
     padding: 0;
-    margin-right: -8px;
+    margin-right: 0;
     height: inherit;
     &-icon {
       width: 16px;
