@@ -44,9 +44,6 @@ const Template: StoryFn<typeof UserMenu> = args => ({
 
 export const Default = Template.bind({});
 Default.args = {
-  onClick: action('click'),
-  onThemeChange: action('themeChange'),
-  onLanguageSwitch: action('languageSwitch'),
   user: {
     name: 'David Perov',
     role: 'admin',
@@ -56,14 +53,4 @@ Default.args = {
   languages: {
     items: ['En', 'Ru']
   }
-};
-
-Default.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const buttonOpen = canvas.getByRole('button');
-
-  await userEvent.click(buttonOpen);
-  await userEvent.click(buttonOpen, {
-    delay: 5000
-  });
 };
