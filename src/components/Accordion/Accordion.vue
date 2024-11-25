@@ -23,8 +23,15 @@ import { IconNameEnum } from '../Icon/enum/enum';
 </script>
 
 <style scoped>
+.accordion-yui-kit {
+  --padding-left: 15px;
+  --padding-right: 15px;
+  --padding-bottom: 15px;
+  --padding: 15px;
+}
+
 summary.accordion-yui-kit__summary {
-  padding: 15px;
+  padding: var(--padding);
   list-style: none;
   background: #f9fbff;
   border-radius: 5px;
@@ -55,9 +62,10 @@ summary.accordion-yui-kit__summary {
 details.accordion-yui-kit[open] {
   background: #f9fbff;
   border-radius: 5px;
-  padding-bottom: 15px;
+  padding-bottom: var(--padding-bottom);
   & > * {
-    padding-left: 15px;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
   }
   & summary.accordion-yui-kit__summary {
     & svg.chevron-up {
