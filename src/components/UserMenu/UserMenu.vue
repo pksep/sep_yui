@@ -120,7 +120,7 @@ const iconTheme = computed(() =>
 
 const menuRef = ref<HTMLElement | null>(null);
 
-const handleClickOutside = (event: MouseEvent) => {
+const handleClickOutside = (event: MouseEvent): void => {
   if (menuRef.value && !menuRef.value.contains(event.target as Node)) {
     state.isShow = false;
   }
