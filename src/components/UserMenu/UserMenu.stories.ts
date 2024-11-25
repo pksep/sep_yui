@@ -1,8 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import UserMenu from './UserMenu';
 import { StorybookControlEnum } from '../../common/storybook';
-import { userEvent, within } from '@storybook/test';
-import { action } from '@storybook/addon-actions';
 
 const meta = {
   title: 'UserMenu/UserMenu',
