@@ -44,11 +44,6 @@ summary.accordion-yui-kit__summary {
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr 0.1fr;
-  & svg.chevron-up,
-  & svg.chevron-down {
-    width: 20px;
-    height: 20px;
-  }
   & svg.chevron-up {
     pointer-events: none;
     display: none;
