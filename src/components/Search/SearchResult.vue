@@ -31,7 +31,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
 
-const props = defineProps<ISearchProps>();
+const props = defineProps<Partial<ISearchProps>>();
 
 const state = reactive({
   isShowList: props.isShowList,
