@@ -38,7 +38,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, computed, CSSProperties } from 'vue';
+import {
+  onMounted,
+  reactive,
+  computed,
+  CSSProperties,
+  defineExpose
+} from 'vue';
 import { ISearchProps } from './interface/interface';
 import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -136,6 +142,9 @@ const changeSearchValue = () => {
 /**
  * если есть пропс с дефолтным значением, то записывает его в строку поиска
  */
+
+defineExpose({ state }); // Todo delete it, and use parent v-model.
+
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
 });
