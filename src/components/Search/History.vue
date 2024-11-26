@@ -34,7 +34,7 @@ import { trimText } from './../../helpers/trimText';
 
 const searchStore = useSearchStore();
 
-const props = defineProps<ISearchProps>();
+const props = defineProps<Partial<ISearchProps>>();
 
 const state = reactive({
   getHistorySearch: computed(() => {
