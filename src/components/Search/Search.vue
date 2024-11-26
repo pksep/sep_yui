@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, computed, CSSProperties } from 'vue';
+import { onMounted, reactive, computed, CSSProperties, watch } from 'vue';
 import { ISearchProps } from './interface/interface';
 import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -51,12 +51,14 @@ const searchStore = useSearchStore();
 
 const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск',
-  height: '42px'
+  height: '42px',
+  modelValue: ''
 });
 
 const emit = defineEmits<{
   (e: 'enter', value: string): void;
   (e: 'input', value: string): void;
+  (e: 'update:modelValue', value: string): void;
 }>();
 
 const state = reactive({
@@ -66,7 +68,7 @@ const state = reactive({
     return props.globalResultsFunction;
   }),
   isShowResult: false,
-  searchValue: '',
+  searchValue: props.modelValue,
   generateUniqueId: generateUniqueId,
   placeholder: props.placeholder ?? ''
 });
@@ -131,14 +133,23 @@ const changeSearch = () => {
  */
 const changeSearchValue = () => {
   emit('input', state.searchValue);
+  emit('update:modelValue', state.searchValue);
 };
 
 /**
  * если есть пропс с дефолтным значением, то записывает его в строку поиска
  */
+
 onMounted(() => {
   if (props.defaultValue) state.searchValue = props.defaultValue;
 });
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    state.searchValue = newValue;
+  }
+);
 </script>
 
 <style lang="scss" scoped>
