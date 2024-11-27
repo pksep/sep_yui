@@ -1,6 +1,7 @@
 import { StoryFn } from '@storybook/vue3';
 import { StorybookControlEnum } from '../../common/storybook';
 import Accordion from './Accordion.vue';
+import ExampleTable from './ExampleTable.vue';
 
 const meta = {
   title: 'Accordion/Accordion',
@@ -17,7 +18,7 @@ const meta = {
 export default meta;
 
 const Template: StoryFn = args => ({
-  components: { Accordion },
+  components: { Accordion, ExampleTable },
   setup() {
     return { args };
   },
@@ -26,7 +27,9 @@ const Template: StoryFn = args => ({
     <template #summary>
         Откройте для детальной информации
     </template>
-        <span> Детальная информация </span>
+        <div style="background: white;">
+            <ExampleTable />
+        </div>
     </Accordion>
   `
 });

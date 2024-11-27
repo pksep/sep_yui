@@ -28,18 +28,20 @@ import { IconNameEnum } from '../Icon/enum/enum';
   --padding-right: 15px;
   --padding-bottom: 15px;
   --padding: 15px 16px;
+  --background: #F4F8FF;
 }
 
 summary.accordion-yui-kit__summary {
   padding: var(--padding);
   list-style: none;
-  background: #f9fbff;
   border-radius: 5px;
   font-size: 16px;
   color: #6498ec;
+  background: var(--background);
   &:hover {
     cursor: pointer;
-    background: #f4f8ff;
+    background: var(--blue9);
+    opacity: 0.9;
   }
   display: grid;
   justify-content: center;
@@ -55,13 +57,9 @@ summary.accordion-yui-kit__summary {
 }
 
 details.accordion-yui-kit[open] {
-  background: #f9fbff;
+  background: var(--background);
   border-radius: 5px;
   padding-bottom: var(--padding-bottom);
-  & > * {
-    padding-left: var(--padding-left);
-    padding-right: var(--padding-right);
-  }
   & summary.accordion-yui-kit__summary {
     & svg.chevron-up {
       display: block;
