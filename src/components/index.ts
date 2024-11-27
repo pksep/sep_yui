@@ -5,10 +5,12 @@ import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
 import Dropdown from './Dropdown/Dropdown.vue';
 import Dialog from './Dialog/Dialog.vue';
+import Accordion from './Accordion/Accordion.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
 import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
 import Icon from './Icon/Icon.vue';
+import Input from './Input/Input.vue';
 import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
@@ -22,6 +24,7 @@ import { createPinia } from 'pinia';
 import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
 
 const components = {
+  Accordion,
   Badges,
   BreadCrumbs,
   Dialog,
@@ -33,6 +36,7 @@ const components = {
   Textarea,
   Filter,
   Icon,
+  Input,
   PushNotification,
   Scroll,
   Search,
@@ -58,6 +62,7 @@ export default {
 };
 
 export {
+  Accordion,
   Badges,
   BreadCrumbs,
   Button,
@@ -69,6 +74,7 @@ export {
   Textarea,
   Filter,
   Icon,
+  Input,
   Search,
   PushNotification,
   Scroll,
