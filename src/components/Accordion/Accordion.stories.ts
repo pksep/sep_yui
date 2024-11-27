@@ -27,9 +27,7 @@ const Template: StoryFn = args => ({
     <template #summary>
         Откройте для детальной информации
     </template>
-        <div style="background: white;">
             <ExampleTable />
-        </div>
     </Accordion>
   `
 });
