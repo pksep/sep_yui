@@ -28,7 +28,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
   --padding-right: 15px;
   --padding-bottom: 15px;
   --padding: 15px 16px;
-  --background: #f4f8ff;
+  --background: var(--blue18);
 }
 
 summary.accordion-yui-kit__summary {
