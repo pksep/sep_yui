@@ -375,6 +375,18 @@ export const closeVision: IVectorIcon = {
 `
 };
 
+export const deleteSmall: IVectorIcon = {
+  name: 'deleteSmall',
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M4.5 7.87256H5.77778H19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 7.87256V19.1726C18 19.6234 17.8194 20.0558 17.4979 20.3746C17.1764 20.6935 16.7404 20.8726 16.2857 20.8726H7.71429C7.25963 20.8726 6.82359 20.6935 6.5021 20.3746C6.18061 20.0558 6 19.6234 6 19.1726V7.87256M8.57143 7.27256V5.57256C8.57143 5.12169 8.75204 4.68929 9.07353 4.37048C9.39502 4.05167 9.83106 3.87256 10.2857 3.87256H13.7143C14.1689 3.87256 14.605 4.05167 14.9265 4.37048C15.248 4.68929 15.4286 5.12169 15.4286 5.57256V7.27256" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 11.8726V16.8726" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14 11.8726V16.8726" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
 export const openVision: IVectorIcon = {
   name: 'openVision',
   style: 'line',

@@ -10,6 +10,7 @@ export enum IconNameEnum {
   chevronRight = 'chevron-right',
   chevronLeft = 'chevron-left',
   dark = 'dark',
+  deleteSmall = 'delete-small',
   exitBig = 'exit-big',
   exitSmall = 'exit-small',
   exit = 'exit',

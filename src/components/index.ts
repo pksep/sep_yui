@@ -11,6 +11,7 @@ import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
 import Icon from './Icon/Icon.vue';
 import Input from './Input/Input.vue';
+import InputNumber from './InputNumber/InputNumber.vue';
 import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
@@ -37,6 +38,7 @@ const components = {
   Filter,
   Icon,
   Input,
+  InputNumber,
   PushNotification,
   Scroll,
   Search,
@@ -75,6 +77,7 @@ export {
   Filter,
   Icon,
   Input,
+  InputNumber,
   Search,
   PushNotification,
   Scroll,
