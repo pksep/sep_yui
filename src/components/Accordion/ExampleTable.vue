@@ -43,6 +43,6 @@ table.table-yui-kit {
 }
 
 tr.table-yui-kit__tr {
-    --background: var(--white);
+  --background: var(--white);
 }
 </style>
