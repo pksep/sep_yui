@@ -19,7 +19,6 @@
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
       :required="props.required"
-      input-message=""
     />
     <Button
       :type="ButtonTypeEnum.ghost"
@@ -42,17 +41,19 @@ import { TextFieldEnum } from '../Input/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 
 const emits = defineEmits<{
-  (e: 'input', value: string): void;
+  (e: 'update:modelValue', value: string): void;
 }>();
 
 const props = withDefaults(defineProps<IInputProps>(), {
   type: TextFieldEnum.text,
-  required: false
+  required: false,
+  inputMessage: '',
+  modelValue: ''
 });
 
 const state = reactive({
   isPressed: false,
-  inputElement: ''
+  inputElement: props.modelValue
 });
 
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -62,9 +63,8 @@ const clearInput = (): void => {
   inputRef.value?.focus();
 };
 
-const handleInput = (e: Event): void => {
-  const target = e.currentTarget as HTMLInputElement;
-  emits('input', target.value);
+const handleInput = (): void => {
+  emits('update:modelValue', state.inputElement);
 };
 
 const handleFocus = (): void => {
@@ -79,6 +79,7 @@ watch(
   () => state.inputElement,
   value => {
     state.isPressed = value?.length > 0;
+    state.inputElement = value;
   }
 );
 </script>

@@ -17,7 +17,7 @@ const meta = {
     }
   },
   args: {
-    inputMessage: 'Текст'
+    inputMessage: ''
   },
   tags: ['autodocs']
 } as Meta<typeof InputNumber>;
@@ -32,11 +32,12 @@ const Template: StoryFn<typeof InputNumber> = args => ({
   template: `<InputNumber v-bind="args" :disabled="args.class === 'disabled'" />`
 });
 
-export const InputDefault = Template.bind({});
-InputDefault.args = {
+export const InputNumberDefault = Template.bind({});
+InputNumberDefault.args = {
   class: InputTypeEnum.initial
 };
 
+/*
 export const InputDisabled = Template.bind({});
 InputDisabled.args = {
   class: InputTypeEnum.disabled
@@ -61,3 +62,4 @@ export const InputOrdinary = Template.bind({});
 InputOrdinary.args = {
   class: InputTypeEnum.ordinary
 };
+*/

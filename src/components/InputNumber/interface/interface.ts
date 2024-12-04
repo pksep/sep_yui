@@ -4,3 +4,8 @@ export interface IInputNumberProps {
   min?: number;
   max?: number;
 }
+
+export interface IState {
+  isPressed: boolean;
+  inputElement: number | string;
+}

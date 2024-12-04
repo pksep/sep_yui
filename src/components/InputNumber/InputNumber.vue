@@ -43,14 +43,9 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import type { IInputNumberProps } from './interface/interface.ts';
-import { Icon } from '@/components';
+import type { IInputNumberProps, IState } from './interface/interface.ts';
+import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
-
-interface IState {
-  isPressed: boolean;
-  inputElement: number | string;
-}
 
 const emits = defineEmits<{
   (e: 'input', value: number): void;

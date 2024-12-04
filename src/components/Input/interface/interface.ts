@@ -3,6 +3,7 @@ import { TextFieldEnum } from '../enum/enum';
 export interface IInputProps {
   placeholder?: string;
   inputMessage: string;
-  type: TextFieldEnum;
+  type?: TextFieldEnum;
   required?: boolean;
+  modelValue?: string;
 }
