@@ -1,7 +1,7 @@
 div.table-yui-kit__border {
   border: 0.5px solid $WHITE-E0E0E0;
   border-radius: 15px;
-  overflow: clip;
+  overflow: var(--general-overflow,clip);
 }
 
 table.table-yui-kit {
@@ -15,9 +15,8 @@ table.table-yui-kit {
   text-align: center;
 
   & thead.table-yui-kit__thead {
-      --top: 0px;
       position: sticky;
-      top: var(--top);
+      top: var(--top, 0px);
       background: white;
   }
   & .table-yui-kit__empty {
@@ -32,6 +31,14 @@ table.table-yui-kit {
     }
   }
 
+  & tbody.table-yui-kit__tbody {
+        &:last-child {
+           & td.table-yui-kit__td {
+                border-bottom: 0.5px solid $WHITE-E0E0E0;
+            }
+        }
+  }
+
   & th.table-yui-kit__th,
   & td.table-yui-kit__td {
       border: none;
@@ -44,7 +51,7 @@ table.table-yui-kit {
     }
   }
 
-  & th.table-yui-kit__th {
+  & th.table-yui-kit__th:not(:last-child) {
     border-right: 0.5px solid $WHITE-E0E0E0;
   }
 
@@ -55,15 +62,14 @@ table.table-yui-kit {
   }
 
   & tr.table-yui-kit__tr {
-    --cursor: pointer;
-    background-color: var(--background);
-    cursor: var(--cursor);
+    background-color: var(--background, var(--white));
+    cursor: var(--cursor, pointer);
     &.passive {
       --background: #f8f8f9;
     }
     &:hover, &.active {
-        --background: var(--blue11);
         color: inherit;
+        --background: var(--blue11);
     }
     &.ava {
      --background: var(--orange10);
@@ -81,9 +87,12 @@ table.table-yui-kit {
     }
   }
 
-  & td.table-yui-kit__td {
+  /* TODO: Check is work? */
+  & td.table-yui-kit__td:not(:last-child) {
     border-right: 0.5px solid $WHITE-E0E0E0;
   }
+
+
 
   & td.table-yui-kit__td {
     padding: 11.5px 8px;
@@ -134,4 +143,19 @@ table.table-yui-kit {
 
     border-radius: 0 0 5px 5px;
   }
+}
+
+table.table-yui-kit tbody.table-yui-kit__tbody-with-scroll {
+      display: block;
+      width: var(--width);
+      height: var(--height);
+      overflow-y: hidden;
+      &:hover {
+        overflow-y: auto;
+      }
+      & tr.table-yui-kit__tr {
+        display: table;
+        width: var(--tr-width);
+        table-layout: fixed;
+      }
 }
