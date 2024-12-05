@@ -19,4 +19,5 @@ export interface ISearchProps {
   searchValue?: string;
   width?: string;
   height?: string;
+  modelValue: string;
 }

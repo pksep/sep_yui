@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-yui-kit">
+  <div class="menu-yui-kit" ref="menuRef">
     <div class="menu-yui-kit__wrapper">
       <div class="menu-yui-kit__avatar">
         <img :src="props.user.avatar" v-if="existUserPath" />
@@ -11,7 +11,7 @@
           <p class="menu-yui-kit__role">{{ props.user.role }}</p>
         </div>
         <Button :type="ButtonTypeEnum.ghost" class="menu-yui-kit__button"
-          ><Icon :name="nameIcon"
+          ><Icon class="menu-yui-kit__button-icon" :name="nameIcon"
         /></Button>
       </div>
     </div>
@@ -69,7 +69,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
@@ -113,6 +113,26 @@ const iconTheme = computed(() =>
  * @enum type:  MenuTypeEnum
  * @returns
  */
+
+/**
+ * Закрытие меню при клике вне его
+ */
+
+const menuRef = ref<HTMLElement | null>(null);
+
+const handleClickOutside = (event: MouseEvent): void => {
+  if (menuRef.value && !menuRef.value.contains(event.target as Node)) {
+    state.isShow = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 
 /**
  * Высчитывает какую опцию выбрали
@@ -236,7 +256,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     border-radius: 3px;
     gap: 20px;
     cursor: pointer;
-    width: inherit;
+    width: 100%;
     height: 40px;
 
     &.active-yui-kit {
@@ -245,7 +265,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   }
 
   &__list {
-    padding: 15px 8px 15px 15px;
+    padding: 15px 9px;
     width: 100%;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
     background-color: $WHITE;
@@ -277,8 +297,12 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   &__button {
     background-color: $TRANSPARENT;
     padding: 0;
-    margin-right: -8px;
+    margin-right: 0;
     height: inherit;
+    &-icon {
+      width: 16px;
+      height: 16px;
+    }
 
     &:hover {
       background-color: $TRANSPARENT;
@@ -289,10 +313,9 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
 .list-yui-kit {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 23px 0;
   display: grid;
   gap: 8px;
-  margin-bottom: 29px;
 
   &__item {
     display: flex;
@@ -300,7 +323,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     justify-content: flex-start;
     gap: 10px;
     cursor: pointer;
-    padding: 6px 3px;
+    padding: 6px;
     transition: 0.3s ease-in-out;
     border-radius: 5px;
     font-size: 14px;

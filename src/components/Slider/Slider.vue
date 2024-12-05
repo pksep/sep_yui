@@ -4,7 +4,7 @@
       <button
         class="slider-yui-kit__button slider-yui-kit__button--prev"
         @click="prevSlide"
-        :disabled="state.disabledPrev"
+        :disabled="state.currentIndex === 0"
       >
         <Icon :name="IconNameEnum.leftBig" />
       </button>
@@ -44,15 +44,16 @@
       <button
         class="slider-yui-kit__button slider-yui-kit__button--next"
         @click="nextSlide"
-        :disabled="state.disabledNext"
+        :disabled="rigthIndex()"
       >
         <Icon :name="IconNameEnum.rightBig" />
       </button>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { onMounted, reactive, ref, Ref } from 'vue';
+import { onMounted, reactive, ref, defineExpose, Ref } from 'vue';
 import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -66,10 +67,7 @@ const props = withDefaults(defineProps<ISliderProps>(), {});
 const state = reactive<ISlider>({
   files: props.items.length ? props.items : [],
   file: null,
-  currentIndex: 0,
-  defaultIndex: props.defaultIndex ? props.defaultIndex : 0,
-  disabledPrev: true,
-  disabledNext: false,
+  currentIndex: props.defaultIndex || 0,
   extension: null
 });
 
@@ -78,13 +76,12 @@ const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
 
 const CLASS_FULL_SIZE = 'slider-yui-kit__full-size';
 
+const rigthIndex = (): boolean =>
+  props.items?.length ? state.currentIndex === props.items.length - 1 : true;
+
 /**
  * @param str:  string | null
  * @returns
- */
-
-/**
- * проверяет путь файла и получает расширение
  */
 const checkPath = (str: string | null): string | null => {
   if (!str) return null;
@@ -100,14 +97,12 @@ const checkPath = (str: string | null): string | null => {
  * @param path:  string | null
  * @returns
  */
-
-/**
- * проверяет файл на расширение растровой графики
- */
 const isImage = (path: string | null): boolean => {
   const extension = checkPath(path) as ImageExtensionsEnum;
   return extension
-    ? Object.values(ImageExtensionsEnum).includes(extension)
+    ? Object.values(ImageExtensionsEnum).includes(
+        extension.toLowerCase() as ImageExtensionsEnum
+      )
     : false;
 };
 
@@ -115,21 +110,12 @@ const isImage = (path: string | null): boolean => {
  * @param path:  string | null
  * @returns
  */
-
-/**
- * проверяет файл на расширение видео
- */
 const isVideo = (path: string | null): boolean => {
   const extension = checkPath(path) as VideoExtensionsEnum;
   return extension
     ? Object.values(VideoExtensionsEnum).includes(extension)
     : false;
 };
-
-/**
- * @event e:  KeyboardEvent (Escape)
- * @returns
- */
 
 /**
  * Закрывает полноразмерный просмотр слайда
@@ -145,11 +131,6 @@ const closeFullSize = (e: KeyboardEvent) => {
     }
   }
 };
-
-/**
- * @event e:  MouseEvent (click)
- * @returns
- */
 
 /**
  * Открывает полноразмерный просмотр слайда
@@ -178,13 +159,7 @@ const toFullsizeImage = (e: MouseEvent): void => {
  * Перелистывает к предыдущему слайду
  */
 const prevSlide = () => {
-  if (state.currentIndex > 0) {
-    state.currentIndex--;
-    state.disabledNext = false;
-    if (state.currentIndex === 0) {
-      state.disabledPrev = true;
-    }
-  }
+  state.currentIndex--;
   state.file = state.files[state.currentIndex];
 };
 
@@ -192,13 +167,7 @@ const prevSlide = () => {
  * Перелистывает к следующему слайду
  */
 const nextSlide = () => {
-  if (state.currentIndex < state.files.length - 1) {
-    state.currentIndex++;
-    state.disabledPrev = false;
-    if (state.currentIndex === state.files.length - 1) {
-      state.disabledNext = true;
-    }
-  }
+  state.currentIndex++;
   state.file = state.files[state.currentIndex];
 };
 
@@ -216,18 +185,33 @@ const showPlaceholderExtension = () =>
   state.files.length > 0;
 
 /**
- * Проверяет на наличие файлов, устанавливает их в стейты, далее устаналвивает слайд по дефолту если пропс есть, либо показывает действующий слайд.
+ * Проверяет на наличие файлов, устанавливает их в стейты, далее устанавливляет слайд по дефолту если пропс есть, либо показывает действующий слайд.
  */
 onMounted(() => {
   if (!props.items) return 0;
   state.files = props.items;
 
-  if (state.files.length === 0) state.disabledNext = true;
-
   if (props.defaultIndex) {
-    state.file = state.files[state.defaultIndex];
+    state.file = state.files[state.currentIndex];
   }
   state.file = state.files[state.currentIndex];
+});
+
+/**
+ * Меняет индекс слайд.
+ */
+
+const setSlide = (index: number) => {
+  if (index >= 0 && index < state.files.length) {
+    state.currentIndex = index;
+    state.file = state.files[state.currentIndex];
+  } else {
+    console.warn('Index out of range');
+  }
+};
+
+defineExpose({
+  setSlide
 });
 </script>
 
@@ -235,32 +219,30 @@ onMounted(() => {
 .slider-yui-kit {
   width: 100%;
   height: 260px;
-  border: 1px solid $WHITE-E0E0E0;
-  border-radius: 10px;
+  overflow: hidden;
+  border: 0.5px solid $WHITE-E0E0E0;
+  border-radius: 15px;
   transition: 0.3s ease-in-out;
+
   &:hover {
-    border: 1px solid $BLUE-9CBEFF;
+    border-color: $BLUE-9CBEFF;
   }
 
   &__wrapper {
     width: inherit;
-    height: inherit;
+    height: 100%;
     padding: 20px 18px;
     transition: 0.3s ease-in-out;
     display: flex;
     justify-content: space-between;
     gap: 20px;
     cursor: zoom-in;
-
-    &:hover {
-      background-color: $BLUE-F2F7FF;
-      border-radius: 10px;
-    }
+    background-color: $BLUE-F2F7FF;
   }
 
   &__slides {
     background-color: $WHITE;
-    border-radius: 10px;
+    border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -328,7 +310,7 @@ onMounted(() => {
   justify-content: center;
   flex-grow: 1;
   gap: 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: $WHITE-F0F0F0;
 
   img {

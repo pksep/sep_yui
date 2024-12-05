@@ -76,5 +76,6 @@ export enum IconNameEnum {
   profileIcon = 'profile-icon',
   profile = 'profile',
   rightBig = 'right-big',
-  alertTriangle = 'alert-triangle'
+  alertTriangle = 'alert-triangle',
+  copy = 'copy'
 }
