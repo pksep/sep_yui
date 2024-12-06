@@ -1,7 +1,7 @@
 div.table-yui-kit__border {
   border: 0.5px solid $WHITE-E0E0E0;
   border-radius: 15px;
-  overflow: var(--general-overflow,clip);
+  overflow: var(--overflow,clip);
 }
 
 table.table-yui-kit {
@@ -145,7 +145,10 @@ table.table-yui-kit {
   }
 }
 
-table.table-yui-kit tbody.table-yui-kit__tbody-with-scroll {
+div.table-yui-kit-with-scroll {
+     --overflow: visible;
+    box-sizing: content-box;
+  & tbody.table-yui-kit__tbody {
       display: block;
       width: var(--width);
       height: var(--height);
@@ -153,9 +156,14 @@ table.table-yui-kit tbody.table-yui-kit__tbody-with-scroll {
       &:hover {
         overflow-y: auto;
       }
+     th.table-yui-kit__th {
+        overflow: hidden;
+        text-overflow: ellipsis;
+     }
       & tr.table-yui-kit__tr {
         display: table;
         width: var(--tr-width);
         table-layout: fixed;
       }
+    }
 }
