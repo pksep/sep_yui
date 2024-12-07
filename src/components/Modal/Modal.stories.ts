@@ -1,13 +1,13 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import { StorybookControlEnum } from '../../common/storybook';
-import Modal from './Modal.vue';
+import ModalAnimated from './ModalAnimated.vue';
 import Button from '@/components/Button/Button.vue';
 import { action } from '@storybook/addon-actions';
 import { userEvent, within } from '@storybook/test';
 
 const meta = {
   title: 'Modal/Modal',
-  component: Modal,
+  component: ModalAnimated,
   argTypes: {
     open: {
       control: { type: StorybookControlEnum.boolean },
@@ -18,18 +18,18 @@ const meta = {
     open: false
   },
   tags: ['autodocs']
-} as Meta<typeof Modal>;
+} as Meta<typeof ModalAnimated>;
 
 export default meta;
 
-const Template: StoryFn<typeof Modal> = args => ({
-  components: { Modal, Button },
+const Template: StoryFn<typeof ModalAnimated> = args => ({
+  components: { ModalAnimated, Button },
   setup() {
     return { args };
   },
   template: `
     <Button @click="args.open=true"> Open Dialog </Button>
-    <Modal v-bind="args" :open="args.open"  width="30vw" height="100vh" @close="args.open=false" />
+    <ModalAnimated v-bind="args" :open="args.open"  width="30vw" height="100vh" @close="args.open=false" />
   `
 });
 
