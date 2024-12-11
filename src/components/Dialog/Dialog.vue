@@ -42,7 +42,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .dialog-yui-kit {
-  background: $BLUE-F2F7FF;
+  background: var(--background, var(--blue9));
   border: none;
   border-radius: 15px;
   padding: 0px;
