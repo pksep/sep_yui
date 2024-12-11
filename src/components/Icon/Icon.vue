@@ -4,9 +4,10 @@
     :width="props.width"
     :height="props.height"
     :style="styles"
+    :fill="Icons[camelize(props.name) as IconName]?.fill"
     :viewBox="Icons[camelize(props.name) as IconName]?.viewbox || `0 0 24 24`"
   >
-    <g v-html="icon" />
+    <g v-html="icon?.path" />
   </svg>
 </template>
 
@@ -31,6 +32,6 @@ const camelize = (s: string) => {
 };
 
 const icon = computed(() => {
-  return Icons[camelize(props.name) as IconName]?.path;
+  return Icons[camelize(props.name) as IconName];
 });
 </script>

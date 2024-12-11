@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import Icon from '@/components/Icon/Icon.vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -27,7 +27,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'languageSwitch', event: IChangeSwitchEmit): void;
+  (e: 'change', event: IChangeSwitchEmit): void;
 }>();
 
 /**
@@ -53,11 +53,20 @@ const getClasses = (index: number) => ({
  */
 const toChooseItem = (index: number) => {
   state.activeIndex = index;
-  emit('languageSwitch', {
+  emit('change', {
     index,
     value: props.items[index]
   });
 };
+
+watch(
+  () => props.defaultValue,
+  () => {
+    state.activeIndex = props.defaultValue
+      ? props.items?.indexOf(props.defaultValue)
+      : 0;
+  }
+);
 
 /**
  * Устанавливает и делает активным дефолтный элемент если он передан и содержится в массиве элементов.
@@ -84,6 +93,7 @@ onMounted(() => {
 .switch-yui-kit-item {
   padding: 3.5px 10px;
   display: flex;
+  font-size: 14px;
   align-items: center;
   justify-content: center;
   cursor: pointer;

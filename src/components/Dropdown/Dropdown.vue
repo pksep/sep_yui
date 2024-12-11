@@ -1,6 +1,16 @@
 <template>
-  <div class="dropdown-yui-kit" :style="{ width: props.width }">
-    <span class="dropdown-yui-kit__current" @click="e => closeOpenList(e)">
+  <div
+    class="dropdown-yui-kit"
+    :style="{ width: props.width }"
+    v-on-click-outside.bubble="dropdownHandler"
+  >
+    <span
+      :class="[
+        'dropdown-yui-kit__current',
+        { 'active-yui-kit': state.isOpened }
+      ]"
+      @click="closeOpenList"
+    >
       <span class="truncate-yui-kit dropdown-yui-kit__text">{{
         state.choosedOption
       }}</span>
@@ -12,31 +22,23 @@
       v-if="state.isOpened"
       :style="{ width: props.width }"
     >
-      <Scroll
-        :style="{ width: props.width }"
-        :railStyle="{
-          y: {
-            right: '6px'
-          }
-        }"
+      <li
+        :class="[classes, { active: option === state.choosedOption }]"
+        v-for="option in props.options"
+        @click="() => getChoosenOption(option)"
+        :key="option"
       >
-        <li
-          :class="[classes, { active: option === state.choosedOption }]"
-          v-for="option in props.options"
-          @click="() => getChoosenOption(option)"
-          :key="option"
-        >
-          {{ option }}
-        </li>
-      </Scroll>
+        {{ option }}
+      </li>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { IDropdownProps } from './interface/interface';
+import type { OnClickOutsideHandler } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 import { IconNameEnum } from '../Icon/enum/enum';
-import Scroll from '../Scrollbar/Scrollbar.vue';
 import Icon from './../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IDropdownProps>(), {});
@@ -49,10 +51,8 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'click', value: string): void;
+  (e: 'change', value: string): void;
 }>();
-
-const ACTIVE = 'active-yui-kit';
 
 /**
  * Создаем проверки для классов, устанавливаем их элементам списка
@@ -72,7 +72,7 @@ const classes = computed(() => ({
  */
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
-  emit('click', state.choosedOption);
+  emit('change', state.choosedOption);
   state.isOpened = false;
 };
 
@@ -87,24 +87,18 @@ watch(
 );
 
 /**
- * @event e: MouseEvent ( click )
  * @returns
  */
 
 /**
  * Закрывает открытый список, и также открывает его.
  */
-const closeOpenList = (e: MouseEvent) => {
+const closeOpenList = () => {
   state.isOpened = !state.isOpened;
+};
 
-  const target = e.currentTarget as HTMLElement | null;
-  if (target) {
-    if (target.classList.contains(ACTIVE)) {
-      target.classList.remove(ACTIVE);
-    } else {
-      target.classList.add(ACTIVE);
-    }
-  }
+const dropdownHandler: OnClickOutsideHandler = () => {
+  state.isOpened = false;
 };
 </script>
 <style lang="scss" scoped>
@@ -128,6 +122,8 @@ const closeOpenList = (e: MouseEvent) => {
 
     svg {
       flex-shrink: 0;
+      height: 16px;
+      width: 16px;
     }
   }
 
@@ -164,8 +160,15 @@ const closeOpenList = (e: MouseEvent) => {
       margin-bottom: 2px;
     }
 
+    &.active {
+      color: var(--black);
+      background-color: var(--blue10);
+      border-radius: 5px;
+    }
+
     &:hover {
-      background-color: $WHITE-ECF3FF;
+      color: var(--black);
+      background-color: var(--blue9);
       border-radius: 5px;
     }
 
@@ -182,20 +185,5 @@ const closeOpenList = (e: MouseEvent) => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.dropdown-yui-kit__list {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  & ::-webkit-scrollbar {
-    display: none; /* Скрывает скроллбар в Chrome, Safari и Opera */
-  }
-}
-</style>
-
-<style>
-.ps__thumb-x,
-.ps__rail-x {
-  display: none !important;
 }
 </style>

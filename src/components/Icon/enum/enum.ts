@@ -6,10 +6,15 @@ export enum IconNameEnum {
   arrowLeft = 'arrow-left',
   chevronDown = 'chevron-down',
   chevronUp = 'chevron-up',
+  checkbox = 'checkbox',
+  chevronRight = 'chevron-right',
+  chevronLeft = 'chevron-left',
   dark = 'dark',
   exitBig = 'exit-big',
   exitSmall = 'exit-small',
   exit = 'exit',
+  exitCircle = 'exit-circle',
+  externalLink = 'external-link',
   leftBigSmall = 'left-big-small',
   light = 'light',
   leftBig = 'left-big',
@@ -67,8 +72,10 @@ export enum IconNameEnum {
   gitPullRequest = 'git-pull-request',
   folder = 'folder',
   crossLarge = 'cross-large',
+  crossSmall = 'cross-small',
   profileIcon = 'profile-icon',
   profile = 'profile',
   rightBig = 'right-big',
-  alertTriangle = 'alert-triangle'
+  alertTriangle = 'alert-triangle',
+  copy = 'copy'
 }

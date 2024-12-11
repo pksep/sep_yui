@@ -1,0 +1,11 @@
+fieldset.input-yui-kit.success {
+  @include fieldset-border($GREEN-0FBE3F);
+}
+
+fieldset.input-yui-kit.error {
+  @include fieldset-border(var(--red6));
+}
+
+fieldset.input-yui-kit.warning {
+  @include fieldset-border(var(--orange6));
+}

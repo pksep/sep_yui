@@ -11,6 +11,7 @@ export interface IIconPorps {
 export interface IVectorIcon {
   name: string;
   viewbox?: string;
+  fill?: string;
   style: 'line' | 'solid';
   path: string;
 }

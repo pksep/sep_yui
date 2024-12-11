@@ -1,0 +1,7 @@
+export interface ITextareaProps {
+  placeholder?: string;
+  inputMessage?: string;
+  required?: boolean;
+  maxlength?: number;
+  modelValue: string;
+}
