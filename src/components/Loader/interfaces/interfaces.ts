@@ -1,6 +1,5 @@
 export interface ILoaderProps {
-  description?: string;
-  width: string;
-  color: string;
-  height: string;
+  title?: string;
+  width?: string;
+  height?: string;
 }
