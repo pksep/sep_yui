@@ -1,5 +1,5 @@
 <template>
-  <Dialog open="true" width="185px" height="185px">
+  <Dialog open width="185px" height="185px">
     <div class="loader">
       <svg
         :width="props.width"
