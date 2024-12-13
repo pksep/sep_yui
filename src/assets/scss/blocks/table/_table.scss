@@ -8,6 +8,7 @@ table.table-yui-kit {
   width: inherit;
   position: relative;
   border-radius: 15px;
+  font-size: 14px;
   outline: none;
   border-spacing: 0;
   border-collapse: separate;
@@ -43,7 +44,7 @@ table.table-yui-kit {
     }
   }
 
-  & th.table-yui-kit__th:not(:last-child) {
+  & th.table-yui-kit__th {
     border-right: 0.5px solid $WHITE-E0E0E0;
   }
 
@@ -80,7 +81,7 @@ table.table-yui-kit {
     }
   }
 
-  & td.table-yui-kit__td:not(:last-child) {
+  & td.table-yui-kit__td {
     border-right: 0.5px solid $WHITE-E0E0E0;
   }
 

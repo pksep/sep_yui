@@ -44,7 +44,7 @@
       <button
         class="slider-yui-kit__button slider-yui-kit__button--next"
         @click="nextSlide"
-        :disabled="state.currentIndex === props.items.length - 1"
+        :disabled="rigthIndex()"
       >
         <Icon :name="IconNameEnum.rightBig" />
       </button>
@@ -75,6 +75,9 @@ const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
 const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
 
 const CLASS_FULL_SIZE = 'slider-yui-kit__full-size';
+
+const rigthIndex = (): boolean =>
+  props.items?.length ? state.currentIndex === props.items.length - 1 : true;
 
 /**
  * @param str:  string | null

@@ -16,7 +16,7 @@ import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
 import Scroll from './Scrollbar/Scrollbar.vue';
-import Modal from './Modal/Modal.vue';
+import Modal from './Modal/ModalAnimated.vue';
 import Checkbox from './Checkbox/Checkbox.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
 import Textarea from './Textarea/Textarea.vue';
