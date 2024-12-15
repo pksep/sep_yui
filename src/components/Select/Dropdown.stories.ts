@@ -1,5 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import SelectList from './SelectList.vue';
+import Dropdown from './Dropdown.vue';
+import './Dropdown.css';
 import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
@@ -12,8 +13,8 @@ const optionsItems = [
 ];
 
 const meta = {
-  title: 'SelectList/SelectList',
-  component: SelectList,
+  title: 'Select/Dropdown',
+  component: Dropdown,
   argTypes: {
     optionsItems: {
       type: StorybookControlEnum.object,
@@ -23,20 +24,19 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    onClick: fn(),
-    width: '200px'
+    onClick: fn()
   }
-} as Meta<typeof SelectList>;
+} as Meta<typeof Dropdown>;
 
 export default meta;
 
-const Template: StoryFn<typeof SelectList> = args => ({
-  components: { SelectList },
+const Template: StoryFn<typeof Dropdown> = args => ({
+  components: { Dropdown },
   setup() {
     return { args };
   },
   template: `
-  <SelectList v-bind="args" />
+    <Dropdown class="storybook__dropdown" v-bind="args" />
   `
 });
 

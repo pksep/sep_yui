@@ -6,3 +6,7 @@ export interface IOptionsProps {
 export interface ISelectListProps {
   isOpened: boolean;
 }
+
+export interface IFilterProps extends IOptionsProps {
+  title: string;
+}

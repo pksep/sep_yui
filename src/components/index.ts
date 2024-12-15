@@ -3,7 +3,7 @@ import Badges from './Badges/Badges.vue';
 import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
-import Dropdown from './Dropdown/Dropdown.vue';
+import Dropdown from './Select/Dropdown.vue';
 import Dialog from './Dialog/Dialog.vue';
 import Accordion from './Accordion/Accordion.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';

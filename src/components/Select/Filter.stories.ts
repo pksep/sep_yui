@@ -1,19 +1,13 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import Dropdown from './Dropdown.vue';
+import Filter from './Filter.vue';
 import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
-const optionsItems = [
-  'MainOptionMainOptionMainOption',
-  'Option1MainOptionMainOption',
-  'Option2MainOptionMainOption',
-  'Option3',
-  'Option4'
-];
+const optionsItems = ['Покупатель 1', 'Покупатель 2', 'Покупатель 3'];
 
 const meta = {
-  title: 'Dropdown/Dropdown',
-  component: Dropdown,
+  title: 'Select/Filter',
+  component: Filter,
   argTypes: {
     optionsItems: {
       type: StorybookControlEnum.object,
@@ -23,19 +17,20 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    onClick: fn()
+    onClick: fn(),
+    title: 'Ответственный:'
   }
-} as Meta<typeof Dropdown>;
+} as Meta<typeof Filter>;
 
 export default meta;
 
-const Template: StoryFn<typeof Dropdown> = args => ({
-  components: { Dropdown },
+const Template: StoryFn<typeof Filter> = args => ({
+  components: { Filter },
   setup() {
     return { args };
   },
   template: `
-  <Dropdown v-bind="args" />
+    <Filter v-bind="args" />
   `
 });
 

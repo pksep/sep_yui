@@ -56,11 +56,11 @@ const dropdownHandler: OnClickOutsideHandler = () => {
   &__current {
     width: inherit;
     padding: 0px 10px;
-    background-color: $WHITE;
+    background-color: var(--white);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid $TRANSPARENT;
+    border: 1px solid transparent;
     border-radius: 5px;
     cursor: pointer;
 
@@ -83,11 +83,11 @@ const dropdownHandler: OnClickOutsideHandler = () => {
     list-style-type: none;
     display: grid;
     padding: 0;
-    background-color: $WHITE;
+    background-color: var(--white);
     border: 1px solid $BLUE-9CBEFF;
     max-height: 120px;
     border-radius: 5px;
-    position: absolute;
+    /* position: absolute; */
     overflow: auto;
     overflow-x: hidden;
     z-index: 2222222;
