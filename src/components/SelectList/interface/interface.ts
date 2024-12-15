@@ -1,5 +1,8 @@
-export interface ISelectListProps {
+export interface IOptionsProps {
   options: string[];
-  width: string;
   defaultOption?: string;
+}
+
+export interface ISelectListProps {
+  isOpened: boolean;
 }

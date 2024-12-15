@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="select-list-yui-kit"
-    v-on-click-outside.bubble="dropdownHandler"
-  >
+  <div class="select-list-yui-kit" v-on-click-outside.bubble="dropdownHandler">
     <span
       :class="[
         'select-list-yui-kit__current',
@@ -10,23 +7,33 @@
       ]"
       @click="closeOpenList"
     >
-        <slot name="header" />
+      <slot name="header" />
     </span>
-    <ul
-      class="select-list-yui-kit__list"
-      v-if="state.isOpened"
-    >
-       <slot name="options" />
+    <ul class="select-list-yui-kit__list" v-if="state.isOpened">
+      <slot name="options" />
     </ul>
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import type { OnClickOutsideHandler } from '@vueuse/core';
+import type { ISelectListProps } from './interface/interface';
+
+const props = withDefaults(defineProps<ISelectListProps>(), {
+  isOpened: false
+});
 
 const state = reactive({
   isOpened: false
+});
+
+const emits = defineEmits<{
+  (e: 'change', val: boolean): void;
+}>();
+
+watchEffect(() => {
+  state.isOpened = props.isOpened;
 });
 
 /**
@@ -34,15 +41,17 @@ const state = reactive({
  */
 const closeOpenList = () => {
   state.isOpened = !state.isOpened;
+  emits('change', state.isOpened);
 };
 
 const dropdownHandler: OnClickOutsideHandler = () => {
   state.isOpened = false;
+  emits('change', state.isOpened);
 };
 </script>
 <style lang="scss" scoped>
 .select-list-yui-kit {
-  width: 100%;
+  width: var(--width, 100%);
 
   &__current {
     width: inherit;

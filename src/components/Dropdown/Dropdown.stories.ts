@@ -23,8 +23,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    onClick: fn(),
-    width: '200px'
+    onClick: fn()
   }
 } as Meta<typeof Dropdown>;
 
