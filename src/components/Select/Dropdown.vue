@@ -61,4 +61,8 @@ const getChoosenOption = (value: string) => {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+:deep(.select-list-yui-kit__list) {
+  max-height: 120px;
+}
 </style>

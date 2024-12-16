@@ -6,7 +6,8 @@ export interface IOptionsProps {
 
 export interface ISelectListProps {
   isOpened: boolean;
-  cn?: string | object;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cn?: any;
 }
 
 export interface IFilterProps extends IOptionsProps {
