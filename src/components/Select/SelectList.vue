@@ -3,13 +3,17 @@
     <span
       :class="[
         'select-list-yui-kit__current',
-        { 'active-yui-kit': state.isOpened }
+        { 'active-yui-kit': state.isOpened },
+        props.cn.header
       ]"
       @click="closeOpenList"
     >
       <slot name="header" />
     </span>
-    <ul class="select-list-yui-kit__list" v-if="state.isOpened">
+    <ul
+      :class="['select-list-yui-kit__list', props.cn.options]"
+      v-if="state.isOpened"
+    >
       <slot name="options" />
     </ul>
   </div>
@@ -61,7 +65,7 @@ const dropdownHandler: OnClickOutsideHandler = () => {
     align-items: center;
     justify-content: space-between;
     border: 1px solid transparent;
-    border-radius: 5px;
+    border-radius: var(--radius, 5px);
     cursor: pointer;
 
     &.active-yui-kit {

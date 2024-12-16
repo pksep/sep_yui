@@ -18,7 +18,8 @@ const meta = {
   tags: ['autodocs'],
   args: {
     onClick: fn(),
-    title: 'Ответственный:'
+    title: 'Ответственный:',
+    defaultOption: 'Не выбран'
   }
 } as Meta<typeof Filter>;
 

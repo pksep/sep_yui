@@ -1,12 +1,17 @@
 <template>
-  <li
-    :class="[classes, { active: option === state.choosedOption }]"
-    v-for="option in props.options"
-    @click="() => getChoosenOption(option)"
-    :key="option"
-  >
-    {{ option }}
-  </li>
+  <template v-for="option in props.options" :key="option">
+    <li
+      :class="[
+        classes,
+        { active: option === state.choosedOption },
+        props.class
+      ]"
+      @click="() => getChoosenOption(option)"
+    >
+      {{ option }}
+    </li>
+    <slot />
+  </template>
 </template>
 
 <script setup lang="ts">

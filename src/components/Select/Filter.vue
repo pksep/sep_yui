@@ -1,23 +1,36 @@
 <template>
-  <SelectList @change="change" :is-opened="state.isOpened">
+  <SelectList @change="change" :is-opened="state.isOpened" :cn="classes">
     <template #header>
-      <span> {{ props.title }} </span>
-      <Badges :text="state.choosedOption" disabled />
+      <span class="filter__header-title"> {{ props.title }} </span>
+      <Badges
+        class="filter__options-badge"
+        :text="state.choosedOption"
+        disabled
+      />
     </template>
     <template #options>
-      <Badges :text="state.choosedOption" />
-      <Search :show-history="false" />
+      <Badges
+        class="filter__options-badge"
+        :text="state.choosedOption"
+        @choose="chooseOption"
+      />
+      <Search :show-history="false" v-model="state.searchData" />
       <Options
+        class="filter__options-option"
         :options="props.options"
         :default-option="state.choosedOption"
         @change="getChoosenOption"
-      />
+      >
+        <li class="filter__options-underline">
+          <hr class="filter__options-underline-hr" />
+        </li>
+      </Options>
     </template>
   </SelectList>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Badges from '../Badges/Badges.vue';
@@ -28,12 +41,18 @@ const props = withDefaults(defineProps<IFilterProps>(), {});
 
 const state = reactive({
   choosedOption: props.defaultOption || props.options[0] || '',
+  searchData: '',
   isOpened: false
 });
 
-const emit = defineEmits<{
+const classes = computed(() => ({
+  header: 'filter__header',
+  options: 'filter__options'
+}));
+
+const emits = defineEmits<{
   (e: 'change', value: string): void;
-  (e: 'update:modelValue', value: string): void;
+  (e: 'search', value: string): void;
 }>();
 
 const change = (val: boolean) => {
@@ -43,6 +62,52 @@ const change = (val: boolean) => {
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
   state.isOpened = false;
-  emit('change', value);
+  emits('change', value);
 };
+
+const chooseOption = (value: boolean) => {
+  if (value) state.choosedOption = props.defaultOption;
+};
+
+watch(
+  () => state.searchData,
+  value => {
+    emits('search', value);
+  }
+);
 </script>
+
+<style scoped>
+:deep(.filter__header) {
+  --radius: 10px;
+  gap: 5px;
+  padding: 13px 10px;
+  justify-content: start;
+  & .filter__header-title {
+    &:hover {
+      color: var(--text-blue);
+    }
+  }
+}
+
+:deep(.filter__options) {
+  padding: 10px;
+  gap: 10px;
+}
+
+li.filter__options-underline {
+  height: 0.5px;
+  & .filter__options-underline-hr {
+    margin: 0;
+    border: none;
+    border-bottom: 0.5px solid var(--border-grey);
+  }
+  &:last-child {
+    display: none;
+  }
+}
+
+.filter__options-badge {
+  font-weight: bold;
+}
+</style>
