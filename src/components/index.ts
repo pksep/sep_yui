@@ -9,6 +9,7 @@ import Accordion from './Accordion/Accordion.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
 import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
+import SelectFilter from './Select/Filter.vue';
 import Icon from './Icon/Icon.vue';
 import Input from './Input/Input.vue';
 import InputNumber from './InputNumber/InputNumber.vue';
@@ -36,6 +37,7 @@ const components = {
   Dropdown,
   Textarea,
   Filter,
+  SelectFilter,
   Icon,
   Input,
   InputNumber,
@@ -79,6 +81,7 @@ export {
   Input,
   InputNumber,
   Search,
+  SelectFilter,
   PushNotification,
   Scroll,
   Modal,

@@ -85,12 +85,13 @@ const dropdownHandler: OnClickOutsideHandler = () => {
   &__list {
     margin-top: 5px;
     list-style-type: none;
-    display: grid;
+    display: inline-grid;
+    width: inherit;
     padding: 0;
     background-color: var(--white);
     border: 1px solid $BLUE-9CBEFF;
     border-radius: 5px;
-    /* position: absolute; */
+    position: fixed;
     overflow: auto;
     overflow-x: hidden;
     z-index: 2222222;

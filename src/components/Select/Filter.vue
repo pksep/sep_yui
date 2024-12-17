@@ -1,5 +1,10 @@
 <template>
-  <SelectList @change="change" :is-opened="state.isOpened" :cn="classes">
+  <SelectList
+    @change="change"
+    :is-opened="state.isOpened"
+    :cn="classes"
+    :class="props.class"
+  >
     <template #header>
       <span
         :class="[
@@ -103,6 +108,7 @@ watch(
   gap: 5px;
   padding: 13px 10px;
   justify-content: start;
+  border: 1px solid var(--border-grey);
   & .filter__header-title:hover,
   .filter__header-title__active {
     color: var(--text-blue);

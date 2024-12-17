@@ -1,5 +1,5 @@
 <template>
-  <SelectList @change="change" :is-opened="state.isOpened">
+  <SelectList @change="change" :is-opened="state.isOpened" :class="props.class">
     <template #header>
       <span class="truncate-yui-kit dropdown-yui-kit__text">{{
         state.choosedOption
@@ -56,7 +56,7 @@ const getChoosenOption = (value: string) => {
 
 .truncate-yui-kit {
   display: inline-block;
-  width: 100%;
+  width: var(--width, 100%);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
