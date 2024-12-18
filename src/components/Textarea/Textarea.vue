@@ -62,6 +62,7 @@ watch(
 fieldset.input-yui-kit {
   height: auto;
   padding-block: 10px;
+  margin-inline: 0;
 }
 textarea {
   resize: none;

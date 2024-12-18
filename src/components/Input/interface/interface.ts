@@ -6,4 +6,5 @@ export interface IInputProps {
   type?: TextFieldEnum;
   required?: boolean;
   modelValue?: string;
+  hideClearButton?: boolean;
 }
