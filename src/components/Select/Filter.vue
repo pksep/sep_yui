@@ -40,7 +40,7 @@
       <Search :show-history="false" v-model="state.searchData" />
       <Options
         class="filter__options-option"
-        :options="props.options"
+        :options="state.options"
         :default-option="state.choosedOption"
         @change="getChoosenOption"
       >
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, onMounted } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Badges from '../Badges/Badges.vue';
@@ -64,8 +64,9 @@ import { BadgesTypeEnum } from '../Badges/enum/enum';
 const props = withDefaults(defineProps<IFilterProps>(), {});
 
 const state = reactive({
-  choosedOption: props.defaultOption || props.options[0] || '',
+  choosedOption: props.defaultOption || '',
   searchData: '',
+  options: [],
   isOpened: false
 });
 
@@ -85,6 +86,9 @@ const change = (val: boolean) => {
 
 const getChoosenOption = (value: string) => {
   state.choosedOption = value;
+  if (props.options.some(obj => obj.value)) {
+    state.choosedOption = props.options.find(obj => obj?.value === value)?.key;
+  }
   state.isOpened = false;
   emits('change', value);
 };
@@ -100,6 +104,14 @@ watch(
     emits('search', value);
   }
 );
+
+onMounted(() => {
+  if (props.options.some(obj => obj.value)) {
+    state.options = props.options.map(item => item.value);
+    return;
+  }
+  state.options = props.options;
+});
 </script>
 
 <style scoped>
@@ -109,6 +121,7 @@ watch(
   padding: 13px 10px;
   justify-content: start;
   border: 1px solid var(--border-grey);
+  color: var(--text-grey);
   & .filter__header-title:hover,
   .filter__header-title__active {
     color: var(--text-blue);

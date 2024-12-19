@@ -1,5 +1,10 @@
+interface OptionsObject {
+  key: string;
+  value: string;
+}
+
 export interface IOptionsProps {
-  options: string[];
+  options: string[] | OptionsObject[];
   defaultOption?: string;
   class?: string;
 }

@@ -5,6 +5,21 @@ import { fn } from '@storybook/test';
 
 const optionsItems = ['Покупатель 1', 'Покупатель 2', 'Покупатель 3'];
 
+const optionsObjectItems = [
+  {
+    key: 'buyer1',
+    value: 'Покупатель 1'
+  },
+  {
+    key: 'buyer2',
+    value: 'Покупатель 2'
+  },
+  {
+    key: 'buyer3',
+    value: 'Покупатель 3'
+  }
+];
+
 const meta = {
   title: 'Select/Filter',
   component: Filter,
@@ -39,4 +54,10 @@ export const Default = Template.bind({});
 
 Default.args = {
   options: optionsItems
+};
+
+export const WithObjects = Template.bind({});
+
+WithObjects.args = {
+  options: optionsObjectItems
 };
