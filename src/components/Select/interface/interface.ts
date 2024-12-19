@@ -4,7 +4,7 @@ interface OptionsObject {
 }
 
 export interface IOptionsProps {
-  options: string[] | OptionsObject[];
+  options: string[];
   defaultOption?: string;
   class?: string;
 }
@@ -15,6 +15,7 @@ export interface ISelectListProps {
   cn?: any;
 }
 
-export interface IFilterProps extends IOptionsProps {
+export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
+  options: string[] | OptionsObject[];
   title: string;
 }

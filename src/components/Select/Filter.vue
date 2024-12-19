@@ -40,7 +40,7 @@
       <Search :show-history="false" v-model="state.searchData" />
       <Options
         class="filter__options-option"
-        :options="state.options"
+        :options="state.optionStrings"
         :default-option="state.choosedOption"
         @change="getChoosenOption"
       >
@@ -66,7 +66,13 @@ const props = withDefaults(defineProps<IFilterProps>(), {});
 const state = reactive({
   choosedOption: props.defaultOption || '',
   searchData: '',
-  options: [],
+  options: [
+    {
+      key: '',
+      value: ''
+    }
+  ],
+  optionStrings: [''],
   isOpened: false
 });
 
@@ -84,11 +90,9 @@ const change = (val: boolean) => {
   state.isOpened = val;
 };
 
-const getChoosenOption = (value: string) => {
-  state.choosedOption = value;
-  if (props.options.some(obj => obj.value)) {
-    state.choosedOption = props.options.find(obj => obj?.value === value)?.key;
-  }
+const getChoosenOption = (value: string): void => {
+  state.choosedOption =
+    state.options.find(obj => obj.value === value)?.key || '';
   state.isOpened = false;
   emits('change', value);
 };
@@ -106,11 +110,12 @@ watch(
 );
 
 onMounted(() => {
-  if (props.options.some(obj => obj.value)) {
-    state.options = props.options.map(item => item.value);
-    return;
+  if (props.options.every(item => typeof item === 'string')) {
+    state.options = props.options.map(item => ({ key: item, value: item }));
+  } else {
+    state.options = props.options;
   }
-  state.options = props.options;
+  state.optionStrings = state.options.map(item => item.value);
 });
 </script>
 
