@@ -597,6 +597,28 @@ export const warehouse: IVectorIcon = {
 `
 };
 
+export const action: IVectorIcon = {
+  name: 'action',
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M13.6153 10.8848L8.15381 10.8848" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.8461 14.1152H8.15381" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.6923 7.65381H9.23073H8.15381" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.5715 19H6V6.66683C6 5.73341 6 5.26635 6.21799 4.90983C6.40973 4.59623 6.71547 4.34144 7.0918 4.18166C7.51962 4 8.08009 4 9.20019 4H13.6747C13.7973 4 13.9045 4 14 4.00072" stroke="currentColor" stroke-width="0.942296" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 12V5.95568C18 5.27117 18 4.92866 17.8365 4.66721C17.6927 4.43723 17.4634 4.25039 17.1812 4.13321C16.8603 4 16.4399 4 15.5999 4H12.244C12.152 4 12.0716 4 12 4.00053" stroke="currentColor" stroke-width="0.942296" stroke-linecap="round" stroke-linejoin="round"/>
+<g clip-path="url(#clip0_8085_22453)">
+<path d="M15.6923 20.9363C17.6748 20.9363 19.282 19.3291 19.282 17.3466C19.282 15.364 17.6748 13.7568 15.6923 13.7568C13.7097 13.7568 12.1025 15.364 12.1025 17.3466C12.1025 19.3291 13.7097 20.9363 15.6923 20.9363Z" stroke="currentColor" stroke-width="0.861539" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.6924 15.1924V17.3462L17.1283 18.0642" stroke="currentColor" stroke-width="0.861539" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_8085_22453">
+<rect width="8.61539" height="8.61539" fill="white" transform="translate(11.3848 13.0386)"/>
+</clipPath>
+</defs>
+`
+};
+
 export const production: IVectorIcon = {
   name: 'production',
   style: 'line',
