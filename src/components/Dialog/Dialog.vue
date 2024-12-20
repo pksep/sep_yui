@@ -25,8 +25,14 @@ const showDialog = () =>
   props.open ? dialog.value?.showModal() : dialog.value?.close();
 
 useEventListener(dialog, 'click', e => {
-  if (e.target === dialog.value) {
+  if (!props.noClose && e.target === dialog.value) {
     dialog.value?.close();
+  }
+});
+
+useEventListener(dialog, 'keydown', e => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    props.noClose && e.preventDefault();
   }
 });
 
