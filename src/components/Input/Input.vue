@@ -86,8 +86,13 @@ watch(
 </script>
 
 <style lang="scss" scoped>
+fieldset.input-yui-kit .input-yui-kit__input {
+  width: calc(100% - 28px);
+}
+
 fieldset.input-yui-kit .input-yui-kit__close {
-  justify-self: end;
+  position: absolute;
+  right: 2px;
   &:hover {
     background-color: $TRANSPARENT;
   }
