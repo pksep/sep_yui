@@ -1,67 +1,98 @@
 <template>
-  <div class="loader">
-    <svg
-      :width="props.width"
-      :height="props.height"
-      viewBox="0 0 160 160"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g>
-        <path
-          d="M80 8C89.4552 8 98.8178 9.86234 107.553 13.4807C116.289 17.099 124.226 22.4025 130.912 29.0883C137.598 35.7741 142.901 43.7114 146.519 52.4468C150.138 61.1822 152 70.5448 152 80C152 89.4552 150.138 98.8178 146.519 107.553C142.901 116.289 137.597 124.226 130.912 130.912C124.226 137.598 116.289 142.901 107.553 146.519C98.8177 150.138 89.4552 152 80 152C70.5448 152 61.1822 150.138 52.4468 146.519C43.7113 142.901 35.7741 137.597 29.0883 130.912C22.4025 124.226 17.099 116.289 13.4807 107.553C9.86233 98.8177 8 89.4551 8 80C8 70.5448 9.86234 61.1822 13.4807 52.4468C17.099 43.7113 22.4025 35.7741 29.0883 29.0883C35.7742 22.4025 43.7114 17.099 52.4468 13.4807C61.1823 9.86232 70.5449 7.99999 80 8L80 8Z"
-          stroke="#F5F5F5"
-          stroke-width="16"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <text
-          fill="black"
-          x="50%"
-          y="40%"
-          text-anchor="middle"
-          v-if="props.description"
-        >
-          {{ props.description }}
-        </text>
-        <text fill="black" x="50%" y="55%" text-anchor="middle">
-          {{ state.percent }} %
-        </text>
-        <path
-          d="M80 8C95.2049 8 110.02 12.8136 122.321 21.7508C134.622 30.688 143.777 43.2901 148.476 57.7508C153.175 72.2115 153.175 87.7885 148.476 102.249C143.777 116.71 134.622 129.312 122.321 138.249"
-          :stroke="props.color"
-          stroke-width="16"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <animateTransform
-            attributeType="xml"
-            attributeName="transform"
-            type="rotate"
-            from="0 80 80"
-            to="360 80 80"
-            dur="10s"
-            repeatCount="indefinite"
-          />
-        </path>
-      </g>
-    </svg>
-  </div>
+  <Dialog class="dialog" open no-close width="185px" height="185px">
+    <div class="loader">
+      <div class="loader__area">
+        <div class="loader__circle loader__circle--light-blue"></div>
+        <div class="loader__circle loader__circle--blue"></div>
+      </div>
+      <span v-if="props.title" class="loader__span">
+        {{ props.title }}
+      </span>
+    </div>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import Dialog from '../Dialog/Dialog.vue';
 import type { ILoaderProps } from './interfaces/interfaces';
 
 const props = withDefaults(defineProps<ILoaderProps>(), {
-  width: '160',
-  color: '#7F56D9',
-  height: '160'
-});
-
-const state = reactive({
-  percent: 0
+  title: 'Загрузка...'
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.dialog {
+  background: var(--white);
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 24px;
+  position: relative;
+}
+
+.loader__area {
+  position: relative;
+  width: 65px;
+  height: 65px;
+}
+
+.loader__circle {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  top: 27px;
+  animation: animation 1.3145s infinite ease-in-out;
+}
+
+.loader__circle--light-blue {
+  background-color: #77a6ff;
+  animation-name: light-blue-circle;
+  left: 16.25px;
+}
+
+.loader__circle--blue {
+  background-color: #407bff;
+  animation-name: blue-circle;
+  left: 37.75px;
+}
+
+.loader__span {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 13px;
+  color: var(--blue1);
+}
+
+@keyframes light-blue-circle {
+  0% {
+    left: 16.25px;
+  }
+  50% {
+    left: 37.75px;
+  }
+  100% {
+    left: 16.25px;
+  }
+}
+
+@keyframes blue-circle {
+  0% {
+    left: 37.75px;
+    z-index: -1;
+  }
+  50% {
+    left: 16.25px;
+    z-index: -1;
+  }
+  100% {
+    left: 37.75px;
+    z-index: 1;
+  }
+}
+</style>

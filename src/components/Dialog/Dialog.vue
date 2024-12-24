@@ -25,8 +25,14 @@ const showDialog = () =>
   props.open ? dialog.value?.showModal() : dialog.value?.close();
 
 useEventListener(dialog, 'click', e => {
-  if (e.target === dialog.value) {
+  if (!props.noClose && e.target === dialog.value) {
     dialog.value?.close();
+  }
+});
+
+useEventListener(dialog, 'keydown', e => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    props.noClose && e.preventDefault();
   }
 });
 
@@ -42,7 +48,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .dialog-yui-kit {
-  background: $BLUE-F2F7FF;
+  background: var(--background, var(--blue9));
   border: none;
   border-radius: 15px;
   padding: 0px;
