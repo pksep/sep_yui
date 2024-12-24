@@ -77,7 +77,9 @@ const state = reactive({
 });
 
 const filteredOptions = computed(() =>
-  state.optionStrings.filter(item => item.includes(state.searchData))
+  state.optionStrings.filter(item =>
+    item.toLowerCase().includes(state.searchData.toLowerCase())
+  )
 );
 
 const classes = computed(() => ({
