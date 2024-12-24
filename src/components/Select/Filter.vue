@@ -40,7 +40,7 @@
       <Search :show-history="false" v-model="state.searchData" />
       <Options
         class="filter__options-option"
-        :options="state.optionStrings"
+        :options="filteredOptions"
         :default-option="state.choosedOption"
         @change="getChoosenOption"
       >
@@ -76,6 +76,10 @@ const state = reactive({
   isOpened: false
 });
 
+const filteredOptions = computed(() =>
+  state.optionStrings.filter(item => item.includes(state.searchData))
+);
+
 const classes = computed(() => ({
   header: 'filter__header',
   options: 'filter__options'
@@ -102,21 +106,26 @@ const chooseOption = (value: boolean): void => {
   if (value) state.choosedOption = props.defaultOption;
 };
 
-watch(
-  () => state.searchData,
-  value => {
-    emits('search', value);
-  }
-);
-
-onMounted(() => {
+const updateOptions = (): void => {
   if (props.options.every(item => typeof item === 'string')) {
     state.options = props.options.map(item => ({ key: item, value: item }));
   } else {
     state.options = props.options;
   }
   state.optionStrings = state.options.map(item => item.value);
+};
+
+onMounted(() => {
+  updateOptions();
 });
+
+watch(
+  () => props.options,
+  () => {
+    updateOptions();
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped>
