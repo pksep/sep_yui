@@ -77,10 +77,20 @@ const handleBlur = (): void => {
 };
 
 watch(
+  () => props.modelValue,
+  value => {
+    state.isPressed = false;
+    state.inputElement = value;
+  }
+);
+
+watch(
   () => state.inputElement,
   value => {
-    state.isPressed = value?.length > 0;
-    state.inputElement = value;
+    if (props.modelValue != value) {
+      state.isPressed = value?.length > 0;
+      state.inputElement = value;
+    }
   }
 );
 </script>
