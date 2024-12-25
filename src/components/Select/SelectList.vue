@@ -1,6 +1,7 @@
 <template>
   <div class="select-list-yui-kit" v-on-click-outside.bubble="dropdownHandler">
     <span
+      ref="currentRef"
       :class="[
         'select-list-yui-kit__current',
         { 'active-yui-kit': state.isOpened },
@@ -11,15 +12,16 @@
       <slot name="header" />
     </span>
     <ul
+      ref="dropdownRef"
       :class="['select-list-yui-kit__list', props.cn?.options]"
-      v-if="state.isOpened"
+      v-show="state.isOpened"
     >
       <slot name="options" />
     </ul>
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, watchEffect } from 'vue';
+import { reactive, ref, watchEffect, onMounted, onUnmounted, watch } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import type { OnClickOutsideHandler } from '@vueuse/core';
 import type { ISelectListProps } from './interface/interface';
@@ -31,6 +33,9 @@ const props = withDefaults(defineProps<ISelectListProps>(), {
 const state = reactive({
   isOpened: false
 });
+
+const dropdownRef = ref<HTMLElement | null>(null);
+const currentRef = ref<HTMLElement | null>(null);
 
 const emits = defineEmits<{
   (e: 'change', val: boolean): void;
@@ -52,6 +57,23 @@ const dropdownHandler: OnClickOutsideHandler = () => {
   state.isOpened = false;
   emits('change', state.isOpened);
 };
+
+const updateDropdownPosition = () => {
+  if (currentRef.value && dropdownRef.value && state.isOpened) {
+    const currentRect = currentRef.value.getBoundingClientRect();
+    dropdownRef.value.style.top = `${currentRect.top + currentRect.height}px`;
+  }
+};
+
+watch(() => state.isOpened, updateDropdownPosition);
+
+onMounted(() => {
+  window.addEventListener('scroll', updateDropdownPosition, true);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateDropdownPosition, true);
+});
 </script>
 <style lang="scss" scoped>
 .select-list-yui-kit {
