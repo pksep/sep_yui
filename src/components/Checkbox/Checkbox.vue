@@ -28,7 +28,7 @@ const state = reactive({
 });
 
 watchEffect(() => {
-  state.isChecked = props.checked;
+  state.isChecked = props.modelValue;
 });
 
 const onClick = (): void => {
