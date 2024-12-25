@@ -128,6 +128,16 @@ watch(
   },
   { deep: true }
 );
+
+watch(
+  () => props.defaultOption,
+  () => {
+    if (props.defaultOption) {
+      state.choosedOption = props.defaultOption;
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped>
