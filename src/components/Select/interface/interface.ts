@@ -18,4 +18,5 @@ export interface ISelectListProps {
 export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
   options: string[] | OptionsObject[];
   title: string;
+  noOptionText?: string;
 }

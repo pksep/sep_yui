@@ -16,7 +16,7 @@
       </span>
       <Badges
         :type="
-          state.choosedOption === props.defaultOption
+          state.choosedOption === props.noOptionText
             ? BadgesTypeEnum.default
             : BadgesTypeEnum.blue
         "
@@ -26,12 +26,14 @@
       />
     </template>
     <template #options>
-      <template v-if="state.choosedOption != props.defaultOption">
+      <template v-if="state.choosedOption !== props.noOptionText">
         <Badges
           :type="BadgesTypeEnum.blue"
           class="filter__options-badge"
           :text="state.choosedOption"
           @choose="chooseOption"
+          disabled
+          choosed
         />
         <li class="filter__options-underline">
           <hr class="filter__options-underline-hr" />
@@ -61,10 +63,13 @@ import Search from '../Search/Search.vue';
 import type { IFilterProps } from './interface/interface';
 import { BadgesTypeEnum } from '../Badges/enum/enum';
 
-const props = withDefaults(defineProps<IFilterProps>(), {});
+const props = withDefaults(defineProps<IFilterProps>(), {
+  noOptionText: 'Не выбран'
+});
 
 const state = reactive({
-  choosedOption: props.defaultOption || '',
+  choosedOption: props.defaultOption || props.noOptionText,
+  defaultOption: props.defaultOption || props.noOptionText,
   searchData: '',
   options: [
     {
@@ -104,8 +109,9 @@ const getChoosenOption = (value: string): void => {
 };
 
 const chooseOption = (value: boolean): void => {
-  if (!props.defaultOption) return;
-  if (value) state.choosedOption = props.defaultOption;
+  if (!state.defaultOption) return;
+  if (value) state.choosedOption = props.noOptionText;
+  emits('change', props.noOptionText);
 };
 
 const updateOptions = (): void => {
@@ -133,6 +139,7 @@ watch(
   () => props.defaultOption,
   () => {
     if (props.defaultOption) {
+      state.defaultOption = props.defaultOption;
       state.choosedOption = props.defaultOption;
     }
   },
@@ -158,7 +165,7 @@ watch(
   padding: 10px;
   gap: 10px;
   border: none;
-  box-shadow: 0px 4px 9.8px 0px #0000000d;
+  box-shadow: 0 4px 9.8px 0 #0000000d;
 }
 
 li.filter__options-underline {
