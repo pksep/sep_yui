@@ -33,6 +33,7 @@ const classes = computed(() => ({
   'base-yui-kit': true,
   'default-yui-kit': props.type === BadgesTypeEnum.default,
   'blue-yui-kit': props.type === BadgesTypeEnum.blue,
+  'light-blue-yui-kit': props.type === BadgesTypeEnum.lightBlue,
   'green-yui-kit': props.type === BadgesTypeEnum.green,
   'orange-yui-kit': props.type === BadgesTypeEnum.orange,
   'red-yui-kit': props.type === BadgesTypeEnum.red,
@@ -84,9 +85,14 @@ onMounted(() => {
   background-color: var(--grey3);
 }
 
-.blue-yui-kit span {
+.light-blue-yui-kit span {
   color: var(--blue14);
   background-color: var(--blue13);
+}
+
+.blue-yui-kit span {
+  color: var(--blue4);
+  background-color: var(--blue12);
 }
 
 .green-yui-kit span {

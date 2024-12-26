@@ -14,24 +14,27 @@ import { CheckboxSizeEnum, CheckboxCircularEnum } from './enum/enum';
 
 const props = withDefaults(defineProps<ICheckboxProps>(), {
   size: CheckboxSizeEnum.medium,
-  circular: CheckboxCircularEnum.rounded
+  circular: CheckboxCircularEnum.rounded,
+  modelValue: false
 });
 
 const emits = defineEmits<{
   (e: 'change', isChecked: boolean): void;
+  (e: 'update:modelValue', value: boolean): void;
 }>();
 
 const state = reactive({
-  isChecked: false
+  isChecked: props.modelValue
 });
 
 watchEffect(() => {
-  state.isChecked = props.checked;
+  state.isChecked = props.modelValue;
 });
 
 const onClick = (): void => {
   state.isChecked = !state.isChecked;
   emits('change', state.isChecked);
+  emits('update:modelValue', state.isChecked);
 };
 </script>
 

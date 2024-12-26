@@ -4,4 +4,5 @@ export interface ICheckboxProps {
   size?: CheckboxSizeEnum;
   circular?: CheckboxCircularEnum;
   checked?: boolean;
+  modelValue?: boolean;
 }

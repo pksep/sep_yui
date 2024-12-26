@@ -3,14 +3,16 @@ import Badges from './Badges/Badges.vue';
 import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
-import Dropdown from './Dropdown/Dropdown.vue';
+import Dropdown from './Select/Dropdown.vue';
 import Dialog from './Dialog/Dialog.vue';
 import Accordion from './Accordion/Accordion.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
 import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
+import SelectFilter from './Select/Filter.vue';
 import Icon from './Icon/Icon.vue';
 import Input from './Input/Input.vue';
+import InputNumber from './InputNumber/InputNumber.vue';
 import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
@@ -35,8 +37,10 @@ const components = {
   Dropdown,
   Textarea,
   Filter,
+  SelectFilter,
   Icon,
   Input,
+  InputNumber,
   PushNotification,
   Scroll,
   Search,
@@ -75,7 +79,9 @@ export {
   Filter,
   Icon,
   Input,
+  InputNumber,
   Search,
+  SelectFilter,
   PushNotification,
   Scroll,
   Modal,
