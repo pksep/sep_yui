@@ -1,53 +1,59 @@
 <template>
   <span
-    data-tooltip="I do not think there is a way to set the width on the tool tip and have it auto break? Lets see.."
-    data-placement="right"
+    class="tooltip-yui-kit tooltip-yui-kit_right"
+    data-tooltip="This is a tooltip, hello"
     >Get tooltip</span
   >
 </template>
 
 <style scoped>
-[data-tooltip] {
+.tooltip-yui-kit[data-tooltip] {
+  --border-radius: 8px;
+  --tooltip-background-color: var(--white);
+  --tooltip-color: var(--text-black);
   position: relative;
+  &::before, &::after {
+    position: absolute;
+    visibility: hidden;
+    z-index: 3;
+  }
+  &::before {
+    border: 0.6em solid transparent;
+    content: '';
+  }
   &::after {
-    --border-radius: 8px;
-    --tooltip-background-color: var(--white);
-    --tooltip-color: var(--text-color);
     content: attr(data-tooltip);
     display: inline-block;
-    z-index: 3;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    width: 250px;
-    max-width: 250px;
     padding: 8px 16px;
     overflow: hidden;
-    transform: translate(-50%, -0.25rem);
     border-radius: var(--border-radius);
     background: var(--tooltip-background-color);
+    border: 1px solid var(--tooltip-background-color);
     color: var(--tooltip-color);
-    text-overflow: ellipsis;
-    opacity: 0;
-    pointer-events: none;
     box-shadow: 0px 2px 2px 2px #00000029;
-    white-space: normal;
+    white-space: nowrap;
   }
 
-  &[data-placement='right'] {
+  &.tooltip-yui-kit_right {
+    &::before {
+      top: 50%;
+      left: 100%;
+      border-right-color: #00000029;
+      transform: translate(0, -50%);
+    }
+
     &::after {
       top: 50%;
-      right: auto;
-      bottom: auto;
       left: 100%;
-      transform: translate(0.25rem, -20%);
+      transform: translate(1em, -50%);
     }
   }
+
   &:focus,
   &:hover {
     &::before,
     &::after {
-      opacity: 1;
+      visibility: visible;
     }
   }
 }
