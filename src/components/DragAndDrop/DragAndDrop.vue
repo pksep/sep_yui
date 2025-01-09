@@ -107,7 +107,7 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: $PRIMARY-FONT;
+  font-family: 'Inter Variable', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: #a6a3ad;
