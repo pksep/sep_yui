@@ -155,6 +155,7 @@ watch(
   justify-content: start;
   border: 1px solid var(--border-grey);
   color: var(--text-grey);
+  width: max-content;
   & .filter__header-title:hover,
   .filter__header-title__active {
     color: var(--text-blue);
