@@ -12,7 +12,8 @@
   --tooltip-background-color: var(--white);
   --tooltip-color: var(--text-black);
   position: relative;
-  &::before, &::after {
+  &::before,
+  &::after {
     position: absolute;
     visibility: hidden;
     z-index: 3;
@@ -38,7 +39,8 @@
     &::before {
       top: 50%;
       left: 100%;
-      border-right-color: #00000029;
+      border-right-color: var(--tooltip-background-color);
+      filter: drop-shadow(0px 2px 2px black) opacity(70%);
       transform: translate(0, -50%);
     }
 
