@@ -294,7 +294,7 @@ defineExpose({
     display: flex;
     align-items: center;
     background-color: black;
-    z-index: 6;
+    z-index: 999;
   }
 
   &__slide-full-size {
