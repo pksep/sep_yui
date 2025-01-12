@@ -5,6 +5,7 @@
       :class="[
         'select-list-yui-kit__current',
         { 'active-yui-kit': state.isOpened },
+        { 'disabled-yui-kit': props.disabled },
         props.cn?.header
       ]"
       @click="closeOpenList"
@@ -49,6 +50,7 @@ watchEffect(() => {
  * Закрывает открытый список, и также открывает его.
  */
 const closeOpenList = () => {
+  if (props.disabled) return;
   state.isOpened = !state.isOpened;
   emits('change', state.isOpened);
 };
@@ -92,6 +94,12 @@ onUnmounted(() => {
 
     &.active-yui-kit {
       border: 1px solid $BLUE-9CBEFF;
+    }
+
+    &.disabled-yui-kit {
+      cursor: unset;
+      background-color: var(--grey1);
+      color: var(--grey4);
     }
 
     svg {

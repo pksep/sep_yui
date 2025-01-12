@@ -1,5 +1,10 @@
 <template>
-  <SelectList @change="change" :is-opened="state.isOpened" :class="props.class">
+  <SelectList
+    @change="change"
+    :is-opened="state.isOpened"
+    :class="props.class"
+    :disabled="props.disabled"
+  >
     <template #header>
       <span class="truncate-yui-kit dropdown-yui-kit__text">{{
         state.choosedOption
@@ -24,7 +29,9 @@ import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import type { IOptionsProps } from './interface/interface';
 
-const props = withDefaults(defineProps<IOptionsProps>(), {});
+const props = withDefaults(defineProps<IOptionsProps>(), {
+  disabled: false
+});
 
 const state = reactive({
   choosedOption: props.defaultOption || props.options[0] || '',
