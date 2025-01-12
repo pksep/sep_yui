@@ -27,9 +27,19 @@
     white-space: nowrap;
   }
 
-  &.tooltip-yui-kit_right {
+  & .tooltip-yui-kit_direction-center {
+      --position: 50%;
+  }
+  & .tooltip-yui-kit_direction-right {
+      --position: 25%;
+  }
+  & .tooltip-yui-kit_direction-left {
+      --position: 75%;
+  }
+
+  &.tooltip-yui-kit_left {
     &::before {
-      top: 50%;
+      top: var(--position);
       left: 100%;
       border-right-color: var(--tooltip-background-color);
       transform: translate(0, -50%);
@@ -40,6 +50,51 @@
       left: 100%;
       transform: translate(1em, -50%);
     }
+  }
+
+  &.tooltip-yui-kit_right {
+   &::before {
+      top: var(--position);
+      right: 100%;
+      border-left-color: var(--tooltip-background-color);
+      transform: translate(0, -50%);
+    }
+
+    &::after {
+      top: 50%;
+      right: 100%;
+      transform: translate(-1em, -50%);
+    }
+  }
+
+  &.tooltip-yui-kit_top {
+   &::before {
+    top: 0%;
+    left: var(--position);
+    border-top-color: var(--tooltip-background-color);
+    transform: translate(-50%, -1em);
+  }
+
+  &::after {
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -3em);
+  }
+  }
+
+  &.tooltip-yui-kit_bottom {
+   &::before {
+    bottom: 0%;
+    left: var(--position);
+    border-bottom-color: var(--tooltip-background-color);
+    transform: translate(-50%, 1em);
+  }
+
+  &::after {
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, 3em);
+  }
   }
 
   &:focus,
