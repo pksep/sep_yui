@@ -1,4 +1,4 @@
-interface OptionsObject {
+export interface OptionsObject {
   key: string;
   value: string;
 }
