@@ -10,6 +10,6 @@
 @import '@/assets/scss/blocks/tooltip/tooltip.css';
 
 .tooltip-yui-kit_direction-center {
-      --position: 50%;
+  --position: 50%;
 }
 </style>
