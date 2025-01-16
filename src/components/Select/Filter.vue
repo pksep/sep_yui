@@ -156,17 +156,25 @@ watch(
   border: 1px solid var(--border-grey);
   color: var(--text-grey);
   width: max-content;
-  & .filter__header-title:hover,
+
   .filter__header-title__active {
     color: var(--text-blue);
   }
 }
 
+:deep(.filter__header:hover) {
+  border-color: var(--border-blue);
+}
+
 :deep(.filter__options) {
   padding: 10px;
-  gap: 10px;
+  gap: 5px;
   border: none;
   box-shadow: 0 4px 9.8px 0 #0000000d;
+}
+
+:deep(.filter__options-option) {
+  font-size: 14px;
 }
 
 li.filter__options-underline {

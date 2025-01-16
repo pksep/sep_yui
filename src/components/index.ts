@@ -24,6 +24,7 @@ import Textarea from './Textarea/Textarea.vue';
 import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
 import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
+import Loader from '@/components/Loader/Loader.vue';
 
 const components = {
   Accordion,
@@ -49,7 +50,8 @@ const components = {
   Checkbox,
   Toggle,
   UserMenu,
-  CopyIcon
+  CopyIcon,
+  Loader
 };
 
 const pinia = createPinia();
@@ -89,5 +91,6 @@ export {
   Checkbox,
   Toggle,
   UserMenu,
-  CopyIcon
+  CopyIcon,
+  Loader
 };
