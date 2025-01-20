@@ -80,5 +80,6 @@ export enum IconNameEnum {
   alertTriangle = 'alert-triangle',
   copy = 'copy',
   action = 'action',
-  reset = 'reset'
+  reset = 'reset',
+  move = 'move'
 }
