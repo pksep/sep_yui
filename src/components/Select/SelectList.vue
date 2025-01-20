@@ -64,6 +64,7 @@ const updateDropdownPosition = () => {
   if (currentRef.value && dropdownRef.value && state.isOpened) {
     const currentRect = currentRef.value.getBoundingClientRect();
     dropdownRef.value.style.top = `${currentRect.top + currentRect.height}px`;
+    dropdownRef.value.style.width = `${currentRect.width}px`;
   }
 };
 

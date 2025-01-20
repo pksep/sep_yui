@@ -157,6 +157,12 @@ watch(
   color: var(--text-grey);
   width: max-content;
 
+  .filter__header-title {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+  }
+
   .filter__header-title__active {
     color: var(--text-blue);
   }
