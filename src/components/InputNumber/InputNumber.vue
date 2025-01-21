@@ -97,7 +97,7 @@ const handleBlur = (): void => {
 
 const upValue = (): void => {
   if (state.inputElement < props.max) {
-    state.inputElement += 1;
+    state.inputElement = +state.inputElement + 1;
     emits('update:modelValue', state.inputElement);
     inputNumberRef.value?.focus();
   }
@@ -105,7 +105,7 @@ const upValue = (): void => {
 
 const downValue = (): void => {
   if (state.inputElement > props.min) {
-    state.inputElement -= 1;
+    state.inputElement = +state.inputElement - 1;
     emits('update:modelValue', state.inputElement);
     inputNumberRef.value?.focus();
   }
