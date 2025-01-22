@@ -98,6 +98,9 @@ watch(
 <style lang="scss" scoped>
 fieldset.input-yui-kit .input-yui-kit__input {
   width: calc(100% - 28px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 fieldset.input-yui-kit .input-yui-kit__close {

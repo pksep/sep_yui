@@ -236,7 +236,6 @@ defineExpose({
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    cursor: zoom-in;
     background-color: $BLUE-F2F7FF;
   }
 
@@ -253,6 +252,7 @@ defineExpose({
       object-fit: contain;
       max-width: 100%;
       height: 100%;
+      cursor: zoom-in;
     }
 
     img.slider__slide-full-size,
@@ -294,6 +294,7 @@ defineExpose({
     display: flex;
     align-items: center;
     background-color: black;
+    cursor: zoom-out !important;
     z-index: 999;
   }
 

@@ -156,11 +156,15 @@ watch(
   border: 1px solid var(--border-grey);
   color: var(--text-grey);
   width: max-content;
+  max-width: 214px;
 
   .filter__header-title {
     font-size: 14px;
     font-weight: 400;
     line-height: 16.94px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .filter__header-title__active {
@@ -181,6 +185,10 @@ watch(
 
 :deep(.filter__options-option) {
   font-size: 14px;
+}
+
+:deep(.badges-text) {
+  white-space: nowrap;
 }
 
 li.filter__options-underline {
