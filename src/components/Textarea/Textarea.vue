@@ -61,11 +61,13 @@ watch(
 <style lang="scss" scoped>
 fieldset.input-yui-kit {
   height: auto;
-  padding-block: 10px;
   margin-inline: 0;
+  padding: 0;
 }
-textarea {
+fieldset.input-yui-kit .input-yui-kit__input {
   resize: none;
   height: 96px;
+  padding: 20px 14px;
+  width: calc(100% + 3px);
 }
 </style>
