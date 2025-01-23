@@ -888,3 +888,17 @@ export const reset: IVectorIcon = {
 <path d="M5.88263 14.2534C6.36896 15.6338 7.29073 16.8187 8.50906 17.6297C9.72739 18.4406 11.1763 18.8337 12.6374 18.7496C14.0985 18.6655 15.4927 18.1088 16.61 17.1634C17.7272 16.2181 18.507 14.9352 18.8317 13.5081C19.1565 12.0811 19.0086 10.5871 18.4105 9.25138C17.8123 7.91564 16.7963 6.81047 15.5154 6.1024C14.2346 5.39433 12.7583 5.12171 11.309 5.32561C9.85975 5.52952 8.516 6.1989 7.48025 7.23291L4 10.5031" stroke="currentColor" stroke-width="1.50011" stroke-linecap="round" stroke-linejoin="round"/>
    `
 };
+
+export const move: IVectorIcon = {
+  name: 'move',
+  style: 'line',
+  fill: 'none',
+  path: `
+<circle cx="8.5" cy="4.5" r="1.5" fill="currentColor"/>
+<circle cx="8.5" cy="11.5" r="1.5" fill="currentColor"/>
+<circle cx="8.5" cy="18.5" r="1.5" fill="currentColor"/>
+<circle cx="15.5" cy="18.5" r="1.5" fill="currentColor"/>
+<circle cx="15.5" cy="11.5" r="1.5" fill="currentColor"/>
+<circle cx="15.5" cy="4.5" r="1.5" fill="currentColor"/>
+  `
+};
