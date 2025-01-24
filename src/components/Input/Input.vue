@@ -24,9 +24,7 @@
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @mousedown.prevent="clearInput"
-      v-if="
-        !props.hideClearButton && state.isPressed && Boolean(state.inputElement)
-      "
+      v-if="!props.hideClearButton && state.isPressed && state.inputElement"
     >
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
     </Button>
@@ -81,7 +79,6 @@ const handleBlur = (): void => {
 watch(
   () => props.modelValue,
   value => {
-    state.isPressed = false;
     state.inputElement = value;
   }
 );
