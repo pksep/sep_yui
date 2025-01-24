@@ -67,7 +67,7 @@ fieldset.input-yui-kit {
 fieldset.input-yui-kit .input-yui-kit__input {
   resize: none;
   height: 96px;
-  padding: 20px 14px;
+  padding: 10px 15px;
   width: calc(100% + 3px);
 }
 </style>

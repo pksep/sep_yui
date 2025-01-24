@@ -181,6 +181,7 @@ watch(
   gap: 5px;
   border: none;
   box-shadow: 0 4px 9.8px 0 #0000000d;
+  width: 334px;
 }
 
 :deep(.filter__options-option) {
