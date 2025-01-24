@@ -24,7 +24,7 @@
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @mousedown.prevent="clearInput"
-      v-if="!hideClearButton && state.isPressed && state.inputElement"
+      v-if="isShowButton"
     >
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
     </Button>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, reactive, ref } from 'vue';
+import { watch, reactive, ref, computed, ComputedRef } from 'vue';
 import type { IInputProps } from './interface/interface.ts';
 import Icon from './../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
@@ -51,6 +51,10 @@ const props = withDefaults(defineProps<IInputProps>(), {
   modelValue: '',
   hideClearButton: false
 });
+
+const isShowButton: ComputedRef<boolean> = computed(
+  () => !props.hideClearButton && state.isPressed && Boolean(state.inputElement)
+);
 
 const state = reactive({
   isPressed: false,
@@ -97,10 +101,14 @@ watch(
 
 <style lang="scss" scoped>
 fieldset.input-yui-kit .input-yui-kit__input {
-  width: calc(100% - 28px);
+  width: calc(100% + 3px);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+fieldset.input-yui-kit:has(.input-yui-kit__close) .input-yui-kit__input {
+  width: calc(100% - 28px);
 }
 
 fieldset.input-yui-kit .input-yui-kit__close {
