@@ -21,6 +21,7 @@ import Modal from './Modal/ModalAnimated.vue';
 import Checkbox from './Checkbox/Checkbox.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
 import Textarea from './Textarea/Textarea.vue';
+import Picture from './Picture/Picture.vue';
 import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
 import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
@@ -43,6 +44,7 @@ const components = {
   Input,
   InputNumber,
   PushNotification,
+  Picture,
   Scroll,
   Search,
   Modal,
@@ -85,6 +87,7 @@ export {
   Search,
   SelectFilter,
   PushNotification,
+  Picture,
   Scroll,
   Modal,
   Slider,

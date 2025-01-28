@@ -1,6 +1,6 @@
 <template>
   <figure class="picture-yui-kit">
-    <template v-if="props.type === PictureEnum.img">
+    <template v-if="props.type == PictureEnum.img">
       <picture class="picture-yui-kit__picture">
         <img
           class="picture-yui-kit__picture__image"
