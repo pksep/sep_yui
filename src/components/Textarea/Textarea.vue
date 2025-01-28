@@ -1,7 +1,7 @@
 <template>
   <fieldset
     class="input-yui-kit"
-    :class="{ pressed: state.isPressed }"
+    :class="{ pressed: state.isPressed, readonly: props.readonly }"
     @focusout="handleBlur"
   >
     <legend class="input-yui-kit__legend">
@@ -16,6 +16,7 @@
       :placeholder="props.placeholder"
       :required="props.required"
       :maxlength="props.maxlength"
+      :readonly="props.readonly"
     />
   </fieldset>
 </template>
@@ -26,7 +27,8 @@ import type { ITextareaProps } from './interface/interface';
 
 const props = withDefaults(defineProps<ITextareaProps>(), {
   required: false,
-  modelValue: ''
+  modelValue: '',
+  readonly: false
 });
 
 const emits = defineEmits<{
@@ -43,7 +45,9 @@ const handleInput = (): void => {
 };
 
 const handleFocus = (): void => {
-  state.isPressed = true;
+  if (!props.readonly) {
+    state.isPressed = true;
+  }
 };
 
 const handleBlur = (): void => {
@@ -69,5 +73,10 @@ fieldset.input-yui-kit .input-yui-kit__input {
   height: 96px;
   padding: 10px 15px;
   width: calc(100% + 3px);
+}
+
+fieldset.input-yui-kit.readonly::before,
+fieldset.input-yui-kit.readonly:hover::before {
+  border: none;
 }
 </style>
