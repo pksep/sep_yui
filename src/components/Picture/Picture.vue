@@ -26,6 +26,10 @@ const props = withDefaults(defineProps<IPictureProps>(), {});
 </script>
 
 <style scoped>
+.picture-yui-kit {
+  background: var(--white);
+}
+
 .picture-yui-kit__caption {
   display: grid;
   place-content: center;
@@ -40,5 +44,6 @@ const props = withDefaults(defineProps<IPictureProps>(), {});
 
 .picture-yui-kit__picture__image {
   width: 100%;
+  height: 100%;
 }
 </style>
