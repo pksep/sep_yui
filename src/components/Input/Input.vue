@@ -108,8 +108,9 @@ fieldset.input-yui-kit:has(.input-yui-kit__close) .input-yui-kit__input {
 
 fieldset.input-yui-kit .input-yui-kit__close {
   position: absolute;
-  right: 2px;
+  right: 8px;
   min-height: 24px;
+  padding: 0;
   &:hover {
     background-color: $TRANSPARENT;
   }
