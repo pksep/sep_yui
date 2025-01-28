@@ -102,10 +102,6 @@ fieldset.input-yui-kit .input-yui-kit__input {
   text-overflow: ellipsis;
 }
 
-fieldset.input-yui-kit:has(.input-yui-kit__close) .input-yui-kit__input {
-  width: calc(100% - 28px);
-}
-
 fieldset.input-yui-kit .input-yui-kit__close {
   position: absolute;
   right: 8px;
