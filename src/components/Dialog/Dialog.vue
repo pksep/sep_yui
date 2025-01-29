@@ -20,13 +20,19 @@ const stylesContent = computed(() => ({
   width: props.width,
   height: props.height
 }));
+const emit = defineEmits(['close']);
+
+const hideDialog = () => {
+  dialog.value?.close();
+  emit('close');
+};
 
 const showDialog = () =>
-  props.open ? dialog.value?.showModal() : dialog.value?.close();
+  props.open ? dialog.value?.showModal() : hideDialog();
 
 useEventListener(dialog, 'click', e => {
   if (!props.noClose && e.target === dialog.value) {
-    dialog.value?.close();
+    hideDialog();
   }
 });
 
