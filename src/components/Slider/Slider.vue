@@ -53,14 +53,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, defineExpose, Ref } from 'vue';
+import { onMounted, reactive, ref, defineExpose, Ref, watch } from 'vue';
 import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import {
   ImageExtensionsEnum,
   VideoExtensionsEnum
-} from './../../common/extentions';
+} from '@/common/extentions.ts';
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
@@ -209,6 +209,14 @@ const setSlide = (index: number) => {
     console.warn('Index out of range');
   }
 };
+
+watch(
+  () => props.items,
+  () => {
+    state.files = props.items;
+  },
+  { deep: true }
+);
 
 defineExpose({
   setSlide
