@@ -225,10 +225,10 @@ watch(
       &:focus-visible,
       &:active {
         background-color: $WHITE;
+        padding-left: 12px;
         & + svg {
           display: none;
         }
-        padding-left: 12px;
       }
     }
   }

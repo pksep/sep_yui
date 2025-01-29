@@ -45,5 +45,8 @@ const props = withDefaults(defineProps<IPictureProps>(), {});
 .picture-yui-kit__picture__image {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  background-color: var(--blue9);
+  border-radius: 15px;
 }
 </style>
