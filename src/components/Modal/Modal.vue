@@ -7,7 +7,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, useAttrs, watchEffect } from 'vue';
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  ref,
+  useAttrs,
+  watchEffect
+} from 'vue';
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 
@@ -44,6 +51,11 @@ onMounted(() => {
       visible.value = props.open;
     }
   });
+  document.body.style.overflowY = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflowY = 'inherit';
 });
 </script>
 
