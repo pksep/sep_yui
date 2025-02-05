@@ -2,6 +2,7 @@ import { StoryFn, Meta } from '@storybook/vue3';
 import { StorybookControlEnum } from '../../common/storybook';
 import { InputTypeEnum } from './enum/enum';
 import InputNumber from './InputNumber.vue';
+import { SizesEnum } from '../../common/sizes';
 
 const meta = {
   title: 'InputNumber/InputNumber',
@@ -14,6 +15,10 @@ const meta = {
     required: {
       control: { type: StorybookControlEnum.boolean },
       defaultValue: false
+    },
+    size: {
+      control: { type: StorybookControlEnum.select },
+      options: SizesEnum
     }
   },
   args: {
@@ -37,7 +42,6 @@ InputNumberDefault.args = {
   class: InputTypeEnum.initial
 };
 
-/*
 export const InputDisabled = Template.bind({});
 InputDisabled.args = {
   class: InputTypeEnum.disabled
@@ -62,4 +66,3 @@ export const InputOrdinary = Template.bind({});
 InputOrdinary.args = {
   class: InputTypeEnum.ordinary
 };
-*/
