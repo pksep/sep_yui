@@ -81,5 +81,7 @@ export enum IconNameEnum {
   copy = 'copy',
   action = 'action',
   reset = 'reset',
-  move = 'move'
+  move = 'move',
+  eye = 'eye',
+  eyeOff = 'eyeOff'
 }
