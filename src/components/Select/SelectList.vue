@@ -67,6 +67,13 @@ const updateDropdownPosition = () => {
   }
 };
 
+watch(
+  () => props.isOpened,
+  () => {
+    state.isOpened = props.isOpened;
+  }
+);
+
 watch(() => state.isOpened, updateDropdownPosition);
 
 onMounted(() => {
