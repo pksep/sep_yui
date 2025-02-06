@@ -22,7 +22,7 @@
   </SelectList>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Icon from './../Icon/Icon.vue';
@@ -54,6 +54,15 @@ const getChoosenOption = (value: string) => {
   state.isOpened = false;
   emit('change', value);
 };
+
+watch(
+  () => props.defaultOption,
+  () => {
+    if (props.defaultOption) {
+      state.choosedOption = props.defaultOption;
+    }
+  }
+);
 </script>
 
 <style scoped>
