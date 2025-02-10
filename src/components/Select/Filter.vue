@@ -155,17 +155,41 @@ watch(
   justify-content: start;
   border: 1px solid var(--border-grey);
   color: var(--text-grey);
-  & .filter__header-title:hover,
+  width: max-content;
+  max-width: 214px;
+
+  .filter__header-title {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   .filter__header-title__active {
     color: var(--text-blue);
   }
 }
 
+:deep(.filter__header:hover) {
+  border-color: var(--border-blue);
+}
+
 :deep(.filter__options) {
   padding: 10px;
-  gap: 10px;
+  gap: 5px;
   border: none;
   box-shadow: 0 4px 9.8px 0 #0000000d;
+  width: 334px;
+}
+
+:deep(.filter__options-option) {
+  font-size: 14px;
+}
+
+:deep(.badges-text) {
+  white-space: nowrap;
 }
 
 li.filter__options-underline {

@@ -2,7 +2,8 @@
   <fieldset
     class="input-yui-kit"
     :class="{
-      pressed: state.isPressed
+      pressed: state.isPressed,
+      [props.size]: true
     }"
     @focusout="handleBlur"
   >
@@ -45,6 +46,7 @@ import { reactive, watch, ref } from 'vue';
 import type { IInputNumberProps } from './interface/interface.ts';
 import { Icon } from '@/components';
 import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
+import { SizesEnum } from '@/common/sizes.ts';
 
 interface IState {
   isPressed: boolean;
@@ -58,7 +60,8 @@ const emits = defineEmits<{
 const props = withDefaults(defineProps<IInputNumberProps>(), {
   modelValue: 0,
   min: -Infinity,
-  max: Infinity
+  max: Infinity,
+  size: SizesEnum.medium
 });
 
 const state = reactive<IState>({
@@ -97,7 +100,7 @@ const handleBlur = (): void => {
 
 const upValue = (): void => {
   if (state.inputElement < props.max) {
-    state.inputElement += 1;
+    state.inputElement = +state.inputElement + 1;
     emits('update:modelValue', state.inputElement);
     inputNumberRef.value?.focus();
   }
@@ -105,7 +108,7 @@ const upValue = (): void => {
 
 const downValue = (): void => {
   if (state.inputElement > props.min) {
-    state.inputElement -= 1;
+    state.inputElement = +state.inputElement - 1;
     emits('update:modelValue', state.inputElement);
     inputNumberRef.value?.focus();
   }
@@ -156,6 +159,25 @@ fieldset.input-yui-kit {
     }
     & .input-yui-kit__button-down {
       border-radius: 0 0 4.5px 4.5px;
+    }
+  }
+
+  &.small {
+    height: 30px;
+    margin: 0;
+    padding: 0;
+
+    & .input-yui-kit__input {
+      padding: 3px 6px;
+    }
+
+    & .input-yui-kit__buttons {
+      margin-right: 6px;
+
+      & button {
+        width: 18px;
+        height: 12px;
+      }
     }
   }
 }

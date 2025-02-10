@@ -2,7 +2,6 @@ import { StoryFn, Meta } from '@storybook/vue3';
 import { StorybookControlEnum } from '../../common/storybook';
 import ModalAnimated from './ModalAnimated.vue';
 import Button from '@/components/Button/Button.vue';
-import { action } from '@storybook/addon-actions';
 import { userEvent, within } from '@storybook/test';
 
 const meta = {
@@ -34,10 +33,6 @@ const Template: StoryFn<typeof ModalAnimated> = args => ({
 });
 
 export const Default = Template.bind({});
-
-Default.args = {
-  onClick: action('click')
-};
 
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);

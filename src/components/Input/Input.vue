@@ -24,7 +24,7 @@
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @mousedown.prevent="clearInput"
-      v-if="!hideClearButton && state.isPressed && state.inputElement"
+      v-if="!props.hideClearButton && state.isPressed && state.inputElement"
     >
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
     </Button>
@@ -79,7 +79,6 @@ const handleBlur = (): void => {
 watch(
   () => props.modelValue,
   value => {
-    state.isPressed = false;
     state.inputElement = value;
   }
 );
@@ -97,12 +96,17 @@ watch(
 
 <style lang="scss" scoped>
 fieldset.input-yui-kit .input-yui-kit__input {
-  width: calc(100% - 28px);
+  width: calc(100% + 3px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 fieldset.input-yui-kit .input-yui-kit__close {
   position: absolute;
-  right: 2px;
+  right: 8px;
+  min-height: 24px;
+  padding: 0;
   &:hover {
     background-color: $TRANSPARENT;
   }

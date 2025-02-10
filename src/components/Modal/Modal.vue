@@ -7,7 +7,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, useAttrs, watchEffect } from 'vue';
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  ref,
+  useAttrs,
+  watchEffect
+} from 'vue';
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 
@@ -21,12 +28,19 @@ const stylesContent = computed(() => ({
   height: props.height
 }));
 
+const emit = defineEmits(['close']);
+
 const showDialog = () =>
-  props.open ? dialog.value?.showModal() : dialog.value?.close();
+  props.open ? dialog.value?.showModal() : hideDialog();
+
+const hideDialog = () => {
+  dialog.value?.close();
+  emit('close');
+};
 
 useEventListener(dialog, 'click', e => {
   if (e.target === dialog.value) {
-    dialog.value?.close();
+    hideDialog();
   }
 });
 
@@ -37,6 +51,11 @@ onMounted(() => {
       visible.value = props.open;
     }
   });
+  document.body.style.overflowY = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflowY = 'inherit';
 });
 </script>
 

@@ -137,7 +137,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
 
 .outline-yui-kit {
   background-color: transparent;
-  border: 1px solid var(--blue16);
+  border: 1px solid var(--border-blue);
   color: var(--black2);
 
   &:active,
