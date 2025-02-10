@@ -7,7 +7,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, useAttrs, watchEffect } from 'vue';
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  ref,
+  useAttrs,
+  watchEffect
+} from 'vue';
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 
@@ -21,12 +28,19 @@ const stylesContent = computed(() => ({
   height: props.height
 }));
 
+const emit = defineEmits(['close']);
+
 const showDialog = () =>
-  props.open ? dialog.value?.showModal() : dialog.value?.close();
+  props.open ? dialog.value?.showModal() : hideDialog();
+
+const hideDialog = () => {
+  dialog.value?.close();
+  emit('close');
+};
 
 useEventListener(dialog, 'click', e => {
   if (e.target === dialog.value) {
-    dialog.value?.close();
+    hideDialog();
   }
 });
 
@@ -37,24 +51,30 @@ onMounted(() => {
       visible.value = props.open;
     }
   });
+  document.body.style.overflowY = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflowY = 'inherit';
 });
 </script>
 
 <style lang="scss" scoped>
 .modal-yui-kit {
-  --animation-slide-in: slide-in-left 0.5s cubic-bezier(0.25, 0, 0.3, 1);
-  --animation-slide-out: slide-out-left 0.5s cubic-bezier(0.25, 0, 0.3, 1);
+  --ease: cubic-bezier(0.25, 0, 0.3, 1);
   border: none;
   margin-right: 0;
   inset: 0;
-  overflow-y: hidden;
   max-block-size: 100vh;
   padding: 0px;
+  &[open] {
+  }
   &:focus-visible {
     outline: none;
   }
   &[open]::backdrop {
     background-color: var(--black);
+    transition: opacity 0.5s ease-in-out;
     opacity: 0.4;
   }
 
@@ -65,27 +85,6 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .modal-yui-kit {
-    animation: var(--animation-slide-out) forwards;
-    &[open] {
-      animation: var(--animation-slide-in) forwards;
-    }
-  }
-}
-
-@keyframes slide-out-left {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes slide-in-left {
-  from {
-    transform: translateX(100%);
   }
 }
 </style>

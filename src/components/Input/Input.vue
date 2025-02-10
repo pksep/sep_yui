@@ -19,13 +19,12 @@
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
       :required="props.required"
-      input-message=""
     />
     <Button
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @mousedown.prevent="clearInput"
-      v-if="state.isPressed && state.inputElement"
+      v-if="!props.hideClearButton && state.isPressed && state.inputElement"
     >
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
     </Button>
@@ -42,17 +41,20 @@ import { TextFieldEnum } from '../Input/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 
 const emits = defineEmits<{
-  (e: 'input', value: string): void;
+  (e: 'update:modelValue', value: string): void;
 }>();
 
 const props = withDefaults(defineProps<IInputProps>(), {
   type: TextFieldEnum.text,
-  required: false
+  required: false,
+  inputMessage: '',
+  modelValue: '',
+  hideClearButton: false
 });
 
 const state = reactive({
   isPressed: false,
-  inputElement: ''
+  inputElement: props.modelValue
 });
 
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -62,9 +64,8 @@ const clearInput = (): void => {
   inputRef.value?.focus();
 };
 
-const handleInput = (e: Event): void => {
-  const target = e.currentTarget as HTMLInputElement;
-  emits('input', target.value);
+const handleInput = (): void => {
+  emits('update:modelValue', state.inputElement);
 };
 
 const handleFocus = (): void => {
@@ -76,16 +77,36 @@ const handleBlur = (): void => {
 };
 
 watch(
+  () => props.modelValue,
+  value => {
+    state.inputElement = value;
+  }
+);
+
+watch(
   () => state.inputElement,
   value => {
-    state.isPressed = value?.length > 0;
+    if (props.modelValue != value) {
+      state.isPressed = value?.length > 0;
+      state.inputElement = value;
+    }
   }
 );
 </script>
 
 <style lang="scss" scoped>
+fieldset.input-yui-kit .input-yui-kit__input {
+  width: calc(100% + 3px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 fieldset.input-yui-kit .input-yui-kit__close {
-  justify-self: end;
+  position: absolute;
+  right: 8px;
+  min-height: 24px;
+  padding: 0;
   &:hover {
     background-color: $TRANSPARENT;
   }

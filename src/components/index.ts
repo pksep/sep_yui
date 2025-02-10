@@ -3,25 +3,32 @@ import Badges from './Badges/Badges.vue';
 import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
-import Dropdown from './Dropdown/Dropdown.vue';
+import Dropdown from './Select/Dropdown.vue';
 import Dialog from './Dialog/Dialog.vue';
+import Accordion from './Accordion/Accordion.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
 import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
+import SelectFilter from './Select/Filter.vue';
 import Icon from './Icon/Icon.vue';
+import Input from './Input/Input.vue';
+import InputNumber from './InputNumber/InputNumber.vue';
 import Search from './Search/Search.vue';
 import Slider from './Slider/Slider.vue';
 import Toggle from './Toggle/Toggle.vue';
 import Scroll from './Scrollbar/Scrollbar.vue';
-import Modal from './Modal/Modal.vue';
+import Modal from './Modal/ModalAnimated.vue';
 import Checkbox from './Checkbox/Checkbox.vue';
 import UserMenu from './UserMenu/UserMenu.vue';
 import Textarea from './Textarea/Textarea.vue';
+import Picture from './Picture/Picture.vue';
 import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
 import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
+import Loader from '@/components/Loader/Loader.vue';
 
 const components = {
+  Accordion,
   Badges,
   BreadCrumbs,
   Dialog,
@@ -32,8 +39,12 @@ const components = {
   Dropdown,
   Textarea,
   Filter,
+  SelectFilter,
   Icon,
+  Input,
+  InputNumber,
   PushNotification,
+  Picture,
   Scroll,
   Search,
   Modal,
@@ -41,7 +52,8 @@ const components = {
   Checkbox,
   Toggle,
   UserMenu,
-  CopyIcon
+  CopyIcon,
+  Loader
 };
 
 const pinia = createPinia();
@@ -58,6 +70,7 @@ export default {
 };
 
 export {
+  Accordion,
   Badges,
   BreadCrumbs,
   Button,
@@ -69,13 +82,18 @@ export {
   Textarea,
   Filter,
   Icon,
+  Input,
+  InputNumber,
   Search,
+  SelectFilter,
   PushNotification,
+  Picture,
   Scroll,
   Modal,
   Slider,
   Checkbox,
   Toggle,
   UserMenu,
-  CopyIcon
+  CopyIcon,
+  Loader
 };

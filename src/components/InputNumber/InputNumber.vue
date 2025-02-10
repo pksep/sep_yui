@@ -2,7 +2,8 @@
   <fieldset
     class="input-yui-kit"
     :class="{
-      pressed: state.isPressed
+      pressed: state.isPressed,
+      [props.size]: true
     }"
     @focusout="handleBlur"
   >
@@ -21,19 +22,18 @@
       :max="props.max"
       type="number"
     />
-
     <div class="input-yui-kit__buttons">
       <button
         class="input-yui-kit__button-up"
         @mousedown.prevent="upValue"
-        :disabled="+state.inputElement >= props.max"
+        :disabled="state.inputElement >= props.max"
       >
         <Icon :name="IconNameEnum.chevronUp" />
       </button>
       <button
         class="input-yui-kit__button-down"
         @mousedown.prevent="downValue"
-        :disabled="+state.inputElement <= props.min"
+        :disabled="state.inputElement <= props.min"
       >
         <Icon :name="IconNameEnum.chevronDown" />
       </button>
@@ -42,48 +42,48 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, watch, ref } from 'vue';
 import type { IInputNumberProps } from './interface/interface.ts';
 import { Icon } from '@/components';
 import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
+import { SizesEnum } from '@/common/sizes.ts';
 
 interface IState {
   isPressed: boolean;
-  inputElement: number | string;
+  inputElement: number;
 }
 
 const emits = defineEmits<{
-  (e: 'input', value: number): void;
+  (e: 'update:modelValue', value: number): void;
 }>();
 
 const props = withDefaults(defineProps<IInputNumberProps>(), {
+  modelValue: 0,
   min: -Infinity,
-  max: Infinity
+  max: Infinity,
+  size: SizesEnum.medium
 });
 
 const state = reactive<IState>({
   isPressed: false,
-  inputElement: props.min > 0 ? props.min : 0
+  inputElement: props.modelValue || (props.min > 0 ? props.min : 0)
 });
 
 const inputNumberRef = ref<HTMLInputElement | null>(null);
 
 const handleInput = (e: Event): void => {
   const target = e.currentTarget as HTMLInputElement;
-  const value = target.value;
-  if (+value > props.max) {
+  const value = +target.value;
+
+  if (value > props.max) {
     state.inputElement = props.max;
-  } else if (props.min && +value < props.min) {
+  } else if (value < props.min) {
     state.inputElement = props.min;
   } else {
     state.inputElement = value;
   }
 
-  if (+value === 0) {
-    state.inputElement = props.min > 0 ? props.min : 0;
-  }
-
-  emits('input', +state.inputElement);
+  emits('update:modelValue', state.inputElement);
 };
 
 const handleFocus = (): void => {
@@ -91,25 +91,35 @@ const handleFocus = (): void => {
 };
 
 const handleBlur = (): void => {
-  if (state.inputElement === '') {
+  if (state.inputElement === null || isNaN(state.inputElement)) {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
-  state.inputElement = +state.inputElement;
-  emits('input', +state.inputElement);
+  emits('update:modelValue', state.inputElement);
   state.isPressed = false;
 };
 
 const upValue = (): void => {
-  state.inputElement = +state.inputElement + 1;
-  emits('input', state.inputElement);
-  inputNumberRef.value?.focus();
+  if (state.inputElement < props.max) {
+    state.inputElement = +state.inputElement + 1;
+    emits('update:modelValue', state.inputElement);
+    inputNumberRef.value?.focus();
+  }
 };
 
 const downValue = (): void => {
-  state.inputElement = +state.inputElement - 1;
-  emits('input', state.inputElement);
-  inputNumberRef.value?.focus();
+  if (state.inputElement > props.min) {
+    state.inputElement = +state.inputElement - 1;
+    emits('update:modelValue', state.inputElement);
+    inputNumberRef.value?.focus();
+  }
 };
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    state.inputElement = newValue;
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -149,6 +159,25 @@ fieldset.input-yui-kit {
     }
     & .input-yui-kit__button-down {
       border-radius: 0 0 4.5px 4.5px;
+    }
+  }
+
+  &.small {
+    height: 30px;
+    margin: 0;
+    padding: 0;
+
+    & .input-yui-kit__input {
+      padding: 3px 6px;
+    }
+
+    & .input-yui-kit__buttons {
+      margin-right: 6px;
+
+      & button {
+        width: 18px;
+        height: 12px;
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Dropdown from './Dropdown.vue';
+import './Dropdown.css';
 import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
@@ -12,7 +13,7 @@ const optionsItems = [
 ];
 
 const meta = {
-  title: 'Dropdown/Dropdown',
+  title: 'Select/Dropdown',
   component: Dropdown,
   argTypes: {
     optionsItems: {
@@ -23,8 +24,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    onClick: fn(),
-    width: '200px'
+    onClick: fn()
   }
 } as Meta<typeof Dropdown>;
 
@@ -36,7 +36,7 @@ const Template: StoryFn<typeof Dropdown> = args => ({
     return { args };
   },
   template: `
-  <Dropdown v-bind="args" />
+    <Dropdown class="storybook__dropdown" v-bind="args" />
   `
 });
 

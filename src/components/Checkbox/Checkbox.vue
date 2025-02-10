@@ -14,46 +14,48 @@ import { CheckboxSizeEnum, CheckboxCircularEnum } from './enum/enum';
 
 const props = withDefaults(defineProps<ICheckboxProps>(), {
   size: CheckboxSizeEnum.medium,
-  circular: CheckboxCircularEnum.rounded
+  circular: CheckboxCircularEnum.rounded,
+  modelValue: false
 });
 
 const emits = defineEmits<{
   (e: 'change', isChecked: boolean): void;
+  (e: 'update:modelValue', value: boolean): void;
 }>();
 
 const state = reactive({
-  isChecked: false
+  isChecked: props.modelValue
 });
 
 watchEffect(() => {
-  state.isChecked = props.checked;
+  state.isChecked = props.modelValue;
 });
 
 const onClick = (): void => {
   state.isChecked = !state.isChecked;
   emits('change', state.isChecked);
+  emits('update:modelValue', state.isChecked);
 };
 </script>
 
 <style lang="scss" scoped>
-.checkbox-yui-kit_rounded {
-  --radius: 2px;
-}
-
-.checkbox-yui-kit_circled {
-  --radius: 50%;
-}
-
 .checkbox-yui-kit_small {
+  --radius: 3px;
   --size: 16px;
 }
 
 .checkbox-yui-kit_medium {
+  --radius: 3.5px;
   --size: 18px;
 }
 
 .checkbox-yui-kit_big {
+  --radius: 4.5px;
   --size: 24px;
+}
+
+.checkbox-yui-kit_circled {
+  --radius: 50%;
 }
 
 .checkbox-yui-kit {
@@ -66,8 +68,8 @@ const onClick = (): void => {
   height: var(--size);
   color: var(--white);
   background: var(--white);
-  border: var(--radius) solid var(--blue1);
-  border-radius: 2px;
+  border: 2px solid var(--blue1);
+  border-radius: var(--radius);
 }
 
 .checkbox-yui-kit:checked {

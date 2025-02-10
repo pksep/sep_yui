@@ -44,7 +44,7 @@
       <button
         class="slider-yui-kit__button slider-yui-kit__button--next"
         @click="nextSlide"
-        :disabled="state.currentIndex === props.items.length - 1"
+        :disabled="rigthIndex()"
       >
         <Icon :name="IconNameEnum.rightBig" />
       </button>
@@ -53,14 +53,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, defineExpose, Ref } from 'vue';
+import { onMounted, reactive, ref, defineExpose, Ref, watch } from 'vue';
 import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import {
   ImageExtensionsEnum,
   VideoExtensionsEnum
-} from './../../common/extentions';
+} from '@/common/extentions.ts';
 
 const props = withDefaults(defineProps<ISliderProps>(), {});
 
@@ -75,6 +75,9 @@ const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
 const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
 
 const CLASS_FULL_SIZE = 'slider-yui-kit__full-size';
+
+const rigthIndex = (): boolean =>
+  props.items?.length ? state.currentIndex === props.items.length - 1 : true;
 
 /**
  * @param str:  string | null
@@ -207,6 +210,14 @@ const setSlide = (index: number) => {
   }
 };
 
+watch(
+  () => props.items,
+  () => {
+    state.files = props.items;
+  },
+  { deep: true }
+);
+
 defineExpose({
   setSlide
 });
@@ -233,7 +244,6 @@ defineExpose({
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    cursor: zoom-in;
     background-color: $BLUE-F2F7FF;
   }
 
@@ -250,6 +260,7 @@ defineExpose({
       object-fit: contain;
       max-width: 100%;
       height: 100%;
+      cursor: zoom-in;
     }
 
     img.slider__slide-full-size,
@@ -291,7 +302,8 @@ defineExpose({
     display: flex;
     align-items: center;
     background-color: black;
-    z-index: 6;
+    cursor: zoom-out !important;
+    z-index: 999;
   }
 
   &__slide-full-size {

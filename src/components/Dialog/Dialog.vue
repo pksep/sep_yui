@@ -20,13 +20,25 @@ const stylesContent = computed(() => ({
   width: props.width,
   height: props.height
 }));
+const emit = defineEmits(['close']);
+
+const hideDialog = () => {
+  dialog.value?.close();
+  emit('close');
+};
 
 const showDialog = () =>
-  props.open ? dialog.value?.showModal() : dialog.value?.close();
+  props.open ? dialog.value?.showModal() : hideDialog();
 
 useEventListener(dialog, 'click', e => {
-  if (e.target === dialog.value) {
-    dialog.value?.close();
+  if (!props.noClose && e.target === dialog.value) {
+    hideDialog();
+  }
+});
+
+useEventListener(dialog, 'keydown', e => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    props.noClose && e.preventDefault();
   }
 });
 
@@ -42,7 +54,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .dialog-yui-kit {
-  background: $BLUE-F2F7FF;
+  background: var(--background, var(--blue9));
   border: none;
   border-radius: 15px;
   padding: 0px;

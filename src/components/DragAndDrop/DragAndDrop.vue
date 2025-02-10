@@ -12,7 +12,7 @@
       @click="togglePress"
     >
       <Icon :name="IconNameEnum.paperClip" stroke-width="2" />
-      <span class="dnd-yui-kit__span"> Кликните или перенесите файлы </span>
+      <span class="dnd-yui-kit__span"> {{ props.title }} </span>
     </label>
     <input
       id="docsFileSelected"
@@ -33,7 +33,8 @@ import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum.ts';
 
 const props = withDefaults(defineProps<IDragAndDropProps>(), {
-  singleFileMode: false
+  singleFileMode: false,
+  title: 'Кликните или перенесите файлы'
 });
 
 const emits = defineEmits<{
@@ -90,21 +91,24 @@ onMounted(() => {
 <style scoped lang="scss">
 @import '@/assets/scss/_variables.scss';
 
+.dnd-yui-kit {
+  --background: var(--white);
+}
+
 div.dnd-yui-kit,
 label.dnd-yui-kit__label {
   width: 100%;
   height: 100%;
-  background: white;
+  background: var(--background);
   border-radius: 5px;
 }
 
 div.dnd-yui-kit label.dnd-yui-kit__label {
   display: flex;
-  background: white;
   align-items: center;
   justify-content: center;
   font-family: $PRIMARY-FONT;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #a6a3ad;
   svg {

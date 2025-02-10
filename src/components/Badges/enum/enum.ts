@@ -1,5 +1,6 @@
 export enum BadgesTypeEnum {
   default = 'default',
+  lightBlue = 'light-blue',
   blue = 'blue',
   green = 'green',
   red = 'red',

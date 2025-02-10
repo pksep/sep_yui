@@ -4,4 +4,5 @@ export interface ITextareaProps {
   required?: boolean;
   maxlength?: number;
   modelValue: string;
+  readonly?: boolean;
 }
