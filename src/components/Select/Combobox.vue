@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, watchEffect } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import type { IComboboxProps } from './interface/interface';
@@ -51,6 +51,12 @@ const state = reactive({
 const change = (val: boolean): void => {
   state.isOpened = val;
 };
+
+watchEffect(() => (state.values = props.options));
+
+watchEffect(
+  () => props.defaultOption && (state.searchValue = props.defaultOption)
+);
 
 const changeSearchValue = (): void => {
   state.isOpened = true;

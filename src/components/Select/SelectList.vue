@@ -1,6 +1,6 @@
 <template>
   <div class="select-list-yui-kit" v-on-click-outside.bubble="dropdownHandler">
-    <span
+    <div
       ref="currentRef"
       :class="[
         'select-list-yui-kit__current',
@@ -11,7 +11,7 @@
       @click="closeOpenList"
     >
       <slot name="header" />
-    </span>
+    </div>
     <ul
       ref="dropdownRef"
       :class="['select-list-yui-kit__list', props.cn?.options]"
@@ -91,7 +91,7 @@ onUnmounted(() => {
   &__current {
     width: inherit;
     padding: 0px 10px;
-    background-color: var(--white);
+    background-color: var(--background, var(--white));
     display: flex;
     align-items: center;
     justify-content: space-between;
