@@ -22,3 +22,7 @@ export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
   title: string;
   noOptionText?: string;
 }
+
+export interface IComboboxProps extends IOptionsProps {
+  placeholder?: string;
+}
