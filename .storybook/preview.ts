@@ -2,7 +2,7 @@ import { Preview, setup } from '@storybook/vue3';
 import type { App } from 'vue';
 import "@fontsource-variable/inter"
 import "@fontsource/source-sans-pro"
-import '@/assets/scss/variables-native.scss';
+import '@/assets/scss/_variables-native.scss';
 
 import { createPinia } from 'pinia';
 

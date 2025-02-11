@@ -26,7 +26,6 @@ import PushNotification from './Notification/Notification.vue';
 import { createPinia } from 'pinia';
 import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
 import Loader from '@/components/Loader/Loader.vue';
-import Tooltip from '@/components/Tooltip/Tooltip.vue';
 
 const components = {
   Accordion,
@@ -54,8 +53,7 @@ const components = {
   Toggle,
   UserMenu,
   CopyIcon,
-  Loader,
-  Tooltip
+  Loader
 };
 
 const pinia = createPinia();
@@ -97,6 +95,5 @@ export {
   Toggle,
   UserMenu,
   CopyIcon,
-  Loader,
-  Tooltip
+  Loader
 };

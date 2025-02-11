@@ -1,5 +1,5 @@
 [class*="yui-kit"] {
-  font-family: 'Inter Variable', sans-serif;
+  font-family: $PRIMARY-FONT;
 }
 
 @supports not selector(::-webkit-scrollbar) {
