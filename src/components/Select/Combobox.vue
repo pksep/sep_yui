@@ -66,6 +66,7 @@ const changeSearchValue = (): void => {
       .split(' ')
       .every(val => item.toLowerCase().includes(val))
   );
+  emits('change', state.searchValue);
   if (state.values?.length == 0) state.isOpened = false;
 };
 
@@ -77,9 +78,14 @@ const getChoosenOption = (value: string) => {
 </script>
 
 <style scoped>
-.combobox__input {
+input.combobox__input {
   border: 0;
   outline: none;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  display: none;
 }
 
 :deep(.filter__header) {

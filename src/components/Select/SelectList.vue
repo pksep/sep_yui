@@ -15,6 +15,7 @@
     <ul
       ref="dropdownRef"
       :class="['select-list-yui-kit__list', props.cn?.options]"
+      :open="state.isOpened"
       v-show="state.isOpened"
     >
       <slot name="options" />
