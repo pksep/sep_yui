@@ -17,6 +17,7 @@
     <input
       id="docsFileSelected"
       @change="onChange"
+      @click="onClick"
       type="file"
       style="display: none"
       required
@@ -50,6 +51,12 @@ const fileInputRef = ref<HTMLInputElement | null>(null);
 const onChange = (event: Event): void => {
   const target = event.target as HTMLInputElement;
   addDock(target.files);
+};
+
+const onClick = (): void => {
+  if (fileInputRef.value) {
+    fileInputRef.value.value = '';
+  }
 };
 
 const dragover = (event: Event): void => {
