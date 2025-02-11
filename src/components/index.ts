@@ -10,6 +10,8 @@ import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
 import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
 import SelectFilter from './Select/Filter.vue';
+import Combobox from './Select/Combobox.vue';
+import SelectList from './Select/SelectList.vue';
 import Icon from './Icon/Icon.vue';
 import Input from './Input/Input.vue';
 import InputNumber from './InputNumber/InputNumber.vue';
@@ -34,8 +36,10 @@ const components = {
   Dialog,
   DragAndDrop,
   Card,
+  Combobox,
   Button,
   Switch,
+  SelectList,
   Dropdown,
   Textarea,
   Filter,
@@ -78,11 +82,13 @@ export {
   Card,
   DragAndDrop,
   Switch,
+  SelectList,
   Dropdown,
   Textarea,
   Filter,
   Icon,
   Input,
+  Combobox,
   InputNumber,
   Search,
   SelectFilter,

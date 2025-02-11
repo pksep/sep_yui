@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, watchEffect } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import type { IComboboxProps } from './interface/interface';
@@ -52,6 +52,12 @@ const change = (val: boolean): void => {
   state.isOpened = val;
 };
 
+watchEffect(() => (state.values = props.options));
+
+watchEffect(
+  () => props.defaultOption && (state.searchValue = props.defaultOption)
+);
+
 const changeSearchValue = (): void => {
   state.isOpened = true;
   state.values = props.options.filter(item =>
@@ -60,6 +66,7 @@ const changeSearchValue = (): void => {
       .split(' ')
       .every(val => item.toLowerCase().includes(val))
   );
+  emits('change', state.searchValue);
   if (state.values?.length == 0) state.isOpened = false;
 };
 
@@ -71,9 +78,14 @@ const getChoosenOption = (value: string) => {
 </script>
 
 <style scoped>
-.combobox__input {
+input.combobox__input {
   border: 0;
   outline: none;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  display: none;
 }
 
 :deep(.filter__header) {
