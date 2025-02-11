@@ -203,7 +203,7 @@ watch(
 
     font-size: 14px;
     line-height: 16px;
-    font-family: 'Inter Variable', sans-serif;
+    font-family: $PRIMARY-FONT;
     padding-left: 44px;
 
     &:hover,

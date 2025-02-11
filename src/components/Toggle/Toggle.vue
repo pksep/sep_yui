@@ -56,8 +56,10 @@ const onClick = () => emit('change', isChecked.value);
 </script>
 
 <style lang="scss" scoped>
+@import './../../assets/scss/_global.scss';
+
 .toggle-yui-kit {
-  color: var(--white);
+  color: $WHITE;
   outline: none;
   border: none;
   box-sizing: border-box;
