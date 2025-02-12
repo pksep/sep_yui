@@ -100,6 +100,7 @@ onUnmounted(() => {
     border-radius: var(--radius, 5px);
     cursor: pointer;
 
+    &:hover,
     &.active-yui-kit {
       border: 1px solid $BLUE-9CBEFF;
     }
