@@ -6,7 +6,7 @@
         'select-list-yui-kit__current',
         { 'active-yui-kit': state.isOpened },
         { 'disabled-yui-kit': props.disabled },
-        props.cn?.header
+        props?.headerClasses
       ]"
       @click="closeOpenList"
     >
@@ -14,7 +14,7 @@
     </div>
     <ul
       ref="dropdownRef"
-      :class="['select-list-yui-kit__list', props.cn?.options]"
+      :class="['select-list-yui-kit__list', props?.optionsClasses]"
       :open="state.isOpened"
       v-if="state.isOpened"
     >

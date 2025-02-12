@@ -1,3 +1,11 @@
+interface ClassObject {
+  [key: string]: boolean;
+}
+
+type ClassArray = Array<string | ClassObject>;
+
+type VueClasses = ClassObject | ClassArray | string;
+
 export interface OptionsObject {
   key: string;
   value: string;
@@ -12,9 +20,9 @@ export interface IOptionsProps {
 
 export interface ISelectListProps {
   isOpened: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cn?: any;
   disableOpen?: boolean;
+  headerClasses?: VueClasses;
+  optionsClasses?: VueClasses;
   disabled?: boolean;
 }
 
