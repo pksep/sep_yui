@@ -81,7 +81,12 @@ const getChoosenOption = (value: string) => {
 <style scoped>
 input.combobox__input {
   border: 0;
+  padding: 13px 5px;
+  border-radius: 5px;
   outline: none;
+  &:focus::placeholder {
+    color: transparent;
+  }
 }
 
 input[type='search']::-webkit-search-cancel-button {
@@ -92,11 +97,12 @@ input[type='search']::-webkit-search-cancel-button {
 :deep(.filter__header) {
   --radius: 10px;
   gap: 5px;
-  padding: 13px 10px;
+  padding: 0px 5px;
   justify-content: start;
-  border: 1px solid var(--border-grey);
+  border: 0;
   color: var(--text-grey);
   width: max-content;
+  border: 1px solid var(--border-grey);
   max-width: 214px;
 
   .filter__header-title {
