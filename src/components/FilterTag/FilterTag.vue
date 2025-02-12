@@ -1,0 +1,299 @@
+<template>
+  <div class="filter-yui-kit" v-on-click-outside.bubble="closeShow">
+    <div :class="classesFilter" @click="toggleShow">
+      <Icon :name="props.iconName" />
+      <span>{{ props.title }}</span>
+
+      <Badges v-if="!getChosen.length" disabled text="Все" />
+      <Badges
+        v-else
+        v-for="item in getChosen"
+        :key="item.value"
+        :type="item.type"
+        disabled
+        :text="item.label"
+        :style="'margin:0 3px;'"
+      />
+    </div>
+
+    <div class="filter-yui-kit__select-wrapper" v-if="state.isShow">
+      <ul class="filter-yui-kit__select-list selected-yui-kit">
+        <li class="filter-yui-kit__select-item">
+          <Badges v-if="!getChosen.length" disabled text="Все" />
+        </li>
+        <li
+          class="filter-yui-kit__select-item"
+          v-for="item in getChosen"
+          :key="item.value"
+        >
+          <Badges
+            :disabled="true"
+            :choosed="item.chose"
+            :type="item.type"
+            @click="handleToggle(item)"
+            :text="item.label"
+          />
+        </li>
+      </ul>
+
+      <div class="filter-yui-kit__select__divider" />
+
+      <ul class="filter-yui-kit__select-list" v-if="state.isShow">
+        <li
+          class="filter-yui-kit__select-item"
+          v-for="item in getNotChosen"
+          :key="item.value"
+        >
+          <Badges
+            :disabled="true"
+            :choosed="false"
+            :type="item.type"
+            :text="item.label"
+            @click="handleToggle(item)"
+          />
+        </li>
+        <li class="filter-yui-kit__select-item">
+          <Badges v-if="getChosen.length" disabled text="Все" />
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, onMounted, reactive, watch } from 'vue';
+import { IFilterTagProps, IFilterTagOption } from './interface/interface';
+import Badges from '@/components/Badges/Badges.vue';
+import Icon from '@/components/Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum/enum';
+import { vOnClickOutside } from '@vueuse/components';
+import type { OnClickOutsideHandler } from '@vueuse/core';
+
+type filterTagOptionType = IFilterTagOption & {
+  chose?: boolean;
+};
+
+interface IFilterTagState {
+  isShow: boolean;
+  options: filterTagOptionType[];
+}
+
+const props = withDefaults(defineProps<IFilterTagProps>(), {
+  iconName: IconNameEnum.filter,
+  options: () => []
+});
+
+const state = reactive<IFilterTagState>({
+  isShow: false,
+  options: []
+});
+
+const emits = defineEmits<{
+  (e: 'change', value: string[]): void;
+}>();
+
+/**
+ * Создаем проверки для классов, устанавливаем их основной плашке фильтра.
+ */
+const classesFilter = computed(() => ({
+  'filter-yui-kit__wrapper': true,
+  'active-yui-kit': state.isShow
+}));
+
+/**
+ * показываем, скрываем список фильтров
+ */
+const toggleShow = () => (state.isShow = !state.isShow);
+
+const closeShow: OnClickOutsideHandler = () => {
+  state.isShow = false;
+};
+/**
+ * получаем все выбранные фильтры.
+ */
+const getChosen = computed(() => {
+  return state.options.filter(opt => opt.chose);
+});
+
+/**
+ * получаем все невыбранные фильтры.
+ */
+const getNotChosen = computed(() => {
+  return state.options.filter(opt => !opt.chose);
+});
+
+/**
+ * @param item: {
+      value: string;
+      type: string;
+      choose: boolean;
+  * }
+ * @returns
+ */
+
+/**
+ * меняем состояние фильтра с выбранного на невыбранного и наоборот
+ */
+const handleToggle = (item: filterTagOptionType): void => {
+  item.chose = !item.chose;
+
+  if (state.options.every(opt => opt.chose)) {
+    state.options = state.options.map(opt => ({ ...opt, chose: false }));
+  }
+  emits(
+    'change',
+    getChosen.value.map(opt => opt.value)
+  );
+};
+
+/**
+ * Записываем в список фильтров переданные фильтры. Устанавливает в дефолтное состояние все фильтры и также обнуляет выбранные фильтры, кроме одного.
+ */
+
+const setOptions = () => {
+  state.options = props.options.map(opt => ({
+    ...opt,
+    chose: false
+  }));
+};
+
+onMounted(setOptions);
+
+watch(() => props.options, setOptions);
+</script>
+
+<style lang="scss" scoped>
+.filter-yui-kit {
+  display: grid;
+  width: fit-content;
+  position: relative;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border: 1px solid $WHITE-E7E7E7;
+    color: $GREY-757D8A;
+    background-color: $WHITE;
+    transition: 0.3s ease-in-out;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      border: 1px solid $BLUE-9CBEFF;
+    }
+
+    &.active-yui-kit {
+      color: $BLUE-9CBEFF;
+      border: 1px solid $BLUE-9CBEFF;
+    }
+  }
+
+  &__counter {
+    color: $GREY-757D8A;
+  }
+
+  &__select-wrapper {
+    position: absolute;
+    top: calc(100% + 5px);
+    z-index: 20;
+    left: 0;
+    background-color: $WHITE;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
+
+    & .filter-yui-kit__select__divider {
+      width: 100%;
+      height: 0.5px;
+      margin-block: 10px;
+      background-color: var(--border-grey);
+    }
+  }
+
+  &__select-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    width: 100%;
+    display: grid;
+    gap: 5px;
+
+    &.selected {
+      border-bottom: 0.5px solid $WHITE-E7E7E7;
+      padding-bottom: 10px;
+    }
+
+    &.select-counter {
+      background-color: $WHITE;
+      border-radius: 10px;
+      box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    &--search {
+      max-height: 150px;
+      overflow-y: scroll;
+
+      .filter__select-item {
+        padding: 10px;
+        border-bottom: 1px solid $WHITE-E7E7E7;
+      }
+    }
+  }
+
+  &__close {
+    color: $GREY-757D8A;
+    cursor: pointer;
+    background-color: $TRANSPARENT;
+    border: 1px solid $TRANSPARENT;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+  }
+}
+
+.counter-yui-kit {
+  position: relative;
+
+  &__list {
+    opacity: 0;
+    display: none;
+  }
+
+  &__list-wrapper {
+    width: 187px;
+    position: absolute;
+  }
+
+  &--search {
+    .filter-yui-kit__select-item {
+      width: max-content;
+    }
+
+    .base-yui-kit {
+      max-width: 187px;
+
+      span.badges-text-yui-kit {
+        color: $BLUE-407BFF;
+      }
+    }
+  }
+}
+
+ul.filter-yui-kit__select-list.selected-yui-kit.border-none-yui-kit {
+  border-bottom: none;
+}
+
+.filter-yui-kit__wrapper {
+  gap: 5px;
+  height: 44px;
+}
+</style>

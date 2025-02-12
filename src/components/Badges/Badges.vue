@@ -64,6 +64,7 @@ onMounted(() => {
   max-width: fit-content;
   cursor: pointer;
   font-size: 12px;
+  font-weight: 700;
 
   span {
     padding: 2px 6px 3px 6px;
