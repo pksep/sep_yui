@@ -3,9 +3,10 @@
     @change="change"
     :is-opened="state.isOpened"
     :disable-open="state.values?.length == 0"
-    :cn="classes"
     :class="props.class"
     :disabled="props.disabled"
+    header-classes="filter__header"
+    options-classes="filter__options"
   >
     <template #header>
       <input
@@ -24,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watchEffect } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import type { IComboboxProps } from './interface/interface';
@@ -32,11 +33,6 @@ import type { IComboboxProps } from './interface/interface';
 const emits = defineEmits<{
   (e: 'change', value: string): void;
 }>();
-
-const classes = computed(() => ({
-  header: 'filter__header',
-  options: 'filter__options'
-}));
 
 const props = withDefaults(defineProps<IComboboxProps>(), {
   disabled: false
