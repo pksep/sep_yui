@@ -3,8 +3,8 @@
     @change="change"
     :is-opened="state.isOpened"
     :class="props.class"
-    headerClasses="filter__header"
-    optionsClasses="filter__options"
+    header-classes="filter__header"
+    options-classes="filter__options"
   >
     <template #header>
       <span
