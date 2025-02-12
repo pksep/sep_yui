@@ -2,6 +2,7 @@
   <SelectList
     @change="change"
     :is-opened="state.isOpened"
+    :disable-open="state.values?.length == 0"
     :cn="classes"
     :class="props.class"
     :disabled="props.disabled"
