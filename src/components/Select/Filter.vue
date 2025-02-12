@@ -2,8 +2,9 @@
   <SelectList
     @change="change"
     :is-opened="state.isOpened"
-    :cn="classes"
     :class="props.class"
+    headerClasses="filter__header"
+    optionsClasses="filter__options"
   >
     <template #header>
       <span
@@ -86,11 +87,6 @@ const filteredOptions = computed(() =>
     item.toLowerCase().includes(state.searchData.toLowerCase())
   )
 );
-
-const classes = computed(() => ({
-  header: 'filter__header',
-  options: 'filter__options'
-}));
 
 const emits = defineEmits<{
   (e: 'change', value: string): void;
