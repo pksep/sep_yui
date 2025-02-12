@@ -14,6 +14,7 @@ export interface ISelectListProps {
   isOpened: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cn?: any;
+  disableOpen?: boolean;
   disabled?: boolean;
 }
 

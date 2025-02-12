@@ -16,7 +16,7 @@
       ref="dropdownRef"
       :class="['select-list-yui-kit__list', props.cn?.options]"
       :open="state.isOpened"
-      v-show="state.isOpened"
+      v-if="state.isOpened"
     >
       <slot name="options" />
     </ul>
@@ -51,7 +51,7 @@ watchEffect(() => {
  * Закрывает открытый список, и также открывает его.
  */
 const closeOpenList = () => {
-  if (props.disabled) return;
+  if (props.disabled || props.disableOpen) return;
   state.isOpened = !state.isOpened;
   emits('change', state.isOpened);
 };
