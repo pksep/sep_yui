@@ -230,7 +230,7 @@ export const plusSmall: IVectorIcon = {
 export const plus: IVectorIcon = {
   name: 'plus',
   style: 'line',
-  viewbox: '0 0 24 20',
+  viewbox: '0 0 24 22',
   path: `
 <path d="M12.0001 3.51472V20.4853" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M3.51477 12H20.4853" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
