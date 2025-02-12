@@ -5,8 +5,8 @@
     :disable-open="state.values?.length == 0"
     :class="props.class"
     :disabled="props.disabled"
-    headerClasses="filter__header"
-    optionsClasses="filter__options"
+    header-classes="filter__header"
+    options-classes="filter__options"
   >
     <template #header>
       <input
