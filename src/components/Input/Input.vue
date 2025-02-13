@@ -62,6 +62,7 @@ const inputRef = ref<HTMLInputElement | null>(null);
 const clearInput = (): void => {
   state.inputElement = '';
   inputRef.value?.focus();
+  emits('update:modelValue', '');
 };
 
 const handleInput = (): void => {
