@@ -19,7 +19,11 @@
       />
     </template>
     <template #options>
-      <Options :options="state.values" @change="getChoosenOption" />
+      <Options
+        :default-option="state.searchValue"
+        :options="state.values"
+        @change="getChoosenOption"
+      />
     </template>
   </SelectList>
 </template>
@@ -51,9 +55,7 @@ const change = (val: boolean): void => {
 
 watchEffect(() => (state.values = props.options));
 
-watchEffect(
-  () => props.defaultOption && (state.searchValue = props.defaultOption)
-);
+watchEffect(() => (state.searchValue = props.defaultOption || ''));
 
 const changeSearchValue = (): void => {
   state.isOpened = true;

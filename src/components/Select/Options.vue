@@ -21,7 +21,7 @@ import type { IOptionsProps } from './interface/interface';
 const props = withDefaults(defineProps<IOptionsProps>(), {});
 
 const state = reactive({
-  choosedOption: props.defaultOption || props.options[0] || '',
+  choosedOption: props.defaultOption ?? (props.options[0] || ''),
   lengthOption: 0
 });
 
