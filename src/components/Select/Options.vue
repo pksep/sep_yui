@@ -30,6 +30,8 @@ watch(
   () => {
     if (props.defaultOption) {
       state.choosedOption = props.defaultOption;
+    } else {
+      state.choosedOption = '';
     }
   },
   { immediate: true }
