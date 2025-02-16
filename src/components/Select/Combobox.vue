@@ -50,7 +50,9 @@ const state = reactive({
 });
 
 const change = (val: boolean): void => {
-  state.isOpened = val;
+  if (state.values?.length == 0 || props.disableOpen) {
+    state.isOpened = val;
+  }
 };
 
 watchEffect(() => (state.values = props.options));
