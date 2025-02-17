@@ -4,13 +4,14 @@
     v-model="state.date"
     title-position="left"
     :masks="state.masks"
-    :disabled="props.disabled"
+    :popover="{ visibility: 'click' }"
+    @popover-did-hide="state.isActive = false"
     borderless
     class="date-picker-yui-kit"
   >
-    <template #default="{ inputValue, showPopover, hidePopover }">
+    <template #default="{ inputValue, togglePopover }">
       <div
-        @click="toggle(showPopover, hidePopover)"
+        @click="toggle(togglePopover)"
         :class="[
           'date-picker-yui-kit__header',
           { 'date-disable-yui-kit': props.disabled },
@@ -20,10 +21,10 @@
         <Icon :name="IconNameEnum.calendar" />
         {{ formatLetter(inputValue) || state.defaultValue }}
         <Button
-          size="small"
-          type="ghost"
+          :size="SizesEnum.small"
+          :type="ButtonTypeEnum.ghost"
           v-if="inputValue"
-          @click="state.date = null"
+          @click="state.date = ''"
         >
           <Icon :name="IconNameEnum.crossSmall" />
         </Button>
@@ -37,7 +38,9 @@ import { reactive } from 'vue';
 import { DatePicker } from 'v-calendar';
 import Button from '../Button/Button.vue';
 import Icon from '../Icon/Icon.vue';
-import { IconNameEnum } from '../Icon/enum/enum.ts';
+import { IconNameEnum } from '../Icon/enum/enum';
+import { ButtonTypeEnum } from '../Button/enum/enum';
+import { SizesEnum } from '@/common/sizes';
 import type { IDatePickerProps } from './interfaces/interfaces';
 import 'v-calendar/style.css';
 
@@ -52,14 +55,13 @@ const state = reactive({
   defaultValue: '-- -- ----'
 });
 
-const toggle = (popoverOpen, popoverClose): void => {
+const toggle = (toggleFunc: () => void): void => {
+  toggleFunc();
   if (!state.isActive) {
-    popoverOpen({ visibility: 'click' });
     state.isActive = true;
-  } else {
-    popoverClose({ visibility: 'click' });
-    state.isActive = false;
+    return;
   }
+  state.isActive = false;
 };
 
 const formatLetter = (str: string): string => {
