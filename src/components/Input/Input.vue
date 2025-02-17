@@ -16,6 +16,7 @@
       @focus="handleFocus"
       @input="handleInput"
       :type="props.type"
+      :autocomplete="props.autocomplete"
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
       :required="props.required"
@@ -96,6 +97,10 @@ watch(
 </script>
 
 <style lang="scss" scoped>
+input:is(:-webkit-autofill, :autofill) {
+  background: transparent !important;
+}
+
 fieldset.input-yui-kit .input-yui-kit__input {
   width: calc(100% + 3px);
   overflow: hidden;

@@ -7,4 +7,5 @@ export interface IInputProps {
   required?: boolean;
   modelValue?: string;
   hideClearButton?: boolean;
+  autocomplete?: string;
 }
