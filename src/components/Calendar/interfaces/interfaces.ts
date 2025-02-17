@@ -1,3 +1,3 @@
 export interface IDatePickerProps {
-    disabled?: boolean;
+  disabled?: boolean;
 }
