@@ -32,6 +32,7 @@ import type { IComboboxProps } from './interface/interface';
 
 const emits = defineEmits<{
   (e: 'change', value: string): void;
+  (e: 'error', value: void): void;
 }>();
 
 const props = withDefaults(defineProps<IComboboxProps>(), {
@@ -47,6 +48,9 @@ const state = reactive({
 
 const change = (val: boolean): void => {
   state.isOpened = val;
+  if (!state.isOpened && state.searchValue != '') {
+    emits('error');
+  }
 };
 
 watchEffect(() => (state.values = props.options));
