@@ -53,9 +53,9 @@ const state = reactive({
 const change = (val: boolean): void => {
   if (state.values?.length == 0 || props.disableOpen) {
     state.isOpened = val;
-  if (!state.isOpened && state.searchValue != '') {
-    emits('error');
-  }
+    if (!state.isOpened && state.searchValue != '') {
+      emits('error');
+    }
   }
 };
 
