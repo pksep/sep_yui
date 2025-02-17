@@ -10,7 +10,7 @@ const meta = {
 
 export default meta;
 
-const Template: StoryFn<typeof Calendar> = args => ({
+const CalendarTemplate: StoryFn<typeof Calendar> = args => ({
   components: { Calendar },
   setup() {
     return { args };
@@ -18,4 +18,4 @@ const Template: StoryFn<typeof Calendar> = args => ({
   template: `<Calendar />`
 });
 
-export const Default = Template.bind({});
+export const Default = CalendarTemplate.bind({});

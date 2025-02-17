@@ -914,7 +914,7 @@ export const eye: IVectorIcon = {
 };
 
 export const eyeOff: IVectorIcon = {
-  name: 'eyeOff',
+  name: 'eye-off',
   fill: 'none',
   style: 'line',
   path: `
@@ -923,8 +923,8 @@ export const eyeOff: IVectorIcon = {
   `
 };
 
-export const handEmoji: IVectorIcon = {
-  name: 'handSign',
+export const handSignEmoji: IVectorIcon = {
+  name: 'hand-sign-emoji',
   fill: 'none',
   style: 'line',
   viewbox: '0 0 40 40',
@@ -940,4 +940,16 @@ export const handEmoji: IVectorIcon = {
 <path d="M37.2841 10.0901C36.984 9.8539 36.6238 9.73581 36.2637 9.67676C36.3237 9.73581 36.4438 9.73581 36.5038 9.79486C38.3044 11.153 36.4438 14.2826 35.4234 17.1169C34.5831 19.3608 33.8629 21.6637 33.9829 23.9075C34.4631 33.7097 24.4396 38.3745 18.4375 36.6031C24.3196 39.0241 35.2434 34.4182 34.7632 24.2028C34.6432 21.9589 35.3034 19.7741 36.2037 17.4122C37.164 14.5778 39.0247 11.4482 37.2841 10.0901Z" fill="#EBA352"/>
 <path d="M29.2855 18.9473C25.5642 19.3606 20.1023 24.616 23.9437 30.3437C21.1227 24.5569 25.7443 20.6597 28.6853 19.3016C28.9854 19.0654 29.2855 18.9473 29.2855 18.9473Z" fill="#EBA352"/>
 `
+};
+
+export const calendar: IVectorIcon = {
+  name: 'calendar',
+  fill: 'none',
+  style: 'line',
+  path: `
+<path d="M19 5H5C3.89543 5 3 5.79594 3 6.77778V19.2222C3 20.2041 3.89543 21 5 21H19C20.1046 21 21 20.2041 21 19.2222V6.77778C21 5.79594 20.1046 5 19 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3 11H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    `
 };
