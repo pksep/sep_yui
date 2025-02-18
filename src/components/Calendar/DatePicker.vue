@@ -5,55 +5,69 @@
     title-position="left"
     :masks="state.masks"
     :popover="{ visibility: 'click' }"
+    :is-range="props.range"
     @popover-did-hide="state.isActive = false"
     borderless
     class="date-picker-yui-kit"
   >
     <template #default="{ inputValue, togglePopover }">
-      <div
-        @click="toggle(togglePopover)"
-        :class="[
-          'date-picker-yui-kit__header',
-          { 'date-disable-yui-kit': props.disabled },
-          { 'date-active-yui-kit': state.isActive }
-        ]"
-      >
-        <Icon :name="IconNameEnum.calendar" />
-        {{ formatLetter(inputValue) || state.defaultValue }}
-        <Button
-          :size="SizesEnum.small"
-          :type="ButtonTypeEnum.ghost"
-          v-if="inputValue"
-          @click="state.date = ''"
+      <template v-if="props.range">
+        <div
+          :class="[
+            'date-picker-yui-kit__header',
+            { 'date-disable-yui-kit': props.disabled },
+            { 'date-active-yui-kit': state.isActive }
+          ]"
         >
-          <Icon :name="IconNameEnum.crossSmall" />
-        </Button>
-      </div>
+          <DataPickerChoose
+            @click="toggle(togglePopover)"
+            @clear="state.date.start = ''"
+            :is-active="inputValue.start && state.isActive"
+            :value="inputValue.start"
+          />
+          --
+          <DataPickerChoose
+            @click="toggle(togglePopover)"
+            @clear="state.date.end = ''"
+            :is-active="inputValue.end && state.isActive"
+            :value="inputValue.end"
+          />
+        </div>
+      </template>
+      <template v-else>
+        <DataPickerChoose
+          @click="toggle(togglePopover)"
+          @clear="state.date = ''"
+          :is-active="state.isActive"
+          :value="inputValue"
+          class="date-picker-yui-kit__header"
+        />
+      </template>
     </template>
   </DatePicker>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import { DatePicker } from 'v-calendar';
-import Button from '../Button/Button.vue';
-import Icon from '../Icon/Icon.vue';
-import { IconNameEnum } from '../Icon/enum/enum';
-import { ButtonTypeEnum } from '../Button/enum/enum';
-import { SizesEnum } from '@/common/sizes';
 import type { IDatePickerProps } from './interfaces/interfaces';
+import DataPickerChoose from './DataPickerChoose.vue';
 import 'v-calendar/style.css';
 
 const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
-  date: new Date().toLocaleDateString('ru-RU') as Date | string,
+  date: '',
   isActive: false,
   masks: {
     input: 'MMMM DD, YYYY'
-  },
-  defaultValue: '-- -- ----'
+  }
 });
+
+const getDate = (year?: number, month?: number, day?: number): Date | string =>
+  new Date(year || null, month || null, day || null).toLocaleDateString(
+    'ru-RU'
+  );
 
 const toggle = (toggleFunc: () => void): void => {
   toggleFunc();
@@ -64,33 +78,38 @@ const toggle = (toggleFunc: () => void): void => {
   state.isActive = false;
 };
 
-const formatLetter = (str: string): string => {
-  const commaIndex = str.indexOf(' ');
-  const endIndex = commaIndex === -1 ? 3 : Math.min(commaIndex, 3);
-  return `${str.charAt(0).toUpperCase()}${str.slice(1, endIndex)}${str.slice(commaIndex)}`;
-};
+onMounted(() => {
+  if (props.range) {
+    state.date = {
+      start: getDate(2020, 0, 1),
+      end: getDate(2020, 0, 1)
+    };
+    return;
+  }
+  state.date = getDate();
+});
 </script>
 
 <style scoped>
 .date-picker-yui-kit__header {
   border: 1px solid var(--border-grey);
+  background: var(--white);
   display: flex;
+  width: max-content;
   align-items: center;
   align-content: center;
-  background: var(--white);
-  width: max-content;
   gap: 5px;
   padding: 4px 10px;
   border-radius: 10px;
   font-size: 14px;
   color: var(--grey6);
+  & .date-picker-yui-kit__header-btn {
+    border: 0;
+  }
   &:hover {
-    cursor: pointer;
-    background: #f8f9fd;
+    border-color: var(--border-blue);
   }
   &.date-active-yui-kit {
-    background: var(--blue9);
-    color: var(--blue1);
     border-color: var(--border-blue);
   }
 }
@@ -104,14 +123,11 @@ const formatLetter = (str: string): string => {
 </style>
 
 <style>
-.date-picker-yui.vc-container {
+.date-picker-yui-kit.vc-container {
   border-radius: 12px;
 }
 
 .vc-popover-caret.direction-bottom.align-left {
   display: none;
-}
-
-.date-picker-yui-kit .vc-popover-content {
 }
 </style>

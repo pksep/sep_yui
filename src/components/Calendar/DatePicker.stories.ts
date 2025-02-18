@@ -15,7 +15,17 @@ const DataPickerTemplate: StoryFn<typeof DatePicker> = args => ({
   setup() {
     return { args };
   },
-  template: `<DatePicker />`
+  template: `<DatePicker v-bind="args" />`
 });
 
-export const Default = DataPickerTemplate.bind({});
+export const OneItem = DataPickerTemplate.bind({});
+
+export const Disabled = DataPickerTemplate.bind({});
+Disabled.args = {
+  disabled: true
+};
+
+export const Range = DataPickerTemplate.bind({});
+Range.args = {
+  range: true
+};
