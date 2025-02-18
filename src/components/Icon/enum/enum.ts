@@ -83,5 +83,6 @@ export enum IconNameEnum {
   reset = 'reset',
   move = 'move',
   eye = 'eye',
-  eyeOff = 'eyeOff'
+  eyeOff = 'eye-off',
+  handSignEmoji = 'hand-sign-emoji'
 }

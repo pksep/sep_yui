@@ -43,9 +43,7 @@ const emits = defineEmits<{
   (e: 'change', val: boolean): void;
 }>();
 
-watchEffect(() => {
-  state.isOpened = props.isOpened;
-});
+watchEffect(() => (state.isOpened = props.isOpened));
 
 /**
  * Закрывает открытый список, и также открывает его.
