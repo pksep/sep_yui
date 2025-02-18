@@ -631,6 +631,18 @@ export const action: IVectorIcon = {
 `
 };
 
+export const company: IVectorIcon = {
+  name: 'company',
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M0 0H24V24H0V0Z" fill="white" fill-opacity="0.01"/>
+<path d="M6 10H10V19H6V10Z" stroke="currentColor" stroke-width="0.691338" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 5H15V19H10V5Z" stroke="currentColor" stroke-width="0.691338" stroke-linejoin="round"/>
+<path d="M15 13H19V19H15V13Z" stroke="currentColor" stroke-width="0.691338" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
 export const production: IVectorIcon = {
   name: 'production',
   style: 'line',
