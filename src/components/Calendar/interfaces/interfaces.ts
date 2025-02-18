@@ -9,6 +9,6 @@ export interface IDatePickerProps {
 
 export interface IDatePickerChooserProps {
   disabled?: boolean;
-  value: string | Date | IRangeForDatePicker;
+  value: string;
   isActive: boolean;
 }
