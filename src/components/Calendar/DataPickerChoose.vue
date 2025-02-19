@@ -8,12 +8,15 @@
     ]"
   >
     <Icon :name="IconNameEnum.calendar" />
-    {{ formatLetter(props.value) || state.defaultValue }}
+    <span v-if="state.value"> {{ formatLetter(state.value) }} </span>
+    <span class="date-picker-yui-kit__header-btn__dash" v-else>
+      {{ state.defaultValue }}
+    </span>
     <Button
       :size="SizesEnum.small"
       :type="ButtonTypeEnum.ghost"
       :disabled="props.disabled"
-      v-if="props.value"
+      v-if="state.value"
       @click="emits('clear')"
     >
       <Icon :name="IconNameEnum.crossSmall" />
@@ -34,6 +37,7 @@ const props = defineProps<IDatePickerChooserProps>();
 
 const state = reactive({
   defaultValue: '-- -- ----',
+  value: '',
   isActive: false
 });
 
@@ -42,8 +46,11 @@ const emits = defineEmits<{
   (e: 'click'): void;
 }>();
 
+watchEffect(() => (state.isActive = props.isActive));
+
 watchEffect(() => {
-  state.isActive = props.isActive;
+  state.value = props.value;
+  console.log('choosevalue', props.value);
 });
 
 const formatLetter = (str: string): string | null => {
@@ -55,33 +62,39 @@ const formatLetter = (str: string): string | null => {
 </script>
 
 <style scoped>
-.date-disable-yui-kit {
-  user-select: none;
-  pointer-events: none;
-  color: var(--grey4);
-  background: var(--grey1);
-}
-
 .date-picker-yui-kit__header-btn {
   display: flex;
   align-items: center;
   align-content: center;
-  background: var(--background, --white);
+  background: var(--background, var(--white));
   width: max-content;
   gap: 5px;
   padding: 4px 10px;
   border-radius: 10px;
   font-size: 14px;
-  color: var(--grey6);
-  border: 1px solid var(--border, --border-grey);
+  color: var(--color, var(--grey6));
+  border: 1px solid var(--border, var(--border-grey));
   &:hover {
     cursor: pointer;
     background: #f8f9fd;
   }
   &.date-active-yui-kit {
-    background: var(--blue9);
-    color: var(--blue1);
-    border-color: var(--active-border, --border-blue);
+    --background: var(--blue9);
+    --color: var(--blue1);
+    --border: var(--active-border, var(--border-blue));
   }
+}
+
+.date-disable-yui-kit {
+  user-select: none;
+  pointer-events: none;
+  --color: var(--grey4);
+  --background: var(--grey1);
+  --border: var(--disable-border, var(--border-grey));
+}
+
+.date-picker-yui-kit__header-btn__dash {
+  color: var(--text-grey);
+  font-weight: 400;
 }
 </style>

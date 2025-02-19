@@ -7,24 +7,60 @@
     ]"
   >
     <DataPicker v-model="state.date.start" @clear="state.date.start = ''" />
-    --
+    <div class="date-picker-yui-kit__header__dash"></div>
     <DataPicker v-model="state.date.end" @clear="state.date.end = ''" />
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch, onMounted } from 'vue';
 import DataPicker from './DatePicker.vue';
 import type { IDatePickerProps } from './interfaces/interfaces';
-import { getDate } from './date-utils.ts';
 
 const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
-  isActive: false,
   date: {
-    start: getDate(),
-    end: getDate()
-  }
+    start: '',
+    end: ''
+  },
+  isActive: false
+});
+
+const startDate = defineModel('startDate');
+const endDate = defineModel('endDate');
+
+watch(
+  () => state.date.end,
+  () => {
+    console.log(
+      'help',
+      Date.parse(state.date.start),
+      Date.parse(state.date.end)
+    );
+    if (state.date) {
+      if (Date.parse(state.date.start) > Date.parse(state.date.end)) {
+        state.date = {
+          start: state.date.start,
+          end: state.date.start
+        };
+      }
+    }
+  },
+  { deep: true }
+);
+
+watch([startDate, endDate], () => {
+  state.date = {
+    start: startDate.value,
+    end: endDate.value
+  };
+});
+
+onMounted(() => {
+  state.date = {
+    start: startDate.value,
+    end: endDate.value
+  };
 });
 </script>
 <style scoped>
@@ -40,9 +76,6 @@ const state = reactive({
   border-radius: 10px;
   font-size: 14px;
   color: var(--grey6);
-  & .date-picker-yui-kit__header-btn {
-    border: 0;
-  }
   &:hover {
     border-color: var(--border-blue);
   }
@@ -51,10 +84,20 @@ const state = reactive({
   }
 }
 
+:deep(.date-picker-yui-kit__header-btn) {
+  border: 0;
+}
+
 .date-disable-yui-kit {
   user-select: none;
   pointer-events: none;
   color: var(--grey4);
   background: var(--grey1);
+}
+
+.date-picker-yui-kit__header__dash {
+  border-bottom: 1px solid var(--grey6);
+  border-radius: 68px;
+  width: 10px;
 }
 </style>

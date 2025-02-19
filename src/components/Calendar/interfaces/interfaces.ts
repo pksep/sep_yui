@@ -5,6 +5,9 @@ interface IRangeForDatePicker {
 export interface IDatePickerProps {
   disabled?: boolean;
   range?: boolean | IRangeForDatePicker;
+  locale?: string;
+  fromTodayTime?: boolean;
+  setDate?: Date;
 }
 
 export interface IDatePickerChooserProps {

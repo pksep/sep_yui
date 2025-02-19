@@ -1,8 +1,8 @@
 <template>
   <DatePicker
-    locale="ru"
-    v-model="state.date"
+    :locale="props.locale || 'ru'"
     title-position="left"
+    v-model="state.date"
     :masks="state.masks"
     :popover="{ visibility: 'click' }"
     @popover-did-hide="state.isActive = false"
@@ -10,31 +10,30 @@
     class="date-picker-yui-kit"
   >
     <template #default="{ inputValue, togglePopover }">
+      <!-- {{ inputValue }} -->
       <DataPickerChoose
         @click="toggle(togglePopover)"
         @clear="clearChoose"
         :is-active="state.isActive"
         :value="inputValue"
         :disabled="props.disabled"
-        class="date-picker-yui-kit__header"
       />
     </template>
   </DatePicker>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watchEffect, onMounted } from 'vue';
 import { DatePicker } from 'v-calendar';
 import DataPickerChoose from './DataPickerChoose.vue';
 import type { IDatePickerProps } from './interfaces/interfaces';
-import { getDate } from './date-utils.ts';
 import 'v-calendar/style.css';
 
 const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
-  date: getDate(),
   isActive: false,
+  date: '',
   masks: {
     input: 'MMMM DD, YYYY'
   }
@@ -54,10 +53,21 @@ const toggle = (toggleFunc: () => void): void => {
 };
 
 const clearChoose = (): void => {
-  state.date = '';
+  date.value = '';
   emits('clear');
 };
+
+watchEffect(() => {
+  state.date = date.value;
+  console.log('date.value', date.value);
+});
+
+onMounted(() => {
+  state.date = date.value;
+});
 </script>
+
+<style scoped></style>
 
 <style>
 .date-picker-yui-kit.vc-container {

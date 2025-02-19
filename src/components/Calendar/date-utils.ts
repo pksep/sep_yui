@@ -1,12 +1,17 @@
 export const getDate = (
-  year?: number,
-  month?: number,
-  day?: number
+  dateObject = {
+    locale: 'ru-RU'
+  } as Partial<{
+    year: number;
+    month: number;
+    day: number;
+    locale: string;
+  }>
 ): string => {
   const newDate = new Date();
   return new Date(
-    year ?? newDate.getFullYear(),
-    month ?? newDate.getMonth(),
-    day ?? newDate.getDate()
-  ).toLocaleDateString('ru-RU');
+    dateObject?.year ?? newDate.getFullYear(),
+    dateObject?.day ? dateObject?.day - 1 : newDate.getDate(),
+    dateObject?.month ?? newDate.getMonth()
+  ).toLocaleDateString(dateObject.locale);
 };
