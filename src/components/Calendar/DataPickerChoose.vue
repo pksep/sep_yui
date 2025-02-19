@@ -50,7 +50,6 @@ watchEffect(() => (state.isActive = props.isActive));
 
 watchEffect(() => {
   state.value = props.value;
-  console.log('choosevalue', props.value);
 });
 
 const formatLetter = (str: string): string | null => {

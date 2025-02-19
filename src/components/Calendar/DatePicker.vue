@@ -2,7 +2,7 @@
   <DatePicker
     :locale="props.locale || 'ru'"
     title-position="left"
-    v-model="state.date"
+    v-model="date"
     :masks="state.masks"
     :popover="{ visibility: 'click' }"
     @popover-did-hide="state.isActive = false"
@@ -33,7 +33,7 @@ const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
   isActive: false,
-  date: '',
+  date: undefined as string | undefined,
   masks: {
     input: 'MMMM DD, YYYY'
   }
@@ -52,14 +52,16 @@ const toggle = (toggleFunc: () => void): void => {
   state.isActive = false;
 };
 
+const date = defineModel<string>();
+
 const clearChoose = (): void => {
-  date.value = '';
+  // date.value = '';
   emits('clear');
 };
 
 watchEffect(() => {
-  state.date = date.value;
-  console.log('date.value', date.value);
+  // state.date = date.value;
+  // console.log('date.value', date.value);
 });
 
 onMounted(() => {

@@ -30,7 +30,7 @@ const startDate = defineModel('startDate');
 const endDate = defineModel('endDate');
 
 watch(
-  () => state.date.end,
+  () => state.date,
   () => {
     console.log(
       'help',
