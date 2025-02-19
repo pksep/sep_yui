@@ -926,7 +926,7 @@ export const eye: IVectorIcon = {
 };
 
 export const eyeOff: IVectorIcon = {
-  name: 'eyeOff',
+  name: 'eye-off',
   fill: 'none',
   style: 'line',
   path: `
@@ -935,8 +935,8 @@ export const eyeOff: IVectorIcon = {
   `
 };
 
-export const handEmoji: IVectorIcon = {
-  name: 'handSign',
+export const handSignEmoji: IVectorIcon = {
+  name: 'hand-sign-emoji',
   fill: 'none',
   style: 'line',
   viewbox: '0 0 40 40',
