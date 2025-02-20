@@ -54,7 +54,10 @@ fieldset.input-yui-kit {
 
     & .input-yui-kit__legend {
         position: absolute;
-        top: -8px;
+        height: 1px;
+        line-height: 0;
+        top: 0;
+        text-transform: none;
         left: 19px;
         background: var(--background);
         display: none;
