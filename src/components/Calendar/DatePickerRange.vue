@@ -8,7 +8,11 @@
   >
     <DataPicker v-model="state.date.start" @clear="state.date.start = ''" />
     <div class="date-picker-yui-kit__header__dash"></div>
-    <DataPicker v-model="state.date.end" @clear="state.date.end = ''" />
+    <DataPicker
+      v-model="state.date.end"
+      @clear="state.date.end = ''"
+      :start-date="state.date.start"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -28,26 +32,6 @@ const state = reactive({
 
 const startDate = defineModel('startDate');
 const endDate = defineModel('endDate');
-
-watch(
-  () => state.date,
-  () => {
-    console.log(
-      'help',
-      Date.parse(state.date.start),
-      Date.parse(state.date.end)
-    );
-    if (state.date) {
-      if (Date.parse(state.date.start) > Date.parse(state.date.end)) {
-        state.date = {
-          start: state.date.start,
-          end: state.date.start
-        };
-      }
-    }
-  },
-  { deep: true }
-);
 
 watch([startDate, endDate], () => {
   state.date = {
