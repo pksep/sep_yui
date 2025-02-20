@@ -4,7 +4,7 @@
     :class="{ pressed: state.isPressed, readonly: props.readonly }"
     @focusout="handleBlur"
   >
-    <legend class="input-yui-kit__legend">
+    <legend v-if="props.inputMessage" class="input-yui-kit__legend">
       {{ props.inputMessage }}
       <sup class="input-yui-kit__star" v-if="props.required">*</sup>
     </legend>
