@@ -48,10 +48,7 @@ const emits = defineEmits<{
 
 watchEffect(() => (state.isActive = props.isActive));
 
-watchEffect(() => {
-  state.value = props.value;
-  console.log('change value', props.value);
-});
+watchEffect(() => (state.value = props.value));
 
 const formatLetter = (str: string): string | null => {
   if (!str) return null;

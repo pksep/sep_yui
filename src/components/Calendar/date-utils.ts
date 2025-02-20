@@ -7,11 +7,19 @@ export const getDate = (
     day: number;
     locale: string;
   }>
-): string => {
+): Date | string => {
   const newDate = new Date();
-  return new Date(
+  const dateCreator = new Date(
     dateObject?.year ?? newDate.getFullYear(),
     dateObject?.day ? dateObject?.day - 1 : newDate.getDate(),
     dateObject?.month ?? newDate.getMonth()
-  ).toLocaleDateString(dateObject.locale);
+  );
+  if (dateObject.locale != 'date') {
+    return dateCreator.toLocaleDateString(dateObject.locale);
+  }
+  return dateCreator;
+};
+
+export const clearFunction = (dateValue: Date | string | undefined): void => {
+  if (dateValue) dateValue = '';
 };

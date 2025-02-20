@@ -30,11 +30,13 @@ import DataPickerChoose from './DataPickerChoose.vue';
 import type { IDatePickerProps } from './interfaces/interfaces';
 import 'v-calendar/style.css';
 
-const props = defineProps<IDatePickerProps>();
+const props = withDefaults(defineProps<IDatePickerProps>(), {
+  locale: 'ru-RU'
+});
 
 const state = reactive({
   isActive: false,
-  startDate: null,
+  startDate: new Date() as string | Date,
   masks: {
     input: 'MMMM DD, YYYY'
   }
@@ -60,11 +62,18 @@ const clearChoose = (): void => {
   emits('clear');
 };
 
-watchEffect(() => (state.startDate = props.startDate));
+watchEffect(() => props.startDate && (state.startDate = props.startDate));
 
-const getDateStart = (): Date | null =>
-  state.startDate ??
-  (Date.parse(state.startDate) > Date.parse(date.value) && state.startDate);
+const getDateStart = (): Date | string | false => {
+  if (state.startDate && date.value) {
+    const safeDate = date.value ?? new Date();
+    return (
+      Date.parse(state.startDate.toLocaleString(props.locale)) >
+        Date.parse(safeDate.toLocaleString(props.locale)) && state.startDate
+    );
+  }
+  return false;
+};
 </script>
 
 <style scoped></style>

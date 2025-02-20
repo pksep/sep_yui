@@ -1,8 +1,8 @@
 <template>
   <DatePickerRange
-    v-if="props.range || (props.range.start && props.range.end)"
-    v-model:start-date="state.date.start"
-    v-model:end-date="state.date.end"
+    v-if="props.range?.start && props.range?.end"
+    v-model:start-date="state.dateObject.start"
+    v-model:end-date="state.dateObject.end"
     :disabled="props.disabled"
     :locale="props.locale"
     @click="emits('click')"
@@ -30,7 +30,11 @@ import type { IDatePickerProps } from './interfaces/interfaces';
 const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
-  date: getDate()
+  date: getDate(),
+  dateObject: {
+    start: getDate(),
+    end: getDate()
+  }
 });
 
 const emits = defineEmits<{
@@ -39,18 +43,16 @@ const emits = defineEmits<{
 }>();
 
 onMounted(() => {
-  if (props.range.start || props.range.end) {
-    state.date = {
-      start: props.fromTodayTime ? getDate() : props.range.start,
-      end: props.range.end
+  if (props.range?.start || props.range?.end) {
+    state.dateObject = {
+      start: props.fromTodayTime
+        ? getDate({ locale: 'date' })
+        : props.range?.start,
+      end: props.range?.end
     };
+    console.log;
   } else if (props.setDate) {
     state.date = props.setDate;
-  } else if (props.range) {
-    state.date = {
-      start: getDate(),
-      end: getDate()
-    };
   }
 });
 </script>

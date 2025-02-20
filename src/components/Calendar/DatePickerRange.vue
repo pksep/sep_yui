@@ -6,26 +6,30 @@
       { 'date-active-yui-kit': state.isActive }
     ]"
   >
-    <DataPicker v-model="state.date.start" @clear="state.date.start = ''" />
+    <DataPicker
+      v-model="state.date.start"
+      @clear="clearFunction(state.date.start)"
+    />
     <div class="date-picker-yui-kit__header__dash"></div>
     <DataPicker
       v-model="state.date.end"
-      @clear="state.date.end = ''"
-      :start-date="state.date.start"
+      @clear="clearFunction(state.date.end)"
+      :start-date="state.date?.start"
     />
   </div>
 </template>
 <script setup lang="ts">
 import { reactive, watch, onMounted } from 'vue';
 import DataPicker from './DatePicker.vue';
+import { clearFunction } from './date-utils';
 import type { IDatePickerProps } from './interfaces/interfaces';
 
 const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
   date: {
-    start: '',
-    end: ''
+    start: new Date().toLocaleString(props.locale),
+    end: new Date().toLocaleString(props.locale)
   },
   isActive: false
 });
@@ -34,17 +38,21 @@ const startDate = defineModel('startDate');
 const endDate = defineModel('endDate');
 
 watch([startDate, endDate], () => {
-  state.date = {
-    start: startDate.value,
-    end: endDate.value
-  };
+  if (startDate.value && endDate.value) {
+    state.date = {
+      start: startDate.value,
+      end: endDate.value
+    };
+  }
 });
 
 onMounted(() => {
-  state.date = {
-    start: startDate.value,
-    end: endDate.value
-  };
+  if (startDate.value && endDate.value) {
+    state.date = {
+      start: startDate.value,
+      end: endDate.value
+    };
+  }
 });
 </script>
 <style scoped>

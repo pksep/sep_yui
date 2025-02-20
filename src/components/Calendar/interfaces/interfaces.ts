@@ -1,18 +1,18 @@
 interface IRangeForDatePicker {
-    end: Date;
-    start: Date;
+  end: string;
+  start: string;
 }
 export interface IDatePickerProps {
-    disabled?: boolean;
-    range?: boolean | IRangeForDatePicker;
-    locale?: string;
-    fromTodayTime?: boolean;
-    setDate?: Date;
-    startDate?: Date | string;
+  disabled?: boolean;
+  range?: IRangeForDatePicker;
+  locale?: string;
+  fromTodayTime?: boolean;
+  setDate?: Date;
+  startDate?: Date | string;
 }
 
 export interface IDatePickerChooserProps {
-    disabled?: boolean;
-    value: string;
-    isActive: boolean;
+  disabled?: boolean;
+  value: string;
+  isActive: boolean;
 }
