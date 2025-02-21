@@ -1,21 +1,16 @@
-import { StoryFn, Meta } from '@storybook/vue3';
+import { StoryFn } from '@storybook/vue3';
 import BreadCrumbs from './BreadCrumbs.vue';
 import { StorybookControlEnum } from '../../common/storybook';
 import { ref, Ref } from 'vue';
-import { IBreadCrumbsEmit } from './interface/interface';
-import { action } from '@storybook/addon-actions';
-interface ICrumbItem {
-  path: string;
-  title: string;
-}
+import { IBreadCrumbItems, IBreadCrumbsEmit } from './interface/interface';
 
-const crumbsItems: Ref<ICrumbItem[]> = ref([
+const crumbsItems: Ref<IBreadCrumbItems[]> = ref([
   {
     path: '/assembly',
     title: 'Главная'
   },
   {
-    path: '/assembly2',
+    path: '',
     title: 'База деталей'
   },
   {
@@ -39,7 +34,7 @@ const crumbsItems: Ref<ICrumbItem[]> = ref([
     title: 'База покупателей'
   },
   {
-    path: '/story',
+    path: '',
     title: 'Несуществующая База'
   },
   {
@@ -58,15 +53,14 @@ const meta = {
   argTypes: {
     items: {
       type: StorybookControlEnum.object,
-      defaultValue: crumbsItems,
-      onClick: { action: 'clicked' }
+      defaultValue: crumbsItems
     }
   },
   args: {
     onClick: { path: 'path', title: 'name' }
   },
   tags: ['autodocs']
-} as Meta<typeof BreadCrumbs>;
+};
 
 export default meta;
 
@@ -75,7 +69,7 @@ const Template: StoryFn<typeof BreadCrumbs> = args => ({
   setup() {
     return { args, crumbsItems, breadCrumbsSelect };
   },
-  template: `<div style="margin-top: 100px"><BreadCrumbs v-bind="args"  :items="crumbsItems"       :key="crumbsItems.length"
+  template: `<div style="margin-top: 100px"><BreadCrumbs v-bind="args" :items="crumbsItems"       :key="crumbsItems.length"
       @click="breadCrumbsSelect"/>
   </div>`
 });
@@ -83,5 +77,5 @@ const Template: StoryFn<typeof BreadCrumbs> = args => ({
 export const Default = Template.bind({});
 Default.args = {
   key: crumbsItems.value.length,
-  onclick: action('clicked')
+  items: crumbsItems
 };
