@@ -10,6 +10,7 @@
       v-model="state.date.start"
       :locale="props.locale"
       :disabled="props.disabled"
+      @change="val => changeValue(val, RangeTypeEnum.start)"
       @clear="clearFunction(state.date.start)"
     />
     <div class="date-picker-yui-kit__header__dash"></div>
@@ -17,8 +18,9 @@
       v-model="state.date.end"
       :locale="props.locale"
       :disabled="props.disabled"
-      @clear="clearFunction(state.date.end)"
       :start-date="state.date?.start"
+      @change="val => changeValue(val, RangeTypeEnum.end)"
+      @clear="clearFunction(state.date.end)"
     />
   </div>
 </template>
@@ -26,11 +28,19 @@
 import { reactive, watch, onMounted } from 'vue';
 import DataPicker from './DatePicker.vue';
 import { clearFunction } from './date-utils';
-import type { IDatePickerProps } from './interfaces/interfaces';
+import type {
+  IDatePickerProps,
+  IRangeForDatePicker
+} from './interfaces/interfaces';
+import { RangeTypeEnum } from './enums/enums';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU'
 });
+
+const emits = defineEmits<{
+  (e: 'change', value: IRangeForDatePicker): void;
+}>();
 
 const state = reactive({
   date: {
@@ -42,6 +52,11 @@ const state = reactive({
 
 const startDate = defineModel('startDate');
 const endDate = defineModel('endDate');
+
+const changeValue = (val: Date, item: RangeTypeEnum): void => {
+  state.date[item] = val as Date;
+  emits('change', state.date);
+};
 
 watch([startDate, endDate], () => {
   if (startDate.value && endDate.value) {
