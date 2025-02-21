@@ -24,12 +24,14 @@ import DataPicker from './DatePicker.vue';
 import { clearFunction } from './date-utils';
 import type { IDatePickerProps } from './interfaces/interfaces';
 
-const props = defineProps<IDatePickerProps>();
+const props = withDefaults(defineProps<IDatePickerProps>(), {
+  locale: 'ru-RU'
+});
 
 const state = reactive({
   date: {
-    start: new Date().toLocaleString(props.locale),
-    end: new Date().toLocaleString(props.locale)
+    start: new Date(),
+    end: new Date()
   },
   isActive: false
 });
@@ -39,9 +41,10 @@ const endDate = defineModel('endDate');
 
 watch([startDate, endDate], () => {
   if (startDate.value && endDate.value) {
+    console.log(typeof startDate.value);
     state.date = {
-      start: startDate.value,
-      end: endDate.value
+      start: startDate.value as Date,
+      end: endDate.value as Date
     };
   }
 });
@@ -49,8 +52,8 @@ watch([startDate, endDate], () => {
 onMounted(() => {
   if (startDate.value && endDate.value) {
     state.date = {
-      start: startDate.value,
-      end: endDate.value
+      start: startDate.value as Date,
+      end: endDate.value as Date
     };
   }
 });

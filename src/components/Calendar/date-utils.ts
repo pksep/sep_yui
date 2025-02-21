@@ -1,6 +1,6 @@
 export const getDate = (
   dateObject = {
-    locale: 'ru-RU'
+    locale: 'date'
   } as Partial<{
     year: number;
     month: number;

@@ -37,7 +37,7 @@ DisabledOneItem.args = {
 
 export const SeveralItems = CalendarTemplate.bind({});
 SeveralItems.args = {
-  range: true
+  fromTodayTime: true
 };
 
 export const SeveralItemsSetDates = CalendarTemplate.bind({});
