@@ -4,8 +4,8 @@
     title-position="left"
     v-model="date"
     :masks="state.masks"
-    :popover="{ visibility: 'click' }"
     :min-date="getDateStart()"
+    :popover="{ visibility: 'click' }"
     @popover-did-hide="state.isActive = false"
     borderless
     class="date-picker-yui-kit"
@@ -26,6 +26,7 @@
 import { reactive, watchEffect } from 'vue';
 import { DatePicker } from 'v-calendar';
 import DataPickerChoose from './DataPickerChoose.vue';
+import { clearFunction } from './date-utils';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
 import 'v-calendar/style.css';
@@ -36,7 +37,7 @@ const props = withDefaults(defineProps<IDatePickerProps>(), {
 
 const state = reactive({
   isActive: false,
-  startDate: new Date() as string | Date,
+  startDate: null,
   masks: {
     input: 'MMMM DD, YYYY'
   }
@@ -55,24 +56,27 @@ const toggle = (toggleFunc: () => void): void => {
   state.isActive = false;
 };
 
-const date = defineModel<Date | string>();
+const date = defineModel<Date | null>();
 
 const clearChoose = (): void => {
-  date.value = '';
+  if (date.value) clearFunction(date.value);
   emits('clear');
 };
 
-watchEffect(() => props.startDate && (state.startDate = props.startDate));
+watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
 
-const getDateStart = (): Date | string | false => {
-  if (state.startDate && date.value) {
+const getDateStart = (): Date | string | undefined => {
+  if (props.startDate && date.value) {
     const safeDate = date.value ?? new Date();
-    return (
-      Date.parse(state.startDate.toLocaleString(props.locale)) >
-        Date.parse(safeDate.toLocaleString(props.locale)) && state.startDate
-    );
+    const startSafeDate = state.startDate ?? new Date();
+    if (
+      Date.parse(startSafeDate.toLocaleString(props.locale)) >
+      Date.parse(safeDate.toLocaleString(props.locale))
+    )
+      return;
+    state.startDate;
   }
-  return false;
+  return undefined;
 };
 </script>
 

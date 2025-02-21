@@ -1,6 +1,6 @@
 <template>
   <DatePickerRange
-    v-if="props.range?.start && props.range?.end"
+    v-if="props.isRange"
     v-model:start-date="state.dateObject.start"
     v-model:end-date="state.dateObject.end"
     :disabled="props.disabled"
@@ -30,10 +30,10 @@ import type { IDatePickerProps } from './interfaces/interfaces';
 const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
-  date: getDate(),
+  date: null as Date | null,
   dateObject: {
-    start: getDate(),
-    end: getDate()
+    start: null as Date | null,
+    end: null as Date | null
   }
 });
 
@@ -43,16 +43,19 @@ const emits = defineEmits<{
 }>();
 
 onMounted(() => {
+  if (props.isRange) {
+    state.dateObject = {
+      start: getDate() as Date,
+      end: null
+    };
+  }
   if (props.range?.start || props.range?.end) {
     state.dateObject = {
-      start: props.fromTodayTime
-        ? getDate({ locale: 'date' })
-        : props.range?.start,
-      end: props.range?.end
+      start: props.range?.start as Date,
+      end: props.range?.end as Date
     };
-    console.log;
   } else if (props.setDate) {
-    state.date = props.setDate;
+    state.date = (props.setDate ?? null) as unknown as null;
   }
 });
 </script>

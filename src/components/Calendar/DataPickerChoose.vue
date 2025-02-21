@@ -88,6 +88,10 @@ const formatLetter = (str: string): string | null => {
   --color: var(--grey4);
   --background: var(--grey1);
   --border: var(--disable-border, var(--border-grey));
+  & button.disabled-yui-kit {
+    color: var(--grey4);
+    background: transparent;
+  }
 }
 
 .date-picker-yui-kit__header-btn__dash {

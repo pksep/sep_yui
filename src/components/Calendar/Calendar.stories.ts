@@ -37,11 +37,18 @@ DisabledOneItem.args = {
 
 export const SeveralItems = CalendarTemplate.bind({});
 SeveralItems.args = {
-  fromTodayTime: true
+  isRange: true
+};
+
+export const DisabledSeveralItems = CalendarTemplate.bind({});
+DisabledSeveralItems.args = {
+  disabled: true,
+  isRange: true
 };
 
 export const SeveralItemsSetDates = CalendarTemplate.bind({});
 SeveralItemsSetDates.args = {
+  isRange: true,
   range: {
     start: getDate({
       year: 2020,
@@ -54,4 +61,22 @@ SeveralItemsSetDates.args = {
       day: 11
     })
   }
+};
+
+export const SeveralItemsWithTodayTime = CalendarTemplate.bind({});
+SeveralItemsWithTodayTime.args = {
+  isRange: true,
+  fromTodayTime: true
+};
+
+export const OneItemsLocale = CalendarTemplate.bind({});
+OneItemsLocale.args = {
+  locale: 'zh-HK'
+};
+
+export const SeveralItemsLocale = CalendarTemplate.bind({});
+SeveralItemsLocale.args = {
+  isRange: true,
+  fromTodayTime: true,
+  locale: 'zh-HK'
 };

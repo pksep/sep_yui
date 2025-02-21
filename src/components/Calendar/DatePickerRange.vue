@@ -8,11 +8,15 @@
   >
     <DataPicker
       v-model="state.date.start"
+      :locale="props.locale"
+      :disabled="props.disabled"
       @clear="clearFunction(state.date.start)"
     />
     <div class="date-picker-yui-kit__header__dash"></div>
     <DataPicker
       v-model="state.date.end"
+      :locale="props.locale"
+      :disabled="props.disabled"
       @clear="clearFunction(state.date.end)"
       :start-date="state.date?.start"
     />
@@ -30,8 +34,8 @@ const props = withDefaults(defineProps<IDatePickerProps>(), {
 
 const state = reactive({
   date: {
-    start: new Date(),
-    end: new Date()
+    start: null as Date | null,
+    end: null as Date | null
   },
   isActive: false
 });
@@ -41,7 +45,6 @@ const endDate = defineModel('endDate');
 
 watch([startDate, endDate], () => {
   if (startDate.value && endDate.value) {
-    console.log(typeof startDate.value);
     state.date = {
       start: startDate.value as Date,
       end: endDate.value as Date
