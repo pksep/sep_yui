@@ -12,6 +12,7 @@
     v-model="state.date"
     :disabled="props.disabled"
     :locale="props.locale"
+    :is-table="props.isTable"
     v-else
     @click="emits('click')"
     @change="changeValues"

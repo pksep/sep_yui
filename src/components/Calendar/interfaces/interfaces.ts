@@ -1,19 +1,23 @@
+interface IDatePickerBaseProps {
+  isRange?: boolean;
+  isTable?: boolean;
+  disabled?: boolean;
+}
+
 export interface IRangeForDatePicker {
   end: Date | null;
   start: Date | null;
 }
-export interface IDatePickerProps {
-  disabled?: boolean;
+
+export interface IDatePickerProps extends IDatePickerBaseProps {
   range?: IRangeForDatePicker;
-  isRange?: boolean;
   locale?: string;
   fromTodayTime?: boolean;
   setDate?: Date | null;
   startDate?: Date | null;
 }
 
-export interface IDatePickerChooserProps {
-  disabled?: boolean;
+export interface IDatePickerChooserProps extends IDatePickerBaseProps {
   value: string;
   isActive: boolean;
 }

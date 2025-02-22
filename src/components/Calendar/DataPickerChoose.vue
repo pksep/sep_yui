@@ -3,6 +3,8 @@
     @click="emits('click')"
     :class="[
       'date-picker-yui-kit__header-btn',
+      { 'date-picker-yui-kit__header-btn_table-view': props.isTable },
+      { 'date-picker-yui-kit__header-btn_range-view': props.isRange },
       { 'date-disable-yui-kit': props.disabled },
       { 'date-active-yui-kit': state.isActive }
     ]"
@@ -66,7 +68,7 @@ const formatLetter = (str: string): string | null => {
   background: var(--background, var(--white));
   width: max-content;
   gap: 5px;
-  padding: 4px 10px;
+  padding: var(--header-padding, 10px);
   border-radius: 10px;
   font-size: 14px;
   color: var(--color, var(--grey6));
@@ -80,6 +82,14 @@ const formatLetter = (str: string): string | null => {
     --color: var(--blue1);
     --border: var(--active-border, var(--border-blue));
   }
+}
+
+.date-picker-yui-kit__header-btn_table-view {
+  --header-padding: 4px 10px;
+}
+
+.date-picker-yui-kit__header-btn_range-view {
+  --header-padding: 5px;
 }
 
 .date-disable-yui-kit {

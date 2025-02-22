@@ -16,6 +16,8 @@
           @click="toggle(togglePopover)"
           @clear="clearChoose"
           :is-active="state.isActive"
+          :is-table="props.isTable"
+          :is-range="props.isRange"
           :value="inputValue"
           :disabled="props.disabled"
         />

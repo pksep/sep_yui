@@ -9,6 +9,7 @@
     <DataPicker
       v-model="state.date.start"
       :locale="props.locale"
+      is-range
       :disabled="props.disabled"
       @change="val => changeValue(val, RangeTypeEnum.start)"
       @clear="clearFunction(state.date.start)"
@@ -17,6 +18,7 @@
     <DataPicker
       v-model="state.date.end"
       :locale="props.locale"
+      is-range
       :disabled="props.disabled"
       :start-date="state.date?.start"
       @change="val => changeValue(val, RangeTypeEnum.end)"
