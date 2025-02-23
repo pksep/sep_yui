@@ -12,7 +12,7 @@
     v-model="state.date"
     :disabled="props.disabled"
     :locale="props.locale"
-    :is-table="props.isTable"
+    :is-small="props.isSmall"
     v-else
     @click="emits('click')"
     @change="changeValues"
@@ -24,7 +24,6 @@ import { reactive, watchEffect, watch, onMounted } from 'vue';
 
 import DatePickerRange from './DatePickerRange.vue';
 import DatePicker from './DatePicker.vue';
-import { getDate } from './date-utils.ts';
 
 import type {
   IDatePickerProps,
@@ -54,7 +53,7 @@ watchEffect(() => (state.date = (props.setDate ?? null) as unknown as null));
 
 const fillDateObject = (): IRangeForDatePicker => ({
   start: props.fromTodayTime
-    ? (getDate() as Date)
+    ? new Date(Date.now())
     : (props.range?.start ?? null),
   end: props.range?.end ?? null
 });

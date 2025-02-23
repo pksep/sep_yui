@@ -1,6 +1,6 @@
 interface IDatePickerBaseProps {
   isRange?: boolean;
-  isTable?: boolean;
+  isSmall?: boolean;
   disabled?: boolean;
 }
 

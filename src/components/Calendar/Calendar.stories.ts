@@ -83,5 +83,5 @@ SeveralItemsLocale.args = {
 
 export const OneItemTableView = CalendarTemplate.bind({});
 OneItemTableView.args = {
-  isTable: true
+  isSmall: true
 };

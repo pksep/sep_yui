@@ -17,7 +17,7 @@
           @click="toggle(togglePopover)"
           @clear="clearChoose"
           :is-active="state.isActive"
-          :is-table="props.isTable"
+          :is-small="props.isSmall"
           :is-range="props.isRange"
           :value="inputValue"
           :disabled="props.disabled"
@@ -83,31 +83,30 @@ watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
 watchEffect(() => (state.endDate = (props.endDate ?? null) as null));
 
 const getDateStart = (): Date | null => {
-  if (props.startDate && date.value) {
+  const startSafeDate = state.startDate ?? new Date();
+  if (props.startDate) {
     const safeDate = date.value ?? new Date();
-    const startSafeDate = state.startDate ?? new Date();
-    if (
-      startSafeDate.valueOf() <=
-      safeDate.valueOf()
-    )
+    if (startSafeDate.valueOf() <= safeDate.valueOf()) {
       return startSafeDate;
+    } else if (startSafeDate != null) {
+      return startSafeDate;
+    }
   }
   return null;
 };
 
 const getDateEnd = (): Date | null => {
-  if (props.endDate && date.value) {
+  const endSafeDate = state.endDate ?? new Date();
+  if (props.endDate) {
     const safeDate = date.value ?? new Date();
-    const endSafeDate = state.endDate ?? new Date();
-    if (
-      endSafeDate.valueOf() >=
-      safeDate.valueOf()
-    )
+    if (endSafeDate.valueOf() >= safeDate.valueOf()) {
       return endSafeDate;
+    } else if (endSafeDate != null) {
+      return endSafeDate;
+    }
   }
   return null;
 };
-
 </script>
 
 <style scoped></style>

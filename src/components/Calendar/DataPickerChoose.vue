@@ -3,7 +3,7 @@
     @click="emits('click')"
     :class="[
       'date-picker-yui-kit__header-btn',
-      { 'date-picker-yui-kit__header-btn_table-view': props.isTable },
+      { 'date-picker-yui-kit__header-btn_table-view': props.isSmall },
       { 'date-picker-yui-kit__header-btn_range-view': props.isRange },
       { 'date-disable-yui-kit': props.disabled },
       { 'date-active-yui-kit': state.isActive }
