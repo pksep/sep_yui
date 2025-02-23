@@ -11,6 +11,7 @@
       :locale="props.locale"
       is-range
       :disabled="props.disabled"
+      :end-date="state.date?.end"
       @change="val => changeValue(val, RangeTypeEnum.start)"
       @clear="clearFunction(state.date.start)"
     />
@@ -61,7 +62,7 @@ const changeValue = (val: Date, item: RangeTypeEnum): void => {
 };
 
 watch([startDate, endDate], () => {
-  if (startDate.value && endDate.value) {
+  if (startDate.value || endDate.value) {
     state.date = {
       start: startDate.value as Date,
       end: endDate.value as Date
@@ -70,7 +71,7 @@ watch([startDate, endDate], () => {
 });
 
 onMounted(() => {
-  if (startDate.value && endDate.value) {
+  if (startDate.value || endDate.value) {
     state.date = {
       start: startDate.value as Date,
       end: endDate.value as Date

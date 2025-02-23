@@ -6,6 +6,7 @@
       v-model="date"
       :masks="state.masks"
       :min-date="getDateStart()"
+      :max-date="getDateEnd()"
       :popover="{ visibility: 'click' }"
       @popover-did-hide="state.isActive = false"
       borderless
@@ -42,6 +43,7 @@ const props = withDefaults(defineProps<IDatePickerProps>(), {
 const state = reactive({
   isActive: false,
   startDate: null,
+  endDate: null,
   masks: {
     input: 'MMMM DD, YYYY'
   }
@@ -78,19 +80,34 @@ watch(
 );
 
 watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
+watchEffect(() => (state.endDate = (props.endDate ?? null) as null));
 
 const getDateStart = (): Date | null => {
   if (props.startDate && date.value) {
     const safeDate = date.value ?? new Date();
     const startSafeDate = state.startDate ?? new Date();
     if (
-      Date.parse(startSafeDate.toLocaleString(props.locale)) >
-      Date.parse(safeDate.toLocaleString(props.locale))
+      startSafeDate.valueOf() <=
+      safeDate.valueOf()
     )
-      return state.startDate;
+      return startSafeDate;
   }
   return null;
 };
+
+const getDateEnd = (): Date | null => {
+  if (props.endDate && date.value) {
+    const safeDate = date.value ?? new Date();
+    const endSafeDate = state.endDate ?? new Date();
+    if (
+      endSafeDate.valueOf() >=
+      safeDate.valueOf()
+    )
+      return endSafeDate;
+  }
+  return null;
+};
+
 </script>
 
 <style scoped></style>

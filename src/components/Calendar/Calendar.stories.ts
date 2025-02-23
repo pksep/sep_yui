@@ -81,8 +81,7 @@ SeveralItemsLocale.args = {
   locale: 'zh-HK'
 };
 
-
 export const OneItemTableView = CalendarTemplate.bind({});
 OneItemTableView.args = {
-   isTable: true
+  isTable: true
 };
