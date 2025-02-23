@@ -31,7 +31,6 @@
 import { reactive, watchEffect, watch } from 'vue';
 import { DatePicker } from 'v-calendar';
 import DataPickerChoose from './DataPickerChoose.vue';
-import { clearFunction } from './date-utils';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
 import 'v-calendar/style.css';
@@ -66,7 +65,7 @@ const toggle = (toggleFunc: () => void): void => {
 const date = defineModel<Date | null>();
 
 const clearChoose = (): void => {
-  if (date.value) clearFunction(date.value);
+  date.value = null;
   emits('clear');
 };
 

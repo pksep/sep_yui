@@ -18,7 +18,3 @@ export const getDate = (
   }
   return dateCreator;
 };
-
-export const clearFunction = (dateValue: Date | string | null): void => {
-  if (dateValue) dateValue = '';
-};

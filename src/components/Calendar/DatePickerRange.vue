@@ -13,7 +13,7 @@
       :disabled="props.disabled"
       :end-date="state.date?.end"
       @change="val => changeValue(val, RangeTypeEnum.start)"
-      @clear="clearFunction(state.date.start)"
+      @clear="clearFunction(RangeTypeEnum.start)"
     />
     <div class="date-picker-yui-kit__header__dash"></div>
     <DataPicker
@@ -23,14 +23,13 @@
       :disabled="props.disabled"
       :start-date="state.date?.start"
       @change="val => changeValue(val, RangeTypeEnum.end)"
-      @clear="clearFunction(state.date.end)"
+      @clear="clearFunction(RangeTypeEnum.end)"
     />
   </div>
 </template>
 <script setup lang="ts">
 import { reactive, watch, onMounted } from 'vue';
 import DataPicker from './DatePicker.vue';
-import { clearFunction } from './date-utils';
 import type {
   IDatePickerProps,
   IRangeForDatePicker
@@ -59,6 +58,10 @@ const endDate = defineModel('endDate');
 const changeValue = (val: Date, item: RangeTypeEnum): void => {
   state.date[item] = val as Date;
   emits('change', state.date);
+};
+
+const clearFunction = (type: RangeTypeEnum): void => {
+  state.date[type] = null;
 };
 
 watch([startDate, endDate], () => {
