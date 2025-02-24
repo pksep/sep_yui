@@ -4,12 +4,14 @@
       :locale="props.locale || 'ru'"
       title-position="left"
       v-model="date"
+      @dayclick="({ date }) => changeVal(date)"
       :masks="state.masks"
       :min-date="getDateStart()"
       :max-date="getDateEnd()"
       :popover="{ visibility: 'click' }"
       @popover-did-hide="state.isActive = false"
       borderless
+      :is-required="state.isNotClear"
       class="date-picker-yui-kit"
     >
       <template #default="{ inputValue, togglePopover }">
@@ -28,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watchEffect, watch } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import { DatePicker } from 'v-calendar';
 import DataPickerChoose from './DataPickerChoose.vue';
 
@@ -74,14 +76,10 @@ const clearChoose = (): void => {
   setTimeout(() => (state.isNotClear = true), 1);
 };
 
-const changeVal = (): void => {
-  if (date.value) emits('change', date.value);
+const changeVal = (value: Date): void => {
+  date.value = value;
+  emits('change', value);
 };
-
-watch(
-  () => date.value,
-  () => changeVal()
-);
 
 watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
 watchEffect(() => (state.endDate = (props.endDate ?? null) as null));
