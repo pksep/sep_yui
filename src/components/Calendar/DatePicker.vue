@@ -43,6 +43,7 @@ const state = reactive({
   isActive: false,
   startDate: null,
   endDate: null,
+  isNotClear: true,
   masks: {
     input: 'MMMM DD, YYYY'
   }
@@ -54,10 +55,12 @@ const emits = defineEmits<{
 }>();
 
 const toggle = (toggleFunc: () => void): void => {
-  toggleFunc();
-  if (!state.isActive) {
-    state.isActive = true;
-    return;
+  if (state.isNotClear) {
+    toggleFunc();
+    if (!state.isActive) {
+      state.isActive = true;
+      return;
+    }
   }
   state.isActive = false;
 };
@@ -65,8 +68,10 @@ const toggle = (toggleFunc: () => void): void => {
 const date = defineModel<Date | null>();
 
 const clearChoose = (): void => {
+  state.isNotClear = false;
   date.value = null;
   emits('clear');
+  setTimeout(() => (state.isNotClear = true), 1);
 };
 
 const changeVal = (): void => {
