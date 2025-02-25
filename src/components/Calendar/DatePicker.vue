@@ -208,6 +208,8 @@ const getDateEnd = (): Date | null => {
 }
 
 .date-picker-yui-kit .vc-title {
+  display: flex;
+  align-items: center;
   font-weight: var(--vc-font-bold);
   line-height: 15px;
   padding: 5px 7px;
@@ -215,10 +217,8 @@ const getDateEnd = (): Date | null => {
   background: var(--blue15);
   &::after {
     content: url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2010%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1%201L5%205L9%201%22%20stroke%3D%22%23757D8A%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
-    display: inline-flex;
     margin-left: 7px;
     color: var(--grey6);
-    align-items: center;
     height: 14px;
     width: 14px;
   }
