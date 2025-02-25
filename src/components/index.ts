@@ -29,6 +29,7 @@ import { createPinia } from 'pinia';
 import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
 import Loader from '@/components/Loader/Loader.vue';
 import FilterTag from '@/components/FilterTag/FilterTag.vue';
+import CircularProgress from '@/components/CircularProgress/CircularProgress.vue';
 
 const components = {
   Accordion,
@@ -59,7 +60,8 @@ const components = {
   UserMenu,
   CopyIcon,
   Loader,
-  FilterTag
+  FilterTag,
+  CircularProgress
 };
 
 const pinia = createPinia();
@@ -104,5 +106,6 @@ export {
   UserMenu,
   CopyIcon,
   Loader,
-  FilterTag
+  FilterTag,
+  CircularProgress
 };
