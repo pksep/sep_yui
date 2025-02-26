@@ -80,7 +80,8 @@ interface IFilterTagState {
 
 const props = withDefaults(defineProps<IFilterTagProps>(), {
   iconName: IconNameEnum.filter,
-  options: () => []
+  options: () => [],
+  selectedValues: () => []
 });
 
 const state = reactive<IFilterTagState>({
@@ -153,7 +154,7 @@ const handleToggle = (item: filterTagOptionType): void => {
 const setOptions = () => {
   state.options = props.options.map(opt => ({
     ...opt,
-    chose: false
+    chose: props.selectedValues.includes(opt.value)
   }));
 };
 
