@@ -4,6 +4,7 @@ import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
 import Dropdown from './Select/Dropdown.vue';
+import Calendar from './Calendar/Calendar.vue';
 import Dialog from './Dialog/Dialog.vue';
 import Accordion from './Accordion/Accordion.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
@@ -38,6 +39,7 @@ const components = {
   DragAndDrop,
   Card,
   Combobox,
+  Calendar,
   Button,
   Switch,
   SelectList,
@@ -82,6 +84,7 @@ export {
   Button,
   Dialog,
   Card,
+  Calendar,
   DragAndDrop,
   Switch,
   SelectList,

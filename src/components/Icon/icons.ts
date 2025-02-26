@@ -953,3 +953,15 @@ export const handSignEmoji: IVectorIcon = {
 <path d="M29.2855 18.9473C25.5642 19.3606 20.1023 24.616 23.9437 30.3437C21.1227 24.5569 25.7443 20.6597 28.6853 19.3016C28.9854 19.0654 29.2855 18.9473 29.2855 18.9473Z" fill="#EBA352"/>
 `
 };
+
+export const calendar: IVectorIcon = {
+  name: 'calendar',
+  fill: 'none',
+  style: 'line',
+  path: `
+<path d="M19 5H5C3.89543 5 3 5.79594 3 6.77778V19.2222C3 20.2041 3.89543 21 5 21H19C20.1046 21 21 20.2041 21 19.2222V6.77778C21 5.79594 20.1046 5 19 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3 11H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    `
+};
