@@ -1,26 +1,40 @@
 <template>
-  <div class="pie-chart">
-    <div class="pie-chart-border" v-if="props.percent < 100">
+  <div class="pie-chart" v-if="props.percent < 100">
+    <div
+      class="pie-chart-border"
+      :style="{
+        'border-color': props.percent < 50 ? '#ef9b8f' : '#ffcc00'
+      }"
+    >
       <div
         class="sector"
-        :style="{ clipPath: calculateClipPath() }"
-        style="background-color: #ffcc00"
+        :style="{
+          clipPath: calculateClipPath(),
+          'background-color': props.percent < 50 ? '#ef9b8f' : '#ffcc00'
+        }"
       ></div>
     </div>
-    <svg
-      v-else
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M6.9987 0.332031C3.3187 0.332031 0.332031 3.3187 0.332031 6.9987C0.332031 10.6787 3.3187 13.6654 6.9987 13.6654C10.6787 13.6654 13.6654 10.6787 13.6654 6.9987C13.6654 3.3187 10.6787 0.332031 6.9987 0.332031ZM5.66536 10.332L2.33203 6.9987L3.27203 6.0587L5.66536 8.44536L10.7254 3.38536L11.6654 4.33203L5.66536 10.332Z"
-        fill="#34C759"
-      />
-    </svg>
   </div>
+  <svg
+    v-else
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M8 1C4.136 1 1 4.136 1 8C1 11.864 4.136 15 8 15C11.864 15 15 11.864 15 8C15 4.136 11.864 1 8 1ZM8 13.6C4.906 13.6 2.4 11.094 2.4 8C2.4 4.906 4.906 2.4 8 2.4C11.094 2.4 13.6 4.906 13.6 8C13.6 11.094 11.094 13.6 8 13.6Z"
+      fill="#3BC648"
+    />
+    <circle cx="8" cy="8" r="4" transform="rotate(-180 8 8)" fill="#3BC648" />
+    <path
+      d="M10 6L7.5 9.83935L6 8.5"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
 </template>
 
 <script lang="ts" setup>
@@ -49,13 +63,14 @@ const calculateClipPath = () => {
 
 <style lang="scss" scoped>
 .pie-chart {
-  padding: 1.33px;
+  padding: 1px;
   width: 16px;
   height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .pie-chart-border {
   width: 100%;
   height: 100%;
@@ -63,13 +78,12 @@ const calculateClipPath = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.33px solid #ffcc00;
-  padding: 1.33px;
+  border: 1.5px solid;
 }
 
 .sector {
-  width: 100%;
-  height: 100%;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
 }
 </style>
