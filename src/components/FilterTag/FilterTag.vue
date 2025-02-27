@@ -161,6 +161,7 @@ const setOptions = () => {
 onMounted(setOptions);
 
 watch(() => props.options, setOptions);
+watch(() => props.selectedValues, setOptions);
 </script>
 
 <style lang="scss" scoped>
