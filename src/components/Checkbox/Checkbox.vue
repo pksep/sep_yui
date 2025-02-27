@@ -4,6 +4,7 @@
     :class="`checkbox-yui-kit checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular}`"
     @change="onClick"
     :checked="state.isChecked"
+    :disabled="props.disabled"
   />
 </template>
 
@@ -15,7 +16,8 @@ import { CheckboxSizeEnum, CheckboxCircularEnum } from './enum/enum';
 const props = withDefaults(defineProps<ICheckboxProps>(), {
   size: CheckboxSizeEnum.medium,
   circular: CheckboxCircularEnum.rounded,
-  modelValue: false
+  modelValue: false,
+  disabled: false
 });
 
 const emits = defineEmits<{
@@ -70,10 +72,20 @@ const onClick = (): void => {
   background: var(--white);
   border: 2px solid var(--blue1);
   border-radius: var(--radius);
+  cursor: pointer;
+
+  &:disabled {
+    border-color: var(--border-grey);
+    cursor: default;
+  }
 }
 
 .checkbox-yui-kit:checked {
   color: var(--white);
   background: var(--blue1);
+
+  &:disabled {
+    background: var(--border-grey);
+  }
 }
 </style>
