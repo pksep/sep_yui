@@ -12,4 +12,5 @@ export interface IFilterTagProps {
   iconName?: IconNameEnum;
   options: IFilterTagOption[];
   selectedValues?: string[];
+  maxShowCount?: number;
 }

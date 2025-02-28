@@ -7,13 +7,29 @@
       <Badges v-if="!getChosen.length" disabled text="Все" />
       <Badges
         v-else
-        v-for="item in getChosen"
+        v-for="item in getChosen.filter((_, i) => i < props.maxShowCount)"
         :key="item.value"
         :type="item.type"
         disabled
         :text="item.label"
         :style="'margin:0 3px;'"
       />
+      <div
+        class="filter-yui-kit__counter"
+        v-if="props.maxShowCount < getChosen.length"
+      >
+        +{{ getChosen.length - props.maxShowCount }}
+        <div class="filter-yui-kit__counter-content">
+          <Badges
+            v-for="item in getChosen.filter((_, i) => i >= props.maxShowCount)"
+            :key="item.value"
+            :type="item.type"
+            disabled
+            :text="item.label"
+            :style="'margin:0 3px;'"
+          />
+        </div>
+      </div>
     </div>
 
     <div class="filter-yui-kit__select-wrapper" v-if="state.isShow">
@@ -81,7 +97,8 @@ interface IFilterTagState {
 const props = withDefaults(defineProps<IFilterTagProps>(), {
   iconName: IconNameEnum.filter,
   options: () => [],
-  selectedValues: () => []
+  selectedValues: () => [],
+  maxShowCount: 5
 });
 
 const state = reactive<IFilterTagState>({
@@ -175,8 +192,8 @@ watch(() => props.selectedValues, setOptions);
     align-items: center;
     width: fit-content;
     border: 1px solid $WHITE-E7E7E7;
-    color: $GREY-757D8A;
-    background-color: $WHITE;
+    color: var(--grey6);
+    background-color: var(--white);
     transition: 0.3s ease-in-out;
     padding: 10px;
     border-radius: 10px;
@@ -184,17 +201,39 @@ watch(() => props.selectedValues, setOptions);
     user-select: none;
 
     &:hover {
-      border: 1px solid $BLUE-9CBEFF;
+      border: 1px solid var(--border-blue);
     }
 
     &.active-yui-kit {
-      color: $BLUE-9CBEFF;
-      border: 1px solid $BLUE-9CBEFF;
+      color: var(--border-blue);
+      border: 1px solid var(--border-blue);
     }
-  }
 
-  &__counter {
-    color: $GREY-757D8A;
+    & .filter-yui-kit__counter {
+      color: var(--grey6);
+      position: relative;
+
+      &:hover {
+        color: var(--border-blue);
+
+        & .filter-yui-kit__counter-content {
+          position: absolute;
+          bottom: calc(100% + 5px);
+          left: 0;
+          display: flex;
+          z-index: 20;
+          background-color: var(--white);
+          padding: 5px;
+          border-radius: 5px;
+          box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
+          width: max-content;
+        }
+      }
+
+      & .filter-yui-kit__counter-content {
+        display: none;
+      }
+    }
   }
 
   &__select-wrapper {
@@ -202,7 +241,7 @@ watch(() => props.selectedValues, setOptions);
     top: calc(100% + 5px);
     z-index: 20;
     left: 0;
-    background-color: $WHITE;
+    background-color: var(--white);
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
@@ -226,7 +265,7 @@ watch(() => props.selectedValues, setOptions);
     gap: 5px;
 
     &.selected {
-      border-bottom: 0.5px solid $WHITE-E7E7E7;
+      border-bottom: 0.5px solid var(--border-grey);
       padding-bottom: 10px;
     }
 
@@ -242,16 +281,16 @@ watch(() => props.selectedValues, setOptions);
 
       .filter__select-item {
         padding: 10px;
-        border-bottom: 1px solid $WHITE-E7E7E7;
+        border-bottom: 1px solid var(--border-grey);
       }
     }
   }
 
   &__close {
-    color: $GREY-757D8A;
+    color: var(--grey6);
     cursor: pointer;
-    background-color: $TRANSPARENT;
-    border: 1px solid $TRANSPARENT;
+    background-color: transparent;
+    border: 1px solid transparent;
     outline: none;
     display: flex;
     align-items: center;
