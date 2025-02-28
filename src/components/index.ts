@@ -31,6 +31,7 @@ import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
 import Loader from '@/components/Loader/Loader.vue';
 import FilterTag from '@/components/FilterTag/FilterTag.vue';
 import CircularProgress from '@/components/CircularProgress/CircularProgress.vue';
+import Popover from '@/components/Popover/Popover.vue';
 
 const components = {
   Accordion,
@@ -63,7 +64,8 @@ const components = {
   CopyIcon,
   Loader,
   FilterTag,
-  CircularProgress
+  CircularProgress,
+  Popover
 };
 
 const pinia = createPinia();
@@ -110,5 +112,6 @@ export {
   CopyIcon,
   Loader,
   FilterTag,
-  CircularProgress
+  CircularProgress,
+  Popover
 };

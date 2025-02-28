@@ -830,6 +830,19 @@ export const moreHorizontal: IVectorIcon = {
   `
 };
 
+export const moreVertical: IVectorIcon = {
+  name: 'more-vertical',
+  style: 'line',
+  path: `
+    <g id="moreVertical">
+      <path d="M8.66683 8.0013C8.66683 7.63311 8.36835 7.33464 8.00016 7.33464C7.63197 7.33464 7.3335 7.63311 7.3335 8.0013C7.3335 8.36949 7.63197 8.66797 8.00016 8.66797C8.36835 8.66797 8.66683 8.36949 8.66683 8.0013Z" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.66683 3.33333C8.66683 2.96514 8.36835 2.66667 8.00016 2.66667C7.63197 2.66667 7.3335 2.96514 7.3335 3.33333C7.3335 3.70152 7.63197 4 8.00016 4C8.36835 4 8.66683 3.70152 8.66683 3.33333Z" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.66683 12.6654C8.66683 12.2972 8.36835 11.9987 8.00016 11.9987C7.63197 11.9987 7.3335 12.2972 7.3335 12.6654C7.3335 13.0336 7.63197 13.332 8.00016 13.332C8.36835 13.332 8.66683 13.0336 8.66683 12.6654Z" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  `,
+  viewbox: '0 0 16 16'
+};
+
 export const fileText: IVectorIcon = {
   name: 'file-text',
   style: 'line',

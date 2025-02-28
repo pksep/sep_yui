@@ -69,6 +69,7 @@ export enum IconNameEnum {
   info = 'info',
   files = 'files',
   moreHorizontal = 'more-horizontal',
+  moreVertical = 'more-vertical',
   fileText = 'file-text',
   gitPullRequest = 'git-pull-request',
   folder = 'folder',
