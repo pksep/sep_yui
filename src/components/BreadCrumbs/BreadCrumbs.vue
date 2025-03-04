@@ -36,10 +36,12 @@
         <span
           :class="state.getClassesSpan(inx)"
           @click="toSelectCrumb(crumb, inx)"
-          >{{ curtText(crumb)
-          }}<span v-if="state.fullTitle(crumb)" class="fullName-yui-kit">{{
-            crumb.title
-          }}</span></span
+          >{{ inx !== state.crumbs.length - 1 ? curtText(crumb) : crumb.title
+          }}<span
+            v-if="state.fullTitle(crumb) && inx !== state.crumbs.length - 1"
+            class="fullName-yui-kit"
+            >{{ crumb.title }}</span
+          ></span
         >
         <Icon
           :name="IconNameEnum.rightSmall"
@@ -99,7 +101,7 @@ const state = reactive({
   isShowList: false
 });
 
-const MAX_SYMBOLS = 15;
+const MAX_SYMBOLS = 25;
 
 /**
  * Создает проверку на классы для пунктов в открытом списке
