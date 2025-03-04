@@ -5,4 +5,5 @@ export interface ICheckboxProps {
   circular?: CheckboxCircularEnum;
   checked?: boolean;
   modelValue?: boolean;
+  disabled?: boolean;
 }
