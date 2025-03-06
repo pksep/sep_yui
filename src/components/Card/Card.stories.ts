@@ -23,7 +23,9 @@ const Template: StoryFn = args => ({
   },
   template: `
         <Card v-bind="args" @click="args.pressed = !args.pressed" :class="{ pressed: args.pressed}" :style="{width: '162px', height: '140px'}">
-            Simple text
+            <template v-if="args['left']" #left> {{args["left"]}} </template>
+
+            <template #default> Simple text </template>
         </Card>
   `
 });
@@ -34,4 +36,9 @@ Default.args = {};
 export const Pressed = Template.bind({});
 Pressed.args = {
   pressed: true
+};
+
+export const WithLeft = Template.bind({});
+WithLeft.args = {
+  left: '1.'
 };
