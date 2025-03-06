@@ -21,7 +21,7 @@
   background: white;
   border-radius: 15px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--font-size, 14px);
 
   &:hover,
   &:active,
