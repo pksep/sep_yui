@@ -32,6 +32,12 @@ import Loader from '@/components/Loader/Loader.vue';
 import FilterTag from '@/components/FilterTag/FilterTag.vue';
 import CircularProgress from '@/components/CircularProgress/CircularProgress.vue';
 import Popover from '@/components/Popover/Popover.vue';
+import Table from '@/components/Table/Table.vue';
+import TableRow from '@/components/Table/TableRow.vue';
+import TableTd from '@/components/Table/TableTd.vue';
+import TableTh from '@/components/Table/TableTh.vue';
+import SectionTableRow from '@/components/Table/SectionTableRow.vue';
+import HeadTableRow from '@/components/Table/HeadTableRow.vue';
 
 const components = {
   Accordion,
@@ -65,7 +71,13 @@ const components = {
   Loader,
   FilterTag,
   CircularProgress,
-  Popover
+  Popover,
+  Table,
+  TableRow,
+  TableTd,
+  TableTh,
+  SectionTableRow,
+  HeadTableRow
 };
 
 const pinia = createPinia();
