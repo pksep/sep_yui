@@ -28,7 +28,7 @@ const Template: StoryFn<typeof Table> = args => ({
   setup() {
     return { args };
   },
-  template: `<Table>
+  template: `<Table style="--table-body-max-height:150px;">
     <template #colgroup>
       <col style="width:50%;"/>
     </template>

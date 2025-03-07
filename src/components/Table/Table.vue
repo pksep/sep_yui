@@ -135,6 +135,12 @@ const wrapperClass = computed(() => [
   max-height: var(--table-body-max-height);
   overflow: auto;
   padding-right: var(--scroll-wrapper-padding);
+
+  --scrollbar-thumb-color-base: rgba(0, 0, 0, 0);
+}
+
+.table__scroll-wrapper:hover {
+  --scrollbar-thumb-color-base: inherit;
 }
 
 .table__scroll-wrapper::-webkit-scrollbar {
