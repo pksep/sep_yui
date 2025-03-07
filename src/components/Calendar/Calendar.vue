@@ -1,5 +1,6 @@
 <template>
   <DatePickerRange
+    ref="datePickerRangeRef"
     v-if="props.isRange"
     v-model:start-date="state.dateObject.start"
     v-model:end-date="state.dateObject.end"
@@ -20,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watchEffect, watch, onMounted } from 'vue';
+import { reactive, watchEffect, watch, onMounted, ref } from 'vue';
 
 import DatePickerRange from './DatePickerRange.vue';
 import DatePicker from './DatePicker.vue';
@@ -45,6 +46,8 @@ const emits = defineEmits<{
   (e: 'click'): void;
 }>();
 
+const datePickerRangeRef = ref<typeof DatePickerRange>();
+
 const changeValues = (val: Date | IRangeForDatePicker): void => {
   emits('change', val);
 };
@@ -63,6 +66,10 @@ watch(
   () => {
     if (props.isRange) {
       state.dateObject = fillDateObject();
+    }
+
+    if (!props.range) {
+      datePickerRangeRef.value?.clear();
     }
   }
 );
