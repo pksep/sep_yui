@@ -125,5 +125,11 @@ export {
   Loader,
   FilterTag,
   CircularProgress,
-  Popover
+  Popover,
+  Table,
+  TableRow,
+  TableTd,
+  TableTh,
+  SectionTableRow,
+  HeadTableRow
 };
