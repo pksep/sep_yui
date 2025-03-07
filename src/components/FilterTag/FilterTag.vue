@@ -194,6 +194,10 @@ const setOptions = () => {
     ...opt,
     chose: props.selectedValues.includes(opt.value)
   }));
+
+  if (state.options.every(opt => opt.chose)) {
+    state.options = state.options.map(opt => ({ ...opt, chose: false }));
+  }
 };
 
 onMounted(setOptions);
