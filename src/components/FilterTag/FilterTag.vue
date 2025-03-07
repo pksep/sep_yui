@@ -30,6 +30,15 @@
           />
         </div>
       </div>
+
+      <button
+        type="button"
+        class="filter-yui-kit__close"
+        @click.stop="handleClear"
+        v-if="props.showClearButton && getChosen.length > 0"
+      >
+        <Icon :name="IconNameEnum.exitBig" />
+      </button>
     </div>
 
     <div class="filter-yui-kit__select-wrapper" v-if="state.isShow">
@@ -69,7 +78,12 @@
           />
         </li>
         <li class="filter-yui-kit__select-item">
-          <Badges v-if="getChosen.length" disabled text="Все" />
+          <Badges
+            v-if="getChosen.length"
+            disabled
+            text="Все"
+            @click="handleClear"
+          />
         </li>
       </ul>
     </div>
@@ -98,7 +112,8 @@ const props = withDefaults(defineProps<IFilterTagProps>(), {
   iconName: IconNameEnum.filter,
   options: () => [],
   selectedValues: () => [],
-  maxShowCount: 5
+  maxShowCount: 5,
+  showClearButton: false
 });
 
 const state = reactive<IFilterTagState>({
@@ -162,6 +177,12 @@ const handleToggle = (item: filterTagOptionType): void => {
     'change',
     getChosen.value.map(opt => opt.value)
   );
+};
+
+const handleClear = (): void => {
+  state.options = state.options.map(opt => ({ ...opt, chose: false }));
+
+  emits('change', []);
 };
 
 /**
