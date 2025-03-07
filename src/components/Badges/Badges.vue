@@ -129,7 +129,7 @@ onMounted(() => {
 
   &:before,
   &:after {
-    @include pseudo(12px, 1px);
+    @include pseudo(8px, 1px);
     background-color: var(--grey6);
     top: 50%;
     right: 5px;

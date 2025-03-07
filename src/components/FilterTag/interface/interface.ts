@@ -13,4 +13,5 @@ export interface IFilterTagProps {
   options: IFilterTagOption[];
   selectedValues?: string[];
   maxShowCount?: number;
+  showClearButton?: boolean;
 }

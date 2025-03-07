@@ -31,7 +31,7 @@ const crumbsItems: Ref<IBreadCrumbItems[]> = ref([
   },
   {
     path: '/story/breadcrumbs',
-    title: 'База покупателей'
+    title: 'База покупателей awef awe wef we '
   },
   {
     path: '',
@@ -39,7 +39,7 @@ const crumbsItems: Ref<IBreadCrumbItems[]> = ref([
   },
   {
     path: '/assembly9',
-    title: 'База продавцов'
+    title: 'База продавцов awef awe wef we '
   }
 ]);
 

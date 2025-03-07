@@ -109,6 +109,10 @@ const getDateEnd = (): Date | null => {
   }
   return null;
 };
+
+defineExpose({
+  clearChoose: clearChoose
+});
 </script>
 
 <style scoped></style>

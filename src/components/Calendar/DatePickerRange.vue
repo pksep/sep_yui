@@ -7,6 +7,7 @@
     ]"
   >
     <DataPicker
+      ref="startDateRef"
       v-model="state.date.start"
       :locale="props.locale"
       is-range
@@ -17,6 +18,7 @@
     />
     <div class="date-picker-yui-kit__header__dash"></div>
     <DataPicker
+      ref="endDateRef"
       v-model="state.date.end"
       :locale="props.locale"
       is-range
@@ -28,7 +30,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, watch, onMounted } from 'vue';
+import { reactive, watch, onMounted, ref } from 'vue';
 import DataPicker from './DatePicker.vue';
 import type {
   IDatePickerProps,
@@ -55,6 +57,8 @@ const state = reactive({
 const startDate = defineModel('startDate');
 const endDate = defineModel('endDate');
 
+const startDateRef = ref<typeof DataPicker>();
+const endDateRef = ref<typeof DataPicker>();
 const changeValue = (val: Date, item: RangeTypeEnum): void => {
   state.date[item] = val as Date;
   emits('change', state.date);
@@ -62,6 +66,12 @@ const changeValue = (val: Date, item: RangeTypeEnum): void => {
 
 const clearFunction = (type: RangeTypeEnum): void => {
   state.date[type] = null;
+  emits('change', state.date);
+};
+
+const handleClearAll = () => {
+  startDateRef.value?.clearChoose();
+  endDateRef.value?.clearChoose();
 };
 
 watch([startDate, endDate], () => {
@@ -80,6 +90,10 @@ onMounted(() => {
       end: endDate.value as Date
     };
   }
+});
+
+defineExpose({
+  clear: handleClearAll
 });
 </script>
 <style scoped>
