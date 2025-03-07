@@ -23,6 +23,7 @@ withDefaults(defineProps<ITableCell>(), {
   font-size: var(--th-font-size, 14px);
   text-align: center;
 
+  /* border: none; */
   border-left: 1px solid var(--border-grey);
   border-top: 1px solid var(--border-grey);
 

@@ -11,15 +11,15 @@ defineOptions({
 </script>
 
 <style scoped>
-.head-table-row:not(:has(+ *)) > * {
+.head-table-row:last-child > * {
   border-bottom: 1px solid var(--border-grey);
 }
 
-.head-table-row:has(+ *) > *:first-child {
+.head-table-row:first-child > *:first-child {
   border-top-left-radius: var(--border-radius);
 }
 
-.head-table-row:has(+ *) > *:last-child {
+.head-table-row:first-child > *:last-child {
   border-top-right-radius: var(--border-radius);
 }
 </style>

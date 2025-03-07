@@ -39,11 +39,11 @@ const classRow = computed(() => [
   --td-bottom-padding: 0;
 }
 
-.table-row:not(:has(+ *)) > *:first-child {
+.table-row:last-child > *:first-child {
   border-bottom-left-radius: var(--border-radius);
 }
 
-.table-row:not(:has(+ *)) > *:last-child {
+.table-row:last-child > *:last-child {
   border-bottom-right-radius: var(--border-radius);
 }
 </style>
