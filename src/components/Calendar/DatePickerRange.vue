@@ -59,7 +59,7 @@ const endDate = defineModel('endDate');
 
 const startDateRef = ref<typeof DataPicker>();
 const endDateRef = ref<typeof DataPicker>();
-const changeValue = (val: Date, item: RangeTypeEnum): void => {
+const changeValue = (val: Date | null, item: RangeTypeEnum): void => {
   state.date[item] = val as Date;
   emits('change', state.date);
 };

@@ -42,17 +42,17 @@ const state = reactive({
 });
 
 const emits = defineEmits<{
-  (e: 'change', value: Date | IRangeForDatePicker): void;
+  (e: 'change', value: Date | IRangeForDatePicker | null): void;
   (e: 'click'): void;
 }>();
 
 const datePickerRangeRef = ref<typeof DatePickerRange>();
 
-const changeValues = (val: Date | IRangeForDatePicker): void => {
+const changeValues = (val: Date | IRangeForDatePicker | null): void => {
   emits('change', val);
 };
 
-watchEffect(() => (state.date = (props.setDate ?? null) as unknown as null));
+watchEffect(() => (state.date = props.setDate || null));
 
 const fillDateObject = (): IRangeForDatePicker => ({
   start: props.fromTodayTime

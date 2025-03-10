@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watchEffect } from 'vue';
+import { reactive, watch, watchEffect } from 'vue';
 import { DatePicker } from 'v-calendar';
 import DataPickerChoose from './DataPickerChoose.vue';
 
@@ -53,7 +53,7 @@ const state = reactive({
 
 const emits = defineEmits<{
   (e: 'clear'): void;
-  (e: 'change', value: Date): void;
+  (e: 'change', value: Date | null): void;
 }>();
 
 const toggle = (toggleFunc: () => void): void => {
@@ -74,9 +74,10 @@ const clearChoose = (): void => {
   date.value = null;
   emits('clear');
   setTimeout(() => (state.isNotClear = true), 1);
+  changeVal(null);
 };
 
-const changeVal = (value: Date): void => {
+const changeVal = (value: Date | null): void => {
   date.value = value;
   emits('change', value);
 };
@@ -109,6 +110,16 @@ const getDateEnd = (): Date | null => {
   }
   return null;
 };
+
+watch(
+  () => date.value,
+  () => {
+    if (!date.value) {
+      date.value = null;
+      clearChoose();
+    }
+  }
+);
 
 defineExpose({
   clearChoose: clearChoose
