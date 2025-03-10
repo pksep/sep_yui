@@ -203,7 +203,7 @@ const setOptions = () => {
 onMounted(setOptions);
 
 watch(() => props.options, setOptions);
-watch(() => props.selectedValues, setOptions);
+watch(() => JSON.stringify(props.selectedValues), setOptions);
 </script>
 
 <style lang="scss" scoped>
@@ -224,6 +224,10 @@ watch(() => props.selectedValues, setOptions);
     border-radius: 10px;
     cursor: pointer;
     user-select: none;
+
+    & span {
+      font-size: 14px;
+    }
 
     &:hover {
       border: 1px solid var(--border-blue);
