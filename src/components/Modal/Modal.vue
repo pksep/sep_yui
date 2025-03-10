@@ -63,6 +63,7 @@ onUnmounted(() => {
 .modal-yui-kit {
   --ease: cubic-bezier(0.25, 0, 0.3, 1);
   border: none;
+  border-radius: 10px 0 0 10px;
   margin-right: 0;
   inset: 0;
   max-block-size: 100vh;
