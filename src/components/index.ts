@@ -39,6 +39,9 @@ import TableTh from '@/components/Table/TableTh.vue';
 import SectionTableRow from '@/components/Table/SectionTableRow.vue';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
 
+import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
+import type { OptionsObject } from './Select/interface/interface';
+
 const components = {
   Accordion,
   Badges,
@@ -58,7 +61,6 @@ const components = {
   Icon,
   Input,
   InputNumber,
-  PushNotification,
   Picture,
   Scroll,
   Search,
@@ -131,5 +133,7 @@ export {
   TableTd,
   TableTh,
   SectionTableRow,
-  HeadTableRow
+  HeadTableRow,
+  type IRangeForDatePicker,
+  type OptionsObject
 };
