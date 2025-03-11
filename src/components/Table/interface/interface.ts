@@ -13,7 +13,7 @@ export interface ISectionTableRow {
   colspan: number;
 }
 
-export interface ITableCell {
+export interface ITableTd {
   colspan?: number | string;
   rowspan: number | string;
 }

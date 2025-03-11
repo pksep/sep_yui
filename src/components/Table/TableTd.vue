@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { ITableCell } from '@/components/Table/interface/interface';
+import { ITableTd } from '@/components/Table/interface/interface';
 
 defineOptions({
   name: 'TableTd'
 });
 
-withDefaults(defineProps<ITableCell>(), {
+withDefaults(defineProps<ITableTd>(), {
   colspan: 1,
   rowspan: 1
 });
