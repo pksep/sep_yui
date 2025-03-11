@@ -38,6 +38,8 @@ import TableTd from '@/components/Table/TableTd.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import SectionTableRow from '@/components/Table/SectionTableRow.vue';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
+import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
+import Radio from '@/components/Radio/Radio.vue';
 
 const components = {
   Accordion,
@@ -77,7 +79,9 @@ const components = {
   TableTd,
   TableTh,
   SectionTableRow,
-  HeadTableRow
+  HeadTableRow,
+  ScrollWrapper,
+  Radio
 };
 
 const pinia = createPinia();
@@ -131,5 +135,7 @@ export {
   TableTd,
   TableTh,
   SectionTableRow,
-  HeadTableRow
+  HeadTableRow,
+  ScrollWrapper,
+  Radio
 };
