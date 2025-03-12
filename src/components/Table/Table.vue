@@ -1,34 +1,39 @@
 <template>
   <div class="table" data-testid="BaseTable">
-    <table
-      class="table__table table__table_head"
-      :class="tableClass"
-      data-testid="BaseTable-Head"
+    <ScrollWrapper
+      class="table__scroll-wrapper table__scroll-wrapper_head"
+      :is-show-vertical-scroll="isVerticalScroll"
     >
-      <slot name="colgroup"></slot>
-
-      <thead
-        ref="refThead"
-        class="table__header"
-        data-testid="BaseTable-Header"
+      <table
+        class="table__table table__table_head"
+        :class="tableClass"
+        data-testid="BaseTable-Head"
       >
-        <slot name="head" v-bind="state"></slot>
+        <slot name="colgroup"></slot>
 
-        <TableRow
-          class="table__search-tr"
-          v-if="$slots['search']"
-          data-testid="BaseTable-Head-SearchRow"
+        <thead
+          ref="refThead"
+          class="table__header"
+          data-testid="BaseTable-Header"
         >
-          <TableTh
-            :colspan="state.countColumn"
-            class="table__search-th"
-            data-testid="BaseTable-Head-SearchRow-Search"
+          <slot name="head" v-bind="state"></slot>
+
+          <TableRow
+            class="table__search-tr"
+            v-if="$slots['search']"
+            data-testid="BaseTable-Head-SearchRow"
           >
-            <slot name="search"></slot>
-          </TableTh>
-        </TableRow>
-      </thead>
-    </table>
+            <TableTh
+              :colspan="state.countColumn"
+              class="table__search-th"
+              data-testid="BaseTable-Head-SearchRow-Search"
+            >
+              <slot name="search"></slot>
+            </TableTh>
+          </TableRow>
+        </thead>
+      </table>
+    </ScrollWrapper>
 
     <div class="table__table-wrapper">
       <!-- <div ref="scrollRef" class="table__scroll-wrapper"> -->
@@ -66,7 +71,7 @@ import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import TableRow from '@/components/Table/TableRow.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 
-import { computed, ComputedRef, reactive, ref } from 'vue';
+import { computed, ComputedRef, reactive, ref, watchEffect } from 'vue';
 
 defineOptions({
   name: 'BaseTable'
@@ -80,6 +85,7 @@ const refThead = ref<HTMLElement | null>(null);
 const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 const state = reactive<{
   countColumn: ComputedRef<number>;
+  isShowHeadVerticalScroll: ComputedRef<boolean | undefined>;
 }>({
   // Получаем количество столбцов
   countColumn: computed(() => {
@@ -94,13 +100,24 @@ const state = reactive<{
     }
 
     return maxCountColumn;
-  })
+  }),
+  isShowHeadVerticalScroll: computed(
+    () => scrollWrapperRef.value?.isShowVerticalScroll
+  )
 });
+const isVerticalScroll = ref(false);
+
 const tableClass = computed(() => [
   {
-    'table__table_vertical-scroll': scrollWrapperRef.value?.isVerticalScroll
+    'table__table_vertical-scroll': isVerticalScroll.value
   }
 ]);
+
+watchEffect(() => {
+  if (scrollWrapperRef.value) {
+    isVerticalScroll.value = scrollWrapperRef.value.isVerticalScroll;
+  }
+});
 const unmountScroll = (e: Event) => {
   emit('unmountScroll', e);
 };
@@ -158,8 +175,20 @@ const unmountScroll = (e: Event) => {
   --scroll-slot-border-left: 1px solid var(--border-grey);
   --scroll-slot-border-right: 1px solid var(--border-grey);
 }
+
+.table__scroll-wrapper_head {
+  height: auto;
+  --scroll-slot-bottom-right-radius: 0;
+  --scroll-slot-bottom-left-radius: 0;
+  --scroll-slot-top-left-radius: var(--border-radius);
+  --scroll-slot-top-right-radius: var(--border-radius);
+  --scroll-slot-border-bottom: 0;
+  --scroll-slot-border-left: 1px solid var(--border-grey);
+  --scroll-slot-border-right: 1px solid var(--border-grey);
+}
+
 .table__table_vertical-scroll.table__table_head {
-  padding-right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width));
+  /* padding-right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width)); */
 }
 
 .table__header {

@@ -13,7 +13,7 @@
     </div>
 
     <div
-      v-if="isVerticalScroll"
+      v-if="isVerticalScroll || isShowVerticalScroll"
       class="scroll-wrapper__track"
       :class="trackClass"
       :data-testId="`ScrollWrapper-Track`"
@@ -30,12 +30,19 @@
 </template>
 
 <script setup lang="ts">
-import { TScrollWrapperStyle } from '@/components/ScrollWrapper/interface/interface';
+import {
+  IScrollWrapperProps,
+  TScrollWrapperStyle
+} from '@/components/ScrollWrapper/interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 defineOptions({
   name: 'ScrollWrapper'
+});
+
+withDefaults(defineProps<IScrollWrapperProps>(), {
+  isShowVerticalScroll: false
 });
 
 const emit = defineEmits<{
@@ -255,6 +262,8 @@ onUnmounted(() => {
   --scroll-slot-height: auto;
   --scroll-slot-bottom-right-radius: 0;
   --scroll-slot-bottom-left-radius: 0;
+  --scroll-slot-top-right-radius: 0;
+  --scroll-slot-top-left-radius: 0;
   --scroll-slot-border: initial;
   --scroll-slot-border-top: revert;
   --scroll-slot-border-left: revert;
@@ -274,6 +283,8 @@ onUnmounted(() => {
 
   border-bottom-right-radius: var(--scroll-slot-bottom-right-radius);
   border-bottom-left-radius: var(--scroll-slot-bottom-left-radius);
+  border-top-right-radius: var(--scroll-slot-top-right-radius);
+  border-top-left-radius: var(--scroll-slot-top-left-radius);
 
   border: var(--scroll-slot-border);
   border-top: var(--scroll-slot-border-top);
