@@ -41,11 +41,6 @@ const onClick = (): void => {
 </script>
 
 <style lang="scss" scoped>
-.checkbox-yui-kit_small {
-  --radius: 3px;
-  --size: 16px;
-}
-
 .checkbox-yui-kit_medium {
   --radius: 3.5px;
   --size: 18px;
@@ -88,5 +83,10 @@ const onClick = (): void => {
   &:disabled {
     background: var(--border-grey);
   }
+}
+.checkbox-yui-kit.checkbox-yui-kit_small {
+  --radius: 3px;
+  --size: 16px;
+  padding: 0;
 }
 </style>
