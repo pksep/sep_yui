@@ -13,6 +13,7 @@
     </div>
 
     <div
+      v-if="isVerticalScroll"
       class="scroll-wrapper__track"
       :class="trackClass"
       :data-testId="`ScrollWrapper-Track`"
@@ -47,6 +48,7 @@ const scrollBar = ref<HTMLElement | null>(null);
 const scrolledElement = ref<HTMLElement | null>(null);
 const scrollHeightProcent = ref<number>(100);
 const isDragging = ref<boolean>(false);
+const isVerticalScroll = computed(() => scrollHeightProcent.value !== 100);
 let startY = 0;
 let startScrollTop = 0;
 
@@ -211,6 +213,10 @@ const reseizeObserver = new ResizeObserver(entries => {
   entries.forEach(() => {
     setScrollStyle();
   });
+});
+
+defineExpose({
+  isVerticalScroll
 });
 
 onMounted(() => {

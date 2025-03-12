@@ -1,6 +1,10 @@
 <template>
   <div class="table" data-testid="BaseTable">
-    <table class="table__table table__table_head" data-testid="BaseTable-Head">
+    <table
+      class="table__table table__table_head"
+      :class="tableClass"
+      data-testid="BaseTable-Head"
+    >
       <slot name="colgroup"></slot>
 
       <thead
@@ -29,6 +33,7 @@
     <div class="table__table-wrapper">
       <!-- <div ref="scrollRef" class="table__scroll-wrapper"> -->
       <ScrollWrapper
+        ref="scrollWrapperRef"
         class="table__scroll-wrapper"
         @unmount-scroll="unmountScroll"
       >
@@ -72,6 +77,7 @@ const emit = defineEmits<{
 }>();
 
 const refThead = ref<HTMLElement | null>(null);
+const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 const state = reactive<{
   countColumn: ComputedRef<number>;
 }>({
@@ -90,10 +96,12 @@ const state = reactive<{
     return maxCountColumn;
   })
 });
-
+const tableClass = computed(() => [
+  {
+    'table__table_vertical-scroll': scrollWrapperRef.value?.isVerticalScroll
+  }
+]);
 const unmountScroll = (e: Event) => {
-  console.log('unom Table');
-
   emit('unmountScroll', e);
 };
 </script>
@@ -150,72 +158,8 @@ const unmountScroll = (e: Event) => {
   --scroll-slot-border-left: 1px solid var(--border-grey);
   --scroll-slot-border-right: 1px solid var(--border-grey);
 }
-.table__border-right {
-  position: absolute;
-  z-index: 3;
-  height: 100%;
-  width: calc(var(--border-radius) * 3);
-  top: 0;
-  right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width));
-
-  border-right: 1px solid var(--border-grey);
-  border-bottom-right-radius: var(--border-radius);
-
-  clip-path: polygon(
-    calc(100% -1px) 0%,
-    100% 0%,
-    100% 100%,
-    calc(100% -1px) 100%
-  );
-}
-.table__border-bottom {
-  position: absolute;
-  z-index: 3;
-  height: calc(var(--border-radius) * 3);
-  bottom: 0px;
-  left: 0;
-  right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width));
-
-  border-bottom: 1px solid var(--border-grey);
-  border-right: 1px solid var(--border-grey);
-  border-left: 1px solid var(--border-grey);
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-
-  clip-path: polygon(
-    1px 0%,
-    2px 70%,
-    3px 80%,
-    6px 90%,
-    calc(100% - 6px) 90%,
-    calc(100% - 3px) 80%,
-    calc(100% - 1px) 70%,
-    calc(100% - 1px) 0%,
-    calc(100% - 1px) 100%,
-    1px 100%
-  );
-}
-
-.table__border-mask {
-  position: absolute;
-  z-index: 1;
-  bottom: 0;
-  right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width));
-  width: var(--border-radius);
-  height: var(--border-radius);
-
-  background-color: var(--table-background-color);
-  clip-path: polygon(
-    100% 4px,
-    calc(var(--border-radius) - 1px) 4px,
-    50% 100%,
-
-    100% 100%
-  );
-}
-
-.table__table_head {
-  padding-right: 9px;
+.table__table_vertical-scroll.table__table_head {
+  padding-right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width));
 }
 
 .table__header {

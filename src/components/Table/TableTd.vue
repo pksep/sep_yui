@@ -27,7 +27,7 @@ withDefaults(defineProps<ITableTd>(), {
   font-size: var(--td-font-size, 14px);
 }
 
-.table-td:last-child {
-  border-right: 1px solid var(--border-grey);
+.table-td:first-child {
+  border-left: none;
 }
 </style>

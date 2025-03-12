@@ -18,7 +18,7 @@ withDefaults(defineProps<ITableTd>(), {
 
 <style scoped>
 .table-th {
-  padding: 19px 16px;
+  padding: var(--th-vertical-padding) var(--th-horizontal-padding);
   font-weight: 700;
   font-size: var(--th-font-size, 14px);
   text-align: center;
