@@ -40,6 +40,7 @@ import SectionTableRow from '@/components/Table/SectionTableRow.vue';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
 import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import Radio from '@/components/Radio/Radio.vue';
+import Tooltip from '@/components/Tooltip/Tooltip.vue';
 
 const components = {
   Accordion,
@@ -81,7 +82,8 @@ const components = {
   SectionTableRow,
   HeadTableRow,
   ScrollWrapper,
-  Radio
+  Radio,
+  Tooltip
 };
 
 const pinia = createPinia();
@@ -137,5 +139,6 @@ export {
   SectionTableRow,
   HeadTableRow,
   ScrollWrapper,
-  Radio
+  Radio,
+  Tooltip
 };
