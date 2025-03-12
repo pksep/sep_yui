@@ -73,6 +73,7 @@ const onClick = (): void => {
   border: 2px solid var(--blue1);
   border-radius: var(--radius);
   cursor: pointer;
+  padding: 2px;
 
   &:disabled {
     border-color: var(--border-grey);
