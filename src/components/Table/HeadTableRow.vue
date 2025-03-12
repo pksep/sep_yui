@@ -11,6 +11,11 @@ defineOptions({
 </script>
 
 <style scoped>
+.head-table-row {
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+
 .head-table-row:last-child > * {
   border-bottom: 1px solid var(--border-grey);
 }

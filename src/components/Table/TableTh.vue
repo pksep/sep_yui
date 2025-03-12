@@ -22,6 +22,7 @@ withDefaults(defineProps<ITableTd>(), {
   font-weight: 700;
   font-size: var(--th-font-size, 14px);
   text-align: center;
+  line-height: 28px;
 
   border: none;
   border-left: 1px solid var(--border-grey);
@@ -31,11 +32,12 @@ withDefaults(defineProps<ITableTd>(), {
 }
 
 .table-th:first-child {
+  border-left: none;
   /* border-top-left-radius: var(--border-radius); */
 }
 
 .table-th:last-child {
-  border-right: 1px solid var(--border-grey);
+  border-right: none;
   /* border-top-right-radius: var(--border-radius); */
 }
 </style>
