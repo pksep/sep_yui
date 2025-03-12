@@ -61,6 +61,51 @@ const Template: StoryFn<typeof Table> = args => ({
         <TableTd>Выбранное значние 3</TableTd>
         <TableTd>Выбранное подзначение 3</TableTd>
       </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
     </template>
   </Table>`
 });

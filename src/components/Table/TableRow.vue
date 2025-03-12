@@ -35,15 +35,11 @@ const classRow = computed(() => [
   background-color: var(--blue11);
 }
 
-.table-row:last-child > *:first-child {
-  --td-bottom-padding: 0;
-}
-
-.table-row:last-child > *:first-child {
+/* .table-row:last-child > *:first-child {
   border-bottom-left-radius: var(--border-radius);
 }
 
 .table-row:last-child > *:last-child {
   border-bottom-right-radius: var(--border-radius);
-}
+} */
 </style>

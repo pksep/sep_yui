@@ -63,3 +63,8 @@ export const InputOrdinary = Template.bind({});
 InputOrdinary.args = {
   class: InputTypeEnum.ordinary
 };
+
+export const InputMinor = Template.bind({});
+InputMinor.args = {
+  class: InputTypeEnum.minor
+};

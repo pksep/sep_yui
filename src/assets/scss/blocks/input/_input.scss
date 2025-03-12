@@ -2,7 +2,7 @@
     border: none;
 
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -15,7 +15,8 @@
 
     &.initial::before,
     &.disabled::before,
-    &.ordinary::before {
+    &.ordinary::before,
+    &.minor::before {
         border-color: $TRANSPARENT;
     }
 
@@ -81,8 +82,13 @@ fieldset.input-yui-kit {
         display: flex;
     }
 
-    &.ordinary .input-yui-kit__legend {
+    &.ordinary .input-yui-kit__legend,
+    &.minor .input-yui-kit__legend {
         display: none;
+    }
+
+    &.minor {
+        --background: var(--blue15);
     }
 
     & .input-yui-kit__input {
