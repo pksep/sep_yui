@@ -32,3 +32,7 @@ const Template: StoryFn<typeof Toggle> = args => ({
 
 export const Default = Template.bind({});
 export const PrimaryToggle = Template.bind({});
+export const Disabled = Template.bind({});
+Disabled.args = {
+  disabled: true
+};
