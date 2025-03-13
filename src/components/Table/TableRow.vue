@@ -24,6 +24,8 @@ const classRow = computed(() => [
 
 <style scoped>
 .table-row {
+  display: table;
+  width: 100%;
   transition: all 0.2s ease;
 }
 

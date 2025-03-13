@@ -1,14 +1,14 @@
 <template>
-  <div class="table" data-testid="BaseTable">
+  <div ref="tableDivRef" class="table" data-testid="BaseTable">
     <ScrollWrapper
+      ref="scrollWrapperRef"
       class="table__scroll-wrapper table__scroll-wrapper_head"
-      :is-show-vertical-scroll="isVerticalScroll"
+      :is-show-vertical-scroll
+      :element="scrolledElement"
+      @unmount-scroll="unmountScroll"
+      @on-mounted="setScrollHandlers"
     >
-      <table
-        class="table__table table__table_head"
-        :class="tableClass"
-        data-testid="BaseTable-Head"
-      >
+      <table class="table__table" data-testid="BaseTable-Head">
         <slot name="colgroup"></slot>
 
         <thead
@@ -32,37 +32,12 @@
             </TableTh>
           </TableRow>
         </thead>
+
+        <tbody ref="refTbody" class="table__body" data-testid="BaseTable-Body">
+          <slot name="body" v-bind="state"></slot>
+        </tbody>
       </table>
     </ScrollWrapper>
-
-    <div class="table__table-wrapper">
-      <!-- <div ref="scrollRef" class="table__scroll-wrapper"> -->
-      <ScrollWrapper
-        ref="scrollWrapperRef"
-        class="table__scroll-wrapper"
-        @unmount-scroll="unmountScroll"
-      >
-        <table
-          class="table__table table__table_body"
-          data-testid="BaseTable-Body"
-        >
-          <slot name="colgroup"></slot>
-
-          <tbody class="table__body" data-testid="BaseTable-Body">
-            <slot name="body" v-bind="state"></slot>
-          </tbody>
-        </table>
-      </ScrollWrapper>
-
-      <!-- <div
-        class="table__border-bottom"
-        data-testid="BaseTable-Body-Bottom"
-      ></div>
-
-      <div class="table__border-right" data-testid="BaseTable-Body-Right"></div> -->
-
-      <!-- <div class="table__border-mask" data-testid="BaseTable-Body-Mask"></div> -->
-    </div>
   </div>
 </template>
 
@@ -70,22 +45,38 @@
 import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import TableRow from '@/components/Table/TableRow.vue';
 import TableTh from '@/components/Table/TableTh.vue';
+import changeStyleProperties from '@/helpers/change-style-properties';
 
-import { computed, ComputedRef, reactive, ref, watchEffect } from 'vue';
+import {
+  computed,
+  ComputedRef,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watchEffect
+} from 'vue';
+import { ITableProps } from '@/components/Table/interface/interface';
 
 defineOptions({
   name: 'BaseTable'
+});
+
+withDefaults(defineProps<ITableProps>(), {
+  isShowVerticalScroll: false
 });
 
 const emit = defineEmits<{
   (e: 'unmountScroll', event: Event): void;
 }>();
 
-const refThead = ref<HTMLElement | null>(null);
+const tableDivRef = ref<HTMLElement | null>(null);
 const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
+const refThead = ref<HTMLElement | null>(null);
+const refTbody = ref<HTMLElement | null>(null);
+const scrolledElement = ref<HTMLElement | null>(null);
 const state = reactive<{
   countColumn: ComputedRef<number>;
-  isShowHeadVerticalScroll: ComputedRef<boolean | undefined>;
 }>({
   // Получаем количество столбцов
   countColumn: computed(() => {
@@ -100,27 +91,64 @@ const state = reactive<{
     }
 
     return maxCountColumn;
-  }),
-  isShowHeadVerticalScroll: computed(
-    () => scrollWrapperRef.value?.isShowVerticalScroll
-  )
+  })
 });
-const isVerticalScroll = ref(false);
 
-const tableClass = computed(() => [
-  {
-    'table__table_vertical-scroll': isVerticalScroll.value
-  }
-]);
+provide('scrolledElement', refTbody);
 
 watchEffect(() => {
-  if (scrollWrapperRef.value) {
-    isVerticalScroll.value = scrollWrapperRef.value.isVerticalScroll;
+  if (refTbody.value) {
+    scrolledElement.value = refTbody.value;
   }
 });
+
+const setStyle = () => {
+  if (refThead.value && tableDivRef.value) {
+    const width = refThead.value.clientWidth;
+    const height = refThead.value.clientHeight;
+
+    requestAnimationFrame(() => {
+      if (tableDivRef.value) {
+        changeStyleProperties(
+          {
+            '--scroll-track-margin': `${height}px 0 0 0`,
+            '--table-width': `${width}px`
+          },
+          tableDivRef.value
+        );
+      }
+    });
+  }
+};
+
+const resizeObserver = new ResizeObserver(entries => {
+  entries.forEach(() => {
+    setStyle();
+  });
+});
+
 const unmountScroll = (e: Event) => {
   emit('unmountScroll', e);
 };
+
+const setScrollHandlers = () => {
+  if (refTbody.value && scrollWrapperRef.value) {
+    refTbody.value.addEventListener(
+      'scroll',
+      scrollWrapperRef.value.handleScroll
+    );
+    scrollWrapperRef.value.setResizeElement(refTbody.value);
+    scrollWrapperRef.value.setScrollStyle();
+  }
+};
+
+onMounted(() => {
+  if (refThead.value && tableDivRef.value) {
+    setStyle();
+
+    resizeObserver.observe(refThead.value);
+  }
+});
 </script>
 
 <style scoped>
@@ -134,6 +162,7 @@ const unmountScroll = (e: Event) => {
   --th-font-size: var(--font-size);
   --scroll-wrapper-padding: 3px;
   --scrollbar-width: 6px;
+  --table-width: auto;
 
   --table-background-color: var(--white);
 
@@ -155,45 +184,45 @@ const unmountScroll = (e: Event) => {
 
 .table__table {
   position: relative;
+  height: var(--table-body-max-height);
   z-index: 1;
   border: none;
   border-collapse: separate;
   border-spacing: 0;
-}
-.table__table-wrapper {
-  height: var(--table-body-max-height);
+  overflow: hidden;
+  table-layout: fixed;
 }
 
-.table__scroll-wrapper {
+.table .table__scroll-wrapper {
   position: relative;
-  height: var(--table-body-max-height);
   border-bottom-left-radius: var(--border-radius);
 
   --scroll-slot-bottom-right-radius: var(--border-radius);
   --scroll-slot-bottom-left-radius: var(--border-radius);
+  --scroll-slot-top-left-radius: var(--border-radius);
+  --scroll-slot-top-right-radius: var(--border-radius);
   --scroll-slot-border-bottom: 1px solid var(--border-grey);
   --scroll-slot-border-left: 1px solid var(--border-grey);
   --scroll-slot-border-right: 1px solid var(--border-grey);
 }
 
-.table__scroll-wrapper_head {
-  height: auto;
-  --scroll-slot-bottom-right-radius: 0;
-  --scroll-slot-bottom-left-radius: 0;
-  --scroll-slot-top-left-radius: var(--border-radius);
-  --scroll-slot-top-right-radius: var(--border-radius);
-  --scroll-slot-border-bottom: 0;
-  --scroll-slot-border-left: 1px solid var(--border-grey);
-  --scroll-slot-border-right: 1px solid var(--border-grey);
-}
-
-.table__table_vertical-scroll.table__table_head {
-  /* padding-right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width)); */
-}
-
 .table__header {
+  position: sticky;
+  top: 0;
   border-radius: var(--border-radius);
   overflow: hidden;
+}
+
+.table__body {
+  scrollbar-width: none;
+  display: block;
+  width: var(--table-width);
+  height: var(--table-body-max-height);
+  overflow: auto;
+}
+
+.table__body::-webkit-scrollbar {
+  display: none;
 }
 .table__table-wrapper {
   position: relative;

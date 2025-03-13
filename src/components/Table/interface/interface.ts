@@ -17,3 +17,7 @@ export interface ITableTd {
   colspan?: number | string;
   rowspan: number | string;
 }
+
+export interface ITableProps {
+  isShowVerticalScroll?: boolean;
+}
