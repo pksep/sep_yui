@@ -3,7 +3,7 @@
     <ScrollWrapper
       ref="scrollWrapperRef"
       class="table__scroll-wrapper table__scroll-wrapper_head"
-      :is-show-vertical-scroll
+      :isShowVerticalScroll="isShowVerticalScroll"
       :element="scrolledElement"
       @unmount-scroll="unmountScroll"
       @on-mounted="setScrollHandlers"
@@ -18,7 +18,7 @@
         >
           <slot name="head" v-bind="state"></slot>
 
-          <TableRow
+          <HeadTableRow
             class="table__search-tr"
             v-if="$slots['search']"
             data-testid="BaseTable-Head-SearchRow"
@@ -30,7 +30,7 @@
             >
               <slot name="search"></slot>
             </TableTh>
-          </TableRow>
+          </HeadTableRow>
         </thead>
 
         <tbody ref="refTbody" class="table__body" data-testid="BaseTable-Body">
@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
-import TableRow from '@/components/Table/TableRow.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import changeStyleProperties from '@/helpers/change-style-properties';
 
@@ -57,6 +56,7 @@ import {
   watchEffect
 } from 'vue';
 import { ITableProps } from '@/components/Table/interface/interface';
+import HeadTableRow from '@/components/Table/HeadTableRow.vue';
 
 defineOptions({
   name: 'BaseTable'

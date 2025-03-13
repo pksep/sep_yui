@@ -17,7 +17,7 @@ defineOptions({
 }
 
 .head-table-row:last-child > * {
-  border-bottom: 1px solid var(--border-grey);
+  border-bottom: none;
 }
 
 .head-table-row:first-child > *:first-child {
