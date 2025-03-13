@@ -131,6 +131,12 @@ const unmountScroll = (e: Event) => {
   emit('unmountScroll', e);
 };
 
+const scrollToTop = () => {
+  if (refTbody.value) {
+    refTbody.value.scrollTop = 0;
+  }
+};
+
 const setScrollHandlers = () => {
   if (refTbody.value && scrollWrapperRef.value) {
     refTbody.value.addEventListener(
@@ -141,6 +147,10 @@ const setScrollHandlers = () => {
     scrollWrapperRef.value.setScrollStyle();
   }
 };
+
+defineExpose({
+  scrollToTop
+});
 
 onMounted(() => {
   if (refThead.value && tableDivRef.value) {
