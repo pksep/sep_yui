@@ -42,6 +42,7 @@ import PopoverHover from '@/components/Popover/PopoverHover.vue';
 import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import Radio from '@/components/Radio/Radio.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
+import BaseFilter from '@/components/Select/BaseFilter.vue';
 
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
@@ -87,7 +88,8 @@ const components = {
   HeadTableRow,
   ScrollWrapper,
   Radio,
-  Tooltip
+  Tooltip,
+  BaseFilter
 };
 
 const pinia = createPinia();
@@ -146,6 +148,7 @@ export {
   ScrollWrapper,
   Radio,
   Tooltip,
+  BaseFilter
   type IRangeForDatePicker,
   type OptionsObject
 };

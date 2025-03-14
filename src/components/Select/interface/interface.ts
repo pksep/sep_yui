@@ -6,6 +6,8 @@ type ClassArray = Array<string | ClassObject>;
 
 type VueClasses = ClassObject | ClassArray | string;
 
+export type TOptions = string[] | OptionsObject[];
+
 export interface OptionsObject {
   key: string;
   value: string;
@@ -27,7 +29,7 @@ export interface ISelectListProps {
 }
 
 export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
-  options: string[] | OptionsObject[];
+  options: TOptions;
   title: string;
   noOptionText?: string;
 }
@@ -35,4 +37,10 @@ export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
 export interface IComboboxProps extends IOptionsProps {
   placeholder?: string;
   disableOpen?: boolean;
+}
+
+export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
+  options: OptionsObject[];
+  title: string;
+  defaultText?: string;
 }

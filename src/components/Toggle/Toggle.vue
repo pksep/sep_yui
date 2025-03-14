@@ -19,7 +19,8 @@ import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
 const props = withDefaults(defineProps<IToggleProps>(), {
   disabled: false,
-  checked: false
+  checked: false,
+  size: 'small'
 });
 
 const emit = defineEmits<{
@@ -39,9 +40,13 @@ const uniqueId = generateUniqueId();
 /**
  * Высчитывает классы для всего Тоггла
  */
-const classes = computed(() => ({
-  'toggle-yui-kit': true
-}));
+const classes = computed(() => [
+  {
+    'toggle-yui-kit': true,
+    'toggle-yui-kit_large': props.size === 'large',
+    'toggle-yui-kit_small': props.size === 'small'
+  }
+]);
 
 /**
  * Высчитывает стили для всего Тоггла, меняет фон элемента
@@ -74,13 +79,9 @@ const onClick = () => emit('change', Boolean(model.value));
 
   .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
     background-color: var(--border-blue);
-    box-shadow:
-      inset 0px 3px 3px 0 rgba(0, 0, 0, 0.15),
-      inset 0px 3px 3px 0 rgba(128, 128, 128, 0.18);
   }
-
   .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
-    transform: translateX(24px);
+    transform: translateX(10px);
   }
 
   &:has(.toggle-yui-kit-input:disabled) {
@@ -88,6 +89,35 @@ const onClick = () => emit('change', Boolean(model.value));
       background-color: rgba(208, 208, 208, 0.5);
       &::before {
         background-color: #c8c8c8;
+      }
+    }
+  }
+
+  &_large {
+    .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
+      background-color: var(--border-blue);
+      box-shadow:
+        inset 0px 3px 3px 0 rgba(0, 0, 0, 0.15),
+        inset 0px 3px 3px 0 rgba(128, 128, 128, 0.18);
+    }
+    .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
+      transform: translateX(24px);
+    }
+
+    & label.toggle-yui-kit-label {
+      width: 56px;
+      height: 32px;
+      box-shadow:
+        inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.1),
+        inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.08);
+      border-radius: 34px;
+
+      &::before {
+        width: 24px;
+        height: 24px;
+        top: 4px;
+        left: 4px;
+        box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.22);
       }
     }
   }
@@ -99,33 +129,29 @@ label.toggle-yui-kit-label {
   // left: 50%;
   // transform: translate(-50%, -50%);
   display: block;
-  width: 56px;
-  height: 32px;
+  width: 26px;
+  height: 16px;
   background-color: var(--grey3);
-  border-radius: 34px;
+  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   transition:
     background-color 0.3s,
     box-shadow 0.3s;
   margin: 0;
-  box-shadow:
-    inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.1),
-    inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.08);
 
   &:before {
     content: '';
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    top: 4px;
-    left: 4px;
+    top: 3px;
+    left: 3px;
     background-color: var(--white);
     transition:
       transform 0.3s,
       background-color 0.3s;
-    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.22);
   }
 }
 </style>
