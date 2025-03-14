@@ -24,6 +24,8 @@ const classRow = computed(() => [
 
 <style scoped>
 .table-row {
+  display: table;
+  width: 100%;
   transition: all 0.2s ease;
 }
 
@@ -33,6 +35,10 @@ const classRow = computed(() => [
 
 .table-row_selected {
   background-color: var(--blue11);
+}
+
+.table-row:last-child {
+  border-bottom: 1px solid var(--border-grey);
 }
 
 /* .table-row:last-child > *:first-child {
