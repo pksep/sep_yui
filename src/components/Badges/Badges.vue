@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { IBadgesProps } from './interface/interface';
 import { BadgesTypeEnum } from './enum/enum';
-import { onMounted, computed, reactive } from 'vue';
+import { onMounted, computed, reactive, watchEffect } from 'vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {
   type: BadgesTypeEnum.default,
@@ -22,7 +22,7 @@ const state = reactive({
 });
 
 const emit = defineEmits<{
-  (e: 'choose', state: boolean): void;
+  (e: 'choose', state: boolean, value?: string): void;
 }>();
 
 /**
@@ -46,9 +46,11 @@ const classes = computed(() => ({
  * Создает проверку на выбор статуса
  */
 const isChoosen = () => {
-  emit('choose', state.choosed);
+  emit('choose', state.choosed, props.text);
   if (!props.disabled) state.choosed = !state.choosed;
 };
+
+watchEffect(() => (state.choosed = props.choosed));
 
 /**
  * Устанавливает выбранные статусы из пропсов

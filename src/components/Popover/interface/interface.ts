@@ -1,4 +1,5 @@
 import { IconNameEnum } from '../../Icon/enum/enum';
+import { PopoverHoverEnum } from '../enums/enums';
 
 export interface IPopoverOption {
   value: string;
@@ -8,4 +9,8 @@ export interface IPopoverOption {
 export interface IPopoverProps {
   iconName?: IconNameEnum;
   options: IPopoverOption[];
+}
+
+export interface IPopoverHoverProps {
+  position: PopoverHoverEnum;
 }

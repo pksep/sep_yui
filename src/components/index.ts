@@ -38,6 +38,7 @@ import TableTd from '@/components/Table/TableTd.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import SectionTableRow from '@/components/Table/SectionTableRow.vue';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
+import PopoverHover from '@/components/Popover/PopoverHover.vue';
 
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
@@ -62,6 +63,7 @@ const components = {
   Input,
   InputNumber,
   Picture,
+  PopoverHover,
   Scroll,
   Search,
   Modal,
@@ -134,6 +136,7 @@ export {
   TableTh,
   SectionTableRow,
   HeadTableRow,
+  PopoverHover,
   type IRangeForDatePicker,
   type OptionsObject
 };
