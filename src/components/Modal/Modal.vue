@@ -35,7 +35,9 @@ const showDialog = () =>
 
 const hideDialog = () => {
   dialog.value?.close();
-  emit('close');
+  setTimeout(() => {
+    emit('close');
+  }, 100);
 };
 
 useEventListener(dialog, 'click', e => {
@@ -67,9 +69,8 @@ onUnmounted(() => {
   margin-right: 0;
   inset: 0;
   max-block-size: 100vh;
+  min-height: 100vh;
   padding: 0px;
-  &[open] {
-  }
   &:focus-visible {
     outline: none;
   }

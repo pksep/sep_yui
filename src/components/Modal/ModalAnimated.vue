@@ -1,8 +1,8 @@
 <template>
   <Transition name="modal">
     <Modal
-      v-if="state.open"
-      :open="state.open"
+      v-if="props.open"
+      :open="props.open"
       :width="props.width"
       :height="props.height"
       @close="close"
@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import Modal from './Modal.vue';
-import { reactive, watchEffect } from 'vue';
 import type { IDialogProps } from './interface/interface';
 const props = defineProps<IDialogProps>();
 
@@ -22,16 +21,7 @@ const emits = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const state = reactive({
-  open: false
-});
-
-watchEffect(() => {
-  state.open = props.open;
-});
-
-const close = (): void => {
-  state.open = false;
+const close = () => {
   emits('close');
 };
 </script>
