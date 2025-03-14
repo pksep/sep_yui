@@ -1,7 +1,7 @@
 <template>
   <div class="tooltip-yui-kit" :class="tooltipClass" :aria-label="hint">
     <slot></slot>
-    <div class="tooltip-yui-kit__hint">{{ hint }}</div>
+    <div v-if="isCanShow" class="tooltip-yui-kit__hint">{{ hint }}</div>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<ITooltipProps>(), {
   isShow: false,
+  isCanShow: true,
   position: 'bottom-center',
   size: 'small',
   type: 'black'
