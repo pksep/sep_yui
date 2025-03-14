@@ -1,93 +1,170 @@
 <template>
-  <div class="table" data-testid="BaseTable">
-    <table class="table__table table__table_head" data-testid="BaseTable-Head">
-      <slot name="colgroup"></slot>
+  <div ref="tableDivRef" class="table" data-testid="BaseTable">
+    <ScrollWrapper
+      ref="scrollWrapperRef"
+      class="table__scroll-wrapper table__scroll-wrapper_head"
+      :isShowVerticalScroll="isShowVerticalScroll"
+      :element="scrolledElement"
+      @unmount-scroll="unmountScroll"
+      @on-mounted="setScrollHandlers"
+    >
+      <table class="table__table" data-testid="BaseTable-Head">
+        <slot name="colgroup"></slot>
 
-      <thead
-        ref="refThead"
-        class="table__header"
-        data-testid="BaseTable-Header"
-      >
-        <slot name="head" v-bind="state"></slot>
-      </thead>
-    </table>
-
-    <div class="table__table-wrapper" :class="wrapperClass">
-      <div ref="scrollRef" class="table__scroll-wrapper">
-        <table
-          class="table__table table__table_body"
-          data-testid="BaseTable-Body"
+        <thead
+          ref="refThead"
+          class="table__header"
+          data-testid="BaseTable-Header"
         >
-          <slot name="colgroup"></slot>
+          <slot name="head" v-bind="state"></slot>
 
-          <tbody class="table__body" data-testid="BaseTable-Body">
-            <TableRow
-              v-if="$slots['search']"
-              data-testid="BaseTable-Body-SearchRow"
+          <HeadTableRow
+            class="table__search-tr"
+            v-if="$slots['search']"
+            data-testid="BaseTable-Head-SearchRow"
+          >
+            <TableTh
+              :colspan="state.countColumn"
+              class="table__search-th"
+              data-testid="BaseTable-Head-SearchRow-Search"
             >
-              <TableTd
-                :colspan="state.countColumn"
-                class="table__search-td"
-                data-testid="BaseTable-Body-SearchRow-Search"
-              >
-                <slot name="search"></slot>
-              </TableTd>
-            </TableRow>
+              <slot name="search"></slot>
+            </TableTh>
+          </HeadTableRow>
+        </thead>
 
-            <slot name="body" v-bind="state"></slot>
-          </tbody>
-        </table>
-
-        <div
-          class="table__border-bottom"
-          data-testid="BaseTable-Body-Bottom"
-        ></div>
-
-        <div class="table__border-mask" data-testid="BaseTable-Body-Mask"></div>
-      </div>
-    </div>
+        <tbody ref="refTbody" class="table__body" data-testid="BaseTable-Body">
+          <slot name="body" v-bind="state"></slot>
+        </tbody>
+      </table>
+    </ScrollWrapper>
   </div>
 </template>
 
 <script setup lang="ts">
-import TableRow from '@/components/Table/TableRow.vue';
-import TableTd from '@/components/Table/TableTd.vue';
-import { computed, ComputedRef, reactive, ref } from 'vue';
+import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
+import TableTh from '@/components/Table/TableTh.vue';
+import changeStyleProperties from '@/helpers/change-style-properties';
+
+import {
+  computed,
+  ComputedRef,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watchEffect
+} from 'vue';
+import { ITableProps } from '@/components/Table/interface/interface';
+import HeadTableRow from '@/components/Table/HeadTableRow.vue';
 
 defineOptions({
   name: 'BaseTable'
 });
 
+withDefaults(defineProps<ITableProps>(), {
+  isShowVerticalScroll: false
+});
+
+const emit = defineEmits<{
+  (e: 'unmountScroll', event: Event): void;
+}>();
+
+const tableDivRef = ref<HTMLElement | null>(null);
+const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 const refThead = ref<HTMLElement | null>(null);
-const scrollRef = ref<HTMLElement | null>(null);
-const state = reactive<{ countColumn: ComputedRef<number> }>({
+const refTbody = ref<HTMLElement | null>(null);
+const scrolledElement = ref<HTMLElement | null>(null);
+const state = reactive<{
+  countColumn: ComputedRef<number>;
+}>({
   // Получаем количество столбцов
   countColumn: computed(() => {
-    if (refThead.value && refThead.value.children[0]) {
-      const tr = refThead.value.children[0];
-      // Проверяем что передана строка с столбцами
-
-      if (tr.nodeName === 'TR') return tr.children.length;
+    let maxCountColumn = 1;
+    if (refThead.value) {
+      for (let idx = 0; idx < refThead.value.children.length; idx++) {
+        maxCountColumn = Math.max(
+          refThead.value.children[idx].children.length,
+          maxCountColumn
+        );
+      }
     }
 
-    return 1;
+    return maxCountColumn;
   })
 });
 
-const isScroll = computed(() => {
-  if (scrollRef.value) {
-    return scrollRef.value.clientHeight < scrollRef?.value.scrollHeight;
+provide('scrolledElement', refTbody);
+
+watchEffect(() => {
+  if (refTbody.value) {
+    scrolledElement.value = refTbody.value;
   }
-  return false;
 });
-const wrapperClass = computed(() => [
-  {
-    'table__table-wrapper_scroll': isScroll.value
+
+const setStyle = () => {
+  if (refThead.value && tableDivRef.value) {
+    const width = refThead.value.clientWidth;
+    const height = refThead.value.clientHeight;
+
+    requestAnimationFrame(() => {
+      if (tableDivRef.value) {
+        changeStyleProperties(
+          {
+            '--scroll-track-margin': `${height}px 0 0 0`,
+            '--table-width': `${width}px`
+          },
+          tableDivRef.value
+        );
+      }
+    });
   }
-]);
+};
+
+const resizeObserver = new ResizeObserver(entries => {
+  entries.forEach(() => {
+    setStyle();
+  });
+});
+
+const unmountScroll = (e: Event) => {
+  emit('unmountScroll', e);
+};
+
+const scrollToTop = () => {
+  if (refTbody.value) {
+    refTbody.value.scrollTop = 0;
+  }
+};
+
+const setScrollHandlers = () => {
+  if (refTbody.value && scrollWrapperRef.value) {
+    refTbody.value.addEventListener(
+      'scroll',
+      scrollWrapperRef.value.handleScroll
+    );
+    scrollWrapperRef.value.setResizeElement(refTbody.value);
+    scrollWrapperRef.value.setScrollStyle();
+  }
+};
+
+defineExpose({
+  scrollToTop
+});
+
+onMounted(() => {
+  if (refThead.value && tableDivRef.value) {
+    setStyle();
+
+    resizeObserver.observe(refThead.value);
+  }
+});
 </script>
 
 <style scoped>
+:root {
+  --table-body-max-height: auto;
+}
 .table {
   --border-radius: 15px;
   --font-size: 14px;
@@ -95,130 +172,88 @@ const wrapperClass = computed(() => [
   --th-font-size: var(--font-size);
   --scroll-wrapper-padding: 3px;
   --scrollbar-width: 6px;
+  --table-width: auto;
 
   --table-background-color: var(--white);
-  --table-body-max-height: auto;
+
+  --th-vertical-padding: 19px;
+  --th-horizontal-padding: 16px;
 
   --td-vertical-padding: 11.5px;
   --td-horizontal-padding: 8px;
 
-  padding: 15px 10px 15px 15px;
-
   background-color: var(--table-background-color);
 
   overflow: hidden;
 }
 
-.table__scroll-wrapper,
-.table__table-wrapper,
 .table,
 .table__table {
   width: 100%;
 }
-.table__table-wrapper {
-  position: relative;
-  padding-right: var(--scrollbar-width);
-}
-.table__table-wrapper_scroll {
-  padding-right: 0;
-}
-
-.table__scroll-wrapper,
-.table__border-bottom,
-.table__table_body {
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  overflow: hidden;
-}
-
-.table__scroll-wrapper {
-  max-height: var(--table-body-max-height);
-  overflow: auto;
-  padding-right: var(--scroll-wrapper-padding);
-
-  --scrollbar-thumb-color-base: rgba(0, 0, 0, 0);
-}
-
-.table__scroll-wrapper:hover {
-  --scrollbar-thumb-color-base: inherit;
-}
-
-.table__scroll-wrapper::-webkit-scrollbar {
-  opacity: 0;
-}
-
-.table__border-bottom {
-  position: absolute;
-  height: calc(var(--border-radius) * 3);
-  bottom: -1px;
-  left: 0;
-  right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width));
-
-  border-bottom: 1px solid var(--border-grey);
-  border-right: 1px solid var(--border-grey);
-  border-left: 1px solid var(--border-grey);
-}
-
-.table__border-mask {
-  position: absolute;
-  z-index: 1;
-  bottom: 0;
-  right: calc(var(--scroll-wrapper-padding) + var(--scrollbar-width));
-  width: var(--border-radius);
-  height: var(--border-radius);
-
-  background-color: var(--table-background-color);
-  clip-path: polygon(
-    100% 4px,
-    calc(var(--border-radius) - 1px) 4px,
-    calc(var(--border-radius) - 1px) 100%,
-    100% 100%
-  );
-}
 
 .table__table {
   position: relative;
+  height: var(--table-body-max-height);
   z-index: 1;
   border: none;
   border-collapse: separate;
   border-spacing: 0;
+  overflow: hidden;
+  table-layout: fixed;
 }
 
-.table__table_head {
-  padding-right: 9px;
-}
-.table__table_body {
+.table .table__scroll-wrapper {
+  position: relative;
+  border-bottom-left-radius: var(--border-radius);
+
+  --scroll-slot-bottom-right-radius: var(--border-radius);
+  --scroll-slot-bottom-left-radius: var(--border-radius);
+  --scroll-slot-top-left-radius: var(--border-radius);
+  --scroll-slot-top-right-radius: var(--border-radius);
+  --scroll-slot-border-bottom: 1px solid var(--border-grey);
+  --scroll-slot-border-left: 1px solid var(--border-grey);
+  --scroll-slot-border-right: 1px solid var(--border-grey);
 }
 
 .table__header {
+  position: sticky;
+  top: 0;
   border-radius: var(--border-radius);
   overflow: hidden;
 }
 
-.table__search-td {
-  --td-horizontal-padding: 5px;
-  --td-vertical-padding: 5px;
+.table__body {
+  scrollbar-width: none;
+  display: block;
+  width: var(--table-width);
+  height: var(--table-body-max-height);
+  overflow: auto;
 }
 
-@supports (-moz-appearance: none) {
-  .table__border-mask {
-    display: none;
-  }
-  .table__scroll-wrapper {
-    padding-right: 0;
-  }
-  .table__table-wrapper {
-    padding-right: 0;
-  }
-  .table__border-bottom {
-    right: 0;
-  }
+.table__body::-webkit-scrollbar {
+  display: none;
+}
+.table__table-wrapper {
+  position: relative;
+}
 
-  .table {
-    padding-right: 10px;
-  }
-  .table__table_head {
-    padding-right: 0px;
-  }
+.table__search-tr {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+
+  background-color: var(--table-background-color);
+}
+.table__search-th {
+  --th-horizontal-padding: 5px;
+  --th-vertical-padding: 5px;
+  border-bottom: 1px solid var(--border-grey);
+  background-color: var(--table-background-color);
+}
+
+.table__table-wrapper:not(:has(tr)) .table__border-bottom,
+.table__table-wrapper:not(:has(tr)) .table__border-mask {
+  display: none;
 }
 </style>

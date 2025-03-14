@@ -106,6 +106,11 @@ Ghost.args = {
   type: ButtonTypeEnum.ghost
 };
 
+export const Reject = Template.bind({});
+Ghost.args = {
+  type: ButtonTypeEnum.reject
+};
+
 export const BtnWithIcon = Template.bind({});
 BtnWithIcon.args = {
   type: ButtonTypeEnum.primary,

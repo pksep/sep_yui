@@ -24,6 +24,8 @@ const classRow = computed(() => [
 
 <style scoped>
 .table-row {
+  display: table;
+  width: 100%;
   transition: all 0.2s ease;
 }
 
@@ -35,15 +37,15 @@ const classRow = computed(() => [
   background-color: var(--blue11);
 }
 
-.table-row:last-child > *:first-child {
-  --td-bottom-padding: 0;
+.table-row:last-child {
+  border-bottom: 1px solid var(--border-grey);
 }
 
-.table-row:last-child > *:first-child {
+/* .table-row:last-child > *:first-child {
   border-bottom-left-radius: var(--border-radius);
 }
 
 .table-row:last-child > *:last-child {
   border-bottom-right-radius: var(--border-radius);
-}
+} */
 </style>

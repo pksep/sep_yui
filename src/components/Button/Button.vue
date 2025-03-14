@@ -45,6 +45,7 @@ const classes = computed(() => ({
   'primary-yui-kit': props.type === ButtonTypeEnum.primary,
   'secondary-yui-kit': props.type === ButtonTypeEnum.secondary,
   'outline-yui-kit': props.type === ButtonTypeEnum.outline,
+  'reject-yui-kit': props.type === ButtonTypeEnum.reject,
   'ghost-yui-kit': props.type === ButtonTypeEnum.ghost
 }));
 
@@ -144,6 +145,24 @@ const onClick = (e: MouseEvent) => emit('click', e);
   &.active {
     color: var(--white);
     background-color: #548cf6;
+  }
+
+  &.disabled-yui-kit {
+    color: var(--grey6);
+    background-color: var(--grey1);
+    border: 1px solid var(--grey7);
+  }
+}
+
+.reject-yui-kit {
+  background-color: var(--grey1);
+  border: 1px solid transparent;
+  color: var(--grey6);
+
+  &:active,
+  &.active {
+    color: var(--grey6);
+    background-color: var(--grey1);
   }
 
   &.disabled-yui-kit {

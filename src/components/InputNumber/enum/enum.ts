@@ -4,5 +4,6 @@ export enum InputTypeEnum {
   warning = 'warning',
   success = 'success',
   ordinary = 'ordinary',
-  disabled = 'disabled'
+  disabled = 'disabled',
+  minor = 'minor'
 }

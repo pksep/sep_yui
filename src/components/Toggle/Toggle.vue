@@ -4,7 +4,8 @@
       class="toggle-yui-kit-input"
       :id="uniqueId"
       type="checkbox"
-      v-model="isChecked"
+      :disabled
+      v-model="model"
       @change="onClick"
     />
     <label class="toggle-yui-kit-label" :for="uniqueId"></label>
@@ -12,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { IToggleProps } from './interface/interface';
 import { generateUniqueId } from './../../helpers/genarate-unic-id';
 
@@ -28,7 +29,7 @@ const emit = defineEmits<{
 /**
  * Проверяет на состояние выбра - не выбран элемент
  */
-const isChecked = ref(props.checked);
+const model = defineModel<boolean>();
 
 /**
  * высчитывает уникальный id
@@ -52,59 +53,79 @@ const styles = computed(() => ({
 /**
  * По событию click передает значение выбран-не выбран элемент.
  */
-const onClick = () => emit('change', isChecked.value);
+const onClick = () => emit('change', Boolean(model.value));
 </script>
 
 <style lang="scss" scoped>
 @import './../../assets/scss/_global.scss';
 
 .toggle-yui-kit {
-  color: $WHITE;
+  color: var(--white);
   outline: none;
   border: none;
   box-sizing: border-box;
   border-radius: 5px;
   position: relative;
-  display: inline-block;
-  width: 25px;
-  height: 16px;
+  display: block;
 
   .toggle-yui-kit-input {
     display: none;
   }
 
   .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
-    background-color: $BLUE-9CBEFF;
+    background-color: var(--border-blue);
+    box-shadow:
+      inset 0px 3px 3px 0 rgba(0, 0, 0, 0.15),
+      inset 0px 3px 3px 0 rgba(128, 128, 128, 0.18);
   }
 
   .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
-    transform: translateX(10px);
+    transform: translateX(24px);
+  }
+
+  &:has(.toggle-yui-kit-input:disabled) {
+    & label.toggle-yui-kit-label {
+      background-color: rgba(208, 208, 208, 0.5);
+      &::before {
+        background-color: #c8c8c8;
+      }
+    }
   }
 }
 
 label.toggle-yui-kit-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 26px;
-  height: 16px;
-  background-color: $GREY-E2E2E2;
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
+  display: block;
+  width: 56px;
+  height: 32px;
+  background-color: var(--grey3);
   border-radius: 34px;
+  overflow: hidden;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s;
   margin: 0;
+  box-shadow:
+    inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.1),
+    inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.08);
 
   &:before {
     content: '';
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    top: 3px;
-    left: 3px;
-    background-color: $WHITE;
-    transition: transform 0.3s;
+    top: 4px;
+    left: 4px;
+    background-color: var(--white);
+    transition:
+      transform 0.3s,
+      background-color 0.3s;
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.22);
   }
 }
 </style>

@@ -5,12 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { ITableCell } from '@/components/Table/interface/interface';
+import { ITableTd } from '@/components/Table/interface/interface';
 
 defineOptions({
   name: 'TableTh'
 });
-withDefaults(defineProps<ITableCell>(), {
+withDefaults(defineProps<ITableTd>(), {
   colspan: 1,
   rowspan: 1
 });
@@ -18,10 +18,11 @@ withDefaults(defineProps<ITableCell>(), {
 
 <style scoped>
 .table-th {
-  padding: 19px 16px;
+  padding: var(--th-vertical-padding) var(--th-horizontal-padding);
   font-weight: 700;
   font-size: var(--th-font-size, 14px);
   text-align: center;
+  line-height: 28px;
 
   border: none;
   border-left: 1px solid var(--border-grey);
@@ -31,11 +32,12 @@ withDefaults(defineProps<ITableCell>(), {
 }
 
 .table-th:first-child {
+  border-left: none;
   /* border-top-left-radius: var(--border-radius); */
 }
 
 .table-th:last-child {
-  border-right: 1px solid var(--border-grey);
+  border-right: none;
   /* border-top-right-radius: var(--border-radius); */
 }
 </style>

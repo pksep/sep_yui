@@ -29,9 +29,7 @@ const Template: StoryFn<typeof Table> = args => ({
     return { args };
   },
   template: `<Table style="--table-body-max-height:150px;">
-    <template #colgroup>
-      <col style="width:50%;"/>
-    </template>
+
 
     <template #head>
       <HeadTableRow>
@@ -52,6 +50,51 @@ const Template: StoryFn<typeof Table> = args => ({
       </TableRow>
 
       <SectionTableRow colspan="2">Разделительный заголовок</SectionTableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
+
+      <TableRow>
+        <TableTd colspan="2">Значние 2</TableTd>
+      </TableRow>
+
+      <TableRow type="selected">
+        <TableTd>Выбранное значние 3</TableTd>
+        <TableTd>Выбранное подзначение 3</TableTd>
+      </TableRow>
 
       <TableRow>
         <TableTd colspan="2">Значние 2</TableTd>

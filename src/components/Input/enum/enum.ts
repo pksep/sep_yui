@@ -4,7 +4,8 @@ export enum InputTypeEnum {
   warning = 'warning',
   success = 'success',
   disabled = 'disabled',
-  ordinary = 'ordinary'
+  ordinary = 'ordinary',
+  minor = 'minor'
 }
 
 export enum TextFieldEnum {
