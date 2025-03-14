@@ -6,16 +6,16 @@ export interface ISectionTable<T> {
 export type TTableRow = 'selected' | 'default';
 
 export interface ITableRow {
-  type: TTableRow;
+  type?: TTableRow;
 }
 
 export interface ISectionTableRow {
-  colspan: number;
+  colspan: number | string;
 }
 
 export interface ITableTd {
   colspan?: number | string;
-  rowspan: number | string;
+  rowspan?: number | string;
 }
 
 export interface ITableProps {

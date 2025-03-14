@@ -254,7 +254,6 @@ onMounted(() => {
 <style scoped>
 :root {
   --scroll-track-margin: 0;
-  --scroll-track-opacity: 0;
 }
 .scroll-wrapper {
   --scroll-wrapper-gap: 3px;
@@ -309,16 +308,20 @@ onMounted(() => {
   margin: var(--scroll-track-margin);
   /* height: 100%; */
 
-  opacity: var(--scroll-track-opacity);
+  opacity: 0;
   background-color: var(--scrollbar-bg-color);
   border-radius: var(--scroll-border-radius);
 
   transition: all 0.2s ease;
 }
+.scroll-wrapper:hover .scroll-wrapper__track {
+  opacity: 1;
+}
 .scroll-wrapper__track_drag {
   opacity: 1;
 }
-.scroll-wrapper__track_hide {
+.scroll-wrapper .scroll-wrapper__track_hide,
+.scroll-wrapper:hover .scroll-wrapper__track_hide {
   opacity: 0;
 }
 
