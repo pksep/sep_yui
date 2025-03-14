@@ -17,6 +17,7 @@ export type TTooltipType = 'white' | 'black' | 'blue';
 export interface ITooltipProps {
   hint: string;
   isShow?: boolean;
+  isCanShow?: boolean;
   position?: TTooltipPosition;
   size?: TTooltipSize;
   type?: TTooltipType;
