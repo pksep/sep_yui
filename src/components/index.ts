@@ -38,9 +38,13 @@ import TableTd from '@/components/Table/TableTd.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import SectionTableRow from '@/components/Table/SectionTableRow.vue';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
+import PopoverHover from '@/components/Popover/PopoverHover.vue';
 import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import Radio from '@/components/Radio/Radio.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
+
+import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
+import type { OptionsObject } from './Select/interface/interface';
 
 const components = {
   Accordion,
@@ -61,8 +65,8 @@ const components = {
   Icon,
   Input,
   InputNumber,
-  PushNotification,
   Picture,
+  PopoverHover,
   Scroll,
   Search,
   Modal,
@@ -138,7 +142,10 @@ export {
   TableTh,
   SectionTableRow,
   HeadTableRow,
+  PopoverHover,
   ScrollWrapper,
   Radio,
-  Tooltip
+  Tooltip,
+  type IRangeForDatePicker,
+  type OptionsObject
 };

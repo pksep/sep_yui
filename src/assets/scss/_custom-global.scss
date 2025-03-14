@@ -1,16 +1,18 @@
-[class*="yui-kit"] {
+[class*='yui-kit'] {
   font-family: $PRIMARY-FONT;
 }
 
 @supports not selector(::-webkit-scrollbar) {
-    * {
-      scrollbar-color: var(--scrollbar-thumb-color-hovered) var(--scrollbar-bg-color);
-      scrollbar-width: var(--scrollbar-width);
-    }
+  * {
+    scrollbar-color: var(--scrollbar-thumb-color-hovered)
+      var(--scrollbar-bg-color);
+    scrollbar-width: var(--scrollbar-width);
+  }
 }
 
 ::-webkit-scrollbar {
   width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
   background-color: var(--scrollbar-bg-color);
 }
 
