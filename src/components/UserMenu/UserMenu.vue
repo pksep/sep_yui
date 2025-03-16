@@ -32,7 +32,11 @@
             >Темная тема</span
           >
 
-          <Toggle @change="toggleThemeChange" :checked="state.isBlackTheme" />
+          <Toggle
+            :type="ToggleEnum.small"
+            @change="toggleThemeChange"
+            :checked="state.isBlackTheme"
+          />
         </li>
         <li
           class="list-yui-kit__item"
@@ -79,6 +83,7 @@ import { MenuTypeEnum } from '@/components/UserMenu/enum/enum';
 import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
+import { ToggleEnum } from '@/components/Toggle/enums/enums';
 
 const props = withDefaults(defineProps<IMenuProps>(), {});
 
@@ -208,7 +213,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .menu-yui-kit {
   display: flex;
   align-items: center;
@@ -217,38 +222,38 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   max-width: fit-content;
   min-width: 212px;
 
-  &__wrapper {
+  & .menu-yui-kit__wrapper {
     display: flex;
     align-items: center;
     gap: 9px;
-    background-color: $WHITE;
+    background-color: var(--white);
     width: 100%;
   }
 
-  &__avatar {
+  & .menu-yui-kit__avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
-    background-color: $BLUE-F2F7FF;
-    color: $GREY-262626;
+    background-color: var(--blue9);
+    color: var(--grey8);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 
-    img {
+    & img {
       object-fit: cover;
       width: 100%;
       height: 100%;
     }
   }
 
-  &__names {
+  & .menu-yui-kit__names {
     max-width: 94px;
   }
 
-  &__heading {
+  & .menu-yui-kit__heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -260,52 +265,52 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     height: 40px;
 
     &.active-yui-kit {
-      background-color: $BLUE-F2F7FF;
+      background-color: var(--blue9);
     }
   }
 
-  &__list {
+  & .menu-yui-kit__list {
     padding: 15px 9px;
     width: 100%;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
-    background-color: $WHITE;
-    color: $GREY-262626;
+    background-color: var(--white);
+    color: var(--grey8);
     border-radius: 5px;
     position: absolute;
     z-index: 10000;
     top: 50px;
   }
 
-  &__name,
-  &__role {
+  & .menu-yui-kit__name,
+  & .menu-yui-kit__role {
     margin: 0;
   }
 
-  &__name {
-    color: $GREY-121212;
+  & .menu-yui-kit__name {
+    color: var(--grey9);
     margin-bottom: 2px;
     font-size: 14px;
     line-height: 16px;
   }
 
-  &__role {
-    color: $GREY-515151;
+  & .menu-yui-kit__role {
+    color: var(--grey10);
     font-size: 12px;
     line-height: 14px;
   }
 
-  &__button {
-    background-color: $TRANSPARENT;
+  & .menu-yui-kit__button {
+    background-color: transparent;
     padding: 0;
     margin-right: 0;
     height: inherit;
-    &-icon {
+    & .menu-yui-kit__button-icon {
       width: 16px;
       height: 16px;
     }
 
     &:hover {
-      background-color: $TRANSPARENT;
+      background-color: transparent;
     }
   }
 }
@@ -317,7 +322,7 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   display: grid;
   gap: 8px;
 
-  &__item {
+  & .list-yui-kit__item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -331,19 +336,19 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
 
     &:hover,
     &:active {
-      background-color: $BLUE-F2F7FF;
-      color: $BLUE-70A6FF;
+      background-color: var(--blue9);
+      color: var(--blue19);
     }
   }
 
-  .toggle-yui-kit {
+  & .toggle-yui-kit {
     margin: 0;
     margin-left: auto;
   }
 }
 
 .switch-yui-kit-list {
-  background-color: $BLUE-F2F7FF;
+  background-color: var(--blue9);
   padding: 2px;
 }
 

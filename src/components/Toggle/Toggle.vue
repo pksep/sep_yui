@@ -16,10 +16,12 @@
 import { computed } from 'vue';
 import { IToggleProps } from './interface/interface';
 import { generateUniqueId } from './../../helpers/genarate-unic-id';
+import { ToggleEnum } from './enums/enums.ts';
 
 const props = withDefaults(defineProps<IToggleProps>(), {
   disabled: false,
-  checked: false
+  checked: false,
+  type: ToggleEnum.medium
 });
 
 const emit = defineEmits<{
@@ -40,7 +42,10 @@ const uniqueId = generateUniqueId();
  * Высчитывает классы для всего Тоггла
  */
 const classes = computed(() => ({
-  'toggle-yui-kit': true
+  'toggle-yui-kit': true,
+  'toggle-yui-kit_small': props.type === ToggleEnum.small,
+  'toggle-yui-kit_medium': props.type === ToggleEnum.medium,
+  'toggle-yui-kit_big': props.type === ToggleEnum.big
 }));
 
 /**
@@ -56,8 +61,21 @@ const styles = computed(() => ({
 const onClick = () => emit('change', Boolean(model.value));
 </script>
 
-<style lang="scss" scoped>
-@import './../../assets/scss/_global.scss';
+<style scoped>
+.toggle-yui-kit_small {
+  --size: 16px;
+  --position: 10px;
+}
+
+.toggle-yui-kit_medium {
+  --size: 20px;
+  --position: 10px;
+}
+
+.toggle-yui-kit_big {
+  --size: 24px;
+  --position: 14px;
+}
 
 .toggle-yui-kit {
   color: var(--white);
@@ -68,19 +86,16 @@ const onClick = () => emit('change', Boolean(model.value));
   position: relative;
   display: block;
 
-  .toggle-yui-kit-input {
+  & .toggle-yui-kit-input {
     display: none;
   }
 
-  .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
+  & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
     background-color: var(--border-blue);
-    box-shadow:
-      inset 0px 3px 3px 0 rgba(0, 0, 0, 0.15),
-      inset 0px 3px 3px 0 rgba(128, 128, 128, 0.18);
   }
 
-  .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
-    transform: translateX(24px);
+  & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
+    transform: translateX(var(--position));
   }
 
   &:has(.toggle-yui-kit-input:disabled) {
@@ -94,38 +109,26 @@ const onClick = () => emit('change', Boolean(model.value));
 }
 
 label.toggle-yui-kit-label {
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
   display: block;
-  width: 56px;
-  height: 32px;
+  width: calc(var(--size, 24px) + 10px);
+  height: var(--size, 24px);
   background-color: var(--grey3);
   border-radius: 34px;
   overflow: hidden;
   cursor: pointer;
-  transition:
-    background-color 0.3s,
-    box-shadow 0.3s;
+  transition: background-color 0.3s;
   margin: 0;
-  box-shadow:
-    inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.1),
-    inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.08);
 
   &:before {
     content: '';
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: calc(var(--size, 24px) - 6px);
+    height: calc(var(--size, 24px) - 6px);
     border-radius: 50%;
-    top: 4px;
-    left: 4px;
+    top: 3px;
+    left: 3px;
     background-color: var(--white);
-    transition:
-      transform 0.3s,
-      background-color 0.3s;
-    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.22);
+    transition: transform 0.3s;
   }
 }
 </style>
