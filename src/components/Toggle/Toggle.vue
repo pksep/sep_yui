@@ -124,10 +124,6 @@ const onClick = () => emit('change', Boolean(model.value));
 }
 
 label.toggle-yui-kit-label {
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
   display: block;
   width: 26px;
   height: 16px;

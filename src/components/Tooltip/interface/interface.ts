@@ -21,4 +21,5 @@ export interface ITooltipProps {
   position?: TTooltipPosition;
   size?: TTooltipSize;
   type?: TTooltipType;
+  hintGap?: number;
 }
