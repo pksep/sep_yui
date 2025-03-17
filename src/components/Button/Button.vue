@@ -2,8 +2,10 @@
   <button
     :class="classes"
     :disabled="props.disabled"
+    tabindex="0"
     :style="styles"
     @click="onClick"
+    @keyup.enter="onClick"
   >
     <template v-if="$slots['left-icon']">
       <span :style="styleChangeColor">
@@ -34,7 +36,7 @@ const props = withDefaults(defineProps<IButtonProps>(), {
 });
 
 const emit = defineEmits<{
-  (e: 'click', event: MouseEvent): void;
+  (e: 'click', event: MouseEvent | KeyboardEvent): void;
 }>();
 
 const classes = computed(() => ({
@@ -69,10 +71,10 @@ const styleChangeColor = computed(() => ({
 /**
  *  Передает событие клик родителю
  */
-const onClick = (e: MouseEvent) => emit('click', e);
+const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .button-yui-kit {
   color: var(--white);
   outline: none;
@@ -111,11 +113,13 @@ const onClick = (e: MouseEvent) => emit('click', e);
 .primary-yui-kit {
   background-color: var(--blue1);
 
+  &:focus,
   &:hover,
   &:active,
   &.active {
     background-color: #548cf6;
   }
+
   &.disabled-yui-kit {
     color: var(--grey6);
     background-color: var(--grey1);
@@ -126,6 +130,7 @@ const onClick = (e: MouseEvent) => emit('click', e);
   background-color: var(--blue15);
   color: var(--blue1);
 
+  &:focus,
   &:active,
   &.active {
     background-color: var(--blue10);
@@ -176,7 +181,8 @@ const onClick = (e: MouseEvent) => emit('click', e);
   background-color: transparent;
   color: var(--black2);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: var(--blue15);
   }
 
@@ -189,9 +195,11 @@ const onClick = (e: MouseEvent) => emit('click', e);
     background-color: var(--grey2);
   }
 }
+
 .disabled-yui-kit {
   cursor: auto;
 }
+
 .pill-yui-kit {
   border-radius: 10px;
 }
