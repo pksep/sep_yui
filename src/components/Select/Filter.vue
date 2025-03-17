@@ -153,18 +153,28 @@ watch(
   color: var(--text-grey);
   width: max-content;
   max-width: 214px;
+  overflow: hidden;
 
-  .filter__header-title {
+  & .filter__header-title {
     font-size: 14px;
     font-weight: 400;
     line-height: 16.94px;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow: visible;
   }
 
-  .filter__header-title__active {
+  & .filter__header-title__active {
     color: var(--text-blue);
+  }
+
+  & .filter__options-badge {
+    overflow: hidden;
+    & :deep(.badges-text) {
+      max-width: 100%;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 
@@ -180,12 +190,12 @@ watch(
   width: 334px;
 }
 
-:deep(.filter__options-option) {
-  font-size: 14px;
+:deep(.filter__options-badge) {
+  white-space: nowrap;
 }
 
-:deep(.badges-text) {
-  white-space: nowrap;
+:deep(.filter__options-option) {
+  font-size: 14px;
 }
 
 li.filter__options-underline {

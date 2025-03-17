@@ -3,7 +3,11 @@ import Filter from './Filter.vue';
 import { StorybookControlEnum } from '../../common/storybook';
 import { fn } from '@storybook/test';
 
-const optionsItems = ['Покупатель 1', 'Покупатель 2', 'Покупатель 3'];
+const optionsItems = [
+  'Покупатель 1',
+  'Покупатель 2',
+  'Покупатель с очень длинным названием'
+];
 
 const optionsObjectItems = [
   {
@@ -16,7 +20,7 @@ const optionsObjectItems = [
   },
   {
     key: 'buyer3',
-    value: 'Покупатель 3'
+    value: 'Покупатель с очень длинным названием'
   }
 ];
 
