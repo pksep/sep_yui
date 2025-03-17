@@ -85,7 +85,7 @@ const choosedOption = computed(() => {
     return option.key === String(model.value);
   })?.value;
 
-  return result ? result : props.defaultOption;
+  return result || props.defaultOption;
 });
 
 const isCanShowHint = computed(() => badgesRef.value?.isSpanOverflow || false);
