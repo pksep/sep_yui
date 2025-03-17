@@ -24,7 +24,6 @@
 <script lang="ts" setup>
 import { ITooltipProps } from '@/components/Tooltip/interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import throttle from '@/helpers/throttle';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 defineOptions({
@@ -66,7 +65,7 @@ const tooltipClass = computed(() => [
   }
 ]);
 
-const updatePosition = () => {
+function updatePosition() {
   if (tooltipRef.value && hintRef.value) {
     const tooltipRect = tooltipRef.value.getBoundingClientRect();
     const hintRect = hintRef.value.getBoundingClientRect();
@@ -96,29 +95,27 @@ const updatePosition = () => {
       }
     });
   }
-};
+}
 
-const throttleUpdatePosition = throttle(updatePosition, 100);
-
-const showHint = () => {
+function showHint() {
   updatePosition();
   isShow.value = true;
-};
+}
 
-const hideHint = () => {
+function hideHint() {
   isShow.value = false;
-};
+}
 
 onMounted(() => {
   if (tooltipRef.value && props.isShow) {
     updatePosition();
-    window.addEventListener('scroll', throttleUpdatePosition);
+    window.addEventListener('scroll', updatePosition);
   }
 });
 
 onUnmounted(() => {
   if (tooltipRef.value && props.isShow) {
-    window.removeEventListener('scroll', throttleUpdatePosition);
+    window.removeEventListener('scroll', updatePosition);
   }
 });
 </script>
