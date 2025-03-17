@@ -65,7 +65,7 @@ const tooltipClass = computed(() => [
   }
 ]);
 
-function updatePosition() {
+const updatePosition = () => {
   if (tooltipRef.value && hintRef.value) {
     const tooltipRect = tooltipRef.value.getBoundingClientRect();
     const hintRect = hintRef.value.getBoundingClientRect();
@@ -95,16 +95,16 @@ function updatePosition() {
       }
     });
   }
-}
+};
 
-function showHint() {
+const showHint = () => {
   updatePosition();
   isShow.value = true;
-}
+};
 
-function hideHint() {
+const hideHint = () => {
   isShow.value = false;
-}
+};
 
 onMounted(() => {
   if (tooltipRef.value && props.isShow) {
