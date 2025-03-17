@@ -148,7 +148,7 @@ export {
   ScrollWrapper,
   Radio,
   Tooltip,
-  BaseFilter
+  BaseFilter,
   type IRangeForDatePicker,
   type OptionsObject
 };

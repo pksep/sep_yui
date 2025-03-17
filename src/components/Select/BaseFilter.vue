@@ -15,16 +15,25 @@
       >
         {{ title }}
       </span>
-      <Badges
-        :type="
-          choosedOption === props.defaultOption
-            ? BadgesTypeEnum.default
-            : BadgesTypeEnum.blue
-        "
-        class="filter__options-badge"
-        :text="choosedOption"
-        disabled
-      />
+      <Tooltip
+        position="top-center"
+        type="blue"
+        :is-can-show="isCanShowHint"
+        :hint="choosedOption"
+        class="filter__header-tooltip"
+      >
+        <Badges
+          ref="badgesRef"
+          :type="
+            choosedOption === props.defaultOption
+              ? BadgesTypeEnum.default
+              : BadgesTypeEnum.blue
+          "
+          class="filter__options-badge"
+          :text="choosedOption"
+          disabled
+        />
+      </Tooltip>
     </template>
     <template #options>
       <Options
@@ -47,6 +56,7 @@ import { BadgesTypeEnum } from '@/components/Badges/enum/enum';
 import { IBaseFilterProps } from '@/components/Select/interface/interface';
 import Options from '@/components/Select/Options.vue';
 import SelectList from '@/components/Select/SelectList.vue';
+import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import { computed, ref } from 'vue';
 
 defineOptions({
@@ -61,7 +71,10 @@ const emits = defineEmits<{
   (e: 'change', value: string): void;
 }>();
 
+const bagesRef = ref<InstanceType<typeof Badges> | null>(null);
 const model = defineModel();
+const isOpened = ref<boolean>();
+
 const filterOptions = computed(() => {
   return props.options.map(option => option.value);
 });
@@ -73,8 +86,8 @@ const choosedOption = computed(() => {
 
   return result ? result : props.defaultOption;
 });
-const isOpened = ref<boolean>();
 
+const isCanShowHint = computed(() => bagesRef.value?.isSpanOverflow);
 const getChoosenOption = (value: string) => {
   const option = props.options.find(option => option.value === value);
   model.value = option?.key || '';
@@ -109,6 +122,7 @@ const change = (val: boolean) => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    flex-shrink: 0;
   }
 
   .filter__header-title__active {
@@ -137,8 +151,13 @@ const change = (val: boolean) => {
   }
 }
 
+.filter__header-tooltip {
+  min-width: 0;
+}
 :deep(.badges-text) {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 li.filter__options-underline {
