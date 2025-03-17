@@ -1,6 +1,6 @@
 <template>
   <div :class="classes" @click="isChoosen">
-    <span class="badges-text">
+    <span ref="spanRef" class="badges-text">
       {{ props.text }}
     </span>
   </div>
@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { IBadgesProps } from './interface/interface';
 import { BadgesTypeEnum } from './enum/enum';
-import { onMounted, computed, reactive } from 'vue';
+import { onMounted, computed, reactive, ref } from 'vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {
   type: BadgesTypeEnum.default,
@@ -17,13 +17,23 @@ const props = withDefaults(defineProps<IBadgesProps>(), {
   disabled: false
 });
 
+const emit = defineEmits<{
+  (e: 'choose', state: boolean, value?: string): void;
+}>();
+
 const state = reactive({
   choosed: false
 });
+const spanRef = ref<HTMLElement | null>(null);
 
-const emit = defineEmits<{
-  (e: 'choose', state: boolean): void;
-}>();
+const getIsSpanOverflow = (): boolean => {
+  if (spanRef.value && spanRef.value.scrollWidth > spanRef.value.clientWidth) {
+    return true;
+  }
+  return false;
+};
+
+const isSpanOverflow = ref<boolean>(getIsSpanOverflow());
 
 /**
  * Создает проверки классов для выбранного статуса.
@@ -46,15 +56,26 @@ const classes = computed(() => ({
  * Создает проверку на выбор статуса
  */
 const isChoosen = () => {
-  emit('choose', state.choosed);
+  emit('choose', state.choosed, props.text);
   if (!props.disabled) state.choosed = !state.choosed;
 };
+
+const resizeObserver = new ResizeObserver(() => {
+  isSpanOverflow.value = getIsSpanOverflow();
+});
+
+defineExpose({
+  isSpanOverflow
+});
 
 /**
  * Устанавливает выбранные статусы из пропсов
  */
 onMounted(() => {
   state.choosed = props.choosed;
+  if (spanRef.value) {
+    resizeObserver.observe(spanRef.value);
+  }
 });
 </script>
 

@@ -40,12 +40,4 @@ const classRow = computed(() => [
 .table-row:last-child {
   border-bottom: 1px solid var(--border-grey);
 }
-
-/* .table-row:last-child > *:first-child {
-  border-bottom-left-radius: var(--border-radius);
-}
-
-.table-row:last-child > *:last-child {
-  border-bottom-right-radius: var(--border-radius);
-} */
 </style>

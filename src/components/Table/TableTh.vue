@@ -33,11 +33,9 @@ withDefaults(defineProps<ITableTd>(), {
 
 .table-th:first-child {
   border-left: none;
-  /* border-top-left-radius: var(--border-radius); */
 }
 
 .table-th:last-child {
   border-right: none;
-  /* border-top-right-radius: var(--border-radius); */
 }
 </style>

@@ -21,7 +21,7 @@ import { ToggleEnum } from './enums/enums.ts';
 const props = withDefaults(defineProps<IToggleProps>(), {
   disabled: false,
   checked: false,
-  type: ToggleEnum.medium
+  type: ToggleEnum.small
 });
 
 const emit = defineEmits<{
@@ -45,7 +45,7 @@ const classes = computed(() => ({
   'toggle-yui-kit': true,
   'toggle-yui-kit_small': props.type === ToggleEnum.small,
   'toggle-yui-kit_medium': props.type === ToggleEnum.medium,
-  'toggle-yui-kit_big': props.type === ToggleEnum.big
+  'toggle-yui-kit_large': props.type === ToggleEnum.large
 }));
 
 /**
@@ -96,14 +96,42 @@ const onClick = () => emit('change', Boolean(model.value));
 
   & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
     transform: translateX(var(--position));
+    &:has(.toggle-yui-kit-input:disabled) {
+      & label.toggle-yui-kit-label {
+        background-color: rgba(208, 208, 208, 0.5);
+        &::before {
+          background-color: #c8c8c8;
+        }
+      }
+    }
+  }
+}
+
+.toggle-yui-kit_large {
+  & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
+    background-color: var(--border-blue);
+    box-shadow:
+      inset 0px 3px 3px 0 rgba(0, 0, 0, 0.15),
+      inset 0px 3px 3px 0 rgba(128, 128, 128, 0.18);
+  }
+  & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
+    transform: translateX(24px);
   }
 
-  &:has(.toggle-yui-kit-input:disabled) {
-    & label.toggle-yui-kit-label {
-      background-color: rgba(208, 208, 208, 0.5);
-      &::before {
-        background-color: #c8c8c8;
-      }
+  & label.toggle-yui-kit-label {
+    width: 56px;
+    height: 32px;
+    box-shadow:
+      inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.1),
+      inset 1px 1.5px 4px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 34px;
+
+    &::before {
+      width: 24px;
+      height: 24px;
+      top: 4px;
+      left: 4px;
+      box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.22);
     }
   }
 }
@@ -113,7 +141,7 @@ label.toggle-yui-kit-label {
   width: calc(var(--size, 24px) + 10px);
   height: var(--size, 24px);
   background-color: var(--grey3);
-  border-radius: 34px;
+  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -128,7 +156,9 @@ label.toggle-yui-kit-label {
     top: 3px;
     left: 3px;
     background-color: var(--white);
-    transition: transform 0.3s;
+    transition:
+      transform 0.3s,
+      background-color 0.3s;
   }
 }
 </style>
