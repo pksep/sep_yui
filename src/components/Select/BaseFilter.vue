@@ -20,6 +20,7 @@
         type="blue"
         :is-can-show="isCanShowHint"
         :hint="choosedOption"
+        :hint-gap="28"
         class="filter__header-tooltip"
       >
         <Badges
@@ -71,7 +72,7 @@ const emits = defineEmits<{
   (e: 'change', value: string): void;
 }>();
 
-const bagesRef = ref<InstanceType<typeof Badges> | null>(null);
+const badgesRef = ref<InstanceType<typeof Badges> | null>(null);
 const model = defineModel();
 const isOpened = ref<boolean>();
 
@@ -87,7 +88,7 @@ const choosedOption = computed(() => {
   return result ? result : props.defaultOption;
 });
 
-const isCanShowHint = computed(() => bagesRef.value?.isSpanOverflow);
+const isCanShowHint = computed(() => badgesRef.value?.isSpanOverflow || false);
 const getChoosenOption = (value: string) => {
   const option = props.options.find(option => option.value === value);
   model.value = option?.key || '';
@@ -110,7 +111,7 @@ const change = (val: boolean) => {
   border: 1px solid var(--border-grey);
   color: var(--text-grey);
   width: max-content;
-  max-width: 214px;
+  max-width: 237px;
 
   display: flex;
   align-items: baseline;
@@ -143,6 +144,10 @@ const change = (val: boolean) => {
   width: 334px;
 }
 
+:deep(.filter__options-badge) {
+  display: flex;
+}
+
 :deep(.filter__options .filter__options-option) {
   font-size: 14px;
 
@@ -154,7 +159,9 @@ const change = (val: boolean) => {
 .filter__header-tooltip {
   min-width: 0;
 }
-:deep(.badges-text) {
+:deep(.base-yui-kit span.badges-text) {
+  display: inline-block;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

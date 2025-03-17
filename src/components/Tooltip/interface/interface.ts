@@ -17,9 +17,9 @@ export type TTooltipType = 'white' | 'black' | 'blue';
 export interface ITooltipProps {
   hint: string;
   isShow?: boolean;
-  isOuterInBody?: boolean;
   isCanShow?: boolean;
   position?: TTooltipPosition;
   size?: TTooltipSize;
   type?: TTooltipType;
+  hintGap?: number;
 }

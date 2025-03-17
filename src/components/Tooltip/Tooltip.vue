@@ -39,6 +39,8 @@ const props = withDefaults(defineProps<ITooltipProps>(), {
   type: 'black'
 });
 const isShow = ref<boolean>(false);
+const tooltipRef = ref<HTMLDivElement | null>(null);
+const hintRef = ref<HTMLDivElement | null>(null);
 
 const tooltipClass = computed(() => [
   {
@@ -63,14 +65,11 @@ const tooltipClass = computed(() => [
     'tooltip-yui-kit__hint_white': props.type === 'white'
   }
 ]);
-const tooltipRef = ref<HTMLDivElement | null>(null);
-const hintRef = ref<HTMLDivElement | null>(null);
 
 const updatePosition = () => {
   if (tooltipRef.value && hintRef.value) {
     const tooltipRect = tooltipRef.value.getBoundingClientRect();
     const hintRect = hintRef.value.getBoundingClientRect();
-    console.log(tooltipRect, tooltipRef.value, hintRef.value);
 
     requestAnimationFrame(() => {
       if (hintRef.value) {
@@ -85,6 +84,15 @@ const updatePosition = () => {
           },
           hintRef.value
         );
+
+        if (props.hintGap) {
+          changeStyleProperties(
+            {
+              '--tooltip-hint-gap': `${props.hintGap}px`
+            },
+            hintRef.value
+          );
+        }
       }
     });
   }
@@ -93,8 +101,6 @@ const updatePosition = () => {
 const throttleUpdatePosition = throttle(updatePosition, 100);
 
 const showHint = () => {
-  console.log('mouseenter');
-
   updatePosition();
   isShow.value = true;
 };
@@ -199,7 +205,12 @@ onUnmounted(() => {
     &_top-center,
     &_top-left,
     &_top-right {
-      top: calc(var(--tooltip-top) - var(--tooltip-height) - 16px);
+      top: calc(
+        var(--tooltip-top) - var(--tooltip-height) - var(
+            --tooltip-hint-gap,
+            16px
+          )
+      );
 
       &::before {
         bottom: auto;
@@ -226,7 +237,10 @@ onUnmounted(() => {
     &_bottom-center,
     &_bottom-left,
     &_bottom-right {
-      top: calc(var(--tooltip-top) + var(--tooltip-height) + 16px);
+      top: calc(
+        var(--tooltip-top) + var(--tooltip-height) +
+          var(--tooltip-hint-gap, 16px)
+      );
 
       &::before {
         bottom: 100%;
@@ -262,7 +276,10 @@ onUnmounted(() => {
     &_left-center,
     &_left-top,
     &_left-bottom {
-      left: calc(var(--tooltip-left) + var(--tooltip-width) + 19px);
+      left: calc(
+        var(--tooltip-left) + var(--tooltip-width) +
+          var(--tooltip-hint-gap, 19px)
+      );
 
       &:before {
         right: 100%;
@@ -275,7 +292,12 @@ onUnmounted(() => {
     &_right-center,
     &_right-top,
     &_right-bottom {
-      left: calc(var(--tooltip-left) - var(--tooltip-hint-width) - 19px);
+      left: calc(
+        var(--tooltip-left) - var(--tooltip-hint-width) - var(
+            --tooltip-hint-gap,
+            19px
+          )
+      );
 
       &:before {
         left: 100%;

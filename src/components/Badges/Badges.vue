@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { IBadgesProps } from './interface/interface';
 import { BadgesTypeEnum } from './enum/enum';
-import { onMounted, computed, reactive, ref, toRef, watch } from 'vue';
+import { onMounted, computed, reactive, ref } from 'vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {
   type: BadgesTypeEnum.default,
@@ -24,12 +24,13 @@ const emit = defineEmits<{
 const state = reactive({
   choosed: false
 });
-const textRef = toRef(() => props.text);
+// const textRef = toRef(() => props.text);
 const spanRef = ref<HTMLElement | null>(null);
 
 const getIsSpanOverflow = (): boolean => {
-  if (spanRef.value && spanRef.value.scrollWidth > spanRef.value.clientWidth)
+  if (spanRef.value && spanRef.value.scrollWidth > spanRef.value.clientWidth) {
     return true;
+  }
   return false;
 };
 
@@ -52,9 +53,9 @@ const classes = computed(() => ({
   'choosed-yui-kit': state.choosed
 }));
 
-watch(textRef, () => {
-  isSpanOverflow.value = getIsSpanOverflow();
-});
+// watch(textRef, () => {
+//   isSpanOverflow.value = getIsSpanOverflow();
+// });
 
 /**
  * Создает проверку на выбор статуса
@@ -63,6 +64,10 @@ const isChoosen = () => {
   emit('choose', state.choosed, props.text);
   if (!props.disabled) state.choosed = !state.choosed;
 };
+
+const resizeObserver = new ResizeObserver(() => {
+  isSpanOverflow.value = getIsSpanOverflow();
+});
 
 defineExpose({
   isSpanOverflow
@@ -73,6 +78,9 @@ defineExpose({
  */
 onMounted(() => {
   state.choosed = props.choosed;
+  if (spanRef.value) {
+    resizeObserver.observe(spanRef.value);
+  }
 });
 </script>
 
