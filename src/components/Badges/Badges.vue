@@ -24,7 +24,6 @@ const emit = defineEmits<{
 const state = reactive({
   choosed: false
 });
-// const textRef = toRef(() => props.text);
 const spanRef = ref<HTMLElement | null>(null);
 
 const getIsSpanOverflow = (): boolean => {
@@ -52,10 +51,6 @@ const classes = computed(() => ({
   'violet-yui-kit': props.type === BadgesTypeEnum.violet,
   'choosed-yui-kit': state.choosed
 }));
-
-// watch(textRef, () => {
-//   isSpanOverflow.value = getIsSpanOverflow();
-// });
 
 /**
  * Создает проверку на выбор статуса
