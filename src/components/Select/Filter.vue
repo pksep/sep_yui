@@ -93,7 +93,7 @@ const emits = defineEmits<{
   (e: 'search', value: string): void;
 }>();
 
-const change = (val: boolean) => {
+const change = (val: boolean): void => {
   state.isOpened = val;
 };
 
