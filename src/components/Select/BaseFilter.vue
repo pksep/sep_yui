@@ -19,7 +19,7 @@
         position="top-center"
         type="blue"
         :is-can-show="isCanShowHint"
-        :hint="choosedOption"
+        :hint="choosedHint"
         :hint-gap="28"
         class="filter__header-tooltip"
       >
@@ -34,9 +34,35 @@
           :text="choosedOption"
           disabled
         />
+
+        <div v-if="isShowValues && isShowMiniOptions" class="filter__values">
+          <ChoosenMiniOptions
+            @click.stop
+            :options="choosedOptions"
+            @remove="getChoosenOption"
+          />
+        </div>
       </Tooltip>
+
+      <span v-if="countModelValue && countModelValue > 1" class="filter__count">
+        +{{ countModelValue - 1 }}
+
+        <div v-if="isShowValues" class="filter__values">
+          <ChoosenMiniOptions
+            @click.stop
+            :options="choosedOptions"
+            @remove="getChoosenOption"
+          />
+        </div>
+      </span>
+
+      <span v-if="isPosibleToClear" class="filter__cross" @click.stop="clear">
+        <Icon :name="IconNameEnum.crossLarge" :width="16" :height="16" />
+      </span>
     </template>
     <template #options>
+      <Search v-if="isSearch" :show-history="false" v-model="searchData" />
+
       <Options
         class="filter__options-option"
         :options="filterOptions"
@@ -54,10 +80,19 @@
 <script setup lang="ts">
 import Badges from '@/components/Badges/Badges.vue';
 import { BadgesTypeEnum } from '@/components/Badges/enum/enum';
-import { IBaseFilterProps } from '@/components/Select/interface/interface';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
+import Icon from '@/components/Icon/Icon.vue';
+import Search from '@/components/Search/Search.vue';
+import ChoosenMiniOptions from '@/components/Select/ChoosenMiniOptions.vue';
+import {
+  IBaseFilterProps,
+  OptionsObject
+} from '@/components/Select/interface/interface';
 import Options from '@/components/Select/Options.vue';
 import SelectList from '@/components/Select/SelectList.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
+import { isArrayOfOptionsObjectWithHint } from '@/helpers/guards/is-options-object-with-hint';
+import { isArray } from 'lodash';
 import { computed, ref } from 'vue';
 
 defineOptions({
@@ -65,40 +100,145 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<IBaseFilterProps>(), {
-  defaultOption: 'Выберите значение'
+  defaultOption: 'Выберите значение',
+  isSearch: false,
+  isPosibleToClear: false,
+  isMultiple: false,
+  isShowMiniOptions: false
 });
 
 const emits = defineEmits<{
-  (e: 'change', value: string): void;
+  (e: 'change', value: string | string[]): void;
 }>();
 
 const badgesRef = ref<InstanceType<typeof Badges> | null>(null);
-const model = defineModel();
+const model = defineModel<string | string[]>({
+  default: []
+});
 const isOpened = ref<boolean>();
 
+const searchData = ref('');
+
 const filterOptions = computed(() => {
-  return props.options.map(option => option.value);
+  let filterResult: OptionsObject[] = [];
+  if (searchData.value) {
+    if (isArrayOfOptionsObjectWithHint(props.options)) {
+      filterResult = props.options.filter(option => {
+        return (
+          option.value.toLowerCase().includes(searchData.value.toLowerCase()) ||
+          option?.hint?.toLowerCase().includes(searchData.value.toLowerCase())
+        );
+      });
+    } else {
+      filterResult = props.options.filter(option => {
+        return option.value
+          .toLowerCase()
+          .includes(searchData.value.toLowerCase());
+      });
+    }
+
+    return filterResult;
+  }
+
+  if (isArrayOfOptionsObjectWithHint(props.options)) {
+    filterResult = props.options;
+  } else {
+    filterResult = props.options;
+  }
+
+  return filterResult;
 });
 
 const choosedOption = computed(() => {
   const result = props.options.find(option => {
+    if (isArray(model.value)) {
+      return model.value.includes(option.key);
+    }
     return option.key === String(model.value);
   })?.value;
 
   return result || props.defaultOption;
 });
 
-const isCanShowHint = computed(() => badgesRef.value?.isSpanOverflow || false);
-const getChoosenOption = (value: string) => {
-  const option = props.options.find(option => option.value === value);
-  model.value = option?.key || '';
+const choosedOptions = computed(() => {
+  return props.options.filter(option => {
+    if (isArray(model.value)) {
+      return model.value.includes(option.key);
+    }
+    return option.key === String(model.value);
+  });
+});
 
-  isOpened.value = false;
+const choosedHint = computed(() => {
+  const options = props.options;
+  let result;
+  if (isArrayOfOptionsObjectWithHint(options)) {
+    result = options.find(option => option.key === String(model.value))?.hint;
+  } else {
+    result = options.find(option => option.key === String(model.value))?.value;
+  }
+
+  return result || '';
+});
+
+const isCanShowHint = computed(() => {
+  if (isArrayOfOptionsObjectWithHint(props.options)) {
+    return Boolean(choosedHint.value);
+  }
+
+  return badgesRef.value?.isSpanOverflow || false;
+});
+
+const isPosibleToClear = computed(() => {
+  if (isArray(model.value)) {
+    return props.isPosibleToClear && model.value.length > 0;
+  } else {
+    return props.isPosibleToClear && model.value;
+  }
+});
+const isShowValues = computed(
+  () => isArray(model.value) && model.value.length > 1
+);
+const countModelValue = computed(() => {
+  if (isArray(model.value)) {
+    return model.value.length;
+  }
+  return null;
+});
+
+const getChoosenOption = (value: string): void => {
+  if (isArray(model.value)) {
+    if (model.value.includes(value)) {
+      model.value = model.value.filter(item => item !== value);
+    } else {
+      model.value = [...model.value, value];
+    }
+  } else {
+    let option = props.options.find(option => option.key === value);
+
+    if (!option && isArrayOfOptionsObjectWithHint(props.options)) {
+      option = props.options.find(option => option.hint === value);
+    }
+
+    model.value = option?.key || '';
+
+    isOpened.value = false;
+  }
 
   emits('change', String(model.value));
 };
-const change = (val: boolean) => {
+
+const change = (val: boolean): void => {
   isOpened.value = val;
+};
+
+const clear = (): void => {
+  if (isArray(model.value)) {
+    model.value = [];
+  } else {
+    model.value = '';
+  }
+  emits('change', model.value);
 };
 </script>
 
@@ -114,16 +254,21 @@ const change = (val: boolean) => {
   max-width: 237px;
 
   display: flex;
-  align-items: baseline;
+  align-items: center;
 
-  .filter__header-title {
+  .filter__header-title,
+  .filter__count {
     font-size: 14px;
     font-weight: 400;
-    line-height: 16.94px;
+    line-height: 18px;
+
+    flex-shrink: 0;
+  }
+
+  .filter__header-title {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    flex-shrink: 0;
   }
 
   .filter__header-title__active {
@@ -157,6 +302,7 @@ const change = (val: boolean) => {
 }
 
 .filter__header-tooltip {
+  position: relative;
   min-width: 0;
 }
 :deep(.base-yui-kit span.badges-text) {
@@ -165,6 +311,54 @@ const change = (val: boolean) => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.filter__cross {
+  --width: 20px;
+  display: inline-flex;
+  width: var(--width);
+  height: var(--width);
+  color: var(--text-grey);
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fd;
+  }
+}
+.filter__count {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.filter__cross:active,
+.filter__count:hover {
+  color: var(--blue1);
+}
+
+.filter__count:hover .filter__values,
+.filter__header-tooltip:hover .filter__values {
+  visibility: visible;
+  opacity: 1;
+}
+
+.filter__values {
+  position: absolute;
+  z-index: 2223;
+  top: 100%;
+  left: 0;
+
+  padding-top: 4px;
+
+  visibility: hidden;
+  opacity: 0;
+
+  transition: all 0.2s ease;
+}
+:deep(.filter__options .truncate-yui-kit) {
+  width: auto;
 }
 
 li.filter__options-underline {

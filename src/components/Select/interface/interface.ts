@@ -13,8 +13,12 @@ export interface OptionsObject {
   value: string;
 }
 
+export interface IOptionsObjectWithHint extends OptionsObject {
+  hint: string;
+}
+
 export interface IOptionsProps {
-  options: string[];
+  options: string[] | OptionsObject[] | IOptionsObjectWithHint[];
   defaultOption?: string;
   class?: string;
   disabled?: boolean;
@@ -35,12 +39,24 @@ export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
 }
 
 export interface IComboboxProps extends IOptionsProps {
+  options: string[];
   placeholder?: string;
   disableOpen?: boolean;
 }
 
 export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
-  options: OptionsObject[];
+  options: OptionsObject[] | IOptionsObjectWithHint[];
   title: string;
   defaultText?: string;
+  isSearch?: boolean;
+  isPosibleToClear?: boolean;
+  isShowMiniOptions?: boolean;
+}
+
+export interface IChoosenMiniOptionsProps {
+  options: OptionsObject[] | IOptionsObjectWithHint[];
+}
+
+export interface IChoosenMiniOptionsEmits {
+  (e: 'remove', key: string): void;
 }
