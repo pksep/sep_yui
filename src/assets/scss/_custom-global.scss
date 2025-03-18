@@ -12,7 +12,7 @@
 
 ::-webkit-scrollbar {
   width: var(--scrollbar-width);
-  height: 10px;
+  height: var(--scrollbar-height, 10px);
   background-color: var(--scrollbar-bg-color);
 }
 

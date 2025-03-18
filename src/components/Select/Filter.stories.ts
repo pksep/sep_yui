@@ -1,15 +1,16 @@
+import { fn } from '@storybook/test';
 import { StoryFn, Meta } from '@storybook/vue3';
 import Filter from './Filter.vue';
 import { StorybookControlEnum } from '../../common/storybook';
-import { fn } from '@storybook/test';
+import type { TOptions } from './interface/interface';
 
-const optionsItems = [
+const optionsItems: TOptions = [
   'Покупатель 1',
   'Покупатель 2',
   'Покупатель с очень длинным названием'
 ];
 
-const optionsObjectItems = [
+const optionsObjectItems: TOptions = [
   {
     key: 'buyer1',
     value: 'Покупатель 1'

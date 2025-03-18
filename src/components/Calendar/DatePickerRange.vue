@@ -65,8 +65,7 @@ const clearFunction = (type: RangeTypeEnum): void => {
   emits('change', state.date);
 };
 
-const handleClearAll = () => {
-  console.log('get-a-clear');
+const handleClearAll = (): void => {
   Object.values(state.date).fill(null);
 };
 
