@@ -2,9 +2,11 @@
   <input
     type="checkbox"
     :class="`checkbox-yui-kit checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular}`"
+    tabindex="0"
     @change="onClick"
     :checked="state.isChecked"
     :disabled="props.disabled"
+    @keyup.enter="onClick"
   />
 </template>
 
@@ -40,7 +42,7 @@ const onClick = (): void => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .checkbox-yui-kit_medium {
   --radius: 3.5px;
   --size: 18px;
@@ -55,7 +57,9 @@ const onClick = (): void => {
   --radius: 50%;
 }
 
-.checkbox-yui-kit {
+.checkbox-yui-kit,
+.checkbox-yui-kit:focus,
+.checkbox-yui-kit:focus-visible {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;

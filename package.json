@@ -17,6 +17,7 @@
     "prepare": "lefthook install"
   },
   "dependencies": {
+    "@angelblanco/v-calendar": "^3.1.3",
     "@fontsource-variable/inter": "^5.1.0",
     "@fontsource/source-sans-pro": "^5.1.0",
     "@popperjs/core": "^2.11.8",
@@ -24,7 +25,6 @@
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.3",
     "pinia": "^2.2.2",
-    "v-calendar": "^3.1.2",
     "vue": "^3.4.38",
     "vue3-perfect-scrollbar": "^2.0.0"
   },
