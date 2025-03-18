@@ -68,6 +68,7 @@ const components = {
   InputNumber,
   Picture,
   PopoverHover,
+  PushNotification,
   Scroll,
   Search,
   Modal,
