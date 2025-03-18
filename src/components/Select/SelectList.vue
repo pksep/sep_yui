@@ -131,7 +131,7 @@ onUnmounted(() => {
     position: fixed;
     overflow: auto;
     overflow-x: hidden;
-    z-index: 2222222;
+    z-index: 2222;
   }
   &__list > div {
     display: grid;

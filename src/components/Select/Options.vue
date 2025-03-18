@@ -8,7 +8,13 @@
       ]"
       @click="() => getChoosenOption(option)"
     >
-      {{ option }}
+      {{
+        isOptionsObjectWithHint(option)
+          ? option.hint
+          : isOptionsObject(option)
+            ? option.value
+            : option
+      }}
     </li>
     <slot />
   </template>
@@ -16,7 +22,9 @@
 
 <script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
-import type { IOptionsProps } from './interface/interface';
+import type { IOptionsProps, OptionsObject } from './interface/interface';
+import isOptionsObject from '@/helpers/guards/is-options-object';
+import isOptionsObjectWithHint from '@/helpers/guards/is-options-object-with-hint';
 
 const props = withDefaults(defineProps<IOptionsProps>(), {});
 
@@ -49,9 +57,14 @@ const classes = computed(() => ({
 /**
  * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
-const getChoosenOption = (value: string) => {
+const getChoosenOption = (value: string | OptionsObject) => {
   state.choosedOption = value;
-  emit('change', state.choosedOption);
+
+  if (isOptionsObject(state.choosedOption)) {
+    emit('change', state.choosedOption.key);
+  } else {
+    emit('change', state.choosedOption);
+  }
 };
 </script>
 
