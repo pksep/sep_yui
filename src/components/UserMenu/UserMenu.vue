@@ -328,10 +328,10 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     justify-content: flex-start;
     gap: 10px;
     cursor: pointer;
-    padding: 6px;
     transition: 0.3s ease-in-out;
     border-radius: 5px;
     font-size: 14px;
+    padding: 6px;
     line-height: 16px;
 
     &:hover,
