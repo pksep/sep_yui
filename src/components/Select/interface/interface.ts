@@ -39,6 +39,7 @@ export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
 }
 
 export interface IComboboxProps extends IOptionsProps {
+  options: string[];
   placeholder?: string;
   disableOpen?: boolean;
 }

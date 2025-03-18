@@ -357,6 +357,9 @@ const clear = (): void => {
 
   transition: all 0.2s ease;
 }
+:deep(.filter__options .truncate-yui-kit) {
+  width: auto;
+}
 
 li.filter__options-underline {
   height: 0.5px;
