@@ -31,11 +31,11 @@
 
 <script setup lang="ts">
 import { reactive, watch, watchEffect } from 'vue';
-import { DatePicker } from 'v-calendar';
+import { DatePicker } from '@angelblanco/v-calendar';
 import DataPickerChoose from './DataPickerChoose.vue';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
-import 'v-calendar/style.css';
+import '@angelblanco/v-calendar/style.css';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU'
