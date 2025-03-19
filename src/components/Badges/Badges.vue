@@ -49,7 +49,7 @@ const classes = computed(() => ({
   'red-yui-kit': props.type === BadgesTypeEnum.red,
   'pink-yui-kit': props.type === BadgesTypeEnum.pink,
   'violet-yui-kit': props.type === BadgesTypeEnum.violet,
-  'choosed-yui-kit': state.choosed
+  'choosed-yui-kit': props.choosed || state.choosed
 }));
 
 /**
