@@ -22,7 +22,7 @@ const emit = defineEmits<{
 }>();
 
 const state = reactive({
-  choosed: false
+  choosed: props.choosed
 });
 const spanRef = ref<HTMLElement | null>(null);
 
@@ -49,7 +49,7 @@ const classes = computed(() => ({
   'red-yui-kit': props.type === BadgesTypeEnum.red,
   'pink-yui-kit': props.type === BadgesTypeEnum.pink,
   'violet-yui-kit': props.type === BadgesTypeEnum.violet,
-  'choosed-yui-kit': state.choosed
+  'choosed-yui-kit': props.choosed || state.choosed
 }));
 
 /**
@@ -72,7 +72,6 @@ defineExpose({
  * Устанавливает выбранные статусы из пропсов
  */
 onMounted(() => {
-  state.choosed = props.choosed;
   if (spanRef.value) {
     resizeObserver.observe(spanRef.value);
   }
