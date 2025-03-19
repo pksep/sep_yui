@@ -22,7 +22,7 @@ const emit = defineEmits<{
 }>();
 
 const state = reactive({
-  choosed: false
+  choosed: props.choosed
 });
 const spanRef = ref<HTMLElement | null>(null);
 
@@ -72,7 +72,6 @@ defineExpose({
  * Устанавливает выбранные статусы из пропсов
  */
 onMounted(() => {
-  state.choosed = props.choosed;
   if (spanRef.value) {
     resizeObserver.observe(spanRef.value);
   }
