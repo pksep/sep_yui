@@ -8,23 +8,20 @@
   >
     <slot></slot>
 
-    <Teleport to="body">
-      <div
-        ref="hintRef"
-        v-if="isCanShow"
-        class="tooltip-yui-kit__hint"
-        :class="tooltipClass"
-      >
-        {{ hint }}
-      </div>
-    </Teleport>
+    <div
+      ref="hintRef"
+      v-if="isCanShow"
+      class="tooltip-yui-kit__hint"
+      :class="tooltipClass"
+    >
+      {{ hint }}
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ITooltipProps } from '@/components/Tooltip/interface/interface';
-import changeStyleProperties from '@/helpers/change-style-properties';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 defineOptions({
   name: 'Tooltip'
@@ -65,59 +62,13 @@ const tooltipClass = computed(() => [
   }
 ]);
 
-const updatePosition = () => {
-  if (tooltipRef.value && hintRef.value) {
-    const tooltipRect = tooltipRef.value.getBoundingClientRect();
-    const hintRect = hintRef.value.getBoundingClientRect();
-
-    requestAnimationFrame(() => {
-      if (hintRef.value) {
-        changeStyleProperties(
-          {
-            '--tooltip-top': `${tooltipRect.top}px`,
-            '--tooltip-left': `${tooltipRect.left}px`,
-            '--tooltip-right': `${tooltipRect.right}px`,
-            '--tooltip-width': `${tooltipRect.width}px`,
-            '--tooltip-height': `${tooltipRect.height}px`,
-            '--tooltip-hint-width': `${hintRect.width}px`
-          },
-          hintRef.value
-        );
-
-        if (props.hintGap) {
-          changeStyleProperties(
-            {
-              '--tooltip-hint-gap': `${props.hintGap}px`
-            },
-            hintRef.value
-          );
-        }
-      }
-    });
-  }
-};
-
 const showHint = () => {
-  updatePosition();
   isShow.value = true;
 };
 
 const hideHint = () => {
   isShow.value = false;
 };
-
-onMounted(() => {
-  if (tooltipRef.value && props.isShow) {
-    updatePosition();
-    window.addEventListener('scroll', updatePosition);
-  }
-});
-
-onUnmounted(() => {
-  if (tooltipRef.value && props.isShow) {
-    window.removeEventListener('scroll', updatePosition);
-  }
-});
 </script>
 
 <style scoped lang="scss">
@@ -129,7 +80,7 @@ onUnmounted(() => {
 
   &__hint {
     --width: 11px;
-    position: fixed;
+    position: absolute;
     z-index: 1;
 
     background-color: var(--tooltip-background-color);
@@ -146,6 +97,8 @@ onUnmounted(() => {
     font-size: var(--tooltip-font-size);
 
     filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.16));
+
+    line-height: initial;
 
     &::before {
       position: absolute;
@@ -190,7 +143,7 @@ onUnmounted(() => {
     &_bottom-center,
     &_bottom-left,
     &_bottom-right {
-      left: calc(var(--tooltip-width) / 2 + var(--tooltip-left));
+      left: 50%;
       transform: translateX(-50%);
 
       &::before {
@@ -202,12 +155,7 @@ onUnmounted(() => {
     &_top-center,
     &_top-left,
     &_top-right {
-      top: calc(
-        var(--tooltip-top) - var(--tooltip-height) - var(
-            --tooltip-hint-gap,
-            16px
-          )
-      );
+      bottom: calc(100% + var(--tooltip-hint-gap, 16px));
 
       &::before {
         bottom: auto;
@@ -217,6 +165,8 @@ onUnmounted(() => {
     }
 
     &_top-left {
+      left: 50%;
+      transform: translateX(-5%);
       &::before {
         left: var(--width);
         transform: translateX(-70%);
@@ -224,6 +174,9 @@ onUnmounted(() => {
     }
 
     &_top-right {
+      left: auto;
+      right: 50%;
+      transform: translateX(15%);
       &::before {
         left: auto;
         right: var(--width);
@@ -234,10 +187,7 @@ onUnmounted(() => {
     &_bottom-center,
     &_bottom-left,
     &_bottom-right {
-      top: calc(
-        var(--tooltip-top) + var(--tooltip-height) +
-          var(--tooltip-hint-gap, 16px)
-      );
+      top: calc(100% + var(--tooltip-hint-gap, 16px));
 
       &::before {
         bottom: 100%;
@@ -245,6 +195,8 @@ onUnmounted(() => {
     }
 
     &_bottom-left {
+      left: 50%;
+      transform: translateX(-15%);
       &::before {
         left: var(--width);
         transform: translateX(0%);
@@ -252,6 +204,9 @@ onUnmounted(() => {
     }
 
     &_bottom-right {
+      left: auto;
+      right: 50%;
+      transform: translateX(5%);
       &::before {
         left: auto;
         right: var(--width);
@@ -265,7 +220,7 @@ onUnmounted(() => {
     &_right-center,
     &_right-top,
     &_right-bottom {
-      top: calc(var(--tooltip-top) + var(--tooltip-height) / 2);
+      top: 50%;
 
       transform: translateY(-50%);
     }
@@ -273,10 +228,7 @@ onUnmounted(() => {
     &_left-center,
     &_left-top,
     &_left-bottom {
-      left: calc(
-        var(--tooltip-left) + var(--tooltip-width) +
-          var(--tooltip-hint-gap, 19px)
-      );
+      left: calc(100% + var(--tooltip-hint-gap, 19px));
 
       &:before {
         right: 100%;
@@ -289,12 +241,7 @@ onUnmounted(() => {
     &_right-center,
     &_right-top,
     &_right-bottom {
-      left: calc(
-        var(--tooltip-left) - var(--tooltip-hint-width) - var(
-            --tooltip-hint-gap,
-            19px
-          )
-      );
+      right: calc(100% + var(--tooltip-hint-gap, 19px));
 
       &:before {
         left: 100%;
@@ -306,6 +253,7 @@ onUnmounted(() => {
 
     &_left-top,
     &_right-top {
+      transform: translateY(-25%);
       &:before {
         top: 0%;
         transform: translateY(30%);
@@ -314,6 +262,7 @@ onUnmounted(() => {
 
     &_left-bottom,
     &_right-bottom {
+      transform: translateY(-75%);
       &:before {
         bottom: 0;
         transform: translateY(20%);

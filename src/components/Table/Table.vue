@@ -183,6 +183,7 @@ onMounted(() => {
   --td-horizontal-padding: 8px;
 
   background-color: var(--table-background-color);
+  border-radius: 5px;
 
   overflow: hidden;
 }
@@ -199,7 +200,7 @@ onMounted(() => {
   border: none;
   border-collapse: separate;
   border-spacing: 0;
-  overflow: hidden;
+  overflow: auto;
   table-layout: fixed;
 }
 
@@ -220,7 +221,6 @@ onMounted(() => {
   position: sticky;
   top: 0;
   border-radius: var(--border-radius);
-  overflow: hidden;
 }
 
 .table__body {
