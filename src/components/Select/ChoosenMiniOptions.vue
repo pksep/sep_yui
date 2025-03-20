@@ -51,10 +51,12 @@ const removeElement = (key: string): void => {
   background-color: var(--white);
   box-shadow: 0 4px 9.8px 0 rgba(0, 0, 0, 0.11);
 
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   align-items: flex-start;
+  cursor: default;
 
   &__option {
     padding: 3px;
