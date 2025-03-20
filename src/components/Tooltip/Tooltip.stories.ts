@@ -68,6 +68,12 @@ BottomRight.args = {
   isShow: true
 };
 
+export const BottomLeft = Template.bind({});
+BottomLeft.args = {
+  position: 'bottom-left',
+  isShow: true
+};
+
 export const TopCenter = Template.bind({});
 TopCenter.args = {
   position: 'top-center',
