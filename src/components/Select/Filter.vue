@@ -16,23 +16,25 @@
       >
         {{ props.title }}
       </span>
-      <Badges
-        :type="
-          state.choosedOption === props.noOptionText
-            ? BadgesTypeEnum.default
-            : BadgesTypeEnum.blue
-        "
-        class="filter__options-badge"
-        :text="state.choosedOption"
-        disabled
-      />
+      <Tooltip :hint="state.choosedOption" position="top-center">
+        <Badges
+          :type="
+            state.choosedOption === props.noOptionText
+              ? BadgesTypeEnum.default
+              : BadgesTypeEnum.blue
+          "
+          class="filter__options-badge"
+          :text="state.choosedOption"
+          disabled
+        />
+      </Tooltip>
       <YButton
         v-if="props.enableClearAll && state.isClear"
         @click="clearOptions"
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
       >
-        <YIcon :name="IconNameEnum.crossSmall" width="16" height="16" />
+        <YIcon :name="IconNameEnum.crossLarge" width="16" height="16" />
       </YButton>
     </template>
     <template #options>
@@ -74,11 +76,12 @@ import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Badges from '../Badges/Badges.vue';
 import Search from '../Search/Search.vue';
-import type { IFilterProps } from './interface/interface';
+import Tooltip from '../Tooltip/Tooltip.vue';
 import { BadgesTypeEnum } from '../Badges/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import { SizesEnum } from '@/common/sizes';
+import type { IFilterProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   noOptionText: 'Не выбран',
@@ -200,6 +203,7 @@ watch(
 
   & .filter__options-badge {
     overflow: hidden;
+    display: block;
     & :deep(.badges-text) {
       max-width: 100%;
       display: block;
@@ -208,7 +212,11 @@ watch(
     }
   }
   & button.button-yui-kit {
-    padding: 0;
+    padding: 2px;
+    min-height: 20px;
+    & :deep(svg.icon-yui-kit) > g > path {
+      stroke-width: 1.5;
+    }
   }
 }
 
