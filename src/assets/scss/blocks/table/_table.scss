@@ -15,32 +15,32 @@ table.table-yui-kit {
   text-align: center;
 
   & thead.table-yui-kit__thead {
-      --top: 0px;
-      position: sticky;
-      top: var(--top);
-      background: white;
+    --top: 0px;
+    position: sticky;
+    top: var(--top);
+    background: white;
   }
   & .table-yui-kit__empty {
     height: 100%;
   }
   & th.table-yui-kit__th {
     &:last-child {
-        border-radius: 0 10px 0 0;
+      border-radius: 0 10px 0 0;
     }
     &:first-child {
-        border-radius: 10px 0 0 0;
+      border-radius: 10px 0 0 0;
     }
   }
 
   & th.table-yui-kit__th,
   & td.table-yui-kit__td {
-      border: none;
-   }
+    border: none;
+  }
   & th.table-yui-kit__th {
     padding: 12px 8px;
     border-bottom: 0.5px solid $WHITE-E0E0E0;
     &.colored {
-        background-color: $BLUE-F2F7FF;
+      background-color: $BLUE-F2F7FF;
     }
   }
 
@@ -49,9 +49,9 @@ table.table-yui-kit {
   }
 
   & tr.table-yui-kit__tr:not(:last-child) {
-        & td.table-yui-kit__td {
-            border-bottom: 0.5px solid $WHITE-E0E0E0;
-        }
+    & td.table-yui-kit__td {
+      border-bottom: 0.5px solid $WHITE-E0E0E0;
+    }
   }
 
   & tr.table-yui-kit__tr {
@@ -61,16 +61,17 @@ table.table-yui-kit {
     &.passive {
       --background: #f8f8f9;
     }
-    &:hover, &.active {
-        --background: var(--blue11);
-        color: inherit;
+    &:hover,
+    &.active {
+      --background: var(--blue11);
+      color: inherit;
     }
     &.ava {
-     --background: var(--orange10);
+      --background: var(--orange10);
       &:hover,
       &.active {
         --background: #ffebc1;
-       }
+      }
     }
     &.ban {
       --background: #ffefee;
@@ -134,4 +135,17 @@ table.table-yui-kit {
 
     border-radius: 0 0 5px 5px;
   }
+}
+
+table.table-yui-kit tr.table-yui-kit__tr {
+  & th.table-yui-kit__th:last-child,
+  & td.table-yui-kit__td:last-child {
+    border-right: 0;
+  }
+}
+
+table.table-yui-kit
+  tbody.table-yui-kit__tbody:has(tr.table-yui-kit__tr:last-child)
+  td.table-yui-kit__td {
+  border-bottom: 0.5px solid var(--grey0);
 }
