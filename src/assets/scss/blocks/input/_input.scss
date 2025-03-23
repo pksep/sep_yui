@@ -15,6 +15,7 @@
 
   &.initial::before,
   &.disabled::before,
+  &.readonly::before,
   &.ordinary::before,
   &.minor::before {
     border-color: transparent;
@@ -112,6 +113,19 @@ fieldset.input-yui-kit:disabled {
   }
 }
 
-fieldset.input-yui-kit:readonly {
+fieldset.input-yui-kit.readonly {
   --background: var(--blue15);
+  & .input-yui-kit__input:read-only {
+    pointer-events: none;
+    cursor: pointer;
+  }
+  &:hover,
+  &:focus {
+    &::before {
+      border-color: transparent;
+    }
+  }
+  & .input-yui-kit__legend {
+    display: none;
+  }
 }

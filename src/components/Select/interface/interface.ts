@@ -36,6 +36,7 @@ export interface IFilterProps extends Omit<IOptionsProps, 'options'> {
   options: TOptions;
   title: string;
   noOptionText?: string;
+  enableClearAll?: boolean;
 }
 
 export interface IComboboxProps extends IOptionsProps {

@@ -67,12 +67,13 @@ const getChoosenOption = (value: string | OptionsObject): void => {
 
 const getOption = (
   option: string | OptionsObject | IOptionsObjectWithHint
-): string =>
-  isOptionsObjectWithHint(option)
-    ? option.hint
-    : isOptionsObject(option)
-      ? option.value
-      : option;
+): string => {
+  if (isOptionsObjectWithHint(option)) {
+    return option.hint;
+  }
+  if (isOptionsObject(option)) return option.value;
+  return option;
+};
 </script>
 
 <style scoped>

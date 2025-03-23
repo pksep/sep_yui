@@ -2,6 +2,7 @@
   <SelectList
     @change="change"
     :is-opened="state.isOpened"
+    :disable-open="state.isNoOpen"
     :class="props.class"
     header-classes="filter__header"
     options-classes="filter__options"
@@ -25,9 +26,21 @@
         :text="state.choosedOption"
         disabled
       />
+      <YButton
+        v-if="props.enableClearAll && state.isClear"
+        @click="clearOptions"
+        :type="ButtonTypeEnum.ghost"
+        :size="SizesEnum.small"
+      >
+        <YIcon :name="IconNameEnum.crossSmall" width="16" height="16" />
+      </YButton>
     </template>
     <template #options>
-      <template v-if="state.choosedOption !== props.noOptionText">
+      <template
+        v-if="
+          !props.enableClearAll && state.choosedOption !== props.noOptionText
+        "
+      >
         <Badges
           :type="BadgesTypeEnum.blue"
           class="filter__options-badge"
@@ -63,9 +76,13 @@ import Badges from '../Badges/Badges.vue';
 import Search from '../Search/Search.vue';
 import type { IFilterProps } from './interface/interface';
 import { BadgesTypeEnum } from '../Badges/enum/enum';
+import { IconNameEnum } from '../Icon/enum/enum';
+import { ButtonTypeEnum } from '../Button/enum/enum';
+import { SizesEnum } from '@/common/sizes';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
-  noOptionText: 'Не выбран'
+  noOptionText: 'Не выбран',
+  enableClearAll: false
 });
 
 const state = reactive({
@@ -79,7 +96,9 @@ const state = reactive({
     }
   ],
   optionStrings: [''],
-  isOpened: false
+  isOpened: false,
+  isNoOpen: false,
+  isClear: false
 });
 
 const filteredOptions = computed(() =>
@@ -97,16 +116,28 @@ const change = (val: boolean): void => {
   state.isOpened = val;
 };
 
+const clearOptions = (): void => {
+  state.isOpened = false;
+  state.isClear = false;
+  state.isNoOpen = true;
+  state.choosedOption = props.noOptionText;
+  state.defaultOption = props.noOptionText;
+  setTimeout(() => (state.isNoOpen = false), 1);
+  emits('change', props.noOptionText);
+};
+
 const getChoosenOption = (value: string): void => {
   state.choosedOption =
     state.options.find(obj => obj.value === value)?.key || '';
   state.isOpened = false;
+  state.isClear = true;
   emits('change', value);
 };
 
 const chooseOption = (value: boolean): void => {
   if (!state.defaultOption) return;
   if (value) state.choosedOption = props.noOptionText;
+  state.isClear = !value;
   emits('change', props.noOptionText);
 };
 
@@ -175,6 +206,9 @@ watch(
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+  & button.button-yui-kit {
+    padding: 0;
   }
 }
 
