@@ -16,7 +16,11 @@
       >
         {{ props.title }}
       </span>
-      <Tooltip :hint="state.choosedOption" position="top-center">
+      <Tooltip
+        class="filter__options-tooltip"
+        :hint="state.choosedOption"
+        position="top-center"
+      >
         <Badges
           :type="
             state.choosedOption === props.noOptionText
@@ -254,5 +258,9 @@ li.filter__options-underline {
 
 .filter__options-badge {
   font-weight: bold;
+}
+
+.filter__options-tooltip {
+  overflow: hidden;
 }
 </style>
