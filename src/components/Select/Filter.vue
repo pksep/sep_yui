@@ -17,11 +17,15 @@
         {{ props.title }}
       </span>
       <Tooltip
-        class="filter__options-tooltip"
+        class="filter__header-tooltip"
+        type="blue"
         :hint="state.choosedOption"
+        :hint-gap="28"
+        :is-can-show="isCanShowHint"
         position="top-center"
       >
         <Badges
+          ref="badgesRef"
           :type="
             state.choosedOption === props.noOptionText
               ? BadgesTypeEnum.default
@@ -75,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watch, onMounted } from 'vue';
+import { reactive, computed, watch, onMounted, ref } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Badges from '../Badges/Badges.vue';
@@ -108,11 +112,17 @@ const state = reactive({
   isClear: false
 });
 
+const badgesRef = ref<InstanceType<typeof Badges> | null>(null);
+
 const filteredOptions = computed(() =>
   state.optionStrings.filter(item =>
     item.toLowerCase().includes(state.searchData.toLowerCase())
   )
 );
+
+const isCanShowHint = computed(() => {
+  return Boolean(badgesRef.value?.isSpanOverflow || false);
+});
 
 const emits = defineEmits<{
   (e: 'change', value: string): void;
@@ -191,7 +201,8 @@ watch(
   color: var(--text-grey);
   width: max-content;
   max-width: 214px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
 
   & .filter__header-title {
     font-size: 14px;
@@ -206,11 +217,12 @@ watch(
   }
 
   & .filter__options-badge {
-    overflow: hidden;
-    display: block;
+    display: grid;
+    grid-auto-flow: column;
     & :deep(.badges-text) {
-      max-width: 100%;
-      display: block;
+      display: inline-block;
+      width: 100%;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -260,7 +272,7 @@ li.filter__options-underline {
   font-weight: bold;
 }
 
-.filter__options-tooltip {
-  overflow: hidden;
+.filter__header-tooltip {
+  position: relative;
 }
 </style>
