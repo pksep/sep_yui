@@ -45,7 +45,7 @@ const onClick = (): void => {
 <style scoped>
 .checkbox-yui-kit_medium {
   --radius: 3.5px;
-  --size: 18px;
+  --size: 20px;
 }
 
 .checkbox-yui-kit_big {
@@ -64,11 +64,9 @@ const onClick = (): void => {
   -moz-appearance: none;
   -webkit-appearance: none;
   outline: none;
-  content: url('data:image/svg+xml,<svg viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.66667 0.666748L3 7.34008L1 5.34008" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>');
   width: var(--size);
   height: var(--size);
   color: var(--white);
-  background: var(--white);
   border: 2px solid var(--blue1);
   border-radius: var(--radius);
   cursor: pointer;
@@ -83,6 +81,7 @@ const onClick = (): void => {
 .checkbox-yui-kit:checked {
   color: var(--white);
   background: var(--blue1);
+  content: url('data:image/svg+xml,<svg viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.66667 0.666748L3 7.34008L1 5.34008" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 
   &:disabled {
     background: var(--border-grey);
