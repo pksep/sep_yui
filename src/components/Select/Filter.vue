@@ -15,16 +15,24 @@
       >
         {{ props.title }}
       </span>
-      <Badges
-        :type="
-          state.choosedOption === props.noOptionText
-            ? BadgesTypeEnum.default
-            : BadgesTypeEnum.blue
-        "
-        class="filter__options-badge"
-        :text="state.choosedOption"
-        disabled
-      />
+      <Tooltip
+        :is-can-show="state.tooltipText !== ''"
+        :hint="state.tooltipText"
+        position="top-center"
+        type="blue"
+        class="badge-tooltip"
+      >
+        <Badges
+          :type="
+            state.choosedOption === props.noOptionText
+              ? BadgesTypeEnum.default
+              : BadgesTypeEnum.blue
+          "
+          class="filter__options-badge"
+          :text="state.choosedOption"
+          disabled
+        />
+      </Tooltip>
     </template>
     <template #options>
       <template v-if="state.choosedOption !== props.noOptionText">
@@ -71,6 +79,7 @@ const props = withDefaults(defineProps<IFilterProps>(), {
 const state = reactive({
   choosedOption: props.defaultOption || props.noOptionText,
   defaultOption: props.defaultOption || props.noOptionText,
+  tooltipText: '',
   searchData: '',
   options: [
     {
@@ -101,12 +110,16 @@ const getChoosenOption = (value: string): void => {
   state.choosedOption =
     state.options.find(obj => obj.value === value)?.key || '';
   state.isOpened = false;
+  state.tooltipText = value;
   emits('change', value);
 };
 
 const chooseOption = (value: boolean): void => {
   if (!state.defaultOption) return;
-  if (value) state.choosedOption = props.noOptionText;
+  if (value) {
+    state.choosedOption = props.noOptionText;
+    state.tooltipText = '';
+  }
   emits('change', props.noOptionText);
 };
 
@@ -137,6 +150,10 @@ watch(
     if (props.defaultOption) {
       state.defaultOption = props.defaultOption;
       state.choosedOption = props.defaultOption;
+      state.tooltipText =
+        state.options.find(opt => opt.key === props.defaultOption)?.value ||
+        props.defaultOption ||
+        '';
     }
   },
   { deep: true }
@@ -177,6 +194,10 @@ watch(
       text-overflow: ellipsis;
     }
   }
+}
+
+:deep(.filter__header) {
+  overflow: visible;
 }
 
 :deep(.filter__header:hover) {
@@ -222,5 +243,9 @@ li.filter__options-underline {
 
 .filter__options-badge {
   font-weight: bold;
+}
+
+.badge-tooltip {
+  width: 77px;
 }
 </style>
