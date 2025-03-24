@@ -444,7 +444,7 @@ export const archive: IVectorIcon = {
   path: `
     <path d="M14 5.33344V13.2001C14 13.6419 13.6418 14.0001 13.2 14.0001H2.8C2.35817 14.0001 2 13.6419 2 13.2001V5.33344" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 <path d="M14.5332 2H1.4665C1.02468 2 0.666504 2.35817 0.666504 2.8V4.53333C0.666504 4.97516 1.02468 5.33333 1.4665 5.33333H14.5332C14.975 5.33333 15.3332 4.97516 15.3332 4.53333V2.8C15.3332 2.35817 14.975 2 14.5332 2Z" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-<path d="M6.6665 8H9.33317" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M6.6665 8H9.33317" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   `
 };
 
