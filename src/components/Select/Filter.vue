@@ -41,16 +41,18 @@
         </li>
       </template>
       <Search :show-history="false" v-model="state.searchData" />
-      <Options
-        class="filter__options-option"
-        :options="filteredOptions"
-        :default-option="state.choosedOption"
-        @change="getChoosenOption"
-      >
-        <li class="filter__options-underline">
-          <hr class="filter__options-underline-hr" />
-        </li>
-      </Options>
+      <div class="filter__options-list">
+        <Options
+          class="filter__options-option"
+          :options="filteredOptions"
+          :default-option="state.choosedOption"
+          @change="getChoosenOption"
+        >
+          <li class="filter__options-underline">
+            <hr class="filter__options-underline-hr" />
+          </li>
+        </Options>
+      </div>
     </template>
   </SelectList>
 </template>
@@ -184,7 +186,6 @@ watch(
 
 :deep(.filter__options) {
   padding: 10px;
-  gap: 5px;
   border: none;
   box-shadow: 0 4px 9.8px 0 #0000000d;
   width: 334px;
@@ -194,8 +195,17 @@ watch(
   white-space: nowrap;
 }
 
+:deep(.filter__options-list) {
+  overflow-y: scroll;
+  max-height: 376px;
+  margin-right: -8px;
+  padding-right: 2px;
+}
+
 :deep(.filter__options-option) {
   font-size: 14px;
+  margin-block: 5px;
+  display: block;
 }
 
 li.filter__options-underline {
@@ -204,9 +214,6 @@ li.filter__options-underline {
     margin: 0;
     border: none;
     border-bottom: 0.5px solid var(--border-grey);
-  }
-  &:last-child {
-    display: none;
   }
 }
 
