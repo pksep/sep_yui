@@ -30,15 +30,12 @@
       <template v-if="state.choosedOption !== props.noOptionText">
         <Badges
           :type="BadgesTypeEnum.blue"
-          class="filter__options-badge"
+          class="filter__options-badge selected-badge"
           :text="state.choosedOption"
           @choose="chooseOption"
           disabled
           choosed
         />
-        <li class="filter__options-underline">
-          <hr class="filter__options-underline-hr" />
-        </li>
       </template>
       <Search :show-history="false" v-model="state.searchData" />
       <div class="filter__options-list">
@@ -63,6 +60,7 @@ import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Badges from '../Badges/Badges.vue';
 import Search from '../Search/Search.vue';
+import Tooltip from '../Tooltip/Tooltip.vue';
 import type { IFilterProps } from './interface/interface';
 import { BadgesTypeEnum } from '../Badges/enum/enum';
 
@@ -171,6 +169,7 @@ watch(
 
   & .filter__options-badge {
     overflow: hidden;
+
     & :deep(.badges-text) {
       max-width: 100%;
       display: block;
@@ -193,6 +192,10 @@ watch(
 
 :deep(.filter__options-badge) {
   white-space: nowrap;
+}
+
+.selected-badge {
+  margin-bottom: 5px;
 }
 
 :deep(.filter__options-list) {
