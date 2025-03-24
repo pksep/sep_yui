@@ -12,7 +12,6 @@
         :type="item.type"
         disabled
         :text="item.label"
-        :style="'margin:0 3px;'"
       />
       <div
         class="filter-yui-kit__counter"
