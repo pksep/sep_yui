@@ -45,7 +45,7 @@ const onClick = (): void => {
 <style scoped>
 .checkbox-yui-kit_medium {
   --radius: 3.5px;
-  --size: 18px;
+  --size: 20px;
 }
 
 .checkbox-yui-kit_big {
