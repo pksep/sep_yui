@@ -15,42 +15,49 @@
       >
         {{ props.title }}
       </span>
-      <Badges
-        :type="
-          state.choosedOption === props.noOptionText
-            ? BadgesTypeEnum.default
-            : BadgesTypeEnum.blue
-        "
-        class="filter__options-badge"
-        :text="state.choosedOption"
-        disabled
-      />
+      <Tooltip
+        :is-can-show="state.tooltipText !== ''"
+        :hint="state.tooltipText"
+        position="top-center"
+        type="blue"
+        class="badge-tooltip"
+      >
+        <Badges
+          :type="
+            state.choosedOption === props.noOptionText
+              ? BadgesTypeEnum.default
+              : BadgesTypeEnum.blue
+          "
+          class="filter__options-badge"
+          :text="state.choosedOption"
+          disabled
+        />
+      </Tooltip>
     </template>
     <template #options>
       <template v-if="state.choosedOption !== props.noOptionText">
         <Badges
           :type="BadgesTypeEnum.blue"
-          class="filter__options-badge"
+          class="filter__options-badge selected-badge"
           :text="state.choosedOption"
           @choose="chooseOption"
           disabled
           choosed
         />
-        <li class="filter__options-underline">
-          <hr class="filter__options-underline-hr" />
-        </li>
       </template>
       <Search :show-history="false" v-model="state.searchData" />
-      <Options
-        class="filter__options-option"
-        :options="filteredOptions"
-        :default-option="state.choosedOption"
-        @change="getChoosenOption"
-      >
-        <li class="filter__options-underline">
-          <hr class="filter__options-underline-hr" />
-        </li>
-      </Options>
+      <div class="filter__options-list">
+        <Options
+          class="filter__options-option"
+          :options="filteredOptions"
+          :default-option="state.choosedOption"
+          @change="getChoosenOption"
+        >
+          <li class="filter__options-underline">
+            <hr class="filter__options-underline-hr" />
+          </li>
+        </Options>
+      </div>
     </template>
   </SelectList>
 </template>
@@ -61,6 +68,7 @@ import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Badges from '../Badges/Badges.vue';
 import Search from '../Search/Search.vue';
+import Tooltip from '../Tooltip/Tooltip.vue';
 import type { IFilterProps } from './interface/interface';
 import { BadgesTypeEnum } from '../Badges/enum/enum';
 
@@ -71,6 +79,7 @@ const props = withDefaults(defineProps<IFilterProps>(), {
 const state = reactive({
   choosedOption: props.defaultOption || props.noOptionText,
   defaultOption: props.defaultOption || props.noOptionText,
+  tooltipText: '',
   searchData: '',
   options: [
     {
@@ -101,12 +110,16 @@ const getChoosenOption = (value: string): void => {
   state.choosedOption =
     state.options.find(obj => obj.value === value)?.key || '';
   state.isOpened = false;
+  state.tooltipText = value;
   emits('change', value);
 };
 
 const chooseOption = (value: boolean): void => {
   if (!state.defaultOption) return;
-  if (value) state.choosedOption = props.noOptionText;
+  if (value) {
+    state.choosedOption = props.noOptionText;
+    state.tooltipText = '';
+  }
   emits('change', props.noOptionText);
 };
 
@@ -137,6 +150,10 @@ watch(
     if (props.defaultOption) {
       state.defaultOption = props.defaultOption;
       state.choosedOption = props.defaultOption;
+      state.tooltipText =
+        state.options.find(opt => opt.key === props.defaultOption)?.value ||
+        props.defaultOption ||
+        '';
     }
   },
   { deep: true }
@@ -169,6 +186,7 @@ watch(
 
   & .filter__options-badge {
     overflow: hidden;
+
     & :deep(.badges-text) {
       max-width: 100%;
       display: block;
@@ -178,13 +196,16 @@ watch(
   }
 }
 
+:deep(.filter__header) {
+  overflow: visible;
+}
+
 :deep(.filter__header:hover) {
   border-color: var(--border-blue);
 }
 
 :deep(.filter__options) {
   padding: 10px;
-  gap: 5px;
   border: none;
   box-shadow: 0 4px 9.8px 0 #0000000d;
   width: 334px;
@@ -194,8 +215,21 @@ watch(
   white-space: nowrap;
 }
 
+.selected-badge {
+  margin-bottom: 5px;
+}
+
+:deep(.filter__options-list) {
+  overflow-y: scroll;
+  max-height: 376px;
+  margin-right: -8px;
+  padding-right: 2px;
+}
+
 :deep(.filter__options-option) {
   font-size: 14px;
+  margin-block: 5px;
+  display: block;
 }
 
 li.filter__options-underline {
@@ -205,12 +239,13 @@ li.filter__options-underline {
     border: none;
     border-bottom: 0.5px solid var(--border-grey);
   }
-  &:last-child {
-    display: none;
-  }
 }
 
 .filter__options-badge {
   font-weight: bold;
+}
+
+.badge-tooltip {
+  width: 77px;
 }
 </style>

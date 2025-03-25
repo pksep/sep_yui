@@ -3,6 +3,13 @@
     <span ref="spanRef" class="badges-text">
       {{ props.text }}
     </span>
+    <Icon
+      class="close-icon"
+      :width="10"
+      :height="10"
+      :name="IconNameEnum.closeTag"
+      color="var(--grey6)"
+    />
   </div>
 </template>
 
@@ -10,6 +17,8 @@
 import { IBadgesProps } from './interface/interface';
 import { BadgesTypeEnum } from './enum/enum';
 import { onMounted, computed, reactive, ref } from 'vue';
+import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
+import Icon from '../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<IBadgesProps>(), {
   type: BadgesTypeEnum.default,
@@ -145,23 +154,17 @@ onMounted(() => {
 .base-yui-kit.choosed-yui-kit {
   position: relative;
   background-color: var(--blue9);
-  padding: 3px 20px 3px 3px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 
-  &:before,
-  &:after {
-    @include pseudo(8px, 1px);
-    background-color: var(--grey6);
-    top: 50%;
-    right: 5px;
-    border-radius: 5px;
+  & .close-icon {
+    display: block;
   }
+}
 
-  &:before {
-    transform: rotate(-45deg) translateY(-50%);
-  }
-  &:after {
-    transform: rotate(45deg) translateY(-50%);
-    right: 6px;
-  }
+.close-icon {
+  display: none;
 }
 </style>
