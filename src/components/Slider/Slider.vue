@@ -228,12 +228,12 @@ defineExpose({
   width: 100%;
   height: 260px;
   overflow: hidden;
-  border: 0.5px solid $WHITE-E0E0E0;
+  border: 0.5px solid var(--grey12);
   border-radius: 15px;
   transition: 0.3s ease-in-out;
 
   &:hover {
-    border-color: $BLUE-9CBEFF;
+    border-color: var(--border-blue);
   }
 
   &__wrapper {
@@ -244,11 +244,11 @@ defineExpose({
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    background-color: $BLUE-F2F7FF;
+    background-color: var(--blue9);
   }
 
   &__slides {
-    background-color: $WHITE;
+    background-color: var(--white);
     border-radius: 15px;
     display: flex;
     justify-content: center;
@@ -272,22 +272,25 @@ defineExpose({
 
   &__button {
     width: 64px;
-    background-color: $WHITE;
-    border: 1px solid $TRANSPARENT;
+    background-color: var(--white);
+    border: 1px solid transparent;
     outline: none;
     border-radius: 10px;
     padding: 0 20px;
     transition: 0.3s ease-in-out;
     cursor: pointer;
+    &:hover {
+      color: var(--blue1);
+    }
 
     &:active {
-      background-color: $BLUE-D6E4FF;
-      color: $BLUE-77A6FF;
+      background-color: var(--blue12);
+      color: var(--blue1);
     }
 
     &:disabled {
-      background-color: $WHITE-F5F5F5;
-      color: $GREY-A6A3AD;
+      background-color: var(--grey1);
+      color: var(--grey4);
     }
   }
 
@@ -320,14 +323,14 @@ defineExpose({
   flex-grow: 1;
   gap: 20px;
   border-radius: 10px;
-  background-color: $WHITE-F0F0F0;
+  background-color: var(--grey11);
 
   img {
     height: auto;
   }
 
   p {
-    color: $GREY-A6A3AD;
+    color: var(--grey4);
   }
 }
 </style>

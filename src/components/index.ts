@@ -1,4 +1,6 @@
 import { App } from 'vue';
+import { createPinia } from 'pinia';
+
 import Badges from './Badges/Badges.vue';
 import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
@@ -26,7 +28,6 @@ import UserMenu from './UserMenu/UserMenu.vue';
 import Textarea from './Textarea/Textarea.vue';
 import Picture from './Picture/Picture.vue';
 import PushNotification from './Notification/Notification.vue';
-import { createPinia } from 'pinia';
 import CopyIcon from '@/components/CopyIcon/CopyIcon.vue';
 import Loader from '@/components/Loader/Loader.vue';
 import FilterTag from '@/components/FilterTag/FilterTag.vue';

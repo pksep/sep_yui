@@ -1,7 +1,8 @@
 import { StoryFn, Meta } from '@storybook/vue3';
+import InputNumber from './InputNumber.vue';
+
 import { StorybookControlEnum } from '../../common/storybook';
 import { InputTypeEnum } from './enum/enum';
-import InputNumber from './InputNumber.vue';
 import { SizesEnum } from '../../common/sizes';
 
 const meta = {
@@ -65,4 +66,9 @@ InputSuccess.args = {
 export const InputOrdinary = Template.bind({});
 InputOrdinary.args = {
   class: InputTypeEnum.ordinary
+};
+
+export const InputActive = Template.bind({});
+InputActive.args = {
+  class: 'active'
 };

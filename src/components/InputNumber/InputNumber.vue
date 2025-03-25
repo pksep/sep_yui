@@ -1,6 +1,6 @@
 <template>
   <fieldset
-    class="input-yui-kit"
+    class="input-yui-kit initial"
     :class="{
       pressed: state.isPressed,
       [props.size]: true
@@ -43,10 +43,11 @@
 
 <script setup lang="ts">
 import { reactive, watch, ref } from 'vue';
-import type { IInputNumberProps } from './interface/interface.ts';
-import { Icon } from '@/components';
+import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
 import { SizesEnum } from '@/common/sizes.ts';
+
+import type { IInputNumberProps } from './interface/interface.ts';
 
 interface IState {
   isPressed: boolean;
@@ -122,7 +123,7 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 fieldset.input-yui-kit {
   & .input-yui-kit__buttons {
     margin-right: 8px;
@@ -136,8 +137,8 @@ fieldset.input-yui-kit {
     & button {
       width: 24px;
       height: 16px;
-      background-color: $WHITE;
-      border: 0.3px solid $WHITE-E7E7E7;
+      background-color: var(--white);
+      border: 0.3px solid var(--border-grey);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -145,11 +146,11 @@ fieldset.input-yui-kit {
       overflow: hidden;
 
       &:not(:disabled):hover {
-        border-color: $BLUE-77A6FF;
+        border-color: var(--blue1);
         cursor: pointer;
 
         & * {
-          color: $BLUE-77A6FF;
+          color: var(--blue1);
         }
       }
     }
@@ -179,6 +180,10 @@ fieldset.input-yui-kit {
         height: 12px;
       }
     }
+  }
+
+  &.active {
+    background: var(--blue9);
   }
 }
 /* Hide default arrows on input[type=number] for WebKit browsers */
