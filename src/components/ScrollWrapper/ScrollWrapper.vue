@@ -227,17 +227,25 @@ const onTrackClick = (event: MouseEvent) => {
   }
 };
 
-const reseizeObserver = new MutationObserver(() => {
+const mutatuionObserver = new MutationObserver(() => {
+  requestAnimationFrame(() => {
+    setScrollStyle();
+  });
+});
+
+const resizeOvserver = new ResizeObserver(() => {
   requestAnimationFrame(() => {
     setScrollStyle();
   });
 });
 
 const setResizeElement = (value: HTMLElement) => {
-  reseizeObserver.observe(value, {
+  mutatuionObserver.observe(value, {
     childList: true,
     subtree: true
   });
+
+  resizeOvserver.observe(value);
 };
 
 defineExpose({

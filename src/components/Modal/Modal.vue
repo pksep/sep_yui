@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
+import changeStyleProperties from '@/helpers/change-style-properties';
 
 const props = defineProps<IDialogProps>();
 const dialog = ref<HTMLDialogElement | null>(null);
@@ -30,14 +31,26 @@ const stylesContent = computed(() => ({
 
 const emit = defineEmits(['close']);
 
-const showDialog = () =>
+const showDialog = (): void =>
   props.open ? dialog.value?.showModal() : hideDialog();
 
-const hideDialog = () => {
+const hideDialog = (): void => {
   dialog.value?.close();
-  setTimeout(() => {
-    emit('close');
-  }, 100);
+
+  emit('close');
+  document.documentElement.focus();
+};
+
+const handleKeyPressed = (event: KeyboardEvent): void => {
+  const key = event.key;
+
+  if (key === 'Escape') {
+    hideDialog();
+  }
+};
+
+const getScrollbarWidth = (): number => {
+  return window.innerWidth - document.documentElement.clientWidth;
 };
 
 useEventListener(dialog, 'click', e => {
@@ -53,11 +66,27 @@ onMounted(() => {
       visible.value = props.open;
     }
   });
-  document.body.style.overflowY = 'hidden';
+  const scrollbarWidth = getScrollbarWidth();
+  changeStyleProperties(
+    {
+      overflow: 'hidden',
+      'padding-right': `${scrollbarWidth}px`
+    },
+    document.body
+  );
+
+  document.addEventListener('keydown', handleKeyPressed);
 });
 
 onUnmounted(() => {
-  document.body.style.overflowY = 'inherit';
+  changeStyleProperties(
+    {
+      overflow: 'inherit',
+      'padding-right': '0px'
+    },
+    document.body
+  );
+  document.removeEventListener('keydown', handleKeyPressed);
 });
 </script>
 

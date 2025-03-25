@@ -4,7 +4,6 @@
       ref="scrollWrapperRef"
       class="table__scroll-wrapper table__scroll-wrapper_head"
       :isShowVerticalScroll="isShowVerticalScroll"
-      :element="scrolledElement"
       @unmount-scroll="unmountScroll"
       @on-mounted="setScrollHandlers"
     >
@@ -35,6 +34,7 @@
 
         <tbody ref="refTbody" class="table__body" data-testid="BaseTable-Body">
           <slot name="body" v-bind="state"></slot>
+          <TableRow ref="intersectionRef" class="table__intersection" />
         </tbody>
       </table>
     </ScrollWrapper>
@@ -57,6 +57,7 @@ import {
 } from 'vue';
 import { ITableProps } from '@/components/Table/interface/interface';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
+import TableRow from '@/components/Table/TableRow.vue';
 
 defineOptions({
   name: 'BaseTable'
@@ -68,12 +69,14 @@ withDefaults(defineProps<ITableProps>(), {
 
 const emit = defineEmits<{
   (e: 'unmountScroll', event: Event): void;
+  (e: 'unmount-intersection'): void;
 }>();
 
 const tableDivRef = ref<HTMLElement | null>(null);
 const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 const refThead = ref<HTMLElement | null>(null);
 const refTbody = ref<HTMLElement | null>(null);
+const intersectionRef = ref<InstanceType<typeof TableRow> | null>(null);
 const scrolledElement = ref<HTMLElement | null>(null);
 const state = reactive<{
   countColumn: ComputedRef<number>;
@@ -127,6 +130,19 @@ const resizeObserver = new ResizeObserver(entries => {
   });
 });
 
+const intersiptionObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        emit('unmount-intersection');
+      }
+    });
+  },
+  {
+    rootMargin: '0px 0px 100px 0px'
+  }
+);
+
 const unmountScroll = (e: Event) => {
   emit('unmountScroll', e);
 };
@@ -157,6 +173,10 @@ onMounted(() => {
     setStyle();
 
     resizeObserver.observe(refThead.value);
+  }
+
+  if (intersectionRef.value) {
+    intersiptionObserver.observe(intersectionRef.value.$el);
   }
 });
 </script>
@@ -250,6 +270,11 @@ onMounted(() => {
   --th-vertical-padding: 5px;
   border-bottom: 1px solid var(--border-grey);
   background-color: var(--table-background-color);
+}
+
+.table__intersection {
+  border: none;
+  height: 0;
 }
 
 .table__table-wrapper:not(:has(tr)) .table__border-bottom,
