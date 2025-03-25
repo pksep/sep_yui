@@ -163,7 +163,9 @@ const choosedOption = computed(() => {
 const choosedOptions = computed(() => {
   return props.options.filter(option => {
     if (isArray(model.value)) {
-      return model.value.includes(option.key);
+      return (
+        model.value.includes(option.key) && option.value !== choosedOption.value
+      );
     }
     return option.key === String(model.value);
   });
@@ -175,7 +177,7 @@ const choosedHint = computed(() => {
   if (isArrayOfOptionsObjectWithHint(options)) {
     if (isArray(model.value)) {
       result = options.find(
-        option => option.key === String(model.value[0])
+        option => option.value === choosedOption.value
       )?.hint;
     } else {
       result = options.find(option => option.key === String(model.value))?.hint;

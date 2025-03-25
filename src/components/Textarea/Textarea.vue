@@ -1,9 +1,5 @@
 <template>
-  <fieldset
-    class="input-yui-kit"
-    :class="{ pressed: state.isPressed, readonly: props.readonly }"
-    @focusout="handleBlur"
-  >
+  <fieldset class="input-yui-kit" :class="inputClass" @focusout="handleBlur">
     <legend v-if="props.inputMessage" class="input-yui-kit__legend">
       {{ props.inputMessage }}
       <sup class="input-yui-kit__star" v-if="props.required">*</sup>
@@ -22,13 +18,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import type { ITextareaProps } from './interface/interface';
+import { TextareaTypeEnum } from '@/components/Textarea/enum';
 
 const props = withDefaults(defineProps<ITextareaProps>(), {
   required: false,
   modelValue: '',
-  readonly: false
+  readonly: false,
+  type: TextareaTypeEnum.default
 });
 
 const emits = defineEmits<{
@@ -39,6 +37,14 @@ const state = reactive({
   isPressed: false,
   inputElement: props.modelValue
 });
+
+const inputClass = computed(() => [
+  {
+    pressed: state.isPressed,
+    readonly: props.readonly,
+    [props.type]: true
+  }
+]);
 
 const handleInput = (): void => {
   emits('update:modelValue', state.inputElement);

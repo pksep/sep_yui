@@ -48,7 +48,6 @@ export interface IComboboxProps extends IOptionsProps {
 export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
   options: OptionsObject[] | IOptionsObjectWithHint[];
   title: string;
-  defaultText?: string;
   isSearch?: boolean;
   isPosibleToClear?: boolean;
   isShowMiniOptions?: boolean;

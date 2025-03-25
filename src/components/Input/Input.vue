@@ -96,7 +96,7 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 input:is(:-webkit-autofill, :autofill) {
   background: transparent !important;
 }
@@ -114,7 +114,7 @@ fieldset.input-yui-kit .input-yui-kit__close {
   min-height: 24px;
   padding: 0;
   &:hover {
-    background-color: $TRANSPARENT;
+    background-color: transparent;
   }
 }
 </style>

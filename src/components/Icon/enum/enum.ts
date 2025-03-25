@@ -86,5 +86,8 @@ export enum IconNameEnum {
   eye = 'eye',
   eyeOff = 'eye-off',
   handSignEmoji = 'hand-sign-emoji',
-  calendar = 'calendar'
+  calendar = 'calendar',
+  paint = 'paint',
+  closeTag = 'close-tag'
+
 }

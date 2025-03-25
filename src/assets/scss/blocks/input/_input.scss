@@ -75,10 +75,6 @@ fieldset.input-yui-kit {
     }
   }
 
-  &.minor {
-    --background: var(--blue15);
-  }
-
   & .input-yui-kit__input {
     box-sizing: border-box;
     font-size: 14px;
@@ -91,6 +87,36 @@ fieldset.input-yui-kit {
 
     &:focus::placeholder {
       color: transparent;
+    }
+    &.pressed .input-yui-kit__legend,
+    &.error .input-yui-kit__legend,
+    &.success .input-yui-kit__legend,
+    &.warning .input-yui-kit__legend {
+      display: flex;
+    }
+
+    &.ordinary .input-yui-kit__legend,
+    &.minor .input-yui-kit__legend {
+      display: none;
+    }
+
+    &.minor {
+      --background: var(--blue15);
+    }
+
+    & .input-yui-kit__input {
+      box-sizing: border-box;
+      font-size: 14px;
+      line-height: 19px;
+      padding: 10px 30px 10px 14px;
+      background-color: transparent;
+      border: 1px solid transparent;
+      width: inherit;
+      outline: none;
+
+      &:focus::placeholder {
+        color: transparent;
+      }
     }
   }
 }

@@ -1,3 +1,5 @@
+import { TextareaTypeEnum } from '@/components/Textarea/enum';
+
 export interface ITextareaProps {
   placeholder?: string;
   inputMessage?: string;
@@ -5,4 +7,5 @@ export interface ITextareaProps {
   maxlength?: number;
   modelValue: string;
   readonly?: boolean;
+  type?: TextareaTypeEnum;
 }
