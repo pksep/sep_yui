@@ -35,9 +35,17 @@ const showDialog = () =>
 
 const hideDialog = () => {
   dialog.value?.close();
-  setTimeout(() => {
-    emit('close');
-  }, 100);
+
+  emit('close');
+  document.documentElement.focus();
+};
+
+const handleKeyPressed = (event: KeyboardEvent) => {
+  const key = event.key;
+
+  if (key === 'Escape') {
+    hideDialog();
+  }
 };
 
 useEventListener(dialog, 'click', e => {
@@ -54,10 +62,13 @@ onMounted(() => {
     }
   });
   document.body.style.overflowY = 'hidden';
+
+  document.addEventListener('keydown', handleKeyPressed);
 });
 
 onUnmounted(() => {
   document.body.style.overflowY = 'inherit';
+  document.removeEventListener('keydown', handleKeyPressed);
 });
 </script>
 
