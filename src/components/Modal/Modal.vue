@@ -30,17 +30,17 @@ const stylesContent = computed(() => ({
 
 const emit = defineEmits(['close']);
 
-const showDialog = () =>
+const showDialog = (): void =>
   props.open ? dialog.value?.showModal() : hideDialog();
 
-const hideDialog = () => {
+const hideDialog = (): void => {
   dialog.value?.close();
 
   emit('close');
   document.documentElement.focus();
 };
 
-const handleKeyPressed = (event: KeyboardEvent) => {
+const handleKeyPressed = (event: KeyboardEvent): void => {
   const key = event.key;
 
   if (key === 'Escape') {
