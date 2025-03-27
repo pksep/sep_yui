@@ -22,12 +22,13 @@
   </SelectList>
 </template>
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import type { IOptionsProps } from './interface/interface';
+import { isArrayOptionsObject } from '@/helpers/guards/is-options-object';
 
 const props = withDefaults(defineProps<IOptionsProps>(), {
   disabled: false
@@ -50,9 +51,16 @@ const change = (val: boolean) => {
  * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
 const getChoosenOption = (value: string) => {
-  state.choosedOption = value;
+  let key: string | undefined;
+  if (isArrayOptionsObject(props.options)) {
+    const option = props.options.find(option => option.key === value);
+    state.choosedOption = option?.value || value;
+    key = option?.key;
+  } else {
+    state.choosedOption = value;
+  }
   state.isOpened = false;
-  emit('change', value);
+  emit('change', key || value);
 };
 
 watch(
@@ -63,6 +71,12 @@ watch(
     }
   }
 );
+
+onMounted(() => {
+  if (isArrayOptionsObject(props.options)) {
+    state.choosedOption = props.defaultOption || props.options[0].value;
+  }
+});
 </script>
 
 <style scoped>

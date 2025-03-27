@@ -15,6 +15,27 @@
   }
 }
 
+.select-list-yui-kit {
+  &.minor {
+    & .select-list-yui-kit__list,
+    & .select-list-yui-kit__current {
+      background-color: var(--blue15);
+    }
+
+    & .select-list-yui-kit__current {
+      border: 1px solid transparent;
+    }
+
+    & .active-yui-kit {
+      border: 1px solid var(--border-blue);
+    }
+
+    & .select-list-yui-kit__item:hover {
+      background-color: var(--blue10);
+    }
+  }
+}
+
 .search-dropdown-yui-kit {
   background-color: $WHITE;
 
