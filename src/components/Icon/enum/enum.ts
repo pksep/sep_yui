@@ -89,5 +89,4 @@ export enum IconNameEnum {
   calendar = 'calendar',
   paint = 'paint',
   closeTag = 'close-tag'
-
 }

@@ -11,7 +11,7 @@
           type="text"
           class="search-yui-kit__input"
           v-model="state.searchValue"
-          :placeholder="state.placeholder"
+          :placeholder="props.placeholder"
           @keydown.enter="changeSearch"
           @input="changeSearchValue"
           @focus="setFocusSearch"
@@ -98,7 +98,6 @@ const classesDropdown = computed(() => ({
  */
 const setFocusSearch = () => {
   state.isShowResult = true;
-  state.placeholder = '';
 };
 
 /**
@@ -108,7 +107,6 @@ const hidehistory = () => {
   state.isShowList = false;
   state.isShowResult = false;
   state.isShowButtonHistory = false;
-  state.placeholder = props.placeholder;
 };
 
 /**
@@ -155,6 +153,8 @@ watch(
 
 <style lang="scss" scoped>
 .search-yui-kit {
+  position: relative;
+
   &:hover .history {
     display: grid;
   }
@@ -164,9 +164,9 @@ watch(
     height: inherit;
 
     &:hover {
-      color: $BLUE-9CBEFF;
+      color: var(--border-blue);
       &::placeholder {
-        color: $BLUE-9CBEFF;
+        color: var(--border-blue);
       }
     }
 
@@ -178,12 +178,12 @@ watch(
 
       input {
         padding-left: 12px;
-        color: $BLACK;
-        caret-color: $BLUE-9CBEFF;
-        background-color: $WHITE;
+        color: var(--black);
+        caret-color: var(--border-blue);
+        background-color: var(--white);
 
         &::placeholder {
-          color: $WHITE;
+          color: var(--white);
         }
       }
     }
@@ -191,32 +191,31 @@ watch(
 
   &__input {
     width: 100%;
-    color: $GREY-9A9B9D;
+    color: #9a9b9d;
     height: inherit;
-    border: 1px solid TRANSPARENT;
+    border: 1px solid transparent;
     border-radius: 5px;
     transition: 0.3s ease-in-out;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: $BLUE-F8F9FD;
+    background-color: var(--blue15);
 
     font-size: 14px;
     line-height: 16px;
-    font-family: $PRIMARY-FONT;
     padding-left: 44px;
 
     &:hover,
     &:focus,
     &:focus-visible,
     &:active {
-      border: 1px solid $BLUE-9CBEFF;
+      border: 1px solid var(--border-blue);
       outline: none;
     }
 
     &:hover {
       &::placeholder {
-        color: $BLUE-9CBEFF;
+        color: var(--border-blue);
       }
     }
 
@@ -224,7 +223,7 @@ watch(
       &:focus,
       &:focus-visible,
       &:active {
-        background-color: $WHITE;
+        background-color: var(--white);
         padding-left: 12px;
         & + svg {
           display: none;
@@ -235,7 +234,7 @@ watch(
 
   &__icon-wrapper {
     height: inherit;
-    color: $GREY-9A9B9D;
+    color: #9a9b9d;
     position: relative;
     display: flex;
     align-items: center;
