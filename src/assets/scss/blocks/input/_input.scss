@@ -19,6 +19,9 @@
     &.minor::before {
         border-color: $TRANSPARENT;
     }
+    &.minor.error::before {
+        border-color: $color;
+    }
 
     &:has(.input-yui-kit__input:focus-visible)::before {
         border-width: 1.5px;
@@ -82,8 +85,7 @@ fieldset.input-yui-kit {
         display: flex;
     }
 
-    &.ordinary .input-yui-kit__legend,
-    &.minor .input-yui-kit__legend {
+    &.ordinary .input-yui-kit__legend {
         display: none;
     }
 
