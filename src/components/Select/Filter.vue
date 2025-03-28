@@ -2,6 +2,7 @@
   <SelectList
     @change="change"
     :is-opened="state.isOpened"
+    :disable-open="state.isNoOpen"
     :class="props.class"
     header-classes="filter__header"
     options-classes="filter__options"
@@ -16,13 +17,15 @@
         {{ props.title }}
       </span>
       <Tooltip
-        :is-can-show="state.tooltipText !== ''"
-        :hint="state.tooltipText"
-        position="top-center"
+        class="filter__header-tooltip"
         type="blue"
-        class="badge-tooltip"
+        :hint="state.choosedOption"
+        :hint-gap="28"
+        :is-can-show="isCanShowHint"
+        position="top-center"
       >
         <Badges
+          ref="badgesRef"
           :type="
             state.choosedOption === props.noOptionText
               ? BadgesTypeEnum.default
@@ -33,9 +36,21 @@
           disabled
         />
       </Tooltip>
+      <YButton
+        v-if="props.enableClearAll && state.isClear"
+        @click="clearOptions"
+        :type="ButtonTypeEnum.ghost"
+        :size="SizesEnum.small"
+      >
+        <YIcon :name="IconNameEnum.crossLarge" width="16" height="16" />
+      </YButton>
     </template>
     <template #options>
-      <template v-if="state.choosedOption !== props.noOptionText">
+      <template
+        v-if="
+          !props.enableClearAll && state.choosedOption !== props.noOptionText
+        "
+      >
         <Badges
           :type="BadgesTypeEnum.blue"
           class="filter__options-badge selected-badge"
@@ -63,17 +78,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watch, onMounted } from 'vue';
+import { reactive, computed, watch, onMounted, ref } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import Badges from '../Badges/Badges.vue';
 import Search from '../Search/Search.vue';
 import Tooltip from '../Tooltip/Tooltip.vue';
-import type { IFilterProps } from './interface/interface';
 import { BadgesTypeEnum } from '../Badges/enum/enum';
+import { IconNameEnum } from '../Icon/enum/enum';
+import { ButtonTypeEnum } from '../Button/enum/enum';
+import { SizesEnum } from '@/common/sizes';
+import type { IFilterProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
-  noOptionText: 'Не выбран'
+  noOptionText: 'Не выбран',
+  enableClearAll: false
 });
 
 const state = reactive({
@@ -88,14 +107,22 @@ const state = reactive({
     }
   ],
   optionStrings: [''],
-  isOpened: false
+  isOpened: false,
+  isNoOpen: false,
+  isClear: false
 });
+
+const badgesRef = ref<InstanceType<typeof Badges> | null>(null);
 
 const filteredOptions = computed(() =>
   state.optionStrings.filter(item =>
     item.toLowerCase().includes(state.searchData.toLowerCase())
   )
 );
+
+const isCanShowHint = computed(() => {
+  return Boolean(badgesRef.value?.isSpanOverflow || false);
+});
 
 const emits = defineEmits<{
   (e: 'change', value: string): void;
@@ -106,16 +133,28 @@ const change = (val: boolean): void => {
   state.isOpened = val;
 };
 
+const clearOptions = (): void => {
+  state.isOpened = false;
+  state.isClear = false;
+  state.isNoOpen = true;
+  state.choosedOption = props.noOptionText;
+  state.defaultOption = props.noOptionText;
+  setTimeout(() => (state.isNoOpen = false), 1);
+  emits('change', props.noOptionText);
+};
+
 const getChoosenOption = (value: string): void => {
   state.choosedOption =
     state.options.find(obj => obj.value === value)?.key || '';
   state.isOpened = false;
+  state.isClear = true;
   state.tooltipText = value;
   emits('change', value);
 };
 
 const chooseOption = (value: boolean): void => {
   if (!state.defaultOption) return;
+  state.isClear = !value;
   if (value) {
     state.choosedOption = props.noOptionText;
     state.tooltipText = '';
@@ -170,7 +209,8 @@ watch(
   color: var(--text-grey);
   width: max-content;
   max-width: 214px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
 
   & .filter__header-title {
     font-size: 14px;
@@ -185,13 +225,21 @@ watch(
   }
 
   & .filter__options-badge {
-    overflow: hidden;
-
+    display: grid;
+    grid-auto-flow: column;
     & :deep(.badges-text) {
-      max-width: 100%;
-      display: block;
+      display: inline-block;
+      width: 100%;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+  }
+  & button.button-yui-kit {
+    padding: 2px;
+    min-height: 20px;
+    & :deep(svg.icon-yui-kit) > g > path {
+      stroke-width: 1.5;
     }
   }
 }
@@ -245,7 +293,7 @@ li.filter__options-underline {
   font-weight: bold;
 }
 
-.badge-tooltip {
-  width: 77px;
+.filter__header-tooltip {
+  position: relative;
 }
 </style>
