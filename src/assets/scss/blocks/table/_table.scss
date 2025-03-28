@@ -1,5 +1,6 @@
 div.table-yui-kit__border {
-  border-radius: 15px var(--grey13);
+  border: 0.5px solid var(--grey13);
+  border-radius: 15px;
   overflow: clip;
 }
 
