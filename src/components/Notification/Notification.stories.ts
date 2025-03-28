@@ -65,3 +65,10 @@ NotificationSuccess.args = {
   type: MessageTypeEnum.success,
   description: 'Файл успешно добавлен в архив'
 };
+
+export const NotificationWithVeryLongMessage = Template.bind({});
+NotificationWithVeryLongMessage.args = {
+  type: MessageTypeEnum.warning,
+  description:
+    'Вчера вечером, гуляя по тихим улочкам старого города, где каждый фонарь отбрасывал причудливые тени на мостовую, я неожиданно услышал отдалённые звуки скрипки, которые словно проникали в самое сердце; возможно, это был местный музыкант, который часами играл свои мелодии, наполняя окрестности чувством тоски и ностальгии.'
+};
