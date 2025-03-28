@@ -2,7 +2,7 @@
   <div class="search-yui-kit__history history-yui-kit" v-if="props.showHistory">
     <Button
       :type="ButtonTypeEnum.outline"
-      v-if="state.getHistorySearch.length > 0 && state.isShowButtonHistory"
+      v-if="state.isShowButtonHistory"
       @click="showHistoryClickHandler"
       :class="'history-yui-kit__button-text show-result'"
     >
@@ -22,7 +22,7 @@
       </li>
     </ul>
     <Button
-      v-else
+      v-else-if="!state.isShowButtonHistory"
       :type="ButtonTypeEnum.outline"
       :class="'history-yui-kit__button-text'"
     >
