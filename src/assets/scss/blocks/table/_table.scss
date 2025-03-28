@@ -1,6 +1,5 @@
 div.table-yui-kit__border {
-  border: 0.5px solid $WHITE-E0E0E0;
-  border-radius: 15px;
+  border-radius: 15px var(--grey13);
   overflow: clip;
 }
 
@@ -38,19 +37,19 @@ table.table-yui-kit {
   }
   & th.table-yui-kit__th {
     padding: 12px 8px;
-    border-bottom: 0.5px solid $WHITE-E0E0E0;
+    border-bottom: 0.5px solid var(--grey3);
     &.colored {
-      background-color: $BLUE-F2F7FF;
+      background-color: var(--blue9);
     }
   }
 
   & th.table-yui-kit__th {
-    border-right: 0.5px solid $WHITE-E0E0E0;
+    border-right: 0.5px solid var(--grey3);
   }
 
   & tr.table-yui-kit__tr:not(:last-child) {
     & td.table-yui-kit__td {
-      border-bottom: 0.5px solid $WHITE-E0E0E0;
+      border-bottom: 0.5px solid var(--grey3);
     }
   }
 
@@ -83,7 +82,7 @@ table.table-yui-kit {
   }
 
   & td.table-yui-kit__td {
-    border-right: 0.5px solid $WHITE-E0E0E0;
+    border-right: 0.5px solid var(--grey3);
   }
 
   & td.table-yui-kit__td {

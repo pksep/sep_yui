@@ -53,7 +53,7 @@ const getScrollbarWidth = (): number => {
   return window.innerWidth - document.documentElement.clientWidth;
 };
 
-useEventListener(dialog, 'click', e => {
+useEventListener(dialog, 'mousedown', e => {
   if (e.target === dialog.value) {
     hideDialog();
   }

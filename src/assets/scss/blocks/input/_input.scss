@@ -20,6 +20,9 @@
   &.minor::before {
     border-color: transparent;
   }
+  &.minor.error::before {
+        border-color: $color;
+  }
 
   &:has(.input-yui-kit__input:focus-visible)::before {
     border-width: 1.5px;

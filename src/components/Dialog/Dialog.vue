@@ -30,7 +30,7 @@ const hideDialog = () => {
 const showDialog = () =>
   props.open ? dialog.value?.showModal() : hideDialog();
 
-useEventListener(dialog, 'click', e => {
+useEventListener(dialog, 'mousedown', e => {
   if (!props.noClose && e.target === dialog.value) {
     hideDialog();
   }

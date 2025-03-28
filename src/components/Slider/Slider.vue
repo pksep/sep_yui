@@ -239,11 +239,11 @@ defineExpose({
   &__wrapper {
     width: inherit;
     height: 100%;
-    padding: 20px 18px;
+    padding: 10px;
     transition: 0.3s ease-in-out;
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 10px;
     background-color: var(--blue9);
   }
 

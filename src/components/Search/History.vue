@@ -1,26 +1,33 @@
 <template>
   <div class="search-yui-kit__history history-yui-kit" v-if="props.showHistory">
-    <button
-      type="button"
-      v-if="state.getHistorySearch.length > 0 && state.isShowButtonHistory"
+    <Button
+      :type="ButtonTypeEnum.outline"
+      v-if="state.isShowButtonHistory"
       @click="showHistoryClickHandler"
-      :class="'history-yui-kit__button-text'"
+      :class="'history-yui-kit__button-text show-result'"
     >
-      Просмотреть историю запросов
-    </button>
+      <span> Просмотреть историю запросов </span>
+    </Button>
 
-    <ul :class="classes">
+    <ul :class="classes" v-if="state.getHistorySearch?.length">
       <li
         class="history-yui-kit__item"
         v-for="item in state.getHistorySearch"
         :key="item"
       >
         <span @click="handleChoosePost(item)"> {{ trimText(item) }}</span
-        ><button type="button" @click="removeItem(item)">
-          <Icon :name="IconNameEnum.exitSmall" />
-        </button>
+        ><Button :type="ButtonTypeEnum.ghost" @click="removeItem(item)">
+          <Icon :name="IconNameEnum.exitSmall" :width="16" />
+        </Button>
       </li>
     </ul>
+    <Button
+      v-else-if="!state.isShowButtonHistory"
+      :type="ButtonTypeEnum.outline"
+      :class="'history-yui-kit__button-text'"
+    >
+      <span class="empty-content">По вашему запросу ничего не найдено</span>
+    </Button>
   </div>
 </template>
 
@@ -31,6 +38,8 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { useSearchStore } from '../../stores/search';
 import { trimText } from './../../helpers/trimText';
+import Button from '../Button/Button.vue';
+import { ButtonTypeEnum } from '../Button/enum/enum.ts';
 
 const searchStore = useSearchStore();
 
@@ -90,7 +99,7 @@ const handleChoosePost = (item: string) => {
 
   &__input {
     width: inherit;
-    color: $GREY-9A9B9D;
+    color: #9a9b9d;
     padding: 12px 11px 12px 35px;
     border: 1px solid TRANSPARENT;
     border-radius: 5px;
@@ -98,31 +107,31 @@ const handleChoosePost = (item: string) => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: $BLUE-F8F9FD;
+    background-color: var(--blue15);
 
     &:hover,
     &:focus,
     &:focus-visible,
     &:active {
-      border: 1px solid $BLUE-9CBEFF;
+      border: 1px solid var(--border-blue);
       outline: none;
     }
 
     &:focus,
     &:focus-visible,
     &:active {
-      color: $BLUE-9CBEFF;
+      color: var(--border-blue);
     }
 
     &:focus + svg,
     &:focus-visible + svg,
     &:active + svg {
-      color: $BLUE-9CBEFF;
+      color: var(--border-blue);
     }
   }
 
   &__icon-wrapper {
-    color: $GREY-9A9B9D;
+    color: #9a9b9d;
     position: relative;
     min-height: 49px;
     display: flex;
@@ -149,34 +158,54 @@ const handleChoosePost = (item: string) => {
 }
 
 .history-yui-kit {
-  color: $GREY-282828;
+  color: #282828;
   outline: none;
-  background-color: $WHITE;
+  background-color: var(--white);
   border-radius: 5px;
   display: none;
 
   &__button-text {
-    position: absolute;
-    z-index: 100000;
-    margin: 0;
-    min-height: 56px;
+    margin-top: 5px;
+    min-height: 40px;
     display: flex;
     align-items: center;
-    padding: 8px 10px;
-    color: $GREY-282828;
-    border: 1px solid TRANSPARENT;
-    outline: none;
-    background-color: $WHITE;
-    border-radius: 5px;
-    width: inherit;
     justify-content: center;
-
-    &:hover {
-      cursor: pointer;
+    width: inherit;
+    box-shadow: 0 4px 9.8px 0 #0000000d;
+    top: 45px;
+    padding: 5px;
+    &:not(.show-result) {
+      pointer-events: none;
     }
 
-    &--closed {
-      display: none;
+    & span {
+      font-size: 14px;
+      color: #282828;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+
+      &.empty-content {
+        color: var(--grey6);
+      }
+    }
+
+    &.show-result:hover {
+      & span {
+        background-color: var(--blue15);
+      }
+    }
+
+    &.show-result:active {
+      background-color: var(--white) !important;
+      & span {
+        background-color: var(--blue10);
+        color: var(--blue1);
+      }
     }
   }
 
@@ -186,19 +215,22 @@ const handleChoosePost = (item: string) => {
     list-style-type: none;
     height: 0;
     transition: 0.3s ease-in-out;
-    padding: 0;
+    padding: 5px;
     margin: 0;
-    background-color: $WHITE;
-    padding-left: 10px;
-    padding-right: 10px;
+    background-color: var(--white);
+    box-shadow: 0 4px 9.8px 0 #0000000d;
+    border: 0.5px solid var(--border-blue);
+    border-radius: 5px;
 
     &--opened {
       display: grid;
+      gap: 5px;
       height: fit-content;
       transition: 0.3s ease-in-out;
       position: absolute;
       z-index: 2222222;
       align-content: flex-start;
+      margin-top: 5px;
     }
 
     &--scroll {
@@ -208,7 +240,7 @@ const handleChoosePost = (item: string) => {
   }
 
   &__item {
-    background: $WHITE;
+    background: var(--white);
     overflow: hidden;
 
     text-align: left;
@@ -217,17 +249,13 @@ const handleChoosePost = (item: string) => {
     justify-content: space-between;
     position: relative;
     height: 30px;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid $WHITE-E7E7E7;
-    }
+    border-radius: 5px;
 
     span {
       display: flex;
-      height: 100%;
       flex-grow: 1;
       align-items: center;
-      padding: 5px 50px 5px 5px;
+      padding: 5px 50px 5px 10px;
       height: 24px;
       border-radius: 5px;
     }
@@ -235,34 +263,39 @@ const handleChoosePost = (item: string) => {
     button {
       display: none;
       position: absolute;
-      right: 0px;
-      svg {
-        width: 24px;
-        height: 24px;
-      }
+      right: 5px;
     }
 
     &:hover {
       cursor: pointer;
-      span {
-        background-color: $BLUE-F2F7FF;
-      }
-      button {
-        background: none;
-        border: 1px solid $TRANSPARENT;
-        outline: none;
-        color: $GREY-757D8A;
-        height: 20px;
+      background-color: var(--blue9);
 
+      button {
+        width: 16px;
+        height: 16px;
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 0;
+        color: var(--grey4);
 
         &:hover {
-          cursor: pointer;
+          background-color: transparent;
         }
       }
     }
+
+    &:active {
+      background-color: var(--blue10);
+    }
   }
+}
+
+.search-yui-kit__history {
+  position: absolute;
+  top: 100%;
+  width: inherit;
+  height: 45px;
+  z-index: 100000;
 }
 </style>

@@ -113,7 +113,6 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 .primary-yui-kit {
   background-color: var(--blue1);
 
-  &:focus,
   &:hover,
   &:active,
   &.active {
@@ -130,7 +129,6 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   background-color: var(--blue15);
   color: var(--blue1);
 
-  &:focus,
   &:active,
   &.active {
     background-color: var(--blue10);
@@ -181,8 +179,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   background-color: transparent;
   color: var(--black2);
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: var(--blue15);
   }
 
