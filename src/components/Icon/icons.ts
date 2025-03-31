@@ -246,6 +246,15 @@ export const plus: IVectorIcon = {
 <path d="M3.51477 12H20.4853" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
 };
 
+export const minus: IVectorIcon = {
+  name: 'minus',
+  style: 'line',
+  viewbox: '0 0 24 24',
+  path: `
+    <path d="M3.51465 12H20.4852" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
 export const profileIcon: IVectorIcon = {
   name: 'profile-icon',
   style: 'line',

@@ -47,6 +47,7 @@ import BaseFilter from '@/components/Select/BaseFilter.vue';
 
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
+import Range from '@/components/Range/Range.vue';
 
 const components = {
   Accordion,
@@ -91,7 +92,8 @@ const components = {
   ScrollWrapper,
   Radio,
   Tooltip,
-  BaseFilter
+  BaseFilter,
+  Range
 };
 
 const pinia = createPinia();
@@ -152,5 +154,6 @@ export {
   Tooltip,
   BaseFilter,
   type IRangeForDatePicker,
-  type OptionsObject
+  type OptionsObject,
+  Range
 };
