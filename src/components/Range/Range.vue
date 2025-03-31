@@ -102,7 +102,16 @@ onMounted(() => {
 
   cursor: pointer;
 
-  &::-webkit-slider-thumb,
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--blue1);
+    border: 0px solid var(--blue1);
+    border-radius: 50%;
+    height: var(--range-width-thumb);
+    width: var(--range-width-thumb);
+  }
+
   &::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
