@@ -163,13 +163,6 @@ watch(
     width: 100%;
     height: inherit;
 
-    &:hover {
-      color: var(--border-blue);
-      &::placeholder {
-        color: var(--border-blue);
-      }
-    }
-
     &:active,
     &:focus-within {
       svg {
@@ -211,12 +204,6 @@ watch(
     &:active {
       border: 1px solid var(--border-blue);
       outline: none;
-    }
-
-    &:hover {
-      &::placeholder {
-        color: var(--border-blue);
-      }
     }
 
     &__input {

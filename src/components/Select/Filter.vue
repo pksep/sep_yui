@@ -257,6 +257,7 @@ watch(
   border: none;
   box-shadow: 0 4px 9.8px 0 #0000000d;
   width: 334px;
+  overflow: hidden;
 }
 
 :deep(.filter__options-badge) {
