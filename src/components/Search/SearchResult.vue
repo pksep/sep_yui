@@ -77,9 +77,9 @@ const handleChoosePost = (item: ResultSearchType) => {
 
 <style lang="scss" scoped>
 .history-yui-kit {
-  color: $GREY-282828;
+  color: var(--grey14);
   outline: none;
-  background-color: $WHITE;
+  background-color: var(--white);
   border-radius: 5px;
   display: none;
 
@@ -91,10 +91,10 @@ const handleChoosePost = (item: ResultSearchType) => {
     display: flex;
     align-items: center;
     padding: 8px 10px;
-    color: $GREY-282828;
-    border: 1px solid TRANSPARENT;
+    color: var(--grey14);
+    border: 1px solid transparent;
     outline: none;
-    background-color: $WHITE;
+    background-color: var(--white);
     border-radius: 5px;
     width: inherit;
 
@@ -114,7 +114,7 @@ const handleChoosePost = (item: ResultSearchType) => {
     transition: 0.3s ease-in-out;
     padding: 0;
     margin: 0;
-    background-color: $WHITE;
+    background-color: var(--white);
     border: 1px solid $BLUE-9CBEFF;
     border-radius: 5px;
 
@@ -123,7 +123,7 @@ const handleChoosePost = (item: ResultSearchType) => {
       height: fit-content;
       transition: 0.3s ease-in-out;
       position: absolute;
-      z-index: 2222222;
+      z-index: 15;
       align-content: flex-start;
     }
 
@@ -134,7 +134,7 @@ const handleChoosePost = (item: ResultSearchType) => {
   }
 
   &__item {
-    background: $WHITE;
+    background: var(--white);
     overflow: hidden;
     text-align: left;
     display: flex;
@@ -146,7 +146,7 @@ const handleChoosePost = (item: ResultSearchType) => {
     padding-bottom: 3px;
 
     &:hover {
-      background-color: $BLUE-F2F7FF;
+      background-color: var(--blue9);
     }
 
     span {
@@ -158,7 +158,7 @@ const handleChoosePost = (item: ResultSearchType) => {
       height: inherit;
 
       &:hover {
-        background-color: $BLUE-F2F7FF;
+        background-color: var(--blue9);
       }
 
       &.result {
@@ -171,7 +171,7 @@ const handleChoosePost = (item: ResultSearchType) => {
       height: 34px;
 
       .history__text {
-        color: $GREY-757D8A;
+        color: var(--grey6);
       }
     }
     button {
@@ -192,9 +192,9 @@ const handleChoosePost = (item: ResultSearchType) => {
 
       button {
         background: none;
-        border: 1px solid $TRANSPARENT;
+        border: 1px solid transparent;
         outline: none;
-        color: $GREY-757D8A;
+        color: var(--grey6);
         display: block;
 
         &:hover {
@@ -213,6 +213,6 @@ const handleChoosePost = (item: ResultSearchType) => {
 }
 
 .blue-yui-kit {
-  color: $BLUE-77A6FF;
+  color: var(--blue1);
 }
 </style>

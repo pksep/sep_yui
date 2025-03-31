@@ -180,6 +180,7 @@ const handleChoosePost = (item: string) => {
 
     & span {
       font-size: 14px;
+      font-weight: normal;
       color: #282828;
       width: 100%;
       height: 100%;
@@ -255,6 +256,7 @@ const handleChoosePost = (item: string) => {
       display: flex;
       flex-grow: 1;
       align-items: center;
+      font-weight: normal;
       padding: 5px 50px 5px 10px;
       height: 24px;
       border-radius: 5px;
