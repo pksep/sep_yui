@@ -2,7 +2,7 @@
   border: none;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -97,6 +97,7 @@ fieldset.input-yui-kit {
   &.success .input-yui-kit__legend,
   &.warning .input-yui-kit__legend {
     display: flex;
+    background: var(--white);
   }
 
   &.ordinary .input-yui-kit__legend {
