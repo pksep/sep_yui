@@ -97,6 +97,9 @@ onUnmounted(() => {
   border-radius: 10px 0 0 10px;
   margin-right: 0;
   inset: 0;
+  display: grid;
+  position: fixed;
+  z-index: 10;
   max-block-size: 100vh;
   min-height: 100vh;
   padding: 0px;
