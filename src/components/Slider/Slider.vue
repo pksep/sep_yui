@@ -205,8 +205,6 @@ const setSlide = (index: number) => {
   if (index >= 0 && index < state.files.length) {
     state.currentIndex = index;
     state.file = state.files[state.currentIndex];
-  } else {
-    console.warn('Index out of range');
   }
 };
 
