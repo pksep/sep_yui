@@ -93,6 +93,15 @@ onMounted(() => {
 }
 
 :deep(.select-list-yui-kit__list) {
+  width: var(--width, 100%);
   max-height: 120px;
+  padding: 5px;
+}
+
+:deep(.select-list-yui-kit__item) {
+  width: 100%;
+}
+.select-list-yui-kit :deep(.select-list-yui-kit__item:first-child) {
+  margin-top: 0;
 }
 </style>
