@@ -1,7 +1,12 @@
 <template>
   <div class="popover-yui-kit" v-on-click-outside.bubble="closeShow">
     <div :class="classesFilter" @click="toggleShow" ref="currentRef">
-      <Icon :name="props.iconName" :width="16" :height="16" />
+      <Icon
+        class="popover-yui-kit__icon"
+        :name="props.iconName"
+        :width="16"
+        :height="16"
+      />
     </div>
 
     <div
@@ -101,6 +106,7 @@ onUnmounted(() => {
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
+    color: var(--popover-icon-color, var(--grey4));
     &:hover,
     &.active-yui-kit {
       color: var(--border-blue);
@@ -125,8 +131,12 @@ onUnmounted(() => {
       border-radius: 5px;
       padding: 5px;
       text-align: left;
+      transition: background-color 0.2s ease;
       &:hover {
         background-color: var(--blue9);
+      }
+      &:active {
+        background-color: var(--blue10);
       }
     }
   }
