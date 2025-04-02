@@ -9,3 +9,7 @@ export interface IInputProps {
   hideClearButton?: boolean;
   autocomplete?: string;
 }
+
+export interface IInputEmit {
+  (e: 'update:modelValue', value: string): void;
+}

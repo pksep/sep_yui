@@ -155,6 +155,7 @@ defineExpose({
     color: var(--primary-color);
   }
   & .notification-yui-kit__block-text {
+    display: inline-block;
     grid-area: c;
     font-size: 12px;
   }
