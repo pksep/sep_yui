@@ -25,7 +25,6 @@
             :type="item.type"
             disabled
             :text="item.label"
-            :style="'margin:0 3px;'"
           />
         </div>
       </div>
@@ -240,6 +239,7 @@ watch(() => JSON.stringify(props.selectedValues), setOptions);
     & .filter-yui-kit__counter {
       color: var(--grey6);
       position: relative;
+      font-size: 14px;
 
       &:hover {
         color: var(--border-blue);
