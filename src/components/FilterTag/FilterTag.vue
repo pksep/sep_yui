@@ -35,7 +35,7 @@
         @click.stop="handleClear"
         v-if="props.showClearButton && getChosen.length > 0"
       >
-        <Icon :name="IconNameEnum.exitBig" />
+        <Icon :name="IconNameEnum.crossSmall" />
       </button>
     </div>
 
@@ -255,6 +255,7 @@ watch(() => JSON.stringify(props.selectedValues), setOptions);
           border-radius: 5px;
           box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
           width: max-content;
+          gap: 5px;
         }
       }
 
@@ -323,8 +324,6 @@ watch(() => JSON.stringify(props.selectedValues), setOptions);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
     padding: 0;
   }
 }
