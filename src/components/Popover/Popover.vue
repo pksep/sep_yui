@@ -1,29 +1,37 @@
 <template>
-  <div class="popover-yui-kit" v-on-click-outside.bubble="closeShow">
-    <div :class="classesFilter" @click="toggleShow" ref="currentRef">
-      <Icon
-        class="popover-yui-kit__icon"
-        :name="props.iconName"
-        :width="16"
-        :height="16"
-      />
-    </div>
+  <Tooltip
+    :hint="props.tooltip"
+    size="small"
+    type="black"
+    position="top-left"
+    :is-can-show="!!props.tooltip && !state.isShow"
+  >
+    <div class="popover-yui-kit" v-on-click-outside.bubble="closeShow">
+      <div :class="classesFilter" @click="toggleShow" ref="currentRef">
+        <Icon
+          class="popover-yui-kit__icon"
+          :name="props.iconName"
+          :width="16"
+          :height="16"
+        />
+      </div>
 
-    <div
-      class="popover-yui-kit__options"
-      v-show="state.isShow"
-      ref="dropdownRef"
-    >
       <div
-        class="popover-yui-kit__options__item"
-        v-for="(item, i) in props.options"
-        :key="i"
-        @click="handleClick(item)"
+        class="popover-yui-kit__options"
+        v-show="state.isShow"
+        ref="dropdownRef"
       >
-        {{ item.value }}
+        <div
+          class="popover-yui-kit__options__item"
+          v-for="(item, i) in props.options"
+          :key="i"
+          @click="handleClick(item)"
+        >
+          {{ item.value }}
+        </div>
       </div>
     </div>
-  </div>
+  </Tooltip>
 </template>
 
 <script lang="ts" setup>
@@ -33,6 +41,7 @@ import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { vOnClickOutside } from '@vueuse/components';
 import type { OnClickOutsideHandler } from '@vueuse/core';
+import Tooltip from '@/components/Tooltip/Tooltip.vue';
 
 interface IPopoverState {
   isShow: boolean;
@@ -40,7 +49,8 @@ interface IPopoverState {
 
 const props = withDefaults(defineProps<IPopoverProps>(), {
   iconName: IconNameEnum.moreVertical,
-  options: () => []
+  options: () => [],
+  tooltip: ''
 });
 
 const state = reactive<IPopoverState>({
