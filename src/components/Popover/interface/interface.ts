@@ -9,6 +9,7 @@ export interface IPopoverOption {
 export interface IPopoverProps {
   iconName?: IconNameEnum;
   options: IPopoverOption[];
+  tooltip?: string;
 }
 
 export interface IPopoverHoverProps {
