@@ -234,8 +234,8 @@ onMounted(() => {
     }
 
     &.active {
-      color: $BLUE-77A6FF;
-      background-color: $BLUE-D6E4FF;
+      color: var(--blue4);
+      background-color: var(--blue12);
       border-radius: 6px;
       padding: 3px 8px;
     }
@@ -246,7 +246,7 @@ onMounted(() => {
     }
 
     &.disabled-yui-kit {
-      color: $WHITE-E0E0E0;
+      color: var(--grey0);
       user-select: none;
       pointer-events: none;
       cursor: auto;
