@@ -18,12 +18,23 @@ const props = withDefaults(defineProps<ICopyIconProps>(), {
 const copyContent = (): void => {
   const innerText = props.content;
 
-  // Создаем временный элемент для копирования
+  // Создаём временный элемент для копирования
   const tempElement = document.createElement('textarea');
   tempElement.value = innerText;
 
-  // Добавляем временный элемент на страницу
-  document.body.appendChild(tempElement);
+  // Получаем все открытые диалоги
+  const openDialogs = document.querySelectorAll('dialog[open]');
+
+  // Получаем последний открытый диалог (если есть)
+  const lastOpenedDialog = openDialogs.length
+    ? openDialogs[openDialogs.length - 1]
+    : null;
+
+  if (lastOpenedDialog) {
+    lastOpenedDialog.append(tempElement); // Добавляем tempElement в последний открытый диалог
+  } else {
+    document.body.append(tempElement); // Добавляем в <body>, если диалогов нет
+  }
 
   // Выделяем текст во временном элементе
   tempElement.select();
@@ -33,7 +44,7 @@ const copyContent = (): void => {
   document.execCommand('copy');
 
   // Удаляем временный элемент
-  document.body.removeChild(tempElement);
+  tempElement.remove();
 };
 </script>
 
