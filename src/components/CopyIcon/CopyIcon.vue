@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import { ICopyIconProps } from './interface/interface';
-import { Icon } from '@/components';
+import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
 
 const props = withDefaults(defineProps<ICopyIconProps>(), {
@@ -16,7 +16,24 @@ const props = withDefaults(defineProps<ICopyIconProps>(), {
 });
 
 const copyContent = (): void => {
-  navigator.clipboard.writeText(props.content);
+  const innerText = props.content;
+
+  // Создаем временный элемент для копирования
+  const tempElement = document.createElement('textarea');
+  tempElement.value = innerText;
+
+  // Добавляем временный элемент на страницу
+  document.body.appendChild(tempElement);
+
+  // Выделяем текст во временном элементе
+  tempElement.select();
+  tempElement.setSelectionRange(0, 99999); // Для мобильных устройств
+
+  // Копируем текст в буфер обмена
+  document.execCommand('copy');
+
+  // Удаляем временный элемент
+  document.body.removeChild(tempElement);
 };
 </script>
 
