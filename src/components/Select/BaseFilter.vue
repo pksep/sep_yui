@@ -180,7 +180,9 @@ const choosedHint = computed(() => {
         option => option.value === choosedOption.value
       )?.hint;
     } else {
-      result = options.find(option => option.key === String(model.value))?.hint;
+      result = options.find(
+        option => option.key === String(model.value)
+      )?.value;
     }
   } else {
     result = options.find(option => option.key === String(model.value))?.value;
