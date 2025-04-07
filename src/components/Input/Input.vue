@@ -25,6 +25,7 @@
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
       @mousedown.prevent="clearInput"
+      tabindex="-1"
       v-if="!props.hideClearButton && state.isPressed && state.inputElement"
     >
       <Icon :name="IconNameEnum.exitSmall" color="currentColor" />

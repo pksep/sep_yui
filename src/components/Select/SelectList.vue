@@ -8,6 +8,8 @@
         { 'disabled-yui-kit': props.disabled },
         props?.headerClasses
       ]"
+      tabindex="0"
+      @keyup.enter="closeOpenList"
       @click="closeOpenList"
     >
       <slot name="header" />
