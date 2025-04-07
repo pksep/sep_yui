@@ -253,7 +253,7 @@ onMounted(() => {
     }
 
     &:hover {
-      color: $BLUE-77A6FF;
+      color: var(--blue4);
     }
   }
 }
