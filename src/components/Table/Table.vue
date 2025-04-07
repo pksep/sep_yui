@@ -107,8 +107,9 @@ watchEffect(() => {
 
 const setStyle = () => {
   if (refThead.value && tableDivRef.value) {
-    const width = refThead.value.clientWidth;
-    const height = refThead.value.clientHeight;
+    const rect = refThead.value.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
 
     requestAnimationFrame(() => {
       if (tableDivRef.value) {
