@@ -175,8 +175,6 @@ const choosedHint = computed(() => {
   const options = props.options;
   let result;
   if (isArray(model.value)) {
-    console.log(choosedOption.value);
-    console.log(options);
 
     if (isArrayOfOptionsObjectWithHint(options)) {
       result = options.find(
