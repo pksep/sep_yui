@@ -108,7 +108,7 @@ const upValue = (): void => {
 };
 
 const downValue = (): void => {
-  if (state.inputElement > props.min) {
+  if (Number(state.inputElement) - 1 >= props.min) {
     state.inputElement = +state.inputElement - 1;
     emits('update:modelValue', state.inputElement);
     inputNumberRef.value?.focus();
