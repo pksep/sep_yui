@@ -123,7 +123,7 @@ onUnmounted(() => {
     margin-top: 5px;
     list-style-type: none;
     display: inline-grid;
-    gap: 1px;
+    gap: var(--select-list-gap, 1px);
     width: inherit;
     padding: 0;
     background-color: var(--white);
