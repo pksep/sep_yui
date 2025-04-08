@@ -18,7 +18,7 @@
       <Tooltip
         position="top-center"
         type="blue"
-        :is-can-show="isCanShowHint"
+        :is-can-show="isCanShowHint && !(isShowValues && isShowMiniOptions)"
         :hint="choosedHint"
         :hint-gap="28"
         class="filter__header-tooltip"
@@ -38,7 +38,7 @@
         <div v-if="isShowValues && isShowMiniOptions" class="filter__values">
           <ChoosenMiniOptions
             @click.stop
-            :options="choosedOptions"
+            :options="choosedMiniOptions"
             @remove="getChoosenOption"
           />
         </div>
@@ -171,11 +171,21 @@ const choosedOptions = computed(() => {
   });
 });
 
+const choosedMiniOptions = computed(() => {
+  return props.options.filter(option => {
+    if (isArray(model.value)) {
+      return (
+        model.value.includes(option.key) && option.value === choosedOption.value
+      );
+    }
+    return option.key === String(model.value);
+  });
+});
+
 const choosedHint = computed(() => {
   const options = props.options;
   let result;
   if (isArray(model.value)) {
-
     if (isArrayOfOptionsObjectWithHint(options)) {
       result = options.find(
         option => option.value === choosedOption.value
