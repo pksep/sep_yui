@@ -122,6 +122,7 @@ onUnmounted(() => {
     padding: 8.5px 0;
   }
   &__list {
+    margin: 0;
     margin-top: 5px;
     list-style-type: none;
     display: inline-grid;
