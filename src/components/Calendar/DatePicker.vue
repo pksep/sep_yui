@@ -116,7 +116,9 @@ watch(
   () => {
     if (!date.value) {
       date.value = null;
-      clearChoose();
+      state.isNotClear = false;
+      date.value = null;
+      setTimeout(() => (state.isNotClear = true), 1);
     }
   }
 );
