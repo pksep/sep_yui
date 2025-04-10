@@ -56,13 +56,13 @@ const startDate = defineModel('startDate');
 const endDate = defineModel('endDate');
 
 const changeValue = (val: Date | null, item: RangeTypeEnum): void => {
-  state.date[item] = val as Date;
+  state.date[item] = val;
+
   emits('change', state.date);
 };
 
 const clearFunction = (type: RangeTypeEnum): void => {
   state.date[type] = null;
-  emits('change', state.date);
 };
 
 const handleClearAll = (): void => {
