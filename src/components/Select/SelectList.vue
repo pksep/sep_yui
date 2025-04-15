@@ -43,6 +43,7 @@ const currentRef = ref<HTMLElement | null>(null);
 
 const emits = defineEmits<{
   (e: 'change', val: boolean): void;
+  (e: 'focusout-options'): void;
 }>();
 
 watchEffect(() => (state.isOpened = props.isOpened));
@@ -58,6 +59,7 @@ const closeOpenList = () => {
 
 const dropdownHandler: OnClickOutsideHandler = () => {
   state.isOpened = false;
+  emits('focusout-options');
   emits('change', state.isOpened);
 };
 

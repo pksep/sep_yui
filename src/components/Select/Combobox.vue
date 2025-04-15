@@ -5,6 +5,7 @@
     :disable-open="state.values?.length == 0"
     :class="props.class"
     :disabled="props.disabled"
+    @focusout-options="focusOutChangeOption"
     header-classes="filter__header"
     options-classes="filter__options"
   >
@@ -37,6 +38,7 @@ import type { IComboboxProps } from './interface/interface';
 const emits = defineEmits<{
   (e: 'change', value: string): void;
   (e: 'error', value: void): void;
+  (e: 'focusout-option'): void;
 }>();
 
 const props = withDefaults(defineProps<IComboboxProps>(), {
@@ -49,6 +51,10 @@ const state = reactive({
   values: props.options,
   searchValue: ''
 });
+
+const focusOutChangeOption = (): void => {
+  emits('focusout-option');
+};
 
 const change = (val: boolean): void => {
   if (state.values?.length != 0 || !props.disableOpen) {

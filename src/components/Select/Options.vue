@@ -61,16 +61,6 @@ const handleChoosenOption = (value: string | OptionsObject): void => {
   }
 };
 
-const getOption = (
-  option: string | OptionsObject | IOptionsObjectWithHint
-): string => {
-  if (isOptionsObjectWithHint(option)) {
-    return option.hint;
-  }
-  if (isOptionsObject(option)) return option.value;
-  return option;
-};
-
 const getActiveClass = (
   option: string | OptionsObject | IOptionsObjectWithHint
 ): Record<'active', boolean> => {
@@ -97,6 +87,16 @@ const getActiveClass = (
   return {
     active
   };
+};
+
+const getOption = (
+  option: string | OptionsObject | IOptionsObjectWithHint
+): string => {
+  if (isOptionsObjectWithHint(option)) {
+    return option.hint;
+  }
+  if (isOptionsObject(option)) return option.value;
+  return option;
 };
 </script>
 
