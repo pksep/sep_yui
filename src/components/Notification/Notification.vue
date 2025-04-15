@@ -55,6 +55,14 @@ const emits = defineEmits<{
   (e: 'close'): void;
 }>();
 
+const state = reactive({
+  message: {
+    icon: MessageIconEnum[props.type] as unknown as IconNameEnum,
+    title: props.title || MessageTitleDefaultEnum[props.type],
+    description: props.description
+  }
+});
+
 const popover = ref<HTMLDivElement | null>(null);
 
 useEventListener(popover, 'toggle', () => {
@@ -71,14 +79,6 @@ const hide = (): string => {
 const showPopover = (): void => {
   popover.value?.showPopover();
 };
-
-const state = reactive({
-  message: {
-    icon: MessageIconEnum[props.type] as unknown as IconNameEnum,
-    title: props.title || MessageTitleDefaultEnum[props.type],
-    description: props.description
-  }
-});
 
 onMounted(() => {
   if (props.showPopover) {

@@ -1,10 +1,34 @@
 <template>
   <div class="date-picker-yui-kit__wrapper">
+    <!-- @click="toggle(togglePopover)" -->
+    <DataPickerChoose
+      @click="showPopover"
+      id="calendar-anchor"
+      popovertarget="calendar-popover"
+      @clear="clearChoose"
+      :is-active="state.isActive"
+      @focusout="state.isActive = !state.isActive"
+      :is-small="props.isSmall"
+      :is-range="props.isRange"
+      :value="state.dateValue"
+      :disabled="props.disabled"
+    />
+    <div popover="auto" ref="popoverRef" id="calendar-popover">
+      <calendar-date
+        :locale="props.locale || 'ru'"
+        :min="getDateStart()"
+        :max="getDateEnd()"
+        @change="hidePopover()"
+        @focusday="e => changeVal(e.detail || null)"
+      >
+        <calendar-month />
+      </calendar-date>
+    </div>
+    <!--
     <DatePicker
       :locale="props.locale || 'ru'"
       title-position="left"
       v-model="date"
-      @dayclick="({ date }) => changeVal(date)"
       :masks="state.masks"
       :min-date="getDateStart()"
       :max-date="getDateEnd()"
@@ -15,36 +39,34 @@
       class="date-picker-yui-kit"
     >
       <template #default="{ inputValue, togglePopover }">
-        <DataPickerChoose
-          @click="toggle(togglePopover)"
-          @clear="clearChoose"
-          :is-active="state.isActive"
-          :is-small="props.isSmall"
-          :is-range="props.isRange"
-          :value="inputValue"
-          :disabled="props.disabled"
-        />
+
       </template>
     </DatePicker>
+        -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, watchEffect } from 'vue';
-import { DatePicker } from '@angelblanco/v-calendar';
+import { ref, reactive, watch, watchEffect, onMounted } from 'vue';
+import { default as anchorPolyfill } from '@oddbird/css-anchor-positioning/fn';
+import 'cally';
+
 import DataPickerChoose from './DataPickerChoose.vue';
+import { useEventListener } from '@vueuse/core';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
-import '@angelblanco/v-calendar/style.css';
+import { formatDate } from './date-utils';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
-  locale: 'ru-RU'
+  locale: 'ru-RU',
+  timeout: 3
 });
 
 const state = reactive({
   isActive: false,
   startDate: null,
   endDate: null,
+  dateValue: '',
   isNotClear: true,
   masks: {
     input: 'MMMM DD, YYYY'
@@ -53,21 +75,36 @@ const state = reactive({
 
 const emits = defineEmits<{
   (e: 'clear'): void;
+  (e: 'close'): void;
   (e: 'change', value: Date | null): void;
 }>();
 
-const toggle = (toggleFunc: () => void): void => {
+const popoverRef = ref<HTMLDivElement | null>(null);
+
+const date = defineModel<Date | null>();
+
+const showPopover = (): void => {
   if (state.isNotClear) {
-    toggleFunc();
     if (!state.isActive) {
       state.isActive = true;
       return;
     }
   }
   state.isActive = false;
+  // popoverRef.value?.togglePopover();
 };
 
-const date = defineModel<Date | null>();
+const hidePopover = (): void => {
+  popoverRef.value?.hidePopover();
+  state.isActive = false;
+  emits('close');
+};
+
+useEventListener(popoverRef, 'click', e => {
+  if (e.target === popoverRef.value) {
+    hidePopover();
+  }
+});
 
 const clearChoose = (): void => {
   state.isNotClear = false;
@@ -79,6 +116,7 @@ const clearChoose = (): void => {
 
 const changeVal = (value: Date | null): void => {
   date.value = value;
+  state.dateValue = formatDate(value);
   emits('change', value);
 };
 
@@ -123,12 +161,34 @@ watch(
   }
 );
 
+onMounted(async () => {
+  if (!('anchorName' in document.documentElement.style)) {
+    await anchorPolyfill({});
+  }
+});
+
 defineExpose({
   clearChoose: clearChoose
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.date-picker-yui-kit__wrapper {
+  position: relative;
+}
+div#calendar-popover {
+  position: absolute;
+  margin: 0;
+  margin-top: 5px;
+  top: anchor(--calendar-anchor bottom);
+  left: anchor(--calendar-anchor left);
+}
+
+button#calendar-anchor {
+  position: absolute;
+  anchor-name: --calendar-anchor;
+}
+</style>
 
 <style>
 .date-picker-yui-kit {

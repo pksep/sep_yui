@@ -10,7 +10,7 @@
     ]"
   >
     <Icon :name="IconNameEnum.calendar" />
-    <span v-if="state.value"> {{ formatLetter(state.value) }} </span>
+    <span v-if="state.value"> {{ state.value }} </span>
     <span class="date-picker-yui-kit__header-btn__dash" v-else>
       {{ state.defaultValue }}
     </span>
@@ -60,12 +60,12 @@ const handleClick = (): void => {
   emits('click');
 };
 
-const formatLetter = (str: string): string | null => {
-  if (!str) return null;
-  const commaIndex = str.indexOf(' ');
-  const endIndex = commaIndex === -1 ? 3 : Math.min(commaIndex, 3);
-  return `${str.charAt(0).toUpperCase()}${str.slice(1, endIndex)}${str.slice(commaIndex)}`;
-};
+// const formatLetter = (str: string): string | null => {
+//   if (!str) return null;
+//   const commaIndex = str.indexOf(' ');
+//   const endIndex = commaIndex === -1 ? 3 : Math.min(commaIndex, 3);
+//   return `${str.charAt(0).toUpperCase()}${str.slice(1, endIndex)}${str.slice(commaIndex)}`;
+// };
 </script>
 
 <style scoped>

@@ -20,7 +20,15 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => {
+            return tag.startsWith('calendar-');
+          }
+        }
+      }
+    }),
     dts({
       insertTypesEntry: true
     })
