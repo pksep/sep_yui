@@ -23,7 +23,6 @@ const props = defineProps<IDialogProps>();
 const dialog = ref<HTMLDialogElement | null>(null);
 const attrs = useAttrs();
 const visible = ref(false);
-
 const stylesContent = computed(() => ({
   width: props.width,
   height: props.height
@@ -31,8 +30,9 @@ const stylesContent = computed(() => ({
 
 const emit = defineEmits(['close']);
 
-const showDialog = (): void =>
+const showDialog = (): void => {
   props.open ? dialog.value?.showModal() : hideDialog();
+};
 
 const hideDialog = (): void => {
   dialog.value?.close();
@@ -66,6 +66,7 @@ onMounted(() => {
       visible.value = props.open;
     }
   });
+
   const scrollbarWidth = getScrollbarWidth();
   changeStyleProperties(
     {
@@ -81,8 +82,8 @@ onMounted(() => {
 onUnmounted(() => {
   changeStyleProperties(
     {
-      overflow: 'inherit',
-      'padding-right': '0px'
+      overflow: '',
+      'padding-right': ''
     },
     document.body
   );

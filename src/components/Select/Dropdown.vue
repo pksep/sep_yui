@@ -4,6 +4,7 @@
     :is-opened="state.isOpened"
     :class="props.class"
     :disabled="props.disabled"
+    class="dropdown-yui-kit"
   >
     <template #header>
       <span class="truncate-yui-kit dropdown-yui-kit__text">{{
@@ -103,5 +104,8 @@ onMounted(() => {
 }
 .select-list-yui-kit :deep(.select-list-yui-kit__item:first-child) {
   margin-top: 0;
+}
+.dropdown-yui-kit :deep(.select-list-yui-kit__item) {
+  padding: 5px;
 }
 </style>

@@ -16,6 +16,20 @@
 }
 
 .select-list-yui-kit {
+  &__item {
+    &:hover {
+      background-color: var(--blue9);
+    }
+
+    &:active {
+      background-color: var(--blue10);
+    }
+
+    &.active {
+      background-color: var(--blue9);
+    }
+  }
+
   &.minor {
     & .select-list-yui-kit__list,
     & .select-list-yui-kit__current {
@@ -30,8 +44,16 @@
       border: 1px solid var(--border-blue);
     }
 
-    & .select-list-yui-kit__item:hover {
-      background-color: var(--blue10);
+    & .select-list-yui-kit__item {
+      &:hover {
+        background-color: var(--blue10);
+      }
+      &.active {
+        background-color: var(--blue10);
+      }
+      &:active {
+        background-color: var(--blue12);
+      }
     }
   }
 }

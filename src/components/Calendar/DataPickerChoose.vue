@@ -1,6 +1,6 @@
 <template>
   <button
-    @click="emits('click')"
+    @click="handleClick"
     :class="[
       'date-picker-yui-kit__header-btn',
       { 'date-picker-yui-kit__header-btn_table-view': props.isSmall },
@@ -19,7 +19,7 @@
       :type="ButtonTypeEnum.ghost"
       :disabled="props.disabled"
       v-if="state.value"
-      @click="emits('clear')"
+      @click.stop="handleClear"
     >
       <Icon :name="IconNameEnum.crossSmall" />
     </Button>
@@ -51,6 +51,14 @@ const emits = defineEmits<{
 watchEffect(() => (state.isActive = props.isActive));
 
 watchEffect(() => (state.value = props.value));
+
+const handleClear = (): void => {
+  emits('clear');
+};
+
+const handleClick = (): void => {
+  emits('click');
+};
 
 const formatLetter = (str: string): string | null => {
   if (!str) return null;

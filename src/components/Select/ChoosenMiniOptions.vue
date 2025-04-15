@@ -70,6 +70,7 @@ const removeElement = (key: string): void => {
 
   &__badges {
     display: flex;
+    cursor: initial;
   }
 
   &__cross {
@@ -79,6 +80,7 @@ const removeElement = (key: string): void => {
     transition: all 0.2s ease;
 
     color: var(--grey6);
+    cursor: pointer;
 
     &:hover {
       color: var(--blue1);

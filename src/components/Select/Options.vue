@@ -1,13 +1,8 @@
 <template>
   <template v-for="option in props.options" :key="option">
     <li
-      :class="[
-        classes,
-        { active: option === state.choosedOption },
-        props.class
-      ]"
-      @click="() => getChoosenOption(option)"
-      @blur="focusout"
+      :class="[classes, getActiveClass(option), props.class]"
+      @click="() => handleChoosenOption(option)"
     >
       {{ getOption(option) }}
     </li>
@@ -16,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watch, onMounted } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import type {
   IOptionsObjectWithHint,
   IOptionsProps,
@@ -46,7 +41,6 @@ watch(
 
 const emit = defineEmits<{
   (e: 'change', value: string): void;
-  (e: 'focusout'): void;
 }>();
 
 const classes = computed(() => ({
@@ -54,14 +48,10 @@ const classes = computed(() => ({
   'truncate-yui-kit': true
 }));
 
-const focusout = (): void => {
-  console.log('debug-sep-yui:', 'focusout-option');
-  emit('focusout');
-};
 /**
  * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
-const getChoosenOption = (value: string | OptionsObject): void => {
+const handleChoosenOption = (value: string | OptionsObject): void => {
   state.choosedOption = value;
 
   if (isOptionsObject(state.choosedOption)) {
@@ -69,6 +59,34 @@ const getChoosenOption = (value: string | OptionsObject): void => {
   } else {
     emit('change', state.choosedOption);
   }
+};
+
+const getActiveClass = (
+  option: string | OptionsObject | IOptionsObjectWithHint
+): Record<'active', boolean> => {
+  let active = false;
+  if (isOptionsObject(option)) {
+    if (isOptionsObject(state.choosedOption)) {
+      if (option.value === state.choosedOption.value) active = true;
+    } else {
+      if (
+        (option.key === 'null' || option.key === null) &&
+        state.choosedOption === ''
+      )
+        active = true;
+      if (option.value === state.choosedOption) active = true;
+    }
+  } else {
+    if (isOptionsObject(state.choosedOption)) {
+      if (option === state.choosedOption.value) active = true;
+    } else {
+      if (option === state.choosedOption) active = true;
+    }
+  }
+
+  return {
+    active
+  };
 };
 
 const getOption = (
@@ -80,40 +98,23 @@ const getOption = (
   if (isOptionsObject(option)) return option.value;
   return option;
 };
-
-onMounted(() => {
-  if (props.defaultOption) {
-    state.choosedOption = props.defaultOption;
-  }
-});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .select-list-yui-kit__item {
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+
   &:first-child {
     margin-top: 5px;
   }
-  padding: 5px 10px;
-  cursor: pointer;
   &:nth-last-child(3) {
     margin-bottom: 2px;
   }
 
-  &.active {
-    color: var(--black);
-    background-color: var(--blue10);
-    border-radius: 5px;
-  }
-
-  &:hover {
-    color: var(--black);
-    background-color: var(--blue9);
-    border-radius: 5px;
-  }
-
   &.active-yui-kit {
     background-color: #ecf3ff;
-    border-radius: 5px;
   }
 }
 
