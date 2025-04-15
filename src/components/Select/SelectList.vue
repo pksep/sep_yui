@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="select-list-yui-kit"
-    v-on-click-outside.bubble="dropdownHandler"
-    @focusout="focusOutOptions"
-  >
+  <div class="select-list-yui-kit" v-on-click-outside.bubble="dropdownHandler">
     <div
       ref="currentRef"
       :class="[
@@ -80,8 +76,6 @@ watch(
     state.isOpened = props.isOpened;
   }
 );
-
-const focusOutOptions = (): void => {};
 
 watch(() => state.isOpened, updateDropdownPosition);
 
