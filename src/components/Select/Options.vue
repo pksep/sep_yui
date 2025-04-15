@@ -7,6 +7,7 @@
         props.class
       ]"
       @click="() => getChoosenOption(option)"
+      @blur="focusout"
     >
       {{ getOption(option) }}
     </li>
@@ -15,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, onMounted } from 'vue';
 import type {
   IOptionsObjectWithHint,
   IOptionsProps,
@@ -45,6 +46,7 @@ watch(
 
 const emit = defineEmits<{
   (e: 'change', value: string): void;
+  (e: 'focusout'): void;
 }>();
 
 const classes = computed(() => ({
@@ -52,6 +54,10 @@ const classes = computed(() => ({
   'truncate-yui-kit': true
 }));
 
+const focusout = (): void => {
+  console.log('debug-sep-yui:', 'focusout-option');
+  emit('focusout');
+};
 /**
  * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
@@ -74,6 +80,12 @@ const getOption = (
   if (isOptionsObject(option)) return option.value;
   return option;
 };
+
+onMounted(() => {
+  if (props.defaultOption) {
+    state.choosedOption = props.defaultOption;
+  }
+});
 </script>
 
 <style scoped>

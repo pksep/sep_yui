@@ -1,5 +1,9 @@
 <template>
-  <div class="select-list-yui-kit" v-on-click-outside.bubble="dropdownHandler">
+  <div
+    class="select-list-yui-kit"
+    v-on-click-outside.bubble="dropdownHandler"
+    @focusout="focusOutOptions"
+  >
     <div
       ref="currentRef"
       :class="[
@@ -43,6 +47,7 @@ const currentRef = ref<HTMLElement | null>(null);
 
 const emits = defineEmits<{
   (e: 'change', val: boolean): void;
+  (e: 'focusout-options'): void;
 }>();
 
 watchEffect(() => (state.isOpened = props.isOpened));
@@ -58,6 +63,7 @@ const closeOpenList = () => {
 
 const dropdownHandler: OnClickOutsideHandler = () => {
   state.isOpened = false;
+  emits('focusout-options');
   emits('change', state.isOpened);
 };
 
@@ -74,6 +80,8 @@ watch(
     state.isOpened = props.isOpened;
   }
 );
+
+const focusOutOptions = (): void => {};
 
 watch(() => state.isOpened, updateDropdownPosition);
 
