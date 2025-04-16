@@ -1,19 +1,16 @@
 <template>
-  <Dialog class="dialog" open no-close width="185px" height="185px">
-    <div class="loader">
-      <div class="loader__area">
-        <div class="loader__circle loader__circle--light-blue"></div>
-        <div class="loader__circle loader__circle--blue"></div>
-      </div>
-      <span v-if="props.title" class="loader__span">
-        {{ props.title }}
-      </span>
+  <div class="loader">
+    <div class="loader__area">
+      <div class="loader__circle loader__circle--light-blue"></div>
+      <div class="loader__circle loader__circle--blue"></div>
     </div>
-  </Dialog>
+    <span v-if="props.title" class="loader__span">
+      {{ props.title }}
+    </span>
+  </div>
 </template>
 
 <script setup lang="ts">
-import Dialog from '../Dialog/Dialog.vue';
 import type { ILoaderProps } from './interfaces/interfaces';
 
 const props = withDefaults(defineProps<ILoaderProps>(), {
@@ -22,10 +19,6 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
 </script>
 
 <style scoped>
-.dialog {
-  background: var(--white);
-}
-
 .loader {
   display: flex;
   flex-direction: column;
