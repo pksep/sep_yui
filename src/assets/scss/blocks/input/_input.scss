@@ -2,7 +2,7 @@
   border: none;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -130,8 +130,7 @@ fieldset.input-yui-kit:disabled {
 fieldset.input-yui-kit.readonly {
   --background: var(--blue15);
   & .input-yui-kit__input:read-only {
-    pointer-events: none;
-    cursor: pointer;
+    cursor: initial;
   }
   &:hover,
   &:focus {
