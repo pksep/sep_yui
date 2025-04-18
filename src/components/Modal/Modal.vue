@@ -30,11 +30,20 @@ const stylesContent = computed(() => ({
 
 const emit = defineEmits(['close']);
 
+let lastShowTime = 0;
+
 const showDialog = (): void => {
+  lastShowTime = Date.now();
   props.open ? dialog.value?.showModal() : hideDialog();
 };
 
 const hideDialog = (): void => {
+  const now = Date.now();
+
+  if (now - lastShowTime < 300) {
+    return;
+  }
+
   dialog.value?.close();
 
   emit('close');
