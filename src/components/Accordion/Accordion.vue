@@ -36,7 +36,7 @@ summary.accordion-yui-kit__summary {
   list-style: none;
   border-radius: 5px;
   font-size: 16px;
-  color: #6498ec;
+  color: var(--blue1);
   background: var(--background);
   &:hover {
     cursor: pointer;
