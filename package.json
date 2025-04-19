@@ -9,7 +9,7 @@
     "scripts": {
         "dev": "vite",
         "build": "pnpm run lint && vue-tsc && vite build",
-        "publish:lib": "pnpm run build && pnpm changelogen --bump --publish",
+        "publish:lib": "pnpm run build && pnpm changelogen --release --publish",
         "preview": "vite preview",
         "lint": "eslint --fix --ext .ts,.vue src",
         "storybook": "storybook dev -p 6006",

@@ -42,5 +42,18 @@ App.vue
   <Toggle :disabled="true" :backgroundColor="'red'" />
 </template>
 <script setup lang="ts"></script>
-<styles lang="scss"></styles>
+<styles scoped></styles>
 ```
+
+## Разработка
+
+### Публикация пакетов
+
+Обязательно через команду, так как генерятся changelog. Для этого используем:
+[changeloggen](https://unjs.io/packages/changelogen/)
+
+```sh
+pnpm run build:lib
+```
+
+Токен можно для публикации можно получить у менеджера.
