@@ -1,6 +1,13 @@
 <template>
-  <div class="search-yui-kit__history history-yui-kit">
-    <ul :class="classes" v-if="state.globalResultsFunction">
+  <div
+    class="search-yui-kit__history history-yui-kit"
+    :data-testid="props.dataTestid"
+  >
+    <ul
+      :class="classes"
+      v-if="state.globalResultsFunction"
+      :data-testid="`${props.dataTestid}-List`"
+    >
       <li
         class="history-yui-kit__item"
         v-for="item in state.globalResultsFunction"
