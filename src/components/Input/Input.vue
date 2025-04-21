@@ -5,10 +5,20 @@
       pressed: state.isPressed
     }"
     @focusout="handleBlur"
+    :data-testid="props.dataTestid"
   >
-    <legend v-if="props.inputMessage" class="input-yui-kit__legend">
+    <legend
+      v-if="props.inputMessage"
+      class="input-yui-kit__legend"
+      :data-testid="`${props.dataTestid}-Legend`"
+    >
       {{ props.inputMessage
-      }}<sup class="input-yui-kit__star" v-if="props.required">*</sup>
+      }}<sup
+        :data-testid="`${props.dataTestid}-Star`"
+        class="input-yui-kit__star"
+        v-if="props.required"
+        >*</sup
+      >
     </legend>
     <input
       ref="inputRef"
@@ -20,15 +30,21 @@
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
       :required="props.required"
+      :data-testid="`${props.dataTestid}-Input`"
     />
     <Button
       :type="ButtonTypeEnum.ghost"
       class="input-yui-kit__close"
+      :data-testid="`${props.dataTestid}-Button`"
       @mousedown.prevent="clearInput"
       tabindex="-1"
       v-if="!props.hideClearButton && state.isPressed && state.inputElement"
     >
-      <Icon :name="IconNameEnum.exitSmall" color="currentColor" />
+      <Icon
+        :name="IconNameEnum.exitSmall"
+        color="currentColor"
+        :data-testid="`${props.dataTestid}-Button-Icon`"
+      />
     </Button>
   </fieldset>
 </template>
@@ -51,7 +67,8 @@ const props = withDefaults(defineProps<IInputProps>(), {
   required: false,
   inputMessage: '',
   modelValue: '',
-  hideClearButton: false
+  hideClearButton: false,
+  dataTestid: 'Input'
 });
 
 const state = reactive({

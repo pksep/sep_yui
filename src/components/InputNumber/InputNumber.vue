@@ -5,11 +5,21 @@
       pressed: state.isPressed,
       [props.size]: true
     }"
+    :data-testid="props.dataTestid"
     @focusout="handleBlur"
   >
-    <legend v-if="props.inputMessage" class="input-yui-kit__legend">
+    <legend
+      v-if="props.inputMessage"
+      class="input-yui-kit__legend"
+      :data-testid="`${props.dataTestid}-Legend`"
+    >
       {{ props.inputMessage
-      }}<sup class="input-yui-kit__star" v-if="props.required">*</sup>
+      }}<sup
+        class="input-yui-kit__star"
+        :data-testid="`${props.dataTestid}-Star`"
+        v-if="props.required"
+        >*</sup
+      >
     </legend>
     <input
       ref="inputNumberRef"
@@ -18,24 +28,36 @@
       @input="handleInput"
       class="input-yui-kit__input"
       :required="props.required"
+      :data-testid="`${props.dataTestid}-Input`"
       :min="props.min"
       :max="props.max"
       type="number"
     />
-    <div class="input-yui-kit__buttons">
+    <div
+      class="input-yui-kit__buttons"
+      :data-testid="`${props.dataTestid}-Buttons`"
+    >
       <button
         class="input-yui-kit__button-up"
+        :data-testid="`${props.dataTestid}-UpButton`"
         @mousedown.prevent="upValue"
         :disabled="state.inputElement >= props.max"
       >
-        <Icon :name="IconNameEnum.chevronUp" />
+        <Icon
+          :name="IconNameEnum.chevronUp"
+          :data-testid="`${props.dataTestid}-Icon`"
+        />
       </button>
       <button
         class="input-yui-kit__button-down"
+        :data-testid="`${props.dataTestid}-DownButton`"
         @mousedown.prevent="downValue"
         :disabled="state.inputElement <= props.min"
       >
-        <Icon :name="IconNameEnum.chevronDown" />
+        <Icon
+          :name="IconNameEnum.chevronDown"
+          :data-testid="`${props.dataTestid}-Icon`"
+        />
       </button>
     </div>
   </fieldset>

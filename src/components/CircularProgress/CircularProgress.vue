@@ -1,10 +1,15 @@
 <template>
-  <div class="pie-chart" v-if="props.percent < 100">
+  <div
+    class="pie-chart"
+    v-if="props.percent < 100"
+    :data-testid="`${props.dataTestid}-PieChart`"
+  >
     <div
       class="pie-chart-border"
       :style="{
         'border-color': props.percent < 50 ? '#ef9b8f' : '#ffcc00'
       }"
+      :data-testid="`${props.dataTestid}-PieChart-Border`"
     >
       <div
         class="sector"
@@ -12,6 +17,7 @@
           clipPath: calculateClipPath(),
           'background-color': props.percent < 50 ? '#ef9b8f' : '#ffcc00'
         }"
+        :data-testid="`${props.dataTestid}-PieChart-Sector`"
       ></div>
     </div>
   </div>
@@ -21,6 +27,7 @@
     height="16"
     viewBox="0 0 16 16"
     fill="none"
+    :data-testid="`${props.dataTestid}-Icon`"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path

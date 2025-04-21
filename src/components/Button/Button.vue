@@ -4,17 +4,24 @@
     :disabled="props.disabled"
     tabindex="0"
     :style="styles"
+    :data-testid="props.dataTestid"
     @click="onClick"
     @keyup.enter="onClick"
   >
     <template v-if="$slots['left-icon']">
-      <span :style="styleChangeColor">
+      <span
+        :style="styleChangeColor"
+        :data-testid="`${props.dataTestid}-LeftIcon`"
+      >
         <slot name="left-icon" />
       </span>
     </template>
     <slot />
     <template v-if="$slots['right-icon']">
-      <span :style="styleChangeColor">
+      <span
+        :style="styleChangeColor"
+        :data-testid="`${props.dataTestid}-RightIcon`"
+      >
         <slot name="right-icon" />
       </span>
     </template>

@@ -1,29 +1,45 @@
 <template>
-  <div class="filter-yui-kit">
+  <div class="filter-yui-kit" :data-testid="props.dataTestid">
     <!-- основная плашка с статусом и иконкой -->
-    <div :class="classesFilter" @click="toggleShow">
-      <Icon :name="props.iconName" />
-      <span>{{ props.title }}</span>
+    <div
+      :class="classesFilter"
+      @click="toggleShow"
+      :data-testid="`${props.dataTestid}-Wrapper`"
+    >
+      <Icon :name="props.iconName" :data-testid="`${props.dataTestid}-Icon`" />
+      <span :data-testid="`${props.dataTestid}-Title`">{{ props.title }}</span>
       <Badges
         :disabled="true"
         :type="computedBadgeType"
         :text="computedBadgeText"
         :style="'margin:0 3px;'"
+        :data-testid="`${props.dataTestid}-Badges`"
       />
-      <div :class="classes">
-        <span class="counter-yui-kit__value" v-if="getChoosen.length > 1"
+      <div :class="classes" :data-testid="`${props.dataTestid}-Counter`">
+        <span
+          class="counter-yui-kit__value"
+          v-if="getChoosen.length > 1"
+          :data-testid="`${props.dataTestid}-Counter-Value`"
           >{{ '+' + getChoosen.length }}
         </span>
-        <div class="counter-yui-kit__list">
-          <div class="counter-yui-kit__list-wrapper">
+        <div
+          class="counter-yui-kit__list"
+          :data-testid="`${props.dataTestid}-Counter-List`"
+        >
+          <div
+            class="counter-yui-kit__list-wrapper"
+            :data-testid="`${props.dataTestid}-CounterList-Wrapper`"
+          >
             <ul
               class="filter-yui-kit__select-list select-yui-kit-counter"
               :style="'padding: 2px; gap: 2px'"
+              :data-testid="`${props.dataTestid}-SelectListCounter-Counter`"
             >
               <li
                 class="filter-yui-kit__select-item"
                 v-for="(item, inx) in getChoosen"
                 :key="item.value"
+                :data-testid="`${props.dataTestid}-SelectList-SelectItem${inx}`"
               >
                 <Badges
                   :type="
@@ -31,6 +47,7 @@
                   "
                   :disabled="true"
                   :text="item.value"
+                  :data-testid="`${props.dataTestid}-SelectList-BadgesTypeEnum${inx}`"
                 />
               </li>
             </ul>
@@ -41,6 +58,7 @@
         type="button"
         class="filter-yui-kit__close"
         @click.stop="clearFilter"
+        :data-testid="`${props.dataTestid}-SelectList-ClearFilter`"
       >
         <Icon :name="IconNameEnum.exitBig" />
       </button>
@@ -50,13 +68,15 @@
       class="filter-yui-kit__select-wrapper"
       v-if="state.isShow"
       @mouseleave="hideFilters"
+      :data-testid="`${props.dataTestid}-SelectList-SelectWrapper`"
     >
       <!-- список выбранных фильтров -->
-      <ul :class="classesList">
+      <ul :class="classesList" :data-testid="`${props.dataTestid}-Select-List`">
         <li
           class="filter-yui-kit__select-item"
           v-for="(item, inx) in getChoosen"
           :key="item.value"
+          :data-testid="`${props.dataTestid}-Select-ListItem${inx}`"
         >
           <Badges
             :disabled="true"
@@ -64,6 +84,7 @@
             :type="props.searchable ? BadgesTypeEnum.blue : badgesTypeEnum[inx]"
             @click="toogleChoosed(item)"
             :text="item.value"
+            :data-testid="`${props.dataTestid}-Select-Badges${inx}`"
           />
         </li>
       </ul>
@@ -72,17 +93,20 @@
         @enter="updateSearchString"
         @input="changeUpdateSearchString"
         style="margin: 5px 0"
+        :data-testid="`${props.dataTestid}-Search`"
       />
       <!-- фильтр со статусом без поиска -->
       <ul
         class="filter-yui-kit__select-list"
         v-if="state.isShow && !props.searchable"
+        :data-testid="`${props.dataTestid}-SelectList-NoSearch`"
       >
         <li
           class="filter-yui-kit__select-item"
           v-for="(item, inx) in getNotChoosen"
           :key="item.value"
           :style="inx === 0 ? { paddingTop: '10px' } : ''"
+          :data-testid="`${props.dataTestid}-SelectList-Item`"
         >
           <Badges
             :disabled="true"
@@ -91,6 +115,7 @@
             :text="item.value"
             @click="toogleChoosed(item)"
             v-if="!item.choose"
+            :data-testid="`${props.dataTestid}-SelectList-Badges`"
           />
         </li>
       </ul>
@@ -99,12 +124,14 @@
         class="filter-yui-kit__select-list filter-yui-kit__select-list--search"
         v-if="state.isShow && props.searchable"
         @scroll="handleScroll"
+        :data-testid="`${props.dataTestid}-SelectList-Search`"
       >
         <li
           class="filter-yui-kit__select-item"
-          v-for="item in getNotChoosen"
+          v-for="(item, inx) in getNotChoosen"
           :key="item.value"
           @click="toogleChoosed(item)"
+          :data-testid="`${props.dataTestid}-SelectList-Items${inx}`"
         >
           {{ item.value }}
         </li>

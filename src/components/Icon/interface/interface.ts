@@ -1,7 +1,8 @@
 import { IconNameEnum } from './../enum/enum';
 import { ColorsEnum } from '../../../common/colors';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
-export interface IIconPorps {
+export interface IIconPorps extends IDataTestIdProp {
   height?: number;
   width?: number;
   name: IconNameEnum;

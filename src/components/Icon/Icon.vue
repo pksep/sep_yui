@@ -1,6 +1,7 @@
 <template>
   <svg
     class="icon-yui-kit"
+    :data-testid="props.dataTestid"
     :width="props.width"
     :height="props.height"
     :style="styles"
@@ -22,7 +23,8 @@ const props = withDefaults(defineProps<IIconPorps>(), {
 });
 
 const styles = computed(() => ({
-  color: props.color
+  color: props.color,
+  dataTestid: 'Icon'
 }));
 
 type IconName = keyof typeof Icons;

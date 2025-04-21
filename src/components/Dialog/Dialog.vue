@@ -1,6 +1,15 @@
 <template>
-  <dialog ref="dialog" v-bind="attrs" class="dialog-yui-kit">
-    <div class="dialog-yui-kit__dialog-content" :style="stylesContent">
+  <dialog
+    ref="dialog"
+    v-bind="attrs"
+    class="dialog-yui-kit"
+    :data-testid="props.dataTestid"
+  >
+    <div
+      :data-testid="`${props.dataTestid}-Content`"
+      class="dialog-yui-kit__dialog-content"
+      :style="stylesContent"
+    >
       <slot />
     </div>
   </dialog>

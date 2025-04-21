@@ -5,6 +5,7 @@
       :open="props.open"
       :width="props.width"
       :height="props.height"
+      :data-testid="props.dataTestid"
       @close="close"
     >
       <slot />
@@ -15,6 +16,7 @@
 <script setup lang="ts">
 import Modal from './Modal.vue';
 import type { IDialogProps } from './interface/interface';
+
 const props = defineProps<IDialogProps>();
 
 const emits = defineEmits<{
