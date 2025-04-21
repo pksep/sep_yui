@@ -1,5 +1,5 @@
 <template>
-  <details class="accordion-yui-kit">
+  <details class="accordion-yui-kit" :data-testid="props.dataTestid">
     <summary class="accordion-yui-kit__summary">
       <slot name="summary" />
       <Icon
@@ -20,6 +20,11 @@
 <script setup lang="ts">
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
+import type { IAccordionProps } from './interfaces/interfaces';
+
+const props = withDefaults(defineProps<IAccordionProps>(), {
+  dataTestid: 'Accordion'
+});
 </script>
 
 <style scoped>
