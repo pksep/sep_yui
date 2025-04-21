@@ -1,20 +1,31 @@
 <template>
-  <ul class="bread-crumbs-yui-kit">
+  <ul class="bread-crumbs-yui-kit" :data-testid="props.dataTestid">
     <li
       :class="classesItem.crumbs"
       v-for="(crumb, inx) in state.items"
       :key="crumb.path"
+      :data-testid="`${props.dataTestid}-Crumbs${inx}`"
     >
-      <div v-if="isShowSubList(inx)">
-        <span class="bread-crumbs-yui-kit--closed" @click="toggleShowList"
+      <div
+        v-if="isShowSubList(inx)"
+        :data-testid="`${props.dataTestid}-ShowSubList${inx}`"
+      >
+        <span
+          class="bread-crumbs-yui-kit--closed"
+          @click="toggleShowList"
+          :data-testid="`${props.dataTestid}-Closed${inx}`"
           >...</span
         >
 
-        <ul :class="classes.crumbs">
+        <ul
+          :class="classes.crumbs"
+          :data-testid="`${props.dataTestid}-Crumbs${inx}`"
+        >
           <li
             v-for="(subCrumb, inx) in state.subCrumbs"
             :key="subCrumb.path"
             :class="classesItem.subcrumbs"
+            :data-testid="`${props.dataTestid}-SubCrumbs${inx}`"
           >
             <span
               :title="subCrumb.title"
@@ -22,6 +33,7 @@
               :class="{
                 'disabled-yui-kit': !subCrumb.path
               }"
+              :data-testid="`${props.dataTestid}-SubCrumbs-Title${inx}`"
             >
               {{ curtText(subCrumb) }}
             </span>
@@ -32,19 +44,23 @@
       <div
         :class="state.getClassesLink(crumb, inx === state.crumbs.length - 1)"
         v-if="!crumb.isSub"
+        :data-testid="`${props.dataTestid}-Classes${inx}`"
       >
         <span
           :class="state.getClassesSpan(inx)"
           @click="toSelectCrumb(crumb, inx)"
+          :data-testid="`${props.dataTestid}-Checked${inx}`"
           >{{ inx !== state.crumbs.length - 1 ? curtText(crumb) : crumb.title
           }}<span
             v-if="state.fullTitle(crumb) && inx !== state.crumbs.length - 1"
+            :data-testid="`${props.dataTestid}-FullName`"
             class="fullName-yui-kit"
             >{{ crumb.title }}</span
           ></span
         >
         <Icon
           :name="IconNameEnum.rightSmall"
+          :data-testid="`${props.dataTestid}-Icon`"
           v-if="inx !== state.crumbs.length - 1"
         />
       </div>
@@ -62,7 +78,9 @@ import {
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from './../Icon/enum/enum';
 
-const props = withDefaults(defineProps<IBreadCrumbsProps>(), {});
+const props = withDefaults(defineProps<IBreadCrumbsProps>(), {
+  dataTestid: 'BreadCrumbs'
+});
 
 const emit = defineEmits<{
   (e: 'click', item: IBreadCrumbsEmit): void;

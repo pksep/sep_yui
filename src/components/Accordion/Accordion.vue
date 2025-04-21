@@ -1,16 +1,21 @@
 <template>
   <details class="accordion-yui-kit" :data-testid="props.dataTestid">
-    <summary class="accordion-yui-kit__summary">
+    <summary
+      class="accordion-yui-kit__summary"
+      :data-testid="`${props.dataTestid}-Summary`"
+    >
       <slot name="summary" />
       <Icon
         :name="IconNameEnum.chevronUp"
         class="chevron-up"
         stroke-width="2"
+        :data-testid="`${props.dataTestid}-ChevronUp`"
       />
       <Icon
         :name="IconNameEnum.chevronDown"
         class="chevron-down"
         stroke-width="2"
+        :data-testid="`${props.dataTestid}-ChevronDown`"
       />
     </summary>
     <slot />
