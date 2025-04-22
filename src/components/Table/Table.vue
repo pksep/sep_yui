@@ -1,40 +1,49 @@
 <template>
-  <div ref="tableDivRef" class="table" data-testid="BaseTable">
+  <div ref="tableDivRef" class="table" :data-testid="props.dataTestid">
     <ScrollWrapper
       ref="scrollWrapperRef"
+      :data-testid="`${props.dataTestid}-ScrollWrapper`"
       class="table__scroll-wrapper table__scroll-wrapper_head"
       :isShowVerticalScroll="isShowVerticalScroll"
       @unmount-scroll="unmountScroll"
       @on-mounted="setScrollHandlers"
     >
-      <table class="table__table" data-testid="BaseTable-Head">
+      <table class="table__table" :data-testid="`${props.dataTestid}-Head`">
         <slot name="colgroup"></slot>
 
         <thead
           ref="refThead"
           class="table__header"
-          data-testid="BaseTable-Header"
+          :data-testid="`${props.dataTestid}-Header`"
         >
           <slot name="head" v-bind="state"></slot>
 
           <HeadTableRow
             class="table__search-tr"
             v-if="$slots['search']"
-            data-testid="BaseTable-Head-SearchRow"
+            :data-testid="`${props.dataTestid}-Head-SearchRow`"
           >
             <TableTh
               :colspan="state.countColumn"
               class="table__search-th"
-              data-testid="BaseTable-Head-SearchRow-Search"
+              :data-testid="`${props.dataTestid}-Head-SearchRow-Search`"
             >
               <slot name="search"></slot>
             </TableTh>
           </HeadTableRow>
         </thead>
 
-        <tbody ref="refTbody" class="table__body" data-testid="BaseTable-Body">
+        <tbody
+          ref="refTbody"
+          class="table__body"
+          :data-testid="`${props.dataTestid}-Body`"
+        >
           <slot name="body" v-bind="state"></slot>
-          <TableRow ref="intersectionRef" class="table__intersection" />
+          <TableRow
+            ref="intersectionRef"
+            class="table__intersection"
+            :data-testid="`${props.dataTestid}-Intersection`"
+          />
         </tbody>
       </table>
     </ScrollWrapper>
@@ -63,8 +72,9 @@ defineOptions({
   name: 'BaseTable'
 });
 
-withDefaults(defineProps<ITableProps>(), {
-  isShowVerticalScroll: false
+const props = withDefaults(defineProps<ITableProps>(), {
+  isShowVerticalScroll: false,
+  dataTestid: 'Table'
 });
 
 const emit = defineEmits<{
