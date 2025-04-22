@@ -5,19 +5,31 @@
     :class="props.class"
     :disabled="props.disabled"
     class="dropdown-yui-kit"
+    :data-testid="props.dataTestid"
   >
     <template #header>
-      <span class="truncate-yui-kit dropdown-yui-kit__text">{{
-        state.choosedOption
-      }}</span>
-      <Icon :name="IconNameEnum.chevronUp" v-if="state.isOpened" />
-      <Icon :name="IconNameEnum.chevronDown" v-if="!state.isOpened" />
+      <span
+        class="truncate-yui-kit dropdown-yui-kit__text"
+        :data-testid="`${props.dataTestid}-SelectedText`"
+        >{{ state.choosedOption }}</span
+      >
+      <Icon
+        :name="IconNameEnum.chevronUp"
+        v-if="state.isOpened"
+        :data-testid="`${props.dataTestid}-ArrowUp`"
+      />
+      <Icon
+        :name="IconNameEnum.chevronDown"
+        v-if="!state.isOpened"
+        :data-testid="`${props.dataTestid}-ArrowDown`"
+      />
     </template>
     <template #options>
       <Options
         :options="props.options"
         :default-option="props.defaultOption"
         @change="getChoosenOption"
+        :data-testid="`${props.dataTestid}-Options`"
       />
     </template>
   </SelectList>
@@ -32,7 +44,8 @@ import type { IOptionsProps } from './interface/interface';
 import { isArrayOptionsObject } from '@/helpers/guards/is-options-object';
 
 const props = withDefaults(defineProps<IOptionsProps>(), {
-  disabled: false
+  disabled: false,
+  dataTestid: 'Dropdown'
 });
 
 const state = reactive({

@@ -58,13 +58,13 @@ import Tooltip from '@/components/Tooltip/Tooltip.vue';
 
 interface IPopoverState {
   isShow: boolean;
-  dataTestid: 'Popovver';
 }
 
 const props = withDefaults(defineProps<IPopoverProps>(), {
   iconName: IconNameEnum.moreVertical,
   options: () => [],
-  tooltip: ''
+  tooltip: '',
+  dataTestid: 'Popover'
 });
 
 const state = reactive<IPopoverState>({

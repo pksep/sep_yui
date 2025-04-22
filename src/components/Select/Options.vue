@@ -1,8 +1,9 @@
 <template>
-  <template v-for="option in props.options" :key="option">
+  <template v-for="(option, inx) in props.options" :key="inx">
     <li
       :class="[classes, getActiveClass(option), props.class]"
       @click="() => handleChoosenOption(option)"
+      :data-testid="`${props.dataTestid}-${inx}`"
     >
       {{ getOption(option) }}
     </li>

@@ -1,23 +1,47 @@
 <template>
-  <div class="search-yui-kit__history history-yui-kit" v-if="props.showHistory">
+  <div
+    class="search-yui-kit__history history-yui-kit"
+    v-if="props.showHistory"
+    :data-testid="props.dataTestid"
+  >
     <Button
       :type="ButtonTypeEnum.outline"
       v-if="state.isShowButtonHistory"
       @click="showHistoryClickHandler"
       :class="'history-yui-kit__button-text show-result'"
+      :data-testid="`${props.dataTestid}-ShowResult`"
     >
-      <span> Просмотреть историю запросов </span>
+      <span :data-testid="`${props.dataTestid}-ShowResult-Title`">
+        Просмотреть историю запросов
+      </span>
     </Button>
 
-    <ul :class="classes" v-if="state.getHistorySearch?.length">
+    <ul
+      :class="classes"
+      v-if="state.getHistorySearch?.length"
+      :data-testid="`${props.dataTestid}-ShowResult-List`"
+    >
       <li
         class="history-yui-kit__item"
-        v-for="item in state.getHistorySearch"
+        v-for="(item, inx) in state.getHistorySearch"
         :key="item"
+        :data-testid="`${props.dataTestid}-ShowResult-Title${inx}`"
       >
-        <span @click="handleChoosePost(item)"> {{ trimText(item) }}</span
-        ><Button :type="ButtonTypeEnum.ghost" @click="removeItem(item)">
-          <Icon :name="IconNameEnum.exitSmall" :width="16" />
+        <span
+          @click="handleChoosePost(item)"
+          :data-testid="`${props.dataTestid}-HandleChoosePost-Title${inx}`"
+        >
+          {{ trimText(item) }}</span
+        ><Button
+          :type="ButtonTypeEnum.ghost"
+          @click="removeItem(item)"
+          :data-testid="`${props.dataTestid}-ButtonItem-Remove${inx}`"
+        >
+          <Icon
+            :name="IconNameEnum.exitSmall"
+            :width="16"
+            :data-testid="`${props.dataTestid}-ButtonItem-RemoveIcon${inx}`"
+          />
         </Button>
       </li>
     </ul>
@@ -25,8 +49,13 @@
       v-else-if="!state.isShowButtonHistory"
       :type="ButtonTypeEnum.outline"
       :class="'history-yui-kit__button-text'"
+      :data-testid="`${props.dataTestid}-ButtonTypeEnum-RemoveButton`"
     >
-      <span class="empty-content">По вашему запросу ничего не найдено</span>
+      <span
+        :data-testid="`${props.dataTestid}-ButtonTypeEnum-EmptyContent`"
+        class="empty-content"
+        >По вашему запросу ничего не найдено</span
+      >
     </Button>
   </div>
 </template>

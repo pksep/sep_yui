@@ -1,5 +1,10 @@
 <template>
-  <div :class="classes" :disabled="props.disabled" :style="styles">
+  <div
+    :class="classes"
+    :disabled="props.disabled"
+    :style="styles"
+    :data-testid="`${props.dataTestid}-Toggle`"
+  >
     <input
       class="toggle-yui-kit-input"
       :id="uniqueId"
@@ -7,8 +12,13 @@
       :disabled
       v-model="model"
       @change="onClick"
+      :data-testid="`${props.dataTestid}-Input`"
     />
-    <label class="toggle-yui-kit-label" :for="uniqueId"></label>
+    <label
+      class="toggle-yui-kit-label"
+      :for="uniqueId"
+      :data-testid="`${props.dataTestid}-Label`"
+    ></label>
   </div>
 </template>
 
@@ -21,7 +31,8 @@ import { ToggleEnum } from './enums/enums.ts';
 const props = withDefaults(defineProps<IToggleProps>(), {
   disabled: false,
   checked: false,
-  type: ToggleEnum.small
+  type: ToggleEnum.small,
+  dataTestid: 'Toggle'
 });
 
 const emit = defineEmits<{

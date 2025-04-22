@@ -1,4 +1,5 @@
 import { ISwitchProps } from '@/components/Switch/interface/interface';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
 type userType = {
   name: string;
@@ -21,6 +22,7 @@ export interface IThemeProps {
 export interface IMenuProps
   extends IAdminPanel,
     IMenuLanguagesProps,
-    IThemeProps {
+    IThemeProps,
+    IDataTestIdProp {
   closeAfterClick?: boolean;
 }

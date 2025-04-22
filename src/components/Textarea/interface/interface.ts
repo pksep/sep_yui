@@ -1,6 +1,7 @@
 import { TextareaTypeEnum } from '@/components/Textarea/enum';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
-export interface ITextareaProps {
+export interface ITextareaProps extends IDataTestIdProp {
   placeholder?: string;
   inputMessage?: string;
   required?: boolean;

@@ -1,13 +1,28 @@
 <template>
-  <fieldset class="input-yui-kit" :class="inputClass" @focusout="handleBlur">
-    <legend v-if="props.inputMessage" class="input-yui-kit__legend">
+  <fieldset
+    class="input-yui-kit"
+    :class="inputClass"
+    @focusout="handleBlur"
+    :data-testid="props.dataTestid"
+  >
+    <legend
+      v-if="props.inputMessage"
+      class="input-yui-kit__legend"
+      :data-testid="`${props.dataTestid}-Legend`"
+    >
       {{ props.inputMessage }}
-      <sup class="input-yui-kit__star" v-if="props.required">*</sup>
+      <sup
+        class="input-yui-kit__star"
+        v-if="props.required"
+        :data-testid="`${props.dataTestid}-Legend-Star`"
+        >*</sup
+      >
     </legend>
     <textarea
       v-model="state.inputElement"
       @focus="handleFocus"
       @input="handleInput"
+      :data-testid="`${props.dataTestid}-Textarea`"
       class="input-yui-kit__input"
       :placeholder="props.placeholder"
       :required="props.required"
@@ -26,6 +41,7 @@ const props = withDefaults(defineProps<ITextareaProps>(), {
   required: false,
   modelValue: '',
   readonly: false,
+  dataTestid: 'Textarea',
   type: TextareaTypeEnum.default
 });
 
