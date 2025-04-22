@@ -62,7 +62,8 @@ const props = withDefaults(defineProps<IInputNumberProps>(), {
   modelValue: 0,
   min: -Infinity,
   max: Infinity,
-  size: SizesEnum.medium
+  size: SizesEnum.medium,
+  modelModifiers: () => ({}) // not delete
 });
 
 const state = reactive<IState>({

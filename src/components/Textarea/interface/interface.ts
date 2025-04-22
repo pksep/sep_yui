@@ -8,4 +8,5 @@ export interface ITextareaProps {
   modelValue: string;
   readonly?: boolean;
   type?: TextareaTypeEnum;
+  modelModifiers: object;
 }
