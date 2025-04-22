@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.1
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.0...v0.1.1)
+
+### 🩹 Fixes
+
+- Pnpm-lock.yaml ([5efed0b](https://github.com/NPO-Automotive/sep_yui/commit/5efed0b))
+- Add modelModifiers to inputs ([12e8bb7](https://github.com/NPO-Automotive/sep_yui/commit/12e8bb7))
+
 ## v0.1.0
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/release...v0.1.0)
