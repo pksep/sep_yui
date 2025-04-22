@@ -7,8 +7,6 @@
         :disabled="state.currentIndex === 0"
         :data-testid="`${props.dataTestid}-Prev-Button`"
       >
-        class="slider-yui-kit__button slider-yui-kit__button--prev"
-        @click="prevSlide" :disabled="state.currentIndex === 0" >
         <Icon
           :name="IconNameEnum.leftBig"
           :data-testid="`${props.dataTestid}-Prev-Icon`"
@@ -51,16 +49,12 @@
           ref="fullsizeImageRef"
           :data-testid="`${props.dataTestid}-Image`"
         />
-        v-if="isImage(state.file?.path ?? '')" @click="e => toFullsizeImage(e)"
-        :src="state.file?.path ?? ''" ref="fullsizeImageRef" />
         <video
           v-if="isVideo(state.file?.path ?? '')"
           @click="e => toFullsizeImage(e)"
           controls
           :data-testid="`${props.dataTestid}-Video`"
         >
-          v-if="isVideo(state.file?.path ?? '')" @click="e =>
-          toFullsizeImage(e)" controls >
           <source :src="state.file?.path ?? ''" />
         </video>
       </div>
@@ -70,8 +64,6 @@
         :disabled="rigthIndex()"
         :data-testid="`${props.dataTestid}-Next-Button`"
       >
-        class="slider-yui-kit__button slider-yui-kit__button--next"
-        @click="nextSlide" :disabled="rigthIndex()" >
         <Icon
           :name="IconNameEnum.rightBig"
           :data-testid="`${props.dataTestid}-Next-Icon`"

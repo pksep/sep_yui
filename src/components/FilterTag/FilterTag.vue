@@ -76,11 +76,11 @@
         :data-testid="`${props.dataTestid}-Select-List`"
       >
         <li
+          v-if="!getChosen.length"
           class="filter-yui-kit__select-item"
           :data-testid="`${props.dataTestid}-Select-Item`"
         >
           <Badges
-            v-if="!getChosen.length"
             disabled
             text="Все"
             :data-testid="`${props.dataTestid}-Select-Badges`"

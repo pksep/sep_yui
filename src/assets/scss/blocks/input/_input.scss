@@ -88,7 +88,7 @@ fieldset.input-yui-kit {
     width: inherit;
     outline: none;
 
-    &:focus::placeholder {
+    &:read-write:focus::placeholder {
       color: transparent;
     }
   }
