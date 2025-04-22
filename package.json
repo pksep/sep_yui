@@ -29,7 +29,6 @@
         "vue3-perfect-scrollbar": "^2.0.0"
     },
     "devDependencies": {
-        "changelogen": "^0.6.1",
         "@chromatic-com/storybook": "^1.8.0",
         "@storybook/addon-a11y": "^8.1.9",
         "@storybook/addon-actions": "^8.5.5",
@@ -47,6 +46,7 @@
         "@typescript-eslint/parser": "^7.18.0",
         "@vitejs/plugin-vue": "^5.1.3",
         "@vue/eslint-config-typescript": "^13.0.0",
+        "changelogen": "^0.6.1",
         "eslint": "^8.57.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.2.1",

@@ -4,9 +4,7 @@
       <div
         class="loader__circle loader__circle--light-blue"
         :data-testid="`${props.dataTestid}-Loader-LightBlue1`"
-      >
-        >
-      </div>
+      ></div>
       <div
         class="loader__circle loader__circle--blue"
         :data-testid="`${props.dataTestid}-Loader-LightBlue2`"

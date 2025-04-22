@@ -18,7 +18,7 @@
           class="menu-yui-kit__button"
           :data-testid="`${props.dataTestid}-Toggle`"
         >
-          ><Icon class="menu-yui-kit__button-icon" :name="nameIcon"
+          <Icon class="menu-yui-kit__button-icon" :name="nameIcon"
         /></Button>
       </div>
     </div>
@@ -29,8 +29,6 @@
           @click="choosedOptions(MenuTypeEnum.profile)"
           :data-testid="`${props.dataTestid}-Profile-Item`"
         >
-          class="list-yui-kit__item"
-          @click="choosedOptions(MenuTypeEnum.profile)" >
           <Icon :name="IconNameEnum.profile" />
           <span class="list-yui-kit__item-text">Профиль</span>
         </li>
@@ -51,16 +49,12 @@
             :checked="state.isBlackTheme"
             :data-testid="`${props.dataTestid}-Theme-Toggle`"
           />
-          :type="ToggleEnum.small" @change="toggleThemeChange"
-          :checked="state.isBlackTheme" />
         </li>
         <li
           class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.options)"
           :data-testid="`${props.dataTestid}-Settings-Item`"
         >
-          class="list-yui-kit__item"
-          @click="choosedOptions(MenuTypeEnum.options)" >
           <Icon :name="IconNameEnum.settings" />
           <span class="list-yui-kit__item-text">Настройки</span>
         </li>
@@ -69,7 +63,6 @@
           @click="choosedOptions(MenuTypeEnum.exit)"
           :data-testid="`${props.dataTestid}-Exit-Item`"
         >
-          @click="choosedOptions(MenuTypeEnum.exit)" >
           <Icon :name="IconNameEnum.exit" />
           <span class="list-yui-kit__item-text">Выход</span>
         </li>
@@ -78,7 +71,6 @@
           @click="choosedOptions(MenuTypeEnum.help)"
           :data-testid="`${props.dataTestid}-Help-Item`"
         >
-          @click="choosedOptions(MenuTypeEnum.help)" >
           <Icon :name="IconNameEnum.help" />
           <span class="list-yui-kit__item-text" :data-type="MenuTypeEnum.help"
             >Помощь</span
@@ -93,9 +85,6 @@
         @change="handleLanguageSwitch"
         :data-testid="`${props.dataTestid}-Language-Switch`"
       />
-      v-if="props.languages?.items" :items="props.languages?.items"
-      :defaultValue="props.languages?.defaultValue"
-      @change="handleLanguageSwitch" />
     </div>
   </div>
 </template>

@@ -41,6 +41,7 @@
         />
       </Tooltip>
       <YButton
+        v-if="props.enableClearAll && state.isClear"
         :data-testid="`${props.dataTestid}-Clear`"
         @click="clearOptions"
         :type="ButtonTypeEnum.ghost"

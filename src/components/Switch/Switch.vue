@@ -7,7 +7,6 @@
       @click="toChooseItem(index)"
       :data-testid="`${props.dataTestid}-Item${index}`"
     >
-      >
       <Icon
         :name="item as IconNameEnum"
         v-if="props.isIcons"
@@ -26,7 +25,9 @@ import Icon from '@/components/Icon/Icon.vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 
-const props = withDefaults(defineProps<ISwitchProps>(), {});
+const props = withDefaults(defineProps<ISwitchProps>(), {
+  dataTestid: 'Switch'
+});
 
 const state = reactive({
   activeIndex: 0
