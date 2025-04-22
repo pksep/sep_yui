@@ -41,8 +41,8 @@
 
     <div class="filter-yui-kit__select-wrapper" v-if="state.isShow">
       <ul class="filter-yui-kit__select-list selected-yui-kit">
-        <li class="filter-yui-kit__select-item">
-          <Badges v-if="!getChosen.length" disabled text="Все" />
+        <li v-if="!getChosen.length" class="filter-yui-kit__select-item">
+          <Badges disabled text="Все" />
         </li>
         <li
           class="filter-yui-kit__select-item"
