@@ -89,13 +89,17 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  changeStyleProperties(
-    {
-      overflow: '',
-      'padding-right': ''
-    },
-    document.body
-  );
+  const dialogs = document.querySelectorAll('.modal-yui-kit');
+
+  if (dialogs.length === 0) {
+    changeStyleProperties(
+      {
+        overflow: '',
+        'padding-right': ''
+      },
+      document.body
+    );
+  }
   document.removeEventListener('keydown', handleKeyPressed);
 });
 </script>
