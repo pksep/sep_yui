@@ -40,7 +40,6 @@ import { IPopoverOption, IPopoverProps } from './interface/interface';
 import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { vOnClickOutside } from '@vueuse/components';
-import type { OnClickOutsideHandler } from '@vueuse/core';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 
 interface IPopoverState {
@@ -52,6 +51,10 @@ const props = withDefaults(defineProps<IPopoverProps>(), {
   options: () => [],
   tooltip: ''
 });
+
+const emits = defineEmits<{
+  (e: 'close'): void;
+}>();
 
 const state = reactive<IPopoverState>({
   isShow: false
@@ -73,8 +76,9 @@ const classesFilter = computed(() => ({
  */
 const toggleShow = () => (state.isShow = !state.isShow);
 
-const closeShow: OnClickOutsideHandler = (): void => {
+const closeShow = (): void => {
   state.isShow = false;
+  emits('close');
 };
 
 const handleClick = (item: IPopoverOption): void => {
@@ -90,16 +94,20 @@ const updateDropdownPosition = () => {
   }
 };
 
-onMounted(updateDropdownPosition);
-
 watch(() => state.isShow, updateDropdownPosition);
 
+watch(
+  () => props.isShow,
+  () => (state.isShow = props.isShow)
+);
+
 onMounted(() => {
-  window.addEventListener('scroll', () => (state.isShow = false), true);
+  updateDropdownPosition();
+  window.addEventListener('scroll', closeShow, true);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', () => (state.isShow = false), true);
+  window.removeEventListener('scroll', closeShow, true);
 });
 </script>
 
