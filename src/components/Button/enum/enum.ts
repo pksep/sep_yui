@@ -3,5 +3,6 @@ export enum ButtonTypeEnum {
   outline = 'outline',
   ghost = 'ghost',
   secondary = 'secondary',
-  reject = 'reject'
+  reject = 'reject',
+  minor = 'minor'
 }
