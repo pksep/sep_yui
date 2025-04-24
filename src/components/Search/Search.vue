@@ -62,7 +62,8 @@ const searchStore = useSearchStore();
 const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск',
   height: '42px',
-  modelValue: ''
+  modelValue: '',
+  dataTestid: 'Search'
 });
 
 const emit = defineEmits<{
