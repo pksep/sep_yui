@@ -8,7 +8,7 @@
       <slot>
         <slot name="colspan"></slot>
 
-        <thead ref="theadRef" class="table__head">
+        <thead v-if="$slots['head']" ref="theadRef" class="table__head">
           <slot name="head"></slot>
 
           <HeadTableRowNew
@@ -27,7 +27,7 @@
         </thead>
 
         <slot name="body-group">
-          <tbody>
+          <tbody ref="tbodyRef" v-if="$slots['body']" class="table__body">
             <slot name="body"></slot>
           </tbody>
         </slot>
@@ -52,6 +52,7 @@ const emit = defineEmits<ITableEmit>();
 
 const tableRef = ref<HTMLElement | null>(null);
 const theadRef = ref<HTMLElement | null>(null);
+const tbodyRef = ref<HTMLElement | null>(null);
 const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapperNew> | null>(
   null
 );
@@ -101,7 +102,11 @@ const resizeObserver = new ResizeObserver(() => {
 });
 
 defineExpose({
-  scrollToTop
+  scrollToTop,
+
+  tbodyRef,
+  tableRef,
+  theadRef
 });
 
 onMounted(() => {
@@ -125,6 +130,8 @@ onMounted(() => {
     border-collapse: separate;
     border-spacing: 0;
     table-layout: fixed;
+
+    background-color: var(--table-background-color);
   }
 
   &__head {
@@ -137,6 +144,10 @@ onMounted(() => {
     --th-horizontal-padding: 5px;
     --th-vertical-padding: 5px;
     border-bottom: 1px solid var(--border-grey);
+    background-color: var(--table-background-color);
+  }
+
+  & .scroll-wrapper__slot {
     background-color: var(--table-background-color);
   }
 }

@@ -247,7 +247,7 @@ const FullScrollTemplate: StoryFn<typeof TableNew> = args => ({
   </TableNew>`
 });
 
-export const fullScroll = FullScrollTemplate.bind({});
+export const FullScroll = FullScrollTemplate.bind({});
 
 const EmptyTemplate: StoryFn<typeof TableNew> = args => ({
   components: {

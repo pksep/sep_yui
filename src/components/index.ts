@@ -48,6 +48,10 @@ import BaseFilter from '@/components/Select/BaseFilter.vue';
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
 import Range from '@/components/Range/Range.vue';
+import TableNew from '@/components/Table/TableNew.vue';
+import TableRowNew from '@/components/Table/TableRowNew.vue';
+import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
+import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
 
 const components = {
   Accordion,
@@ -84,12 +88,16 @@ const components = {
   CircularProgress,
   Popover,
   Table,
+  TableNew,
   TableRow,
+  TableRowNew,
   TableTd,
   TableTh,
   SectionTableRow,
   HeadTableRow,
+  HeadTableRowNew,
   ScrollWrapper,
+  ScrollWrapperNew,
   Radio,
   Tooltip,
   BaseFilter,
@@ -143,11 +151,14 @@ export {
   CircularProgress,
   Popover,
   Table,
+  TableNew,
   TableRow,
+  TableRowNew,
   TableTd,
   TableTh,
   SectionTableRow,
   HeadTableRow,
+  HeadTableRowNew,
   PopoverHover,
   ScrollWrapper,
   Radio,
