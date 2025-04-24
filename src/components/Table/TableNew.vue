@@ -1,5 +1,9 @@
 <template>
-  <ScrollWrapperNew ref="scrollWrapperRef" class="table">
+  <ScrollWrapperNew
+    ref="scrollWrapperRef"
+    class="table"
+    @unmount-scroll="unmountScroll"
+  >
     <table ref="tableRef" class="table__table">
       <slot>
         <slot name="colspan"></slot>
@@ -38,10 +42,13 @@ import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import changeStyleProperties from '@/helpers/change-style-properties';
 import { computed, onMounted, ref } from 'vue';
+import { ITableEmit } from '@/components/Table/interface/interface';
 
 defineOptions({
   name: 'TableNew'
 });
+
+const emit = defineEmits<ITableEmit>();
 
 const tableRef = ref<HTMLElement | null>(null);
 const theadRef = ref<HTMLElement | null>(null);
@@ -63,6 +70,10 @@ const countColumn = computed(() => {
   return maxCountColumn;
 });
 
+const unmountScroll = (e: Event) => {
+  emit('unmount-scroll', e);
+};
+
 const setHeadHeight = () => {
   if (!tableRef.value || !scrollWrapperRef.value) return;
 
@@ -79,8 +90,18 @@ const setHeadHeight = () => {
   );
 };
 
+const scrollToTop = () => {
+  if (scrollWrapperRef.value) {
+    scrollWrapperRef.value.scrollToTop();
+  }
+};
+
 const resizeObserver = new ResizeObserver(() => {
   setHeadHeight();
+});
+
+defineExpose({
+  scrollToTop
 });
 
 onMounted(() => {

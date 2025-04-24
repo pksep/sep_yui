@@ -21,3 +21,8 @@ export interface ITableTd {
 export interface ITableProps {
   isShowVerticalScroll?: boolean;
 }
+
+export interface ITableEmit {
+  (e: 'unmount-scroll', event: Event): void;
+  (e: 'unmount-intersection'): void;
+}

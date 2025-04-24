@@ -41,7 +41,10 @@
 <script setup lang="ts">
 import useHorizontalTrack from '@/components/ScrollWrapper/extension/use-horizont-track';
 import useVerticlTrack from '@/components/ScrollWrapper/extension/use-vertical-track';
-import { IScrollWrapperProps } from '@/components/ScrollWrapper/interface/interface';
+import {
+  IScrollWrapperEmit,
+  IScrollWrapperProps
+} from '@/components/ScrollWrapper/interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
 import { onMounted, ref } from 'vue';
 
@@ -53,6 +56,8 @@ withDefaults(defineProps<IScrollWrapperProps>(), {
   isShowVerticalScroll: false,
   isShowHorizontalScroll: false
 });
+
+const emit = defineEmits<IScrollWrapperEmit>();
 
 const slotRef = ref<HTMLElement | null>(null);
 const scrollWrapperRef = ref<HTMLElement | null>(null);
@@ -91,6 +96,13 @@ const {
   horizontTrackRef
 );
 
+const handleScroll = (e: Event): void => {
+  changeBarPosition();
+  changerHorizontalBarPosition();
+
+  emit('unmount-scroll', e);
+};
+
 const setScrollStyle = (): void => {
   requestAnimationFrame(() => {
     setHeightSlot();
@@ -118,16 +130,15 @@ const setBarStyle = (): void => {
   setHorizontalBarWidth();
 };
 
-const handleScroll = (): void => {
-  changeBarPosition();
-  changerHorizontalBarPosition();
-
-  // emits()
-};
-
 const setHandlers = (): void => {
   if (slotRef.value) {
     slotRef.value.addEventListener('scroll', handleScroll);
+  }
+};
+
+const scrollToTop = () => {
+  if (slotRef.value) {
+    slotRef.value.scrollTop = 0;
   }
 };
 
@@ -148,10 +159,13 @@ const setResizeElement = (value: HTMLElement) => {
   resizeOvserver.observe(value);
 };
 
+defineExpose({
+  scrollToTop
+});
+
 onMounted(() => {
   setScrollStyle();
   setHandlers();
-
   if (scrollWrapperRef.value) {
     setResizeElement(scrollWrapperRef.value);
   }
@@ -159,6 +173,7 @@ onMounted(() => {
   if (verticalTrackRef.value) {
     setResizeElement(verticalTrackRef.value);
   }
+  emit('on-mounted');
 });
 </script>
 

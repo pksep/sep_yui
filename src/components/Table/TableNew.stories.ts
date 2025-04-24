@@ -447,3 +447,69 @@ const DifficultTemplate: StoryFn<typeof TableNew> = args => ({
 });
 
 export const DifficultTable = DifficultTemplate.bind({});
+
+const ScrollFunctionTemplate: StoryFn<typeof TableNew> = args => ({
+  components: {
+    TableNew,
+    HeadTableRowNew,
+    TableTh,
+    TableTd,
+    TableRowNew,
+    SectionTableRow
+  },
+  setup() {
+    const tableRef = ref<InstanceType<typeof TableNew> | null>();
+    const rows = ref<[string, string][]>([
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2'],
+      ['Значение 1', 'Значение 2']
+    ]);
+
+    const scrollTop = () => {
+      if (tableRef.value) {
+        tableRef.value.scrollToTop();
+      }
+    };
+    return { args, rows, scrollTop, tableRef };
+  },
+  template: `
+  <div>
+    <TableNew ref="tableRef" style="max-height: 400px">
+
+      <template #head>
+        <HeadTableRowNew>
+          <TableTh>Заголовок 1</TableTh>
+          <TableTh>Заголовок 2</TableTh>
+        </HeadTableRowNew>
+      </template>
+      
+      <template #body>
+
+        <TableRowNew v-for="(row, index) in rows" :key="index">
+          <TableTd>{{ row[0] }}</TableTd>
+          <TableTd>{{ row[1] }}</TableTd>
+        </TableRowNew>
+
+      </template>
+
+    </TableNew>
+
+    <button @click="scrollTop">Скролл наверх</button>
+  </div>
+  
+  `
+});
+
+export const ScrollFunction = ScrollFunctionTemplate.bind({});
