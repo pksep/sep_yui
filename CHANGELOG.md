@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.3
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.2...v0.1.3)
+
+### 🩹 Fixes
+
+- Styles in empty Popover.vue ([6953aaa](https://github.com/NPO-Automotive/sep_yui/commit/6953aaa))
+
 ## v0.1.2
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.1...v0.1.2)
