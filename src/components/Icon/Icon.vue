@@ -19,7 +19,8 @@ import Icons from './index.ts';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
   width: 24,
-  height: 24
+  height: 24,
+  dataTestid: 'Icon'
 });
 
 const styles = computed(() => ({

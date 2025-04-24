@@ -48,7 +48,9 @@
 import { defineProps } from 'vue';
 import { ICircularProgressProps } from '@/components/CircularProgress/interface/interface.ts';
 
-const props = withDefaults(defineProps<ICircularProgressProps>(), {});
+const props = withDefaults(defineProps<ICircularProgressProps>(), {
+  dataTestid: 'CircularProgress'
+});
 
 const calculateClipPath = () => {
   const percent = Math.min(Math.max(props.percent, 0), 100);

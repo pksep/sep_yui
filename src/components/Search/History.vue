@@ -72,7 +72,9 @@ import { ButtonTypeEnum } from '../Button/enum/enum.ts';
 
 const searchStore = useSearchStore();
 
-const props = defineProps<Partial<ISearchProps>>();
+const props = withDefaults(defineProps<Partial<ISearchProps>>(), {
+  dataTestid: 'History'
+});
 
 const state = reactive({
   getHistorySearch: computed(() => {

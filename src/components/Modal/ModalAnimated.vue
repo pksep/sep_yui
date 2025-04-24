@@ -17,7 +17,9 @@
 import Modal from './Modal.vue';
 import type { IDialogProps } from './interface/interface';
 
-const props = defineProps<IDialogProps>();
+const props = withDefaults(defineProps<IDialogProps>(), {
+  dataTestid: 'Modal'
+});
 
 const emits = defineEmits<{
   (e: 'close'): void;

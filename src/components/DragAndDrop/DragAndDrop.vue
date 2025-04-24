@@ -47,7 +47,8 @@ import { IconNameEnum } from '../Icon/enum/enum.ts';
 
 const props = withDefaults(defineProps<IDragAndDropProps>(), {
   singleFileMode: false,
-  title: 'Кликните или перенесите файлы'
+  title: 'Кликните или перенесите файлы',
+  dataTestid: 'DragAndDrop'
 });
 
 const emits = defineEmits<{

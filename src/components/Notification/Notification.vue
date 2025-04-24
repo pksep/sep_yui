@@ -66,7 +66,8 @@ const props = withDefaults(defineProps<IPushNotificationProps>(), {
   type: MessageTypeEnum.info,
   description: '',
   timeout: 3,
-  showPopover: true
+  showPopover: true,
+  dataTestid: 'Notification'
 });
 
 const emits = defineEmits<{

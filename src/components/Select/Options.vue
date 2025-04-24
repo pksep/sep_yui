@@ -21,7 +21,9 @@ import type {
 import isOptionsObject from '@/helpers/guards/is-options-object';
 import isOptionsObjectWithHint from '@/helpers/guards/is-options-object-with-hint';
 
-const props = withDefaults(defineProps<IOptionsProps>(), {});
+const props = withDefaults(defineProps<IOptionsProps>(), {
+  dataTestid: 'Options'
+});
 
 const state = reactive({
   choosedOption: props.defaultOption ?? (props.options[0] || ''),

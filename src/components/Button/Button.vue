@@ -39,7 +39,8 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   size: SizesEnum.medium,
   type: ButtonTypeEnum.primary,
   pill: false,
-  color: ''
+  color: '',
+  dataTestid: 'Button'
 });
 
 const emit = defineEmits<{

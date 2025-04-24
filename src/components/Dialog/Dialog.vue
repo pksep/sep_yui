@@ -20,7 +20,9 @@ import { computed, onMounted, ref, useAttrs, watchEffect } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 
-const props = defineProps<IDialogProps>();
+const props = withDefaults(defineProps<IDialogProps>(), {
+  dataTestid: 'Dialog'
+});
 const dialog = ref<HTMLDialogElement | null>(null);
 const attrs = useAttrs();
 const visible = ref(false);

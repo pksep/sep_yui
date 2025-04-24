@@ -70,7 +70,9 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
 
-const props = defineProps<Partial<ISearchProps>>();
+const props = withDefaults(defineProps<Partial<ISearchProps>>(), {
+  dataTestid: 'SearchResult'
+});
 
 const state = reactive({
   isShowList: props.isShowList,

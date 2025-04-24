@@ -38,7 +38,9 @@
 import { PictureEnum } from './enums/enums';
 import type { IPictureProps } from './interface/interface';
 
-const props = withDefaults(defineProps<IPictureProps>(), {});
+const props = withDefaults(defineProps<IPictureProps>(), {
+  dataTestid: 'Picture'
+});
 </script>
 
 <style scoped>

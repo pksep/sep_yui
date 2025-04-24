@@ -168,7 +168,8 @@ const props = withDefaults(defineProps<IFilterTagProps>(), {
   options: () => [],
   selectedValues: () => [],
   maxShowCount: 5,
-  showClearButton: false
+  showClearButton: false,
+  dataTestid: 'FilterTag'
 });
 
 const state = reactive<IFilterTagState>({

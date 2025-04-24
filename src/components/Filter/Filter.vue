@@ -152,7 +152,8 @@ import { isArray } from 'lodash';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   iconName: IconNameEnum.filter,
-  multiselect: false
+  multiselect: false,
+  dataTestid: 'Filter'
 });
 
 const state = reactive({
