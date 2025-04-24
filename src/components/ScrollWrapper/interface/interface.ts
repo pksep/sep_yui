@@ -5,4 +5,10 @@ export type TScrollWrapperStyle =
 
 export interface IScrollWrapperProps {
   isShowVerticalScroll?: boolean;
+  isShowHorizontalScroll?: boolean;
+}
+
+export interface IScrollWrapperEmit {
+  (e: 'unmount-scroll', event: Event): void;
+  (e: 'on-mounted'): void;
 }
