@@ -4,7 +4,7 @@
     size="small"
     type="black"
     position="top-left"
-    :is-can-show="!!props.tooltip && !state.isShow"
+    :is-can-show="!!props.tooltip && !state.isShow && props.options.length > 0"
   >
     <div class="popover-yui-kit" v-on-click-outside.bubble="closeShow">
       <div :class="classesFilter" @click="toggleShow" ref="currentRef">
@@ -68,7 +68,8 @@ const currentRef = ref<HTMLElement | null>(null);
  */
 const classesFilter = computed(() => ({
   'popover-yui-kit__wrapper': true,
-  'active-yui-kit': state.isShow
+  'active-yui-kit': state.isShow,
+  'empty-yui-kit': props.options.length === 0
 }));
 
 /**
@@ -128,6 +129,13 @@ onUnmounted(() => {
     &:hover,
     &.active-yui-kit {
       color: var(--border-blue);
+      &.empty-yui-kit {
+        color: var(--popover-icon-color, var(--grey4));
+      }
+    }
+
+    &.empty-yui-kit {
+      cursor: default;
     }
   }
 
