@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.2
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.1...v0.1.2)
+
+### 🚀 Enhancements
+
+- Popover support prop isShow ([f75a58b](https://github.com/NPO-Automotive/sep_yui/commit/f75a58b))
+
+### 🩹 Fixes
+
+- Ishow working correctly ([691bc1c](https://github.com/NPO-Automotive/sep_yui/commit/691bc1c))
+
 ## v0.1.1
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.0...v0.1.1)
