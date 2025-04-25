@@ -7,6 +7,7 @@
     v-model="model"
     @change="handleChange"
     @input="handleInput"
+    :data-testid="props.dataTestid"
   />
 </template>
 
@@ -24,7 +25,8 @@ const props = withDefaults(defineProps<IRangeProps>(), {
   min: 0,
   max: 100,
   step: 1,
-  disabled: false
+  disabled: false,
+  dataTestid: 'Range'
 });
 
 const emit = defineEmits<IRangeEmit>();

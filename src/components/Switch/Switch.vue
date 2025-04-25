@@ -1,12 +1,17 @@
 <template>
-  <ul class="switch-yui-kit-list">
+  <ul class="switch-yui-kit-list" :data-testid="props.dataTestid">
     <li
       v-for="(item, index) of props.items"
       :key="item"
       :class="getClasses(index)"
       @click="toChooseItem(index)"
+      :data-testid="`${props.dataTestid}-Item${index}`"
     >
-      <Icon :name="item as IconNameEnum" v-if="props.isIcons" />
+      <Icon
+        :name="item as IconNameEnum"
+        v-if="props.isIcons"
+        :data-testid="`${props.dataTestid}-Item-Icon${index}`"
+      />
       <template v-else>
         {{ item }}
       </template>
@@ -20,7 +25,9 @@ import Icon from '@/components/Icon/Icon.vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 
-const props = withDefaults(defineProps<ISwitchProps>(), {});
+const props = withDefaults(defineProps<ISwitchProps>(), {
+  dataTestid: 'Switch'
+});
 
 const state = reactive({
   activeIndex: 0

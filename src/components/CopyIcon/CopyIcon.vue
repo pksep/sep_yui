@@ -2,6 +2,7 @@
   <Icon
     class="copy-icon-yui-kit"
     :name="IconNameEnum.copy"
+    :data-testid="props.dataTestid"
     @click="copyContent"
   />
 </template>
@@ -12,7 +13,8 @@ import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
 
 const props = withDefaults(defineProps<ICopyIconProps>(), {
-  content: ''
+  content: '',
+  dataTestid: 'CopyIcon'
 });
 
 const copyContent = (): void => {

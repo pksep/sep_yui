@@ -1,19 +1,35 @@
 <template>
-  <figure class="picture-yui-kit">
+  <figure class="picture-yui-kit" :data-testid="props.dataTestid">
     <template v-if="props.type == PictureEnum.img">
-      <picture class="picture-yui-kit__picture">
+      <picture
+        class="picture-yui-kit__picture"
+        :data-testid="`${props.dataTestid}-Picture`"
+      >
         <img
           class="picture-yui-kit__picture__image"
           :src="props.url"
           :alt="props.alt"
+          :data-testid="`${props.dataTestid}-Picture-Img`"
         />
       </picture>
-      <figcaption class="picture-yui-kit__picture__caption">
+      <figcaption
+        class="picture-yui-kit__picture__caption"
+        :data-testid="`${props.dataTestid}-Caption`"
+      >
         {{ props.caption }}
       </figcaption>
     </template>
-    <div class="picture-yui-kit__caption" v-else>
-      <h4 class="picture-yui-kit__caption__title">{{ props.caption }}</h4>
+    <div
+      class="picture-yui-kit__caption"
+      :data-testid="`${props.dataTestid}-Caption-Box`"
+      v-else
+    >
+      <h4
+        class="picture-yui-kit__caption__title"
+        :data-testid="`${props.dataTestid}-Caption-Title`"
+      >
+        {{ props.caption }}
+      </h4>
     </div>
   </figure>
 </template>
@@ -22,7 +38,9 @@
 import { PictureEnum } from './enums/enums';
 import type { IPictureProps } from './interface/interface';
 
-const props = withDefaults(defineProps<IPictureProps>(), {});
+const props = withDefaults(defineProps<IPictureProps>(), {
+  dataTestid: 'Picture'
+});
 </script>
 
 <style scoped>

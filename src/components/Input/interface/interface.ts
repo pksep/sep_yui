@@ -1,6 +1,7 @@
 import { TextFieldEnum } from '../enum/enum';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
-export interface IInputProps {
+export interface IInputProps extends IDataTestIdProp {
   placeholder?: string;
   inputMessage: string;
   type?: TextFieldEnum;

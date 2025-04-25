@@ -1,11 +1,23 @@
 <template>
-  <div class="card-yui-kit">
-    <div v-if="$slots.left" class="card-yui-kit__left">
+  <div class="card-yui-kit" :data-testid="props.dataTestid">
+    <div
+      v-if="$slots.left"
+      class="card-yui-kit__left"
+      :data-testid="`${props.dataTestid}-Left`"
+    >
       <slot name="left" />
     </div>
     <slot />
   </div>
 </template>
+
+<script setup lang="ts">
+import type { ICardProps } from './interface/interface';
+
+const props = withDefaults(defineProps<ICardProps>(), {
+  dataTestid: 'Card'
+});
+</script>
 
 <style scoped lang="scss">
 .card-yui-kit {

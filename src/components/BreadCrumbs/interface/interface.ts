@@ -1,3 +1,5 @@
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
+
 export type IBreadCrumbItems = {
   path: string;
   title: string;
@@ -13,6 +15,6 @@ export interface IBreadCrumbsEmit extends IBreadCrumbsItem {
   inx: number;
 }
 
-export interface IBreadCrumbsProps {
+export interface IBreadCrumbsProps extends IDataTestIdProp {
   items: IBreadCrumbsItem[];
 }

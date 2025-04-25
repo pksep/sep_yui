@@ -1,6 +1,11 @@
 <template>
-  <TableRow class="section-table-row">
-    <TableTd :colspan class="section-table-row__td"><slot /></TableTd>
+  <TableRow class="section-table-row" :data-testid="props.dataTestid">
+    <TableTd
+      :colspan
+      class="section-table-row__td"
+      :data-testid="`${props.dataTestid}-DataCell`"
+      ><slot
+    /></TableTd>
   </TableRow>
 </template>
 
@@ -12,7 +17,9 @@ defineOptions({
   name: 'SectionTableRow'
 });
 
-defineProps<ISectionTableRow>();
+const props = withDefaults(defineProps<ISectionTableRow>(), {
+  dataTestid: 'SectionTableRow'
+});
 </script>
 
 <style scoped>

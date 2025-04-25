@@ -1,4 +1,5 @@
 import { IconNameEnum } from '../../Icon/enum/enum';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
 export type ResultSearchType = {
   icon: IconNameEnum;
@@ -6,7 +7,7 @@ export type ResultSearchType = {
   searchResult: string;
 };
 
-export interface ISearchProps {
+export interface ISearchProps extends IDataTestIdProp {
   defaultValue?: string;
   placeholder?: string;
   showHistory?: boolean;

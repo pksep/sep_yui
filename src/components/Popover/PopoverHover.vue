@@ -1,5 +1,5 @@
 <template>
-  <div :class="styles">
+  <div :class="styles" :data-testid="props.dataTestid">
     <slot />
   </div>
 </template>
@@ -10,7 +10,8 @@ import type { IPopoverHoverProps } from './interface/interface';
 import { PopoverHoverEnum } from './enums/enums';
 
 const props = withDefaults(defineProps<IPopoverHoverProps>(), {
-  position: PopoverHoverEnum.bottom
+  position: PopoverHoverEnum.bottom,
+  dataTestid: 'PopoverHover'
 });
 
 const styles = computed(() => ({

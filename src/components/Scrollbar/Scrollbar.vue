@@ -1,11 +1,12 @@
 <template>
-  <div ref="scrollbar">
+  <div ref="scrollbar" :data-testid="props.dataTestid">
     <PerfectSrollbarComponent
       @scroll="scroll"
       :options="props.options"
       :tag="props.tag"
       :class="props.class"
       :style="props.style"
+      :data-testid="`${props.dataTestid}-Scroll`"
       ref="scrollbar"
     >
       <slot />
@@ -20,7 +21,9 @@ import 'vue3-perfect-scrollbar/style.css';
 import { IScrollbarProps } from './interface/scroll';
 import { ScrollbarEmits } from './emits/scrollEmits.ts';
 
-const props = withDefaults(defineProps<IScrollbarProps>(), {});
+const props = withDefaults(defineProps<IScrollbarProps>(), {
+  dataTestid: 'ScrollBar'
+});
 
 const scrollbar = ref<HTMLElement | null>(null);
 

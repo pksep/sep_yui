@@ -4,15 +4,26 @@
     size="small"
     type="black"
     position="top-left"
+    :data-testid="props.dataTestid"
     :is-can-show="!!props.tooltip && !state.isShow && props.options.length > 0"
   >
-    <div class="popover-yui-kit" v-on-click-outside.bubble="closeShow">
-      <div :class="classesFilter" @click="toggleShow" ref="currentRef">
+    <div
+      class="popover-yui-kit"
+      v-on-click-outside.bubble="closeShow"
+      :data-testid="`${props.dataTestid}-Popover`"
+    >
+      <div
+        :class="classesFilter"
+        @click="toggleShow"
+        ref="currentRef"
+        :data-testid="`${props.dataTestid}-PopoverShow`"
+      >
         <Icon
           class="popover-yui-kit__icon"
           :name="props.iconName"
           :width="16"
           :height="16"
+          :data-testid="`${props.dataTestid}-PopoverShow-Icon`"
         />
       </div>
 
@@ -20,12 +31,14 @@
         class="popover-yui-kit__options"
         v-show="state.isShow"
         ref="dropdownRef"
+        :data-testid="`${props.dataTestid}-PopoverShow-Options`"
       >
         <div
           class="popover-yui-kit__options__item"
           v-for="(item, i) in props.options"
           :key="i"
           @click="handleClick(item)"
+          :data-testid="`${props.dataTestid}-Item${i}`"
         >
           {{ item.value }}
         </div>
@@ -49,7 +62,8 @@ interface IPopoverState {
 const props = withDefaults(defineProps<IPopoverProps>(), {
   iconName: IconNameEnum.moreVertical,
   options: () => [],
-  tooltip: ''
+  tooltip: '',
+  dataTestid: 'Popover'
 });
 
 const emits = defineEmits<{

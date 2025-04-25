@@ -6,9 +6,12 @@
     :class="props.class"
     header-classes="filter__header"
     options-classes="filter__options"
+    :data-testid="props.dataTestid"
   >
+    >
     <template #header>
       <span
+        :data-testid="`${props.dataTestid}-Title`"
         :class="[
           'filter__header-title',
           { 'filter__header-title__active': state.isOpened }
@@ -25,6 +28,7 @@
         position="top-center"
       >
         <Badges
+          :data-testid="`${props.dataTestid}-Badge`"
           ref="badgesRef"
           :type="
             state.choosedOption === props.noOptionText
@@ -38,6 +42,7 @@
       </Tooltip>
       <YButton
         v-if="props.enableClearAll && state.isClear"
+        :data-testid="`${props.dataTestid}-Clear`"
         @click="clearOptions"
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
@@ -52,6 +57,7 @@
         "
       >
         <Badges
+          :data-testid="`${props.dataTestid}-Selected`"
           :type="BadgesTypeEnum.blue"
           class="filter__options-badge selected-badge"
           :text="state.choosedOption"
@@ -60,15 +66,23 @@
           choosed
         />
       </template>
-      <Search :show-history="false" v-model="state.searchData" />
+      <Search
+        :data-testid="`${props.dataTestid}-Search`"
+        :show-history="false"
+        v-model="state.searchData"
+      />
       <div class="filter__options-list">
         <Options
+          :data-testid="`${props.dataTestid}-Options`"
           class="filter__options-option"
           :options="filteredOptions"
           :default-option="state.choosedOption"
           @change="getChoosenOption"
         >
-          <li class="filter__options-underline">
+          <li
+            class="filter__options-underline"
+            :data-testid="`${props.dataTestid}-Options-Underline`"
+          >
             <hr class="filter__options-underline-hr" />
           </li>
         </Options>
@@ -92,7 +106,8 @@ import type { IFilterProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   noOptionText: 'Не выбран',
-  enableClearAll: false
+  enableClearAll: false,
+  dataTestid: 'Filter'
 });
 
 const state = reactive({

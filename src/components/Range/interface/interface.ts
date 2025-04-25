@@ -1,4 +1,6 @@
-export interface IRangeProps {
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
+
+export interface IRangeProps extends IDataTestIdProp {
   min?: number;
   max?: number;
   step?: number;

@@ -1,12 +1,17 @@
 <template>
-  <div :class="classes" @click="isChoosen">
-    <span ref="spanRef" class="badges-text">
+  <div :class="classes" @click="isChoosen" :data-testid="props.dataTestid">
+    <span
+      ref="spanRef"
+      class="badges-text"
+      :data-testid="`${props.dataTestid}-BadgesText`"
+    >
       {{ props.text }}
     </span>
     <Icon
       class="close-icon"
       :width="10"
       :height="10"
+      :data-testid="`${props.dataTestid}-Icon`"
       :name="IconNameEnum.closeTag"
       color="var(--grey6)"
     />
@@ -23,7 +28,8 @@ import Icon from '../Icon/Icon.vue';
 const props = withDefaults(defineProps<IBadgesProps>(), {
   type: BadgesTypeEnum.default,
   choosed: false,
-  disabled: false
+  disabled: false,
+  dataTestid: 'Badges'
 });
 
 const emit = defineEmits<{

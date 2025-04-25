@@ -3,18 +3,32 @@
     popover="manual"
     :id="props.pushKey.toString()"
     :class="`push-notification-yui-kit push-notification-yui-kit_${props.type}`"
+    :data-testid="props.dataTestid"
     ref="popover"
   >
-    <div class="notification-yui-kit">
-      <div class="notification-yui-kit__block">
+    <div
+      class="notification-yui-kit"
+      :data-testid="`${props.dataTestid}-Notification`"
+    >
+      <div
+        class="notification-yui-kit__block"
+        :data-testid="`${props.dataTestid}-Notification-Block`"
+      >
         <Icon
           :name="state.message.icon"
           class="notification-yui-kit__block-icon"
+          :data-testid="`${props.dataTestid}-Notification-Icon`"
         />
-        <h4 class="notification-yui-kit__block-title">
+        <h4
+          class="notification-yui-kit__block-title"
+          :data-testid="`${props.dataTestid}-Notification-Title`"
+        >
           {{ state.message.title }}
         </h4>
-        <span class="notification-yui-kit__block-text">
+        <span
+          class="notification-yui-kit__block-text"
+          :data-testid="`${props.dataTestid}-Notification-Description`"
+        >
           {{ state.message.description }}
         </span>
       </div>
@@ -23,8 +37,12 @@
         :type="ButtonTypeEnum.ghost"
         :popovertarget="props.pushKey.toString()"
         :popovertargetaction="hide"
+        :data-testid="`${props.dataTestid}-Notification-Button`"
       >
-        <Icon :name="IconNameEnum.crossSmall" />
+        <Icon
+          :name="IconNameEnum.crossSmall"
+          :data-testid="`${props.dataTestid}-Notification-Icon`"
+        />
       </YButton>
     </div>
   </div>
@@ -48,7 +66,8 @@ const props = withDefaults(defineProps<IPushNotificationProps>(), {
   type: MessageTypeEnum.info,
   description: '',
   timeout: 3,
-  showPopover: true
+  showPopover: true,
+  dataTestid: 'Notification'
 });
 
 const emits = defineEmits<{

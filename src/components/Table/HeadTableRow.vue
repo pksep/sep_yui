@@ -1,10 +1,16 @@
 <template>
-  <tr class="head-table-row">
+  <tr class="head-table-row" :data-testid="props.dataTestid">
     <slot />
   </tr>
 </template>
 
 <script setup lang="ts">
+import type { IHeadTableRowProps } from './interface/interface';
+
+const props = withDefaults(defineProps<IHeadTableRowProps>(), {
+  dataTestid: 'TableRow'
+});
+
 defineOptions({
   name: 'HeadTableRow'
 });

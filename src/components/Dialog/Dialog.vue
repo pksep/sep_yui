@@ -1,6 +1,15 @@
 <template>
-  <dialog ref="dialog" v-bind="attrs" class="dialog-yui-kit">
-    <div class="dialog-yui-kit__dialog-content" :style="stylesContent">
+  <dialog
+    ref="dialog"
+    v-bind="attrs"
+    class="dialog-yui-kit"
+    :data-testid="props.dataTestid"
+  >
+    <div
+      :data-testid="`${props.dataTestid}-Content`"
+      class="dialog-yui-kit__dialog-content"
+      :style="stylesContent"
+    >
       <slot />
     </div>
   </dialog>
@@ -11,7 +20,9 @@ import { computed, onMounted, ref, useAttrs, watchEffect } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 
-const props = defineProps<IDialogProps>();
+const props = withDefaults(defineProps<IDialogProps>(), {
+  dataTestid: 'Dialog'
+});
 const dialog = ref<HTMLDialogElement | null>(null);
 const attrs = useAttrs();
 const visible = ref(false);

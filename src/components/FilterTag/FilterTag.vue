@@ -1,30 +1,53 @@
 <template>
-  <div class="filter-yui-kit" v-on-click-outside.bubble="closeShow">
-    <div :class="classesFilter" @click="toggleShow">
-      <Icon :name="props.iconName" />
-      <span>{{ props.title }}</span>
+  <div
+    class="filter-yui-kit"
+    v-on-click-outside.bubble="closeShow"
+    :data-testid="props.dataTestid"
+  >
+    <div
+      :class="classesFilter"
+      @click="toggleShow"
+      :data-testid="`${props.dataTestid}-Wrapper`"
+    >
+      <Icon :name="props.iconName" :data-testid="`${props.dataTestid}-Icon`" />
+      <span :data-testid="`${props.dataTestid}-Title`">{{ props.title }}</span>
 
-      <Badges v-if="!getChosen.length" disabled text="Все" />
+      <Badges
+        v-if="!getChosen.length"
+        disabled
+        text="Все"
+        :data-testid="`${props.dataTestid}-Badges-All`"
+      />
       <Badges
         v-else
-        v-for="item in getChosen.filter((_, i) => i < props.maxShowCount)"
+        v-for="(item, inx) in getChosen.filter(
+          (_, i) => i < props.maxShowCount
+        )"
         :key="item.value"
         :type="item.type"
         disabled
+        :data-testid="`${props.dataTestid}-Badges${inx}`"
         :text="item.label"
       />
       <div
         class="filter-yui-kit__counter"
         v-if="props.maxShowCount < getChosen.length"
+        :data-testid="`${props.dataTestid}-MaxShowCount-Counter`"
       >
         +{{ getChosen.length - props.maxShowCount }}
-        <div class="filter-yui-kit__counter-content">
+        <div
+          class="filter-yui-kit__counter-content"
+          :data-testid="`${props.dataTestid}-MaxShowCount-Content`"
+        >
           <Badges
-            v-for="item in getChosen.filter((_, i) => i >= props.maxShowCount)"
+            v-for="(item, inx) in getChosen.filter(
+              (_, i) => i >= props.maxShowCount
+            )"
             :key="item.value"
             :type="item.type"
             disabled
             :text="item.label"
+            :data-testid="`${props.dataTestid}-MaxShow-Badges${inx}`"
           />
         </div>
       </div>
@@ -34,20 +57,40 @@
         class="filter-yui-kit__close"
         @click.stop="handleClear"
         v-if="props.showClearButton && getChosen.length > 0"
+        :data-testid="`${props.dataTestid}-Filter-CloseButton`"
       >
-        <Icon :name="IconNameEnum.crossSmall" />
+        <Icon
+          :name="IconNameEnum.crossSmall"
+          :data-testid="`${props.dataTestid}-CloseButton-Icon`"
+        />
       </button>
     </div>
 
-    <div class="filter-yui-kit__select-wrapper" v-if="state.isShow">
-      <ul class="filter-yui-kit__select-list selected-yui-kit">
-        <li v-if="!getChosen.length" class="filter-yui-kit__select-item">
-          <Badges disabled text="Все" />
+    <div
+      class="filter-yui-kit__select-wrapper"
+      v-if="state.isShow"
+      :data-testid="`${props.dataTestid}-Select-Wrapper`"
+    >
+      <ul
+        class="filter-yui-kit__select-list selected-yui-kit"
+        :data-testid="`${props.dataTestid}-Select-List`"
+      >
+        <li
+          v-if="!getChosen.length"
+          class="filter-yui-kit__select-item"
+          :data-testid="`${props.dataTestid}-Select-Item`"
+        >
+          <Badges
+            disabled
+            text="Все"
+            :data-testid="`${props.dataTestid}-Select-Badges`"
+          />
         </li>
         <li
           class="filter-yui-kit__select-item"
-          v-for="item in getChosen"
+          v-for="(item, inx) in getChosen"
           :key="item.value"
+          :data-testid="`${props.dataTestid}-Select-Item${inx}`"
         >
           <Badges
             :disabled="true"
@@ -55,30 +98,44 @@
             :type="item.type"
             @click="handleToggle(item)"
             :text="item.label"
+            :data-testid="`${props.dataTestid}-Select-Badges${inx}`"
           />
         </li>
       </ul>
 
-      <div class="filter-yui-kit__select__divider" />
+      <div
+        class="filter-yui-kit__select__divider"
+        :data-testid="`${props.dataTestid}-Select-Divider`"
+      />
 
-      <ul class="filter-yui-kit__select-list" v-if="state.isShow">
+      <ul
+        class="filter-yui-kit__select-list"
+        v-if="state.isShow"
+        :data-testid="`${props.dataTestid}-Select-List`"
+      >
         <li
           class="filter-yui-kit__select-item"
-          v-for="item in getNotChosen"
+          v-for="(item, inx) in getNotChosen"
           :key="item.value"
+          :data-testid="`${props.dataTestid}-Select-List${inx}`"
         >
           <Badges
             :disabled="true"
             :choosed="false"
             :type="item.type"
             :text="item.label"
+            :data-testid="`${props.dataTestid}-Select-Badges${inx}`"
             @click="handleToggle(item)"
           />
         </li>
-        <li class="filter-yui-kit__select-item">
+        <li
+          class="filter-yui-kit__select-item"
+          :data-testid="`${props.dataTestid}-Select-Item`"
+        >
           <Badges
             v-if="getChosen.length"
             disabled
+            :data-testid="`${props.dataTestid}-Select-Badges`"
             text="Все"
             @click="handleClear"
           />
@@ -111,7 +168,8 @@ const props = withDefaults(defineProps<IFilterTagProps>(), {
   options: () => [],
   selectedValues: () => [],
   maxShowCount: 5,
-  showClearButton: false
+  showClearButton: false,
+  dataTestid: 'FilterTag'
 });
 
 const state = reactive<IFilterTagState>({
