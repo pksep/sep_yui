@@ -58,7 +58,7 @@ export const chevronDown: IVectorIcon = {
   style: 'line',
   fill: 'none',
   path: `
-    <path d="M18 9L12 15L6 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 10L12 14L16 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
     `
 };
 

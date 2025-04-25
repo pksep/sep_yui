@@ -153,14 +153,16 @@ const resizeOvserver = new ResizeObserver(() => {
 const setResizeElement = (value: HTMLElement) => {
   mutatuionObserver.observe(value, {
     childList: true,
-    subtree: true
+    subtree: true,
+    attributes: true
   });
 
   resizeOvserver.observe(value);
 };
 
 defineExpose({
-  scrollToTop
+  scrollToTop,
+  setHeightSlot
 });
 
 onMounted(() => {
@@ -211,6 +213,7 @@ onMounted(() => {
     }
   }
 
+  &:has(.scroll-wrapper__track_horizont) .scroll-wrapper__vertical-wrapper,
   &:has(.scroll-wrapper__track_horizont) .scroll-wrapper__slot {
     height: calc(
       var(--scroll-wrapper-height, 100%) - var(
@@ -240,6 +243,10 @@ onMounted(() => {
 
     &_vertical {
       width: var(--scroll-wrapper-vertical-track-width);
+      height: calc(
+        var(--scroll-wrapper-height) - var(--scroll-track-margin-top)
+      );
+
       margin: var(--scroll-track-margin-top) 0 0 0;
       & .scroll-wrapper__bar {
         top: var(--scroll-bar-top-postion);

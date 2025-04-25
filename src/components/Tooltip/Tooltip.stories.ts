@@ -132,3 +132,34 @@ RightBottom.args = {
   position: 'right-bottom',
   isShow: true
 };
+
+const DialogTemplate: StoryFn<typeof Tooltip> = args => ({
+  components: { Tooltip },
+  setup() {
+    const model = ref<string>('Hover over to get a tooltip');
+    const dialogRef = ref<HTMLDialogElement | null>(null);
+
+    const showDialog = () => {
+      dialogRef.value?.showModal();
+    };
+    const hideDialog = () => {
+      dialogRef.value?.close();
+    };
+    return { args, model, dialogRef, showDialog, hideDialog };
+  },
+  template: `
+  <dialog ref="dialogRef" style="height: 100px; display: flex; flex-direction:column; gap: 20px; align-items:center; justify-content: center; " @click.left="hideDialog">
+    <Tooltip v-bind="args" >
+      <template #default>
+        {{model}}
+      </template>
+    </Tooltip>
+
+  </dialog>
+  
+  <button @click="showDialog">Открыть диалог</button>
+  `
+});
+
+export const InDialog = DialogTemplate.bind({});
+RightBottom.args = {};

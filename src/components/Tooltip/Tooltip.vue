@@ -8,7 +8,7 @@
   >
     <slot></slot>
 
-    <Teleport v-if="isCanShow" to="body">
+    <Teleport v-if="isCanShow" :to="toTeleport">
       <Transition name="hint-animate" @enter="unmountAnimationEnter">
         <div
           ref="hintRef"
@@ -66,6 +66,14 @@ const tooltipClass = computed(() => [
   }
 ]);
 
+const toTeleport = computed(() => {
+  const dialog = tooltipRef.value?.closest('dialog');
+
+  if (dialog) return dialog;
+
+  return 'body';
+});
+
 const state = reactive<{
   isShow: boolean;
 }>({
@@ -96,8 +104,17 @@ const setPosition = (): void => {
     const scrollLeft =
       window.pageXOffset || document.documentElement.scrollLeft;
 
-    const top = rect.top + scrollTop;
-    const left = rect.left + scrollLeft;
+    let top = rect.top + scrollTop;
+    let left = rect.left + scrollLeft;
+
+    const dialog = tooltipRef.value.closest('dialog');
+
+    if (dialog) {
+      const rectDialog = dialog.getBoundingClientRect();
+
+      top = top - rectDialog.top;
+      left = left - rectDialog.left;
+    }
 
     const tooltipWidth = rect.width;
     const tooltipHeight = rect.height;
@@ -112,6 +129,7 @@ const setPosition = (): void => {
         '--hint-left': `${left}px`,
         '--hint-width': `${hintWidth}px`,
         '--hint-height': `${hintHeigth}px`,
+
         '--tooltip-width': `${tooltipWidth}px`,
         '--tooltip-height': `${tooltipHeight}px`
       },
@@ -250,6 +268,7 @@ onUnmounted(() => {
     &_large {
       --tooltip-font-size: 18px;
     }
+
     &_top-center,
     &_top-left,
     &_top-right,
@@ -258,7 +277,6 @@ onUnmounted(() => {
     &_bottom-right {
       left: calc(var(--hint-left) + (var(--tooltip-width) / 2));
       transform: translateX(-50%);
-
       &::before {
         left: 50%;
         transform: translateX(-50%);
@@ -283,7 +301,6 @@ onUnmounted(() => {
 
     &_top-left {
       transform: translateX(-8px);
-
       &::before {
         left: var(--hint-before-width);
         transform: translateX(-70%);
@@ -292,7 +309,6 @@ onUnmounted(() => {
 
     &_top-right {
       transform: translateX(calc((var(--hint-width) * -1) + 16px));
-
       &::before {
         left: auto;
         right: var(--hint-before-width);
@@ -307,7 +323,6 @@ onUnmounted(() => {
         var(--hint-top) + var(--tooltip-height) + var(--hint-before-width) +
           var(--tooltip-hint-gap, 8px)
       );
-
       &::before {
         bottom: 100%;
       }
@@ -347,8 +362,6 @@ onUnmounted(() => {
         var(--hint-left) + var(--tooltip-width) + var(--hint-before-width) +
           var(--tooltip-hint-gap, 12px)
       );
-      // left: calc(100% + var(--tooltip-hint-gap, 19px));
-
       &:before {
         right: 100%;
         top: 50%;
@@ -366,7 +379,6 @@ onUnmounted(() => {
             12px
           )
       );
-
       &:before {
         left: 100%;
         top: 50%;
@@ -395,6 +407,11 @@ onUnmounted(() => {
   }
 }
 
+dialog {
+  &:has(.tooltip-yui-kit) {
+    position: relative;
+  }
+}
 .hint-animate {
   &-enter-active,
   &-leave-active {

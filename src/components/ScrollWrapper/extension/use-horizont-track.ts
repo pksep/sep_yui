@@ -55,10 +55,7 @@ const useHorizontalTrack = (
     const barWidth = barRef.value.clientWidth;
     const maxBarPosition = trackWidth - barWidth;
 
-    console.log(trackWidth, barWidth);
-
     const barLeft = scrollPercent * maxBarPosition;
-    console.log('scrollLeft', scrollPercent, maxBarPosition, barLeft);
 
     requestAnimationFrame(() => {
       if (scrollWrapperRef.value) {
