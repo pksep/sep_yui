@@ -1,6 +1,7 @@
 import { IconNameEnum } from '../../Icon/enum/enum';
 import { PopoverHoverEnum } from '../enums/enums';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import { TTooltipPosition } from '@/components/Tooltip/interface/interface.ts';
 
 export interface IPopoverOption {
   value: string;
@@ -12,6 +13,7 @@ export interface IPopoverProps extends IDataTestIdProp {
   iconName?: IconNameEnum;
   options: IPopoverOption[];
   tooltip?: string;
+  tooltipPosition?: TTooltipPosition;
 }
 
 export interface IPopoverHoverProps extends IDataTestIdProp {

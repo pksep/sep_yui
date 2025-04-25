@@ -3,7 +3,7 @@
     :hint="props.tooltip"
     size="small"
     type="black"
-    position="top-left"
+    :position="props.tooltipPosition"
     :data-testid="props.dataTestid"
     :is-can-show="!!props.tooltip && !state.isShow && props.options.length > 0"
   >
@@ -63,7 +63,8 @@ const props = withDefaults(defineProps<IPopoverProps>(), {
   iconName: IconNameEnum.moreVertical,
   options: () => [],
   tooltip: '',
-  dataTestid: 'Popover'
+  dataTestid: 'Popover',
+  tooltipPosition: 'top-left'
 });
 
 const emits = defineEmits<{
