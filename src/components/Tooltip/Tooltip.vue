@@ -3,25 +3,30 @@
     ref="tooltipRef"
     class="tooltip-yui-kit"
     :aria-label="hint"
-    @mouseenter="showHint"
-    @mouseleave="hideHint"
+    @mouseenter="unmountMouseEnter"
+    @mouseleave="unmountMouseLeave"
   >
     <slot></slot>
 
-    <div
-      ref="hintRef"
-      v-if="isCanShow"
-      class="tooltip-yui-kit__hint"
-      :class="tooltipClass"
-    >
-      {{ hint }}
-    </div>
+    <Teleport v-if="isCanShow" to="body">
+      <Transition name="hint-animate" @enter="unmountAnimationEnter">
+        <div
+          ref="hintRef"
+          v-if="isShow || state.isShow"
+          class="tooltip-yui-kit__hint"
+          :class="tooltipClass"
+        >
+          {{ hint }}
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ITooltipProps } from '@/components/Tooltip/interface/interface';
-import { computed, ref } from 'vue';
+import changeStyleProperties from '@/helpers/change-style-properties';
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
 defineOptions({
   name: 'Tooltip'
@@ -34,13 +39,12 @@ const props = withDefaults(defineProps<ITooltipProps>(), {
   size: 'small',
   type: 'black'
 });
-const isShow = ref<boolean>(false);
 const tooltipRef = ref<HTMLDivElement | null>(null);
 const hintRef = ref<HTMLDivElement | null>(null);
 
 const tooltipClass = computed(() => [
   {
-    'tooltip-yui-kit__hint_show': props.isShow || isShow.value,
+    'tooltip-yui-kit__hint_show': props.isShow || state.isShow,
     'tooltip-yui-kit__hint_bottom-center': props.position === 'bottom-center',
     'tooltip-yui-kit__hint_bottom-left': props.position === 'bottom-left',
     'tooltip-yui-kit__hint_bottom-right': props.position === 'bottom-right',
@@ -62,13 +66,121 @@ const tooltipClass = computed(() => [
   }
 ]);
 
+const state = reactive<{
+  isShow: boolean;
+}>({
+  isShow: false
+});
+
+const unmountMouseEnter = (): void => {
+  showHint();
+};
+
+const unmountMouseLeave = (): void => {
+  hideHint();
+};
+
+const unmountAnimationEnter = (): void => {
+  setPosition();
+};
+
+const setPosition = (): void => {
+  requestAnimationFrame(() => {
+    if (!tooltipRef.value || !hintRef.value || (!state.isShow && !props.isShow))
+      return;
+
+    const rect = tooltipRef.value.getBoundingClientRect();
+    const rectHint = hintRef.value.getBoundingClientRect();
+
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft =
+      window.pageXOffset || document.documentElement.scrollLeft;
+
+    const top = rect.top + scrollTop;
+    const left = rect.left + scrollLeft;
+
+    const tooltipWidth = rect.width;
+    const tooltipHeight = rect.height;
+    const hintWidth = rectHint.width;
+    const hintHeigth = rectHint.height;
+
+    if (!hintRef.value) return;
+
+    changeStyleProperties(
+      {
+        '--hint-top': `${top}px`,
+        '--hint-left': `${left}px`,
+        '--hint-width': `${hintWidth}px`,
+        '--hint-height': `${hintHeigth}px`,
+        '--tooltip-width': `${tooltipWidth}px`,
+        '--tooltip-height': `${tooltipHeight}px`
+      },
+      hintRef.value
+    );
+  });
+};
+
+const setHintGap = (): void => {
+  requestAnimationFrame(() => {
+    if (!hintRef.value || props.hintGap !== undefined) return;
+
+    changeStyleProperties(
+      {
+        '--tooltip-hint-gap': props.hintGap
+      },
+      hintRef.value
+    );
+  });
+};
+
+watch(() => props.hintGap, setHintGap, {
+  immediate: true
+});
+
 const showHint = () => {
-  isShow.value = true;
+  state.isShow = true;
 };
 
 const hideHint = () => {
-  isShow.value = false;
+  state.isShow = false;
 };
+
+const mutationObserver = new MutationObserver(() => {
+  setPosition();
+});
+
+const resizeObserver = new ResizeObserver(() => {
+  setPosition();
+});
+
+const setObservers = (element: HTMLElement): void => {
+  mutationObserver.observe(element, {
+    childList: true, // следит за изменением детей
+    attributes: true, // следит за изменением атрибутов
+    characterData: true // следит за изменением текста внутри
+  });
+  resizeObserver.observe(element);
+};
+
+onMounted(() => {
+  setPosition();
+
+  if (hintRef.value) {
+    setObservers(hintRef.value);
+  }
+
+  if (tooltipRef.value) {
+    setObservers(tooltipRef.value);
+  }
+
+  window.addEventListener('scroll', setPosition, true);
+  window.addEventListener('resize', setPosition);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', setPosition, true);
+  window.removeEventListener('resize', setPosition);
+});
 </script>
 
 <style scoped lang="scss">
@@ -79,13 +191,15 @@ const hideHint = () => {
   width: max-content;
 
   &__hint {
-    --width: 11px;
+    --hint-before-width: 11px;
     position: absolute;
-    z-index: 1;
+    z-index: 20;
+
+    top: var(--hint-top);
+    left: var(--hint-left);
 
     background-color: var(--tooltip-background-color);
     color: var(--tooltip-color);
-    opacity: 0;
     transition: var(--tooltip-transition);
 
     padding: var(--tooltip-padding);
@@ -93,7 +207,6 @@ const hideHint = () => {
     white-space: nowrap;
     width: max-content;
 
-    visibility: hidden;
     font-size: var(--tooltip-font-size);
 
     filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.16));
@@ -104,8 +217,8 @@ const hideHint = () => {
       position: absolute;
       content: '';
 
-      width: var(--width, 11px);
-      height: var(--width, 11px);
+      width: var(--hint-before-width, 11px);
+      height: var(--hint-before-width, 11px);
       background-color: var(--tooltip-background-color);
 
       clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
@@ -143,7 +256,7 @@ const hideHint = () => {
     &_bottom-center,
     &_bottom-left,
     &_bottom-right {
-      left: 50%;
+      left: calc(var(--hint-left) + (var(--tooltip-width) / 2));
       transform: translateX(-50%);
 
       &::before {
@@ -155,8 +268,12 @@ const hideHint = () => {
     &_top-center,
     &_top-left,
     &_top-right {
-      bottom: calc(100% + var(--tooltip-hint-gap, 16px));
-
+      top: calc(
+        var(--hint-top) - var(--hint-height) - var(--hint-before-width) - var(
+            --tooltip-hint-gap,
+            8px
+          )
+      );
       &::before {
         bottom: auto;
         top: 100%;
@@ -165,21 +282,20 @@ const hideHint = () => {
     }
 
     &_top-left {
-      left: 50%;
-      transform: translateX(-5%);
+      transform: translateX(-8px);
+
       &::before {
-        left: var(--width);
+        left: var(--hint-before-width);
         transform: translateX(-70%);
       }
     }
 
     &_top-right {
-      left: auto;
-      right: 50%;
-      transform: translateX(15%);
+      transform: translateX(calc((var(--hint-width) * -1) + 16px));
+
       &::before {
         left: auto;
-        right: var(--width);
+        right: var(--hint-before-width);
         transform: translateX(0%);
       }
     }
@@ -187,7 +303,10 @@ const hideHint = () => {
     &_bottom-center,
     &_bottom-left,
     &_bottom-right {
-      top: calc(100% + var(--tooltip-hint-gap, 16px));
+      top: calc(
+        var(--hint-top) + var(--tooltip-height) + var(--hint-before-width) +
+          var(--tooltip-hint-gap, 8px)
+      );
 
       &::before {
         bottom: 100%;
@@ -195,21 +314,18 @@ const hideHint = () => {
     }
 
     &_bottom-left {
-      left: 50%;
-      transform: translateX(-15%);
+      transform: translateX(-16px);
       &::before {
-        left: var(--width);
+        left: var(--hint-before-width);
         transform: translateX(0%);
       }
     }
 
     &_bottom-right {
-      left: auto;
-      right: 50%;
-      transform: translateX(5%);
+      transform: translateX(calc((var(--hint-width) * -1) + 10px));
       &::before {
         left: auto;
-        right: var(--width);
+        right: var(--hint-before-width);
         transform: translateX(70%);
       }
     }
@@ -220,15 +336,18 @@ const hideHint = () => {
     &_right-center,
     &_right-top,
     &_right-bottom {
-      top: 50%;
-
+      top: calc(var(--hint-top) + var(--tooltip-height) / 2);
       transform: translateY(-50%);
     }
 
     &_left-center,
     &_left-top,
     &_left-bottom {
-      left: calc(100% + var(--tooltip-hint-gap, 19px));
+      left: calc(
+        var(--hint-left) + var(--tooltip-width) + var(--hint-before-width) +
+          var(--tooltip-hint-gap, 12px)
+      );
+      // left: calc(100% + var(--tooltip-hint-gap, 19px));
 
       &:before {
         right: 100%;
@@ -241,7 +360,12 @@ const hideHint = () => {
     &_right-center,
     &_right-top,
     &_right-bottom {
-      right: calc(100% + var(--tooltip-hint-gap, 19px));
+      left: calc(
+        var(--hint-left) - var(--hint-width) - var(--hint-before-width) - var(
+            --tooltip-hint-gap,
+            12px
+          )
+      );
 
       &:before {
         left: 100%;
@@ -268,11 +392,23 @@ const hideHint = () => {
         transform: translateY(20%);
       }
     }
+  }
+}
 
-    &_show {
-      visibility: visible;
-      opacity: 1;
-    }
+.hint-animate {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.2s ease;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+  }
+
+  &-enter-to,
+  &-leave-from {
+    opacity: 1;
   }
 }
 </style>

@@ -1,5 +1,6 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import Tooltip from './Tooltip.vue';
+import { ref } from 'vue';
 
 const meta = {
   title: 'Tooltip/Tooltip',
@@ -7,7 +8,7 @@ const meta = {
   argTypes: {},
   tags: ['autodocs'],
   args: {
-    hint: 'Tooltip tooltip'
+    hint: 'Tooltip tooltip Tooltip tooltip Tooltip tooltip'
   }
 } as Meta<typeof Tooltip>;
 
@@ -16,13 +17,17 @@ export default meta;
 const Template: StoryFn<typeof Tooltip> = args => ({
   components: { Tooltip },
   setup() {
-    return { args };
+    const model = ref<string>('Hover over to get a tooltip');
+    return { args, model };
   },
   template: `
-  <div  style="height: 100px; display: flex; align-items:center; justify-content: center; ">
+  <div  style="height: 100px; display: flex; flex-direction:column; gap: 20px; align-items:center; justify-content: center; ">
     <Tooltip v-bind="args" >
-      Get Tooltip
+      <template #default>
+        {{model}}
+      </template>
     </Tooltip>
+
   </div>`
 });
 

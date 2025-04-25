@@ -105,8 +105,8 @@ const HorizontTemplate: StoryFn<typeof TableNew> = args => ({
 
     <template #head>
       <HeadTableRowNew>
-        <TableTh style="min-width: 50vh">Заголовок 1</TableTh>
-        <TableTh style="min-width: 50vh">Заголовок 2</TableTh>
+        <TableTh style="min-width: 50vw">Заголовок 1</TableTh>
+        <TableTh style="min-width: 50vw">Заголовок 2</TableTh>
       </HeadTableRowNew>
     </template>
     
