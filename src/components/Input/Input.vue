@@ -68,7 +68,8 @@ const props = withDefaults(defineProps<IInputProps>(), {
   inputMessage: '',
   modelValue: '',
   hideClearButton: false,
-  dataTestid: 'Input'
+  dataTestid: 'Input',
+  modelModifiers: () => ({}) // not delete
 });
 
 const state = reactive({

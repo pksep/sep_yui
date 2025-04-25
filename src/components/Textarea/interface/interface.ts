@@ -9,4 +9,5 @@ export interface ITextareaProps extends IDataTestIdProp {
   modelValue: string;
   readonly?: boolean;
   type?: TextareaTypeEnum;
+  modelModifiers: object;
 }

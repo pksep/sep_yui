@@ -8,6 +8,7 @@ export interface IInputNumberProps extends IDataTestIdProp {
   min?: number;
   max?: number;
   size?: SizesEnum.small | SizesEnum.medium;
+  modelModifiers: object;
 }
 
 export interface IState {

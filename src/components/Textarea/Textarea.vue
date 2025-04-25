@@ -42,7 +42,8 @@ const props = withDefaults(defineProps<ITextareaProps>(), {
   modelValue: '',
   readonly: false,
   dataTestid: 'Textarea',
-  type: TextareaTypeEnum.default
+  type: TextareaTypeEnum.default,
+  modelModifiers: () => ({}) // not delete
 });
 
 const emits = defineEmits<{

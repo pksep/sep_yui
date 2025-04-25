@@ -9,6 +9,7 @@ export interface IInputProps extends IDataTestIdProp {
   modelValue?: string;
   hideClearButton?: boolean;
   autocomplete?: string;
+  modelModifiers: object;
 }
 
 export interface IInputEmit {

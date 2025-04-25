@@ -1,5 +1,38 @@
 # Changelog
 
+## v0.1.4
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.3...v0.1.4)
+
+## v0.1.3
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.2...v0.1.3)
+
+### 🩹 Fixes
+
+- Styles in empty Popover.vue ([6953aaa](https://github.com/NPO-Automotive/sep_yui/commit/6953aaa))
+
+## v0.1.2
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.1...v0.1.2)
+
+### 🚀 Enhancements
+
+- Popover support prop isShow ([f75a58b](https://github.com/NPO-Automotive/sep_yui/commit/f75a58b))
+
+### 🩹 Fixes
+
+- Ishow working correctly ([691bc1c](https://github.com/NPO-Automotive/sep_yui/commit/691bc1c))
+
+## v0.1.1
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.0...v0.1.1)
+
+### 🩹 Fixes
+
+- Pnpm-lock.yaml ([5efed0b](https://github.com/NPO-Automotive/sep_yui/commit/5efed0b))
+- Add modelModifiers to inputs ([12e8bb7](https://github.com/NPO-Automotive/sep_yui/commit/12e8bb7))
+
 ## v0.1.0
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/release...v0.1.0)
