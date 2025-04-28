@@ -26,12 +26,10 @@ const emits = defineEmits<{
 const modalRef = ref<InstanceType<typeof Modal> | null>(null);
 
 const close = () => {
-
   emits('close');
 };
 
 const unmountLeaveAnimation = (): void => {
-
   modalRef.value?.closeDialog();
 };
 </script>
