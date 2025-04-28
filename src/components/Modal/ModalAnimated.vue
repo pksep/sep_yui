@@ -1,6 +1,7 @@
 <template>
-  <Transition name="modal">
+  <Transition name="modal" @after-leave="unmountLeaveAnimation">
     <Modal
+      ref="modalRef"
       v-if="props.open"
       :open="props.open"
       :width="props.width"
@@ -14,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import Modal from './Modal.vue';
 import type { IDialogProps } from './interface/interface';
 
@@ -25,8 +27,14 @@ const emits = defineEmits<{
   (e: 'close'): void;
 }>();
 
+const modalRef = ref<InstanceType<typeof Modal> | null>(null);
+
 const close = () => {
   emits('close');
+};
+
+const unmountLeaveAnimation = (): void => {
+  modalRef.value?.closeDialog();
 };
 </script>
 

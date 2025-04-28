@@ -53,9 +53,11 @@ const hideDialog = (): void => {
     return;
   }
 
-  dialog.value?.close();
-
   emit('close');
+};
+
+const closeDialog = (): void => {
+  dialog.value?.close();
   document.documentElement.focus();
 };
 
@@ -75,6 +77,10 @@ useEventListener(dialog, 'mousedown', e => {
   if (e.target === dialog.value) {
     hideDialog();
   }
+});
+
+defineExpose({
+  closeDialog
 });
 
 onMounted(() => {

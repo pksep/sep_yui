@@ -24,4 +24,8 @@ export interface ITableProps extends IDataTestIdProp {
   isShowVerticalScroll?: boolean;
 }
 
+export interface ITableEmit {
+  (e: 'unmount-scroll', event: Event): void;
+  (e: 'unmount-intersection'): void;
+}
 export interface IHeadTableRowProps extends IDataTestIdProp {}
