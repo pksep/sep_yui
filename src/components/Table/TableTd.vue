@@ -1,5 +1,5 @@
 <template>
-  <td :rowspan :colspan class="table-td">
+  <td :rowspan :colspan class="table-td" :data-testid="props.dataTestid">
     <slot />
   </td>
 </template>
@@ -11,9 +11,10 @@ defineOptions({
   name: 'TableTd'
 });
 
-withDefaults(defineProps<ITableTd>(), {
+const props = withDefaults(defineProps<ITableTd>(), {
   colspan: 1,
-  rowspan: 1
+  rowspan: 1,
+  dataTestid: 'DataCell'
 });
 </script>
 

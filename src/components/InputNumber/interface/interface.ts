@@ -1,6 +1,7 @@
 import { SizesEnum } from '@/common/sizes.ts';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
-export interface IInputNumberProps {
+export interface IInputNumberProps extends IDataTestIdProp {
   inputMessage: string;
   modelValue?: number;
   required?: boolean;

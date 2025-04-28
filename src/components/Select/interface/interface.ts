@@ -1,3 +1,5 @@
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
+
 interface ClassObject {
   [key: string]: boolean;
 }
@@ -17,14 +19,14 @@ export interface IOptionsObjectWithHint extends OptionsObject {
   hint: string;
 }
 
-export interface IOptionsProps {
+export interface IOptionsProps extends IDataTestIdProp {
   options: string[] | OptionsObject[] | IOptionsObjectWithHint[];
   defaultOption?: string;
   class?: string;
   disabled?: boolean;
 }
 
-export interface ISelectListProps {
+export interface ISelectListProps extends IDataTestIdProp {
   isOpened: boolean;
   disableOpen?: boolean;
   headerClasses?: VueClasses;
@@ -53,7 +55,7 @@ export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
   isShowMiniOptions?: boolean;
 }
 
-export interface IChoosenMiniOptionsProps {
+export interface IChoosenMiniOptionsProps extends IDataTestIdProp {
   options: OptionsObject[] | IOptionsObjectWithHint[];
 }
 

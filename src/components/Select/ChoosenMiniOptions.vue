@@ -1,17 +1,20 @@
 <template>
-  <div class="choosen-mini-options">
+  <div class="choosen-mini-options" :data-testid="props.dataTestid">
     <div
-      v-for="option in options"
+      v-for="(option, inx) in options"
       :key="option.key"
       class="choosen-mini-options__option"
+      :data-testid="`${props.dataTestid}-Option-Item${inx}`"
     >
       <Badges
+        :data-testid="`${props.dataTestid}-Badge${inx}`"
         :type="BadgesTypeEnum.blue"
         :text="isOptionsObjectWithHint(option) ? option.hint : option.value"
         class="choosen-mini-options__badges"
         disabled
       />
       <Icon
+        :data-testid="`${props.dataTestid}-Icon${inx}`"
         :name="IconNameEnum.crossLarge"
         :width="10"
         :height="10"
@@ -37,7 +40,9 @@ defineOptions({
   name: 'ChoosenMiniOptions'
 });
 
-defineProps<IChoosenMiniOptionsProps>();
+const props = withDefaults(defineProps<IChoosenMiniOptionsProps>(), {
+  dataTestid: 'ChoosenMiniOptions'
+});
 const emit = defineEmits<IChoosenMiniOptionsEmits>();
 
 const removeElement = (key: string): void => {

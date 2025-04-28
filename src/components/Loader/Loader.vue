@@ -1,10 +1,20 @@
 <template>
-  <div class="loader">
-    <div class="loader__area">
-      <div class="loader__circle loader__circle--light-blue"></div>
-      <div class="loader__circle loader__circle--blue"></div>
+  <div class="loader" :data-testid="props.dataTestid">
+    <div class="loader__area" :data-testid="`${props.dataTestid}-Area`">
+      <div
+        class="loader__circle loader__circle--light-blue"
+        :data-testid="`${props.dataTestid}-Loader-LightBlue1`"
+      ></div>
+      <div
+        class="loader__circle loader__circle--blue"
+        :data-testid="`${props.dataTestid}-Loader-LightBlue2`"
+      ></div>
     </div>
-    <span v-if="props.title" class="loader__span">
+    <span
+      v-if="props.title"
+      class="loader__span"
+      :data-testid="`${props.dataTestid}-Loader-Title`"
+    >
       {{ props.title }}
     </span>
   </div>
@@ -14,7 +24,8 @@
 import type { ILoaderProps } from './interfaces/interfaces';
 
 const props = withDefaults(defineProps<ILoaderProps>(), {
-  title: 'Загрузка...'
+  title: 'Загрузка...',
+  dataTestid: 'Loader'
 });
 </script>
 

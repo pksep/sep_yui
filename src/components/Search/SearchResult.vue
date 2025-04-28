@@ -1,24 +1,63 @@
 <template>
-  <div class="search-yui-kit__history history-yui-kit">
-    <ul :class="classes" v-if="state.globalResultsFunction">
+  <div
+    class="search-yui-kit__history history-yui-kit"
+    :data-testid="props.dataTestid"
+  >
+    <ul
+      :class="classes"
+      v-if="state.globalResultsFunction"
+      :data-testid="`${props.dataTestid}-List`"
+    >
       <li
         class="history-yui-kit__item"
-        v-for="item in state.globalResultsFunction"
+        v-for="(item, inx) in state.globalResultsFunction"
         :key="item.nameArea + item.searchResult"
+        :data-testid="`${props.dataTestid}-List-Items${inx}`"
       >
-        <Icon :name="IconNameEnum.document" />
-        <p class="history-yui-kit__text" @click="handleChoosePost(item)">
-          <span class="result-yui-kit"> {{ trimText(item.nameArea) }}</span>
-          <span class="result-yui-kit blue-yui-kit">/</span>
-          <span class="result-yui-kit blue-yui-kit">
+        <Icon
+          :name="IconNameEnum.document"
+          :data-testid="`${props.dataTestid}-Items-Icon${inx}`"
+        />
+        <p
+          class="history-yui-kit__text"
+          @click="handleChoosePost(item)"
+          :data-testid="`${props.dataTestid}-Items-History${inx}`"
+        >
+          <span
+            class="result-yui-kit"
+            :data-testid="`${props.dataTestid}-Result-NameArea${inx}`"
+          >
+            {{ trimText(item.nameArea) }}</span
+          >
+          <span
+            class="result-yui-kit blue-yui-kit"
+            :data-testid="`${props.dataTestid}-Result-Slash${inx}`"
+            >/</span
+          >
+          <span
+            class="result-yui-kit blue-yui-kit"
+            :data-testid="`${props.dataTestid}-Result-SearchResult${inx}`"
+          >
             {{ trimText(item.searchResult) }}</span
           >
         </p>
       </li>
     </ul>
-    <ul :class="classes" v-if="!state.globalResultsFunction.length">
-      <li class="history-yui-kit__item history-yui-kit__item--notfound">
-        <p class="history-yui-kit__text">По вашему запросу ничего не найдено</p>
+    <ul
+      :class="classes"
+      v-if="!state.globalResultsFunction.length"
+      :data-testid="`${props.dataTestid}-Nothing-List`"
+    >
+      <li
+        class="history-yui-kit__item history-yui-kit__item--notfound"
+        :data-testid="`${props.dataTestid}-Nothing-Items`"
+      >
+        <p
+          class="history-yui-kit__text"
+          :data-testid="`${props.dataTestid}-Nothing-Text`"
+        >
+          По вашему запросу ничего не найдено
+        </p>
       </li>
     </ul>
   </div>
@@ -31,7 +70,9 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
 
-const props = defineProps<Partial<ISearchProps>>();
+const props = withDefaults(defineProps<Partial<ISearchProps>>(), {
+  dataTestid: 'SearchResult'
+});
 
 const state = reactive({
   isShowList: props.isShowList,

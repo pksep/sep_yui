@@ -1,5 +1,9 @@
 <template>
-  <div class="select-list-yui-kit" v-on-click-outside.bubble="dropdownHandler">
+  <div
+    class="select-list-yui-kit"
+    v-on-click-outside.bubble="dropdownHandler"
+    :data-testid="props.dataTestid"
+  >
     <div
       ref="currentRef"
       :class="[
@@ -11,6 +15,7 @@
       tabindex="0"
       @keyup.enter="closeOpenList"
       @click="closeOpenList"
+      :data-testid="`${props.dataTestid}-Current`"
     >
       <slot name="header" />
     </div>
@@ -19,6 +24,7 @@
       :class="['select-list-yui-kit__list', props?.optionsClasses]"
       :open="state.isOpened"
       v-show="state.isOpened"
+      :data-testid="`${props.dataTestid}-OptionsList`"
     >
       <slot name="options" />
     </ul>
@@ -31,7 +37,8 @@ import type { OnClickOutsideHandler } from '@vueuse/core';
 import type { ISelectListProps } from './interface/interface';
 
 const props = withDefaults(defineProps<ISelectListProps>(), {
-  isOpened: false
+  isOpened: false,
+  dataTestid: 'SelectList'
 });
 
 const state = reactive({

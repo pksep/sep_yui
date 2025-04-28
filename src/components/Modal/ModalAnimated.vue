@@ -6,6 +6,7 @@
       :open="props.open"
       :width="props.width"
       :height="props.height"
+      :data-testid="props.dataTestid"
       @close="close"
     >
       <slot />
@@ -17,7 +18,10 @@
 import { ref } from 'vue';
 import Modal from './Modal.vue';
 import type { IDialogProps } from './interface/interface';
-const props = defineProps<IDialogProps>();
+
+const props = withDefaults(defineProps<IDialogProps>(), {
+  dataTestid: 'Modal'
+});
 
 const emits = defineEmits<{
   (e: 'close'): void;

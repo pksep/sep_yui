@@ -1,6 +1,7 @@
 <template>
   <svg
     class="icon-yui-kit"
+    :data-testid="props.dataTestid"
     :width="props.width"
     :height="props.height"
     :style="styles"
@@ -18,11 +19,13 @@ import Icons from './index.ts';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
   width: 24,
-  height: 24
+  height: 24,
+  dataTestid: 'Icon'
 });
 
 const styles = computed(() => ({
-  color: props.color
+  color: props.color,
+  dataTestid: 'Icon'
 }));
 
 type IconName = keyof typeof Icons;

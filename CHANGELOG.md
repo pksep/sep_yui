@@ -1,5 +1,49 @@
 # Changelog
 
+## v0.1.5
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.4...v0.1.5)
+
+### 🚀 Enhancements
+
+- Create props data-testid of accordion ([5ff83eb](https://github.com/NPO-Automotive/sep_yui/commit/5ff83eb))
+- Data-testid score badges ([8b242d2](https://github.com/NPO-Automotive/sep_yui/commit/8b242d2))
+- Data-testid coverage of massive component in sep-yui ([d997716](https://github.com/NPO-Automotive/sep_yui/commit/d997716))
+- New elements coverage ([b90524d](https://github.com/NPO-Automotive/sep_yui/commit/b90524d))
+- Coverage data-testid of components ([34763df](https://github.com/NPO-Automotive/sep_yui/commit/34763df))
+- Scrollbar and table coverage ([ceeef34](https://github.com/NPO-Automotive/sep_yui/commit/ceeef34))
+- Support remove testid if using lib ([dc84bde](https://github.com/NPO-Automotive/sep_yui/commit/dc84bde))
+- Add tooltip position attribute in Popover.vue ([4b6b6c2](https://github.com/NPO-Automotive/sep_yui/commit/4b6b6c2))
+
+### 🩹 Fixes
+
+- Search data-testid ([9916235](https://github.com/NPO-Automotive/sep_yui/commit/9916235))
+- Setup defaults ([a542cec](https://github.com/NPO-Automotive/sep_yui/commit/a542cec))
+
+## v0.1.4
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.3...v0.1.4)
+
+## v0.1.3
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.2...v0.1.3)
+
+### 🩹 Fixes
+
+- Styles in empty Popover.vue ([6953aaa](https://github.com/NPO-Automotive/sep_yui/commit/6953aaa))
+
+## v0.1.2
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.1...v0.1.2)
+
+### 🚀 Enhancements
+
+- Popover support prop isShow ([f75a58b](https://github.com/NPO-Automotive/sep_yui/commit/f75a58b))
+
+### 🩹 Fixes
+
+- Ishow working correctly ([691bc1c](https://github.com/NPO-Automotive/sep_yui/commit/691bc1c))
+
 ## v0.1.1
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.0...v0.1.1)

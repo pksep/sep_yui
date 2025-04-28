@@ -5,6 +5,7 @@
     :class="props.class"
     header-classes="filter__header"
     options-classes="filter__options"
+    :data-testid="props.dataTestid"
   >
     <template #header>
       <span
@@ -12,6 +13,7 @@
           'filter__header-title',
           { 'filter__header-title__active': isOpened }
         ]"
+        :data-testid="`${props.dataTestid}-Title`"
       >
         {{ title }}
       </span>
@@ -22,6 +24,7 @@
         :hint="choosedHint"
         :hint-gap="28"
         class="filter__header-tooltip"
+        :data-testid="`${props.dataTestid}-Tooltip`"
       >
         <Badges
           ref="badgesRef"
@@ -31,12 +34,18 @@
               : BadgesTypeEnum.blue
           "
           class="filter__options-badge"
+          :data-testid="`${props.dataTestid}-Badge`"
           :text="choosedOption"
           disabled
         />
 
-        <div v-if="isShowValues && isShowMiniOptions" class="filter__values">
+        <div
+          v-if="isShowValues && isShowMiniOptions"
+          class="filter__values"
+          :data-testid="`${props.dataTestid}-Filter-Value`"
+        >
           <ChoosenMiniOptions
+            :data-testid="`${props.dataTestid}-Filter-Value-MiniOptions`"
             @click.stop
             :options="choosedMiniOptions"
             @remove="getChoosenOption"
@@ -44,32 +53,55 @@
         </div>
       </Tooltip>
 
-      <span v-if="countModelValue && countModelValue > 1" class="filter__count">
+      <span
+        v-if="countModelValue && countModelValue > 1"
+        class="filter__count"
+        :data-testid="`${props.dataTestid}-Filter-Count`"
+      >
         +{{ countModelValue - 1 }}
 
-        <div v-if="isShowValues" class="filter__values">
+        <div
+          v-if="isShowValues"
+          class="filter__values"
+          :data-testid="`${props.dataTestid}-Filter-Values`"
+        >
           <ChoosenMiniOptions
             @click.stop
             :options="choosedOptions"
             @remove="getChoosenOption"
+            :data-testid="`${props.dataTestid}-MiniOptions`"
           />
         </div>
       </span>
 
-      <span v-if="isPosibleToClear" class="filter__cross" @click.stop="clear">
+      <span
+        v-if="isPosibleToClear"
+        class="filter__cross"
+        @click.stop="clear"
+        :data-testid="`${props.dataTestid}-Filter-Cross`"
+      >
         <Icon :name="IconNameEnum.crossLarge" :width="16" :height="16" />
       </span>
     </template>
     <template #options>
-      <Search v-if="isSearch" :show-history="false" v-model="searchData" />
+      <Search
+        v-if="isSearch"
+        :show-history="false"
+        v-model="searchData"
+        :data-testid="`${props.dataTestid}-Search`"
+      />
 
       <Options
+        :data-testid="`${props.dataTestid}-Options`"
         class="filter__options-option"
         :options="filterOptions"
         :default-option="choosedOption"
         @change="getChoosenOption"
       >
-        <li class="filter__options-underline">
+        <li
+          class="filter__options-underline"
+          :data-testid="`${props.dataTestid}-Underline`"
+        >
           <hr class="filter__options-underline-hr" />
         </li>
       </Options>
@@ -104,7 +136,8 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   isSearch: false,
   isPosibleToClear: false,
   isMultiple: false,
-  isShowMiniOptions: false
+  isShowMiniOptions: false,
+  dataTestid: 'BaseFilter'
 });
 
 const emits = defineEmits<{

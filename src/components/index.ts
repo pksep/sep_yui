@@ -44,6 +44,7 @@ import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import Radio from '@/components/Radio/Radio.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import BaseFilter from '@/components/Select/BaseFilter.vue';
+import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
 
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
@@ -109,6 +110,7 @@ const pinia = createPinia();
 
 const install = (app: App): void => {
   app.use(pinia);
+  app.use(vuePluginRemoveTestid, { enabled: false });
   Object.keys(components).forEach(key => {
     app.component('Y' + key, components[key as keyof typeof components]);
   });

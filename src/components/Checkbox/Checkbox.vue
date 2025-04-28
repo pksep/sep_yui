@@ -2,6 +2,7 @@
   <input
     type="checkbox"
     :class="`checkbox-yui-kit checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular}`"
+    :data-testid="`${props.dataTestid}`"
     tabindex="0"
     @change="onClick"
     :checked="state.isChecked"
@@ -19,7 +20,8 @@ const props = withDefaults(defineProps<ICheckboxProps>(), {
   size: CheckboxSizeEnum.medium,
   circular: CheckboxCircularEnum.rounded,
   modelValue: false,
-  disabled: false
+  disabled: false,
+  dataTestid: 'Checkbox'
 });
 
 const emits = defineEmits<{

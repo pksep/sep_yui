@@ -4,9 +4,16 @@
     :style="searchStyles"
     @mousemove="showhistory"
     @mouseleave="hidehistory"
+    :data-testid="props.dataTestid"
   >
-    <div :class="classesDropdown">
-      <div class="search-yui-kit__dropdown">
+    <div
+      :class="classesDropdown"
+      :data-testid="`${props.dataTestid}-Dropdown-Wrapper`"
+    >
+      <div
+        class="search-yui-kit__dropdown"
+        :data-testid="`${props.dataTestid}-Dropdown`"
+      >
         <input
           type="text"
           class="search-yui-kit__input"
@@ -15,6 +22,7 @@
           @keydown.enter="changeSearch"
           @input="changeSearchValue"
           @focus="setFocusSearch"
+          :data-testid="`${props.dataTestid}-Dropdown-Input`"
         />
         <Icon :name="IconNameEnum.searchNormal" />
       </div>
@@ -25,6 +33,7 @@
       :is-show-list="state.isShowList"
       v-if="props.showHistory"
       @choosePost="choosenPost"
+      :data-testid="`${props.dataTestid}-Dropdown-History`"
     />
     <SearchResult
       :is-show-list="state.isShowList"
@@ -33,6 +42,7 @@
       :is-show-result="state.isShowResult"
       :key="state.generateUniqueId()"
       :search-value="state.searchValue"
+      :data-testid="`${props.dataTestid}-Dropdown-SearchResult`"
     />
   </div>
 </template>
@@ -52,7 +62,8 @@ const searchStore = useSearchStore();
 const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск',
   height: '42px',
-  modelValue: ''
+  modelValue: '',
+  dataTestid: 'Search'
 });
 
 const emit = defineEmits<{

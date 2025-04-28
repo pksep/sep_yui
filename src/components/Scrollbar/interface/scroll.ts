@@ -1,4 +1,6 @@
-export interface IScrollbarProps {
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
+
+export interface IScrollbarProps extends IDataTestIdProp {
   options?: Record<string, unknown>;
   tag?: string | undefined;
   class?: unknown;

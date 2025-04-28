@@ -1,16 +1,25 @@
 <template>
-  <input v-model="model" type="radio" :disabled :name :value class="radio" />
+  <input
+    v-model="model"
+    type="radio"
+    :disabled
+    :name
+    :value
+    class="radio"
+    :data-testid="props.dataTestid"
+  />
 </template>
 
 <script setup lang="ts" generic="T">
-import { IRadioProps } from '@/components/Radio/interface/interface';
+import type { IRadioProps } from '@/components/Radio/interface/interface';
 
 defineOptions({
   name: 'Radio'
 });
 
-withDefaults(defineProps<IRadioProps<T>>(), {
-  disabled: false
+const props = withDefaults(defineProps<IRadioProps<T>>(), {
+  disabled: false,
+  dataTestid: 'Radio'
 });
 
 const model = defineModel();

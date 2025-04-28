@@ -2,6 +2,7 @@
   <div
     ref="tooltipRef"
     class="tooltip-yui-kit"
+    :data-testid="props.dataTestid"
     :aria-label="hint"
     @mouseenter="unmountMouseEnter"
     @mouseleave="unmountMouseLeave"
@@ -13,6 +14,7 @@
         <div
           ref="hintRef"
           v-if="isShow || state.isShow"
+          :data-testid="props.dataTestid"
           class="tooltip-yui-kit__hint"
           :class="tooltipClass"
         >
@@ -37,7 +39,8 @@ const props = withDefaults(defineProps<ITooltipProps>(), {
   isCanShow: true,
   position: 'bottom-center',
   size: 'small',
-  type: 'black'
+  type: 'black',
+  dataTestid: 'Tooltip'
 });
 const tooltipRef = ref<HTMLDivElement | null>(null);
 const hintRef = ref<HTMLDivElement | null>(null);

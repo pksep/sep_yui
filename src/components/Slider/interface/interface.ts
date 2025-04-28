@@ -1,8 +1,10 @@
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
+
 type SliderItem = { path: string };
 
 type IFile = { path: string };
 
-export interface ISliderProps {
+export interface ISliderProps extends IDataTestIdProp {
   items: SliderItem[];
   defaultIndex?: number;
 }

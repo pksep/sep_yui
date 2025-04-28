@@ -1,4 +1,6 @@
-export interface IDialogProps {
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
+
+export interface IDialogProps extends IDataTestIdProp {
   open: boolean;
   width?: string;
   height?: string;

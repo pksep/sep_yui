@@ -1,5 +1,5 @@
 <template>
-  <th :colspan :rowspan class="table-th">
+  <th :colspan :rowspan :data-testid="props.dataTestid" class="table-th">
     <slot />
   </th>
 </template>
@@ -10,9 +10,11 @@ import { ITableTd } from '@/components/Table/interface/interface';
 defineOptions({
   name: 'TableTh'
 });
-withDefaults(defineProps<ITableTd>(), {
+
+const props = withDefaults(defineProps<ITableTd>(), {
   colspan: 1,
-  rowspan: 1
+  rowspan: 1,
+  dataTestid: 'DataHeader'
 });
 </script>
 

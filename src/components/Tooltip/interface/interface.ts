@@ -1,3 +1,5 @@
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
+
 export type TTooltipPosition =
   | 'bottom-right'
   | 'bottom-left'
@@ -14,7 +16,7 @@ export type TTooltipPosition =
 export type TTooltipSize = 'small' | 'medium' | 'large';
 export type TTooltipType = 'white' | 'black' | 'blue';
 
-export interface ITooltipProps {
+export interface ITooltipProps extends IDataTestIdProp {
   hint: string;
   isShow?: boolean;
   isCanShow?: boolean;

@@ -1,5 +1,5 @@
 <template>
-  <tr class="table-row" :class="classRow">
+  <tr class="table-row" :class="classRow" :data-testid="`props.dataTestid`">
     <slot />
   </tr>
 </template>
@@ -14,7 +14,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<ITableRow>(), {
   type: 'default',
-  colspan: 1
+  colspan: 1,
+  dataTestid: 'TableRow'
 });
 
 const classRow = computed(() => [

@@ -3,16 +3,27 @@
     :hint="props.tooltip"
     size="small"
     type="black"
-    position="top-left"
-    :is-can-show="!!props.tooltip && !state.isShow"
+    :position="props.tooltipPosition"
+    :data-testid="props.dataTestid"
+    :is-can-show="!!props.tooltip && !state.isShow && props.options.length > 0"
   >
-    <div class="popover-yui-kit" v-on-click-outside.bubble="closeShow">
-      <div :class="classesFilter" @click="toggleShow" ref="currentRef">
+    <div
+      class="popover-yui-kit"
+      v-on-click-outside.bubble="closeShow"
+      :data-testid="`${props.dataTestid}-Popover`"
+    >
+      <div
+        :class="classesFilter"
+        @click="toggleShow"
+        ref="currentRef"
+        :data-testid="`${props.dataTestid}-PopoverShow`"
+      >
         <Icon
           class="popover-yui-kit__icon"
           :name="props.iconName"
           :width="16"
           :height="16"
+          :data-testid="`${props.dataTestid}-PopoverShow-Icon`"
         />
       </div>
 
@@ -20,12 +31,14 @@
         class="popover-yui-kit__options"
         v-show="state.isShow"
         ref="dropdownRef"
+        :data-testid="`${props.dataTestid}-PopoverShow-Options`"
       >
         <div
           class="popover-yui-kit__options__item"
           v-for="(item, i) in props.options"
           :key="i"
           @click="handleClick(item)"
+          :data-testid="`${props.dataTestid}-Item${i}`"
         >
           {{ item.value }}
         </div>
@@ -40,7 +53,6 @@ import { IPopoverOption, IPopoverProps } from './interface/interface';
 import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { vOnClickOutside } from '@vueuse/components';
-import type { OnClickOutsideHandler } from '@vueuse/core';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 
 interface IPopoverState {
@@ -50,8 +62,14 @@ interface IPopoverState {
 const props = withDefaults(defineProps<IPopoverProps>(), {
   iconName: IconNameEnum.moreVertical,
   options: () => [],
-  tooltip: ''
+  tooltip: '',
+  dataTestid: 'Popover',
+  tooltipPosition: 'top-left'
 });
+
+const emits = defineEmits<{
+  (e: 'close'): void;
+}>();
 
 const state = reactive<IPopoverState>({
   isShow: false
@@ -65,7 +83,8 @@ const currentRef = ref<HTMLElement | null>(null);
  */
 const classesFilter = computed(() => ({
   'popover-yui-kit__wrapper': true,
-  'active-yui-kit': state.isShow
+  'active-yui-kit': state.isShow,
+  'empty-yui-kit': props.options.length === 0
 }));
 
 /**
@@ -73,8 +92,9 @@ const classesFilter = computed(() => ({
  */
 const toggleShow = () => (state.isShow = !state.isShow);
 
-const closeShow: OnClickOutsideHandler = (): void => {
+const closeShow = (): void => {
   state.isShow = false;
+  emits('close');
 };
 
 const handleClick = (item: IPopoverOption): void => {
@@ -90,16 +110,20 @@ const updateDropdownPosition = () => {
   }
 };
 
-onMounted(updateDropdownPosition);
-
 watch(() => state.isShow, updateDropdownPosition);
 
+watch(
+  () => props.isShow,
+  () => (state.isShow = props.isShow)
+);
+
 onMounted(() => {
-  window.addEventListener('scroll', () => (state.isShow = false), true);
+  updateDropdownPosition();
+  window.addEventListener('scroll', closeShow, true);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', () => (state.isShow = false), true);
+  window.removeEventListener('scroll', closeShow, true);
 });
 </script>
 
@@ -120,6 +144,13 @@ onUnmounted(() => {
     &:hover,
     &.active-yui-kit {
       color: var(--border-blue);
+      &.empty-yui-kit {
+        color: var(--popover-icon-color, var(--grey4));
+      }
+    }
+
+    &.empty-yui-kit {
+      cursor: default;
     }
   }
 

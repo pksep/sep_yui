@@ -1,7 +1,10 @@
 <template>
-  <div class="menu-yui-kit" ref="menuRef">
+  <div class="menu-yui-kit" ref="menuRef" :data-testid="props.dataTestid">
     <div class="menu-yui-kit__wrapper">
-      <div class="menu-yui-kit__avatar">
+      <div
+        class="menu-yui-kit__avatar"
+        :data-testid="`${props.dataTestid}-Avatar`"
+      >
         <img :src="props.user.avatar" v-if="existUserPath" />
         <Icon :name="IconNameEnum.profile" v-else />
       </div>
@@ -10,8 +13,12 @@
           <p class="menu-yui-kit__name">{{ props.user.name }}</p>
           <p class="menu-yui-kit__role">{{ props.user.role }}</p>
         </div>
-        <Button :type="ButtonTypeEnum.ghost" class="menu-yui-kit__button"
-          ><Icon class="menu-yui-kit__button-icon" :name="nameIcon"
+        <Button
+          :type="ButtonTypeEnum.ghost"
+          class="menu-yui-kit__button"
+          :data-testid="`${props.dataTestid}-Toggle`"
+        >
+          <Icon class="menu-yui-kit__button-icon" :name="nameIcon"
         /></Button>
       </div>
     </div>
@@ -20,11 +27,15 @@
         <li
           class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.profile)"
+          :data-testid="`${props.dataTestid}-Profile-Item`"
         >
           <Icon :name="IconNameEnum.profile" />
           <span class="list-yui-kit__item-text">Профиль</span>
         </li>
-        <li class="list-yui-kit__item">
+        <li
+          class="list-yui-kit__item"
+          :data-testid="`${props.dataTestid}-Theme-Item`"
+        >
           <Icon :name="iconTheme" />
           <span
             class="list-yui-kit__item-text"
@@ -36,11 +47,13 @@
             :type="ToggleEnum.small"
             @change="toggleThemeChange"
             :checked="state.isBlackTheme"
+            :data-testid="`${props.dataTestid}-Theme-Toggle`"
           />
         </li>
         <li
           class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.options)"
+          :data-testid="`${props.dataTestid}-Settings-Item`"
         >
           <Icon :name="IconNameEnum.settings" />
           <span class="list-yui-kit__item-text">Настройки</span>
@@ -48,6 +61,7 @@
         <li
           class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.exit)"
+          :data-testid="`${props.dataTestid}-Exit-Item`"
         >
           <Icon :name="IconNameEnum.exit" />
           <span class="list-yui-kit__item-text">Выход</span>
@@ -55,6 +69,7 @@
         <li
           class="list-yui-kit__item"
           @click="choosedOptions(MenuTypeEnum.help)"
+          :data-testid="`${props.dataTestid}-Help-Item`"
         >
           <Icon :name="IconNameEnum.help" />
           <span class="list-yui-kit__item-text" :data-type="MenuTypeEnum.help"
@@ -68,6 +83,7 @@
         :items="props.languages?.items"
         :defaultValue="props.languages?.defaultValue"
         @change="handleLanguageSwitch"
+        :data-testid="`${props.dataTestid}-Language-Switch`"
       />
     </div>
   </div>
@@ -85,7 +101,9 @@ import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 import { ToggleEnum } from '@/components/Toggle/enums/enums';
 
-const props = withDefaults(defineProps<IMenuProps>(), {});
+const props = withDefaults(defineProps<IMenuProps>(), {
+  dataTestid: 'UserMenu'
+});
 
 const state = reactive({
   isShow: false,

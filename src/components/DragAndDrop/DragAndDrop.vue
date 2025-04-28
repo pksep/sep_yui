@@ -4,15 +4,26 @@
     @dragleave="dragleave"
     @drop="drop"
     class="dnd-yui-kit"
+    :data-testid="props.dataTestid"
   >
     <label
       for="docsFileSelected"
       class="dnd-yui-kit__label"
       :class="{ 'is-pressed': state.isPressed }"
       @click="togglePress"
+      :data-testid="`${props.dataTestid}-Label`"
     >
-      <Icon :name="IconNameEnum.paperClip" stroke-width="2" />
-      <span class="dnd-yui-kit__span"> {{ props.title }} </span>
+      <Icon
+        :name="IconNameEnum.paperClip"
+        stroke-width="2"
+        :data-testid="`${props.dataTestid}-Icon`"
+      />
+      <span
+        class="dnd-yui-kit__span"
+        :data-testid="`${props.dataTestid}-Title`"
+      >
+        {{ props.title }}
+      </span>
     </label>
     <input
       id="docsFileSelected"
@@ -20,6 +31,7 @@
       @click="onClick"
       type="file"
       style="display: none"
+      :data-testid="`${props.dataTestid}-Input`"
       required
       :multiple="!props.singleFileMode"
       ref="fileInputRef"
@@ -35,7 +47,8 @@ import { IconNameEnum } from '../Icon/enum/enum.ts';
 
 const props = withDefaults(defineProps<IDragAndDropProps>(), {
   singleFileMode: false,
-  title: 'Кликните или перенесите файлы'
+  title: 'Кликните или перенесите файлы',
+  dataTestid: 'DragAndDrop'
 });
 
 const emits = defineEmits<{

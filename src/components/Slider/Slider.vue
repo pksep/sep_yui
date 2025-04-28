@@ -1,15 +1,26 @@
 <template>
-  <div class="slider-yui-kit">
+  <div class="slider-yui-kit" :data-testid="props.dataTestid">
     <div class="slider-yui-kit__wrapper" ref="slider-yui-kitWrapperRef">
       <button
         class="slider-yui-kit__button slider-yui-kit__button--prev"
         @click="prevSlide"
         :disabled="state.currentIndex === 0"
+        :data-testid="`${props.dataTestid}-Prev-Button`"
       >
-        <Icon :name="IconNameEnum.leftBig" />
+        <Icon
+          :name="IconNameEnum.leftBig"
+          :data-testid="`${props.dataTestid}-Prev-Icon`"
+        />
       </button>
-      <div class="slider-yui-kit__slides">
-        <div class="placeholder-yui-kit" v-if="showPlaceholder()">
+      <div
+        class="slider-yui-kit__slides"
+        :data-testid="`${props.dataTestid}-slides-container`"
+      >
+        <div
+          class="placeholder-yui-kit"
+          v-if="showPlaceholder()"
+          :data-testid="`${props.dataTestid}-No-Content-Placeholder`"
+        >
           <img
             src="./../../assets/images/slider/camera.svg"
             alt=""
@@ -18,7 +29,11 @@
           />
           <p>Контент отсутствует</p>
         </div>
-        <div class="placeholder-yui-kit" v-if="showPlaceholderExtension()">
+        <div
+          class="placeholder-yui-kit"
+          v-if="showPlaceholderExtension()"
+          :data-testid="`${props.dataTestid}-Invalid-Extension-Placeholder`"
+        >
           <img
             src="./../../assets/images/slider/closed-camera.svg"
             alt=""
@@ -32,11 +47,13 @@
           @click="e => toFullsizeImage(e)"
           :src="state.file?.path ?? ''"
           ref="fullsizeImageRef"
+          :data-testid="`${props.dataTestid}-Image`"
         />
         <video
           v-if="isVideo(state.file?.path ?? '')"
           @click="e => toFullsizeImage(e)"
           controls
+          :data-testid="`${props.dataTestid}-Video`"
         >
           <source :src="state.file?.path ?? ''" />
         </video>
@@ -45,8 +62,12 @@
         class="slider-yui-kit__button slider-yui-kit__button--next"
         @click="nextSlide"
         :disabled="rigthIndex()"
+        :data-testid="`${props.dataTestid}-Next-Button`"
       >
-        <Icon :name="IconNameEnum.rightBig" />
+        <Icon
+          :name="IconNameEnum.rightBig"
+          :data-testid="`${props.dataTestid}-Next-Icon`"
+        />
       </button>
     </div>
   </div>
@@ -62,7 +83,9 @@ import {
   VideoExtensionsEnum
 } from '@/common/extentions.ts';
 
-const props = withDefaults(defineProps<ISliderProps>(), {});
+const props = withDefaults(defineProps<ISliderProps>(), {
+  dataTestid: 'Slider'
+});
 
 const state = reactive<ISlider>({
   files: props.items.length ? props.items : [],

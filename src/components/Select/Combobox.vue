@@ -8,6 +8,7 @@
     @focusout-options="focusOutChangeOption"
     header-classes="filter__header"
     options-classes="filter__options"
+    :data-testid="props.dataTestid"
   >
     <template #header>
       <input
@@ -17,6 +18,7 @@
         :placeholder="state.placeholder"
         @keydown.enter="changeSearchValue"
         @input="changeSearchValue"
+        :data-testid="`${props.dataTestid}-Input`"
       />
     </template>
     <template #options>
@@ -24,6 +26,7 @@
         :default-option="state.searchValue"
         :options="state.values"
         @change="getChoosenOption"
+        :data-testid="`${props.dataTestid}-Options`"
       />
     </template>
   </SelectList>
@@ -42,6 +45,7 @@ const emits = defineEmits<{
 }>();
 
 const props = withDefaults(defineProps<IComboboxProps>(), {
+  dataTestid: 'Combobox',
   disabled: false
 });
 
