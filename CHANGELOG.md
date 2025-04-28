@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.1.6
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.5...v0.1.6)
+
+### 🚀 Enhancements
+
+- Created new table with scroll ([0f73863](https://github.com/NPO-Automotive/sep_yui/commit/0f73863))
+- Added scroll function in table ([0b33c1d](https://github.com/NPO-Automotive/sep_yui/commit/0b33c1d))
+- Added expose ref ([4babfeb](https://github.com/NPO-Automotive/sep_yui/commit/4babfeb))
+- Change tooltip implementation ([b9ab88c](https://github.com/NPO-Automotive/sep_yui/commit/b9ab88c))
+- Change logic tooltip + change style scrollwrapper and change arrow icon ([0f359ee](https://github.com/NPO-Automotive/sep_yui/commit/0f359ee))
+- Changed close logic modal ([b47af06](https://github.com/NPO-Automotive/sep_yui/commit/b47af06))
+
 ## v0.1.5
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.4...v0.1.5)
