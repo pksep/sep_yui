@@ -26,12 +26,11 @@
       v-model="state.inputElement"
       @focus="handleFocus"
       @input="handleInput"
+      @keydown="handleKeyDown"
       class="input-yui-kit__input"
       :required="props.required"
       :data-testid="`${props.dataTestid}-Input`"
-      :min="props.min"
-      :max="props.max"
-      type="number"
+      type="text"
     />
     <div
       class="input-yui-kit__buttons"
@@ -41,7 +40,7 @@
         class="input-yui-kit__button-up"
         :data-testid="`${props.dataTestid}-UpButton`"
         @mousedown.prevent="upValue"
-        :disabled="state.inputElement >= props.max"
+        :disabled="+state.inputElement >= props.max"
       >
         <Icon
           :name="IconNameEnum.chevronUp"
@@ -52,7 +51,7 @@
         class="input-yui-kit__button-down"
         :data-testid="`${props.dataTestid}-DownButton`"
         @mousedown.prevent="downValue"
-        :disabled="state.inputElement <= props.min"
+        :disabled="+state.inputElement <= props.min"
       >
         <Icon
           :name="IconNameEnum.chevronDown"
@@ -73,7 +72,7 @@ import type { IInputNumberProps } from './interface/interface.ts';
 
 interface IState {
   isPressed: boolean;
-  inputElement: number;
+  inputElement: number | string;
 }
 
 const emits = defineEmits<{
@@ -97,18 +96,68 @@ const state = reactive<IState>({
 const inputNumberRef = ref<HTMLInputElement | null>(null);
 
 const handleInput = (e: Event): void => {
-  const target = e.currentTarget as HTMLInputElement;
-  const value = +target.value;
+  const newValue = (e.target as HTMLInputElement).value;
 
-  if (value > props.max) {
-    state.inputElement = props.max;
-  } else if (value < props.min) {
-    state.inputElement = props.min;
-  } else {
-    state.inputElement = value;
+  let formattedValue = newValue.replace(',', '.');
+
+  // Ваш оригинальный регулярное выражение: если есть недопустимые символы, удалить их
+  if (/[^\d.]/.test(formattedValue)) {
+    formattedValue = formattedValue.replace(/[^0-9.-]/g, '');
   }
 
-  emits('update:modelValue', state.inputElement);
+  // Обработка неправильного положения '-' (знак минус должен быть только в начале)
+  if (formattedValue.includes('-')) {
+    // Keep only leading minus, remove others
+    formattedValue =
+      (formattedValue.startsWith('-') ? '-' : '') +
+      formattedValue.replace(/-/g, '');
+  }
+
+  // Ваш исходный обработчик начальных нулей
+  if (
+    formattedValue.startsWith('0') &&
+    formattedValue.length > 1 &&
+    !formattedValue.startsWith('0.')
+  ) {
+    formattedValue = formattedValue.replace(/^0+/, '');
+  }
+
+  if (
+    formattedValue.startsWith('-0') &&
+    formattedValue.length > 2 &&
+    !formattedValue.startsWith('-0.')
+  ) {
+    formattedValue = '-' + formattedValue.slice(2).replace(/^0+/, '');
+  }
+
+  // Ваш исходный обработчик нескольких точек
+  const dotCount = (formattedValue.match(/\./g) || []).length;
+  if (dotCount > 1) {
+    formattedValue =
+      formattedValue.slice(0, formattedValue.lastIndexOf('.')) +
+      formattedValue.slice(formattedValue.lastIndexOf('.') + 1);
+  }
+
+  // Применить логику минимума/максимума
+  if (Number(formattedValue) > props.max) {
+    state.inputElement = props.max;
+  } else if (Number(formattedValue) < props.min) {
+    state.inputElement = props.min;
+  } else {
+    state.inputElement = formattedValue;
+  }
+
+  emits('update:modelValue', +state.inputElement);
+};
+
+const handleKeyDown = (e: KeyboardEvent): void => {
+  if (e.key === 'ArrowUp') {
+    upValue();
+  }
+
+  if (e.key === 'ArrowDown') {
+    downValue();
+  }
 };
 
 const handleFocus = (): void => {
@@ -116,27 +165,31 @@ const handleFocus = (): void => {
 };
 
 const handleBlur = (): void => {
-  if (state.inputElement === null || isNaN(state.inputElement)) {
+  if (state.inputElement === null || isNaN(+state.inputElement)) {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
-  emits('update:modelValue', state.inputElement);
+  emits('update:modelValue', +state.inputElement);
   state.isPressed = false;
 };
 
 const upValue = (): void => {
-  if (state.inputElement < props.max) {
+  if (+state.inputElement + 1 < props.max) {
     state.inputElement = +state.inputElement + 1;
-    emits('update:modelValue', state.inputElement);
-    inputNumberRef.value?.focus();
+  } else {
+    state.inputElement = props.max;
   }
+  emits('update:modelValue', state.inputElement);
+  inputNumberRef.value?.focus();
 };
 
 const downValue = (): void => {
-  if (Number(state.inputElement) - 1 >= props.min) {
+  if (+state.inputElement - 1 > props.min) {
     state.inputElement = +state.inputElement - 1;
-    emits('update:modelValue', state.inputElement);
-    inputNumberRef.value?.focus();
+  } else {
+    state.inputElement = props.min;
   }
+  emits('update:modelValue', +state.inputElement);
+  inputNumberRef.value?.focus();
 };
 
 watch(
