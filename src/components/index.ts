@@ -52,6 +52,7 @@ import TableNew from '@/components/Table/TableNew.vue';
 import TableRowNew from '@/components/Table/TableRowNew.vue';
 import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
+import { IDialogProps } from '@/components/Modal/interface/interface';
 
 const components = {
   Accordion,
@@ -166,5 +167,6 @@ export {
   BaseFilter,
   type IRangeForDatePicker,
   type OptionsObject,
-  Range
+  Range,
+  type IDialogProps
 };
