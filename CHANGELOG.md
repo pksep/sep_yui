@@ -2,6 +2,10 @@
 
 ## v0.1.8
 
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.8...v0.1.8)
+
+## v0.1.8
+
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.7...v0.1.8)
 
 ### 🩹 Fixes
