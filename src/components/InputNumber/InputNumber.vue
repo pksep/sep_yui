@@ -100,14 +100,20 @@ const handleInput = (e: Event): void => {
 
   let formattedValue = newValue.replace(',', '.');
 
-  // Ваш оригинальный регулярное выражение: если есть недопустимые символы, удалить их
+  // Добавляем ведущий 0, если точка в начале
+  if (formattedValue === '.') {
+    formattedValue = '0' + formattedValue;
+  } else if (formattedValue === '-.') {
+    formattedValue = '-0.' + formattedValue.slice(2);
+  }
+
   if (/[^\d.]/.test(formattedValue)) {
     formattedValue = formattedValue.replace(/[^0-9.-]/g, '');
   }
 
   // Обработка неправильного положения '-' (знак минус должен быть только в начале)
   if (formattedValue.includes('-')) {
-    // Keep only leading minus, remove others
+    // Оставить только начальный минус, удалить остальные
     formattedValue =
       (formattedValue.startsWith('-') ? '-' : '') +
       formattedValue.replace(/-/g, '');
