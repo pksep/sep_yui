@@ -213,7 +213,6 @@ onMounted(() => {
     }
   }
 
-  &:has(.scroll-wrapper__track_horizont) .scroll-wrapper__vertical-wrapper,
   &:has(.scroll-wrapper__track_horizont) .scroll-wrapper__slot {
     height: calc(
       var(--scroll-wrapper-height, 100%) - var(
