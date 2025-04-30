@@ -28,6 +28,7 @@
       </div>
 
       <div
+        v-if="props.options?.length"
         class="popover-yui-kit__options"
         v-show="state.isShow"
         ref="dropdownRef"
