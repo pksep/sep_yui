@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.10
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.9...v0.1.10)
+
+### 🩹 Fixes
+
+- Popover empty content ([4c2b82e](https://github.com/NPO-Automotive/sep_yui/commit/4c2b82e))
+
+### 🎨 Styles
+
+- Change height ([4287636](https://github.com/NPO-Automotive/sep_yui/commit/4287636))
+
 ## v0.1.9
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.8...v0.1.9)
