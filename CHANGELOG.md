@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.1.9
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.8...v0.1.9)
+
+### 🩹 Fixes
+
+- Replace . to 0. ([91f2da0](https://github.com/NPO-Automotive/sep_yui/commit/91f2da0))
+
+### 🏡 Chore
+
+- **release:** V0.1.8 ([b11af8b](https://github.com/NPO-Automotive/sep_yui/commit/b11af8b))
+
+## v0.1.8
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.8...v0.1.8)
+
+## v0.1.8
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.7...v0.1.8)
+
+### 🩹 Fixes
+
+- InputNumber.vue via custom logic with text type ([a093f9d](https://github.com/NPO-Automotive/sep_yui/commit/a093f9d))
+
 ## v0.1.7
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.6...v0.1.7)
