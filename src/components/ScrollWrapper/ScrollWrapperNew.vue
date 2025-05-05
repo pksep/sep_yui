@@ -1,37 +1,37 @@
 <template>
   <div ref="scrollWrapperRef" class="scroll-wrapper">
-    <div class="scroll-wrapper__horizont-wrapper">
-      <div class="scroll-wrapper__vertical-wrapper">
+    <div class="scroll-wrapper__vertical-wrapper">
+      <div class="scroll-wrapper__horizont-wrapper">
         <div ref="slotRef" class="scroll-wrapper__slot">
           <slot />
         </div>
 
         <div
-          v-if="isExistVerticalTrack || isShowVerticalScroll"
-          ref="verticalTrackRef"
-          class="scroll-wrapper__track scroll-wrapper__track_vertical"
-          :class="verticalTrackClass"
-          @click.prevent.left="onTrackClick"
+          v-if="isExistHorizontalTrack || isShowHorizontalScroll"
+          ref="horizontTrackRef"
+          class="scroll-wrapper__track scroll-wrapper__track_horizont"
+          :class="horizontalTrackClass"
+          @click.prevent.left="onHorizontalTrackClick"
         >
           <div
-            ref="verticalBarRef"
+            ref="horizontBarRef"
             class="scroll-wrapper__bar"
-            @mousedown.prevent.left="startDrag"
+            @mousedown.prevent.left="startHorizontalDrag"
           ></div>
         </div>
       </div>
 
       <div
-        v-if="isExistHorizontalTrack || isShowHorizontalScroll"
-        ref="horizontTrackRef"
-        class="scroll-wrapper__track scroll-wrapper__track_horizont"
-        :class="horizontalTrackClass"
-        @click.prevent.left="onHorizontalTrackClick"
+        v-if="isExistVerticalTrack || isShowVerticalScroll"
+        ref="verticalTrackRef"
+        class="scroll-wrapper__track scroll-wrapper__track_vertical"
+        :class="verticalTrackClass"
+        @click.prevent.left="onTrackClick"
       >
         <div
-          ref="horizontBarRef"
+          ref="verticalBarRef"
           class="scroll-wrapper__bar"
-          @mousedown.prevent.left="startHorizontalDrag"
+          @mousedown.prevent.left="startDrag"
         ></div>
       </div>
     </div>
@@ -113,8 +113,9 @@ const setScrollStyle = (): void => {
 const setHeightSlot = (): void => {
   if (!slotRef.value || !scrollWrapperRef.value) return;
 
+  const style = getComputedStyle(scrollWrapperRef.value);
+  const maxHeight = scrollWrapperRef.value.style.maxHeight || style.maxHeight;
   const height = scrollWrapperRef.value.style.height;
-  const maxHeight = scrollWrapperRef.value.style.maxHeight;
 
   changeStyleProperties(
     {
@@ -186,6 +187,7 @@ onMounted(() => {
   --scroll-wrapper-horizontal-track-height: 10px;
   --scroll-wrapper-vertical-track-width: 6px;
   &__horizont-wrapper {
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -213,13 +215,24 @@ onMounted(() => {
     }
   }
 
-  &:has(.scroll-wrapper__track_horizont) .scroll-wrapper__slot {
-    height: calc(
-      var(--scroll-wrapper-height, 100%) - var(
-          --scroll-wrapper-horizontal-track-height,
-          0px
-        ) - var(--scroll-wrapper-horizontal-gap, 0px)
-    );
+  &:has(.scroll-wrapper__track_horizont) {
+    & .scroll-wrapper__slot {
+      height: calc(
+        var(--scroll-wrapper-height, 100%) - var(
+            --scroll-wrapper-horizontal-track-height,
+            0px
+          ) - var(--scroll-wrapper-horizontal-gap, 0px)
+      );
+    }
+
+    & .scroll-wrapper__track_vertical {
+      height: calc(
+        var(--scroll-wrapper-height) - var(--scroll-track-margin-top) - var(
+            --scroll-wrapper-horizontal-track-height,
+            0px
+          ) - var(--scroll-wrapper-horizontal-gap, 0px)
+      );
+    }
   }
 
   &__track {
