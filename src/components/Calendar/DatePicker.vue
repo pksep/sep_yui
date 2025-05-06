@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="date-picker-yui-kit__wrapper"
-    :data-testid="`${props.dataTestid}-Wrapper`"
-  >
+  <div class="date-picker-yui-kit__wrapper">
     <DatePicker
       :locale="props.locale || 'ru'"
       title-position="left"
@@ -16,7 +13,6 @@
       borderless
       :is-required="state.isNotClear"
       class="date-picker-yui-kit"
-      :data-testid="`${props.dataTestid}-Component`"
     >
       <template #default="{ inputValue, togglePopover }">
         <DataPickerChoose
@@ -27,7 +23,6 @@
           :is-range="props.isRange"
           :value="inputValue"
           :disabled="props.disabled"
-          :data-testid="`${props.dataTestid}-Choose`"
         />
       </template>
     </DatePicker>
@@ -43,8 +38,7 @@ import type { IDatePickerProps } from './interfaces/interfaces';
 import '@angelblanco/v-calendar/style.css';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
-  locale: 'ru-RU',
-  dataTestid: 'DatePicker'
+  locale: 'ru-RU'
 });
 
 const state = reactive({
