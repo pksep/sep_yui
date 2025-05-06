@@ -1,4 +1,4 @@
-import { App } from 'vue';
+import { App, Component } from 'vue';
 import { createPinia } from 'pinia';
 
 import Badges from './Badges/Badges.vue';
@@ -44,18 +44,19 @@ import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import Radio from '@/components/Radio/Radio.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import BaseFilter from '@/components/Select/BaseFilter.vue';
-import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
-
-import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
-import type { OptionsObject } from './Select/interface/interface';
 import Range from '@/components/Range/Range.vue';
 import TableNew from '@/components/Table/TableNew.vue';
 import TableRowNew from '@/components/Table/TableRowNew.vue';
 import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
-import { IDialogProps } from '@/components/Modal/interface/interface';
 
-const components = {
+import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
+
+import type { IRangeForDatePicker } from '@/components/Calendar/interfaces/interfaces';
+import type { OptionsObject } from '@/components/Select/interface/interface';
+import type { IDialogProps } from '@/components/Modal/interface/interface';
+
+const components: Record<string, Component> = {
   Accordion,
   Badges,
   BreadCrumbs,
@@ -112,8 +113,7 @@ const install = (app: App): void => {
   app.use(pinia);
   app.use(vuePluginRemoveTestid, { enabled: false });
   Object.keys(components).forEach(key => {
-    //@ts-expect-error ignore error? with a keyof components
-    app.component('Y' + key, components[key as keyof typeof components]);
+    app.component('Y' + key, components[key]);
   });
 };
 

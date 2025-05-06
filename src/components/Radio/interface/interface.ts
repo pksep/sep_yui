@@ -1,7 +1,7 @@
 import { IDataTestIdProp } from '../../../common/dataTestidProps.ts';
 
-export interface IRadioProps<T> extends IDataTestIdProp {
+export interface IRadioProps extends IDataTestIdProp {
   name: string;
-  value: T;
+  modelValue: string;
   disabled?: boolean;
 }

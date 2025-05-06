@@ -1,28 +1,28 @@
 <template>
   <input
-    v-model="model"
+    v-model="inputModel"
     type="radio"
     :disabled
     :name
-    :value
+    :value="props.modelValue"
     class="radio"
     :data-testid="props.dataTestid"
   />
 </template>
 
-<script setup lang="ts" generic="T">
+<script setup lang="ts">
 import type { IRadioProps } from '@/components/Radio/interface/interface';
 
 defineOptions({
   name: 'Radio'
 });
 
-const props = withDefaults(defineProps<IRadioProps<T>>(), {
+const props = withDefaults(defineProps<IRadioProps>(), {
   disabled: false,
   dataTestid: 'Radio'
 });
 
-const model = defineModel();
+const inputModel = defineModel<HTMLInputElement>();
 </script>
 
 <style scoped lang="scss">
