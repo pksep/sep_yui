@@ -27,7 +27,7 @@ export interface IOptionsProps extends IDataTestIdProp {
 }
 
 export interface ISelectListProps extends IDataTestIdProp {
-  isOpened: boolean;
+  isOpened?: boolean;
   disableOpen?: boolean;
   headerClasses?: VueClasses;
   optionsClasses?: VueClasses;

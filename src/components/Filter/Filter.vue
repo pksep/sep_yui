@@ -90,6 +90,7 @@
       </ul>
       <Search
         v-if="props.searchable"
+        model-value=""
         @enter="updateSearchString"
         @input="changeUpdateSearchString"
         style="margin: 5px 0"
