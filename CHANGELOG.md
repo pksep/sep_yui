@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.12
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.11...v0.1.12)
+
+### 🚀 Enhancements
+
+- Coverage calendar data-testid"" ([eb67bb3](https://github.com/NPO-Automotive/sep_yui/commit/eb67bb3))
+
+### 🩹 Fixes
+
+- Types error with data-testid ([50cbedf](https://github.com/NPO-Automotive/sep_yui/commit/50cbedf))
+
 ## v0.1.11
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.10...v0.1.11)
