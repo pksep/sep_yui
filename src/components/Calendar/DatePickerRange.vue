@@ -5,7 +5,6 @@
       { 'date-disable-yui-kit': props.disabled },
       { 'date-active-yui-kit': state.isActive }
     ]"
-    :data-testid="`${props.dataTestid}-Header`"
   >
     <DataPicker
       v-model="state.date.start"
@@ -15,12 +14,8 @@
       :end-date="state.date?.end"
       @change="val => changeValue(val, RangeTypeEnum.start)"
       @clear="clearFunction(RangeTypeEnum.start)"
-      :data-testid="`${props.dataTestid}-Component-Start`"
     />
-    <div
-      class="date-picker-yui-kit__header__dash"
-      :data-testid="`${props.dataTestid}-Header-Dash`"
-    ></div>
+    <div class="date-picker-yui-kit__header__dash"></div>
     <DataPicker
       v-model="state.date.end"
       :locale="props.locale"
@@ -29,7 +24,6 @@
       :start-date="state.date?.start"
       @change="val => changeValue(val, RangeTypeEnum.end)"
       @clear="clearFunction(RangeTypeEnum.end)"
-      :data-testid="`${props.dataTestid}-Component-End`"
     />
   </div>
 </template>
@@ -43,8 +37,7 @@ import type {
 import { RangeTypeEnum } from './enums/enums';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
-  locale: 'ru-RU',
-  dataTestid: 'DatePickerRange'
+  locale: 'ru-RU'
 });
 
 const emits = defineEmits<{

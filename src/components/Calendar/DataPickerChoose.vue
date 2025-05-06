@@ -8,20 +8,10 @@
       { 'date-disable-yui-kit': props.disabled },
       { 'date-active-yui-kit': state.isActive }
     ]"
-    :data-testid="`${props.dataTestid}-HeaderBtn-Trigger`"
   >
-    <Icon
-      :name="IconNameEnum.calendar"
-      :data-testid="`${props.dataTestid}-Icon`"
-    />
-    <span v-if="state.value" :data-testid="`${props.dataTestid}-Value-Display`">
-      {{ formatLetter(state.value) }}
-    </span>
-    <span
-      class="date-picker-yui-kit__header-btn__dash"
-      v-else
-      :data-testid="`${props.dataTestid}-HeaderBtnDash-Placeholder`"
-    >
+    <Icon :name="IconNameEnum.calendar" />
+    <span v-if="state.value"> {{ formatLetter(state.value) }} </span>
+    <span class="date-picker-yui-kit__header-btn__dash" v-else>
       {{ state.defaultValue }}
     </span>
     <Button
@@ -30,12 +20,8 @@
       :disabled="props.disabled"
       v-if="state.value"
       @click.stop="handleClear"
-      :data-testid="`${props.dataTestid}-Button-Clear`"
     >
-      <Icon
-        :name="IconNameEnum.crossSmall"
-        :data-testid="`${props.dataTestid}-ButtonClose-Icon`"
-      />
+      <Icon :name="IconNameEnum.crossSmall" />
     </Button>
   </button>
 </template>
@@ -49,9 +35,7 @@ import { ButtonTypeEnum } from '../Button/enum/enum';
 import { SizesEnum } from '@/common/sizes';
 import type { IDatePickerChooserProps } from './interfaces/interfaces';
 
-const props = withDefaults(defineProps<IDatePickerChooserProps>(), {
-  dataTestid: 'DatePickerChoose'
-});
+const props = defineProps<IDatePickerChooserProps>();
 
 const state = reactive({
   defaultValue: '-- -- ----',

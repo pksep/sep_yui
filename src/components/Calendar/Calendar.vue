@@ -8,14 +8,12 @@
     :locale="props.locale"
     @click="emits('click')"
     @change="changeValues"
-    :data-testid="`${props.dataTestid}-DataPickerRange`"
   />
   <DatePicker
     v-model="state.date"
     :disabled="props.disabled"
     :locale="props.locale"
     :is-small="props.isSmall"
-    :data-testid="`${props.dataTestid}-DataPicker`"
     v-else
     @click="emits('click')"
     @change="changeValues"
@@ -33,9 +31,7 @@ import type {
   IRangeForDatePicker
 } from './interfaces/interfaces';
 
-const props = withDefaults(defineProps<IDatePickerProps>(), {
-  dataTestid: 'Calendar'
-});
+const props = defineProps<IDatePickerProps>();
 
 const state = reactive({
   date: null as Date | null,
