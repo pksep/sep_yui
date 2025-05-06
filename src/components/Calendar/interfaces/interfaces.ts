@@ -1,4 +1,6 @@
-interface IDatePickerBaseProps {
+import { IDataTestIdProp } from "@/common/dataTestidProps";
+
+interface IDatePickerBaseProps extends IDataTestIdProp {
   isRange?: boolean;
   isSmall?: boolean;
   disabled?: boolean;
