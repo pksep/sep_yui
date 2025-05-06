@@ -131,9 +131,14 @@ onUnmounted(() => {
   &:focus-visible {
     outline: none;
   }
-  &[open]::backdrop {
+
+  &::backdrop {
     background-color: var(--black);
     transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+  }
+
+  &[open]::backdrop {
     opacity: 0.4;
   }
 

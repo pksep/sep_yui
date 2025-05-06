@@ -36,7 +36,7 @@ const classRow = computed(() => [
   }
 
   &:last-child > * {
-    border-bottom: 1px solid var(--border-grey);
+    border-bottom: 0.5px solid var(--border-grey);
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <Transition name="modal" @after-leave="unmountLeaveAnimation">
+  <Transition :name="transitionName" @after-leave="unmountLeaveAnimation">
     <Modal
       ref="modalRef"
       v-if="props.open"
@@ -15,17 +15,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import Modal from './Modal.vue';
-import type { IDialogProps } from './interface/interface';
+import type { IModalProps } from './interface/interface';
+import { ModalAnimateEnum } from '@/components/Modal/enum';
 
-const props = withDefaults(defineProps<IDialogProps>(), {
-  dataTestid: 'Modal'
+const props = withDefaults(defineProps<IModalProps>(), {
+  dataTestid: 'Modal',
+  animateType: ModalAnimateEnum.right
 });
 
 const emits = defineEmits<{
   (e: 'close'): void;
 }>();
+
+const transitionName = computed(() => {
+  switch (props.animateType) {
+    case ModalAnimateEnum.fade:
+      return 'fade';
+
+    case ModalAnimateEnum.right:
+      return 'modal';
+
+    default:
+      return 'modal';
+  }
+});
 
 const modalRef = ref<InstanceType<typeof Modal> | null>(null);
 
@@ -38,7 +53,7 @@ const unmountLeaveAnimation = (): void => {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-enter-active {
   animation: slide-in-left 0.5s var(--ease) forwards;
 }
@@ -57,5 +72,20 @@ const unmountLeaveAnimation = (): void => {
   from {
     transform: translateX(100%);
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s linear;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 </style>

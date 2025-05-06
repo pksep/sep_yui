@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.11
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.10...v0.1.11)
+
+### 🚀 Enhancements
+
+- Coverage calendar data-testid ([06eff79](https://github.com/NPO-Automotive/sep_yui/commit/06eff79))
+- Added fade animation in modal ([a531611](https://github.com/NPO-Automotive/sep_yui/commit/a531611))
+- Coverage calendar data-testid" ([fbc7f35](https://github.com/NPO-Automotive/sep_yui/commit/fbc7f35))
+
+### 🎨 Styles
+
+- Change style table and switch horizontal and vertical wrapper in scrollwrapper ([a913c40](https://github.com/NPO-Automotive/sep_yui/commit/a913c40))
+
 ## v0.1.10
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.9...v0.1.10)

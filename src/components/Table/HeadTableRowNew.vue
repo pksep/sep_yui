@@ -13,7 +13,7 @@ defineOptions({
 <style scoped lang="scss">
 .head-table-row {
   &:last-child > * {
-    border-bottom: 1px solid var(--border-grey);
+    border-bottom: 0.5px solid var(--border-grey);
   }
 
   &:first-child {
