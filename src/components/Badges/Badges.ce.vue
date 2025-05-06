@@ -1,5 +1,5 @@
 <template>
-  <BadgesUnstyled
+  <Badges
     ref="badgesRef"
     @choose="isChoosen"
     :data-testid="props.dataTestid"
@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { reactive, useTemplateRef } from 'vue';
-import BadgesUnstyled from './BadgesUnstyled.vue';
+import Badges from './Badges.vue';
 import type { IBadgesProps } from './interface/interface';
 import { BadgesTypeEnum } from './enum/enum';
 
@@ -27,7 +27,7 @@ const emit = defineEmits<{
   (e: 'choose', state: boolean, value?: string): void;
 }>();
 
-const badgesRef = useTemplateRef<typeof BadgesUnstyled>('badgesRef');
+const badgesRef = useTemplateRef<typeof Badges>('badgesRef');
 
 const state = reactive({
   choosed: props.choosed
@@ -48,6 +48,4 @@ defineExpose({
 });
 </script>
 
-<style scoped>
-@import url('@/components/Badges/Badges.css');
-</style>
+<style src="./Badges.css"></style>
