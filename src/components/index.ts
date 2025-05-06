@@ -112,6 +112,7 @@ const install = (app: App): void => {
   app.use(pinia);
   app.use(vuePluginRemoveTestid, { enabled: false });
   Object.keys(components).forEach(key => {
+    //@ts-expect-error ignore error? with a keyof components
     app.component('Y' + key, components[key as keyof typeof components]);
   });
 };

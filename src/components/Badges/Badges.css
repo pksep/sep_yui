@@ -1,0 +1,80 @@
+.base-yui-kit {
+  border-radius: 5px;
+  max-width: fit-content;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+
+  span {
+    padding: 2px 6px 3px 6px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+
+    img {
+      width: 20px;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}
+
+.default-yui-kit span {
+  color: var(--grey6);
+  background-color: var(--grey3);
+}
+
+.light-blue-yui-kit span {
+  color: var(--blue14);
+  background-color: var(--blue13);
+}
+
+.blue-yui-kit span {
+  color: var(--blue4);
+  background-color: var(--blue12);
+}
+
+.green-yui-kit span {
+  color: var(--green2);
+  background-color: var(--green1);
+}
+
+.orange-yui-kit span {
+  color: var(--orange8);
+  background-color: var(--orange7);
+}
+
+.red-yui-kit span {
+  color: var(--red4);
+  background-color: var(--red3);
+}
+
+.pink-yui-kit span {
+  color: var(--pink2);
+  background-color: var(--pink1);
+}
+
+.violet-yui-kit span {
+  color: var(--violet2);
+  background-color: var(--violet3);
+}
+
+.base-yui-kit.choosed-yui-kit {
+  position: relative;
+  background-color: var(--blue9);
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  & .close-icon {
+    display: block;
+  }
+}
+
+.close-icon {
+  display: none;
+}
+

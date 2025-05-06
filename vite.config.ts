@@ -6,9 +6,12 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: [
+        resolve(__dirname, 'src/index.ts'),
+        resolve(__dirname, 'src/custom-elements.ts')
+      ],
       name: 'sep-yui',
-      fileName: format => `sep-yui.${format}.ts`
+      fileName: format => `sep-yui.${format}.js`
     },
     rollupOptions: {
       external: ['vue'],

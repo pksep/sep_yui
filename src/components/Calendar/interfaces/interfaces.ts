@@ -1,4 +1,4 @@
-import { IDataTestIdProp } from "@/common/dataTestidProps";
+import { IDataTestIdProp } from '@/common/dataTestidProps';
 
 interface IDatePickerBaseProps extends IDataTestIdProp {
   isRange?: boolean;
