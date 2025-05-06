@@ -72,8 +72,6 @@ const handleKeyPressed = (event: KeyboardEvent): void => {
 const getScrollbarWidth = (): number => {
   const modals = document.querySelectorAll('.modal-yui-kit');
 
-  console.log(modals);
-
   if (modals.length === 1) {
     return window.innerWidth - document.documentElement.clientWidth;
   } else {
