@@ -70,7 +70,16 @@ const handleKeyPressed = (event: KeyboardEvent): void => {
 };
 
 const getScrollbarWidth = (): number => {
-  return window.innerWidth - document.documentElement.clientWidth;
+  const modals = document.querySelectorAll('.modal-yui-kit');
+
+  if (modals.length === 1) {
+    return window.innerWidth - document.documentElement.clientWidth;
+  } else {
+    const paddingRight = document.body.style.paddingRight;
+    const pixel = Number(paddingRight.replace(/\D/g, '')) || 0;
+
+    return pixel;
+  }
 };
 
 useEventListener(dialog, 'mousedown', e => {
@@ -104,13 +113,18 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  changeStyleProperties(
-    {
-      overflow: '',
-      'padding-right': ''
-    },
-    document.body
-  );
+  const modals = document.querySelectorAll('.modal-yui-kit');
+
+  if (modals.length === 0) {
+    changeStyleProperties(
+      {
+        overflow: '',
+        'padding-right': ''
+      },
+      document.body
+    );
+  }
+
   document.removeEventListener('keydown', handleKeyPressed);
 });
 </script>
