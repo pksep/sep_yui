@@ -20,15 +20,15 @@ const props = withDefaults(defineProps<ITableTd>(), {
 
 <style scoped>
 .table-th {
-  padding: var(--th-vertical-padding) var(--th-horizontal-padding);
+  padding: var(--th-vertical-padding, 0) var(--th-horizontal-padding, 0);
   font-weight: 700;
   font-size: var(--th-font-size, 14px);
   text-align: center;
   line-height: 28px;
 
   border: none;
-  border-left: 1px solid var(--border-grey);
-  border-top: 1px solid var(--border-grey);
+  border-left: 0.5px solid var(--border-grey);
+  border-top: 0.5px solid var(--border-grey);
 
   background-color: var(--blue9);
 }

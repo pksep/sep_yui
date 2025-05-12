@@ -107,6 +107,18 @@ const handleInput = (e: Event): void => {
     formattedValue = '-0.' + formattedValue.slice(2);
   }
 
+  // Добавляем ведущий -0, если минус в начале
+  if (formattedValue === '-') {
+    if (props.min < 0) {
+      formattedValue = '-0';
+    } else {
+      formattedValue = '0';
+    }
+  }
+  if (formattedValue === '-00') {
+    formattedValue = '-0';
+  }
+
   if (/[^\d.]/.test(formattedValue)) {
     formattedValue = formattedValue.replace(/[^0-9.-]/g, '');
   }

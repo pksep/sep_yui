@@ -1,5 +1,40 @@
 # Changelog
 
+## v0.1.13
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.12...v0.1.13)
+
+### 🚀 Enhancements
+
+- Change logic modal ([bb96190](https://github.com/NPO-Automotive/sep_yui/commit/bb96190))
+- Added check logic on one more dialog opened ([63d419f](https://github.com/NPO-Automotive/sep_yui/commit/63d419f))
+
+## v0.1.12
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.11...v0.1.12)
+
+### 🚀 Enhancements
+
+- Coverage calendar data-testid"" ([eb67bb3](https://github.com/NPO-Automotive/sep_yui/commit/eb67bb3))
+
+### 🩹 Fixes
+
+- Types error with data-testid ([50cbedf](https://github.com/NPO-Automotive/sep_yui/commit/50cbedf))
+
+## v0.1.11
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.10...v0.1.11)
+
+### 🚀 Enhancements
+
+- Coverage calendar data-testid ([06eff79](https://github.com/NPO-Automotive/sep_yui/commit/06eff79))
+- Added fade animation in modal ([a531611](https://github.com/NPO-Automotive/sep_yui/commit/a531611))
+- Coverage calendar data-testid" ([fbc7f35](https://github.com/NPO-Automotive/sep_yui/commit/fbc7f35))
+
+### 🎨 Styles
+
+- Change style table and switch horizontal and vertical wrapper in scrollwrapper ([a913c40](https://github.com/NPO-Automotive/sep_yui/commit/a913c40))
+
 ## v0.1.10
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.9...v0.1.10)

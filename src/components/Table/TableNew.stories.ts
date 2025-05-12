@@ -103,10 +103,15 @@ const HorizontTemplate: StoryFn<typeof TableNew> = args => ({
   },
   template: `<TableNew >
 
+  <template #colspan>
+    <col style="width: 50vw"/>
+    <col style="width: 50vw"/>
+  </template>
+
     <template #head>
       <HeadTableRowNew>
-        <TableTh style="min-width: 50vw">Заголовок 1</TableTh>
-        <TableTh style="min-width: 50vw">Заголовок 2</TableTh>
+        <TableTh >Заголовок 1</TableTh>
+        <TableTh >Заголовок 2</TableTh>
       </HeadTableRowNew>
     </template>
     
@@ -158,10 +163,15 @@ const FullScrollTemplate: StoryFn<typeof TableNew> = args => ({
   },
   template: `<TableNew style="height: 400px">
 
+  <template #colspan>
+    <col style="width: 50vw"/>
+    <col style="width: 50vw"/>
+  </template>
+
     <template #head>
       <HeadTableRowNew>
-        <TableTh style="min-width: 50vh">Заголовок 1</TableTh>
-        <TableTh style="min-width: 50vh">Заголовок 2</TableTh>
+        <TableTh>Заголовок 1</TableTh>
+        <TableTh>Заголовок 2</TableTh>
       </HeadTableRowNew>
     </template>
     
