@@ -15,8 +15,7 @@
 </template>
 
 <script setup lang="ts">
-
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import Modal from './Modal.vue';
 import type { IModalProps } from './interface/interface';
 import { ModalAnimateEnum } from '@/components/Modal/enum';
