@@ -15,8 +15,7 @@
 </template>
 
 <script setup lang="ts">
-
-import { reactive, ref } from 'vue';
+import { computed, ref } from 'vue';
 import Modal from './Modal.vue';
 import type { IModalProps } from './interface/interface';
 import { ModalAnimateEnum } from '@/components/Modal/enum';
@@ -44,17 +43,13 @@ const transitionName = computed(() => {
 });
 
 const modalRef = ref<InstanceType<typeof Modal> | null>(null);
-const state = reactive({
-  function: () => {}
-});
 
 const close = () => {
-  if (modalRef.value) state.function = modalRef.value?.closeDialog;
   emits('close');
 };
 
 const unmountLeaveAnimation = (): void => {
-  state.function();
+  modalRef.value?.closeDialog();
 };
 </script>
 
