@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.13
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.12...v0.1.13)
+
+### 🚀 Enhancements
+
+- Change logic modal ([bb96190](https://github.com/NPO-Automotive/sep_yui/commit/bb96190))
+- Added check logic on one more dialog opened ([63d419f](https://github.com/NPO-Automotive/sep_yui/commit/63d419f))
+
 ## v0.1.12
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.11...v0.1.12)
