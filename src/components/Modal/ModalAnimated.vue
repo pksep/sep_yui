@@ -39,7 +39,6 @@ const close = () => {
 
 const unmountLeaveAnimation = (): void => {
   state.function();
-  modalRef.value?.closeDialog();
 };
 </script>
 
