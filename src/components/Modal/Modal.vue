@@ -59,18 +59,6 @@ const hideDialog = (): void => {
 const closeDialog = (): void => {
   dialog.value?.close();
   document.documentElement.focus();
-
-  const modals = document.querySelectorAll('.modal-yui-kit');
-
-  if (modals.length === 0) {
-    changeStyleProperties(
-      {
-        overflow: '',
-        'padding-right': ''
-      },
-      document.body
-    );
-  }
 };
 
 const handleKeyPressed = (event: KeyboardEvent): void => {
@@ -125,6 +113,18 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  const modals = document.querySelectorAll('.modal-yui-kit');
+
+  if (modals.length === 0) {
+    changeStyleProperties(
+      {
+        overflow: '',
+        'padding-right': ''
+      },
+      document.body
+    );
+  }
+
   document.removeEventListener('keydown', handleKeyPressed);
 });
 </script>
