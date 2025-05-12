@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import Modal from './Modal.vue';
 import type { IDialogProps } from './interface/interface';
 
@@ -28,12 +28,17 @@ const emits = defineEmits<{
 }>();
 
 const modalRef = ref<InstanceType<typeof Modal> | null>(null);
+const state = reactive({
+  function: () => {}
+});
 
 const close = () => {
+  if (modalRef.value) state.function = modalRef.value?.closeDialog;
   emits('close');
 };
 
 const unmountLeaveAnimation = (): void => {
+  state.function();
   modalRef.value?.closeDialog();
 };
 </script>
