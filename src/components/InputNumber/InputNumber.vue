@@ -107,18 +107,6 @@ const handleInput = (e: Event): void => {
     formattedValue = '-0.' + formattedValue.slice(2);
   }
 
-  // Добавляем ведущий -0, если минус в начале
-  if (formattedValue === '-') {
-    if (props.min < 0) {
-      formattedValue = '-0';
-    } else {
-      formattedValue = '0';
-    }
-  }
-  if (formattedValue === '-00') {
-    formattedValue = '-0';
-  }
-
   if (/[^\d.]/.test(formattedValue)) {
     formattedValue = formattedValue.replace(/[^0-9.-]/g, '');
   }
@@ -165,7 +153,9 @@ const handleInput = (e: Event): void => {
     state.inputElement = formattedValue;
   }
 
-  emits('update:modelValue', +state.inputElement);
+  if (!isNaN(+state.inputElement)) {
+    emits('update:modelValue', +state.inputElement);
+  }
 };
 
 const handleKeyDown = (e: KeyboardEvent): void => {
@@ -186,15 +176,22 @@ const handleBlur = (): void => {
   if (state.inputElement === null || isNaN(+state.inputElement)) {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
-  emits('update:modelValue', +state.inputElement);
+  state.inputElement = +state.inputElement;
+
+  if (isNaN(state.inputElement)) {
+    state.inputElement = Math.max(props.min, 0);
+  }
+  emits('update:modelValue', state.inputElement);
   state.isPressed = false;
 };
 
 const upValue = (): void => {
   if (+state.inputElement + 1 < props.max) {
     state.inputElement = +state.inputElement + 1;
-  } else {
+  } else if (props.max !== Infinity) {
     state.inputElement = props.max;
+  } else {
+    state.inputElement = 0;
   }
   emits('update:modelValue', state.inputElement);
   inputNumberRef.value?.focus();
@@ -203,8 +200,10 @@ const upValue = (): void => {
 const downValue = (): void => {
   if (+state.inputElement - 1 > props.min) {
     state.inputElement = +state.inputElement - 1;
-  } else {
+  } else if (props.min !== -Infinity) {
     state.inputElement = props.min;
+  } else {
+    state.inputElement = 0;
   }
   emits('update:modelValue', +state.inputElement);
   inputNumberRef.value?.focus();
