@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.1.14
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.13...v0.1.14)
+
+### 🚀 Enhancements
+
+- Fix scroll behaviour after close modal and added listener to window resize ([49438bd](https://github.com/NPO-Automotive/sep_yui/commit/49438bd))
+
+### 🩹 Fixes
+
+- Lint ([50e503c](https://github.com/NPO-Automotive/sep_yui/commit/50e503c))
+- InputNumber, when type only minus ([f3fd25d](https://github.com/NPO-Automotive/sep_yui/commit/f3fd25d))
+- Fix bugs with hide scrollbar after close modal ([4eeadaf](https://github.com/NPO-Automotive/sep_yui/commit/4eeadaf))
+- InputNumber model value ([b9e62b3](https://github.com/NPO-Automotive/sep_yui/commit/b9e62b3))
+- Fix bugs with hide scrollbar after close modal" ([5a1947f](https://github.com/NPO-Automotive/sep_yui/commit/5a1947f))
+- Fix error ([89c8ea2](https://github.com/NPO-Automotive/sep_yui/commit/89c8ea2))
+- InputNumber format ([6bd3758](https://github.com/NPO-Automotive/sep_yui/commit/6bd3758))
+- InputNumber validPattern ([2dde5d7](https://github.com/NPO-Automotive/sep_yui/commit/2dde5d7))
+
 ## v0.1.13
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.12...v0.1.13)
