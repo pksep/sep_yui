@@ -73,6 +73,7 @@ import type { IInputNumberProps } from './interface/interface.ts';
 interface IState {
   isPressed: boolean;
   inputElement: number | string;
+  prevValue: number | string;
 }
 
 const emits = defineEmits<{
@@ -90,8 +91,11 @@ const props = withDefaults(defineProps<IInputNumberProps>(), {
 
 const state = reactive<IState>({
   isPressed: false,
-  inputElement: props.modelValue || (props.min > 0 ? props.min : 0)
+  inputElement: props.modelValue || (props.min > 0 ? props.min : 0),
+  prevValue: ''
 });
+
+const validPattern = /^\d{0,10}(\.\d{0,7})?$/;
 
 const inputNumberRef = ref<HTMLInputElement | null>(null);
 
@@ -153,12 +157,20 @@ const handleInput = (e: Event): void => {
     state.inputElement = formattedValue;
   }
 
+  if (
+    state.inputElement !== '' &&
+    !validPattern.test(`${state.inputElement}`)
+  ) {
+    state.inputElement = state.prevValue;
+  }
+
   if (!isNaN(+state.inputElement)) {
     emits('update:modelValue', +state.inputElement);
   }
 };
 
 const handleKeyDown = (e: KeyboardEvent): void => {
+  state.prevValue = state.inputElement;
   if (e.key === 'ArrowUp') {
     upValue();
   }
@@ -193,7 +205,12 @@ const upValue = (): void => {
   } else {
     state.inputElement = 0;
   }
-  emits('update:modelValue', state.inputElement);
+
+  if (!validPattern.test(`${state.inputElement}`)) {
+    state.inputElement = state.prevValue;
+  } else {
+    emits('update:modelValue', state.inputElement);
+  }
   inputNumberRef.value?.focus();
 };
 
