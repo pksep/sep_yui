@@ -46,7 +46,7 @@ import {
   IScrollWrapperProps
 } from '@/components/ScrollWrapper/interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 defineOptions({
   name: 'ScrollWrapper'
@@ -129,6 +129,8 @@ const setHeightSlot = (): void => {
 const setBarStyle = (): void => {
   setVerticalBarHeight();
   setHorizontalBarWidth();
+  changeBarPosition();
+  changerHorizontalBarPosition();
 };
 
 const setHandlers = (): void => {
@@ -176,7 +178,14 @@ onMounted(() => {
   if (verticalTrackRef.value) {
     setResizeElement(verticalTrackRef.value);
   }
+
+  window.addEventListener('resize', setScrollStyle);
+
   emit('on-mounted');
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', setScrollStyle);
 });
 </script>
 
