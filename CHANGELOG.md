@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.15
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.14...v0.1.15)
+
+### 🩹 Fixes
+
+- InputNumber validPattern ([872834d](https://github.com/NPO-Automotive/sep_yui/commit/872834d))
+
 ## v0.1.14
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.13...v0.1.14)
