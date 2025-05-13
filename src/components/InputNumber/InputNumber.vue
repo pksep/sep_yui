@@ -77,12 +77,12 @@ interface IState {
 }
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: number): void;
+  (e: 'update:modelValue', value: number | string): void;
 }>();
 
 const props = withDefaults(defineProps<IInputNumberProps>(), {
   modelValue: 0,
-  min: -Infinity,
+  min: 0,
   max: Infinity,
   size: SizesEnum.medium,
   dataTestid: 'InputNumber',
@@ -112,7 +112,10 @@ const handleInput = (e: Event): void => {
   }
 
   if (/[^\d.]/.test(formattedValue)) {
-    formattedValue = formattedValue.replace(/[^0-9.-]/g, '');
+    formattedValue = formattedValue.replace(
+      props.min >= 0 ? /[^0-9.]/g : /[^0-9.-]/g,
+      ''
+    );
   }
 
   // Обработка неправильного положения '-' (знак минус должен быть только в начале)
@@ -165,7 +168,7 @@ const handleInput = (e: Event): void => {
   }
 
   if (!isNaN(+state.inputElement)) {
-    emits('update:modelValue', +state.inputElement);
+    emits('update:modelValue', state.inputElement);
   }
 };
 
@@ -188,11 +191,14 @@ const handleBlur = (): void => {
   if (state.inputElement === null || isNaN(+state.inputElement)) {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
-  state.inputElement = +state.inputElement;
 
-  if (isNaN(state.inputElement)) {
+  if (isNaN(+state.inputElement)) {
     state.inputElement = Math.max(props.min, 0);
   }
+
+  state.inputElement = `${state.inputElement}`
+    .replace(/(\.\d*?[1-9])0+$/, '$1')
+    .replace(/\.0+$/, '');
   emits('update:modelValue', state.inputElement);
   state.isPressed = false;
 };
