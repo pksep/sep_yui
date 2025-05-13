@@ -59,6 +59,8 @@ const hideDialog = (): void => {
 const closeDialog = (): void => {
   dialog.value?.close();
   document.documentElement.focus();
+
+  resetBlock();
 };
 
 const handleKeyPressed = (event: KeyboardEvent): void => {
@@ -79,6 +81,20 @@ const getScrollbarWidth = (): number => {
     const pixel = Number(paddingRight.replace(/\D/g, '')) || 0;
 
     return pixel;
+  }
+};
+
+const resetBlock = (): void => {
+  const modals = document.querySelectorAll('.modal-yui-kit');
+
+  if (modals.length === 0) {
+    changeStyleProperties(
+      {
+        overflow: '',
+        'padding-right': ''
+      },
+      document.body
+    );
   }
 };
 
@@ -113,18 +129,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  const modals = document.querySelectorAll('.modal-yui-kit');
-
-  if (modals.length === 0) {
-    changeStyleProperties(
-      {
-        overflow: '',
-        'padding-right': ''
-      },
-      document.body
-    );
-  }
-
+  resetBlock();
   document.removeEventListener('keydown', handleKeyPressed);
 });
 </script>
