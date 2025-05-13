@@ -95,7 +95,7 @@ const state = reactive<IState>({
   prevValue: ''
 });
 
-const validPattern = /^\d{0,10}(\.\d{0,7})?$/;
+const validPattern = /^-?\d{0,10}(\.\d{0,7})?$/;
 
 const inputNumberRef = ref<HTMLInputElement | null>(null);
 
