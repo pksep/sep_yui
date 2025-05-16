@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.17
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.16...v0.1.17)
+
+### 🚀 Enhancements
+
+- Support multiply props for one item choosed in filterTag ([6ed3007](https://github.com/NPO-Automotive/sep_yui/commit/6ed3007))
+
 ## v0.1.16
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.15...v0.1.16)
