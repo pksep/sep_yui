@@ -13,6 +13,7 @@ export interface IFilterTagProps extends IDataTestIdProp {
   iconName?: IconNameEnum;
   options: IFilterTagOption[];
   selectedValues?: string[];
+  multiply?: boolean;
   maxShowCount?: number;
   showClearButton?: boolean;
 }

@@ -168,6 +168,7 @@ const props = withDefaults(defineProps<IFilterTagProps>(), {
   options: () => [],
   selectedValues: () => [],
   maxShowCount: 5,
+  multiply: true,
   showClearButton: false,
   dataTestid: 'FilterTag'
 });
@@ -226,6 +227,12 @@ const getNotChosen = computed(() => {
 const handleToggle = (item: filterTagOptionType): void => {
   item.chose = !item.chose;
 
+  if (!props.multiply) {
+    state.options = state.options.map(opt => ({
+      ...opt,
+      chose: item.value === opt.value && item.chose
+    }));
+  }
   if (state.options.every(opt => opt.chose)) {
     state.options = state.options.map(opt => ({ ...opt, chose: false }));
   }
@@ -256,10 +263,10 @@ const setOptions = () => {
   }
 };
 
-onMounted(setOptions);
-
 watch(() => props.options, setOptions);
 watch(() => JSON.stringify(props.selectedValues), setOptions);
+
+onMounted(setOptions);
 </script>
 
 <style lang="scss" scoped>
