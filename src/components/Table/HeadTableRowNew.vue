@@ -1,16 +1,21 @@
 <template>
-  <tr class="head-table-row">
+  <tr class="head-table-row" :data-testid="props.dataTestid">
     <slot />
   </tr>
 </template>
 
 <script setup lang="ts">
+import type { IHeadTableRowProps } from './interface/interface';
 defineOptions({
   name: 'HeadTableRow'
 });
+
+const props = withDefaults(defineProps<IHeadTableRowProps>(), {
+  dataTestid: 'TableRow'
+});
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .head-table-row {
   &:last-child > * {
     border-bottom: 0.5px solid var(--border-grey);

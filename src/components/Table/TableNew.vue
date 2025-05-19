@@ -3,23 +3,33 @@
     ref="scrollWrapperRef"
     class="table"
     @unmount-scroll="unmountScroll"
+    :data-testid="`${props.dataTestid}-ScrollWrapper`"
   >
-    <table ref="tableRef" class="table__table">
+    <table
+      ref="tableRef"
+      class="table__table"
+      :data-testid="`${props.dataTestid}`"
+    >
       <slot>
         <slot name="colspan"></slot>
 
-        <thead v-if="$slots['head']" ref="theadRef" class="table__head">
+        <thead
+          v-if="$slots['head']"
+          ref="theadRef"
+          class="table__head"
+          :data-testid="`${props.dataTestid}-Thead`"
+        >
           <slot name="head"></slot>
 
           <HeadTableRowNew
             class="table__search-tr"
             v-if="$slots['search']"
-            data-testid="BaseTable-Head-SearchRow"
+            :data-testid="`${props.dataTestid}-Search-Row`"
           >
             <TableTh
               :colspan="countColumn"
               class="table__search-th"
-              data-testid="BaseTable-Head-SearchRow-Search"
+              :data-testid="`${props.dataTestid}-SearchRow-Search`"
             >
               <slot name="search"></slot>
             </TableTh>
@@ -27,7 +37,12 @@
         </thead>
 
         <slot name="body-group">
-          <tbody ref="tbodyRef" v-if="$slots['body']" class="table__body">
+          <tbody
+            ref="tbodyRef"
+            v-if="$slots['body']"
+            class="table__body"
+            :data-testid="`${props.dataTestid}-Tbody`"
+          >
             <slot name="body"></slot>
           </tbody>
         </slot>
@@ -42,10 +57,17 @@ import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import changeStyleProperties from '@/helpers/change-style-properties';
 import { computed, onMounted, ref } from 'vue';
-import { ITableEmit } from '@/components/Table/interface/interface';
+import type {
+  ITableEmit,
+  ITableProps
+} from '@/components/Table/interface/interface';
 
 defineOptions({
   name: 'TableNew'
+});
+
+const props = withDefaults(defineProps<ITableProps>(), {
+  dataTestid: 'Table'
 });
 
 const emit = defineEmits<ITableEmit>();
@@ -121,7 +143,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .table {
-  --table-background-color: var(--white);
   --td-vertical-padding: 11.5px;
   --td-horizontal-padding: 8px;
   &__table {
@@ -132,7 +153,7 @@ onMounted(() => {
     border-spacing: 0;
     table-layout: fixed;
 
-    background-color: var(--table-background-color);
+    background-color: var(--table-background-color, var(--white));
   }
 
   &__head {
