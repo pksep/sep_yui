@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.18
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.17...v0.1.18)
+
+### 🚀 Enhancements
+
+- Mouse enter and leave adding with a not tooltip show only mouse ([94765f3](https://github.com/NPO-Automotive/sep_yui/commit/94765f3))
+- Adding hober colors and data-testid of tables ([063058c](https://github.com/NPO-Automotive/sep_yui/commit/063058c))
+
 ## v0.1.17
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.16...v0.1.17)
