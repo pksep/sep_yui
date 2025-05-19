@@ -86,6 +86,7 @@ const props = withDefaults(defineProps<IInputNumberProps>(), {
   max: Infinity,
   size: SizesEnum.medium,
   dataTestid: 'InputNumber',
+  isInteger: false,
   modelModifiers: () => ({}) // not delete
 });
 
@@ -103,6 +104,11 @@ const handleInput = (e: Event): void => {
   const newValue = (e.target as HTMLInputElement).value;
 
   let formattedValue = newValue.replace(',', '.');
+
+  // если значение должны быть целочисленными, то "." удаляем
+  if (props.isInteger && formattedValue.includes('.')) {
+    formattedValue = formattedValue.replace('.', '');
+  }
 
   // Добавляем ведущий 0, если точка в начале
   if (formattedValue === '.') {
