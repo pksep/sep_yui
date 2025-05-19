@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.19
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.18...v0.1.19)
+
+### 🚀 Enhancements
+
+- Added integer type number in inputNumber ([b680a8c](https://github.com/NPO-Automotive/sep_yui/commit/b680a8c))
+
 ## v0.1.18
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.17...v0.1.18)
