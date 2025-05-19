@@ -1,5 +1,5 @@
 <template>
-  <tr class="table-row" :class="classRow" :data-testid="`props.dataTestid`">
+  <tr class="table-row" :class="classRow" :data-testid="props.dataTestid">
     <slot />
   </tr>
 </template>
