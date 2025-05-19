@@ -36,6 +36,8 @@
           class="filter__options-badge"
           :data-testid="`${props.dataTestid}-Badge`"
           :text="choosedOption"
+          @mouseenter="onMouseEnter"
+          @mouseleave="onMouseLeave"
           disabled
         />
 
@@ -125,7 +127,7 @@ import SelectList from '@/components/Select/SelectList.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import { isArrayOfOptionsObjectWithHint } from '@/helpers/guards/is-options-object-with-hint';
 import { isArray } from 'lodash';
-import { computed, ref } from 'vue';
+import { computed, ref, reactive } from 'vue';
 
 defineOptions({
   name: 'BaseFilter'
@@ -138,6 +140,10 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   isMultiple: false,
   isShowMiniOptions: false,
   dataTestid: 'BaseFilter'
+});
+
+const state = reactive({
+  isHovered: false
 });
 
 const emits = defineEmits<{
@@ -235,9 +241,17 @@ const choosedHint = computed(() => {
   return result || '';
 });
 
+const onMouseEnter = () => {
+  state.isHovered = true;
+};
+
+const onMouseLeave = () => {
+  state.isHovered = false;
+};
+
 const isCanShowHint = computed(() => {
   if (isArrayOfOptionsObjectWithHint(props.options)) {
-    return Boolean(choosedHint.value);
+    return state.isHovered && Boolean(choosedHint.value);
   }
 
   return badgesRef.value?.isSpanOverflow || false;
@@ -359,6 +373,7 @@ const clear = (): void => {
   position: relative;
   min-width: 0;
 }
+
 :deep(.base-yui-kit span.badges-text) {
   display: inline-block;
   width: 100%;
@@ -382,6 +397,7 @@ const clear = (): void => {
     background-color: #f8f9fd;
   }
 }
+
 .filter__count {
   position: relative;
   transition: all 0.2s ease;
@@ -411,17 +427,20 @@ const clear = (): void => {
 
   transition: all 0.2s ease;
 }
+
 :deep(.filter__options .truncate-yui-kit) {
   width: auto;
 }
 
 li.filter__options-underline {
   height: 0.5px;
+
   & .filter__options-underline-hr {
     margin: 0;
     border: none;
     border-bottom: 0.5px solid var(--border-grey);
   }
+
   &:last-child {
     display: none;
   }

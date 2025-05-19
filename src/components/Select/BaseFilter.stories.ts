@@ -92,3 +92,12 @@ Multiple.args = {
   isSearch: true,
   isPosibleToClear: true
 };
+
+export const MultipleWithHints = MultipleTemplate.bind({});
+
+MultipleWithHints.args = {
+  options: optionsWithHint,
+  isSearch: false,
+  isPosibleToClear: true,
+  isShoMiniOptions: true
+};
