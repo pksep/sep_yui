@@ -221,8 +221,9 @@ onUnmounted(() => {
   width: max-content;
 
   &__hint {
-    --hint-top: 0;
-    --hint-left: 0;
+    --hint-top: 0px;
+    --hint-left: 0px;
+    --hint-height: 1lh;
     --hint-before-width: 11px;
     --tooltip-hint-gap: 8px;
     position: absolute;
