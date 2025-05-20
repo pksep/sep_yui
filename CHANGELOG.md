@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.20
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.19...v0.1.20)
+
+### 🚀 Enhancements
+
+- Fix backgroun in table row and fix get gup in tooltip ([b83de5d](https://github.com/NPO-Automotive/sep_yui/commit/b83de5d))
+
+### 🩹 Fixes
+
+- Fix style position hint ([9dc0ee1](https://github.com/NPO-Automotive/sep_yui/commit/9dc0ee1))
+
 ## v0.1.19
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.18...v0.1.19)
