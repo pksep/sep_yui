@@ -26,37 +26,38 @@ const classRow = computed(() => [
 .table-row {
   width: 100%;
   transition: all 0.2s ease;
-  background-color: var(--background);
   cursor: var(--cursor, pointer);
+}
 
-  &:first-child > * {
-    border-top: none;
-  }
+.table-row:first-child > * {
+  border-top: none;
+}
 
-  &:last-child > * {
-    border-bottom: 0.5px solid var(--border-grey);
-  }
-  &.passive {
-    --background: #f8f8f9;
-  }
-  &:hover,
-  &.active {
-    --background: var(--blue11);
-    color: inherit;
-  }
-  &.ava {
-    --background: var(--orange10);
-    &:hover,
-    &.active {
-      --background: #ffebc1;
-    }
-  }
-  &.ban {
-    --background: #ffefee;
-    &:hover,
-    &.active {
-      --background: #ffd3ca;
-    }
-  }
+.table-row:last-child > * {
+  border-bottom: 0.5px solid var(--border-grey);
+}
+
+.table-row_active,
+.table-row:hover {
+  --background: var(--blue11);
+  color: inherit;
+}
+
+.table-row.ava {
+  --background: var(--orange10);
+}
+.table-row.ava:hover,
+.table-row.ava_active {
+  --background: #ffebc1;
+}
+.table-row.ban {
+  --background: #ffefee;
+}
+.table-row.ban:hover,
+.table-row.ban_active {
+  --background: #ffd3ca;
+}
+.table-row.passive {
+  --background: #f8f8f9;
 }
 </style>
