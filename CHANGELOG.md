@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.21
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.20...v0.1.21)
+
+### 🚀 Enhancements
+
+- Add root color ([d9385a3](https://github.com/NPO-Automotive/sep_yui/commit/d9385a3))
+
 ## v0.1.20
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.19...v0.1.20)
