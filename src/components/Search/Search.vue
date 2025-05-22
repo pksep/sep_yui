@@ -70,6 +70,7 @@ const emit = defineEmits<{
   (e: 'enter', value: string): void;
   (e: 'input', value: string): void;
   (e: 'update:modelValue', value: string): void;
+  (e: 'choosed', value: string): void;
 }>();
 
 const state = reactive({
@@ -93,8 +94,10 @@ const searchStyles: CSSProperties = {
 const choosenPost = (value: string) => {
   state.searchValue = value;
   state.isShowList = false;
+
   emit('input', value);
   emit('update:modelValue', state.searchValue);
+  emit('choosed', value);
 };
 
 /**
