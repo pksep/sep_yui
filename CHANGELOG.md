@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.22
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.21...v0.1.22)
+
+### 🚀 Enhancements
+
+- Color contrast improved of table row ([d668f6c](https://github.com/NPO-Automotive/sep_yui/commit/d668f6c))
+
+### 🩹 Fixes
+
+- Return background color to back ([71fdfee](https://github.com/NPO-Automotive/sep_yui/commit/71fdfee))
+
 ## v0.1.21
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.20...v0.1.21)
