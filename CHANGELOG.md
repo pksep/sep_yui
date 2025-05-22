@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.23
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.22...v0.1.23)
+
+### 🚀 Enhancements
+
+- Add icon slashCircle ([e7e6eaf](https://github.com/NPO-Automotive/sep_yui/commit/e7e6eaf))
+
 ## v0.1.22
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.21...v0.1.22)
