@@ -39,25 +39,25 @@ const classRow = computed(() => [
 
 .table-row_active,
 .table-row:hover {
-  --background: var(--blue11);
+  background-color: var(--blue11);
   color: inherit;
 }
 
 .table-row.ava {
-  --background: var(--orange10);
+  background-color: var(--orange10);
 }
 .table-row.ava:hover,
 .table-row.ava_active {
-  --background: #ffebc1;
+  background-color: #ffebc1;
 }
 .table-row.ban {
-  --background: #ffefee;
+  background-color: #ffefee;
 }
 .table-row.ban:hover,
 .table-row.ban_active {
-  --background: #ffd3ca;
+  background-color: #ffd3ca;
 }
 .table-row.passive {
-  --background: #f8f8f9;
+  background-color: #f8f8f9;
 }
 </style>
