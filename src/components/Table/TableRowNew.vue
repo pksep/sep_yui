@@ -39,7 +39,7 @@ const classRow = computed(() => [
 
 .table-row_active,
 .table-row:hover {
-  background-color: var(--blue11);
+  background-color: var(--blue21);
   color: inherit;
 }
 
