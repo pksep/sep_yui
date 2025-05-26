@@ -5,7 +5,7 @@ export type ResultSearchType = {
   nameArea: string;
   searchResult: string;
   icon?: IconNameEnum;
-  url?: string;
+  [key: string]: unknown;
 };
 
 export interface ISearchProps extends IDataTestIdProp {

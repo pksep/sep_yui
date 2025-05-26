@@ -7,6 +7,8 @@
       class="result-yui-kit__list"
       v-if="props.globalResultsFunction.length > 0"
       :data-testid="`${props.dataTestid}-List`"
+      @scroll="handleScroll"
+      ref="resultContentRef"
     >
       <li
         class="result-yui-kit__list__item"
@@ -59,14 +61,17 @@
 import { ISearchProps, ResultSearchType } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
+import { ref, watch } from 'vue';
 
 const props = withDefaults(defineProps<Partial<ISearchProps>>(), {
   dataTestid: 'SearchResult',
-  globalResultsFunction: () => []
+  globalResultsFunction: () => [],
+  searchValue: ''
 });
 
 const emit = defineEmits<{
   (e: 'choose-result', result: ResultSearchType): void;
+  (e: 'scroll-paginate'): void;
 }>();
 
 /**
@@ -78,12 +83,32 @@ const emit = defineEmits<{
  * @returns
  */
 
+const resultContentRef = ref<HTMLElement | null>(null);
+
 /**
  * получает выбранный элемент списка и отправляет его родителю
  */
 const handleChooseResult = (item: ResultSearchType) => {
   emit('choose-result', item);
 };
+
+const handleScroll = (event: Event) => {
+  const target = event.target as HTMLElement;
+  const { scrollTop, scrollHeight, clientHeight } = target;
+
+  if (scrollHeight - scrollTop - clientHeight < 5) {
+    emit('scroll-paginate');
+  }
+};
+
+// Watch for searchValue changes and scroll to top
+watch(
+  () => props.searchValue,
+  () => {
+    if (!resultContentRef.value) return;
+    resultContentRef.value.scrollTop = 0;
+  }
+);
 </script>
 
 <style lang="scss" scoped>

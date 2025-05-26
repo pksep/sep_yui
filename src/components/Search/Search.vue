@@ -55,6 +55,7 @@
       :search-value="state.searchValue"
       :data-testid="`${props.dataTestid}-Dropdown-SearchResult`"
       @choose-result="chosenResult"
+      @scroll-paginate="handlePaginateResult"
     />
   </div>
 </template>
@@ -86,6 +87,7 @@ const emit = defineEmits<{
   (e: 'input', value: string): void;
   (e: 'update:modelValue', value: string): void;
   (e: 'choose-result', value: ResultSearchType): void;
+  (e: 'scroll-paginate'): void;
 }>();
 
 const state = reactive({
@@ -112,6 +114,10 @@ const chosenPost = (value: string) => {
 const chosenResult = (value: ResultSearchType) => {
   state.isShowList = false;
   emit('choose-result', value);
+};
+
+const handlePaginateResult = () => {
+  emit('scroll-paginate');
 };
 
 /**
