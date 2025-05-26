@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.25
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.24...v0.1.25)
+
+### 🚀 Enhancements
+
+- Add a pagination search result ([835fb46](https://github.com/NPO-Automotive/sep_yui/commit/835fb46))
+
+### 🩹 Fixes
+
+- Global search ([ffd8afa](https://github.com/NPO-Automotive/sep_yui/commit/ffd8afa))
+
 ## v0.1.24
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.23...v0.1.24)
