@@ -1029,3 +1029,13 @@ export const closeTag: IVectorIcon = {
 `,
   viewbox: '0 0 10 10'
 };
+
+export const slashCircle: IVectorIcon = {
+  name: 'slash-circle',
+  fill: 'none',
+  style: 'line',
+  path: `
+    <path d="M3.28671 3.28671L12.7134 12.7134M12.7133 3.2867L3.28666 12.7134M14.6667 8.00004C14.6667 11.6819 11.6819 14.6667 8.00004 14.6667C4.31814 14.6667 1.33337 11.6819 1.33337 8.00004C1.33337 4.31814 4.31814 1.33337 8.00004 1.33337C11.6819 1.33337 14.6667 4.31814 14.6667 8.00004Z" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+`,
+  viewbox: '0 0 16 16'
+};

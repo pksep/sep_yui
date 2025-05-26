@@ -100,9 +100,20 @@ const setPosition = (): void => {
     if (!tooltipRef.value || !hintRef.value || (!state.isShow && !props.isShow))
       return;
 
+    const setedStyles: Record<string, string> = {
+      '--hint-top': '0',
+      '--hint-left': '0',
+      '--hint-width': '0',
+      '--hint-height': '0',
+      '--tooltip-width': '0',
+      '--tooltip-height': '0',
+      '--hint-visibility': 'visible'
+    };
+
     const rect = tooltipRef.value.getBoundingClientRect();
     const rectHint = hintRef.value.getBoundingClientRect();
 
+    // получаем положение основного элемента относительно документа
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollLeft =
       window.pageXOffset || document.documentElement.scrollLeft;
@@ -110,6 +121,7 @@ const setPosition = (): void => {
     let top = rect.top + scrollTop;
     let left = rect.left + scrollLeft;
 
+    // если элемент находится в диалоге, то нужно вычесть его положение
     const dialog = tooltipRef.value.closest('dialog');
 
     if (dialog) {
@@ -119,31 +131,28 @@ const setPosition = (): void => {
       left = left - rectDialog.left;
     }
 
+    // устанавливаем длину и высоту элемента и подскахки для смещения
     const tooltipWidth = rect.width;
     const tooltipHeight = rect.height;
     const hintWidth = rectHint.width;
     const hintHeigth = rectHint.height;
 
+    setedStyles['--hint-top'] = `${top}px`;
+    setedStyles['--hint-left'] = `${left}px`;
+    setedStyles['--tooltip-width'] = `${tooltipWidth}px`;
+    setedStyles['--tooltip-height'] = `${tooltipHeight}px`;
+    setedStyles['--hint-width'] = `${hintWidth}px`;
+    setedStyles['--hint-height'] = `${hintHeigth}px`;
+
     if (!hintRef.value) return;
 
-    changeStyleProperties(
-      {
-        '--hint-top': `${top}px`,
-        '--hint-left': `${left}px`,
-        '--hint-width': `${hintWidth}px`,
-        '--hint-height': `${hintHeigth}px`,
-
-        '--tooltip-width': `${tooltipWidth}px`,
-        '--tooltip-height': `${tooltipHeight}px`
-      },
-      hintRef.value
-    );
+    changeStyleProperties(setedStyles, hintRef.value);
   });
 };
 
 const setHintGap = (): void => {
   requestAnimationFrame(() => {
-    if (!hintRef.value || props.hintGap !== undefined) return;
+    if (!hintRef.value || props.hintGap === undefined) return;
 
     changeStyleProperties(
       {
@@ -212,7 +221,11 @@ onUnmounted(() => {
   width: max-content;
 
   &__hint {
+    --hint-top: 0px;
+    --hint-left: 0px;
+    --hint-height: 1lh;
     --hint-before-width: 11px;
+    --tooltip-hint-gap: 8px;
     position: absolute;
     z-index: 20;
 
@@ -225,10 +238,11 @@ onUnmounted(() => {
 
     padding: var(--tooltip-padding);
     border-radius: 4px;
-    white-space: nowrap;
-    width: max-content;
+    width: var(--hint-width, max-content);
+    visibility: var(--hint-visibility, hidden);
 
     font-size: var(--tooltip-font-size);
+    hyphens: auto;
 
     filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.16));
 

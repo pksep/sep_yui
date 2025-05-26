@@ -5,6 +5,7 @@ export interface IInputNumberProps extends IDataTestIdProp {
   inputMessage: string;
   modelValue?: number;
   required?: boolean;
+  isInteger?: boolean;
   min?: number;
   max?: number;
   size?: SizesEnum.small | SizesEnum.medium;

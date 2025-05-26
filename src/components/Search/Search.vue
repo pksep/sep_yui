@@ -88,6 +88,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'choose-result', value: ResultSearchType): void;
   (e: 'scroll-paginate'): void;
+  (e: 'choosed', value: string): void;
 }>();
 
 const state = reactive({
@@ -107,8 +108,10 @@ const searchStyles: CSSProperties = {
 const chosenPost = (value: string) => {
   state.searchValue = value;
   state.isShowList = false;
+
   emit('input', value);
   emit('update:modelValue', state.searchValue);
+  emit('choosed', value);
 };
 
 const chosenResult = (value: ResultSearchType) => {
