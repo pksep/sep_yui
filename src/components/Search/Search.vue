@@ -112,12 +112,12 @@ const chosenPost = (value: string) => {
   emit('input', value);
   emit('update:modelValue', state.searchValue);
   emit('choosed', value);
+  emit('enter', state.searchValue);
 };
 
 const chosenResult = (value: ResultSearchType) => {
   state.isShowList = false;
   emit('choose-result', value);
-  emit('enter', value);
 };
 
 const handlePaginateResult = () => {
