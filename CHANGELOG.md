@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.26
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.25...v0.1.26)
+
+### 🚀 Enhancements
+
+- Enter value when select item in a search result ([2ea904c](https://github.com/NPO-Automotive/sep_yui/commit/2ea904c))
+
 ## v0.1.25
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.24...v0.1.25)
