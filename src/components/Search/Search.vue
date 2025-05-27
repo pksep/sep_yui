@@ -117,6 +117,7 @@ const chosenPost = (value: string) => {
 const chosenResult = (value: ResultSearchType) => {
   state.isShowList = false;
   emit('choose-result', value);
+  emit('enter', state.searchValue);
 };
 
 const handlePaginateResult = () => {
