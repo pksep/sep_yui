@@ -37,7 +37,7 @@ const stylesContent = computed(() => ({
   height: props.height
 }));
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'unmounted']);
 
 let lastShowTime = 0;
 
@@ -131,6 +131,7 @@ onMounted(() => {
 onUnmounted(() => {
   resetBlock();
   document.removeEventListener('keydown', handleKeyPressed);
+  emit('unmounted');
 });
 </script>
 
