@@ -68,7 +68,9 @@ const handleKeyPressed = (event: KeyboardEvent): void => {
 
   // Проверяем является ли диалог последним открытм
   const dialogs = document.querySelectorAll('.modal-yui-kit');
-  const isLast = dialogs[dialogs.length - 1] === dialog.value;
+  const isLast = dialogs[dialogs.length - 1]
+    ? dialogs[dialogs.length - 1] === dialog.value
+    : false;
 
   // если нажат esc и диалог является последним открытым, то закрываем его
   if (key === 'Escape' && isLast) {
