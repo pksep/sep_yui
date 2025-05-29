@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.1.28
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.27...v0.1.28)
+
+### 🚀 Enhancements
+
+- Added end animation emit ([3cf5eb0](https://github.com/NPO-Automotive/sep_yui/commit/3cf5eb0))
+- Added close last dialog ([105ba31](https://github.com/NPO-Automotive/sep_yui/commit/105ba31))
+- Added checks ([ae491c8](https://github.com/NPO-Automotive/sep_yui/commit/ae491c8))
+- Added ability to close modal on button esc ([64dcb31](https://github.com/NPO-Automotive/sep_yui/commit/64dcb31))
+- Turn off default behaivor closing dialog ([8b04a17](https://github.com/NPO-Automotive/sep_yui/commit/8b04a17))
+
+### 🎨 Styles
+
+- Change input number minor background color ([352851c](https://github.com/NPO-Automotive/sep_yui/commit/352851c))
+- Change fill of small trash icon ([5592821](https://github.com/NPO-Automotive/sep_yui/commit/5592821))
+
 ## v0.1.27
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.26...v0.1.27)
