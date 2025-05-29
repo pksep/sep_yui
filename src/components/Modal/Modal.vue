@@ -132,6 +132,13 @@ onMounted(() => {
     }
   });
 
+  if (dialog.value) {
+    // отключаем дефолтное закрытие модального окна по esc из-за конфликтов с анимацией
+    dialog.value.addEventListener('cancel', event => {
+      event.preventDefault();
+    });
+  }
+
   const scrollbarWidth = getScrollbarWidth();
   changeStyleProperties(
     {
