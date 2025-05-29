@@ -27,6 +27,12 @@ import {
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
+import { useModalStore } from '@/stores/modal';
+import { storeToRefs } from 'pinia';
+
+const modalStore = useModalStore();
+const { lastOpenedModal } = storeToRefs(modalStore);
+const { addOpenedModal, reduceOpenedModal } = modalStore;
 
 const props = defineProps<IDialogProps>();
 const dialog = ref<HTMLDialogElement | null>(null);
@@ -43,7 +49,15 @@ let lastShowTime = 0;
 
 const showDialog = (): void => {
   lastShowTime = Date.now();
-  props.open ? dialog.value?.showModal() : hideDialog();
+  if (dialog.value) {
+    if (props.open) {
+      dialog.value.showModal();
+
+      addOpenedModal(dialog.value);
+    } else {
+      hideDialog();
+    }
+  }
 };
 
 const hideDialog = (): void => {
@@ -52,6 +66,8 @@ const hideDialog = (): void => {
   if (now - lastShowTime < 300) {
     return;
   }
+
+  reduceOpenedModal();
 
   emit('close');
 };
@@ -66,14 +82,7 @@ const closeDialog = (): void => {
 const handleKeyPressed = (event: KeyboardEvent): void => {
   const key = event.key;
 
-  // Проверяем является ли диалог последним открытм
-  const dialogs = document.querySelectorAll('.modal-yui-kit');
-  const isLast = dialogs[dialogs.length - 1]
-    ? dialogs[dialogs.length - 1] === dialog.value
-    : false;
-
-  // если нажат esc и диалог является последним открытым, то закрываем его
-  if (key === 'Escape' && isLast) {
+  if (key === 'Escape' && lastOpenedModal.value === dialog.value) {
     hideDialog();
   }
 };
