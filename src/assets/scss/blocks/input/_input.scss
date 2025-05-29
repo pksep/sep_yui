@@ -107,6 +107,12 @@ fieldset.input-yui-kit {
   &.minor {
     --background: var(--blue15);
   }
+
+  &_number {
+    &.minor {
+      --background: var(--blue9);
+    }
+  }
 }
 
 fieldset.input-yui-kit:disabled {
