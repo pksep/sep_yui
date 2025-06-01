@@ -15,7 +15,7 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
   range?: IRangeForDatePicker;
   locale?: string;
   fromTodayTime?: boolean;
-  lastDate?: boolean;
+  tolastTime?: boolean;
   setDate?: Date | null;
   startDate?: Date | null;
   endDate?: Date | null;
@@ -23,5 +23,10 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
 
 export interface IDatePickerChooserProps extends IDatePickerBaseProps {
   value: string;
+  isActive: boolean;
+}
+
+export interface IRangeForDatePickerState {
+  date: IRangeForDatePicker;
   isActive: boolean;
 }

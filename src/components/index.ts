@@ -45,7 +45,7 @@ import Radio from '@/components/Radio/Radio.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import BaseFilter from '@/components/Select/BaseFilter.vue';
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
-import { getUTCLastDateTimeMoscow } from './Calendar/date-utils';
+import { getLastTime } from './Calendar/date-utils';
 
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
@@ -172,5 +172,5 @@ export {
   type OptionsObject,
   Range,
   type IDialogProps,
-  getUTCLastDateTimeMoscow
+  getLastTime
 };

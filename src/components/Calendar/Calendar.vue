@@ -2,6 +2,7 @@
   <DatePickerRange
     ref="datePickerRangeRef"
     v-if="props.isRange"
+    :tolast-time="props.tolastTime"
     v-model:start-date="state.dateObject.start"
     v-model:end-date="state.dateObject.end"
     :disabled="props.disabled"
@@ -24,7 +25,7 @@
 
 <script setup lang="ts">
 import { reactive, watchEffect, watch, onMounted, ref } from 'vue';
-import { getUTCLastDateTimeMoscow } from './date-utils';
+import { getLastTime } from './date-utils';
 
 import DatePickerRange from './DatePickerRange.vue';
 import DatePicker from './DatePicker.vue';
@@ -63,7 +64,9 @@ const fillDateObject = (): IRangeForDatePicker => ({
   start: props.fromTodayTime
     ? new Date(Date.now())
     : (props.range?.start ?? null),
-  end: props.lastDate ? getUTCLastDateTimeMoscow() : (props.range?.end ?? null)
+  end: props.tolastTime
+    ? getLastTime(props.range?.end ?? null)
+    : (props.range?.end ?? null)
 });
 
 watch(
