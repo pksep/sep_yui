@@ -250,7 +250,7 @@ defineExpose({
   height: 260px;
   overflow: hidden;
   border: 0.5px solid var(--grey12);
-  border-radius: 15px;
+  border-radius: 10px;
   transition: 0.3s ease-in-out;
 
   &:hover {
@@ -270,7 +270,7 @@ defineExpose({
 
   &__slides {
     background-color: var(--white);
-    border-radius: 15px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -296,7 +296,7 @@ defineExpose({
     background-color: var(--white);
     border: 1px solid transparent;
     outline: none;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 0 20px;
     transition: 0.3s ease-in-out;
     cursor: pointer;
@@ -310,7 +310,7 @@ defineExpose({
     }
 
     &:disabled {
-      background-color: var(--grey1);
+      background-color: var(--grey2);
       color: var(--grey4);
     }
   }
@@ -343,7 +343,7 @@ defineExpose({
   justify-content: center;
   flex-grow: 1;
   gap: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: var(--grey11);
 
   img {
