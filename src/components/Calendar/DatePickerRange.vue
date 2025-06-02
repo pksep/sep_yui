@@ -82,7 +82,9 @@ const clearFunction = (type: RangeTypeEnum): void => {
 };
 
 const handleClearAll = (): void => {
-  Object.values(state.date).fill(null);
+  Object.keys(state.date).forEach(key => {
+    state.date[key as 'start' | 'end'] = null;
+  });
 };
 
 const checkDateValue = (): void => {
