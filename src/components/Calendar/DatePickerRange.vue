@@ -70,8 +70,8 @@ const changeValue = (val: Date | null, item: RangeTypeEnum): void => {
   }
 
   if (item === RangeTypeEnum.end) {
-    state.date[item] = props.tolastTime ? getLastTime(val) : val;
-    state.date[item] = getLastTime(val);
+    state.date[item] =
+      props.toLastTime && val !== null ? getLastTime(val) : val;
   }
 
   emits('change', state.date);
@@ -83,7 +83,7 @@ const clearFunction = (type: RangeTypeEnum): void => {
 
 const handleClearAll = (): void => {
   Object.keys(state.date).forEach(key => {
-    state.date[key as 'start' | 'end'] = null;
+    state.date[key as RangeTypeEnum] = null;
   });
 };
 
@@ -91,7 +91,7 @@ const checkDateValue = (): void => {
   if (startDate.value || endDate.value) {
     state.date = {
       start: startDate.value as Date,
-      end: props.tolastTime
+      end: props.toLastTime
         ? getLastTime(endDate.value as Date)
         : (endDate.value as Date)
     };

@@ -2,7 +2,7 @@
   <DatePickerRange
     ref="datePickerRangeRef"
     v-if="props.isRange"
-    :tolast-time="props.tolastTime"
+    :to-last-time="props.toLastTime"
     v-model:start-date="state.dateObject.start"
     v-model:end-date="state.dateObject.end"
     :disabled="props.disabled"
@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { reactive, watchEffect, watch, onMounted, ref } from 'vue';
-import { getLastTime } from './date-utils';
+// import { getLastTime } from './date-utils';
 
 import DatePickerRange from './DatePickerRange.vue';
 import DatePicker from './DatePicker.vue';
@@ -55,6 +55,7 @@ const emits = defineEmits<{
 const datePickerRangeRef = ref<typeof DatePickerRange>();
 
 const changeValues = (val: Date | IRangeForDatePicker | null): void => {
+  console.log('get-a-val', val);
   emits('change', val);
 };
 
@@ -64,9 +65,7 @@ const fillDateObject = (): IRangeForDatePicker => ({
   start: props.fromTodayTime
     ? new Date(Date.now())
     : (props.range?.start ?? null),
-  end: props.tolastTime
-    ? getLastTime(props.range?.end ?? null)
-    : (props.range?.end ?? null)
+  end: props.range?.end ?? null
 });
 
 watch(
