@@ -31,7 +31,7 @@
         </div>
         <div
           class="placeholder-yui-kit"
-          v-if="showPlaceholderExtension()"
+          v-else-if="showPlaceholderExtension()"
           :data-testid="`${props.dataTestid}-Invalid-Extension-Placeholder`"
         >
           <img
@@ -42,21 +42,23 @@
           />
           <p>.{{ state.extension }}</p>
         </div>
-        <img
-          v-if="isImage(state.file?.path ?? '')"
-          @click="e => toFullsizeImage(e)"
-          :src="state.file?.path ?? ''"
-          ref="fullsizeImageRef"
-          :data-testid="`${props.dataTestid}-Image`"
-        />
-        <video
-          v-if="isVideo(state.file?.path ?? '')"
-          @click="e => toFullsizeImage(e)"
-          controls
-          :data-testid="`${props.dataTestid}-Video`"
-        >
-          <source :src="state.file?.path ?? ''" />
-        </video>
+        <template v-else>
+          <img
+            v-if="isImage(state.file?.path ?? '')"
+            @click="e => toFullsizeImage(e)"
+            :src="state.file?.path ?? ''"
+            ref="fullsizeImageRef"
+            :data-testid="`${props.dataTestid}-Image`"
+          />
+          <video
+            v-if="isVideo(state.file?.path ?? '')"
+            @click="e => toFullsizeImage(e)"
+            controls
+            :data-testid="`${props.dataTestid}-Video`"
+          >
+            <source :src="state.file?.path ?? ''" />
+          </video>
+        </template>
       </div>
       <button
         class="slider-yui-kit__button slider-yui-kit__button--next"
