@@ -17,12 +17,12 @@
         :data-testid="`${props.dataTestid}-slides-container`"
       >
         <div
-          class="placeholder-yui-kit"
+          class="placeholder-yui-kit no-content"
           v-if="showPlaceholder()"
           :data-testid="`${props.dataTestid}-No-Content-Placeholder`"
         >
           <img
-            src="./../../assets/images/slider/camera.svg"
+            src="./../../assets/images/slider/closed-camera.svg"
             alt=""
             width="111px"
             height="111px"
@@ -312,6 +312,7 @@ defineExpose({
     &:disabled {
       background-color: var(--grey2);
       color: var(--grey4);
+      cursor: default;
     }
   }
 
@@ -332,6 +333,28 @@ defineExpose({
 
   &__slide-full-size {
     height: 100%;
+  }
+
+  &:has(.no-content):hover {
+    border-color: var(--grey12);
+  }
+
+  &__wrapper:has(.no-content) {
+    background-color: var(--grey1);
+  }
+
+  .no-content {
+    background-color: var(--grey1);
+
+    & p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    & * {
+      cursor: default;
+    }
   }
 }
 
