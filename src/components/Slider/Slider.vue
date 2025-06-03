@@ -365,7 +365,7 @@ defineExpose({
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-  gap: 20px;
+  gap: 9px;
   border-radius: 5px;
   background-color: var(--grey11);
 
