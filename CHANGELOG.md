@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.33
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.32...v0.1.33)
+
+### 🚀 Enhancements
+
+- Update Slider.vue styles ([b653c2b](https://github.com/NPO-Automotive/sep_yui/commit/b653c2b))
+
 ## v0.1.32
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.31...v0.1.32)
