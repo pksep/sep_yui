@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.34
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.33...v0.1.34)
+
+### 🩹 Fixes
+
+- Conditions for empty content ([ee5164d](https://github.com/NPO-Automotive/sep_yui/commit/ee5164d))
+
 ## v0.1.33
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.32...v0.1.33)
