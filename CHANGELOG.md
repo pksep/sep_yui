@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.1.35
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.34...v0.1.35)
+
+### 🚀 Enhancements
+
+- Change hover background color table and recoded table.vue ([d1341cc](https://github.com/NPO-Automotive/sep_yui/commit/d1341cc))
+- Added min-height for table ([9487a72](https://github.com/NPO-Automotive/sep_yui/commit/9487a72))
+
+### 🩹 Fixes
+
+- Fix lint issue ([6e0f29a](https://github.com/NPO-Automotive/sep_yui/commit/6e0f29a))
+
 ## v0.1.34
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.33...v0.1.34)
