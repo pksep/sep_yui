@@ -3,8 +3,8 @@
     ref="scrollWrapperRef"
     class="table"
     @unmount-scroll="unmountScroll"
-    :is-show-vertical-scroll
-    :is-show-horizontal-scroll
+    :is-show-vertical-scroll="props.isShowVerticalScroll"
+    :is-show-horizontal-scroll="props.isShowHorizontalScroll"
     :data-testid="`${props.dataTestid}-ScrollWrapper`"
   >
     <table
@@ -69,7 +69,9 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<ITableProps>(), {
-  dataTestid: 'Table'
+  dataTestid: 'Table',
+  isShowHorizontalScroll: false,
+  isShowVerticalScroll: false
 });
 
 const emit = defineEmits<ITableEmit>();
