@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { ITableRow } from '@/components/Table/interface/interface';
 import { computed } from 'vue';
+import type { ITableRow } from '@/components/Table/interface/interface';
 
 defineOptions({
   name: 'TableRow'
@@ -14,31 +14,50 @@ defineOptions({
 
 const props = withDefaults(defineProps<ITableRow>(), {
   type: 'default',
-  colspan: 1,
-  dataTestid: 'TableRow'
+  colspan: 1
 });
 
 const classRow = computed(() => [
-  { 'table-row_selected': props.type === 'selected' }
+  { 'table-row_active': props.type === 'selected' }
 ]);
 </script>
 
 <style scoped>
 .table-row {
-  display: table;
   width: 100%;
   transition: all 0.2s ease;
+  cursor: var(--cursor, pointer);
 }
 
 .table-row:first-child > * {
   border-top: none;
 }
 
-.table-row_selected {
-  background-color: var(--blue11);
+.table-row:last-child > * {
+  border-bottom: 0.5px solid var(--border-grey);
 }
 
-.table-row:last-child {
-  border-bottom: 1px solid var(--border-grey);
+.table-row_active,
+.table-row:hover {
+  background-color: var(--blue21);
+  color: inherit;
+}
+
+.table-row.ava {
+  background-color: var(--orange10);
+}
+.table-row.ava:hover,
+.table-row.ava_active {
+  background-color: #ffebc1;
+}
+.table-row.ban {
+  background-color: #ffefee;
+}
+.table-row.ban:hover,
+.table-row.ban_active {
+  background-color: #ffd3ca;
+}
+.table-row.passive {
+  background-color: #f8f8f9;
 }
 </style>
