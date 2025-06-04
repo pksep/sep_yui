@@ -114,13 +114,15 @@ const setHeightSlot = (): void => {
   if (!slotRef.value || !scrollWrapperRef.value) return;
 
   const style = getComputedStyle(scrollWrapperRef.value);
+  const minHeight = scrollWrapperRef.value.style.minHeight || style.minHeight;
   const maxHeight = scrollWrapperRef.value.style.maxHeight || style.maxHeight;
   const height = scrollWrapperRef.value.style.height;
 
   changeStyleProperties(
     {
       '--scroll-wrapper-height': `${height}`,
-      '--scroll-wrapper-max-height': `${maxHeight}`
+      '--scroll-wrapper-max-height': `${maxHeight}`,
+      '--scroll-wrapper-min-height': `${minHeight}`
     },
     scrollWrapperRef.value
   );
@@ -213,12 +215,14 @@ onUnmounted(() => {
     width: 100%;
     height: var(--scroll-wrapper-height, 100%);
     max-height: var(--scroll-wrapper-max-height, 100%);
+    min-height: var(--scroll-wrapper-min-height, 0);
 
     overflow: auto;
     scrollbar-width: none;
 
     border: 0.5px solid var(--scroll-slot-border, var(--border-grey));
     border-radius: var(--scroll-border-radius, 15px);
+    background-color: var(--scroll-slot-background-color, transparent);
     &::-webkit-scrollbar {
       display: none;
     }

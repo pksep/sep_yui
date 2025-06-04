@@ -24,8 +24,9 @@
           <slot name="head"></slot>
 
           <HeadTableRowNew
-            class="table__search-tr"
             v-if="$slots['search']"
+            class="table__search-tr"
+            ref="searchRowRef"
             :data-testid="`${props.dataTestid}-Search-Row`"
           >
             <TableTh
@@ -79,6 +80,7 @@ const emit = defineEmits<ITableEmit>();
 const tableRef = ref<HTMLElement | null>(null);
 const theadRef = ref<HTMLElement | null>(null);
 const tbodyRef = ref<HTMLElement | null>(null);
+const searchRowRef = ref<InstanceType<typeof HeadTableRowNew> | null>(null);
 const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapperNew> | null>(
   null
 );
@@ -117,9 +119,32 @@ const setHeadHeight = () => {
   );
 };
 
+/**
+ * Скроллит вначало
+ */
 const scrollToTop = () => {
   if (scrollWrapperRef.value) {
     scrollWrapperRef.value.scrollToTop();
+  }
+};
+
+/**
+ * устанавливает минимальное значение для таблицы, если в ней есть поиск
+ * и не задано минимальное значение
+ */
+const setSearchMinHeight = () => {
+  if (scrollWrapperRef.value && searchRowRef.value) {
+    const style = getComputedStyle(scrollWrapperRef.value.$el);
+    const minHeight = Number(style.minHeight.replace(/\D/g, ''));
+
+    if (minHeight && minHeight > 0) {
+      return;
+    }
+
+    changeStyleProperties(
+      { 'min-height': '200px' },
+      scrollWrapperRef.value.$el
+    );
   }
 };
 
@@ -142,6 +167,8 @@ onMounted(() => {
   if (tableRef.value) {
     resizeObserver.observe(tableRef.value);
   }
+
+  setSearchMinHeight();
 });
 </script>
 
@@ -149,6 +176,8 @@ onMounted(() => {
 .table {
   --td-vertical-padding: 11.5px;
   --td-horizontal-padding: 8px;
+  --scroll-slot-background-color: var(--table-background-color, var(--white));
+
   &__table {
     position: relative;
     width: 100%;
