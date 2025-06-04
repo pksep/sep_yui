@@ -3,6 +3,8 @@
     ref="scrollWrapperRef"
     class="table"
     @unmount-scroll="unmountScroll"
+    :is-show-vertical-scroll
+    :is-show-horizontal-scroll
     :data-testid="`${props.dataTestid}-ScrollWrapper`"
   >
     <table

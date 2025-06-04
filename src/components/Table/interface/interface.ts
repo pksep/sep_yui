@@ -22,6 +22,7 @@ export interface ITableTd extends IDataTestIdProp {
 
 export interface ITableProps extends IDataTestIdProp {
   isShowVerticalScroll?: boolean;
+  isShowHorizontalScroll?: boolean;
 }
 
 export interface ITableEmit {
