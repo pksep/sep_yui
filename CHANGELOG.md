@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.36
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.35...v0.1.36)
+
+### 🚀 Enhancements
+
+- Added new badges type ([de57b8f](https://github.com/NPO-Automotive/sep_yui/commit/de57b8f))
+
 ## v0.1.35
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.34...v0.1.35)
