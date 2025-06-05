@@ -27,15 +27,13 @@ export const getLastTime = (date: Date | null): Date => {
   const dateTime = isValidDate(date) && date !== null ? date : new Date();
 
   const lastMoment = new Date(
-    Date.UTC(
-      dateTime.getFullYear(),
-      dateTime.getMonth(),
-      dateTime.getDate(),
-      23,
-      59,
-      59,
-      999
-    )
+    dateTime.getFullYear(),
+    dateTime.getMonth(),
+    dateTime.getDate(),
+    23,
+    59,
+    59,
+    999
   );
   return lastMoment;
 };
