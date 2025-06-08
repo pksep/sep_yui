@@ -2,29 +2,32 @@ import type { IDataTestIdProp } from '@/common/dataTestidProps';
 import { IScrollWrapperProps } from '@/components/ScrollWrapper/interface/interface';
 
 export interface ISectionTable<T> {
-  title?: string;
-  values: T[];
+    title?: string;
+    values: T[];
 }
 
 export type TTableRow = 'selected' | 'default';
 
 export interface ITableRow extends IDataTestIdProp {
-  type?: TTableRow;
+    type?: TTableRow;
 }
 
 export interface ISectionTableRow extends IDataTestIdProp {
-  colspan: number | string;
+    colspan: number | string;
 }
 
 export interface ITableTd extends IDataTestIdProp {
-  colspan?: number | string;
-  rowspan?: number | string;
+    colspan?: number | string;
+    rowspan?: number | string;
 }
 
-export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {}
+export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps { }
 
 export interface ITableEmit {
-  (e: 'unmount-scroll', event: Event): void;
-  (e: 'unmount-intersection'): void;
+    (e: 'unmount-scroll', event: Event): void;
+    (e: 'unmount-intersection'): void;
 }
-export interface IHeadTableRowProps extends IDataTestIdProp {}
+
+export interface IHeadTableRowProps extends IDataTestIdProp { }
+
+export interface ITableSimpleProps extends IDataTestIdProp { }
