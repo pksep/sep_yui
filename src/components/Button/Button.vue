@@ -107,6 +107,13 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   min-height: 40px;
 }
 
+.little-yui-kit {
+  padding: 6.5px 8px;
+  font-size: 14px;
+  line-height: 100%;
+  min-height: 30px;
+}
+
 .medium-yui-kit {
   min-height: 50px;
   padding: 16px 13px;

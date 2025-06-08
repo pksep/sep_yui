@@ -4,7 +4,11 @@ import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
 export interface IButtonProps extends IDataTestIdProp {
   disabled?: boolean;
-  size?: SizesEnum.small | SizesEnum.medium | SizesEnum.large;
+  size?:
+    | SizesEnum.small
+    | SizesEnum.medium
+    | SizesEnum.large
+    | SizesEnum.little;
   type?: ButtonTypeEnum;
   pill?: boolean;
   backgroundColor?: string;
