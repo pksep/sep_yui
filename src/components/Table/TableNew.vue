@@ -59,7 +59,7 @@ import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
 import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import type {
   ITableEmit,
   ITableProps
@@ -76,6 +76,12 @@ const props = withDefaults(defineProps<ITableProps>(), {
 });
 
 const emit = defineEmits<ITableEmit>();
+
+const state = reactive<{
+  headHeight: number;
+}>({
+  headHeight: 0
+});
 
 const tableRef = ref<HTMLElement | null>(null);
 const theadRef = ref<HTMLElement | null>(null);
@@ -111,6 +117,8 @@ const setHeadHeight = () => {
 
   const headHeight = head.getBoundingClientRect().height;
 
+  state.headHeight = headHeight;
+
   changeStyleProperties(
     {
       '--scroll-track-margin-top': `${headHeight}px`
@@ -142,7 +150,7 @@ const setSearchMinHeight = () => {
     }
 
     changeStyleProperties(
-      { 'min-height': '200px' },
+      { 'min-height': `${state.headHeight + 108}px` },
       scrollWrapperRef.value.$el
     );
   }
