@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.38
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.37...v0.1.38)
+
+### 🚀 Enhancements
+
+- Added calculated height head ([fce820e](https://github.com/NPO-Automotive/sep_yui/commit/fce820e))
+
 ## v0.1.37
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.36...v0.1.37)
