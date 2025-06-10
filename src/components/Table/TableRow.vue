@@ -30,7 +30,7 @@ const classRow = computed(() => [
 }
 
 .table-row:first-child > * {
-  border-top: none;
+  border-top: 0.5px solid transparent;
 }
 
 .table-row:last-child > * {
