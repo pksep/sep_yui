@@ -53,6 +53,25 @@ export const arrowLeft: IVectorIcon = {
     <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>`
 };
 
+export const arrowUp: IVectorIcon = {
+  name: 'arrow-up',
+  style: 'line',
+  viewbox: '0 0 16 16',
+  path: `
+    <path d="M8 13.3333V2.66663M8 2.66663L4 6.66663M8 2.66663L12 6.66663" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+
+    `
+};
+
+export const arrowDown: IVectorIcon = {
+  name: 'arrow-down',
+  style: 'line',
+  viewbox: '0 0 16 16',
+  path: `
+    <path d="M8 2.66663V13.3333M8 13.3333L12 9.33329M8 13.3333L4 9.33329" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    `
+};
+
 export const chevronDown: IVectorIcon = {
   name: 'chevron-down',
   style: 'line',
