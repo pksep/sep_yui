@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.39
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.38...v0.1.39)
+
+### 🚀 Enhancements
+
+- Added border to td ([7e47008](https://github.com/NPO-Automotive/sep_yui/commit/7e47008))
+
 ## v0.1.38
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.37...v0.1.38)
