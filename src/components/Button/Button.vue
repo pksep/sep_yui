@@ -84,7 +84,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 </script>
 
 <style scoped lang="scss">
-.button-yui-kit {
+button.button-yui-kit {
   color: var(--white);
   outline: none;
   border: none;
@@ -100,26 +100,33 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.small-yui-kit {
+button.small {
   padding: 13px 11.5px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
 }
 
-.medium-yui-kit {
+button.little {
+  padding: 6.5px 8px;
+  font-size: 14px;
+  line-height: 100%;
+  min-height: 30px;
+}
+
+button.medium {
   min-height: 50px;
   padding: 16px 13px;
 }
 
-.large-yui-kit {
+button.large {
   min-height: 70px;
   padding: 5px 13px;
   font-size: 18px;
   line-height: 22px;
 }
 
-.primary-yui-kit {
+button.primary-yui-kit {
   background-color: var(--blue1);
 
   &:hover,
@@ -134,7 +141,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.secondary-yui-kit {
+button.secondary-yui-kit {
   background-color: var(--blue15);
   color: var(--blue1);
 
@@ -148,7 +155,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.outline-yui-kit {
+button.outline-yui-kit {
   background-color: transparent;
   border: 1px solid var(--border-blue);
   color: var(--grey14);
@@ -166,7 +173,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.reject-yui-kit {
+button.reject-yui-kit {
   background-color: var(--grey1);
   border: 1px solid transparent;
   color: var(--grey6);
@@ -184,7 +191,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.ghost-yui-kit {
+button.ghost-yui-kit {
   background-color: transparent;
   color: var(--black2);
 
@@ -202,7 +209,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.minor-yui-kit {
+button.minor-yui-kit {
   background-color: var(--white);
   color: var(--grey6);
 
@@ -221,11 +228,11 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.disabled-yui-kit {
+button.disabled-yui-kit {
   cursor: auto;
 }
 
-.pill-yui-kit {
+button.pill-yui-kit {
   border-radius: 10px;
 }
 </style>

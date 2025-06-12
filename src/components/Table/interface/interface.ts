@@ -27,4 +27,7 @@ export interface ITableEmit {
   (e: 'unmount-scroll', event: Event): void;
   (e: 'unmount-intersection'): void;
 }
+
 export interface IHeadTableRowProps extends IDataTestIdProp {}
+
+export interface ITableSimpleProps extends IDataTestIdProp {}
