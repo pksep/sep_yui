@@ -55,7 +55,6 @@ const emits = defineEmits<{
 const datePickerRangeRef = ref<typeof DatePickerRange>();
 
 const changeValues = (val: Date | IRangeForDatePicker | null): void => {
-  console.log('get-a-val', val);
   emits('change', val);
 };
 
@@ -68,18 +67,12 @@ const fillDateObject = (): IRangeForDatePicker => ({
   end: props.range?.end ?? null
 });
 
-watch(
-  () => props.range,
-  () => {
-    if (props.isRange) {
-      state.dateObject = fillDateObject();
-    }
-
-    if (!props.range) {
-      datePickerRangeRef.value?.clear();
-    }
+watch([() => props.range?.start, () => props.range?.end], () => {
+  state.dateObject = fillDateObject();
+  if (props.range?.start === null && props.range?.end === null) {
+    datePickerRangeRef.value?.clear();
   }
-);
+});
 
 onMounted(() => {
   if (props.isRange) {
