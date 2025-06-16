@@ -17,12 +17,12 @@
         :data-testid="`${props.dataTestid}-slides-container`"
       >
         <div
-          class="placeholder-yui-kit"
+          class="placeholder-yui-kit no-content"
           v-if="showPlaceholder()"
           :data-testid="`${props.dataTestid}-No-Content-Placeholder`"
         >
           <img
-            src="./../../assets/images/slider/camera.svg"
+            src="./../../assets/images/slider/closed-camera.svg"
             alt=""
             width="111px"
             height="111px"
@@ -31,7 +31,7 @@
         </div>
         <div
           class="placeholder-yui-kit"
-          v-if="showPlaceholderExtension()"
+          v-else-if="showPlaceholderExtension()"
           :data-testid="`${props.dataTestid}-Invalid-Extension-Placeholder`"
         >
           <img
@@ -42,21 +42,23 @@
           />
           <p>.{{ state.extension }}</p>
         </div>
-        <img
-          v-if="isImage(state.file?.path ?? '')"
-          @click="e => toFullsizeImage(e)"
-          :src="state.file?.path ?? ''"
-          ref="fullsizeImageRef"
-          :data-testid="`${props.dataTestid}-Image`"
-        />
-        <video
-          v-if="isVideo(state.file?.path ?? '')"
-          @click="e => toFullsizeImage(e)"
-          controls
-          :data-testid="`${props.dataTestid}-Video`"
-        >
-          <source :src="state.file?.path ?? ''" />
-        </video>
+        <template v-else>
+          <img
+            v-if="isImage(state.file?.path ?? '')"
+            @click="e => toFullsizeImage(e)"
+            :src="state.file?.path ?? ''"
+            ref="fullsizeImageRef"
+            :data-testid="`${props.dataTestid}-Image`"
+          />
+          <video
+            v-if="isVideo(state.file?.path ?? '')"
+            @click="e => toFullsizeImage(e)"
+            controls
+            :data-testid="`${props.dataTestid}-Video`"
+          >
+            <source :src="state.file?.path ?? ''" />
+          </video>
+        </template>
       </div>
       <button
         class="slider-yui-kit__button slider-yui-kit__button--next"
@@ -250,7 +252,7 @@ defineExpose({
   height: 260px;
   overflow: hidden;
   border: 0.5px solid var(--grey12);
-  border-radius: 15px;
+  border-radius: 10px;
   transition: 0.3s ease-in-out;
 
   &:hover {
@@ -270,7 +272,7 @@ defineExpose({
 
   &__slides {
     background-color: var(--white);
-    border-radius: 15px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -296,7 +298,7 @@ defineExpose({
     background-color: var(--white);
     border: 1px solid transparent;
     outline: none;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 0 20px;
     transition: 0.3s ease-in-out;
     cursor: pointer;
@@ -310,8 +312,9 @@ defineExpose({
     }
 
     &:disabled {
-      background-color: var(--grey1);
+      background-color: var(--grey2);
       color: var(--grey4);
+      cursor: default;
     }
   }
 
@@ -333,6 +336,28 @@ defineExpose({
   &__slide-full-size {
     height: 100%;
   }
+
+  &:has(.no-content):hover {
+    border-color: var(--grey12);
+  }
+
+  &__wrapper:has(.no-content) {
+    background-color: var(--grey1);
+  }
+
+  .no-content {
+    background-color: var(--grey1);
+
+    & p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    & * {
+      cursor: default;
+    }
+  }
 }
 
 .placeholder-yui-kit {
@@ -342,8 +367,8 @@ defineExpose({
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-  gap: 20px;
-  border-radius: 10px;
+  gap: 9px;
+  border-radius: 5px;
   background-color: var(--grey11);
 
   img {

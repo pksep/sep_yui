@@ -1,5 +1,132 @@
 # Changelog
 
+## v0.1.41
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.39...v0.1.41)
+
+### 🩹 Fixes
+
+- Remove button annotation but not correctly work buttons ([3490e84](https://github.com/NPO-Automotive/sep_yui/commit/3490e84))
+
+### 🏡 Chore
+
+- Update version to 0.1.40 ([138e727](https://github.com/NPO-Automotive/sep_yui/commit/138e727))
+
+## v0.1.39
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.38...v0.1.39)
+
+### 🚀 Enhancements
+
+- Added border to td ([7e47008](https://github.com/NPO-Automotive/sep_yui/commit/7e47008))
+
+## v0.1.38
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.37...v0.1.38)
+
+### 🚀 Enhancements
+
+- Added calculated height head ([fce820e](https://github.com/NPO-Automotive/sep_yui/commit/fce820e))
+
+## v0.1.37
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.36...v0.1.37)
+
+### 🩹 Fixes
+
+- Conditions for empty content ([02382f1](https://github.com/NPO-Automotive/sep_yui/commit/02382f1))
+
+## v0.1.36
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.35...v0.1.36)
+
+### 🚀 Enhancements
+
+- Added new badges type ([de57b8f](https://github.com/NPO-Automotive/sep_yui/commit/de57b8f))
+
+## v0.1.35
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.34...v0.1.35)
+
+### 🚀 Enhancements
+
+- Change hover background color table and recoded table.vue ([d1341cc](https://github.com/NPO-Automotive/sep_yui/commit/d1341cc))
+- Added min-height for table ([9487a72](https://github.com/NPO-Automotive/sep_yui/commit/9487a72))
+
+### 🩹 Fixes
+
+- Fix lint issue ([6e0f29a](https://github.com/NPO-Automotive/sep_yui/commit/6e0f29a))
+
+## v0.1.34
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.33...v0.1.34)
+
+### 🩹 Fixes
+
+- Conditions for empty content ([ee5164d](https://github.com/NPO-Automotive/sep_yui/commit/ee5164d))
+
+## v0.1.33
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.32...v0.1.33)
+
+### 🚀 Enhancements
+
+- Update Slider.vue styles ([b653c2b](https://github.com/NPO-Automotive/sep_yui/commit/b653c2b))
+
+## v0.1.32
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.31...v0.1.32)
+
+### 🚀 Enhancements
+
+- Update Slider.vue styles ([07d262b](https://github.com/NPO-Automotive/sep_yui/commit/07d262b))
+
+## v0.1.31
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.30...v0.1.31)
+
+### 🚀 Enhancements
+
+- Update Slider.vue styles ([c76c34b](https://github.com/NPO-Automotive/sep_yui/commit/c76c34b))
+
+## v0.1.30
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.27...v0.1.30)
+
+### 🚀 Enhancements
+
+- Added end animation emit ([3cf5eb0](https://github.com/NPO-Automotive/sep_yui/commit/3cf5eb0))
+- Added close last dialog ([105ba31](https://github.com/NPO-Automotive/sep_yui/commit/105ba31))
+- Added checks ([ae491c8](https://github.com/NPO-Automotive/sep_yui/commit/ae491c8))
+- Added ability to close modal on button esc ([64dcb31](https://github.com/NPO-Automotive/sep_yui/commit/64dcb31))
+- Turn off default behaivor closing dialog ([8b04a17](https://github.com/NPO-Automotive/sep_yui/commit/8b04a17))
+
+### 🏡 Chore
+
+- **release:** V0.1.28 ([7a891ad](https://github.com/NPO-Automotive/sep_yui/commit/7a891ad))
+
+### 🎨 Styles
+
+- Change input number minor background color ([352851c](https://github.com/NPO-Automotive/sep_yui/commit/352851c))
+- Change fill of small trash icon ([5592821](https://github.com/NPO-Automotive/sep_yui/commit/5592821))
+
+## v0.1.28
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.27...v0.1.28)
+
+### 🚀 Enhancements
+
+- Added end animation emit ([3cf5eb0](https://github.com/NPO-Automotive/sep_yui/commit/3cf5eb0))
+- Added close last dialog ([105ba31](https://github.com/NPO-Automotive/sep_yui/commit/105ba31))
+- Added checks ([ae491c8](https://github.com/NPO-Automotive/sep_yui/commit/ae491c8))
+- Added ability to close modal on button esc ([64dcb31](https://github.com/NPO-Automotive/sep_yui/commit/64dcb31))
+- Turn off default behaivor closing dialog ([8b04a17](https://github.com/NPO-Automotive/sep_yui/commit/8b04a17))
+
+### 🎨 Styles
+
+- Change input number minor background color ([352851c](https://github.com/NPO-Automotive/sep_yui/commit/352851c))
+- Change fill of small trash icon ([5592821](https://github.com/NPO-Automotive/sep_yui/commit/5592821))
+
 ## v0.1.27
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.26...v0.1.27)

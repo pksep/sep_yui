@@ -44,17 +44,19 @@ import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 import Radio from '@/components/Radio/Radio.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import BaseFilter from '@/components/Select/BaseFilter.vue';
-import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
-import { getLastTime } from './Calendar/date-utils';
-
-import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
-import type { OptionsObject } from './Select/interface/interface';
 import Range from '@/components/Range/Range.vue';
 import TableNew from '@/components/Table/TableNew.vue';
 import TableRowNew from '@/components/Table/TableRowNew.vue';
 import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
-import { IDialogProps } from '@/components/Modal/interface/interface';
+import TableSimple from '@/components/Table/TableSimple.vue';
+
+import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
+import { getLastTime } from './Calendar/date-utils';
+
+import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
+import type { OptionsObject } from './Select/interface/interface';
+import type { IDialogProps } from '@/components/Modal/interface/interface';
 
 const components = {
   Accordion,
@@ -92,6 +94,7 @@ const components = {
   Popover,
   Table,
   TableNew,
+  TableSimple,
   TableRow,
   TableRowNew,
   TableTd,
@@ -155,6 +158,7 @@ export {
   CircularProgress,
   Popover,
   Table,
+  TableSimple,
   TableNew,
   TableRow,
   TableRowNew,
@@ -168,9 +172,9 @@ export {
   Radio,
   Tooltip,
   BaseFilter,
-  type IRangeForDatePicker,
-  type OptionsObject,
   Range,
   type IDialogProps,
+  type IRangeForDatePicker,
+  type OptionsObject,
   getLastTime
 };

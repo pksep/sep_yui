@@ -100,19 +100,26 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 }
 
-.small-yui-kit {
+.small {
   padding: 13px 11.5px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
 }
 
-.medium-yui-kit {
+.little {
+  padding: 6.5px 8px;
+  font-size: 14px;
+  line-height: 100%;
+  min-height: 30px;
+}
+
+.medium {
   min-height: 50px;
   padding: 16px 13px;
 }
 
-.large-yui-kit {
+.large {
   min-height: 70px;
   padding: 5px 13px;
   font-size: 18px;

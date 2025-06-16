@@ -8,6 +8,7 @@
       :height="props.height"
       :data-testid="props.dataTestid"
       @close="close"
+      @unmounted="unmounted"
     >
       <slot />
     </Modal>
@@ -27,6 +28,8 @@ const props = withDefaults(defineProps<IModalProps>(), {
 
 const emits = defineEmits<{
   (e: 'close'): void;
+  (e: 'unmounted'): void;
+  (e: 'end-animation'): void;
 }>();
 
 const transitionName = computed(() => {
@@ -52,8 +55,13 @@ const close = () => {
   emits('close');
 };
 
+const unmounted = (): void => {
+  emits('unmounted');
+};
+
 const unmountLeaveAnimation = (): void => {
   state.function();
+  emits('end-animation');
 };
 </script>
 

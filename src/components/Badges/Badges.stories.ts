@@ -80,3 +80,9 @@ RedBadges.args = {
   type: BadgesTypeEnum.red,
   text: 'Просрочено'
 };
+
+export const ContrastBlueBadges = Template.bind({});
+ContrastBlueBadges.args = {
+  type: BadgesTypeEnum.contrastBlue,
+  text: 'Просрочено'
+};

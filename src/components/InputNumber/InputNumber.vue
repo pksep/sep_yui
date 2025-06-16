@@ -1,6 +1,6 @@
 <template>
   <fieldset
-    class="input-yui-kit initial"
+    class="input-yui-kit input-yui-kit_number initial"
     :class="{
       pressed: state.isPressed,
       [props.size]: true
