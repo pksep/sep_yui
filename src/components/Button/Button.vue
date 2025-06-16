@@ -84,7 +84,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 </script>
 
 <style scoped lang="scss">
-button.button-yui-kit {
+.button-yui-kit {
   color: var(--white);
   outline: none;
   border: none;
@@ -100,33 +100,33 @@ button.button-yui-kit {
   }
 }
 
-button.small {
+.small {
   padding: 13px 11.5px;
   font-size: 14px;
   line-height: 16px;
   min-height: 40px;
 }
 
-button.little {
+.little {
   padding: 6.5px 8px;
   font-size: 14px;
   line-height: 100%;
   min-height: 30px;
 }
 
-button.medium {
+.medium {
   min-height: 50px;
   padding: 16px 13px;
 }
 
-button.large {
+.large {
   min-height: 70px;
   padding: 5px 13px;
   font-size: 18px;
   line-height: 22px;
 }
 
-button.primary-yui-kit {
+.primary-yui-kit {
   background-color: var(--blue1);
 
   &:hover,
@@ -141,7 +141,7 @@ button.primary-yui-kit {
   }
 }
 
-button.secondary-yui-kit {
+.secondary-yui-kit {
   background-color: var(--blue15);
   color: var(--blue1);
 
@@ -155,7 +155,7 @@ button.secondary-yui-kit {
   }
 }
 
-button.outline-yui-kit {
+.outline-yui-kit {
   background-color: transparent;
   border: 1px solid var(--border-blue);
   color: var(--grey14);
@@ -173,7 +173,7 @@ button.outline-yui-kit {
   }
 }
 
-button.reject-yui-kit {
+.reject-yui-kit {
   background-color: var(--grey1);
   border: 1px solid transparent;
   color: var(--grey6);
@@ -191,7 +191,7 @@ button.reject-yui-kit {
   }
 }
 
-button.ghost-yui-kit {
+.ghost-yui-kit {
   background-color: transparent;
   color: var(--black2);
 
@@ -209,7 +209,7 @@ button.ghost-yui-kit {
   }
 }
 
-button.minor-yui-kit {
+.minor-yui-kit {
   background-color: var(--white);
   color: var(--grey6);
 
@@ -228,11 +228,11 @@ button.minor-yui-kit {
   }
 }
 
-button.disabled-yui-kit {
+.disabled-yui-kit {
   cursor: auto;
 }
 
-button.pill-yui-kit {
+.pill-yui-kit {
   border-radius: 10px;
 }
 </style>
