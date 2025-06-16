@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.41
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.39...v0.1.41)
+
+### 🩹 Fixes
+
+- Remove button annotation but not correctly work buttons ([3490e84](https://github.com/NPO-Automotive/sep_yui/commit/3490e84))
+
+### 🏡 Chore
+
+- Update version to 0.1.40 ([138e727](https://github.com/NPO-Automotive/sep_yui/commit/138e727))
+
 ## v0.1.39
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.38...v0.1.39)
