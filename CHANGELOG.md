@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.42
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.41...v0.1.42)
+
+### 🚀 Enhancements
+
+- Add hint-class for tooltip ([a3cc3c5](https://github.com/NPO-Automotive/sep_yui/commit/a3cc3c5))
+
 ## v0.1.41
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.39...v0.1.41)
