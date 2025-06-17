@@ -40,7 +40,8 @@ const props = withDefaults(defineProps<ITooltipProps>(), {
   position: 'bottom-center',
   size: 'small',
   type: 'black',
-  dataTestid: 'Tooltip'
+  dataTestid: 'Tooltip',
+  hintClass: ''
 });
 const tooltipRef = ref<HTMLDivElement | null>(null);
 const hintRef = ref<HTMLDivElement | null>(null);
@@ -65,7 +66,8 @@ const tooltipClass = computed(() => [
     'tooltip-yui-kit__hint_large': props.size === 'large',
     'tooltip-yui-kit__hint_black': props.type === 'black',
     'tooltip-yui-kit__hint_blue': props.type === 'blue',
-    'tooltip-yui-kit__hint_white': props.type === 'white'
+    'tooltip-yui-kit__hint_white': props.type === 'white',
+    [props.hintClass]: true
   }
 ]);
 

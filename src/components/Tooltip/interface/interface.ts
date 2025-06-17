@@ -24,4 +24,5 @@ export interface ITooltipProps extends IDataTestIdProp {
   size?: TTooltipSize;
   type?: TTooltipType;
   hintGap?: number;
+  hintClass?: '';
 }
