@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.43
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.42...v0.1.43)
+
+### 🚀 Enhancements
+
+- Support empty string input with a props min value or 0 ([cd0d1ab](https://github.com/pksep/sep_yui/commit/cd0d1ab))
+
 ## v0.1.42
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.41...v0.1.42)
