@@ -57,13 +57,13 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
 .loader__circle--light-blue {
   background-color: #77a6ff;
   animation-name: light-blue-circle;
-  left: 16.25px;
+  transform: translateX(16.25px);
 }
 
 .loader__circle--blue {
   background-color: #407bff;
   animation-name: blue-circle;
-  left: 37.75px;
+  transform: translateX(37.75px);
 }
 
 .loader__span {
@@ -75,27 +75,27 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
 
 @keyframes light-blue-circle {
   0% {
-    left: 16.25px;
+    transform: translateX(16.25px);
   }
   50% {
-    left: 37.75px;
+    transform: translateX(37.75px);
   }
   100% {
-    left: 16.25px;
+    transform: translateX(16.25px);
   }
 }
 
 @keyframes blue-circle {
   0% {
-    left: 37.75px;
+    transform: translateX(37.75px);
     z-index: -1;
   }
   50% {
-    left: 16.25px;
+    transform: translateX(16.25px);
     z-index: -1;
   }
   100% {
-    left: 37.75px;
+    transform: translateX(37.75px);
     z-index: 1;
   }
 }
