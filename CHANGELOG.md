@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.44
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.43...v0.1.44)
+
+### 🚀 Enhancements
+
+- Hide dialog with esc ([bdc3e63](https://github.com/pksep/sep_yui/commit/bdc3e63))
+- Dialog fix error and update storybook + migrated over dependencies ([a154671](https://github.com/pksep/sep_yui/commit/a154671))
+
 ## v0.1.43
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.42...v0.1.43)
