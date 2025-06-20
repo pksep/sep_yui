@@ -7,5 +7,6 @@ export enum BadgesTypeEnum {
   orange = 'orange',
   pink = 'pink',
   violet = 'violet',
+  yellow = 'yellow',
   contrastBlue = 'contrast-blue'
 }
