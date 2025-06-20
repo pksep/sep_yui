@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.45
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.44...v0.1.45)
+
+### 🚀 Enhancements
+
+- Added new badges type - yellow ([3394b03](https://github.com/pksep/sep_yui/commit/3394b03))
+
 ## v0.1.44
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.43...v0.1.44)
