@@ -194,7 +194,11 @@ const handleFocus = (): void => {
 };
 
 const handleBlur = (): void => {
-  if (state.inputElement === null || isNaN(+state.inputElement)) {
+  if (
+    state.inputElement === '' ||
+    state.inputElement === null ||
+    isNaN(+state.inputElement)
+  ) {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
 
