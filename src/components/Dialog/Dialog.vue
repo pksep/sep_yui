@@ -49,7 +49,9 @@ useEventListener(dialog, 'mousedown', e => {
 
 useEventListener(dialog, 'keydown', e => {
   if (e.key === 'Escape' || e.key === 'Esc') {
-    props.noClose && e.preventDefault();
+    if (!props.noClose && e.target === dialog.value) {
+      hideDialog();
+    }
   }
 });
 
