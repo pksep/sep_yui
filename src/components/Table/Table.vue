@@ -9,6 +9,7 @@
   >
     <table
       ref="tableRef"
+      :id="props.tableId"
       class="table__table"
       :data-testid="`${props.dataTestid}`"
     >

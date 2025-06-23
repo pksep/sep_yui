@@ -21,7 +21,9 @@ export interface ITableTd extends IDataTestIdProp {
   rowspan?: number | string;
 }
 
-export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {}
+export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
+  tableId?: string;
+}
 
 export interface ITableEmit {
   (e: 'unmount-scroll', event: Event): void;
