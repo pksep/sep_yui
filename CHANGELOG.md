@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.46
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.45...v0.1.46)
+
+### 🚀 Enhancements
+
+- Support focused event emitter for input number ([a3a1201](https://github.com/pksep/sep_yui/commit/a3a1201))
+
 ## v0.1.45
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.44...v0.1.45)
