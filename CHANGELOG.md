@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.47
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.46...v0.1.47)
+
+### 🚀 Enhancements
+
+- Adding id with a props id ([1c08073](https://github.com/pksep/sep_yui/commit/1c08073))
+
 ## v0.1.46
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.45...v0.1.46)
