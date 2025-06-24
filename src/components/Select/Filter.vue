@@ -85,6 +85,9 @@
           >
             <hr class="filter__options-underline-hr" />
           </li>
+          <template #option="{ inx }">
+            <div v-if="!!state.options[inx]?.used" class="green-circle" />
+          </template>
         </Options>
       </div>
     </template>
@@ -102,7 +105,7 @@ import { BadgesTypeEnum } from '../Badges/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import { SizesEnum } from '@/common/sizes';
-import type { IFilterProps } from './interface/interface';
+import { IFilterProps, OptionsObject } from './interface/interface';
 
 const props = withDefaults(defineProps<IFilterProps>(), {
   noOptionText: 'Не выбран',
@@ -119,7 +122,7 @@ const state = reactive({
     {
       key: '',
       value: ''
-    }
+    } as OptionsObject
   ],
   optionStrings: [''],
   isOpened: false,
@@ -311,5 +314,14 @@ li.filter__options-underline {
 
 .filter__header-tooltip {
   position: relative;
+}
+
+.green-circle {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--green4);
+  float: right;
+  margin-top: 5px;
 }
 </style>
