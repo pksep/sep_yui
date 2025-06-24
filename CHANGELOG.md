@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.48
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.47...v0.1.48)
+
+### 🚀 Enhancements
+
+- In options add attribute used for green icon ([38ff122](https://github.com/pksep/sep_yui/commit/38ff122))
+
 ## v0.1.47
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.46...v0.1.47)
