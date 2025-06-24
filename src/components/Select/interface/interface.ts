@@ -13,6 +13,7 @@ export type TOptions = string[] | OptionsObject[];
 export interface OptionsObject {
   key: string;
   value: string;
+  used?: boolean;
 }
 
 export interface IOptionsObjectWithHint extends OptionsObject {

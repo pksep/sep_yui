@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.1.48
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.47...v0.1.48)
+
+### 🚀 Enhancements
+
+- In options add attribute used for green icon ([38ff122](https://github.com/pksep/sep_yui/commit/38ff122))
+
+## v0.1.47
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.46...v0.1.47)
+
+### 🚀 Enhancements
+
+- Adding id with a props id ([1c08073](https://github.com/pksep/sep_yui/commit/1c08073))
+
+## v0.1.46
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.45...v0.1.46)
+
+### 🚀 Enhancements
+
+- Support focused event emitter for input number ([a3a1201](https://github.com/pksep/sep_yui/commit/a3a1201))
+
+## v0.1.45
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.44...v0.1.45)
+
+### 🚀 Enhancements
+
+- Added new badges type - yellow ([3394b03](https://github.com/pksep/sep_yui/commit/3394b03))
+
+## v0.1.44
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.43...v0.1.44)
+
+### 🚀 Enhancements
+
+- Hide dialog with esc ([bdc3e63](https://github.com/pksep/sep_yui/commit/bdc3e63))
+- Dialog fix error and update storybook + migrated over dependencies ([a154671](https://github.com/pksep/sep_yui/commit/a154671))
+
 ## v0.1.43
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.42...v0.1.43)

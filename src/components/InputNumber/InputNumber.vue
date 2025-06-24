@@ -78,6 +78,7 @@ interface IState {
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: number | string): void;
+  (e: 'focused', event: FocusEvent): void;
 }>();
 
 const props = withDefaults(defineProps<IInputNumberProps>(), {
@@ -189,8 +190,9 @@ const handleKeyDown = (e: KeyboardEvent): void => {
   }
 };
 
-const handleFocus = (): void => {
+const handleFocus = (event: FocusEvent): void => {
   state.isPressed = true;
+  emits('focused', event);
 };
 
 const handleBlur = (): void => {

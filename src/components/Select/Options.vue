@@ -6,6 +6,7 @@
       :data-testid="`${props.dataTestid}-${inx}`"
     >
       {{ getOption(option) }}
+      <slot name="option" :inx="inx" />
     </li>
     <slot />
   </template>
