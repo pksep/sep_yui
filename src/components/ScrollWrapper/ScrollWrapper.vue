@@ -1,351 +1,327 @@
 <template>
-  <div
-    ref="scrollWrapper"
-    class="scroll-wrapper"
-    :data-testId="`ScrollWrapper`"
-  >
-    <div
-      ref="scrollSlot"
-      class="scroll-wrapper__slot"
-      :data-testId="`ScrollWrapper-Slot`"
-    >
-      <slot></slot>
-    </div>
+  <div ref="scrollWrapperRef" class="scroll-wrapper">
+    <div class="scroll-wrapper__vertical-wrapper">
+      <div class="scroll-wrapper__horizont-wrapper">
+        <div ref="slotRef" class="scroll-wrapper__slot">
+          <slot />
+        </div>
 
-    <div
-      v-if="isVerticalScroll || isShowVerticalScroll"
-      class="scroll-wrapper__track"
-      :class="trackClass"
-      :data-testId="`ScrollWrapper-Track`"
-      @click.prevent="onTrackClick"
-    >
+        <div
+          v-if="isExistHorizontalTrack || isShowHorizontalScroll"
+          ref="horizontTrackRef"
+          class="scroll-wrapper__track scroll-wrapper__track_horizont"
+          :class="horizontalTrackClass"
+          @click.prevent.left="onHorizontalTrackClick"
+        >
+          <div
+            ref="horizontBarRef"
+            class="scroll-wrapper__bar"
+            @mousedown.prevent.left="startHorizontalDrag"
+          ></div>
+        </div>
+      </div>
+
       <div
-        ref="scrollBar"
-        class="scroll-wrapper__bar"
-        :data-testId="`ScrollWrapper-Track-Bar`"
-        @mousedown.prevent="startDrag"
-      ></div>
+        v-if="isExistVerticalTrack || isShowVerticalScroll"
+        ref="verticalTrackRef"
+        class="scroll-wrapper__track scroll-wrapper__track_vertical"
+        :class="verticalTrackClass"
+        @click.prevent.left="onTrackClick"
+      >
+        <div
+          ref="verticalBarRef"
+          class="scroll-wrapper__bar"
+          @mousedown.prevent.left="startDrag"
+        ></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import useHorizontalTrack from '@/components/ScrollWrapper/extension/use-horizont-track';
+import useVerticlTrack from '@/components/ScrollWrapper/extension/use-vertical-track';
 import {
-  IScrollWrapperProps,
-  TScrollWrapperStyle
+  IScrollWrapperEmit,
+  IScrollWrapperProps
 } from '@/components/ScrollWrapper/interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import { computed, inject, onMounted, Ref, ref, watchEffect } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 defineOptions({
   name: 'ScrollWrapper'
 });
 
 withDefaults(defineProps<IScrollWrapperProps>(), {
-  isShowVerticalScroll: false
+  isShowVerticalScroll: false,
+  isShowHorizontalScroll: false
 });
 
-const emit = defineEmits<{
-  (e: 'unmountScroll', event: Event): void;
-  (e: 'onMounted'): void;
-}>();
+const emit = defineEmits<IScrollWrapperEmit>();
 
-const scrollWrapper = ref<HTMLElement | null>(null);
-const scrollSlot = ref<HTMLElement | null>(null);
-const scrollBar = ref<HTMLElement | null>(null);
-const scrolledElement = inject<Ref<HTMLElement | null> | null>(
-  'scrolledElement'
+const slotRef = ref<HTMLElement | null>(null);
+const scrollWrapperRef = ref<HTMLElement | null>(null);
+
+const verticalTrackRef = ref<HTMLElement | null>(null);
+const verticalBarRef = ref<HTMLElement | null>(null);
+
+const horizontTrackRef = ref<HTMLElement | null>(null);
+const horizontBarRef = ref<HTMLElement | null>(null);
+
+const {
+  onTrackClick,
+  startDrag,
+  changeBarPosition,
+  setVerticalBarHeight,
+  verticalTrackClass,
+  isExistVerticalTrack
+} = useVerticlTrack(
+  slotRef,
+  scrollWrapperRef,
+  verticalBarRef,
+  verticalTrackRef
 );
-const scrollHeightProcent = ref<number>(100);
-const isDragging = ref<boolean>(false);
-const isVerticalScroll = computed(() => scrollHeightProcent.value !== 100);
-let startY = 0;
-let startScrollTop = 0;
 
-const trackClass = computed(() => [
-  {
-    'scroll-wrapper__track_hide': scrollHeightProcent.value === 100,
-    'scroll-wrapper__track_drag': isDragging.value
-  }
-]);
-
-watchEffect(() => {
-  if (scrolledElement && scrolledElement.value) {
-    setScrollStyle();
-  }
-});
-
-watchEffect(() => {
-  if (scrollHeightProcent.value === 100 && scrollWrapper.value) {
-    changeStyle(
-      {
-        '--scroll-bar-top-postion': '0%'
-      },
-      scrollWrapper.value
-    );
-  }
-});
-
-//Обертка для удобства с типизацией
-const changeStyle = (
-  ...args: Parameters<typeof changeStyleProperties<TScrollWrapperStyle>>
-) => {
-  changeStyleProperties<TScrollWrapperStyle>(...args);
-};
-
-const setScrollStyle = (): void => {
-  if (scrollWrapper.value) {
-    const heightBar = getProcentView();
-    scrollHeightProcent.value = heightBar;
-
-    requestAnimationFrame(() => {
-      if (scrollWrapper.value) {
-        changeStyle(
-          {
-            '--scroll-bar-height': `${heightBar}%`
-          },
-          scrollWrapper.value
-        );
-      }
-    });
-  }
-};
-
-const getProcentView = (): number => {
-  if (scrolledElement && scrolledElement.value) {
-    const clientHeight: number = scrolledElement.value.clientHeight;
-    const scrollHeight: number = scrolledElement.value.scrollHeight;
-
-    if (clientHeight >= scrollHeight) return 100;
-
-    if (clientHeight < scrollHeight) {
-      return (clientHeight / scrollHeight) * 100;
-    }
-  }
-  return 100;
-};
+const {
+  changeBarPosition: changerHorizontalBarPosition,
+  startDrag: startHorizontalDrag,
+  onTrackClick: onHorizontalTrackClick,
+  setHorizontalBarWidth,
+  horizontalTrackClass,
+  isExistHorizontalTrack
+} = useHorizontalTrack(
+  slotRef,
+  scrollWrapperRef,
+  horizontBarRef,
+  horizontTrackRef
+);
 
 const handleScroll = (e: Event): void => {
   changeBarPosition();
-  emit('unmountScroll', e);
+  changerHorizontalBarPosition();
+
+  emit('unmount-scroll', e);
 };
 
-const changeBarPosition = (): void => {
-  if (scrolledElement && scrolledElement.value && scrollBar.value) {
-    const { scrollTop, scrollHeight, clientHeight } = scrolledElement.value;
+const setScrollStyle = (): void => {
+  requestAnimationFrame(() => {
+    setHeightSlot();
+    setBarStyle();
+  });
+};
 
-    // Доступная область прокрутки
-    const maxScroll = scrollHeight - clientHeight;
-    if (maxScroll <= 0) return;
+const setHeightSlot = (): void => {
+  if (!slotRef.value || !scrollWrapperRef.value) return;
 
-    // Процент прокрутки
-    const scrollPercent = scrollTop / maxScroll;
+  const style = getComputedStyle(scrollWrapperRef.value);
+  const minHeight = scrollWrapperRef.value.style.minHeight || style.minHeight;
+  const maxHeight = scrollWrapperRef.value.style.maxHeight || style.maxHeight;
+  const height = scrollWrapperRef.value.style.height;
 
-    // Доступное пространство для бара
-    const trackHeight = scrolledElement.value.clientHeight;
-    const barHeight = scrollBar.value.clientHeight;
-    const maxBarPosition = trackHeight - barHeight;
+  changeStyleProperties(
+    {
+      '--scroll-wrapper-height': `${height}`,
+      '--scroll-wrapper-max-height': `${maxHeight}`,
+      '--scroll-wrapper-min-height': `${minHeight}`
+    },
+    scrollWrapperRef.value
+  );
+};
 
-    // Рассчитываем позицию бара
-    const barTop = scrollPercent * maxBarPosition;
+const setBarStyle = (): void => {
+  setVerticalBarHeight();
+  setHorizontalBarWidth();
+  changeBarPosition();
+  changerHorizontalBarPosition();
+};
 
-    requestAnimationFrame(() => {
-      if (scrollWrapper.value) {
-        changeStyle(
-          { '--scroll-bar-top-postion': `${barTop}px` },
-          scrollWrapper.value
-        );
-      }
-    });
+const setHandlers = (): void => {
+  if (slotRef.value) {
+    slotRef.value.addEventListener('scroll', handleScroll);
   }
 };
 
-// Начало перетаскивания
-const startDrag = (event: MouseEvent) => {
-  if (scrolledElement && scrolledElement.value) {
-    isDragging.value = true;
-    startY = event.clientY;
-    startScrollTop = scrolledElement.value.scrollTop;
-
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('mouseup', stopDrag);
-  }
-};
-
-// Обработка движения мыши
-const onDrag = (event: MouseEvent) => {
-  if (
-    isDragging.value &&
-    scrolledElement &&
-    scrolledElement.value &&
-    scrollBar.value
-  ) {
-    const deltaY = event.clientY - startY;
-    const scrollRatio =
-      (scrolledElement.value.scrollHeight -
-        scrolledElement.value.clientHeight) /
-      (scrolledElement.value.clientHeight - scrollBar.value.clientHeight);
-
-    scrolledElement.value.scrollTop = startScrollTop + deltaY * scrollRatio;
-    changeBarPosition();
-  }
-};
-
-// Остановка перетаскивания
-const stopDrag = () => {
-  isDragging.value = false;
-  document.removeEventListener('mousemove', onDrag);
-  document.removeEventListener('mouseup', stopDrag);
-};
-
-const onTrackClick = (event: MouseEvent) => {
-  if (scrolledElement && scrolledElement.value && scrollBar.value) {
-    const trackRect = (
-      event.currentTarget as HTMLElement
-    ).getBoundingClientRect();
-    const clickPosition = event.clientY - trackRect.top;
-
-    const barHeight = scrollBar.value.clientHeight;
-    const trackHeight = trackRect.height;
-
-    let newScrollTop =
-      (clickPosition - barHeight / 2) *
-      ((scrolledElement.value.scrollHeight -
-        scrolledElement.value.clientHeight) /
-        (trackHeight - barHeight));
-
-    newScrollTop = Math.max(
-      0,
-      Math.min(
-        newScrollTop,
-        scrolledElement.value.scrollHeight - scrolledElement.value.clientHeight
-      )
-    );
-
-    scrolledElement.value.scrollTop = newScrollTop;
-    changeBarPosition();
+const scrollToTop = () => {
+  if (slotRef.value) {
+    slotRef.value.scrollTop = 0;
   }
 };
 
 const mutatuionObserver = new MutationObserver(() => {
-  requestAnimationFrame(() => {
-    setScrollStyle();
-  });
+  setScrollStyle();
 });
 
 const resizeOvserver = new ResizeObserver(() => {
-  requestAnimationFrame(() => {
-    setScrollStyle();
-  });
+  setScrollStyle();
 });
 
 const setResizeElement = (value: HTMLElement) => {
   mutatuionObserver.observe(value, {
     childList: true,
-    subtree: true
+    subtree: true,
+    attributes: true
   });
 
   resizeOvserver.observe(value);
 };
 
 defineExpose({
-  isVerticalScroll,
-  handleScroll,
-  setResizeElement,
-  setScrollStyle
+  scrollToTop,
+  setHeightSlot
 });
 
 onMounted(() => {
-  emit('onMounted');
+  setScrollStyle();
+  setHandlers();
+  if (scrollWrapperRef.value) {
+    setResizeElement(scrollWrapperRef.value);
+  }
+
+  if (verticalTrackRef.value) {
+    setResizeElement(verticalTrackRef.value);
+  }
+
+  window.addEventListener('resize', setScrollStyle);
+
+  emit('on-mounted');
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', setScrollStyle);
 });
 </script>
-<style scoped>
-:root {
-  --scroll-track-margin: 0;
-}
+
+<style scoped lang="scss">
 .scroll-wrapper {
-  --scroll-wrapper-gap: 3px;
-  --scroll-border-radius: 15px;
-  --scroll-bar-height: 100%;
-  --scroll-bar-top-postion: 0%;
-  --scroll-bar-top-max-position: max(
-    min(var(--scroll-bar-top-postion), calc(100% - var(--scroll-bar-height)))
-  );
-  --scroll-slot-height: auto;
-  --scroll-slot-bottom-right-radius: 0;
-  --scroll-slot-bottom-left-radius: 0;
-  --scroll-slot-top-right-radius: 0;
-  --scroll-slot-top-left-radius: 0;
-  --scroll-slot-border: initial;
-  --scroll-slot-border-top: revert;
-  --scroll-slot-border-left: revert;
-  --scroll-slot-border-right: revert;
-  --scroll-slot-border-bottom: revert;
+  --scroll-wrapper-vertical-gap: 3px;
+  --scroll-wrapper-horizontal-gap: 3px;
+  --scroll-wrapper-horizontal-track-height: 10px;
+  --scroll-wrapper-vertical-track-width: 6px;
+  &__horizont-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--scroll-wrapper-horizontal-gap);
+  }
 
-  position: relative;
-  display: flex;
-  gap: var(--scroll-wrapper-gap, 3px);
-}
+  &__vertical-wrapper {
+    display: flex;
+    gap: var(--scroll-wrapper-vertical-gap);
+    height: 100%;
+  }
 
-.scroll-wrapper__slot {
-  scrollbar-width: none;
-  overflow: auto;
-  width: 100%;
-  height: var(--scroll-slot-height);
+  &__slot {
+    width: 100%;
+    height: var(--scroll-wrapper-height, 100%);
+    max-height: var(--scroll-wrapper-max-height, 100%);
+    min-height: var(--scroll-wrapper-min-height, 0);
 
-  border-bottom-right-radius: var(--scroll-slot-bottom-right-radius);
-  border-bottom-left-radius: var(--scroll-slot-bottom-left-radius);
-  border-top-right-radius: var(--scroll-slot-top-right-radius);
-  border-top-left-radius: var(--scroll-slot-top-left-radius);
+    overflow: auto;
+    scrollbar-width: none;
 
-  border: var(--scroll-slot-border);
-  border-top: var(--scroll-slot-border-top);
-  border-left: var(--scroll-slot-border-left);
-  border-bottom: var(--scroll-slot-border-bottom);
-  border-right: var(--scroll-slot-border-right);
-}
+    border: 0.5px solid var(--scroll-slot-border, var(--border-grey));
+    border-radius: var(--scroll-border-radius, 15px);
+    background-color: var(--scroll-slot-background-color, transparent);
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
-.scroll-wrapper__slot::-webkit-scrollbar {
-  display: none;
-}
+  &:has(.scroll-wrapper__track_horizont) {
+    & .scroll-wrapper__slot {
+      height: calc(
+        var(--scroll-wrapper-height, 100%) - var(
+            --scroll-wrapper-horizontal-track-height,
+            0px
+          ) - var(--scroll-wrapper-horizontal-gap, 0px)
+      );
+    }
 
-.scroll-wrapper__track {
-  position: sticky;
-  top: 0;
-  width: 6px;
-  margin: var(--scroll-track-margin);
-  /* height: 100%; */
+    & .scroll-wrapper__track_vertical {
+      height: calc(
+        var(--scroll-wrapper-height) - var(--scroll-track-margin-top) - var(
+            --scroll-wrapper-horizontal-track-height,
+            0px
+          ) - var(--scroll-wrapper-horizontal-gap, 0px)
+      );
+    }
+  }
 
-  opacity: 0;
-  background-color: var(--scrollbar-bg-color);
-  border-radius: var(--scroll-border-radius);
+  &__track {
+    position: relative;
+    flex-shrink: 0;
 
-  transition: all 0.2s ease;
-}
-.scroll-wrapper:hover .scroll-wrapper__track {
-  opacity: 1;
-}
-.scroll-wrapper__track_drag {
-  opacity: 1;
-}
-.scroll-wrapper .scroll-wrapper__track_hide,
-.scroll-wrapper:hover .scroll-wrapper__track_hide {
-  opacity: 0;
-}
+    opacity: 0;
+    background-color: var(--scrollbar-bg-color);
+    border-radius: var(--scroll-border-radius);
 
-.scroll-wrapper__bar {
-  position: absolute;
-  width: 100%;
-  height: var(--scroll-bar-height, 100%);
-  top: var(--scroll-bar-top-max-position);
+    transition: all 0.2s ease;
 
-  background-color: var(--scrollbar-thumb-color-base);
-  border-radius: var(--scroll-border-radius);
+    &_drag {
+      opacity: 1;
+    }
 
-  transition: top 0.1s ease;
-}
+    &_hide {
+      opacity: 0;
+    }
 
-.scroll-wrapper__bar:hover {
-  background-color: var(--scrollbar-thumb-color-hovered);
+    &_vertical {
+      width: var(--scroll-wrapper-vertical-track-width);
+      height: calc(
+        var(--scroll-wrapper-height) - var(--scroll-track-margin-top)
+      );
+
+      margin: var(--scroll-track-margin-top) 0 0 0;
+      & .scroll-wrapper__bar {
+        top: var(--scroll-bar-top-postion);
+
+        width: 100%;
+        height: var(--scroll-vertical-bar-height, 100%);
+      }
+    }
+
+    &_horizont {
+      height: var(--scroll-wrapper-horizontal-track-height);
+      width: 100%;
+
+      & .scroll-wrapper__bar {
+        top: 0;
+        left: var(--scroll-bar-left-position, 0);
+
+        width: var(--scroll-horizontal-bar-width, 100%);
+        height: 100%;
+      }
+    }
+  }
+
+  &:has(.scroll-wrapper__track_vertical) .scroll-wrapper__track_horizont {
+    width: calc(
+      100% - var(--scroll-wrapper-vertical-track-width, 0px) - var(
+          --scroll-wrapper-vertical-gap,
+          0px
+        )
+    );
+  }
+
+  &:hover {
+    & .scroll-wrapper__track {
+      opacity: 1;
+
+      &_hide {
+        opacity: 0;
+      }
+    }
+  }
+
+  &__bar {
+    position: absolute;
+    height: var(--scroll-bar-height, 100%);
+
+    background-color: var(--scrollbar-thumb-color-base);
+    border-radius: var(--scroll-bar-border-radius, 15px);
+
+    transition: top 0.1s ease;
+  }
 }
 </style>

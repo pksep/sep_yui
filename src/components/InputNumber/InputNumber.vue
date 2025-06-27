@@ -1,6 +1,6 @@
 <template>
   <fieldset
-    class="input-yui-kit initial"
+    class="input-yui-kit input-yui-kit_number initial"
     :class="{
       pressed: state.isPressed,
       [props.size]: true
@@ -78,6 +78,7 @@ interface IState {
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: number | string): void;
+  (e: 'focused', event: FocusEvent): void;
 }>();
 
 const props = withDefaults(defineProps<IInputNumberProps>(), {
@@ -189,12 +190,17 @@ const handleKeyDown = (e: KeyboardEvent): void => {
   }
 };
 
-const handleFocus = (): void => {
+const handleFocus = (event: FocusEvent): void => {
   state.isPressed = true;
+  emits('focused', event);
 };
 
 const handleBlur = (): void => {
-  if (state.inputElement === null || isNaN(+state.inputElement)) {
+  if (
+    state.inputElement === '' ||
+    state.inputElement === null ||
+    isNaN(+state.inputElement)
+  ) {
     state.inputElement = props.min > 0 ? props.min : 0;
   }
 

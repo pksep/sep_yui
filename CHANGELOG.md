@@ -1,5 +1,189 @@
 # Changelog
 
+## v0.1.48
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.47...v0.1.48)
+
+### 🚀 Enhancements
+
+- In options add attribute used for green icon ([38ff122](https://github.com/pksep/sep_yui/commit/38ff122))
+
+## v0.1.47
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.46...v0.1.47)
+
+### 🚀 Enhancements
+
+- Adding id with a props id ([1c08073](https://github.com/pksep/sep_yui/commit/1c08073))
+
+## v0.1.46
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.45...v0.1.46)
+
+### 🚀 Enhancements
+
+- Support focused event emitter for input number ([a3a1201](https://github.com/pksep/sep_yui/commit/a3a1201))
+
+## v0.1.45
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.44...v0.1.45)
+
+### 🚀 Enhancements
+
+- Added new badges type - yellow ([3394b03](https://github.com/pksep/sep_yui/commit/3394b03))
+
+## v0.1.44
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.43...v0.1.44)
+
+### 🚀 Enhancements
+
+- Hide dialog with esc ([bdc3e63](https://github.com/pksep/sep_yui/commit/bdc3e63))
+- Dialog fix error and update storybook + migrated over dependencies ([a154671](https://github.com/pksep/sep_yui/commit/a154671))
+
+## v0.1.43
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.42...v0.1.43)
+
+### 🚀 Enhancements
+
+- Support empty string input with a props min value or 0 ([cd0d1ab](https://github.com/pksep/sep_yui/commit/cd0d1ab))
+
+## v0.1.42
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.41...v0.1.42)
+
+### 🚀 Enhancements
+
+- Add hint-class for tooltip ([a3cc3c5](https://github.com/NPO-Automotive/sep_yui/commit/a3cc3c5))
+
+## v0.1.41
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.39...v0.1.41)
+
+### 🩹 Fixes
+
+- Remove button annotation but not correctly work buttons ([3490e84](https://github.com/NPO-Automotive/sep_yui/commit/3490e84))
+
+### 🏡 Chore
+
+- Update version to 0.1.40 ([138e727](https://github.com/NPO-Automotive/sep_yui/commit/138e727))
+
+## v0.1.39
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.38...v0.1.39)
+
+### 🚀 Enhancements
+
+- Added border to td ([7e47008](https://github.com/NPO-Automotive/sep_yui/commit/7e47008))
+
+## v0.1.38
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.37...v0.1.38)
+
+### 🚀 Enhancements
+
+- Added calculated height head ([fce820e](https://github.com/NPO-Automotive/sep_yui/commit/fce820e))
+
+## v0.1.37
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.36...v0.1.37)
+
+### 🩹 Fixes
+
+- Conditions for empty content ([02382f1](https://github.com/NPO-Automotive/sep_yui/commit/02382f1))
+
+## v0.1.36
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.35...v0.1.36)
+
+### 🚀 Enhancements
+
+- Added new badges type ([de57b8f](https://github.com/NPO-Automotive/sep_yui/commit/de57b8f))
+
+## v0.1.35
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.34...v0.1.35)
+
+### 🚀 Enhancements
+
+- Change hover background color table and recoded table.vue ([d1341cc](https://github.com/NPO-Automotive/sep_yui/commit/d1341cc))
+- Added min-height for table ([9487a72](https://github.com/NPO-Automotive/sep_yui/commit/9487a72))
+
+### 🩹 Fixes
+
+- Fix lint issue ([6e0f29a](https://github.com/NPO-Automotive/sep_yui/commit/6e0f29a))
+
+## v0.1.34
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.33...v0.1.34)
+
+### 🩹 Fixes
+
+- Conditions for empty content ([ee5164d](https://github.com/NPO-Automotive/sep_yui/commit/ee5164d))
+
+## v0.1.33
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.32...v0.1.33)
+
+### 🚀 Enhancements
+
+- Update Slider.vue styles ([b653c2b](https://github.com/NPO-Automotive/sep_yui/commit/b653c2b))
+
+## v0.1.32
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.31...v0.1.32)
+
+### 🚀 Enhancements
+
+- Update Slider.vue styles ([07d262b](https://github.com/NPO-Automotive/sep_yui/commit/07d262b))
+
+## v0.1.31
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.30...v0.1.31)
+
+### 🚀 Enhancements
+
+- Update Slider.vue styles ([c76c34b](https://github.com/NPO-Automotive/sep_yui/commit/c76c34b))
+
+## v0.1.30
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.27...v0.1.30)
+
+### 🚀 Enhancements
+
+- Added end animation emit ([3cf5eb0](https://github.com/NPO-Automotive/sep_yui/commit/3cf5eb0))
+- Added close last dialog ([105ba31](https://github.com/NPO-Automotive/sep_yui/commit/105ba31))
+- Added checks ([ae491c8](https://github.com/NPO-Automotive/sep_yui/commit/ae491c8))
+- Added ability to close modal on button esc ([64dcb31](https://github.com/NPO-Automotive/sep_yui/commit/64dcb31))
+- Turn off default behaivor closing dialog ([8b04a17](https://github.com/NPO-Automotive/sep_yui/commit/8b04a17))
+
+### 🏡 Chore
+
+- **release:** V0.1.28 ([7a891ad](https://github.com/NPO-Automotive/sep_yui/commit/7a891ad))
+
+### 🎨 Styles
+
+- Change input number minor background color ([352851c](https://github.com/NPO-Automotive/sep_yui/commit/352851c))
+- Change fill of small trash icon ([5592821](https://github.com/NPO-Automotive/sep_yui/commit/5592821))
+
+## v0.1.28
+
+[compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.27...v0.1.28)
+
+### 🚀 Enhancements
+
+- Added end animation emit ([3cf5eb0](https://github.com/NPO-Automotive/sep_yui/commit/3cf5eb0))
+- Added close last dialog ([105ba31](https://github.com/NPO-Automotive/sep_yui/commit/105ba31))
+- Added checks ([ae491c8](https://github.com/NPO-Automotive/sep_yui/commit/ae491c8))
+- Added ability to close modal on button esc ([64dcb31](https://github.com/NPO-Automotive/sep_yui/commit/64dcb31))
+- Turn off default behaivor closing dialog ([8b04a17](https://github.com/NPO-Automotive/sep_yui/commit/8b04a17))
+
+### 🎨 Styles
+
+- Change input number minor background color ([352851c](https://github.com/NPO-Automotive/sep_yui/commit/352851c))
+- Change fill of small trash icon ([5592821](https://github.com/NPO-Automotive/sep_yui/commit/5592821))
+
 ## v0.1.27
 
 [compare changes](https://github.com/NPO-Automotive/sep_yui/compare/v0.1.26...v0.1.27)

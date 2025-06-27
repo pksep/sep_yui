@@ -1,4 +1,5 @@
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import { IScrollWrapperProps } from '@/components/ScrollWrapper/interface/interface';
 
 export interface ISectionTable<T> {
   title?: string;
@@ -20,12 +21,15 @@ export interface ITableTd extends IDataTestIdProp {
   rowspan?: number | string;
 }
 
-export interface ITableProps extends IDataTestIdProp {
-  isShowVerticalScroll?: boolean;
+export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
+  tableId?: string;
 }
 
 export interface ITableEmit {
   (e: 'unmount-scroll', event: Event): void;
   (e: 'unmount-intersection'): void;
 }
+
 export interface IHeadTableRowProps extends IDataTestIdProp {}
+
+export interface ITableSimpleProps extends IDataTestIdProp {}

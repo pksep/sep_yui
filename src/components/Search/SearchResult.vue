@@ -41,7 +41,7 @@
       </li>
     </ul>
     <ul
-      v-else
+      v-else-if="!!props.searchValue"
       class="result-yui-kit__list result-yui-kit__empty"
       :data-testid="`${props.dataTestid}-Nothing-List`"
     >

@@ -63,7 +63,7 @@ table.table-yui-kit {
     }
     &:hover,
     &.active {
-      --background: var(--blue11);
+      --background: var(--blue21);
       color: inherit;
     }
     &.ava {
@@ -144,8 +144,6 @@ table.table-yui-kit tr.table-yui-kit__tr {
   }
 }
 
-table.table-yui-kit
-  tbody.table-yui-kit__tbody:has(tr.table-yui-kit__tr:last-child)
-  td.table-yui-kit__td {
+table.table-yui-kit tbody.table-yui-kit__tbody:has(tr.table-yui-kit__tr:last-child) td.table-yui-kit__td {
   border-bottom: 0.5px solid var(--grey0);
 }

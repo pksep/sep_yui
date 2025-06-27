@@ -195,7 +195,7 @@ const handleChoosePost = (item: string) => {
   border-radius: 5px;
   display: none;
 
-  &__button-text {
+  & button.history-yui-kit__button-text {
     margin-top: 5px;
     min-height: 40px;
     display: flex;

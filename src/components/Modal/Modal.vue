@@ -27,6 +27,12 @@ import {
 import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
+import { useModalStore } from '@/stores/modal';
+import { storeToRefs } from 'pinia';
+
+const modalStore = useModalStore();
+const { lastOpenedModal } = storeToRefs(modalStore);
+const { addOpenedModal, reduceOpenedModal } = modalStore;
 
 const props = defineProps<IDialogProps>();
 const dialog = ref<HTMLDialogElement | null>(null);
@@ -37,13 +43,21 @@ const stylesContent = computed(() => ({
   height: props.height
 }));
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'unmounted']);
 
 let lastShowTime = 0;
 
 const showDialog = (): void => {
   lastShowTime = Date.now();
-  props.open ? dialog.value?.showModal() : hideDialog();
+  if (dialog.value) {
+    if (props.open) {
+      dialog.value.showModal();
+
+      addOpenedModal(dialog.value);
+    } else {
+      hideDialog();
+    }
+  }
 };
 
 const hideDialog = (): void => {
@@ -52,6 +66,8 @@ const hideDialog = (): void => {
   if (now - lastShowTime < 300) {
     return;
   }
+
+  reduceOpenedModal();
 
   emit('close');
 };
@@ -66,7 +82,7 @@ const closeDialog = (): void => {
 const handleKeyPressed = (event: KeyboardEvent): void => {
   const key = event.key;
 
-  if (key === 'Escape') {
+  if (key === 'Escape' && lastOpenedModal.value === dialog.value) {
     hideDialog();
   }
 };
@@ -116,6 +132,13 @@ onMounted(() => {
     }
   });
 
+  if (dialog.value) {
+    // отключаем дефолтное закрытие модального окна по esc из-за конфликтов с анимацией
+    dialog.value.addEventListener('cancel', event => {
+      event.preventDefault();
+    });
+  }
+
   const scrollbarWidth = getScrollbarWidth();
   changeStyleProperties(
     {
@@ -131,6 +154,7 @@ onMounted(() => {
 onUnmounted(() => {
   resetBlock();
   document.removeEventListener('keydown', handleKeyPressed);
+  emit('unmounted');
 });
 </script>
 
