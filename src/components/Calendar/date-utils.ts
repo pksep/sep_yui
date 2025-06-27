@@ -19,19 +19,17 @@ export const getDate = (
   return dateCreator;
 };
 
-export const getUTCLastDateTimeMoscow = (): Date | null => {
-  const now = new Date();
+export const isValidDate = (value: unknown): boolean => {
+  return value instanceof Date && !isNaN(value.getTime());
+};
 
-  const moscowOffsetMinutes = 3 * 60;
-
-  const utcTimeInMinutes = now.getTime() + now.getTimezoneOffset() * 60000;
-
-  const moscowTime = new Date(utcTimeInMinutes + moscowOffsetMinutes * 60000);
+export const getLastTime = (date: Date | null): Date => {
+  const dateTime = isValidDate(date) && date !== null ? date : new Date();
 
   const lastMoment = new Date(
-    moscowTime.getFullYear(),
-    moscowTime.getMonth(),
-    moscowTime.getDate(),
+    dateTime.getFullYear(),
+    dateTime.getMonth(),
+    dateTime.getDate(),
     23,
     59,
     59,

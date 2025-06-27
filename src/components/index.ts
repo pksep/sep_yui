@@ -52,7 +52,7 @@ import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
 import TableSimple from '@/components/Table/TableSimple.vue';
 
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
-import { getUTCLastDateTimeMoscow } from './Calendar/date-utils';
+import { getLastTime } from './Calendar/date-utils';
 
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
@@ -174,7 +174,7 @@ export {
   BaseFilter,
   Range,
   type IDialogProps,
-  getUTCLastDateTimeMoscow,
   type IRangeForDatePicker,
-  type OptionsObject
+  type OptionsObject,
+  getLastTime
 };
