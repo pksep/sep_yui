@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import { reactive, watchEffect, watch, onMounted, ref } from 'vue';
-// import { getLastTime } from './date-utils';
 
 import DatePickerRange from './DatePickerRange.vue';
 import DatePicker from './DatePicker.vue';
