@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.49
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.48...v0.1.49)
+
+### 🩹 Fixes
+
+- Change value in blur, when InputNumber have min or max ([d5e5bd7](https://github.com/pksep/sep_yui/commit/d5e5bd7))
+
 ## v0.1.48
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.47...v0.1.48)
