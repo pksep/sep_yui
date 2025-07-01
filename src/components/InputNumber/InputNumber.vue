@@ -158,15 +158,6 @@ const handleInput = (e: Event): void => {
       formattedValue.slice(formattedValue.lastIndexOf('.') + 1);
   }
 
-  // Применить логику минимума/максимума
-  if (Number(formattedValue) > props.max) {
-    state.inputElement = props.max;
-  } else if (Number(formattedValue) < props.min) {
-    state.inputElement = props.min;
-  } else {
-    state.inputElement = formattedValue;
-  }
-
   if (
     state.inputElement !== '' &&
     !validPattern.test(`${state.inputElement}`)
@@ -174,7 +165,11 @@ const handleInput = (e: Event): void => {
     state.inputElement = state.prevValue;
   }
 
-  if (!isNaN(+state.inputElement)) {
+  if (
+    !isNaN(+state.inputElement) &&
+    Number(state.inputElement) <= props.max &&
+    Number(state.inputElement) >= props.min
+  ) {
     emits('update:modelValue', state.inputElement);
   }
 };
@@ -206,6 +201,12 @@ const handleBlur = (): void => {
 
   if (isNaN(+state.inputElement)) {
     state.inputElement = Math.max(props.min, 0);
+  }
+
+  if (Number(state.inputElement) > props.max) {
+    state.inputElement = props.max;
+  } else if (Number(state.inputElement) < props.min) {
+    state.inputElement = props.min;
   }
 
   state.inputElement = `${state.inputElement}`
