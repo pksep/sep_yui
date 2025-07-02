@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.51
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.50...v0.1.51)
+
+### 🚀 Enhancements
+
+- Return checks integer number ([8dd83c4](https://github.com/pksep/sep_yui/commit/8dd83c4))
+
 ## v0.1.50
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.49...v0.1.50)
