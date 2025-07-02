@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.1.51
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.50...v0.1.51)
+
+### 🚀 Enhancements
+
+- Return checks integer number ([8dd83c4](https://github.com/pksep/sep_yui/commit/8dd83c4))
+
+## v0.1.50
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.49...v0.1.50)
+
+### 🚀 Enhancements
+
+- Add countColumn props in table ([f6af851](https://github.com/pksep/sep_yui/commit/f6af851))
+
+## v0.1.49
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.48...v0.1.49)
+
+### 🩹 Fixes
+
+- Change value in blur, when InputNumber have min or max ([d5e5bd7](https://github.com/pksep/sep_yui/commit/d5e5bd7))
+
+## v0.1.48
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.47...v0.1.48)
+
+### 🚀 Enhancements
+
+- In options add attribute used for green icon ([38ff122](https://github.com/pksep/sep_yui/commit/38ff122))
+
 ## v0.1.47
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.46...v0.1.47)

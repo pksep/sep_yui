@@ -93,6 +93,10 @@ const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapperNew> | null>(
 );
 
 const countColumn = computed(() => {
+  if (props.columnCount) {
+    return props.columnCount;
+  }
+
   let maxCountColumn = 1;
   if (theadRef.value) {
     for (let idx = 0; idx < theadRef.value.children.length; idx++) {
