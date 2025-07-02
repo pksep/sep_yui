@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, ref } from 'vue';
+import { reactive, watch, ref, onMounted } from 'vue';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum.ts';
 import { SizesEnum } from '@/common/sizes.ts';
@@ -97,14 +97,53 @@ const state = reactive<IState>({
   prevValue: ''
 });
 
+watch(
+  () => props.isInteger,
+  () => {
+    if (props.isInteger) {
+      state.inputElement = getFormateValue(state.inputElement.toString());
+      validateValue(state.inputElement);
+    }
+  }
+);
+
+watch([() => props.min, () => props.max], () => {
+  checkAndSetMaxValue();
+  checkAndSetMinValue();
+});
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    state.inputElement = newValue;
+  }
+);
+
 const validPattern = /^-?\d{0,10}(\.\d{0,7})?$/;
 
 const inputNumberRef = ref<HTMLInputElement | null>(null);
 
 const handleInput = (e: Event): void => {
   const newValue = (e.target as HTMLInputElement).value;
+  const formattedValue = getFormateValue(newValue);
 
-  let formattedValue = newValue.replace(',', '.');
+  validateValue(formattedValue);
+
+  if (
+    !isNaN(+state.inputElement) &&
+    Number(state.inputElement) <= props.max &&
+    Number(state.inputElement) >= props.min
+  ) {
+    emits('update:modelValue', state.inputElement);
+  }
+};
+
+/**
+ * Возвращает отформатированное значение для корректного числа
+ * @param value
+ */
+const getFormateValue = (value: string): string => {
+  let formattedValue = value.replace(',', '.');
 
   // если значение должны быть целочисленными, то "." удаляем
   if (props.isInteger && formattedValue.includes('.')) {
@@ -158,19 +197,43 @@ const handleInput = (e: Event): void => {
       formattedValue.slice(formattedValue.lastIndexOf('.') + 1);
   }
 
+  return formattedValue;
+};
+
+/**
+ * Валидирует значение на min, max,
+ * @param value
+ */
+const validateValue = (value: string): void => {
+  // Применить логику минимума/максимума
+
+  if (Number(value) > props.max) {
+    state.inputElement = props.max;
+  } else if (Number(value) < props.min) {
+    state.inputElement = props.min;
+  } else {
+    state.inputElement = value;
+  }
+
   if (
     state.inputElement !== '' &&
     !validPattern.test(`${state.inputElement}`)
   ) {
     state.inputElement = state.prevValue;
   }
+};
 
-  if (
-    !isNaN(+state.inputElement) &&
-    Number(state.inputElement) <= props.max &&
-    Number(state.inputElement) >= props.min
-  ) {
-    emits('update:modelValue', state.inputElement);
+const checkAndSetMinValue = (): void => {
+  if (Number(state.inputElement) < props.min) {
+    state.inputElement = props.min;
+    emits('update:modelValue', +state.inputElement);
+  }
+};
+
+const checkAndSetMaxValue = (): void => {
+  if (Number(state.inputElement) > props.max) {
+    state.inputElement = props.max;
+    emits('update:modelValue', +state.inputElement);
   }
 };
 
@@ -245,12 +308,10 @@ const downValue = (): void => {
   inputNumberRef.value?.focus();
 };
 
-watch(
-  () => props.modelValue,
-  newValue => {
-    state.inputElement = newValue;
-  }
-);
+onMounted(() => {
+  checkAndSetMaxValue();
+  checkAndSetMinValue();
+});
 </script>
 
 <style scoped>
