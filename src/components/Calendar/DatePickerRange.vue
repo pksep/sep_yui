@@ -36,11 +36,13 @@
 <script setup lang="ts">
 import { reactive, watch, onMounted } from 'vue';
 import DataPicker from './DatePicker.vue';
-import type {
-  IDatePickerProps,
-  IRangeForDatePicker
+import {
+  IRangeForDatePickerState,
+  type IDatePickerProps,
+  type IRangeForDatePicker
 } from './interfaces/interfaces';
 import { RangeTypeEnum } from './enums/enums';
+import { getLastTime } from './date-utils';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU',
@@ -51,19 +53,26 @@ const emits = defineEmits<{
   (e: 'change', value: IRangeForDatePicker): void;
 }>();
 
-const state = reactive({
+const state = reactive<IRangeForDatePickerState>({
   date: {
-    start: null as Date | null,
-    end: null as Date | null
+    start: null,
+    end: null
   },
   isActive: false
 });
 
-const startDate = defineModel('startDate');
-const endDate = defineModel('endDate');
+const startDate = defineModel<Date | null>('startDate');
+const endDate = defineModel<Date | null>('endDate');
 
 const changeValue = (val: Date | null, item: RangeTypeEnum): void => {
-  state.date[item] = val;
+  if (item === RangeTypeEnum.start) {
+    state.date[item] = val;
+  }
+
+  if (item === RangeTypeEnum.end) {
+    state.date[item] =
+      props.toLastTime && val !== null ? getLastTime(val) : val;
+  }
 
   emits('change', state.date);
 };
@@ -73,25 +82,28 @@ const clearFunction = (type: RangeTypeEnum): void => {
 };
 
 const handleClearAll = (): void => {
-  Object.values(state.date).fill(null);
+  Object.keys(state.date).forEach(key => {
+    state.date[key as RangeTypeEnum] = null;
+  });
 };
 
-watch([startDate, endDate], () => {
+const checkDateValue = (): void => {
   if (startDate.value || endDate.value) {
     state.date = {
       start: startDate.value as Date,
-      end: endDate.value as Date
+      end: props.toLastTime
+        ? getLastTime(endDate.value as Date)
+        : (endDate.value as Date)
     };
   }
+};
+
+watch([() => startDate.value, () => endDate.value], () => {
+  checkDateValue();
 });
 
 onMounted(() => {
-  if (startDate.value || endDate.value) {
-    state.date = {
-      start: startDate.value as Date,
-      end: endDate.value as Date
-    };
-  }
+  checkDateValue();
 });
 
 defineExpose({

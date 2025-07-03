@@ -97,6 +97,7 @@ const formatLetter = (str: string): string | null => {
   font-size: 14px;
   color: var(--color, var(--grey6));
   border: 1px solid var(--border, var(--border-grey));
+  padding-left: 1px;
   &:hover {
     cursor: pointer;
     background: #f8f9fd;
@@ -105,6 +106,9 @@ const formatLetter = (str: string): string | null => {
     --background: var(--blue9);
     --color: var(--blue1);
     --border: var(--active-border, var(--border-blue));
+  }
+  &:nth-child(2) {
+    padding-left: 10px;
   }
 }
 
