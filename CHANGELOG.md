@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.53
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.52...v0.1.53)
+
+### 🩹 Fixes
+
+- InputNumber.vue min max ([eb318f5](https://github.com/pksep/sep_yui/commit/eb318f5))
+
 ## v0.1.52
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.51...v0.1.52)
