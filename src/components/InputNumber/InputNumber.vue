@@ -205,15 +205,7 @@ const getFormateValue = (value: string): string => {
  * @param value
  */
 const validateValue = (value: string): void => {
-  // Применить логику минимума/максимума
-
-  if (Number(value) > props.max) {
-    state.inputElement = props.max;
-  } else if (Number(value) < props.min) {
-    state.inputElement = props.min;
-  } else {
-    state.inputElement = value;
-  }
+  state.inputElement = value;
 
   if (
     state.inputElement !== '' &&
