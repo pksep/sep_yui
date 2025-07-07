@@ -205,7 +205,11 @@ const getFormateValue = (value: string): string => {
  * @param value
  */
 const validateValue = (value: string): void => {
-  state.inputElement = value;
+  if (Number(value) > props.max) {
+    state.inputElement = props.max;
+  } else {
+    state.inputElement = value;
+  }
 
   if (
     state.inputElement !== '' &&
