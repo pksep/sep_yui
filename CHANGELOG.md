@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.55
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.54...v0.1.55)
+
+### 🩹 Fixes
+
+- InputNumber.vue max value ([02e4b77](https://github.com/pksep/sep_yui/commit/02e4b77))
+
 ## v0.1.54
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.53...v0.1.54)
