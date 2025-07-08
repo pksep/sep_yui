@@ -91,6 +91,7 @@ onMounted(() => {
   align-items: center;
   list-style: none;
   padding: 6px;
+  gap: 6px;
   width: inherit;
   border-radius: 5px;
   background-color: $WHITE;
