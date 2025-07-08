@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.56
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.55...v0.1.56)
+
+### 🚀 Enhancements
+
+- Added switch gap ([4a89554](https://github.com/pksep/sep_yui/commit/4a89554))
+
 ## v0.1.55
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.54...v0.1.55)
