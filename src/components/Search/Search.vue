@@ -106,12 +106,12 @@ const searchStyles: CSSProperties = {
 };
 
 const chosenPost = (value: string) => {
-  state.searchValue = value;
+  state.searchValue = value.trim();
   state.isShowList = false;
 
   emit('input', value);
   emit('update:modelValue', state.searchValue);
-  emit('choosed', value);
+  emit('choosed', state.searchValue);
   emit('enter', state.searchValue);
 };
 
