@@ -23,7 +23,6 @@ export interface ITableTd extends IDataTestIdProp {
 
 export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
   tableId?: string;
-  columnCount?: number;
 }
 
 export interface ITableEmit {
