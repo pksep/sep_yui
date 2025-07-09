@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.58
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.57...v0.1.58)
+
+### 🚀 Enhancements
+
+- Added trim to search ([437af10](https://github.com/pksep/sep_yui/commit/437af10))
+
 ## v0.1.57
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.56...v0.1.57)
