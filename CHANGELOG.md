@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.57
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.56...v0.1.57)
+
+### 🚀 Enhancements
+
+- Changed logic calculate max column count ([9a90686](https://github.com/pksep/sep_yui/commit/9a90686))
+
 ## v0.1.56
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.55...v0.1.56)
