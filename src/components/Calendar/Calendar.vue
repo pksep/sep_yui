@@ -2,6 +2,7 @@
   <DatePickerRange
     ref="datePickerRangeRef"
     v-if="props.isRange"
+    :to-last-time="props.toLastTime"
     v-model:start-date="state.dateObject.start"
     v-model:end-date="state.dateObject.end"
     :disabled="props.disabled"
@@ -65,18 +66,12 @@ const fillDateObject = (): IRangeForDatePicker => ({
   end: props.range?.end ?? null
 });
 
-watch(
-  () => props.range,
-  () => {
-    if (props.isRange) {
-      state.dateObject = fillDateObject();
-    }
-
-    if (!props.range) {
-      datePickerRangeRef.value?.clear();
-    }
+watch([() => props.range?.start, () => props.range?.end], () => {
+  state.dateObject = fillDateObject();
+  if (props.range?.start === null && props.range?.end === null) {
+    datePickerRangeRef.value?.clear();
   }
-);
+});
 
 onMounted(() => {
   if (props.isRange) {

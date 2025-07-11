@@ -1,5 +1,5 @@
 <template>
-  <ScrollWrapperNew
+  <ScrollWrapper
     ref="scrollWrapperRef"
     class="table"
     @unmount-scroll="unmountScroll"
@@ -9,6 +9,7 @@
   >
     <table
       ref="tableRef"
+      :id="props.tableId"
       class="table__table"
       :data-testid="`${props.dataTestid}`"
     >
@@ -25,20 +26,20 @@
         >
           <slot name="head"></slot>
 
-          <HeadTableRowNew
+          <HeadTableRow
             v-if="$slots['search']"
             class="table__search-tr"
             ref="searchRowRef"
             :data-testid="`${props.dataTestid}-Search-Row`"
           >
             <TableTh
-              :colspan="countColumn"
+              :colspan="state.maxColumnCount"
               class="table__search-th"
               :data-testid="`${props.dataTestid}-SearchRow-Search`"
             >
               <slot name="search"></slot>
             </TableTh>
-          </HeadTableRowNew>
+          </HeadTableRow>
         </thead>
 
         <slot name="body-group">
@@ -53,19 +54,19 @@
         </slot>
       </slot>
     </table>
-  </ScrollWrapperNew>
+  </ScrollWrapper>
 </template>
 
 <script setup lang="ts">
-import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
-import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import TableTh from '@/components/Table/TableTh.vue';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import type {
   ITableEmit,
   ITableProps
 } from '@/components/Table/interface/interface';
+import HeadTableRow from '@/components/Table/HeadTableRow.vue';
+import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
 
 defineOptions({
   name: 'TableNew'
@@ -81,31 +82,17 @@ const emit = defineEmits<ITableEmit>();
 
 const state = reactive<{
   headHeight: number;
+  maxColumnCount: number;
 }>({
-  headHeight: 0
+  headHeight: 0,
+  maxColumnCount: 0
 });
 
 const tableRef = ref<HTMLElement | null>(null);
 const theadRef = ref<HTMLElement | null>(null);
 const tbodyRef = ref<HTMLElement | null>(null);
-const searchRowRef = ref<InstanceType<typeof HeadTableRowNew> | null>(null);
-const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapperNew> | null>(
-  null
-);
-
-const countColumn = computed(() => {
-  let maxCountColumn = 1;
-  if (theadRef.value) {
-    for (let idx = 0; idx < theadRef.value.children.length; idx++) {
-      maxCountColumn = Math.max(
-        theadRef.value.children[idx].children.length,
-        maxCountColumn
-      );
-    }
-  }
-
-  return maxCountColumn;
-});
+const searchRowRef = ref<InstanceType<typeof HeadTableRow> | null>(null);
+const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 
 const unmountScroll = (e: Event) => {
   emit('unmount-scroll', e);
@@ -158,6 +145,25 @@ const setSearchMinHeight = () => {
   }
 };
 
+const setMaxCountColumn = (): void => {
+  let maxCountColumn = 1;
+
+  if (theadRef.value) {
+    for (let idx = 0; idx < theadRef.value.children.length; idx++) {
+      maxCountColumn = Math.max(
+        theadRef.value.children[idx].children.length,
+        maxCountColumn
+      );
+    }
+
+    state.maxColumnCount = maxCountColumn;
+  }
+};
+
+const theadMutationObserver = new MutationObserver(() => {
+  setMaxCountColumn();
+});
+
 const resizeObserver = new ResizeObserver(() => {
   setHeadHeight();
 });
@@ -173,9 +179,17 @@ defineExpose({
 
 onMounted(() => {
   setHeadHeight();
+  setMaxCountColumn();
   window.addEventListener('resize', setHeadHeight);
   if (tableRef.value) {
     resizeObserver.observe(tableRef.value);
+  }
+
+  if (theadRef.value) {
+    theadMutationObserver.observe(theadRef.value, {
+      childList: true,
+      subtree: true
+    });
   }
 
   setSearchMinHeight();

@@ -143,13 +143,20 @@ defineExpose({
   --vc-rounded: 5px;
   --vc-header-title-color: var(--text-black);
   --vc-header-arrow-color: var(--black);
+  --popover-horizontal-content-offset: 17px;
 }
+
 .vc-popover-content .vc-light {
   --vc-popover-content-bg: var(--white);
 }
 
 .date-picker-yui-kit .vc-attr {
   --vc-accent-600: var(--blue9);
+}
+
+.date-picker-yui-kit .vc-header {
+  padding-left: 17px;
+  padding-right: 17px;
 }
 
 .vc-popover-content {
@@ -168,7 +175,8 @@ defineExpose({
     box-shadow: none;
     font-weight: var(--vc-font-normal);
     border-radius: 16px;
-    padding: 8px;
+    width: initial;
+    padding: 8px 16.5px;
     &:hover {
       color: var(--white);
       background: var(--vc-nav-item-active-color);
@@ -199,7 +207,7 @@ defineExpose({
 }
 
 .vc-pane-container .vc-weeks {
-  padding: 12px;
+  padding: 17px;
 }
 
 .date-picker-yui-kit .vc-day-content {
@@ -281,5 +289,9 @@ button.vc-nav-title {
   & svg.vc-base-icon {
     stroke-width: 1.5px;
   }
+}
+
+.vc-nav-items {
+  column-gap: 12px;
 }
 </style>

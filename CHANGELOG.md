@@ -1,5 +1,106 @@
 # Changelog
 
+## v0.1.59
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.58...v0.1.59)
+
+### 🚀 Enhancements
+
+- Support colgroup of colspan ([8e8e9c8](https://github.com/pksep/sep_yui/commit/8e8e9c8))
+
+### 🩹 Fixes
+
+- Lint error ([925f498](https://github.com/pksep/sep_yui/commit/925f498))
+
+## v0.1.58
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.57...v0.1.58)
+
+### 🚀 Enhancements
+
+- Added trim to search ([437af10](https://github.com/pksep/sep_yui/commit/437af10))
+
+## v0.1.57
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.56...v0.1.57)
+
+### 🚀 Enhancements
+
+- Changed logic calculate max column count ([9a90686](https://github.com/pksep/sep_yui/commit/9a90686))
+
+## v0.1.56
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.55...v0.1.56)
+
+### 🚀 Enhancements
+
+- Added switch gap ([4a89554](https://github.com/pksep/sep_yui/commit/4a89554))
+
+## v0.1.55
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.54...v0.1.55)
+
+### 🩹 Fixes
+
+- InputNumber.vue max value ([02e4b77](https://github.com/pksep/sep_yui/commit/02e4b77))
+
+## v0.1.54
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.53...v0.1.54)
+
+### 🚀 Enhancements
+
+- Support latest date of calendar with prop last-date ([6e83047](https://github.com/pksep/sep_yui/commit/6e83047))
+- Added last time of calendar and date-picker range for default date new prop - toLastTime ([62016aa](https://github.com/pksep/sep_yui/commit/62016aa))
+- New size of button - little. Even less than small ([d041bc8](https://github.com/pksep/sep_yui/commit/d041bc8))
+- Calendar add null values fill ([b56a9b8](https://github.com/pksep/sep_yui/commit/b56a9b8))
+
+### 🩹 Fixes
+
+- Not clear with handle clear all ([0083ac3](https://github.com/pksep/sep_yui/commit/0083ac3))
+- Revert not utc date for return ([8ee4097](https://github.com/pksep/sep_yui/commit/8ee4097))
+- Calendar with a rectangle, not square ([46b6d87](https://github.com/pksep/sep_yui/commit/46b6d87))
+
+### 💅 Refactors
+
+- Range props and date utils, fix not null value ([a44aca1](https://github.com/pksep/sep_yui/commit/a44aca1))
+
+## v0.1.53
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.52...v0.1.53)
+
+### 🩹 Fixes
+
+- InputNumber.vue min max ([eb318f5](https://github.com/pksep/sep_yui/commit/eb318f5))
+
+## v0.1.52
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.51...v0.1.52)
+
+## v0.1.51
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.50...v0.1.51)
+
+### 🚀 Enhancements
+
+- Return checks integer number ([8dd83c4](https://github.com/pksep/sep_yui/commit/8dd83c4))
+
+## v0.1.50
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.49...v0.1.50)
+
+### 🚀 Enhancements
+
+- Add countColumn props in table ([f6af851](https://github.com/pksep/sep_yui/commit/f6af851))
+
+## v0.1.49
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.48...v0.1.49)
+
+### 🩹 Fixes
+
+- Change value in blur, when InputNumber have min or max ([d5e5bd7](https://github.com/pksep/sep_yui/commit/d5e5bd7))
+
 ## v0.1.48
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.47...v0.1.48)
