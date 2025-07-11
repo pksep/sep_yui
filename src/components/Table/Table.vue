@@ -14,11 +14,14 @@
       :data-testid="`${props.dataTestid}`"
     >
       <slot>
-        <slot name="colspan"></slot>
+        <colgroup>
+            <slot name="colspan"></slot>
+        </colgroup>
 
         <thead
           v-if="$slots['head']"
           ref="theadRef"
+          :id="props.theadId"
           class="table__head"
           :data-testid="`${props.dataTestid}-Thead`"
         >
@@ -27,12 +30,14 @@
           <HeadTableRowNew
             v-if="$slots['search']"
             class="table__search-tr"
+            :id="props.search.rowId"
             ref="searchRowRef"
             :data-testid="`${props.dataTestid}-Search-Row`"
           >
             <TableTh
               :colspan="countColumn"
               class="table__search-th"
+              :id="props.search.headId"
               :data-testid="`${props.dataTestid}-SearchRow-Search`"
             >
               <slot name="search"></slot>
@@ -42,6 +47,7 @@
 
         <slot name="body-group">
           <tbody
+            :id="props.tbodyId"
             ref="tbodyRef"
             v-if="$slots['body']"
             class="table__body"

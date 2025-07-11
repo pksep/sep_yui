@@ -13,7 +13,9 @@
       :data-testid="`${props.dataTestid}`"
     >
       <slot>
-        <slot name="colspan"></slot>
+        <colgroup>
+          <slot name="colspan"></slot>
+        </colgroup>
 
         <thead
           v-if="$slots['head']"

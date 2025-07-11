@@ -23,6 +23,12 @@ export interface ITableTd extends IDataTestIdProp {
 
 export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
   tableId?: string;
+  search: {
+    rowId?: string;
+    headId?: string;
+  };
+  tbodyId?: string;
+  theadId?: string;
 }
 
 export interface ITableEmit {
