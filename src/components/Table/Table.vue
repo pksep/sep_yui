@@ -15,7 +15,7 @@
     >
       <slot>
         <colgroup>
-            <slot name="colspan"></slot>
+          <slot name="colspan"></slot>
         </colgroup>
 
         <thead
