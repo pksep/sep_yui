@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.59
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.58...v0.1.59)
+
+### 🚀 Enhancements
+
+- Support colgroup of colspan ([8e8e9c8](https://github.com/pksep/sep_yui/commit/8e8e9c8))
+
+### 🩹 Fixes
+
+- Lint error ([925f498](https://github.com/pksep/sep_yui/commit/925f498))
+
 ## v0.1.58
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.57...v0.1.58)
