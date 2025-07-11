@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.60
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.59...v0.1.60)
+
+### 🩹 Fixes
+
+- Optional props to search ids in table ([76ee903](https://github.com/pksep/sep_yui/commit/76ee903))
+
 ## v0.1.59
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.58...v0.1.59)
