@@ -35,7 +35,7 @@
             :data-testid="`${props.dataTestid}-Search-Row`"
           >
             <TableTh
-              :colspan="state.maxColumnCount"
+              :colspan="props.columnCount || state.maxColumnCount"
               class="table__search-th"
               :id="props.search?.headId"
               :data-testid="`${props.dataTestid}-SearchRow-Search`"
@@ -150,10 +150,6 @@ const setSearchMinHeight = () => {
 };
 
 const setMaxCountColumn = (): void => {
-  if (props.columnCount) {
-    state.maxColumnCount = props.columnCount;
-    return;
-  }
   let maxCountColumn = 1;
 
   if (theadRef.value) {
