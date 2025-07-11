@@ -23,7 +23,7 @@ export interface ITableTd extends IDataTestIdProp {
 
 export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
   tableId?: string;
-  search: {
+  search?: {
     rowId?: string;
     headId?: string;
   };

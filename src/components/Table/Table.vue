@@ -30,14 +30,14 @@
           <HeadTableRowNew
             v-if="$slots['search']"
             class="table__search-tr"
-            :id="props.search.rowId"
+            :id="props.search?.rowId"
             ref="searchRowRef"
             :data-testid="`${props.dataTestid}-Search-Row`"
           >
             <TableTh
               :colspan="countColumn"
               class="table__search-th"
-              :id="props.search.headId"
+              :id="props.search?.headId"
               :data-testid="`${props.dataTestid}-SearchRow-Search`"
             >
               <slot name="search"></slot>
