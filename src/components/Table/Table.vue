@@ -150,6 +150,10 @@ const setSearchMinHeight = () => {
 };
 
 const setMaxCountColumn = (): void => {
+  if (props.columnCount) {
+    state.maxColumnCount = props.columnCount;
+    return;
+  }
   let maxCountColumn = 1;
 
   if (theadRef.value) {

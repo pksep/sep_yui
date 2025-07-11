@@ -29,6 +29,7 @@ export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
   };
   tbodyId?: string;
   theadId?: string;
+  columnCount?: number;
 }
 
 export interface ITableEmit {
