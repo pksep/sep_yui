@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.62
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.61...v0.1.62)
+
+### 🚀 Enhancements
+
+- Add column-count in table ([b29f5da](https://github.com/pksep/sep_yui/commit/b29f5da))
+
 ## v0.1.61
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.60...v0.1.61)
