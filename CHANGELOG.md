@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.63
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.62...v0.1.63)
+
+### 🚀 Enhancements
+
+- Added model to is-opened ([1dfde37](https://github.com/pksep/sep_yui/commit/1dfde37))
+- Change behaivior ([ed1a656](https://github.com/pksep/sep_yui/commit/ed1a656))
+- Improve slider data-testid ([8b32a88](https://github.com/pksep/sep_yui/commit/8b32a88))
+
+### 🩹 Fixes
+
+- Support data-testid ([5378c33](https://github.com/pksep/sep_yui/commit/5378c33))
+
 ## v0.1.62
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.61...v0.1.62)
