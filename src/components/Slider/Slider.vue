@@ -18,20 +18,23 @@
       </button>
       <div
         class="slider-yui-kit__slides"
-        :data-testid="`${props.dataTestid}-slides-container`"
+        :data-testid="`${props.dataTestid}-Slides-Container`"
       >
         <div
           class="placeholder-yui-kit no-content"
           v-if="showPlaceholder()"
-          :data-testid="`${props.dataTestid}-No-Content-Placeholder`"
+          :data-testid="`${props.dataTestid}-NoContent-Placeholder`"
         >
           <img
             src="./../../assets/images/slider/closed-camera.svg"
             alt=""
             width="111px"
             height="111px"
+            :data-testid="`${props.dataTestid}-NoContent-Image`"
           />
-          <p>Контент отсутствует</p>
+          <p :data-testid="`${props.dataTestid}-NoContent-Paragrpah`">
+            Контент отсутствует
+          </p>
         </div>
         <div
           class="placeholder-yui-kit"
