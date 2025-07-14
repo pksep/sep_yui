@@ -1,6 +1,10 @@
 <template>
   <div class="slider-yui-kit" :data-testid="props.dataTestid">
-    <div class="slider-yui-kit__wrapper" ref="slider-yui-kitWrapperRef">
+    <div
+      class="slider-yui-kit__wrapper"
+      ref="slider-yui-kitWrapperRef"
+      :data-testid="`${props.dataTestid}-Wrapper`"
+    >
       <button
         class="slider-yui-kit__button slider-yui-kit__button--prev"
         @click="prevSlide"
