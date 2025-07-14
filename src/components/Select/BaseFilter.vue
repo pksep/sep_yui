@@ -148,13 +148,17 @@ const state = reactive({
 
 const emits = defineEmits<{
   (e: 'change', value: string | string[]): void;
+  (e: 'unmount-open', value: boolean): void;
 }>();
 
 const badgesRef = ref<InstanceType<typeof Badges> | null>(null);
 const model = defineModel<string | string[]>({
   default: []
 });
-const isOpened = ref<boolean>();
+
+const isOpened = defineModel<boolean>('isOpened', {
+  default: false
+});
 
 const searchData = ref('');
 
