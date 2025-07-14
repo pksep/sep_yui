@@ -54,6 +54,7 @@ export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
   isSearch?: boolean;
   isPosibleToClear?: boolean;
   isShowMiniOptions?: boolean;
+  isOpened: boolean;
 }
 
 export interface IChoosenMiniOptionsProps extends IDataTestIdProp {
