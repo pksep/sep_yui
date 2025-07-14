@@ -127,7 +127,7 @@ import SelectList from '@/components/Select/SelectList.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import { isArrayOfOptionsObjectWithHint } from '@/helpers/guards/is-options-object-with-hint';
 import { isArray } from 'lodash';
-import { computed, ref, reactive } from 'vue';
+import { computed, ref, reactive, watch } from 'vue';
 
 defineOptions({
   name: 'BaseFilter'
@@ -139,7 +139,8 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   isPosibleToClear: false,
   isMultiple: false,
   isShowMiniOptions: false,
-  dataTestid: 'BaseFilter'
+  dataTestid: 'BaseFilter',
+  isOpened: false
 });
 
 const state = reactive({
@@ -156,9 +157,15 @@ const model = defineModel<string | string[]>({
   default: []
 });
 
-const isOpened = defineModel<boolean>('isOpened', {
-  default: false
-});
+const isOpened = ref<boolean>(props.isOpened);
+
+watch(isOpened, () => emits('unmount-open', isOpened.value));
+watch(
+  () => props.isOpened,
+  () => {
+    isOpened.value = props.isOpened;
+  }
+);
 
 const searchData = ref('');
 
