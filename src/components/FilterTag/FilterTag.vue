@@ -240,6 +240,7 @@ const handleToggle = (item: filterTagOptionType): void => {
     'change',
     getChosen.value.map(opt => opt.value)
   );
+  state.isShow = false
 };
 
 const handleClear = (): void => {
