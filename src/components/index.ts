@@ -52,7 +52,7 @@ import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
 import TableSimple from '@/components/Table/TableSimple.vue';
 
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
-import { getLastTime } from './Calendar/date-utils';
+import { getFirstTime, getLastTime } from './Calendar/date-utils';
 
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
@@ -176,5 +176,6 @@ export {
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
-  getLastTime
+  getLastTime,
+  getFirstTime
 };
