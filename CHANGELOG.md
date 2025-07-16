@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.64
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.63...v0.1.64)
+
+### 🩹 Fixes
+
+- IsShow false after click value ([09b5ac0](https://github.com/pksep/sep_yui/commit/09b5ac0))
+
 ## v0.1.63
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.62...v0.1.63)
