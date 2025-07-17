@@ -38,7 +38,7 @@
           class="popover-yui-kit__options__item"
           v-for="(item, i) in props.options"
           :key="i"
-          @click="handleClick(item)"
+          @click.stop="handleClick(item)"
           :data-testid="`${props.dataTestid}-Item${i}`"
         >
           {{ item.value }}
@@ -100,7 +100,7 @@ const closeShow = (): void => {
 
 const handleClick = (item: IPopoverOption): void => {
   item.function();
-  state.isShow = false;
+  closeShow();
 };
 
 const updateDropdownPosition = () => {
