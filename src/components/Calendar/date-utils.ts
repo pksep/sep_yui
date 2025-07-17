@@ -27,13 +27,26 @@ export const getLastTime = (date: Date | null): Date => {
   const dateTime = isValidDate(date) && date !== null ? date : new Date();
 
   const lastMoment = new Date(
-    dateTime.getFullYear(),
-    dateTime.getMonth(),
-    dateTime.getDate(),
-    23,
-    59,
-    59,
-    999
+    Date.UTC(
+      dateTime.getFullYear(),
+      dateTime.getMonth(),
+      dateTime.getDate(),
+      23,
+      59,
+      59,
+      999
+    )
   );
   return lastMoment;
+};
+
+export const getFirstTime = (date: Date): Date => {
+  const dateTime = isValidDate(date) && date !== null ? date : new Date();
+
+  const dateObject = {
+    year: dateTime.getFullYear(),
+    month: dateTime.getMonth(),
+    day: dateTime.getDate()
+  };
+  return new Date(Date.UTC(dateObject.year, dateObject.month, dateObject.day));
 };
