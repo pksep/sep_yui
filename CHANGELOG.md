@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.66
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.65...v0.1.66)
+
+### 🚀 Enhancements
+
+- Added click.stop to item ([782d46b](https://github.com/pksep/sep_yui/commit/782d46b))
+
 ## v0.1.65
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.64...v0.1.65)
