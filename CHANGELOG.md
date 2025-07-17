@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.65
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.64...v0.1.65)
+
+### 🚀 Enhancements
+
+- Support getFirst time and lasttime utc ([098c22d](https://github.com/pksep/sep_yui/commit/098c22d))
+
 ## v0.1.64
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.63...v0.1.64)
