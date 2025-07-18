@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.1.67
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.66...v0.1.67)
+
+### 🚀 Enhancements
+
+- Change light-blue color for badges ([8ae9d5d](https://github.com/pksep/sep_yui/commit/8ae9d5d))
+
+## v0.1.66
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.65...v0.1.66)
+
+### 🚀 Enhancements
+
+- Added click.stop to item ([782d46b](https://github.com/pksep/sep_yui/commit/782d46b))
+
+## v0.1.65
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.64...v0.1.65)
+
+### 🚀 Enhancements
+
+- Support getFirst time and lasttime utc ([098c22d](https://github.com/pksep/sep_yui/commit/098c22d))
+
+## v0.1.64
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.63...v0.1.64)
+
+### 🩹 Fixes
+
+- IsShow false after click value ([09b5ac0](https://github.com/pksep/sep_yui/commit/09b5ac0))
+
 ## v0.1.63
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.62...v0.1.63)
