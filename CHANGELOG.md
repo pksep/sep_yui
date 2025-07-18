@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.69
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.68...v0.1.69)
+
+### 🩹 Fixes
+
+- Filter badge border-radius ([d711547](https://github.com/pksep/sep_yui/commit/d711547))
+
 ## v0.1.68
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.67...v0.1.68)
