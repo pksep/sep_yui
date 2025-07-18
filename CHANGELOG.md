@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.67
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.66...v0.1.67)
+
+### 🚀 Enhancements
+
+- Change light-blue color for badges ([8ae9d5d](https://github.com/pksep/sep_yui/commit/8ae9d5d))
+
 ## v0.1.66
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.65...v0.1.66)
