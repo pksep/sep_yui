@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.68
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.67...v0.1.68)
+
+### 🚀 Enhancements
+
+- New icon - opendocument ([655a817](https://github.com/pksep/sep_yui/commit/655a817))
+
 ## v0.1.67
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.66...v0.1.67)
