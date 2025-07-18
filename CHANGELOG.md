@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.70
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.69...v0.1.70)
+
+### 🚀 Enhancements
+
+- Add popover option style property ([29d0df6](https://github.com/pksep/sep_yui/commit/29d0df6))
+
 ## v0.1.69
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.68...v0.1.69)
