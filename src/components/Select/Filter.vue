@@ -219,7 +219,7 @@ watch(
 
 <style scoped>
 :deep(.filter__header) {
-  --radius: 10px;
+  border-radius: 10px;
   gap: 5px;
   padding: 13px 10px;
   justify-content: start;
