@@ -90,5 +90,6 @@ export enum IconNameEnum {
   paint = 'paint',
   closeTag = 'close-tag',
   arrowUp = 'arrow-up',
-  arrowDown = 'arrow-down'
+  arrowDown = 'arrow-down',
+  openDocument = 'open-document'
 }

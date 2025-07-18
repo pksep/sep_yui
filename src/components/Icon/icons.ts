@@ -1058,3 +1058,16 @@ export const slashCircle: IVectorIcon = {
 `,
   viewbox: '0 0 16 16'
 };
+
+export const openDocument: IVectorIcon = {
+  name: 'open-document',
+  fill: 'none',
+  style: 'line',
+  path: `
+    <path d="M7.5 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398H9.33073H11.6641C12.6641 1.83398 13.3307 2.50065 13.3307 3.50065V9" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+     <path d="M10.6693 8.5H5.33594" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8.33594 11.166H5.33594" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> <path d="M6.66927 5.83398H6.0026H5.33594" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M11.3188 11.5H13.5V13.6811" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 15L13.4987 11.5" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> `,
+  viewbox: '0 0 16 17'
+};
