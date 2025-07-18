@@ -36,6 +36,7 @@
       >
         <div
           class="popover-yui-kit__options__item"
+          :style="item.style"
           v-for="(item, i) in props.options"
           :key="i"
           @click.stop="handleClick(item)"
