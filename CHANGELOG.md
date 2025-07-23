@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.71
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.70...v0.1.71)
+
+### 🚀 Enhancements
+
+- Change behaivior close modal ([8c733ed](https://github.com/pksep/sep_yui/commit/8c733ed))
+
 ## v0.1.70
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.69...v0.1.70)
