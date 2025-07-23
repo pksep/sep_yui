@@ -4,6 +4,7 @@
     v-bind="attrs"
     class="modal-yui-kit"
     :data-testid="props.dataTestid"
+    @click.self.left="handleCloseDialog"
   >
     <div
       class="modal-yui-kit__modal-content"
@@ -24,7 +25,6 @@ import {
   useAttrs,
   watchEffect
 } from 'vue';
-import { useEventListener } from '@vueuse/core';
 import type { IDialogProps } from './interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
 import { useModalStore } from '@/stores/modal';
@@ -114,11 +114,11 @@ const resetBlock = (): void => {
   }
 };
 
-useEventListener(dialog, 'mousedown', e => {
-  if (e.target === dialog.value) {
+const handleCloseDialog = (event: Event): void => {
+  if (event.target === dialog.value) {
     hideDialog();
   }
-});
+};
 
 defineExpose({
   closeDialog
