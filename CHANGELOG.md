@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.72
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.71...v0.1.72)
+
+### 🚀 Enhancements
+
+- New variables of colors(red7 and red8) and filterTag fix ([3828144](https://github.com/pksep/sep_yui/commit/3828144))
+- Update FilterTag ([8ccb394](https://github.com/pksep/sep_yui/commit/8ccb394))
+
 ## v0.1.71
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.70...v0.1.71)
