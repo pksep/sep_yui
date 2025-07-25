@@ -233,6 +233,9 @@ const getNotChosen = computed(() => {
  * меняем состояние фильтра с выбранного на невыбранного и наоборот
  */
 const handleToggle = (item: filterTagOptionType): void => {
+  if (props.disallowNull && item.chose) {
+    return;
+  }
   item.chose = !item.chose;
 
   if (!props.multiply) {
@@ -261,13 +264,10 @@ const handleClear = (): void => {
  * Записываем в список фильтров переданные фильтры. Устанавливает в дефолтное состояние все фильтры и также обнуляет выбранные фильтры, кроме одного.
  */
 
-const setOptions = (isOnMounted?: boolean): void => {
-  state.options = props.options.map((opt, index) => ({
+const setOptions = (): void => {
+  state.options = props.options.map(opt => ({
     ...opt,
-    chose:
-      isOnMounted && props.disallowNull
-        ? index === 0
-        : props.selectedValues.includes(opt.value)
+    chose: props.selectedValues.includes(opt.value)
   }));
 
   if (state.options.every(opt => opt.chose)) {
@@ -275,17 +275,11 @@ const setOptions = (isOnMounted?: boolean): void => {
   }
 };
 
-watch(
-  () => [props.options, props.selectedValues],
-  () => setOptions(false)
-);
+watch(() => [props.options, props.selectedValues], setOptions);
 
-watch(
-  () => props.selectedValues,
-  () => setOptions(false)
-);
+watch(() => props.selectedValues, setOptions);
 
-onMounted(() => setOptions(true));
+onMounted(setOptions);
 </script>
 
 <style lang="scss" scoped>
