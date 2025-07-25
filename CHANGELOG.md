@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.73
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.72...v0.1.73)
+
+### 🩹 Fixes
+
+- FilterTag option ([9e0e541](https://github.com/pksep/sep_yui/commit/9e0e541))
+
 ## v0.1.72
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.71...v0.1.72)
