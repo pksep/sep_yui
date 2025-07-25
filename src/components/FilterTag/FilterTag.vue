@@ -246,6 +246,7 @@ const handleToggle = (item: filterTagOptionType): void => {
 const handleClear = (): void => {
   state.options = state.options.map(opt => ({ ...opt, chose: false }));
 
+  state.isShow = false;
   emits('change', []);
 };
 
