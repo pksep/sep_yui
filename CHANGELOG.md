@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.74
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.73...v0.1.74)
+
+### 🚀 Enhancements
+
+- Added nexttick ([418779d](https://github.com/pksep/sep_yui/commit/418779d))
+
 ## v0.1.73
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.72...v0.1.73)
