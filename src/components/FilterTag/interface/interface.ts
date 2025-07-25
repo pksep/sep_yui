@@ -16,4 +16,5 @@ export interface IFilterTagProps extends IDataTestIdProp {
   multiply?: boolean;
   maxShowCount?: number;
   showClearButton?: boolean;
+  disallowNull?: boolean;
 }

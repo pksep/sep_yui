@@ -9,11 +9,17 @@
       @click="toggleShow"
       :data-testid="`${props.dataTestid}-Wrapper`"
     >
-      <Icon :name="props.iconName" :data-testid="`${props.dataTestid}-Icon`" />
-      <span :data-testid="`${props.dataTestid}-Title`">{{ props.title }}</span>
+      <Icon
+        v-if="!!props.iconName"
+        :name="props.iconName"
+        :data-testid="`${props.dataTestid}-Icon`"
+      />
+      <span v-if="!!props.title" :data-testid="`${props.dataTestid}-Title`">{{
+        props.title
+      }}</span>
 
       <Badges
-        v-if="!getChosen.length"
+        v-if="!getChosen.length && !props.disallowNull"
         disabled
         text="Все"
         :data-testid="`${props.dataTestid}-Badges-All`"
@@ -94,7 +100,7 @@
         >
           <Badges
             :disabled="true"
-            :choosed="item.chose"
+            :choosed="!props.disallowNull && item.chose"
             :type="item.type"
             @click="handleToggle(item)"
             :text="item.label"
@@ -129,6 +135,7 @@
           />
         </li>
         <li
+          v-if="!disallowNull"
           class="filter-yui-kit__select-item"
           :data-testid="`${props.dataTestid}-Select-Item`"
         >
@@ -170,7 +177,8 @@ const props = withDefaults(defineProps<IFilterTagProps>(), {
   maxShowCount: 5,
   multiply: true,
   showClearButton: false,
-  dataTestid: 'FilterTag'
+  dataTestid: 'FilterTag',
+  disallowNull: false
 });
 
 const state = reactive<IFilterTagState>({
@@ -253,10 +261,13 @@ const handleClear = (): void => {
  * Записываем в список фильтров переданные фильтры. Устанавливает в дефолтное состояние все фильтры и также обнуляет выбранные фильтры, кроме одного.
  */
 
-const setOptions = () => {
-  state.options = props.options.map(opt => ({
+const setOptions = (isOnMounted?: boolean): void => {
+  state.options = props.options.map((opt, index) => ({
     ...opt,
-    chose: props.selectedValues.includes(opt.value)
+    chose:
+      isOnMounted && props.disallowNull
+        ? index === 0
+        : props.selectedValues.includes(opt.value)
   }));
 
   if (state.options.every(opt => opt.chose)) {
@@ -264,10 +275,17 @@ const setOptions = () => {
   }
 };
 
-watch(() => props.options, setOptions);
-watch(() => JSON.stringify(props.selectedValues), setOptions);
+watch(
+  () => [props.options, props.selectedValues],
+  () => setOptions(false)
+);
 
-onMounted(setOptions);
+watch(
+  () => props.selectedValues,
+  () => setOptions(false)
+);
+
+onMounted(() => setOptions(true));
 </script>
 
 <style lang="scss" scoped>
