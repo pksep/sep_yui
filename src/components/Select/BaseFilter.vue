@@ -127,7 +127,7 @@ import SelectList from '@/components/Select/SelectList.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import { isArrayOfOptionsObjectWithHint } from '@/helpers/guards/is-options-object-with-hint';
 import { isArray } from 'lodash';
-import { computed, ref, reactive, watch } from 'vue';
+import { computed, ref, reactive, watch, nextTick } from 'vue';
 
 defineOptions({
   name: 'BaseFilter'
@@ -285,7 +285,7 @@ const countModelValue = computed(() => {
   return null;
 });
 
-const getChoosenOption = (value: string): void => {
+const getChoosenOption = async (value: string): Promise<void> => {
   if (isArray(model.value)) {
     if (model.value.includes(value)) {
       model.value = model.value.filter(item => item !== value);
@@ -304,6 +304,8 @@ const getChoosenOption = (value: string): void => {
     isOpened.value = false;
   }
 
+  await nextTick();
+
   emits('change', String(model.value));
 };
 
@@ -311,12 +313,14 @@ const change = (val: boolean): void => {
   isOpened.value = val;
 };
 
-const clear = (): void => {
+const clear = async (): Promise<void> => {
   if (isArray(model.value)) {
     model.value = [];
   } else {
     model.value = '';
   }
+
+  await nextTick();
   emits('change', model.value);
 };
 </script>
