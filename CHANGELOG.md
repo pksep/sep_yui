@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.75
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.74...v0.1.75)
+
+### 🚀 Enhancements
+
+- Add time icon ([18ec5ac](https://github.com/pksep/sep_yui/commit/18ec5ac))
+
 ## v0.1.74
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.73...v0.1.74)
