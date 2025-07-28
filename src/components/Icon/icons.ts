@@ -1071,3 +1071,13 @@ export const openDocument: IVectorIcon = {
     <path d="M10 15L13.4987 11.5" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> `,
   viewbox: '0 0 16 17'
 };
+
+export const time: IVectorIcon = {
+  name: 'time',
+  fill: 'none',
+  style: 'line',
+  path: `
+    <path d="M6.5 11.5C9.26142 11.5 11.5 9.26142 11.5 6.5C11.5 3.73858 9.26142 1.5 6.5 1.5C3.73858 1.5 1.5 3.73858 1.5 6.5C1.5 9.26142 3.73858 11.5 6.5 11.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M6.5 3.5V6.5L8.5 7.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>`,
+  viewbox: '0 0 13 13'
+};
