@@ -1,77 +1,79 @@
 {
-    "name": "sep-yui",
-    "author": "Perov David",
-    "version": "0.1.75",
-    "packageManager": "pnpm@9.9.0",
-    "main": "./dist/sep-yui.umd.ts",
-    "module": "./dist/sep-yui.ts",
-    "types": "./dist/index.d.ts",
-    "scripts": {
-        "dev": "vite",
-        "build": "pnpm run lint && vue-tsc && vite build",
-        "publish:lib": "pnpm run build && pnpm changelogen --release --publish",
-        "preview": "vite preview",
-        "lint": "eslint --fix --ext .ts,.vue src",
-        "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build",
-        "prepare": "lefthook install"
+  "name": "sep-yui",
+  "author": "Perov David",
+  "version": "0.1.75",
+  "packageManager": "pnpm@9.9.0",
+  "main": "./dist/sep-yui.umd.ts",
+  "module": "./dist/sep-yui.ts",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm run lint && vue-tsc && vite build",
+    "publish:lib": "pnpm run build && pnpm changelogen --release --publish",
+    "preview": "vite preview",
+    "lint": "eslint --fix --ext .ts,.vue src",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "prepare": "lefthook install"
+  },
+  "dependencies": {
+    "@angelblanco/v-calendar": "^3.1.3",
+    "@fontsource-variable/inter": "^5.1.0",
+    "@fontsource/source-sans-pro": "^5.1.0",
+    "@popperjs/core": "^2.11.8",
+    "@vueuse/components": "^11.1.0",
+    "@vueuse/core": "^11.0.3",
+    "col-cal": "link:local-packages/col-cal",
+    "pinia": "^2.2.2",
+    "vue": "^3.4.38",
+    "vue3-perfect-scrollbar": "^2.0.0"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.7",
+    "@storybook/addon-a11y": "^8.5.6",
+    "@storybook/addon-actions": "^8.5.5",
+    "@storybook/addon-essentials": "^8.5.6",
+    "@storybook/addon-interactions": "^8.5.6",
+    "@storybook/addon-links": "^8.2.9",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/builder-vite": "^8.5.6",
+    "@storybook/test": "^8.5.6",
+    "@storybook/vue3": "^8.2.9",
+    "@storybook/vue3-vite": "^8.5.6",
+    "@types/lodash": "^4.17.7",
+    "@types/uuid4": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vitejs/plugin-vue": "^5.1.3",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "changelogen": "^0.6.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-storybook": "^0.8.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "lefthook": "^1.8.2",
+    "lit": "^3.3.1",
+    "lodash": "^4.17.21",
+    "sass": "^1.77.8",
+    "storybook": "^8.6.14",
+    "typescript": "^5.5.4",
+    "uuid4": "^2.0.3",
+    "vite": "^5.4.2",
+    "vite-plugin-dts": "^3.9.1",
+    "vue-tsc": "^2.1.4"
+  },
+  "peerDependencies": {
+    "vue": ">=3"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/sep-yui.es.ts",
+      "require": "./dist/sep-yui.umd.ts"
     },
-    "dependencies": {
-        "@angelblanco/v-calendar": "^3.1.3",
-        "@fontsource-variable/inter": "^5.1.0",
-        "@fontsource/source-sans-pro": "^5.1.0",
-        "@popperjs/core": "^2.11.8",
-        "@vueuse/components": "^11.1.0",
-        "@vueuse/core": "^11.0.3",
-        "pinia": "^2.2.2",
-        "vue": "^3.4.38",
-        "vue3-perfect-scrollbar": "^2.0.0"
-    },
-    "devDependencies": {
-        "@chromatic-com/storybook": "^3.2.7",
-        "@storybook/addon-a11y": "^8.5.6",
-        "@storybook/addon-actions": "^8.5.5",
-        "@storybook/addon-essentials": "^8.5.6",
-        "@storybook/addon-interactions": "^8.5.6",
-        "@storybook/addon-links": "^8.2.9",
-        "@storybook/blocks": "^8.6.14",
-        "@storybook/builder-vite": "^8.5.6",
-        "@storybook/test": "^8.5.6",
-        "@storybook/vue3": "^8.2.9",
-        "@storybook/vue3-vite": "^8.5.6",
-        "@types/lodash": "^4.17.7",
-        "@types/uuid4": "^2.0.3",
-        "@typescript-eslint/eslint-plugin": "^7.18.0",
-        "@typescript-eslint/parser": "^7.18.0",
-        "@vitejs/plugin-vue": "^5.1.3",
-        "@vue/eslint-config-typescript": "^13.0.0",
-        "changelogen": "^0.6.1",
-        "eslint": "^8.57.0",
-        "eslint-config-prettier": "^9.1.0",
-        "eslint-plugin-prettier": "^5.2.1",
-        "eslint-plugin-storybook": "^0.8.0",
-        "eslint-plugin-vue": "^9.27.0",
-        "lefthook": "^1.8.2",
-        "lodash": "^4.17.21",
-        "sass": "^1.77.8",
-        "storybook": "^8.6.14",
-        "typescript": "^5.5.4",
-        "uuid4": "^2.0.3",
-        "vite": "^5.4.2",
-        "vite-plugin-dts": "^3.9.1",
-        "vue-tsc": "^2.1.4"
-    },
-    "peerDependencies": {
-        "vue": ">=3"
-    },
-    "files": [
-        "dist"
-    ],
-    "exports": {
-        ".": {
-            "import": "./dist/sep-yui.es.ts",
-            "require": "./dist/sep-yui.umd.ts"
-        },
-        "./styles": "./dist/style.css"
-    }
+    "./styles": "./dist/style.css"
+  }
 }

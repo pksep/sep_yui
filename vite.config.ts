@@ -20,7 +20,13 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag === 'col-cal' || tag.startsWith('wa')
+        }
+      }
+    }),
     dts({
       insertTypesEntry: true
     })

@@ -3,44 +3,50 @@
     class="date-picker-yui-kit__wrapper"
     :data-testid="`${props.dataTestid}-Wrapper`"
   >
-    <DatePicker
-      :locale="props.locale || 'ru'"
-      title-position="left"
-      v-model="date"
-      @dayclick="({ date }) => changeVal(date)"
-      :masks="state.masks"
-      :min-date="getDateStart()"
-      :max-date="getDateEnd()"
-      :popover="{ visibility: 'click' }"
-      @popover-did-hide="state.isActive = false"
-      borderless
-      :is-required="state.isNotClear"
-      class="date-picker-yui-kit"
-      :data-testid="`${props.dataTestid}-Component`"
-    >
-      <template #default="{ inputValue, togglePopover }">
+    <PopoverWrapper placement="bottom">
+      <template #trigger>
         <DataPickerChoose
-          @click="toggle(togglePopover)"
+          @click="showPopover"
           @clear="clearChoose"
           :is-active="state.isActive"
           :is-small="props.isSmall"
           :is-range="props.isRange"
-          :value="inputValue"
           :disabled="props.disabled"
           :data-testid="`${props.dataTestid}-Choose`"
         />
       </template>
+      <col-cal
+        :date="date"
+        :min-date="getDateStart()"
+        :max-date="getDateEnd()"
+        :locale="props.locale ?? 'ru-RU'"
+        :data-testid="`${props.dataTestid}-Component`"
+        @change-date="changeVal"
+        class="date-picker-yui-kit"
+      />
+    </PopoverWrapper>
+    <!--
+    <DatePicker
+      v-model="date"
+      @dayclick="({ date }) => "
+      :masks="state.masks"
+      :min-date="getDateStart()"
+      :max-date="getDateEnd()"
+      :is-required="state.isNotClear"
+    >
+      <template #default="{ inputValue, togglePopover }"> </template>
     </DatePicker>
+    -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, watch, watchEffect } from 'vue';
-import { DatePicker } from '@angelblanco/v-calendar';
+import 'col-cal';
 import DataPickerChoose from './DataPickerChoose.vue';
+import PopoverWrapper from './PopoverWrapper.vue';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
-import '@angelblanco/v-calendar/style.css';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU',
@@ -83,9 +89,9 @@ const clearChoose = (): void => {
   changeVal(null);
 };
 
-const changeVal = (value: Date | null): void => {
-  date.value = value;
-  emits('change', value);
+const changeVal = ({ detail }: { detail: Date | null }): void => {
+  date.value = detail.date;
+  emits('change', date.value);
 };
 
 watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
@@ -115,6 +121,10 @@ const getDateEnd = (): Date | null => {
     }
   }
   return null;
+};
+
+const showPopover = (): void => {
+  state.isActive = true;
 };
 
 watch(
