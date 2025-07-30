@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.76
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.75...v0.1.76)
+
+### 🚀 Enhancements
+
+- Change moseueven to pointerevent ([b87282d](https://github.com/pksep/sep_yui/commit/b87282d))
+
 ## v0.1.75
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.74...v0.1.75)
