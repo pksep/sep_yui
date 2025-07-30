@@ -81,8 +81,8 @@ const useVerticlTrack = (
     startY = event.clientY;
     startScrollTop = slotRef.value.scrollTop;
 
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('pointermove', onDrag);
+    document.addEventListener('pointerup', stopDrag);
   };
 
   // Обработка движения мыши
@@ -101,8 +101,8 @@ const useVerticlTrack = (
   // Остановка перетаскивания
   const stopDrag = () => {
     isDragging.value = false;
-    document.removeEventListener('mousemove', onDrag);
-    document.removeEventListener('mouseup', stopDrag);
+    document.removeEventListener('pointermove', onDrag);
+    document.removeEventListener('pointerup', stopDrag);
   };
 
   const onTrackClick = (event: MouseEvent) => {
