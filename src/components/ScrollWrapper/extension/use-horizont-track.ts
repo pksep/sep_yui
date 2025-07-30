@@ -91,8 +91,6 @@ const useHorizontalTrack = (
   };
 
   const stopDrag = () => {
-    console.log('stopDrag');
-
     isDragging.value = false;
     document.removeEventListener('pointermove', onDrag);
     document.removeEventListener('pointerup', stopDrag, true);
