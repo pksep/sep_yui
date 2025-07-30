@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.77
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.76...v0.1.77)
+
+### 🩹 Fixes
+
+- Fixed vertical scroll ([89839d6](https://github.com/pksep/sep_yui/commit/89839d6))
+
 ## v0.1.76
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.75...v0.1.76)
