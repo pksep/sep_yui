@@ -57,37 +57,39 @@ const useHorizontalTrack = (
 
     const barLeft = scrollPercent * maxBarPosition;
 
-    requestAnimationFrame(() => {
-      if (scrollWrapperRef.value) {
-        changeStyleProperties(
-          { '--scroll-bar-left-position': `${barLeft}px` },
-          scrollWrapperRef.value
-        );
-      }
-    });
+    if (scrollWrapperRef.value) {
+      changeStyleProperties(
+        { '--scroll-bar-left-position': `${barLeft}px` },
+        scrollWrapperRef.value
+      );
+    }
   };
 
   const startDrag = (event: MouseEvent) => {
-    if (!slotRef.value || !scrollWrapperRef.value) return;
+    requestAnimationFrame(() => {
+      if (!slotRef.value || !scrollWrapperRef.value) return;
 
-    isDragging.value = true;
-    startX = event.clientX;
-    startScrollLeft = slotRef.value.scrollLeft;
+      isDragging.value = true;
+      startX = event.clientX;
+      startScrollLeft = slotRef.value.scrollLeft;
 
-    document.addEventListener('pointermove', onDrag);
-    document.addEventListener('pointerup', stopDrag, true);
+      document.addEventListener('pointermove', onDrag);
+      document.addEventListener('pointerup', stopDrag, true);
+    });
   };
 
   const onDrag = (event: MouseEvent) => {
-    if (isDragging.value && slotRef.value && barRef.value) {
-      const deltaX = event.clientX - startX;
-      const scrollRatio =
-        (slotRef.value.scrollWidth - slotRef.value.clientWidth) /
-        (slotRef.value.clientWidth - barRef.value.clientWidth);
+    requestAnimationFrame(() => {
+      if (isDragging.value && slotRef.value && barRef.value) {
+        const deltaX = event.clientX - startX;
+        const scrollRatio =
+          (slotRef.value.scrollWidth - slotRef.value.clientWidth) /
+          (slotRef.value.clientWidth - barRef.value.clientWidth);
 
-      slotRef.value.scrollLeft = startScrollLeft + deltaX * scrollRatio;
-      changeBarPosition();
-    }
+        slotRef.value.scrollLeft = startScrollLeft + deltaX * scrollRatio;
+        changeBarPosition();
+      }
+    });
   };
 
   const stopDrag = () => {
@@ -97,31 +99,33 @@ const useHorizontalTrack = (
   };
 
   const onTrackClick = (event: MouseEvent) => {
-    if (slotRef.value && barRef.value) {
-      const trackRect = (
-        event.currentTarget as HTMLElement
-      ).getBoundingClientRect();
-      const clickPosition = event.clientX - trackRect.left;
+    requestAnimationFrame(() => {
+      if (slotRef.value && barRef.value) {
+        const trackRect = (
+          event.currentTarget as HTMLElement
+        ).getBoundingClientRect();
+        const clickPosition = event.clientX - trackRect.left;
 
-      const barWidth = barRef.value.clientWidth;
-      const trackWidth = trackRect.width;
+        const barWidth = barRef.value.clientWidth;
+        const trackWidth = trackRect.width;
 
-      let newScrollLeft =
-        (clickPosition - barWidth / 2) *
-        ((slotRef.value.scrollWidth - slotRef.value.clientWidth) /
-          (trackWidth - barWidth));
+        let newScrollLeft =
+          (clickPosition - barWidth / 2) *
+          ((slotRef.value.scrollWidth - slotRef.value.clientWidth) /
+            (trackWidth - barWidth));
 
-      newScrollLeft = Math.max(
-        0,
-        Math.min(
-          newScrollLeft,
-          slotRef.value.scrollWidth - slotRef.value.clientWidth
-        )
-      );
+        newScrollLeft = Math.max(
+          0,
+          Math.min(
+            newScrollLeft,
+            slotRef.value.scrollWidth - slotRef.value.clientWidth
+          )
+        );
 
-      slotRef.value.scrollLeft = newScrollLeft;
-      changeBarPosition();
-    }
+        slotRef.value.scrollLeft = newScrollLeft;
+        changeBarPosition();
+      }
+    });
   };
 
   const setHorizontalBarWidth = () => {
