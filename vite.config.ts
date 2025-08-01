@@ -23,8 +23,8 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => tag === 'col-cal' || tag.startsWith('wa')
-        }
+          isCustomElement: tag => tag.includes('-')
+                }
       }
     }),
     dts({

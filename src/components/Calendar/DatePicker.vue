@@ -3,7 +3,10 @@
     class="date-picker-yui-kit__wrapper"
     :data-testid="`${props.dataTestid}-Wrapper`"
   >
-    <PopoverWrapper placement="bottom">
+    <PopoverWrapper
+      :open="state.isActive"
+      @unmount-close="state.isActive = false"
+    >
       <template #trigger>
         <DataPickerChoose
           @click="showPopover"
@@ -13,30 +16,24 @@
           :is-range="props.isRange"
           :disabled="props.disabled"
           :data-testid="`${props.dataTestid}-Choose`"
+          :value="formatDates((date as Date) || null, props.locale)"
         />
       </template>
       <col-cal
-        :date="date"
-        :min-date="getDateStart()"
-        :max-date="getDateEnd()"
+        :date.prop="date"
+        :min-date.prop="getDateStart()"
+        :max-date.prop="getDateEnd()"
         :locale="props.locale ?? 'ru-RU'"
         :data-testid="`${props.dataTestid}-Component`"
         @change-date="changeVal"
         class="date-picker-yui-kit"
-      />
+      >
+        <div slot="header-test-slot">
+            124
+        </div>
+        <!-- <Icon :name="IconNameEnum.chevronLeft" :width="16" :height="16" /> -->
+      </col-cal>
     </PopoverWrapper>
-    <!--
-    <DatePicker
-      v-model="date"
-      @dayclick="({ date }) => "
-      :masks="state.masks"
-      :min-date="getDateStart()"
-      :max-date="getDateEnd()"
-      :is-required="state.isNotClear"
-    >
-      <template #default="{ inputValue, togglePopover }"> </template>
-    </DatePicker>
-    -->
   </div>
 </template>
 
@@ -47,11 +44,18 @@ import DataPickerChoose from './DataPickerChoose.vue';
 import PopoverWrapper from './PopoverWrapper.vue';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
+import { formatDates } from './date-utils';
+import Icon from '../Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum/enum';
+import { ref } from 'vue';
+import { onBeforeMount } from 'vue';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU',
   dataTestid: 'DatePicker'
 });
+
+const iconRef = ref(null);
 
 const state = reactive({
   isActive: false,
@@ -68,6 +72,7 @@ const emits = defineEmits<{
   (e: 'change', value: Date | null): void;
 }>();
 
+/*
 const toggle = (toggleFunc: () => void): void => {
   if (state.isNotClear) {
     toggleFunc();
@@ -78,6 +83,7 @@ const toggle = (toggleFunc: () => void): void => {
   }
   state.isActive = false;
 };
+*/
 
 const date = defineModel<Date | null>();
 
@@ -86,11 +92,17 @@ const clearChoose = (): void => {
   date.value = null;
   emits('clear');
   setTimeout(() => (state.isNotClear = true), 1);
-  changeVal(null);
+  changeVal({
+    detail: {
+      date: null
+    }
+  });
 };
 
-const changeVal = ({ detail }: { detail: Date | null }): void => {
+const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {
+  if (!detail) return;
   date.value = detail.date;
+  state.isActive = false;
   emits('change', date.value);
 };
 
@@ -138,6 +150,12 @@ watch(
     }
   }
 );
+
+onBeforeMount(() => {
+  if (iconRef.value) {
+    // iconRef.value.slot = '';
+  }
+});
 
 defineExpose({
   clearChoose: clearChoose

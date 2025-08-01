@@ -4,40 +4,44 @@
       <slot name="trigger"></slot>
     </div>
     <div
-      v-if="isVisible"
+      v-if="state.isVisible"
       ref="popoverContent"
       class="popover-content"
-      :class="[`popover-${placement}`, { 'popover-show': isVisible }]"
-      :style="popoverStyle"
+      :class="[`popover-${placement}`, { 'popover-show': state.isVisible }]"
+      :style="state.popoverStyle"
     >
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, nextTick } from 'vue';
+import { watch, reactive, nextTick } from 'vue';
+import type { IPopoverWrapperProps } from './interfaces/interfaces';
+import { ref } from 'vue';
 
-const props = defineProps({
-  placement: {
-    type: String,
-    default: 'bottom',
-    validator: (value: string) =>
-      ['top', 'bottom', 'left', 'right'].includes(value)
+const props = withDefaults(defineProps<IPopoverWrapperProps>(), {
+  placement: 'bottom',
+  open: false
+});
+
+const emits = defineEmits<{ (e: 'unmount-close'): void }>();
+
+const state = reactive({
+  isVisible: false,
+  popoverStyle: {
+    top: '0px',
+    left: '0px'
   }
 });
 
-const isVisible = ref(false);
 const popoverWrapper = ref<HTMLElement | null>(null);
 const popoverContent = ref<HTMLElement | null>(null);
-const popoverStyle = reactive({
-  top: '0px',
-  left: '0px'
-});
 
 const togglePopover = () => {
-  isVisible.value = !isVisible.value;
-  if (isVisible.value) {
+  // state.isVisible = !state.isVisible;
+  state.isVisible = true;
+  if (state.isVisible) {
     nextTick(() => {
       updatePopoverPosition();
     });
@@ -54,37 +58,50 @@ const updatePopoverPosition = () => {
 
   switch (props.placement) {
     case 'top':
-      popoverStyle.top = `${triggerRect.top - popoverRect.height - arrowSize}px`;
-      popoverStyle.left = `${triggerRect.left + (triggerRect.width - popoverRect.width) / 2}px`;
+      state.popoverStyle.top = `${triggerRect.top - popoverRect.height - arrowSize}px`;
+      state.popoverStyle.left = `${triggerRect.left + (triggerRect.width - popoverRect.width) / 2}px`;
       break;
     case 'bottom':
-      popoverStyle.top = `${triggerRect.bottom - offset}px`;
-      popoverStyle.left = `1px`;
+      state.popoverStyle.top = `${triggerRect.bottom - offset}px`;
+      state.popoverStyle.left = `1px`;
       break;
     case 'left':
-      popoverStyle.top = `${triggerRect.top + (triggerRect.height - popoverRect.height) / 2}px`;
-      popoverStyle.left = `${triggerRect.left - popoverRect.width - arrowSize}px`;
+      state.popoverStyle.top = `${triggerRect.top + (triggerRect.height - popoverRect.height) / 2}px`;
+      state.popoverStyle.left = `${triggerRect.left - popoverRect.width - arrowSize}px`;
       break;
     case 'right':
-      popoverStyle.top = `${triggerRect.top + (triggerRect.height - popoverRect.height) / 2}px`;
-      popoverStyle.left = `${triggerRect.right + arrowSize}px`;
+      state.popoverStyle.top = `${triggerRect.top + (triggerRect.height - popoverRect.height) / 2}px`;
+      state.popoverStyle.left = `${triggerRect.right + arrowSize}px`;
       break;
   }
 
-  const { top } = popoverStyle;
+  const { top } = state.popoverStyle;
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
   const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
 
-  popoverStyle.top = `${Math.max(scrollTop, parseFloat(top))}px`;
-  popoverStyle.left = `${Math.max(scrollLeft)}px`;
+  state.popoverStyle.top = `${Math.max(scrollTop, parseFloat(top))}px`;
+  state.popoverStyle.left = `${Math.max(scrollLeft)}px`;
+};
+
+watch(
+  () => props.open,
+  () => {
+    state.isVisible = props.open;
+  }
+);
+
+const closePopover = (): void => {
+  state.isVisible = false;
+  emits('unmount-close');
 };
 
 const handleClickOutside = (event: MouseEvent) => {
   if (
-    popoverWrapper.value &&
-    !popoverWrapper.value.contains(event.target as Node)
+    state.popoverWrapper &&
+    !state.popoverWrapper.contains(event.target as Node)
   ) {
-    isVisible.value = false;
+    console.log('get-a-click');
+    closePopover();
   }
 };
 

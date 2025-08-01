@@ -50,3 +50,50 @@ export const getFirstTime = (date: Date): Date => {
   };
   return new Date(Date.UTC(dateObject.year, dateObject.month, dateObject.day));
 };
+
+const months: Record<string, string[]> = {
+  'en-US': [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ],
+  'ru-RU': [
+    'Янв',
+    'Фев',
+    'Мар',
+    'Апр',
+    'Май',
+    'Июн',
+    'Июл',
+    'Авг',
+    'Сен',
+    'Окт',
+    'Ноя',
+    'Дек'
+  ]
+};
+
+/**
+ * Converts a Date object to a string in the format `MMMM DD, YYYY`.
+ *
+ * @param {Date | null}  date - The Date object to be converted.
+ * @param {string} locale - locale of return dates
+ * @returns {string} The formatted date string in the format `MMMM DD, YYYY`.
+ */
+export const formatDates = (date: Date | null, locale: string): string => {
+  if (!date) return '';
+  const month = months[locale][date.getMonth()];
+  const day = date.getDate().toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
+
+  return `${month} ${day}, ${year}`;
+};
