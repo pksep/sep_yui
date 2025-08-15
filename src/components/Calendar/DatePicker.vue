@@ -1,3 +1,7 @@
+<!--
+In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `slot` attribute.
+-->
+<!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
   <div
     class="date-picker-yui-kit__wrapper"
@@ -47,18 +51,30 @@
             :slot="`${name}-popup-icon`"
           />
         </template>
-        <template v-slot:icon-left-button>
-          <Icon :name="IconNameEnum.chevronLeft" :width="16" :height="16" />
-        </template>
-        <template v-slot:icon-right-button>
-          <Icon :name="IconNameEnum.chevronRight" :width="16" :height="16" />
-        </template>
-        <template v-slot:years-icon-left>
-          <Icon :name="IconNameEnum.chevronLeft" :width="16" :height="16" />
-        </template>
-        <template v-slot:years-icon-right>
-          <Icon :name="IconNameEnum.chevronRight" :width="16" :height="16" />
-        </template>
+        <Icon
+          slot="icon-left-button"
+          :name="IconNameEnum.chevronLeft"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="icon-right-button"
+          :name="IconNameEnum.chevronRight"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="years-icon-left"
+          :name="IconNameEnum.chevronLeft"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="years-icon-right"
+          :name="IconNameEnum.chevronRight"
+          :width="16"
+          :height="16"
+        />
       </col-cal>
     </PopoverWrapper>
   </div>
