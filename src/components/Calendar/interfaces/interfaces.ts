@@ -35,3 +35,7 @@ export interface IPopoverWrapperProps {
   placement?: 'top' | 'bottom' | 'left' | 'right';
   open?: boolean;
 }
+
+export interface PopoverWrapperInstance {
+  close: () => void;
+}

@@ -4,7 +4,7 @@
       <slot name="trigger"></slot>
     </div>
     <div
-      v-if="state.isVisible"
+      v-show="state.isVisible"
       ref="popoverContent"
       class="popover-content"
       :class="[`popover-${placement}`, { 'popover-show': state.isVisible }]"
@@ -16,10 +16,16 @@
 </template>
 
 <script setup lang="ts">
-import { watch, reactive, nextTick } from 'vue';
-import type { IPopoverWrapperProps } from './interfaces/interfaces';
-import { ref } from 'vue';
+import { watch, reactive, nextTick, ref, onBeforeUnmount } from 'vue';
+import type {
+  IPopoverWrapperProps,
+  PopoverWrapperInstance
+} from './interfaces/interfaces';
 
+// Global state to manage open popovers
+const openPopovers = ref<PopoverWrapperInstance[]>([]);
+
+// Define the component's props and emissions
 const props = withDefaults(defineProps<IPopoverWrapperProps>(), {
   placement: 'bottom',
   open: false
@@ -27,6 +33,7 @@ const props = withDefaults(defineProps<IPopoverWrapperProps>(), {
 
 const emits = defineEmits<{ (e: 'unmount-close'): void }>();
 
+// Internal state
 const state = reactive({
   isVisible: false,
   popoverStyle: {
@@ -35,19 +42,27 @@ const state = reactive({
   }
 });
 
+// Refs for DOM elements
 const popoverWrapper = ref<HTMLElement | null>(null);
 const popoverContent = ref<HTMLElement | null>(null);
 
-const togglePopover = () => {
-  // state.isVisible = !state.isVisible;
-  state.isVisible = true;
-  if (state.isVisible) {
-    nextTick(() => {
-      updatePopoverPosition();
-    });
+// Track this instance in the global list
+const instance: PopoverWrapperInstance = {
+  close: () => {
+    state.isVisible = false;
+    emits('unmount-close');
   }
 };
 
+openPopovers.value.push(instance);
+
+// Toggle popover visibility
+const togglePopover = () => {
+  state.isVisible = true;
+  nextTick(updatePopoverPosition);
+};
+
+// Update popover position based on placement
 const updatePopoverPosition = () => {
   if (!popoverWrapper.value || !popoverContent.value) return;
 
@@ -63,7 +78,7 @@ const updatePopoverPosition = () => {
       break;
     case 'bottom':
       state.popoverStyle.top = `${triggerRect.bottom - offset}px`;
-      state.popoverStyle.left = `1px`;
+      state.popoverStyle.left = '1px';
       break;
     case 'left':
       state.popoverStyle.top = `${triggerRect.top + (triggerRect.height - popoverRect.height) / 2}px`;
@@ -86,6 +101,9 @@ const updatePopoverPosition = () => {
 watch(
   () => props.open,
   () => {
+    if (props.open) {
+      openPopovers.value.forEach(p => p.close());
+    }
     state.isVisible = props.open;
   }
 );
@@ -97,15 +115,22 @@ const closePopover = (): void => {
 
 const handleClickOutside = (event: MouseEvent) => {
   if (
-    state.popoverWrapper &&
-    !state.popoverWrapper.contains(event.target as Node)
+    popoverWrapper.value &&
+    !popoverWrapper.value.contains(event.target as Node)
   ) {
-    console.log('get-a-click');
     closePopover();
   }
 };
 
 document.addEventListener('click', handleClickOutside);
+
+onBeforeUnmount(() => {
+  const index = openPopovers.value.indexOf(instance);
+  if (index > -1) {
+    openPopovers.value.splice(index, 1);
+  }
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <style scoped>

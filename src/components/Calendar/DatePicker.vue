@@ -20,18 +20,57 @@
         />
       </template>
       <col-cal
+        v-if="!props.disabled"
         :date.prop="date"
-        :min-date.prop="getDateStart()"
-        :max-date.prop="getDateEnd()"
+        :minDate.prop="getDateStart()"
+        :maxDate.prop="getDateEnd()"
         :locale="props.locale ?? 'ru-RU'"
         :data-testid="`${props.dataTestid}-Component`"
+        @show-months="changeShowMonths"
+        @show-years="changeShowYears"
         @change-date="changeVal"
         class="date-picker-yui-kit"
       >
-        <div slot="header-test-slot">
-            124
-        </div>
-        <!-- <Icon :name="IconNameEnum.chevronLeft" :width="16" :height="16" /> -->
+        <template v-for="name of Object.keys(state.isOpen)" :key="name">
+          <Icon
+            v-if="state.isOpen[name as 'months' | 'years']"
+            :name="IconNameEnum.chevronUp"
+            :width="16"
+            :height="16"
+            :slot="`${name}-popup-icon`"
+          />
+          <Icon
+            v-else
+            :name="IconNameEnum.chevronDown"
+            :width="16"
+            :height="16"
+            :slot="`${name}-popup-icon`"
+          />
+        </template>
+        <Icon
+          slot="icon-left-button"
+          :name="IconNameEnum.chevronLeft"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="icon-right-button"
+          :name="IconNameEnum.chevronRight"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="years-icon-left"
+          :name="IconNameEnum.chevronLeft"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="years-icon-right"
+          :name="IconNameEnum.chevronRight"
+          :width="16"
+          :height="16"
+        />
       </col-cal>
     </PopoverWrapper>
   </div>
@@ -47,43 +86,36 @@ import type { IDatePickerProps } from './interfaces/interfaces';
 import { formatDates } from './date-utils';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
-import { ref } from 'vue';
-import { onBeforeMount } from 'vue';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU',
   dataTestid: 'DatePicker'
 });
 
-const iconRef = ref(null);
-
-const state = reactive({
+const state = reactive<{
+  isActive: boolean;
+  isOpen: {
+    months: boolean;
+    years: boolean;
+  };
+  isNotClear: boolean;
+  startDate: null;
+  endDate: null;
+}>({
   isActive: false,
-  startDate: null,
-  endDate: null,
+  isOpen: {
+    months: false,
+    years: false
+  },
   isNotClear: true,
-  masks: {
-    input: 'MMMM DD, YYYY'
-  }
+  startDate: null,
+  endDate: null
 });
 
 const emits = defineEmits<{
   (e: 'clear'): void;
   (e: 'change', value: Date | null): void;
 }>();
-
-/*
-const toggle = (toggleFunc: () => void): void => {
-  if (state.isNotClear) {
-    toggleFunc();
-    if (!state.isActive) {
-      state.isActive = true;
-      return;
-    }
-  }
-  state.isActive = false;
-};
-*/
 
 const date = defineModel<Date | null>();
 
@@ -103,7 +135,15 @@ const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {
   if (!detail) return;
   date.value = detail.date;
   state.isActive = false;
-  emits('change', date.value);
+  emits('change', detail.date);
+};
+
+const changeShowMonths = (): void => {
+  state.isOpen['months'] = !state.isOpen['months'];
+};
+
+const changeShowYears = (): void => {
+  state.isOpen['years'] = !state.isOpen['years'];
 };
 
 watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
@@ -150,12 +190,6 @@ watch(
     }
   }
 );
-
-onBeforeMount(() => {
-  if (iconRef.value) {
-    // iconRef.value.slot = '';
-  }
-});
 
 defineExpose({
   clearChoose: clearChoose
