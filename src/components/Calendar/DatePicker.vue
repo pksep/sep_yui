@@ -9,7 +9,7 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
   >
     <PopoverWrapper
       :open="state.isActive"
-      @unmount-close="state.isActive = false"
+      @unmount-close="() => (state.isActive = false)"
     >
       <template #trigger>
         <DataPickerChoose

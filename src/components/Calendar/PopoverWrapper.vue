@@ -4,10 +4,10 @@
       <slot name="trigger"></slot>
     </div>
     <div
-      v-show="state.isVisible"
+      v-if="props.open"
       ref="popoverContent"
       class="popover-content"
-      :class="[`popover-${placement}`, { 'popover-show': state.isVisible }]"
+      :class="[`popover-${placement}`, { 'popover-show': props.open }]"
       :style="state.popoverStyle"
     >
       <slot />
@@ -16,16 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import { watch, reactive, nextTick, ref, onBeforeUnmount } from 'vue';
-import type {
-  IPopoverWrapperProps,
-  PopoverWrapperInstance
-} from './interfaces/interfaces';
+import { reactive, nextTick, ref, onBeforeUnmount, onMounted } from 'vue';
+import type { IPopoverWrapperProps } from './interfaces/interfaces';
 
-// Global state to manage open popovers
-const openPopovers = ref<PopoverWrapperInstance[]>([]);
-
-// Define the component's props and emissions
 const props = withDefaults(defineProps<IPopoverWrapperProps>(), {
   placement: 'bottom',
   open: false
@@ -33,36 +26,20 @@ const props = withDefaults(defineProps<IPopoverWrapperProps>(), {
 
 const emits = defineEmits<{ (e: 'unmount-close'): void }>();
 
-// Internal state
 const state = reactive({
-  isVisible: false,
   popoverStyle: {
     top: '0px',
     left: '0px'
   }
 });
 
-// Refs for DOM elements
 const popoverWrapper = ref<HTMLElement | null>(null);
 const popoverContent = ref<HTMLElement | null>(null);
 
-// Track this instance in the global list
-const instance: PopoverWrapperInstance = {
-  close: () => {
-    state.isVisible = false;
-    emits('unmount-close');
-  }
-};
-
-openPopovers.value.push(instance);
-
-// Toggle popover visibility
 const togglePopover = () => {
-  state.isVisible = true;
   nextTick(updatePopoverPosition);
 };
 
-// Update popover position based on placement
 const updatePopoverPosition = () => {
   if (!popoverWrapper.value || !popoverContent.value) return;
 
@@ -98,18 +75,7 @@ const updatePopoverPosition = () => {
   state.popoverStyle.left = `${Math.max(scrollLeft)}px`;
 };
 
-watch(
-  () => props.open,
-  () => {
-    if (props.open) {
-      openPopovers.value.forEach(p => p.close());
-    }
-    state.isVisible = props.open;
-  }
-);
-
 const closePopover = (): void => {
-  state.isVisible = false;
   emits('unmount-close');
 };
 
@@ -122,14 +88,12 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
-document.addEventListener('click', handleClickOutside);
-
 onBeforeUnmount(() => {
-  const index = openPopovers.value.indexOf(instance);
-  if (index > -1) {
-    openPopovers.value.splice(index, 1);
-  }
   document.removeEventListener('click', handleClickOutside);
+});
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
 });
 </script>
 
