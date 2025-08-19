@@ -30,6 +30,7 @@
       :disabled="props.disabled"
       v-if="state.value"
       @click.stop="handleClear"
+      class="date-picker-close-yui-kit"
       :data-testid="`${props.dataTestid}-Button-Clear`"
     >
       <Icon
@@ -135,5 +136,10 @@ const formatLetter = (str: string): string | null => {
 .date-picker-yui-kit__header-btn__dash {
   color: var(--text-grey);
   font-weight: 400;
+}
+
+.date-picker-close-yui-kit {
+  padding: 0;
+  min-height: auto;
 }
 </style>

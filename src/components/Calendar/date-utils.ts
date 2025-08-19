@@ -91,9 +91,14 @@ const months: Record<string, string[]> = {
  */
 export const formatDates = (date: Date | null, locale: string): string => {
   if (!date) return '';
-  const month = months[locale][date.getMonth()];
-  const day = date.getDate().toString().padStart(2, '0');
-  const year = date.getFullYear().toString();
+  if (locale !== 'ru-RU') {
+    locale = 'en-US';
+  }
+  const localDate = new Date(date);
+
+  const month = months[locale][localDate.getMonth()];
+  const day = localDate.getDate().toString().padStart(2, '0');
+  const year = localDate.getFullYear().toString();
 
   return `${month} ${day}, ${year}`;
 };
