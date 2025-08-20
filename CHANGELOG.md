@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.78
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.77...v0.1.78)
+
+### 🚀 Enhancements
+
+- Add menu-archive icon ([4e5d9fd](https://github.com/pksep/sep_yui/commit/4e5d9fd))
+
+### 🩹 Fixes
+
+- Menu-archive icon fill ([beecba8](https://github.com/pksep/sep_yui/commit/beecba8))
+
 ## v0.1.77
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.76...v0.1.77)
