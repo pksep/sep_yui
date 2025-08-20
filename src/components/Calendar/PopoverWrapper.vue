@@ -17,12 +17,17 @@
 
 <script setup lang="ts">
 import { ref, onBeforeUnmount, onMounted } from 'vue';
-import { useFloating, offset, shift, autoPlacement } from '@floating-ui/vue';
+import {
+  useFloating,
+  offset,
+  autoPlacement,
+  autoUpdate
+} from '@floating-ui/vue';
 
 import type { IPopoverWrapperProps } from './interfaces/interfaces';
 
 const props = withDefaults(defineProps<IPopoverWrapperProps>(), {
-  placement: 'bottom',
+  placement: 'bottom-start',
   open: false
 });
 
@@ -36,12 +41,12 @@ const { floatingStyles } = useFloating(popoverTrigger, popoverContent, {
   middleware: [
     offset(10),
     autoPlacement({
-      allowedPlacements: ['top', 'bottom'],
-      rootBoundary: 'document'
-    }),
-    shift()
+      crossAxis: true,
+      allowedPlacements: ['top-start', 'bottom-start']
+    })
   ],
-  placement: props.placement
+  placement: props.placement,
+  whileElementsMounted: autoUpdate
 });
 
 const closePopover = (): void => {
@@ -69,7 +74,6 @@ onMounted(() => {
 <style scoped>
 .popover-wrapper {
   position: relative;
-  display: inline-block;
 }
 
 .popover-trigger {
@@ -77,17 +81,19 @@ onMounted(() => {
 }
 
 .popover-content {
+  overflow: hidden;
   position: absolute;
   background-color: var(--white);
   border-radius: 10px;
   box-shadow: 0px 4px 9.8px 0px #0000000d;
-  z-index: 1000;
-  transform: scale(0.95);
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
 }
 
 .popover-content.popover-show {
   opacity: 1;
-  transform: scale(1);
 }
 </style>

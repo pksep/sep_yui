@@ -32,7 +32,7 @@ export interface IRangeForDatePickerState {
 }
 
 export interface IPopoverWrapperProps {
-  placement?: 'top' | 'bottom';
+  placement?: 'top-start' | 'bottom-start';
   open?: boolean;
 }
 

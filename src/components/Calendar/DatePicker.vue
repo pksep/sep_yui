@@ -7,7 +7,10 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
     class="date-picker-yui-kit__wrapper"
     :data-testid="`${props.dataTestid}-Wrapper`"
   >
-    <PopoverWrapper :open="state.isActive" @unmount-close="closePopover">
+    <PopoverWrapper
+      :open="!props.disabled && state.isActive"
+      @unmount-close="closePopover"
+    >
       <template #trigger>
         <DataPickerChoose
           @click="showPopover"
@@ -21,7 +24,6 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
         />
       </template>
       <col-cal
-        v-if="!props.disabled"
         :date.prop="date"
         :minDate.prop="getDateStart()"
         :maxDate.prop="getDateEnd()"
@@ -201,7 +203,6 @@ watch(
   () => date.value,
   () => {
     if (!date.value) {
-      date.value = null;
       state.isNotClear = false;
       date.value = null;
       setTimeout(() => (state.isNotClear = true), 1);
@@ -215,6 +216,12 @@ defineExpose({
 </script>
 
 <style>
+col-cal {
+  word-break: normal;
+  white-space: normal;
+  overflow-wrap: normal;
+}
+
 col-cal-header button.popup {
   display: flex;
   gap: 8px;
