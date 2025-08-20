@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.79
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.78...v0.1.79)
+
+### 🚀 Enhancements
+
+- Added shift by scroll dialog ([58fa523](https://github.com/pksep/sep_yui/commit/58fa523))
+
 ## v0.1.78
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.77...v0.1.78)
