@@ -72,7 +72,7 @@ const styles = computed(() => ({
 const onClick = () => emit('change', Boolean(model.value));
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .toggle-yui-kit_small {
   --size: 16px;
   --position: 10px;
