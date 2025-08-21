@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.80
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.79...v0.1.80)
+
+### 🩹 Fixes
+
+- Lang of build styles ([c2783d8](https://github.com/pksep/sep_yui/commit/c2783d8))
+
 ## v0.1.79
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.78...v0.1.79)
