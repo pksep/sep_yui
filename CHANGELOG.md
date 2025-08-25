@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.81
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.80...v0.1.81)
+
+### 🚀 Enhancements
+
+- Add step-arrow icons ([7ee6585](https://github.com/pksep/sep_yui/commit/7ee6585))
+
 ## v0.1.80
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.79...v0.1.80)
