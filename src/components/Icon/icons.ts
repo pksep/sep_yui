@@ -72,6 +72,26 @@ export const arrowDown: IVectorIcon = {
     `
 };
 
+export const stepArrowUp: IVectorIcon = {
+  name: 'step-arrow-up',
+  style: 'line',
+  viewbox: '0 0 24 24',
+  path: `
+       <path d="M12 19V5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+       <path d="M5 12L12 5L19 12" stroke="currentColor" fill="transparent" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    `
+};
+
+export const stepArrowDown: IVectorIcon = {
+  name: 'step-arrow-up',
+  style: 'line',
+  viewbox: '0 0 24 24',
+  path: `
+      <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19 12L12 19L5 12" stroke="currentColor" fill="transparent" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    `
+};
+
 export const chevronDown: IVectorIcon = {
   name: 'chevron-down',
   style: 'line',
