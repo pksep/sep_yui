@@ -256,6 +256,7 @@ col-cal-years::part(year):hover {
 
 col-cal-months::part(disabled):hover,
 col-cal-years::part(disabled):hover {
+  color: var(--grey4);
   background-color: transparent;
 }
 </style>
