@@ -11,12 +11,12 @@
           ref="horizontTrackRef"
           class="scroll-wrapper__track scroll-wrapper__track_horizont"
           :class="horizontalTrackClass"
-          @click.prevent.left="onHorizontalTrackClick"
+          @click.self.prevent.left="onHorizontalTrackClick"
         >
           <div
             ref="horizontBarRef"
             class="scroll-wrapper__bar"
-            @mousedown.prevent.left="startHorizontalDrag"
+            @pointerdown.prevent.left="startHorizontalDrag"
           ></div>
         </div>
       </div>
@@ -26,12 +26,12 @@
         ref="verticalTrackRef"
         class="scroll-wrapper__track scroll-wrapper__track_vertical"
         :class="verticalTrackClass"
-        @click.prevent.left="onTrackClick"
+        @click.self.prevent.left="onTrackClick"
       >
         <div
           ref="verticalBarRef"
           class="scroll-wrapper__bar"
-          @mousedown.prevent.left="startDrag"
+          @pointerdown.prevent.left="startDrag"
         ></div>
       </div>
     </div>

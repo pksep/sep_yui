@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.1.79
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.78...v0.1.79)
+
+### 🚀 Enhancements
+
+- Added shift by scroll dialog ([58fa523](https://github.com/pksep/sep_yui/commit/58fa523))
+
+## v0.1.78
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.77...v0.1.78)
+
+### 🚀 Enhancements
+
+- Add menu-archive icon ([4e5d9fd](https://github.com/pksep/sep_yui/commit/4e5d9fd))
+
+### 🩹 Fixes
+
+- Menu-archive icon fill ([beecba8](https://github.com/pksep/sep_yui/commit/beecba8))
+
+## v0.1.77
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.76...v0.1.77)
+
+### 🩹 Fixes
+
+- Fixed vertical scroll ([89839d6](https://github.com/pksep/sep_yui/commit/89839d6))
+
+## v0.1.76
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.75...v0.1.76)
+
+### 🚀 Enhancements
+
+- Change moseueven to pointerevent ([b87282d](https://github.com/pksep/sep_yui/commit/b87282d))
+
 ## v0.1.75
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.74...v0.1.75)

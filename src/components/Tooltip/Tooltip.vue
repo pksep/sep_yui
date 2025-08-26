@@ -129,8 +129,16 @@ const setPosition = (): void => {
     if (dialog) {
       const rectDialog = dialog.getBoundingClientRect();
 
-      top = top - rectDialog.top;
-      left = left - rectDialog.left;
+      // выстявляем позиции от window отностиельно диалога
+      top = rect.top - rectDialog.top;
+      left = rect.left - rectDialog.left;
+
+      const dialogScrollTop = dialog.scrollTop;
+      const dialogScrollLeft = dialog.scrollLeft;
+
+      // Добавляем смещение относительно скролл диалога
+      top += dialogScrollTop;
+      left += dialogScrollLeft;
     }
 
     // устанавливаем длину и высоту элемента и подскахки для смещения
