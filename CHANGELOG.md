@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.82
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.81...v0.1.82)
+
+### 🚀 Enhancements
+
+- Add remains icon ([d7043bc](https://github.com/pksep/sep_yui/commit/d7043bc))
+
 ## v0.1.81
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.80...v0.1.81)
