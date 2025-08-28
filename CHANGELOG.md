@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.86
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.85...v0.1.86)
+
+### 🚀 Enhancements
+
+- Add icon base-products ([cf92f65](https://github.com/pksep/sep_yui/commit/cf92f65))
+
 ## v0.1.85
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.84...v0.1.85)
