@@ -13,7 +13,7 @@
       <li
         class="result-yui-kit__list__item"
         v-for="(item, inx) in props.globalResultsFunction"
-        :key="item.nameArea + item.searchResult"
+        :key="inx"
         :data-testid="`${props.dataTestid}-List-Items${inx}`"
         @click="handleChooseResult(item)"
       >
