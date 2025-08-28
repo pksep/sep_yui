@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.1.85
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.84...v0.1.85)
+
+### 🚀 Enhancements
+
+- New date-picker from col-cal lib and popover-wrapper ([32600ee](https://github.com/pksep/sep_yui/commit/32600ee))
+- Adding col-cal instead of v-calendar on calendar base ([fd805a5](https://github.com/pksep/sep_yui/commit/fd805a5))
+- Remove v-calendar dependency and refactor date picker ([a20ed50](https://github.com/pksep/sep_yui/commit/a20ed50))
+- Disable deprecated rule slot attribute ([8296057](https://github.com/pksep/sep_yui/commit/8296057))
+- Close improvement and simplify code of popover ([92d1941](https://github.com/pksep/sep_yui/commit/92d1941))
+- Using floating ui of popover and fix erorr of date utils ([462cfd0](https://github.com/pksep/sep_yui/commit/462cfd0))
+
+### 💅 Refactors
+
+- Remove constants of months ([727ad68](https://github.com/pksep/sep_yui/commit/727ad68))
+
+### 🏡 Chore
+
+- Lint fix ([05e2559](https://github.com/pksep/sep_yui/commit/05e2559))
+- Change col-cal version from local to sep_yui ([613fa95](https://github.com/pksep/sep_yui/commit/613fa95))
+
 ## v0.1.84
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.83...v0.1.84)
