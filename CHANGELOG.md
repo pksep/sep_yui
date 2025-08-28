@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.84
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.83...v0.1.84)
+
+### 🩹 Fixes
+
+- Blur timeout in global search ([d145a77](https://github.com/pksep/sep_yui/commit/d145a77))
+
 ## v0.1.83
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.82...v0.1.83)
