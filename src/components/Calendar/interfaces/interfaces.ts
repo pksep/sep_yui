@@ -30,3 +30,12 @@ export interface IRangeForDatePickerState {
   date: IRangeForDatePicker;
   isActive: boolean;
 }
+
+export interface IPopoverWrapperProps {
+  placement?: 'top-start' | 'bottom-start';
+  open?: boolean;
+}
+
+export interface PopoverWrapperInstance {
+  close: () => void;
+}

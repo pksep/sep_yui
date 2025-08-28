@@ -1,3 +1,5 @@
+import { getMonths } from 'col-cal';
+
 export const getDate = (
   dateObject: Partial<{
     year: number;
@@ -49,4 +51,25 @@ export const getFirstTime = (date: Date): Date => {
     day: dateTime.getDate()
   };
   return new Date(Date.UTC(dateObject.year, dateObject.month, dateObject.day));
+};
+
+/**
+ * Converts a Date object to a string in the format `MMMM DD, YYYY`.
+ *
+ * @param {Date | null}  date - The Date object to be converted.
+ * @param {string} locale - locale of return dates
+ * @returns {string} The formatted date string in the format `MMMM DD, YYYY`.
+ */
+export const formatDates = (date: Date | null, locale: string): string => {
+  if (!date) return '';
+  if (locale !== 'ru-RU') {
+    locale = 'en-US';
+  }
+  const localDate = new Date(date);
+
+  const month = getMonths(locale);
+  const day = localDate.getDate().toString().padStart(2, '0');
+  const year = localDate.getFullYear().toString();
+
+  return `${month} ${day}, ${year}`;
 };

@@ -1,77 +1,127 @@
+<!--
+In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `slot` attribute.
+-->
+<!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
   <div
     class="date-picker-yui-kit__wrapper"
     :data-testid="`${props.dataTestid}-Wrapper`"
   >
-    <DatePicker
-      :locale="props.locale || 'ru'"
-      title-position="left"
-      v-model="date"
-      @dayclick="({ date }) => changeVal(date)"
-      :masks="state.masks"
-      :min-date="getDateStart()"
-      :max-date="getDateEnd()"
-      :popover="{ visibility: 'click' }"
-      @popover-did-hide="state.isActive = false"
-      borderless
-      :is-required="state.isNotClear"
-      class="date-picker-yui-kit"
-      :data-testid="`${props.dataTestid}-Component`"
+    <PopoverWrapper
+      :open="!props.disabled && state.isActive"
+      @unmount-close="closePopover"
     >
-      <template #default="{ inputValue, togglePopover }">
+      <template #trigger>
         <DataPickerChoose
-          @click="toggle(togglePopover)"
+          @click="showPopover"
           @clear="clearChoose"
           :is-active="state.isActive"
           :is-small="props.isSmall"
           :is-range="props.isRange"
-          :value="inputValue"
           :disabled="props.disabled"
           :data-testid="`${props.dataTestid}-Choose`"
+          :value="formatDates((date as Date) || null, props.locale)"
         />
       </template>
-    </DatePicker>
+      <col-cal
+        :date.prop="date"
+        :minDate.prop="getDateStart()"
+        :maxDate.prop="getDateEnd()"
+        :locale="props.locale ?? 'ru-RU'"
+        :data-testid="`${props.dataTestid}-Component`"
+        @show-months="changeShowMonths"
+        @show-years="changeShowYears"
+        @hide-months="changeHideMonths"
+        @hide-years="changeHideYears"
+        @change-date="changeVal"
+        class="date-picker-yui-kit"
+      >
+        <template v-for="name of Object.keys(state.isOpen)" :key="name">
+          <Icon
+            v-if="state.isOpen[name as 'months' | 'years']"
+            :name="IconNameEnum.chevronUp"
+            :width="16"
+            :height="16"
+            class="open-popup"
+            :slot="`${name}-popup-icon`"
+          />
+          <Icon
+            v-else
+            :name="IconNameEnum.chevronDown"
+            :width="16"
+            :height="16"
+            :slot="`${name}-popup-icon`"
+          />
+        </template>
+        <Icon
+          slot="icon-left-button"
+          :name="IconNameEnum.chevronLeft"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="icon-right-button"
+          :name="IconNameEnum.chevronRight"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="years-icon-left"
+          :name="IconNameEnum.chevronLeft"
+          :width="16"
+          :height="16"
+        />
+        <Icon
+          slot="years-icon-right"
+          :name="IconNameEnum.chevronRight"
+          :width="16"
+          :height="16"
+        />
+      </col-cal>
+    </PopoverWrapper>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, watch, watchEffect } from 'vue';
-import { DatePicker } from '@angelblanco/v-calendar';
+import 'col-cal';
 import DataPickerChoose from './DataPickerChoose.vue';
+import PopoverWrapper from './PopoverWrapper.vue';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
-import '@angelblanco/v-calendar/style.css';
+import { formatDates } from './date-utils';
+import Icon from '../Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum/enum';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU',
   dataTestid: 'DatePicker'
 });
 
-const state = reactive({
+const state = reactive<{
+  isActive: boolean;
+  isOpen: {
+    months: boolean;
+    years: boolean;
+  };
+  isNotClear: boolean;
+  startDate: null;
+  endDate: null;
+}>({
   isActive: false,
-  startDate: null,
-  endDate: null,
+  isOpen: {
+    months: false,
+    years: false
+  },
   isNotClear: true,
-  masks: {
-    input: 'MMMM DD, YYYY'
-  }
+  startDate: null,
+  endDate: null
 });
 
 const emits = defineEmits<{
   (e: 'clear'): void;
   (e: 'change', value: Date | null): void;
 }>();
-
-const toggle = (toggleFunc: () => void): void => {
-  if (state.isNotClear) {
-    toggleFunc();
-    if (!state.isActive) {
-      state.isActive = true;
-      return;
-    }
-  }
-  state.isActive = false;
-};
 
 const date = defineModel<Date | null>();
 
@@ -80,12 +130,40 @@ const clearChoose = (): void => {
   date.value = null;
   emits('clear');
   setTimeout(() => (state.isNotClear = true), 1);
-  changeVal(null);
+  changeVal({
+    detail: {
+      date: null
+    }
+  });
 };
 
-const changeVal = (value: Date | null): void => {
-  date.value = value;
-  emits('change', value);
+const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {
+  if (!detail) return;
+  date.value = detail.date;
+  state.isActive = false;
+  emits('change', detail.date);
+};
+
+const changeShowMonths = (): void => {
+  state.isOpen['months'] = true;
+};
+
+const changeShowYears = (): void => {
+  state.isOpen['years'] = true;
+};
+
+const changeHideMonths = (): void => {
+  state.isOpen['months'] = false;
+};
+
+const changeHideYears = (): void => {
+  state.isOpen['years'] = false;
+};
+
+const closePopover = (): void => {
+  state.isActive = false;
+  changeHideMonths();
+  changeHideYears();
 };
 
 watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
@@ -117,11 +195,14 @@ const getDateEnd = (): Date | null => {
   return null;
 };
 
+const showPopover = (): void => {
+  state.isActive = true;
+};
+
 watch(
   () => date.value,
   () => {
     if (!date.value) {
-      date.value = null;
       state.isNotClear = false;
       date.value = null;
       setTimeout(() => (state.isNotClear = true), 1);
@@ -134,164 +215,48 @@ defineExpose({
 });
 </script>
 
-<style scoped></style>
-
 <style>
-.date-picker-yui-kit {
-  --vc-font-family: 'Inter Variable', sans-serif;
-  --vc-text-sm: 14px;
-  --vc-rounded: 5px;
-  --vc-header-title-color: var(--text-black);
-  --vc-header-arrow-color: var(--black);
-  --popover-horizontal-content-offset: 17px;
+col-cal {
+  word-break: normal;
+  white-space: normal;
+  overflow-wrap: normal;
 }
 
-.vc-popover-content .vc-light {
-  --vc-popover-content-bg: var(--white);
-}
-
-.date-picker-yui-kit .vc-attr {
-  --vc-accent-600: var(--blue9);
-}
-
-.date-picker-yui-kit .vc-header {
-  padding-left: 17px;
-  padding-right: 17px;
-}
-
-.vc-popover-content {
-  border: none;
-  box-shadow: 0px 4px 9.8px 0px #0000000d;
-}
-
-.vc-nav-container {
-  --vc-header-arrow-color: var(--black);
-  --vc-nav-hover-bg: var(--blue1);
-  --vc-day-popover-container-bg: var(--white);
-  --vc-nav-item-active-bg: var(--blue9);
-  --vc-nav-item-active-color: var(--text-blue);
-  .vc-nav-item {
-    --vc-nav-item-current-color: var(--text-black);
-    box-shadow: none;
-    font-weight: var(--vc-font-normal);
-    border-radius: 16px;
-    width: initial;
-    padding: 8px 16.5px;
-    &:hover {
-      color: var(--white);
-      background: var(--vc-nav-item-active-color);
-    }
-  }
-  & .vc-nav-item:not(.is-active, :hover) {
-    background: transparent;
-  }
-  & .vc-nav-item.is-active:not(:focus) {
-    box-shadow: none;
-  }
-  & .vc-nav-arrow {
-    background: transparent;
-    &.vc-focus:is(:focus, :focus-within) {
-      box-shadow: none;
-      background: var(--blue10);
-      color: var(--blue1);
-    }
-    & svg.vc-base-icon {
-      stroke-width: 1.5px;
-    }
-  }
-  & .vc-nav-title {
-    background: transparent;
-    font-size: var(--vc-text-sm);
-    font-weight: var(--vc-font-normal);
-  }
-}
-
-.vc-pane-container .vc-weeks {
-  padding: 17px;
-}
-
-.date-picker-yui-kit .vc-day-content {
-  --vc-highlight-solid-content-color: var(--text-blue);
-  --vc-day-content-hover-bg: var(--blue1);
-  &:hover {
-    color: var(--white);
-  }
-}
-
-.date-picker-yui-kit .vc-weekday {
-  font-weight: var(--vc-font-normal);
-}
-
-.date-picker-yui-kit .vc-day-content {
-  font-weight: var(--vc-font-normal);
-}
-
-.date-picker-yui-kit .vc-weekdays {
-  color: var(--text-grey);
-}
-
-.date-picker-yui-kit.vc-container {
-  border-radius: 12px;
-}
-
-.vc-popover-caret.direction-bottom.align-left {
-  display: none;
-}
-
-.date-picker-yui-kit .vc-title {
+col-cal-header button.popup {
   display: flex;
+  gap: 8px;
+  align-content: center;
   align-items: center;
-  font-weight: var(--vc-font-bold);
-  line-height: 15px;
   padding: 5px 7px;
-  font-size: 14px;
-  background: var(--blue15);
-  &::after {
-    content: url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2010%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1%201L5%205L9%201%22%20stroke%3D%22%23757D8A%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
-    margin-left: 7px;
-    color: var(--grey6);
-    height: 14px;
-    width: 14px;
-  }
-  & span::first-letter {
-    text-transform: uppercase;
-  }
-}
-
-.date-picker-yui-kit__wrapper:has(.vc-nav-container) .vc-title::after {
-  transform: rotate(180deg);
-}
-
-.vc-day.is-not-in-month * {
-  color: var(--grey4);
-  opacity: 1;
-}
-
-button.vc-nav-title {
-  border-radius: var(--vc-rounded);
+  border-radius: 5px;
   &:hover {
-    background: var(--blue15);
+    background-color: var(--blue15);
   }
-  &:focus {
-    background: var(--blue10);
-    box-shadow: none;
-  }
-}
-
-.date-picker-yui-kit .vc-arrow {
-  background: transparent;
-  --vc-header-arrow-hover-bg: var(--blue15);
-  &.vc-focus:is(:focus, :focus-within) {
-    box-shadow: none;
-    background: var(--blue10);
-    color: var(--blue1);
-  }
-  & svg.vc-base-icon {
-    stroke-width: 1.5px;
+  div[name='months-popup-icon'],
+  div[name='years-popup-icon'] {
+    display: grid;
+    align-items: center;
   }
 }
 
-.vc-nav-items {
-  column-gap: 12px;
+col-cal-header button.popup:has(.open-popup) {
+  background-color: var(--blue9);
+  color: var(--blue1);
+}
+
+col-cal-months::part(disabled),
+col-cal-years::part(disabled) {
+  color: var(--grey4);
+}
+
+col-cal-months::part(month):hover,
+col-cal-years::part(year):hover {
+  color: var(--white);
+}
+
+col-cal-months::part(disabled):hover,
+col-cal-years::part(disabled):hover {
+  color: var(--grey4);
+  background-color: transparent;
 }
 </style>
