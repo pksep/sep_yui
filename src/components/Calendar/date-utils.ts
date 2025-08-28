@@ -1,3 +1,5 @@
+import { getMonths } from 'col-cal';
+
 export const getDate = (
   dateObject: Partial<{
     year: number;
@@ -51,37 +53,6 @@ export const getFirstTime = (date: Date): Date => {
   return new Date(Date.UTC(dateObject.year, dateObject.month, dateObject.day));
 };
 
-const months: Record<string, string[]> = {
-  'en-US': [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ],
-  'ru-RU': [
-    'Янв',
-    'Фев',
-    'Мар',
-    'Апр',
-    'Май',
-    'Июн',
-    'Июл',
-    'Авг',
-    'Сен',
-    'Окт',
-    'Ноя',
-    'Дек'
-  ]
-};
-
 /**
  * Converts a Date object to a string in the format `MMMM DD, YYYY`.
  *
@@ -96,7 +67,7 @@ export const formatDates = (date: Date | null, locale: string): string => {
   }
   const localDate = new Date(date);
 
-  const month = months[locale][localDate.getMonth()];
+  const month = getMonths(locale);
   const day = localDate.getDate().toString().padStart(2, '0');
   const year = localDate.getFullYear().toString();
 
