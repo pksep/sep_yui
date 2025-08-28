@@ -138,7 +138,7 @@ const handleFocus = () => {
 const handleBlur = () => {
   setTimeout(() => {
     state.focused = false;
-  }, 100);
+  }, 500);
 };
 
 const hidehistory = () => {
