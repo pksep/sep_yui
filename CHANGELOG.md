@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.88
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.87...v0.1.88)
+
+### 🩹 Fixes
+
+- Error of calendar select date ([990d737](https://github.com/pksep/sep_yui/commit/990d737))
+
 ## v0.1.87
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.86...v0.1.87)
