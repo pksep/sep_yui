@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.87
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.86...v0.1.87)
+
+### 🩹 Fixes
+
+- Get months from index ([#252](https://github.com/pksep/sep_yui/pull/252))
+
 ## v0.1.86
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.85...v0.1.86)
