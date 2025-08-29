@@ -21,8 +21,8 @@ importers:
         specifier: ^11.0.3
         version: 11.0.3(vue@3.4.38(typescript@5.5.4))
       col-cal:
-        specifier: 2.0.0-alpha.0
-        version: 2.0.0-alpha.0(@floating-ui/utils@0.2.10)(@types/react@18.3.5)
+        specifier: 2.0.0-alpha.1
+        version: 2.0.0-alpha.1(@floating-ui/utils@0.2.10)(@types/react@18.3.5)
       pinia:
         specifier: ^2.2.2
         version: 2.2.2(typescript@5.5.4)(vue@3.4.38(typescript@5.5.4))
@@ -1397,8 +1397,8 @@ packages:
   citty@0.1.6:
     resolution: {integrity: sha512-tskPPKEs8D2KPafUypv2gxwJP8h/OaJmC82QQGGDQcHvXX43xF2VDACcJVmZ0EuSxkpO9Kc4MlrA3q0+FG58AQ==}
 
-  col-cal@2.0.0-alpha.0:
-    resolution: {integrity: sha512-rmjKWfsu8ahva8TR2Gq4cL7FxCRrwsr7xWabE4lSxIJmS54QwwpGMgsS4NG2jihafI0wJCyoCyGWu7fiE3RSrA==}
+  col-cal@2.0.0-alpha.1:
+    resolution: {integrity: sha512-h771haIWgwYbm71cYO2auZlmQ+9TLRUyDI/uCDNfPWJa58kYrVRDeAo1YlL6H5eov4x+5Fi6opbcWkt3nMo3uw==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -4144,7 +4144,7 @@ snapshots:
     dependencies:
       consola: 3.4.2
 
-  col-cal@2.0.0-alpha.0(@floating-ui/utils@0.2.10)(@types/react@18.3.5):
+  col-cal@2.0.0-alpha.1(@floating-ui/utils@0.2.10)(@types/react@18.3.5):
     dependencies:
       '@awesome.me/webawesome': 3.0.0-beta.4(@floating-ui/utils@0.2.10)(@types/react@18.3.5)
       date-fns: 4.1.0
