@@ -67,9 +67,10 @@ export const formatDates = (date: Date | null, locale: string): string => {
   }
   const localDate = new Date(date);
 
-  const month = getMonths(locale);
+  const months = getMonths(locale);
+
   const day = localDate.getDate().toString().padStart(2, '0');
   const year = localDate.getFullYear().toString();
 
-  return `${month} ${day}, ${year}`;
+  return `${months[localDate.getMonth()]} ${day}, ${year}`;
 };
