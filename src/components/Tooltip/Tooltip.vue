@@ -229,6 +229,7 @@ onUnmounted(() => {
   display: inline-block;
 
   width: max-content;
+  z-index: 999;
 
   &__hint {
     --hint-top: 0px;
