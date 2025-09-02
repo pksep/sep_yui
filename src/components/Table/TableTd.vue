@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<ITableTd>(), {
 
 <style>
 .table-td {
+  hyphens: auto;
+  overflow-wrap: anywhere;
   padding: var(--td-vertical-padding, 0) var(--td-horizontal-padding, 0);
 
   border: none;
