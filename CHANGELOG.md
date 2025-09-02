@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.92
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.91...v0.1.92)
+
+### 🚀 Enhancements
+
+- Added td overflow-wrap ([e8f558a](https://github.com/pksep/sep_yui/commit/e8f558a))
+
 ## v0.1.91
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.90...v0.1.91)
