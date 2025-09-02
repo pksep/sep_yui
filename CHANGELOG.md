@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.91
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.90...v0.1.91)
+
+### 🩹 Fixes
+
+- Tooltip z-index" ([75734a8](https://github.com/pksep/sep_yui/commit/75734a8))
+
 ## v0.1.90
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.89...v0.1.90)
