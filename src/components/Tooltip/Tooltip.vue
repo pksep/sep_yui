@@ -190,7 +190,11 @@ const mutationObserver = new MutationObserver(() => {
 });
 
 const resizeObserver = new ResizeObserver(() => {
-  setPosition();
+  if ((state.isShow || props.isShow) && !tooltipRef.value?.matches(':hover')) {
+    hideHint();
+  } else {
+    setPosition();
+  }
 });
 
 const setObservers = (element: HTMLElement): void => {
@@ -218,6 +222,8 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  resizeObserver.disconnect();
+  mutationObserver.disconnect();
   window.removeEventListener('scroll', setPosition, true);
   window.removeEventListener('resize', setPosition);
 });
