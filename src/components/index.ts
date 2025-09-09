@@ -12,7 +12,6 @@ import Accordion from './Accordion/Accordion.vue';
 import DragAndDrop from './DragAndDrop/DragAndDrop.vue';
 import Card from './Card/Card.vue';
 import Filter from './Filter/Filter.vue';
-import SelectFilter from './Select/Filter.vue';
 import Combobox from './Select/Combobox.vue';
 import SelectList from './Select/SelectList.vue';
 import Icon from './Icon/Icon.vue';
@@ -73,7 +72,6 @@ const components = {
   Dropdown,
   Textarea,
   Filter,
-  SelectFilter,
   Icon,
   Input,
   InputNumber,
@@ -143,7 +141,6 @@ export {
   Combobox,
   InputNumber,
   Search,
-  SelectFilter,
   PushNotification,
   Picture,
   Scroll,
