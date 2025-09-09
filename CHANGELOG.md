@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.94
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.93...v0.1.94)
+
+### 🚀 Enhancements
+
+- Deleted useless component ([198d888](https://github.com/pksep/sep_yui/commit/198d888))
+
 ## v0.1.93
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.92...v0.1.93)
