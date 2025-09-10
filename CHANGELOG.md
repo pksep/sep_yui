@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.95
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.94...v0.1.95)
+
+### 🎨 Styles
+
+- Changed z-index in loader ([42834b5](https://github.com/pksep/sep_yui/commit/42834b5))
+
 ## v0.1.94
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.93...v0.1.94)
