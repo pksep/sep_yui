@@ -58,12 +58,14 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
   background-color: #77a6ff;
   animation-name: light-blue-circle;
   transform: translateX(16.25px);
+  z-index: 1;
 }
 
 .loader__circle--blue {
   background-color: #407bff;
   animation-name: blue-circle;
   transform: translateX(37.75px);
+  z-index: 1;
 }
 
 .loader__span {
@@ -88,11 +90,11 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
 @keyframes blue-circle {
   0% {
     transform: translateX(37.75px);
-    z-index: -1;
+    z-index: 0;
   }
   50% {
     transform: translateX(16.25px);
-    z-index: -1;
+    z-index: 0;
   }
   100% {
     transform: translateX(37.75px);
