@@ -18,7 +18,7 @@
         {{ title }}
       </span>
       <Tooltip
-        position="top-center"
+        :position="tooltipPosition"
         type="blue"
         :is-can-show="isCanShowHint && !(isShowValues && isShowMiniOptions)"
         :hint="choosedHint"
@@ -88,9 +88,11 @@
     <template #options>
       <Search
         v-if="isSearch"
-        :show-history="false"
         v-model="searchData"
+        :show-history="false"
         :data-testid="`${props.dataTestid}-Search`"
+        @input="$emit('unmount-search', $event)"
+        @enter="$emit('unmount-search-enter', $event)"
       />
 
       <Options
@@ -107,6 +109,12 @@
           <hr class="filter__options-underline-hr" />
         </li>
       </Options>
+
+      <div
+        v-show="onUnmountPagination"
+        ref="lastOptionRef"
+        class="filter__last-option"
+      ></div>
     </template>
   </SelectList>
 </template>
@@ -119,6 +127,7 @@ import Icon from '@/components/Icon/Icon.vue';
 import Search from '@/components/Search/Search.vue';
 import ChoosenMiniOptions from '@/components/Select/ChoosenMiniOptions.vue';
 import {
+  IBaseFilterEmit,
   IBaseFilterProps,
   OptionsObject
 } from '@/components/Select/interface/interface';
@@ -127,7 +136,15 @@ import SelectList from '@/components/Select/SelectList.vue';
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import { isArrayOfOptionsObjectWithHint } from '@/helpers/guards/is-options-object-with-hint';
 import { isArray } from 'lodash';
-import { computed, ref, reactive, watch, nextTick } from 'vue';
+import {
+  computed,
+  ref,
+  reactive,
+  watch,
+  nextTick,
+  onMounted,
+  onUnmounted
+} from 'vue';
 
 defineOptions({
   name: 'BaseFilter'
@@ -137,22 +154,21 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   defaultOption: 'Выберите значение',
   isSearch: false,
   isPosibleToClear: false,
-  isMultiple: false,
   isShowMiniOptions: false,
   dataTestid: 'BaseFilter',
-  isOpened: false
+  isOpened: false,
+  tooltipPosition: 'top-center'
 });
 
 const state = reactive({
   isHovered: false
 });
 
-const emits = defineEmits<{
-  (e: 'change', value: string | string[]): void;
-  (e: 'unmount-open', value: boolean): void;
-}>();
+const emits = defineEmits<IBaseFilterEmit>();
 
 const badgesRef = ref<InstanceType<typeof Badges> | null>(null);
+const lastOptionRef = ref<HTMLElement | null>(null);
+
 const model = defineModel<string | string[]>({
   default: []
 });
@@ -164,6 +180,12 @@ watch(
   () => props.isOpened,
   () => {
     isOpened.value = props.isOpened;
+  }
+);
+watch(
+  () => props.onUnmountPagination,
+  () => {
+    setObsrerver();
   }
 );
 
@@ -323,6 +345,29 @@ const clear = async (): Promise<void> => {
   await nextTick();
   emits('change', model.value);
 };
+
+const intersectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      emits('unmount-pagination');
+    }
+  });
+});
+
+const setObsrerver = (): void => {
+  if (lastOptionRef.value && props.onUnmountPagination) {
+    intersectionObserver.unobserve(lastOptionRef.value);
+    intersectionObserver.observe(lastOptionRef.value);
+  }
+};
+
+onMounted(() => {
+  setObsrerver();
+});
+
+onUnmounted(() => {
+  intersectionObserver.disconnect();
+});
 </script>
 
 <style scoped lang="scss">
@@ -456,7 +501,8 @@ li.filter__options-underline {
     border-bottom: 0.5px solid var(--border-grey);
   }
 
-  &:last-child {
+  &:last-child,
+  &:has(+ .filter__last-option) {
     display: none;
   }
 }

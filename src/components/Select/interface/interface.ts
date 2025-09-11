@@ -1,4 +1,5 @@
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import { TTooltipPosition } from '@/components/Tooltip/interface/interface';
 
 interface ClassObject {
   [key: string]: boolean;
@@ -54,7 +55,17 @@ export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
   isSearch?: boolean;
   isPosibleToClear?: boolean;
   isShowMiniOptions?: boolean;
-  isOpened: boolean;
+  isOpened?: boolean;
+  tooltipPosition?: TTooltipPosition;
+  onUnmountPagination?: () => void;
+}
+
+export interface IBaseFilterEmit {
+  (e: 'change', value: string | string[]): void;
+  (e: 'unmount-open', value: boolean): void;
+  (e: 'unmount-search', value: string): void;
+  (e: 'unmount-search-enter', value: string): void;
+  (e: 'unmount-pagination'): void;
 }
 
 export interface IChoosenMiniOptionsProps extends IDataTestIdProp {

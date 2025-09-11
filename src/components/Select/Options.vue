@@ -5,7 +5,16 @@
       @click="() => handleChoosenOption(option)"
       :data-testid="`${props.dataTestid}-${inx}`"
     >
-      {{ getOption(option) }}
+      <div class="options__item">
+        <div class="options__value truncate-yui-kit">
+          {{ getOption(option) }}
+        </div>
+
+        <div
+          v-if="typeof option === 'object' && option?.used"
+          class="options__used"
+        ></div>
+      </div>
       <slot name="option" :inx="inx" />
     </li>
     <slot />
@@ -128,5 +137,31 @@ const getOption = (
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.options {
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  &__value {
+  }
+
+  &__used {
+    --width: 7px;
+    width: var(--width);
+    height: var(--width);
+
+    align-self: flex-start;
+    flex-shrink: 0;
+    margin-top: 0.5lh;
+    transform: translateY(-50%);
+
+    border-radius: 50%;
+
+    background-color: var(--green4);
+  }
 }
 </style>
