@@ -18,7 +18,7 @@
         {{ title }}
       </span>
       <Tooltip
-        position="top-center"
+        :position="tooltipPosition"
         type="blue"
         :is-can-show="isCanShowHint && !(isShowValues && isShowMiniOptions)"
         :hint="choosedHint"
@@ -137,10 +137,10 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   defaultOption: 'Выберите значение',
   isSearch: false,
   isPosibleToClear: false,
-  isMultiple: false,
   isShowMiniOptions: false,
   dataTestid: 'BaseFilter',
-  isOpened: false
+  isOpened: false,
+  tooltipPosition: 'top-center'
 });
 
 const state = reactive({

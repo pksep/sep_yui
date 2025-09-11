@@ -1,4 +1,5 @@
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import { TTooltipPosition } from '@/components/Tooltip/interface/interface';
 
 interface ClassObject {
   [key: string]: boolean;
@@ -54,7 +55,8 @@ export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
   isSearch?: boolean;
   isPosibleToClear?: boolean;
   isShowMiniOptions?: boolean;
-  isOpened: boolean;
+  isOpened?: boolean;
+  tooltipPosition?: TTooltipPosition;
 }
 
 export interface IChoosenMiniOptionsProps extends IDataTestIdProp {
