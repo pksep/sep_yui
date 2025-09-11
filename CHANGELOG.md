@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.96
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.95...v0.1.96)
+
+### 🚀 Enhancements
+
+- Added used status and choosed position ([6a22034](https://github.com/pksep/sep_yui/commit/6a22034))
+- Added pagination and search emit ([ab436f7](https://github.com/pksep/sep_yui/commit/ab436f7))
+
 ## v0.1.95
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.94...v0.1.95)
