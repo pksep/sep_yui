@@ -158,7 +158,7 @@ const showhistory = () => {
  * отправляет родителю значение поисковой строки, если это передан пропс, чтобы показывать историю поиска, то заносит значение в хранилище
  */
 const unmountEnter = () => {
-  emit('enter', state.searchValue);
+  emit('enter', state.searchValue.trim());
 
   if (props.showHistory && state.searchValue)
     searchStore.addHistorySearch(state.searchValue.trim());
@@ -168,8 +168,9 @@ const unmountEnter = () => {
  * отправляет родителю значение поисковой строки
  */
 const changeSearchValue = () => {
-  emit('input', state.searchValue);
-  emit('update:modelValue', state.searchValue);
+  const value = state.searchValue.trim();
+  emit('input', value);
+  emit('update:modelValue', value);
 };
 
 const clearSearchValue = () => {
