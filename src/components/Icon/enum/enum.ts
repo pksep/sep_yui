@@ -94,5 +94,6 @@ export enum IconNameEnum {
   openDocument = 'open-document',
   time = 'time',
   menuArchive = 'menu-archive',
-  baseProduct = 'base-product'
+  baseProduct = 'base-product',
+  sidebar = 'sidebar'
 }
