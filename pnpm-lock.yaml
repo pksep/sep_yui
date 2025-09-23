@@ -26,9 +26,6 @@ importers:
       pinia:
         specifier: ^2.2.2
         version: 2.2.2(typescript@5.5.4)(vue@3.4.38(typescript@5.5.4))
-      sep-yui:
-        specifier: link:local-packages/sep-yui
-        version: link:local-packages/sep-yui
       vue:
         specifier: ^3.4.38
         version: 3.4.38(typescript@5.5.4)

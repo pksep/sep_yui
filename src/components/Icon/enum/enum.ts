@@ -95,5 +95,7 @@ export enum IconNameEnum {
   time = 'time',
   menuArchive = 'menu-archive',
   baseProduct = 'base-product',
-  sidebar = 'sidebar'
+  sidebar = 'sidebar',
+  pin = 'pin',
+  read = 'read'
 }
