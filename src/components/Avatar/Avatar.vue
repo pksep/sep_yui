@@ -1,6 +1,6 @@
 <template>
   <div :data-testid="props.dataTestid" class="avatar-yui-kit">
-    <picture v-if="props.url">
+    <picture v-if="state.isValid">
       <img :src="props.url" :alt="props.alt" class="avatar-yui-kit__image" />
     </picture>
     <Icon v-else-if="props.isIcon" :name="IconNameEnum.profile" />
@@ -11,16 +11,49 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive } from 'vue';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import type { IAvatar } from './interfaces/interfaces';
+import { onMounted } from 'vue';
+import { watch } from 'vue';
 
 const props = defineProps<IAvatar>();
+
+const state = reactive<{ isValid: boolean }>({
+  isValid: false
+});
+
+const checkImageUrl = async (): Promise<boolean> => {
+  if (props.url) {
+    const getImage = await fetch(props.url, { method: 'HEAD' });
+    if (getImage.ok) {
+      return true;
+    }
+    return false;
+  }
+  return false;
+};
 
 const useFirstSymbol = (): string => {
   if (!props.initials) return '';
   return props.initials.charAt(0);
 };
+
+watch(
+  () => props.url,
+  () => {
+    checkImageUrl().then(result => {
+      state.isValid = result;
+    });
+  }
+);
+
+onMounted(() => {
+  checkImageUrl().then(result => {
+    state.isValid = result;
+  });
+});
 </script>
 
 <style scoped>
