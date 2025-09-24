@@ -1,12 +1,12 @@
 <template>
   <div class="menu-yui-kit" ref="menuRef" :data-testid="props.dataTestid">
     <div class="menu-yui-kit__wrapper">
-      <div
-        class="menu-yui-kit__avatar"
+      <Avatar
+        :is-icon="!props.user.avatar"
+        :url="props.user.avatar"
+        alt="user-avatar"
         :data-testid="`${props.dataTestid}-Avatar`"
-      >
-        <img :src="props.user.avatar" v-if="existUserPath" />
-        <Icon :name="IconNameEnum.profile" v-else />
+      />
       </div>
       <div :class="classes" @click="toggleShow">
         <div class="menu-yui-kit__names">
@@ -100,6 +100,7 @@ import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 import { ToggleEnum } from '@/components/Toggle/enums/enums';
+import Avatar from '../Avatar/Avatar.vue';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
   dataTestid: 'UserMenu'

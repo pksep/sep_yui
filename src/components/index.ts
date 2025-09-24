@@ -56,6 +56,7 @@ import { getFirstTime, getLastTime } from './Calendar/date-utils';
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
 import type { IDialogProps } from '@/components/Modal/interface/interface';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
 const components = {
   Accordion,
@@ -173,6 +174,7 @@ export {
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
+  type IDataTestIdProp,
   getLastTime,
   getFirstTime
 };
