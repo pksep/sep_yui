@@ -1,7 +1,7 @@
 <template>
   <div :data-testid="props.dataTestid" class="avatar-yui-kit">
     <picture v-if="props.url">
-      <img :src="props.url" :alt="props.alt" class="user__image" />
+      <img :src="props.url" :alt="props.alt" class="avatar-yui-kit__image" />
     </picture>
     <Icon v-else-if="props.isIcon" :name="IconNameEnum.profile" />
     <div v-else-if="!props.isIcon" class="avatar-yui-kit__text">
@@ -26,7 +26,6 @@ const useFirstSymbol = (): string => {
 <style scoped>
 .avatar-yui-kit {
   display: grid;
-  overflow: hidden;
   place-content: center;
   border-radius: 50%;
   color: var(--color, var(--white));
@@ -49,7 +48,7 @@ const useFirstSymbol = (): string => {
   font-size: 16px;
 }
 
-img.user__image {
+img.avatar-yui-kit__image {
   font-size: var(--size-avatar, 100px);
   object-fit: cover;
   border-radius: 50%;
