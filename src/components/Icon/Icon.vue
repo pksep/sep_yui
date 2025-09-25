@@ -2,8 +2,6 @@
   <svg
     class="icon-yui-kit"
     :data-testid="props.dataTestid"
-    :width="props.width"
-    :height="props.height"
     :style="styles"
     :fill="Icons[camelize(props.name) as IconName]?.fill"
     :viewBox="Icons[camelize(props.name) as IconName]?.viewbox || `0 0 24 24`"
@@ -23,7 +21,8 @@ const props = withDefaults(defineProps<IIconPorps>(), {
 
 const styles = computed(() => ({
   color: props.color,
-  dataTestid: 'Icon'
+  width: `${props.width}px`,
+  height: `${props.height}px`
 }));
 
 type IconName = keyof typeof Icons;
