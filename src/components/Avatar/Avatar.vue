@@ -88,4 +88,8 @@ img.avatar-yui-kit__image {
   height: 1em;
   width: 1em;
 }
+
+picture {
+  height: var(--size-avatar, 100px);
+}
 </style>
