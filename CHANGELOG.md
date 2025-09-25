@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.1.99
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.97...v0.1.99)
+
+### 🚀 Enhancements
+
+- Added split for query in path ([#262](https://github.com/pksep/sep_yui/pull/262))
+- New regulation of icon - using font-size, new icon - sidebar and refactor commands ([3f06adb](https://github.com/pksep/sep_yui/commit/3f06adb))
+- New icons pin and read ([7d88798](https://github.com/pksep/sep_yui/commit/7d88798))
+- Avatar create component ([957e4e1](https://github.com/pksep/sep_yui/commit/957e4e1))
+- Improve avatar size of usermenu and integrate it ([6b537b0](https://github.com/pksep/sep_yui/commit/6b537b0))
+- Add icons ([da6258f](https://github.com/pksep/sep_yui/commit/da6258f))
+- Add index ([aae06df](https://github.com/pksep/sep_yui/commit/aae06df))
+
+### 🏡 Chore
+
+- **release:** V0.1.98 ([00c8de3](https://github.com/pksep/sep_yui/commit/00c8de3))
+
 ## v0.1.98
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.4...v0.1.98)
