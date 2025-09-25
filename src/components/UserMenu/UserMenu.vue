@@ -1,13 +1,13 @@
 <template>
   <div class="menu-yui-kit" ref="menuRef" :data-testid="props.dataTestid">
     <div class="menu-yui-kit__wrapper">
-      <div
+      <Avatar
         class="menu-yui-kit__avatar"
+        :is-icon="!props.user.avatar"
+        :url="props.user.avatar"
+        alt="user-avatar"
         :data-testid="`${props.dataTestid}-Avatar`"
-      >
-        <img :src="props.user.avatar" v-if="existUserPath" />
-        <Icon :name="IconNameEnum.profile" v-else />
-      </div>
+      />
       <div :class="classes" @click="toggleShow">
         <div class="menu-yui-kit__names">
           <p class="menu-yui-kit__name">{{ props.user.name }}</p>
@@ -100,6 +100,7 @@ import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 import { ToggleEnum } from '@/components/Toggle/enums/enums';
+import Avatar from '../Avatar/Avatar.vue';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
   dataTestid: 'UserMenu'
@@ -180,17 +181,6 @@ const nameIcon = computed(() => {
 });
 
 /**
- * Проверяет наличие переданного пути к картинке.
- */
-const existUserPath = computed(() => {
-  return (
-    props.user.avatar !== '' &&
-    props.user.avatar !== null &&
-    props.user.avatar !== undefined
-  );
-});
-
-/**
  * Переключает видимость списка
  */
 const toggleShow = () => {
@@ -246,25 +236,6 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
     gap: 9px;
     background-color: var(--white);
     width: 100%;
-  }
-
-  & .menu-yui-kit__avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: var(--blue9);
-    color: var(--grey8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    & img {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-    }
   }
 
   & .menu-yui-kit__names {
@@ -362,6 +333,14 @@ const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   & .toggle-yui-kit {
     margin: 0;
     margin-left: auto;
+  }
+}
+
+.menu-yui-kit__avatar {
+  --size-avatar: 40px;
+  & :deep(img.user__image) {
+    height: 40px;
+    width: 40px;
   }
 }
 

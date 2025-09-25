@@ -45,8 +45,7 @@ Default.args = {
   user: {
     name: 'David Perov',
     role: 'admin',
-    avatar:
-      'https://bogatyr.club/uploads/posts/2023-06/1686903015_bogatyr-club-p-derevo-na-fone-rassveta-instagram-45.jpg'
+    avatar: '/default-avatar.jpg'
   },
   languages: {
     items: ['En', 'Ru']
