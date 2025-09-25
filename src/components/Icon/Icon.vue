@@ -18,8 +18,6 @@ import { IIconPorps } from './interface/interface';
 import Icons from './index.ts';
 
 const props = withDefaults(defineProps<IIconPorps>(), {
-  width: 24,
-  height: 24,
   dataTestid: 'Icon'
 });
 
@@ -38,3 +36,11 @@ const icon = computed(() => {
   return Icons[camelize(props.name) as IconName];
 });
 </script>
+
+<style scoped>
+svg.icon-yui-kit {
+  font-size: 24px;
+  width: 1em;
+  height: 1em;
+}
+</style>

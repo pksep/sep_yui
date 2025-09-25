@@ -117,8 +117,9 @@ const rigthIndex = (): boolean =>
  */
 const checkPath = (str: string | null): string | null => {
   if (!str) return null;
+  const path = str.split('?')[0];
   const regexExtension = /\.\w+$/;
-  const match = str.match(regexExtension);
+  const match = path.match(regexExtension);
 
   state.extension = match ? match[0].replace('.', '') : null;
 

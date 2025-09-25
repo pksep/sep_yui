@@ -1,18 +1,18 @@
 {
   "name": "sep-yui",
   "author": "Perov David",
-  "version": "0.1.97",
+  "version": "0.1.98",
   "packageManager": "pnpm@9.9.0",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "vite",
     "build": "pnpm run lint && vue-tsc && vite build",
     "publish:lib": "pnpm run build && pnpm changelogen --release --publish",
-    "preview": "vite preview",
     "lint": "eslint --fix --ext .ts,.vue src",
-    "storybook": "storybook dev -p 6006",
+    "start:dev": "storybook dev -p 6006",
+    "start": "vite",
+    "start:preview": "vite preview",
     "build-storybook": "storybook build",
     "prepare": "lefthook install"
   },
