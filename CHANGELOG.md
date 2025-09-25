@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.100
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.99...v0.1.100)
+
+### 🩹 Fixes
+
+- Width and height styles of svg ([656e9f6](https://github.com/pksep/sep_yui/commit/656e9f6))
+- Avatar size ([c9ec326](https://github.com/pksep/sep_yui/commit/c9ec326))
+
 ## v0.1.99
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.97...v0.1.99)
