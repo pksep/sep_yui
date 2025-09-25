@@ -2702,8 +2702,8 @@ packages:
   vue-component-type-helpers@2.1.4:
     resolution: {integrity: sha512-aVqB3KxwpM76cYRkpnezl1J62E/1omzHQfx1yuz7zcbxmzmP/PeSgI20NEmkdeGnjZPVzm0V9fB4ZyRu5BBj4A==}
 
-  vue-component-type-helpers@3.0.6:
-    resolution: {integrity: sha512-6CRM8X7EJqWCJOiKPvSLQG+hJPb/Oy2gyJx3pLjUEhY7PuaCthQu3e0zAGI1lqUBobrrk9IT0K8sG2GsCluxoQ==}
+  vue-component-type-helpers@3.0.7:
+    resolution: {integrity: sha512-TvyUcFXmjZcXUvU+r1MOyn4/vv4iF+tPwg5Ig33l/FJ3myZkxeQpzzQMLMFWcQAjr6Xs7BRwVy/TwbmNZUA/4w==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -3525,7 +3525,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.4.38(typescript@5.5.4)
-      vue-component-type-helpers: 3.0.6
+      vue-component-type-helpers: 3.0.7
 
   '@storybook/vue3@8.5.6(storybook@8.6.14(prettier@3.3.3))(vue@3.4.38(typescript@5.5.4))':
     dependencies:
@@ -3539,7 +3539,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.4.38(typescript@5.5.4)
-      vue-component-type-helpers: 3.0.6
+      vue-component-type-helpers: 3.0.7
 
   '@testing-library/dom@10.4.0':
     dependencies:
@@ -5422,7 +5422,7 @@ snapshots:
 
   vue-component-type-helpers@2.1.4: {}
 
-  vue-component-type-helpers@3.0.6: {}
+  vue-component-type-helpers@3.0.7: {}
 
   vue-demi@0.14.10(vue@3.4.38(typescript@5.5.4)):
     dependencies:
