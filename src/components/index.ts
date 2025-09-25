@@ -49,6 +49,7 @@ import TableRowNew from '@/components/Table/TableRowNew.vue';
 import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
 import TableSimple from '@/components/Table/TableSimple.vue';
+import Avatar from '@/components/Avatar/Avatar.vue';
 
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
 import { getFirstTime, getLastTime } from './Calendar/date-utils';
@@ -56,6 +57,7 @@ import { getFirstTime, getLastTime } from './Calendar/date-utils';
 import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
 import type { IDialogProps } from '@/components/Modal/interface/interface';
+import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
 const components = {
   Accordion,
@@ -105,7 +107,8 @@ const components = {
   Radio,
   Tooltip,
   BaseFilter,
-  Range
+  Range,
+  Avatar
 };
 
 const pinia = createPinia();
@@ -170,9 +173,11 @@ export {
   Tooltip,
   BaseFilter,
   Range,
+  Avatar,
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
+  type IDataTestIdProp,
   getLastTime,
   getFirstTime
 };
