@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.101
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.100...v0.1.101)
+
+### 🩹 Fixes
+
+- Refactor component Avatar.vue ([7796247](https://github.com/pksep/sep_yui/commit/7796247))
+
 ## v0.1.100
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.99...v0.1.100)
