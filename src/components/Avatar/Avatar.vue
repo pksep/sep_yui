@@ -1,63 +1,41 @@
 <template>
   <div :data-testid="props.dataTestid" class="avatar-yui-kit">
-    <picture v-if="state.isValid">
-      <img :src="props.url" :alt="props.alt" class="avatar-yui-kit__image" />
-    </picture>
+    <template v-if="props.url && !imgError">
+      <img
+        :src="props.url"
+        :alt="props.alt"
+        class="avatar-yui-kit__image"
+        @error="imgError = true"
+      />
+    </template>
+
     <Icon v-else-if="props.isIcon" :name="IconNameEnum.profile" />
-    <div v-else-if="!props.isIcon" class="avatar-yui-kit__text">
+
+    <div v-else class="avatar-yui-kit__text">
       {{ useFirstSymbol() }}
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import type { IAvatar } from './interfaces/interfaces';
-import { onMounted } from 'vue';
-import { watch } from 'vue';
 
 const props = defineProps<IAvatar>();
-
-const state = reactive<{ isValid: boolean }>({
-  isValid: false
-});
-
-const checkImageUrl = async (): Promise<boolean> => {
-  if (props.url) {
-    const getImage = await fetch(props.url, { method: 'HEAD' });
-    if (getImage.ok) {
-      return true;
-    }
-    return false;
-  }
-  return false;
-};
+const imgError = ref(false);
 
 const useFirstSymbol = (): string => {
   if (!props.initials) return '';
   return props.initials.charAt(0);
 };
-
-watch(
-  () => props.url,
-  () => {
-    checkImageUrl().then(result => {
-      state.isValid = result;
-    });
-  }
-);
-
-onMounted(() => {
-  checkImageUrl().then(result => {
-    state.isValid = result;
-  });
-});
 </script>
 
 <style scoped>
 .avatar-yui-kit {
+  --size-avatar: 100px;
+
   display: grid;
   place-content: center;
   border-radius: 50%;
@@ -65,8 +43,8 @@ onMounted(() => {
   background-color: var(--background-color);
 
   &:has(svg.icon-yui-kit) {
-    height: 40px;
-    width: 40px;
+    height: var(--size-avatar);
+    width: var(--size-avatar);
     --background-color: var(--blue9);
     --color: var(--grey8);
   }
@@ -82,16 +60,11 @@ onMounted(() => {
     font-size: 16px;
   }
 }
-
 img.avatar-yui-kit__image {
-  font-size: var(--size-avatar, 100px);
+  font-size: var(--size-avatar);
   object-fit: cover;
   border-radius: 50%;
-  height: 1em;
-  width: 1em;
-}
-
-picture {
-  height: var(--size-avatar, 100px);
+  height: 100%;
+  width: 100%;
 }
 </style>
