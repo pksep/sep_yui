@@ -58,6 +58,12 @@ import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
 import type { IDialogProps } from '@/components/Modal/interface/interface';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import { IconNameEnum } from './Icon/enum/enum';
+import { SizesEnum } from '@/common/sizes';
+import { ButtonTypeEnum } from './Button/enum/enum';
+import { ColorsEnum } from '@/common/colors';
+import { BadgesTypeEnum } from './Badges/enum/enum';
+import { ImageExtensionsEnum, VideoExtensionsEnum } from '@/common/extentions';
 
 const components = {
   Accordion,
@@ -178,6 +184,13 @@ export {
   type IRangeForDatePicker,
   type OptionsObject,
   type IDataTestIdProp,
+  IconNameEnum,
+  SizesEnum,
+  ButtonTypeEnum,
+  ColorsEnum,
+  ImageExtensionsEnum,
+  BadgesTypeEnum,
+  VideoExtensionsEnum,
   getLastTime,
   getFirstTime
 };
