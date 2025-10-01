@@ -89,7 +89,8 @@ const SpanNode = Node.create({
     node,
     HTMLAttributes
   }: {
-    node: Node;
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    node: any;
     //eslint-disable-next-line @typescript-eslint/no-explicit-any
     HTMLAttributes: Record<string, any>;
   }) {
@@ -98,9 +99,9 @@ const SpanNode = Node.create({
       mergeAttributes(HTMLAttributes, {
         'data-span': '',
         contenteditable: 'false',
-        class: node.attrs.class
+        class: node?.attrs.class
       }),
-      node.attrs.content
+      node?.attrs.content
     ];
   }
 });
