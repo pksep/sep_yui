@@ -41,22 +41,24 @@ const useFirstSymbol = (): string => {
   border-radius: 50%;
   color: var(--color, var(--white));
   background-color: var(--background-color);
+
   &:has(svg.icon-yui-kit) {
     height: var(--size-avatar);
     width: var(--size-avatar);
     --background-color: var(--blue9);
     --color: var(--grey8);
   }
+
   &:has(.avatar-yui-kit__text) {
     --background-color: var(--red4);
     width: max-content;
+    padding-inline: 9px;
+    line-height: 30px;
   }
-}
 
-.avatar-yui-kit__text {
-  padding-inline: 9px;
-  line-height: 30px;
-  font-size: 16px;
+  .avatar-yui-kit__text {
+    font-size: 16px;
+  }
 }
 img.avatar-yui-kit__image {
   font-size: var(--size-avatar);

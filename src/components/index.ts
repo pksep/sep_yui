@@ -1,5 +1,4 @@
 import { App } from 'vue';
-import { createPinia } from 'pinia';
 
 import Badges from './Badges/Badges.vue';
 import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
@@ -50,6 +49,7 @@ import HeadTableRowNew from '@/components/Table/HeadTableRowNew.vue';
 import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
 import TableSimple from '@/components/Table/TableSimple.vue';
 import Avatar from '@/components/Avatar/Avatar.vue';
+import Tabs from './Tabs/Tabs.vue';
 
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
 import { getFirstTime, getLastTime } from './Calendar/date-utils';
@@ -58,6 +58,12 @@ import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
 import type { IDialogProps } from '@/components/Modal/interface/interface';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import { IconNameEnum } from './Icon/enum/enum';
+import { SizesEnum } from '@/common/sizes';
+import { ButtonTypeEnum } from './Button/enum/enum';
+import { ColorsEnum } from '@/common/colors';
+import { BadgesTypeEnum } from './Badges/enum/enum';
+import { ImageExtensionsEnum, VideoExtensionsEnum } from '@/common/extentions';
 
 const components = {
   Accordion,
@@ -108,14 +114,11 @@ const components = {
   Tooltip,
   BaseFilter,
   Range,
+  Tabs,
   Avatar
 };
 
-const pinia = createPinia();
-
 const install = (app: App): void => {
-  app.use(pinia);
-  app.use(vuePluginRemoveTestid, { enabled: false });
   Object.keys(components).forEach(key => {
     app.component('Y' + key, components[key as keyof typeof components]);
   });
@@ -174,10 +177,19 @@ export {
   BaseFilter,
   Range,
   Avatar,
+  Tabs,
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
   type IDataTestIdProp,
+  IconNameEnum,
+  SizesEnum,
+  ButtonTypeEnum,
+  ColorsEnum,
+  ImageExtensionsEnum,
+  BadgesTypeEnum,
+  VideoExtensionsEnum,
   getLastTime,
-  getFirstTime
+  getFirstTime,
+  vuePluginRemoveTestid
 };

@@ -1216,3 +1216,16 @@ export const read: IVectorIcon = {
 <path d="M8.17142 11.7522C8.32104 11.9045 8.52539 11.9909 8.73911 11.9923H8.74793C8.95815 11.9916 9.15972 11.9085 9.3092 11.761L15.7966 5.359C16.0907 5.02853 16.0606 4.52274 15.7296 4.22926C15.4294 3.96319 14.9784 3.95969 14.6741 4.22104L8.76315 10.0541L8.55227 9.83558C8.24571 9.51665 7.73814 9.50615 7.41859 9.81215C7.09904 10.1181 7.08852 10.6247 7.39511 10.9436C7.3965 10.9451 7.39789 10.9465 7.39928 10.9479L8.17142 11.7522Z" fill="currentColor"/>
 `
 };
+
+export const addUser: IVectorIcon = {
+  name: IconNameEnum.addUser,
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M16 21V19C16 17.9391 15.5786 16.9217 14.8284 16.1716C14.0783 15.4214 13.0609 15 12 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.5 11C10.7091 11 12.5 9.20914 12.5 7C12.5 4.79086 10.7091 3 8.5 3C6.29086 3 4.5 4.79086 4.5 7C4.5 9.20914 6.29086 11 8.5 11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 8V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M23 11H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`
+};
