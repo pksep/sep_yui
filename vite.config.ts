@@ -14,7 +14,8 @@ export default defineConfig({
       external: ['vue', 'pinia'],
       output: {
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
+          pinia: 'pinia'
         }
       }
     }
@@ -24,7 +25,7 @@ export default defineConfig({
       template: {
         compilerOptions: {
           isCustomElement: tag => tag.includes('-')
-                }
+        }
       }
     }),
     dts({
