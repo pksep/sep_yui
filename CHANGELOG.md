@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.102
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.101...v0.1.102)
+
+### 🚀 Enhancements
+
+- New component tabs and enum export, pinia exposed ([6d16e76](https://github.com/pksep/sep_yui/commit/6d16e76))
+- New icon - add user ([5ba1ad4](https://github.com/pksep/sep_yui/commit/5ba1ad4))
+- Remove pinia initi from index and using global ([ad5ea6d](https://github.com/pksep/sep_yui/commit/ad5ea6d))
+
 ## v0.1.101
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.100...v0.1.101)
