@@ -100,5 +100,6 @@ export enum IconNameEnum {
   read = 'read',
   atSign = 'at-sign',
   smile = 'smile',
-  planeRight = 'plane-right'
+  planeRight = 'plane-right',
+  addUser = 'add-user'
 }
