@@ -19,11 +19,18 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.1.0",
     "@fontsource/source-sans-pro": "^5.1.0",
+    "@tiptap/core": "^3.6.2",
+    "@tiptap/extension-image": "^3.6.2",
+    "@tiptap/extension-link": "^3.6.2",
+    "@tiptap/extension-placeholder": "^3.6.2",
+    "@tiptap/starter-kit": "^3.6.2",
+    "@tiptap/vue-3": "^3.6.2",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.3",
     "col-cal": "2.0.0-alpha.1",
     "pinia": "^2.2.2",
     "vue": "^3.4.38",
+    "vue3-emoji-picker": "^1.1.8",
     "vue3-perfect-scrollbar": "^2.0.0"
   },
   "devDependencies": {
