@@ -65,6 +65,8 @@ import { ButtonTypeEnum } from './Button/enum/enum';
 import { ColorsEnum } from '@/common/colors';
 import { BadgesTypeEnum } from './Badges/enum/enum';
 import { ImageExtensionsEnum, VideoExtensionsEnum } from '@/common/extentions';
+import { InputTypeEnum } from './Input/enum/enum';
+import { TextareaTypeEnum } from './Textarea/enum';
 
 const components = {
   Accordion,
@@ -116,6 +118,7 @@ const components = {
   BaseFilter,
   Range,
   Tabs,
+  ContentEditor,
   Avatar
 };
 
@@ -191,6 +194,8 @@ export {
   ImageExtensionsEnum,
   BadgesTypeEnum,
   VideoExtensionsEnum,
+  InputTypeEnum,
+  TextareaTypeEnum,
   getLastTime,
   getFirstTime,
   vuePluginRemoveTestid
