@@ -131,30 +131,31 @@ const loadImage = (file: File): void => {
         await nextTick();
 
         if (canvas.value && state.image) {
-        // Размеры контейнера
-        const containerWidth = canvas.value.width;
-        const containerHeight = canvas.value.height;
+          // Размеры контейнера
+          const containerWidth = canvas.value.width;
+          const containerHeight = canvas.value.height;
 
-        // Соотношение сторон изображения
-        const imageAspect = state.image.width / state.image.height;
-        const containerAspect = containerWidth / containerHeight;
+          // Соотношение сторон изображения
+          const imageAspect = state.image.width / state.image.height;
+          const containerAspect = containerWidth / containerHeight;
 
-        // Уменьшаем изображение с сохранением пропорций
-        if (imageAspect > containerAspect) {
-          // Изображение шире, чем контейнер
-          state.image.width = containerWidth;
-          state.image.height = containerWidth / imageAspect;
-        } else {
-          // Изображение выше, чем контейнер
-          state.image.height = containerHeight;
-          state.image.width = containerHeight * imageAspect;
+          // Уменьшаем изображение с сохранением пропорций
+          if (imageAspect > containerAspect) {
+            // Изображение шире, чем контейнер
+            state.image.width = containerWidth;
+            state.image.height = containerWidth / imageAspect;
+          } else {
+            // Изображение выше, чем контейнер
+            state.image.height = containerHeight;
+            state.image.width = containerHeight * imageAspect;
+          }
+
+          resizeCanvas(); // Пересчёт размеров canvas перед отрисовкой
+
+          state.position.x = (canvas.value.width - state.image.width) / 2;
+          state.position.y = (canvas.value.height - state.image.height) / 2;
+          drawImage();
         }
-
-        resizeCanvas(); // Пересчёт размеров canvas перед отрисовкой
-
-        state.position.x = (canvas.value.width - state.image.width) / 2;
-        state.position.y = (canvas.value.height - state.image.height) / 2;
-        drawImage();
       };
     }
   };
@@ -171,7 +172,7 @@ const startMove = (event: MouseEvent): void => {
   window.addEventListener('mouseup', stopMove);
 };
 
-const moveImage = (event: DragEvent): void => {
+const moveImage = (event: MouseEvent): void => {
   if (!state.isDragging && !canvas.value) return;
 
   // Рассчитываем новую позицию
@@ -196,26 +197,26 @@ const moveImage = (event: DragEvent): void => {
       }
     }
 
-  // Проверяем, если изображение меньше контейнера по оси Y, и даем возможность двигать внутри
-  const maxY = canvas.value.height - state.image.height * state.scale;
-  if (state.image.height * state.scale < canvas.value.height) {
-    newY = Math.min(
-      Math.max(newY, 0),
-      canvas.value.height - state.image.height * state.scale
-    );
-  } else {
-    // Если изображение больше контейнера, ограничиваем движение
-    if (newY > 0) {
-      newY = 0; // верхняя сторона изображения не должна выходить за контейнер
+    // Проверяем, если изображение меньше контейнера по оси Y, и даем возможность двигать внутри
+    const maxY = canvas.value.height - state.image.height * state.scale;
+    if (state.image.height * state.scale < canvas.value.height) {
+      newY = Math.min(
+        Math.max(newY, 0),
+        canvas.value.height - state.image.height * state.scale
+      );
+    } else {
+      // Если изображение больше контейнера, ограничиваем движение
+      if (newY > 0) {
+        newY = 0; // верхняя сторона изображения не должна выходить за контейнер
+      }
+      if (newY < maxY) {
+        newY = maxY; // нижняя сторона изображения не должна выходить за контейнер
+      }
     }
-    if (newY < maxY) {
-      newY = maxY; // нижняя сторона изображения не должна выходить за контейнер
-    }
-  }
 
-  // Устанавливаем новые значения для позиции
-  state.position.x = newX;
-  state.position.y = newY;
+    // Устанавливаем новые значения для позиции
+    state.position.x = newX;
+    state.position.y = newY;
   }
   drawImage();
 };
@@ -324,7 +325,9 @@ defineExpose({
   cropImage,
   scalePlus,
   scaleMinus,
-  setScale
+  setScale,
+  startMove,
+  scaleImage
 });
 
 onMounted(() => {

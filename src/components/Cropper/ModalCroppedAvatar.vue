@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseCropper from '@/components/BaseCropper/BaseCropper.vue';
+import BaseCropper from './BaseCropper.vue';
 import useRange from './extenstions/use-range';
 import getChangedNameFile from './extenstions/get-change-name-file';
 import {
@@ -159,15 +159,16 @@ const handlePlusScale = (): void => {
 };
 
 const croppedImage = () => {
-  const file = cropper.value.cropImage();
-  if (file) {
-    const fileName = file.name;
-    console.log(fileName);
+  if (cropper.value) {
+    const file = cropper.value.cropImage();
+    if (file) {
+      const fileName = file.name;
 
-    const fileWithUuid = getChangedNameFile(file, fileName);
+      const fileWithUuid = getChangedNameFile(file, fileName);
 
-    emit('unmount-save', fileWithUuid);
-    closeModal();
+      emit('unmount-save', fileWithUuid);
+      closeModal();
+    }
   }
 };
 onUnmounted(() => {

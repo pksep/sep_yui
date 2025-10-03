@@ -126,13 +126,18 @@ const editor = useEditor({
   content: modelValue.value,
   onUpdate: ({ editor }) => {
     modelValue.value = editor.getHTML();
+  },
+  parseOptions: {
+    preserveWhitespace: true
   }
 });
 
 // Watch for external model changes
 watch(modelValue, newVal => {
   if (editor.value && newVal !== editor.value.getHTML()) {
-    editor.value.commands.setContent(newVal, false);
+    editor.value?.commands.setContent(newVal ?? '', {
+      parseOptions: { preserveWhitespace: true }
+    });
   }
 });
 
@@ -167,7 +172,10 @@ function attachFile() {
     if (file) {
       const reader = new FileReader();
       reader.onload = e => {
-        editor.value.chain().focus().setImage({ src: e.target?.result }).run();
+        const result = e.target?.result;
+        if (result && typeof result === 'string') {
+          editor.value?.chain().focus().setImage({ src: result }).run();
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -176,7 +184,9 @@ function attachFile() {
 }
 
 function handleSave() {
-  emits('unmount-send', { content: editor.value.getHTML() });
+  if (editor.value) {
+    emits('unmount-send', { content: editor.value.getHTML() });
+  }
 }
 
 /* ------------------ Insert undeletable span ------------------ */
