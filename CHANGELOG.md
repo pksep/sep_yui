@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.103
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.102...v0.1.103)
+
+### 🚀 Enhancements
+
+- Update Avatar ([9f08e11](https://github.com/pksep/sep_yui/commit/9f08e11))
+
+### 🩹 Fixes
+
+- Types, update vue and remove pinia external ([d952d00](https://github.com/pksep/sep_yui/commit/d952d00))
+
 ## v0.1.102
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.101...v0.1.102)
