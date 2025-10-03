@@ -124,6 +124,8 @@ const components = {
 
 const install = (app: App): void => {
   Object.keys(components).forEach(key => {
+    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     app.component('Y' + key, components[key as keyof typeof components]);
   });
 };

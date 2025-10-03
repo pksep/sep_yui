@@ -10,7 +10,7 @@
       <span :data-testid="`${props.dataTestid}-Title`">{{ props.title }}</span>
       <Badges
         :disabled="true"
-        :type="computedBadgeType"
+        :type="computedBadgeType ?? BadgesTypeEnum.default"
         :text="computedBadgeText"
         :style="'margin:0 3px;'"
         :data-testid="`${props.dataTestid}-Badges`"
@@ -90,6 +90,7 @@
       </ul>
       <Search
         v-if="props.searchable"
+        v-model="state.searchString"
         @enter="updateSearchString"
         @input="changeUpdateSearchString"
         style="margin: 5px 0"
