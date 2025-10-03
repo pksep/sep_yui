@@ -3,7 +3,6 @@
     <div class="menu-yui-kit__wrapper">
       <Avatar
         class="menu-yui-kit__avatar"
-        :is-icon="!props.user.avatar"
         :url="props.user.avatar"
         alt="user-avatar"
         :data-testid="`${props.dataTestid}-Avatar`"

@@ -5,4 +5,5 @@ export interface IAvatar extends IDataTestIdProp {
   url?: string;
   isIcon?: boolean;
   alt?: string;
+  defaultImage?: string;
 }
