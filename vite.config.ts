@@ -11,11 +11,10 @@ export default defineConfig({
       fileName: format => `sep-yui.${format}.ts`
     },
     rollupOptions: {
-      external: ['vue', 'pinia'],
+      external: ['vue'],
       output: {
         globals: {
-          vue: 'Vue',
-          pinia: 'pinia'
+          vue: 'Vue'
         }
       }
     }
