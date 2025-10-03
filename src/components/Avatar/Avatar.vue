@@ -9,7 +9,11 @@
       />
     </template>
 
-    <Icon v-else-if="props.isIcon" :name="IconNameEnum.profile" />
+    <img
+      v-else-if="props.defaultImage"
+      :src="props.defaultImage"
+      class="avatar-yui-kit__image"
+    />
 
     <div v-else class="avatar-yui-kit__text">
       {{ useFirstSymbol() }}
@@ -18,13 +22,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import Icon from '../Icon/Icon.vue';
-import { IconNameEnum } from '../Icon/enum/enum';
+import { ref, watch } from 'vue';
 import type { IAvatar } from './interfaces/interfaces';
 
 const props = defineProps<IAvatar>();
 const imgError = ref(false);
+
+watch(
+  () => props.url,
+  () => {
+    imgError.value = false;
+  }
+);
 
 const useFirstSymbol = (): string => {
   if (!props.initials) return '';
@@ -64,7 +73,7 @@ img.avatar-yui-kit__image {
   font-size: var(--size-avatar);
   object-fit: cover;
   border-radius: 50%;
-  height: 100%;
-  width: 100%;
+  height: var(--size-avatar);
+  width: var(--size-avatar);
 }
 </style>
