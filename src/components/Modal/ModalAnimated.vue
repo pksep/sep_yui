@@ -4,6 +4,7 @@
       ref="modalRef"
       v-if="props.open"
       :open="props.open"
+      :position="props.position"
       :width="props.width"
       :height="props.height"
       :data-testid="props.dataTestid"
@@ -23,6 +24,7 @@ import { ModalAnimateEnum } from '@/components/Modal/enum';
 
 const props = withDefaults(defineProps<IModalProps>(), {
   dataTestid: 'Modal',
+  position: 'right',
   animateType: ModalAnimateEnum.right
 });
 

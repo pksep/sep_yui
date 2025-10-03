@@ -3,6 +3,7 @@ import { ModalAnimateEnum } from '@/components/Modal/enum';
 
 export interface IDialogProps extends IDataTestIdProp {
   open: boolean;
+  position?: 'right' | 'center';
   width?: string;
   height?: string;
 }
