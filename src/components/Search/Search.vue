@@ -63,15 +63,13 @@
 <script lang="ts" setup>
 import { onMounted, reactive, computed, CSSProperties, watch } from 'vue';
 import { ISearchProps, ResultSearchType } from './interface/interface';
-import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import History from './History.vue';
 import SearchResult from './SearchResult.vue';
 import { ButtonTypeEnum } from '@/components/Button/enum/enum.ts';
 import Button from '../Button/Button.vue';
-
-const searchStore = useSearchStore();
+import { useSearch } from '@/extenstions/search';
 
 const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск',
@@ -90,6 +88,8 @@ const emit = defineEmits<{
   (e: 'scroll-paginate'): void;
   (e: 'choosed', value: string): void;
 }>();
+
+const { addHistorySearch } = useSearch();
 
 const state = reactive({
   isShowList: false,
@@ -161,7 +161,7 @@ const unmountEnter = () => {
   emit('enter', state.searchValue.trim());
 
   if (props.showHistory && state.searchValue)
-    searchStore.addHistorySearch(state.searchValue.trim());
+    addHistorySearch(state.searchValue.trim());
 };
 
 /**

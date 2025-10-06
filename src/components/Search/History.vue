@@ -65,21 +65,19 @@ import { reactive, computed } from 'vue';
 import { ISearchProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
-import { useSearchStore } from '../../stores/search';
 import { trimText } from './../../helpers/trimText';
 import Button from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum.ts';
+import { useSearch } from '@/extenstions/search';
 
-const searchStore = useSearchStore();
+const { getHistorySearch, removeHistorySearch } = useSearch();
 
 const props = withDefaults(defineProps<Partial<ISearchProps>>(), {
   dataTestid: 'History'
 });
 
 const state = reactive({
-  getHistorySearch: computed(() => {
-    return searchStore.getHistorySearch;
-  }),
+  getHistorySearch,
   isShowList: props.isShowList,
   isShowButtonHistory: props.isShowButtonHistory
 });
@@ -106,7 +104,7 @@ const showHistoryClickHandler = () => {
  */
 
 const removeItem = (item: string) => {
-  searchStore.removeHistorySearch(item);
+  removeHistorySearch(item);
 };
 
 /**
