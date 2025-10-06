@@ -18,12 +18,12 @@
 
     <ul
       :class="classes"
-      v-if="state.getHistorySearch?.length"
+      v-if="props.modelValue?.length"
       :data-testid="`${props.dataTestid}-ShowResult-List`"
     >
       <li
         class="history-yui-kit__item"
-        v-for="(item, inx) in state.getHistorySearch"
+        v-for="(item, inx) in props.modelValue"
         :key="item"
         :data-testid="`${props.dataTestid}-ShowResult-Title${inx}`"
       >
@@ -62,35 +62,32 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
-import { ISearchProps } from './interface/interface';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import { trimText } from './../../helpers/trimText';
 import Button from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum.ts';
-import { useSearch } from '@/extenstions/search';
+import { IHistoryProps } from './interface/interface';
 
-const { getHistorySearch, removeHistorySearch } = useSearch();
-
-const props = withDefaults(defineProps<Partial<ISearchProps>>(), {
+const props = withDefaults(defineProps<Partial<IHistoryProps>>(), {
   dataTestid: 'History'
 });
 
 const state = reactive({
-  getHistorySearch,
   isShowList: props.isShowList,
   isShowButtonHistory: props.isShowButtonHistory
 });
 
 const emit = defineEmits<{
   (e: 'choosePost', value: string): void;
+  (e: 'unmount-remove', value: string): void;
 }>();
 
 const classes = computed(() => ({
   'history-yui-kit__list': true,
   'history-yui-kit__list--opened': state.isShowList,
   'history-yui-kit__list--scroll':
-    state.getHistorySearch.length >= 5 && state.isShowList
+    props.modelValue && props.modelValue.length >= 5 && state.isShowList
 }));
 
 const showHistoryClickHandler = () => {
@@ -104,7 +101,7 @@ const showHistoryClickHandler = () => {
  */
 
 const removeItem = (item: string) => {
-  removeHistorySearch(item);
+  emit('unmount-remove', item);
 };
 
 /**

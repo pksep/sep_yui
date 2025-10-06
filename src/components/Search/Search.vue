@@ -46,6 +46,8 @@
       :show-history="props.showHistory"
       :is-show-button-history="state.isShowButtonHistory"
       :is-show-list="state.isShowList"
+      :model-value="getHistorySearch"
+      @unmount-remove="removeHistorySearch"
       @choose-post="chosenPost"
       :data-testid="`${props.dataTestid}-Dropdown-History`"
     />
@@ -89,7 +91,7 @@ const emit = defineEmits<{
   (e: 'choosed', value: string): void;
 }>();
 
-const { addHistorySearch } = useSearch();
+const { getHistorySearch, removeHistorySearch, addHistorySearch } = useSearch();
 
 const state = reactive({
   isShowList: false,
@@ -160,8 +162,9 @@ const showhistory = () => {
 const unmountEnter = () => {
   emit('enter', state.searchValue.trim());
 
-  if (props.showHistory && state.searchValue)
+  if (props.showHistory && state.searchValue) {
     addHistorySearch(state.searchValue.trim());
+  }
 };
 
 /**
@@ -169,6 +172,7 @@ const unmountEnter = () => {
  */
 const changeSearchValue = () => {
   const value = state.searchValue.trim();
+
   emit('input', value);
   emit('update:modelValue', value);
 };
