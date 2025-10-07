@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.1.104
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.103...v0.1.104)
+
+### 🚀 Enhancements
+
+- Export ContentEditor and Icon enum ([7b64544](https://github.com/pksep/sep_yui/commit/7b64544))
+- New componet base-cropper and update vuejs ([ab16f12](https://github.com/pksep/sep_yui/commit/ab16f12))
+
+### 🩹 Fixes
+
+- Remove pinia and space-between ([47f1b31](https://github.com/pksep/sep_yui/commit/47f1b31))
+
 ## v0.1.103
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.102...v0.1.103)
