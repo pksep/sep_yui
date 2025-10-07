@@ -27,12 +27,9 @@ import {
 } from 'vue';
 import type { IDialogProps } from './interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import { useModalStore } from '@/stores/modal';
-import { storeToRefs } from 'pinia';
+import { useModal } from '../../extenstions/modal';
 
-const modalStore = useModalStore();
-const { lastOpenedModal } = storeToRefs(modalStore);
-const { addOpenedModal, reduceOpenedModal } = modalStore;
+const { lastOpenedModal, addOpenedModal, reduceOpenedModal } = useModal();
 
 const props = withDefaults(defineProps<IDialogProps>(), {
   dataTestid: 'Modal',
