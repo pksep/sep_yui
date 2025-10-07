@@ -1,5 +1,5 @@
 <template>
-  <YModal
+  <Modal
     v-bind="props"
     class="modal-cropped-avatar"
     :data-testid="`ModalCroppedAvatar-${id}`"
@@ -37,14 +37,14 @@
             class="modal-cropped-avatar__tools"
             :data-testid="`ModalCroppedAvatar-${id}-content-tools`"
           >
-            <YIcon
-              name="minus"
+            <Icon
+              :name="IconNameEnum.minus"
               class="modal-cropped-avatar__icon"
               :data-testid="`ModalCroppedAvatar-${id}-content-iconMinus`"
               @click="handleMinusScale"
             />
 
-            <YRange
+            <Range
               :max="maxScale"
               :min="minScale"
               :step="stepScale"
@@ -52,8 +52,8 @@
               :data-testid="`ModalCroppedAvatar-${id}-content-Range`"
             />
 
-            <YIcon
-              name="plus"
+            <Icon
+              :name="IconNameEnum.plus"
               class="modal-cropped-avatar__icon"
               :data-testid="`ModalCroppedAvatar-${id}-content-IconPlus`"
               @click="handlePlusScale"
@@ -65,30 +65,31 @@
           class="modal-cropped-avatar__buttons"
           :data-testid="`ModalCroppedAvatar-${id}-content-buttons`"
         >
-          <YButton
-            type="outline"
+          <Button
+            :type="ButtonTypeEnum.outline"
             class="modal-cropped-avatar__button"
             :data-testid="`ModalCroppedAvatar-${id}-content-ButtonCancel`"
             @click="closeModal"
           >
             Отменить
-          </YButton>
+          </Button>
 
-          <YButton
+          <Button
             class="modal-cropped-avatar__button"
             :data-testid="`ModalCroppedAvatar-${id}-content-buttonSave`"
             @click="croppedImage"
           >
             Сохранить
-          </YButton>
+          </Button>
         </div>
       </div>
     </div>
-  </YModal>
+  </Modal>
 </template>
 
 <script setup lang="ts">
 import BaseCropper from './BaseCropper.vue';
+import Modal from '../Modal/ModalAnimated.vue';
 import useRange from './extenstions/use-range';
 import getChangedNameFile from './extenstions/get-change-name-file';
 import {
@@ -100,6 +101,11 @@ import {
   watch
 } from 'vue';
 import type { IModalCropperdAvatar } from './interface';
+import { IconNameEnum } from '../Icon/enum/enum';
+import Icon from '../Icon/Icon.vue';
+import Button from '../Button/Button.vue';
+import Range from '../Range/Range.vue';
+import { ButtonTypeEnum } from '../Button/enum/enum';
 
 defineOptions({
   name: 'ModalCroppedAvatar'
@@ -107,7 +113,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<IModalCropperdAvatar>(), {
   width: '650px',
-  height: 'auto'
+  height: 'auto',
+  position: 'center'
 });
 
 const emit = defineEmits<{
@@ -171,12 +178,15 @@ const croppedImage = () => {
     }
   }
 };
+
 onUnmounted(() => {
   closeModal();
 });
 
 onMounted(() => {
-  state.openModal = props.open;
+  if (props.open === undefined) {
+    state.openModal = props.open;
+  }
 });
 </script>
 

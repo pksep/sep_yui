@@ -103,5 +103,6 @@ export enum IconNameEnum {
   planeRight = 'plane-right',
   addUser = 'add-user',
   noDistrub = 'no-distrub',
-  logout = 'logout'
+  logout = 'logout',
+  minus = 'minus'
 }

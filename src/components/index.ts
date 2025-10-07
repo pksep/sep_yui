@@ -51,6 +51,7 @@ import TableSimple from '@/components/Table/TableSimple.vue';
 import Avatar from '@/components/Avatar/Avatar.vue';
 import Tabs from './Tabs/Tabs.vue';
 import ContentEditor from './ContentEditor/ContentEditor.vue';
+import ModalCroppedAvatar from './Cropper/ModalCroppedAvatar.vue';
 
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
 import { getFirstTime, getLastTime } from './Calendar/date-utils';
@@ -119,6 +120,7 @@ const components = {
   Range,
   Tabs,
   ContentEditor,
+  ModalCroppedAvatar,
   Avatar
 };
 
@@ -185,6 +187,7 @@ export {
   Avatar,
   Tabs,
   ContentEditor,
+  ModalCroppedAvatar,
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
