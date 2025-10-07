@@ -67,7 +67,7 @@ const handleSelectTab = (id: number): void => {
 
 .tabs__navigation {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   border-bottom-width: 0.5px;
   border-bottom-style: solid;
   border-bottom-color: var(--border-grey);
