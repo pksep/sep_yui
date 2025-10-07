@@ -67,7 +67,7 @@ const handleSelectTab = (id: number): void => {
 
 .tabs__navigation {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   border-bottom-width: 0.5px;
   border-bottom-style: solid;
   border-bottom-color: var(--border-grey);
@@ -76,18 +76,18 @@ const handleSelectTab = (id: number): void => {
 button.tabs__navigation-button {
   padding: 0;
   margin: 0;
-  margin-bottom: 5px;
   font-size: 14px;
   font-weight: 600;
   line-height: 100%;
   color: var(--text-black);
   background: transparent;
+  padding-bottom: 5px;
   border: 0;
   &:hover,
   &.active {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 7px;
+    border-bottom-style: solid;
+    border-bottom-width: 0.5px;
+    border-bottom-color: var(--text-black);
   }
 }
 </style>

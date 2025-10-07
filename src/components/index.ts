@@ -50,6 +50,8 @@ import ScrollWrapperNew from '@/components/ScrollWrapper/ScrollWrapperNew.vue';
 import TableSimple from '@/components/Table/TableSimple.vue';
 import Avatar from '@/components/Avatar/Avatar.vue';
 import Tabs from './Tabs/Tabs.vue';
+import ContentEditor from './ContentEditor/ContentEditor.vue';
+import ModalCroppedAvatar from './Cropper/ModalCroppedAvatar.vue';
 
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
 import { getFirstTime, getLastTime } from './Calendar/date-utils';
@@ -64,6 +66,8 @@ import { ButtonTypeEnum } from './Button/enum/enum';
 import { ColorsEnum } from '@/common/colors';
 import { BadgesTypeEnum } from './Badges/enum/enum';
 import { ImageExtensionsEnum, VideoExtensionsEnum } from '@/common/extentions';
+import { InputTypeEnum } from './Input/enum/enum';
+import { TextareaTypeEnum } from './Textarea/enum';
 
 const components = {
   Accordion,
@@ -115,6 +119,8 @@ const components = {
   BaseFilter,
   Range,
   Tabs,
+  ContentEditor,
+  ModalCroppedAvatar,
   Avatar
 };
 
@@ -180,6 +186,8 @@ export {
   Range,
   Avatar,
   Tabs,
+  ContentEditor,
+  ModalCroppedAvatar,
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
@@ -191,6 +199,8 @@ export {
   ImageExtensionsEnum,
   BadgesTypeEnum,
   VideoExtensionsEnum,
+  InputTypeEnum,
+  TextareaTypeEnum,
   getLastTime,
   getFirstTime,
   vuePluginRemoveTestid

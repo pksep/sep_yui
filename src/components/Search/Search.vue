@@ -46,6 +46,8 @@
       :show-history="props.showHistory"
       :is-show-button-history="state.isShowButtonHistory"
       :is-show-list="state.isShowList"
+      :model-value="getHistorySearch"
+      @unmount-remove="removeHistorySearch"
       @choose-post="chosenPost"
       :data-testid="`${props.dataTestid}-Dropdown-History`"
     />
@@ -63,15 +65,13 @@
 <script lang="ts" setup>
 import { onMounted, reactive, computed, CSSProperties, watch } from 'vue';
 import { ISearchProps, ResultSearchType } from './interface/interface';
-import { useSearchStore } from '../../stores/search';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
 import History from './History.vue';
 import SearchResult from './SearchResult.vue';
 import { ButtonTypeEnum } from '@/components/Button/enum/enum.ts';
 import Button from '../Button/Button.vue';
-
-const searchStore = useSearchStore();
+import { useSearch } from '@/extenstions/search';
 
 const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск',
@@ -90,6 +90,8 @@ const emit = defineEmits<{
   (e: 'scroll-paginate'): void;
   (e: 'choosed', value: string): void;
 }>();
+
+const { getHistorySearch, removeHistorySearch, addHistorySearch } = useSearch();
 
 const state = reactive({
   isShowList: false,
@@ -160,8 +162,9 @@ const showhistory = () => {
 const unmountEnter = () => {
   emit('enter', state.searchValue.trim());
 
-  if (props.showHistory && state.searchValue)
-    searchStore.addHistorySearch(state.searchValue.trim());
+  if (props.showHistory && state.searchValue) {
+    addHistorySearch(state.searchValue.trim());
+  }
 };
 
 /**
@@ -169,6 +172,7 @@ const unmountEnter = () => {
  */
 const changeSearchValue = () => {
   const value = state.searchValue.trim();
+
   emit('input', value);
   emit('update:modelValue', value);
 };

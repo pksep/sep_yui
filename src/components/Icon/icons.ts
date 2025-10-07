@@ -1229,3 +1229,29 @@ export const addUser: IVectorIcon = {
 </svg>
 `
 };
+
+export const noDistrub: IVectorIcon = {
+  name: IconNameEnum.noDistrub,
+  viewbox: '0 0 25 24',
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M14.2295 21C14.0537 21.3031 13.8014 21.5547 13.4978 21.7295C13.1941 21.9044 12.8499 21.9965 12.4995 21.9965C12.1492 21.9965 11.8049 21.9044 11.5013 21.7295C11.1977 21.5547 10.9453 21.3031 10.7695 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19.1284 13C18.6835 11.3714 18.4714 9.68804 18.4984 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.76 6.26172C6.58627 6.82533 6.49861 7.41194 6.5 8.00172C6.5 15.0017 3.5 17.0017 3.5 17.0017H17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.5019 8.00109C18.5035 6.91415 18.2098 5.8472 17.6522 4.91418C17.0946 3.98117 16.294 3.21715 15.336 2.70373C14.378 2.19031 13.2984 1.94678 12.2128 1.99916C11.1271 2.05153 10.076 2.39784 9.17188 3.00109" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1.5 1L23.5 23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const logout: IVectorIcon = {
+  name: IconNameEnum.logout,
+  viewbox: '0 0 25 24',
+  style: 'line',
+  fill: 'none',
+  path: `
+<path d="M9.5 21H5.5C4.96957 21 4.46086 20.7893 4.08579 20.4142C3.71071 20.0391 3.5 19.5304 3.5 19V5C3.5 4.46957 3.71071 3.96086 4.08579 3.58579C4.46086 3.21071 4.96957 3 5.5 3H9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.5 17L21.5 12L16.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.5 12H9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};

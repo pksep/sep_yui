@@ -1,24 +1,13 @@
-import { Preview, setup } from '@storybook/vue3';
-import type { App } from 'vue';
-import "@fontsource-variable/inter"
-import "@fontsource/source-sans-pro"
+import { Preview } from '@storybook/vue3';
+import '@fontsource-variable/inter';
+import '@fontsource/source-sans-pro';
 import '@/assets/scss/_variables-native.scss';
-
-import { createPinia } from 'pinia';
-
-const pinia = createPinia();
-
-setup((app: App) => {
-  app.use(pinia);
-});
 
 const preview: Preview = {
   parameters: {
-        backgrounds: {
-          values: [
-            { name: 'Gray', value: '#E3E3E3' },
-          ]
-     },
+    backgrounds: {
+      values: [{ name: 'Gray', value: '#E3E3E3' }]
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

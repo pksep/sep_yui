@@ -22,3 +22,7 @@ export interface ISearchProps extends IDataTestIdProp {
   height?: string;
   modelValue: string;
 }
+
+export interface IHistoryProps extends Omit<ISearchProps, 'modelValue'> {
+  modelValue: string[];
+}

@@ -2,7 +2,7 @@
   <dialog
     ref="dialog"
     v-bind="attrs"
-    class="modal-yui-kit"
+    :class="[`modal-yui-kit`, props.position]"
     :data-testid="props.dataTestid"
     @click.self.left="handleCloseDialog"
   >
@@ -27,14 +27,15 @@ import {
 } from 'vue';
 import type { IDialogProps } from './interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import { useModalStore } from '@/stores/modal';
-import { storeToRefs } from 'pinia';
+import { useModal } from '../../extenstions/modal';
 
-const modalStore = useModalStore();
-const { lastOpenedModal } = storeToRefs(modalStore);
-const { addOpenedModal, reduceOpenedModal } = modalStore;
+const { lastOpenedModal, addOpenedModal, reduceOpenedModal } = useModal();
 
-const props = defineProps<IDialogProps>();
+const props = withDefaults(defineProps<IDialogProps>(), {
+  dataTestid: 'Modal',
+  position: 'right'
+});
+
 const dialog = ref<HTMLDialogElement | null>(null);
 const attrs = useAttrs();
 const visible = ref(false);
@@ -158,18 +159,25 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-.modal-yui-kit {
+<style scoped>
+.modal-yui-kit.right {
   --ease: cubic-bezier(0.25, 0, 0.3, 1);
-  border: none;
-  border-radius: 10px 0 0 10px;
+  max-block-size: 100vh;
+  min-height: 100vh;
   margin-right: 0;
   inset: 0;
+  border-radius: 10px 0 0 10px;
+}
+
+.modal-yui-kit.center {
+  border-radius: 10px;
+}
+
+.modal-yui-kit {
+  border: none;
   display: grid;
   position: fixed;
   z-index: 10;
-  max-block-size: 100vh;
-  min-height: 100vh;
   padding: 0px;
   &:focus-visible {
     outline: none;
