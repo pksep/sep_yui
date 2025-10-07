@@ -15,7 +15,7 @@
       <div
         :class="classesFilter"
         @click="toggleShow"
-        ref="currentRef"
+        ref="reference"
         :data-testid="`${props.dataTestid}-PopoverShow`"
       >
         <Icon
@@ -31,7 +31,8 @@
         v-if="props.options?.length"
         class="popover-yui-kit__options"
         v-show="state.isShow"
-        ref="dropdownRef"
+        ref="floating"
+        :style="floatingStyles"
         :data-testid="`${props.dataTestid}-PopoverShow-Options`"
       >
         <div
@@ -50,7 +51,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
+import {
+  autoUpdate,
+  useFloating,
+  offset,
+  autoPlacement
+} from '@floating-ui/vue';
 import { IPopoverOption, IPopoverProps } from './interface/interface';
 import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -77,8 +84,21 @@ const state = reactive<IPopoverState>({
   isShow: false
 });
 
-const dropdownRef = ref<HTMLElement | null>(null);
-const currentRef = ref<HTMLElement | null>(null);
+const reference = ref<HTMLElement | null>(null);
+const floating = ref<HTMLElement | null>(null);
+
+const { floatingStyles } = useFloating(reference, floating, {
+  middleware: [
+    offset(10),
+    autoPlacement({
+      crossAxis: true,
+      allowedPlacements: ['bottom-end', 'bottom-start']
+    })
+  ],
+  strategy: 'fixed',
+  placement: 'bottom-start',
+  whileElementsMounted: autoUpdate
+});
 
 /**
  * Создаем проверки для классов, устанавливаем их основной плашке фильтра.
@@ -104,29 +124,10 @@ const handleClick = (item: IPopoverOption): void => {
   closeShow();
 };
 
-const updateDropdownPosition = () => {
-  if (currentRef.value && dropdownRef.value && state.isShow) {
-    const currentRect = currentRef.value.getBoundingClientRect();
-    dropdownRef.value.style.top = `${currentRect.top + currentRect.height + 10}px`;
-    dropdownRef.value.style.left = `${currentRect.left}px`;
-  }
-};
-
-watch(() => state.isShow, updateDropdownPosition);
-
 watch(
   () => props.isShow,
   () => (state.isShow = props.isShow)
 );
-
-onMounted(() => {
-  updateDropdownPosition();
-  window.addEventListener('scroll', closeShow, true);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', closeShow, true);
-});
 </script>
 
 <style lang="scss" scoped>
@@ -157,9 +158,7 @@ onUnmounted(() => {
   }
 
   & .popover-yui-kit__options {
-    position: fixed;
     z-index: 20;
-    left: 0;
     background-color: var(--white);
     border-radius: 5px;
     box-shadow: 0 0 22px 0 #00000012;

@@ -17,4 +17,5 @@ const YLibrary = {
 
 export default YLibrary;
 export * from './components';
+export * from '@floating-ui/vue';
 export { useSearch } from './extenstions/search';

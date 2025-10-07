@@ -27,6 +27,7 @@
     "@tiptap/vue-3": "^3.6.2",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.3",
+    "@floating-ui/vue": "^1.1.8",
     "col-cal": "2.0.0-alpha.1",
     "vue": "^3.5.22",
     "vue3-emoji-picker": "^1.1.8",
@@ -34,7 +35,6 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.7",
-    "@floating-ui/vue": "^1.1.8",
     "@storybook/addon-a11y": "^8.5.6",
     "@storybook/addon-actions": "^8.5.5",
     "@storybook/addon-essentials": "^8.5.6",
