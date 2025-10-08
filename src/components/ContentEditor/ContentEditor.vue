@@ -41,14 +41,19 @@
         :size="SizesEnum.small"
         @click="handleSave"
       >
-        <Icon :name="IconNameEnum.planeRight" :width="16" :height="16" />
+        <Icon
+          :name="IconNameEnum.planeRight"
+          :color="ColorsEnum.white"
+          :width="16"
+          :height="16"
+        />
       </Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
@@ -63,6 +68,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import 'vue3-emoji-picker/css';
 import type { IContentEditorEmit } from './interfaces/content-editor';
+import { ColorsEnum } from '@/common/colors.ts';
 
 // v-model binding
 const modelValue = defineModel<string>();
@@ -205,9 +211,27 @@ function addSpanLink(content: string) {
     .run();
 }
 
-/* ------------------ Cleanup ------------------ */
+/* ------------------ Keyboard shortcut: Ctrl+Enter ------------------ */
+function handleKeydown(event: KeyboardEvent) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+    event.preventDefault();
+    handleSave();
+  }
+}
+
+watch(editor, ed => {
+  if (ed) {
+    const el = ed.view.dom;
+    el.addEventListener('keydown', handleKeydown);
+  }
+});
+
 onBeforeUnmount(() => {
-  editor.value?.destroy();
+  if (editor.value) {
+    const el = editor.value.view.dom;
+    el.removeEventListener('keydown', handleKeydown);
+    editor.value.destroy();
+  }
 });
 
 defineExpose({
