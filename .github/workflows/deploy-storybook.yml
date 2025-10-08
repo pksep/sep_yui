@@ -42,7 +42,6 @@ jobs:
 
       - name: Install pnpm (fallback)
         run: |
-          # Ensure pnpm is available on the runner. Some images/caches may not expose pnpm in PATH.
           npm install -g pnpm@9 || true
 
       - name: Install dependencies
@@ -72,12 +71,12 @@ jobs:
             echo "No custom domain provided"
           fi
 
-      - name: Deploy to gh-pages
+      - name: Deploy to storybook-rls
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
-          publish_branch: gh-pages
+          publish_branch: storybook-rls
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
           allow_empty_commit: false
