@@ -1,0 +1,68 @@
+name: Deploy Storybook
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      custom_domain:
+        description: 'Optional custom domain (CNAME) to set for GitHub Pages'
+        required: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Storybook
+        run: pnpm run build-storybook
+
+      - name: Write CNAME if provided (from input, secret, or repo CNAME)
+        run: |
+          # Priority: workflow input -> secret -> repo CNAME file
+          if [ "${{ github.event.inputs.custom_domain }}" != "" ]; then
+            echo "${{ github.event.inputs.custom_domain }}" > storybook-static/CNAME
+            echo "Wrote CNAME from workflow input"
+          elif [ "${{ secrets.CUSTOM_DOMAIN }}" != "" ]; then
+            echo "${{ secrets.CUSTOM_DOMAIN }}" > storybook-static/CNAME
+            echo "Wrote CNAME from secret CUSTOM_DOMAIN"
+          elif [ -f CNAME ]; then
+            cp CNAME storybook-static/CNAME
+            echo "Copied repo CNAME to storybook-static/CNAME"
+          else
+            echo "No custom domain provided"
+          fi
+
+      - name: Commit storybook build into main/docs (for GitHub Pages)
+        if: ${{ github.actor != 'github-actions' }}
+        run: |
+          echo "Preparing docs/ with Storybook output"
+          rm -rf docs || true
+          mkdir -p docs
+          cp -a storybook-static/. docs/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A docs
+          # commit only if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(storybook): update docs from $GITHUB_SHA"
+            git push origin HEAD:main
+          fi
