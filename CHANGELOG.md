@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.107
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.106...v0.1.107)
+
+### 🩹 Fixes
+
+- Package.json ([3aa99a5](https://github.com/pksep/sep_yui/commit/3aa99a5))
+
 ## v0.1.106
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.105...v0.1.106)
