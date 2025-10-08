@@ -41,6 +41,11 @@ jobs:
         with:
           version: 9
 
+      - name: Install pnpm (fallback)
+        run: |
+          # Ensure pnpm is available on the runner. Some images/caches may not expose pnpm in PATH.
+          npm install -g pnpm@9 || true
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
