@@ -82,5 +82,8 @@
       "require": "./dist/sep-yui.umd.ts"
     },
     "./styles": "./dist/style.css"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
