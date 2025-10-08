@@ -1,0 +1,1 @@
+const e={parameters:{backgrounds:{values:[{name:"Gray",value:"#E3E3E3"}]},controls:{matchers:{color:/(background|color)$/i,date:/Date$/i}},rem:{sizes:[{value:6,title:"Tiny"},{value:12,title:"Standard"},{value:72,title:"Huge"}]},canvasRemPadding:!0,docsRemPadding:!0}};export{e as default};

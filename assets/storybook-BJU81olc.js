@@ -1,0 +1,1 @@
+var c=(e=>(e.boolean="boolean",e.radio="radio",e.select="select",e.text="text",e.number="number",e.date="date",e.control="control",e.object="object",e.file="file",e.range="range",e.inlineRadio="inline-radio",e.multiSelect="multi-select",e.inlineCheck="inline-check",e.check="check",e.color="color",e))(c||{});export{c as S};

@@ -1,0 +1,1 @@
+var a=(r=>(r.initial="initial",r.error="error",r.warning="warning",r.success="success",r.disabled="disabled",r.ordinary="ordinary",r.minor="minor",r))(a||{}),s=(r=>(r.text="text",r.email="email",r.password="password",r.tel="tel",r.url="url",r.week="week",r))(s||{});export{a as I,s as T};
