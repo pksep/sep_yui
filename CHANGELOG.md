@@ -1,5 +1,35 @@
 # Changelog
 
+## v0.1.105
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.104...v0.1.105)
+
+### 🚀 Enhancements
+
+- Test storybook ([28419c0](https://github.com/pksep/sep_yui/commit/28419c0))
+- Test ([7bb9a04](https://github.com/pksep/sep_yui/commit/7bb9a04))
+
+### 🩹 Fixes
+
+- Lint ([38ec4f1](https://github.com/pksep/sep_yui/commit/38ec4f1))
+- Config ([8923985](https://github.com/pksep/sep_yui/commit/8923985))
+- Styles content editor ([eb699aa](https://github.com/pksep/sep_yui/commit/eb699aa))
+- Deploy ([9ce64e4](https://github.com/pksep/sep_yui/commit/9ce64e4))
+- Deploy-storybook ([aa66777](https://github.com/pksep/sep_yui/commit/aa66777))
+- Deploy-storybook ([7d68da2](https://github.com/pksep/sep_yui/commit/7d68da2))
+- ContentEditor.vue ([729c44e](https://github.com/pksep/sep_yui/commit/729c44e))
+
+### 🏡 Chore
+
+- Remove Vercel workflow  use GitHub Pages ([3fe0741](https://github.com/pksep/sep_yui/commit/3fe0741))
+- **storybook:** Add deploy-storybook script and gh-pages devDependency ([8360aff](https://github.com/pksep/sep_yui/commit/8360aff))
+
+### 🤖 CI
+
+- Deploy storybook into main/docs on push to main ([d02f39b](https://github.com/pksep/sep_yui/commit/d02f39b))
+- Add vercel deploy workflow ([b31d883](https://github.com/pksep/sep_yui/commit/b31d883))
+- **storybook:** Deploy storybook-static to gh-pages via actions-gh-pages ([0c83981](https://github.com/pksep/sep_yui/commit/0c83981))
+
 ## v0.1.104
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.103...v0.1.104)
