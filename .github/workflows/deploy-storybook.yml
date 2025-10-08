@@ -1,9 +1,21 @@
-name: Build and deploy Storybook
+name: Deploy Storybook
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch: {}
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      custom_domain:
+        description: 'Optional custom domain (CNAME) to set for GitHub Pages'
+        required: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: deploy-storybook-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
@@ -16,6 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
@@ -34,49 +47,8 @@ jobs:
             touch storybook-static/.nojekyll
           fi
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
-          publish_branch: gh-pages
-          # keep_files: true  # uncomment if you want to keep existing files
-name: Deploy Storybook
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-    inputs:
-      custom_domain:
-        description: 'Optional custom domain (CNAME) to set for GitHub Pages'
-        required: false
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'pnpm'
-
-      - name: Install pnpm
-        run: npm i -g pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build Storybook
-        run: pnpm run build-storybook
-
       - name: Prepare CNAME if provided
         run: |
-          # Priority: workflow input -> secret -> repo CNAME file
           if [ "${{ github.event.inputs.custom_domain }}" != "" ]; then
             echo "${{ github.event.inputs.custom_domain }}" > storybook-static/CNAME
             echo "Wrote CNAME from workflow input"
@@ -90,12 +62,12 @@ jobs:
             echo "No custom domain provided"
           fi
 
-      - name: Deploy to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
           publish_branch: gh-pages
-          allow_empty_commit: false
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
+          allow_empty_commit: false
