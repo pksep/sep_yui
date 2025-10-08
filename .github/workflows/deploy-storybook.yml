@@ -31,7 +31,7 @@ jobs:
       - name: Build Storybook
         run: pnpm run build-storybook
 
-      - name: Write CNAME if provided (from input, secret, or repo CNAME)
+      - name: Prepare CNAME if provided
         run: |
           # Priority: workflow input -> secret -> repo CNAME file
           if [ "${{ github.event.inputs.custom_domain }}" != "" ]; then
@@ -47,22 +47,12 @@ jobs:
             echo "No custom domain provided"
           fi
 
-      - name: Commit storybook build into main/docs (for GitHub Pages)
-        if: ${{ github.actor != 'github-actions' }}
-        run: |
-          echo "Preparing docs/ with Storybook output"
-          rm -rf docs || true
-          mkdir -p docs
-          cp -a storybook-static/. docs/
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add -A docs
-          # commit only if there are changes
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore(storybook): update docs from $GITHUB_SHA"
-            git push origin HEAD:main
-          fi
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static
+          publish_branch: gh-pages
+          allow_empty_commit: false
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
