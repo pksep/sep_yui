@@ -43,7 +43,7 @@
       >
         <Icon
           :name="IconNameEnum.planeRight"
-          :color="ColorsEnum.white"
+          :color="ColorsEnum.green"
           :width="16"
           :height="16"
         />
