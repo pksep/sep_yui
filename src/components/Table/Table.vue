@@ -3,6 +3,7 @@
     ref="scrollWrapperRef"
     class="table"
     @unmount-scroll="unmountScroll"
+    @unmount-paginate="unmountPaginate"
     :is-show-vertical-scroll="props.isShowVerticalScroll"
     :is-show-horizontal-scroll="props.isShowHorizontalScroll"
     :data-testid="`${props.dataTestid}-ScrollWrapper`"
@@ -101,6 +102,9 @@ const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 const unmountScroll = (e: Event) => {
   emit('unmount-scroll', e);
 };
+
+const unmountPaginate = (isCanPaginate: boolean): void =>
+  emit('unmount-paginate', isCanPaginate);
 
 const setHeadHeight = () => {
   if (!tableRef.value || !scrollWrapperRef.value) return;
