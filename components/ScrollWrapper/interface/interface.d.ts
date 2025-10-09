@@ -5,5 +5,6 @@ export interface IScrollWrapperProps {
 }
 export interface IScrollWrapperEmit {
     (e: 'unmount-scroll', event: Event): void;
+    (e: 'unmount-paginate', isCanPagiante: boolean): void;
     (e: 'on-mounted'): void;
 }

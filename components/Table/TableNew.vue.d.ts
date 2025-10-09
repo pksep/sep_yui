@@ -20,14 +20,14 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     theadRef: import('vue').Ref<HTMLElement | null, HTMLElement | null>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-scroll": (event: Event) => void;
-    "unmount-intersection": () => void;
+    "unmount-paginate": (isCanPaginate: boolean) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ITableProps>, {
     dataTestid: string;
     isShowHorizontalScroll: boolean;
     isShowVerticalScroll: boolean;
 }>>> & Readonly<{
     "onUnmount-scroll"?: ((event: Event) => any) | undefined;
-    "onUnmount-intersection"?: (() => any) | undefined;
+    "onUnmount-paginate"?: ((isCanPaginate: boolean) => any) | undefined;
 }>, {
     dataTestid: string;
     isShowVerticalScroll: boolean;

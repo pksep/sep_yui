@@ -28,7 +28,7 @@ export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
 }
 export interface ITableEmit {
     (e: 'unmount-scroll', event: Event): void;
-    (e: 'unmount-intersection'): void;
+    (e: 'unmount-paginate', isCanPaginate: boolean): void;
 }
 export interface IHeadTableRowProps extends IDataTestIdProp {
 }

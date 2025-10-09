@@ -11,12 +11,14 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     setHeightSlot: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-scroll": (event: Event) => void;
+    "unmount-paginate": (isCanPagiante: boolean) => void;
     "on-mounted": () => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IScrollWrapperProps>, {
     isShowVerticalScroll: boolean;
     isShowHorizontalScroll: boolean;
 }>>> & Readonly<{
     "onUnmount-scroll"?: ((event: Event) => any) | undefined;
+    "onUnmount-paginate"?: ((isCanPagiante: boolean) => any) | undefined;
     "onOn-mounted"?: (() => any) | undefined;
 }>, {
     isShowVerticalScroll: boolean;
