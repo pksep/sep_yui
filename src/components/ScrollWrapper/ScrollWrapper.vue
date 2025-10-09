@@ -147,12 +147,29 @@ const scrollToTop = () => {
   }
 };
 
+/**
+ * Проверяет высоту скролла и отправляет состояние разрешения для пагинации
+ *
+ * Пагинация разрешена, если высота скролла меньше высоты элемента
+ */
+const checkAvailablePagination = (): void => {
+  if (slotRef.value) {
+    if (slotRef.value.scrollHeight <= slotRef.value.clientHeight) {
+      emit('unmount-paginate', true);
+    } else {
+      emit('unmount-paginate', false);
+    }
+  }
+};
+
 const mutatuionObserver = new MutationObserver(() => {
   setScrollStyle();
+  checkAvailablePagination();
 });
 
 const resizeOvserver = new ResizeObserver(() => {
   setScrollStyle();
+  checkAvailablePagination();
 });
 
 const setResizeElement = (value: HTMLElement) => {
