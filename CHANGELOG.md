@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.109
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.108...v0.1.109)
+
+### 🚀 Enhancements
+
+- Added unmount-pagination ([cd74849](https://github.com/pksep/sep_yui/commit/cd74849))
+
+### 🩹 Fixes
+
+- Gitignore ([b881fdb](https://github.com/pksep/sep_yui/commit/b881fdb))
+
 ## v0.1.108
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.107...v0.1.108)
