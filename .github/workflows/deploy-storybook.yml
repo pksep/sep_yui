@@ -1,0 +1,82 @@
+name: Deploy Storybook
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      custom_domain:
+        description: 'Optional custom domain (CNAME) to set for GitHub Pages'
+        required: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: deploy-storybook-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Enable Corepack and prepare pnpm
+        run: |
+          corepack --version || true
+          corepack enable
+          corepack prepare pnpm@9 --activate
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install pnpm (fallback)
+        run: |
+          npm install -g pnpm@9 || true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        run: pnpm run build-storybook
+
+      - name: Ensure .nojekyll
+        run: |
+          if [ -d "storybook-static" ]; then
+            touch storybook-static/.nojekyll
+          fi
+
+      - name: Prepare CNAME if provided
+        run: |
+          if [ "${{ github.event.inputs.custom_domain }}" != "" ]; then
+            echo "${{ github.event.inputs.custom_domain }}" > storybook-static/CNAME
+            echo "Wrote CNAME from workflow input"
+          elif [ "${{ secrets.CUSTOM_DOMAIN }}" != "" ]; then
+            echo "${{ secrets.CUSTOM_DOMAIN }}" > storybook-static/CNAME
+            echo "Wrote CNAME from secret CUSTOM_DOMAIN"
+          elif [ -f CNAME ]; then
+            cp CNAME storybook-static/CNAME
+            echo "Copied repo CNAME to storybook-static/CNAME"
+          else
+            echo "No custom domain provided"
+          fi
+
+      - name: Deploy to storybook-rls
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static
+          publish_branch: storybook-rls
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+          allow_empty_commit: false
