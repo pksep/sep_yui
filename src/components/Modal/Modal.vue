@@ -2,7 +2,7 @@
   <dialog
     ref="dialog"
     v-bind="attrs"
-    :class="[`modal-yui-kit`, props.position]"
+    :class="[`modal-yui-kit`, `modal-yui-kit_${props.position}`]"
     :data-testid="props.dataTestid"
     @click.self.left="handleCloseDialog"
   >
@@ -160,7 +160,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.modal-yui-kit.right {
+.modal-yui-kit.modal-yui-kit_right {
   --ease: cubic-bezier(0.25, 0, 0.3, 1);
   max-block-size: 100vh;
   min-height: 100vh;
@@ -169,7 +169,7 @@ onUnmounted(() => {
   border-radius: 10px 0 0 10px;
 }
 
-.modal-yui-kit.center {
+.modal-yui-kit.modal-yui-kit_center {
   border-radius: 10px;
 }
 
@@ -179,6 +179,7 @@ onUnmounted(() => {
   position: fixed;
   z-index: 10;
   padding: 0px;
+
   &:focus-visible {
     outline: none;
   }
