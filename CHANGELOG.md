@@ -1,8 +1,24 @@
 # Changelog
 
-## v0.1.109
+## v0.1.112
 
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.108...v0.1.109)
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.111...v0.1.112)
+
+### 🚀 Enhancements
+
+- Added hooks to modal animations ([0490f93](https://github.com/pksep/sep_yui/commit/0490f93))
+
+### 🩹 Fixes
+
+- Position is a modifier of modal-yui-kit ([99dbc8e](https://github.com/pksep/sep_yui/commit/99dbc8e))
+
+### 🏡 Chore
+
+- **release:** V0.1.111 ([4e3b5a3](https://github.com/pksep/sep_yui/commit/4e3b5a3))
+
+## v0.1.111
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.106...v0.1.111)
 
 ### 🚀 Enhancements
 
@@ -10,7 +26,62 @@
 
 ### 🩹 Fixes
 
+- Package.json ([3aa99a5](https://github.com/pksep/sep_yui/commit/3aa99a5))
 - Gitignore ([b881fdb](https://github.com/pksep/sep_yui/commit/b881fdb))
+- Position is a modifier of modal-yui-kit ([99dbc8e](https://github.com/pksep/sep_yui/commit/99dbc8e))
+
+### 🏡 Chore
+
+- **release:** V0.1.105 ([7b97a7d](https://github.com/pksep/sep_yui/commit/7b97a7d))
+- **release:** V0.1.105 ([b443f90](https://github.com/pksep/sep_yui/commit/b443f90))
+- **release:** V0.1.106 ([df9180e](https://github.com/pksep/sep_yui/commit/df9180e))
+- **release:** V0.1.107 ([74a8700](https://github.com/pksep/sep_yui/commit/74a8700))
+- **release:** V0.1.108 ([77896ae](https://github.com/pksep/sep_yui/commit/77896ae))
+
+## v0.1.110
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.106...v0.1.110)
+
+### 🚀 Enhancements
+
+- Added unmount-pagination ([cd74849](https://github.com/pksep/sep_yui/commit/cd74849))
+
+### 🩹 Fixes
+
+- Package.json ([3aa99a5](https://github.com/pksep/sep_yui/commit/3aa99a5))
+- Gitignore ([b881fdb](https://github.com/pksep/sep_yui/commit/b881fdb))
+- Position is a modifier of modal-yui-kit ([99dbc8e](https://github.com/pksep/sep_yui/commit/99dbc8e))
+
+### 🏡 Chore
+
+- **release:** V0.1.105 ([7b97a7d](https://github.com/pksep/sep_yui/commit/7b97a7d))
+- **release:** V0.1.105 ([b443f90](https://github.com/pksep/sep_yui/commit/b443f90))
+- **release:** V0.1.106 ([df9180e](https://github.com/pksep/sep_yui/commit/df9180e))
+- **release:** V0.1.107 ([74a8700](https://github.com/pksep/sep_yui/commit/74a8700))
+- **release:** V0.1.108 ([77896ae](https://github.com/pksep/sep_yui/commit/77896ae))
+
+## v0.1.109
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.106...v0.1.109)
+
+### 🚀 Enhancements
+
+- Added unmount-pagination ([cd74849](https://github.com/pksep/sep_yui/commit/cd74849))
+
+### 🩹 Fixes
+
+
+- Package.json ([3aa99a5](https://github.com/pksep/sep_yui/commit/3aa99a5))
+- Gitignore ([b881fdb](https://github.com/pksep/sep_yui/commit/b881fdb))
+- Position is a modifier of modal-yui-kit ([99dbc8e](https://github.com/pksep/sep_yui/commit/99dbc8e))
+
+### 🏡 Chore
+
+- **release:** V0.1.105 ([7b97a7d](https://github.com/pksep/sep_yui/commit/7b97a7d))
+- **release:** V0.1.105 ([b443f90](https://github.com/pksep/sep_yui/commit/b443f90))
+- **release:** V0.1.106 ([df9180e](https://github.com/pksep/sep_yui/commit/df9180e))
+- **release:** V0.1.107 ([74a8700](https://github.com/pksep/sep_yui/commit/74a8700))
+- **release:** V0.1.108 ([77896ae](https://github.com/pksep/sep_yui/commit/77896ae))
 
 ## v0.1.108
 
