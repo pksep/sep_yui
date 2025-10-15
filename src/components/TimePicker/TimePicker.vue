@@ -1,5 +1,5 @@
 <template>
-  <div class="time-picker-select">
+  <div :class="{ 'time-picker-select': true, disabled: !!props.disabled }">
     <div class="time-picker-select-content" @click="openModal">
       <Icon :name="IconNameEnum.time" />
       <span>{{ showedValue }}</span>
@@ -25,35 +25,41 @@
       <h3>Установка времени</h3>
 
       <div class="time-picker-header">
-        <InputNumber
-          :model-value="state.hours"
-          @update:model-value="value => (state.hours = +value)"
-          :min="0"
-          :max="23"
-          :class="{
-            'time-picker-input': true,
-            pressed: state.editingValue === 'hour'
-          }"
-          input-message=""
-          is-integer
-          zero-pad
-          @click="state.editingValue = 'hour'"
-        />
+        <div>
+          <InputNumber
+            :model-value="state.hours"
+            @update:model-value="value => (state.hours = +value)"
+            :min="0"
+            :max="23"
+            :class="{
+              'time-picker-input': true,
+              pressed: state.editingValue === 'hour'
+            }"
+            input-message=""
+            is-integer
+            zero-pad
+            @click="state.editingValue = 'hour'"
+          />
+          <span>Часы</span>
+        </div>
         <span class="time-picker-separator">:</span>
-        <InputNumber
-          :model-value="state.minutes"
-          @update:model-value="value => (state.minutes = +value)"
-          :min="0"
-          :max="59"
-          :class="{
-            'time-picker-input': true,
-            pressed: state.editingValue === 'minute'
-          }"
-          input-message=""
-          is-integer
-          zero-pad
-          @click="state.editingValue = 'minute'"
-        />
+        <div>
+          <InputNumber
+            :model-value="state.minutes"
+            @update:model-value="value => (state.minutes = +value)"
+            :min="0"
+            :max="59"
+            :class="{
+              'time-picker-input': true,
+              pressed: state.editingValue === 'minute'
+            }"
+            input-message=""
+            is-integer
+            zero-pad
+            @click="state.editingValue = 'minute'"
+          />
+          <span>Минуты</span>
+        </div>
       </div>
 
       <!-- CLOCK -->
@@ -127,12 +133,18 @@
             :name="state.openClock ? IconNameEnum.keyboard : IconNameEnum.time"
           />
         </div>
-        <Button :type="ButtonTypeEnum.ghost" @click="closeModal"
-          >Отменить</Button
-        >
-        <Button :type="ButtonTypeEnum.primary" @click="saveTime"
-          >Сохранить</Button
-        >
+        <Button
+          :size="SizesEnum.little"
+          :type="ButtonTypeEnum.ghost"
+          @click="closeModal"
+          >Отменить
+        </Button>
+        <Button
+          :size="SizesEnum.little"
+          :type="ButtonTypeEnum.primary"
+          @click="saveTime"
+          >Сохранить
+        </Button>
       </div>
     </div>
   </Dialog>
@@ -146,6 +158,7 @@ import Dialog from '../Dialog/Dialog.vue';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { ButtonTypeEnum } from '../Button/enum/enum';
+import { SizesEnum } from '@/common/sizes.ts';
 
 interface IState {
   openModal: boolean;
@@ -159,6 +172,7 @@ interface IState {
 
 const props = defineProps<{
   modelValue?: string | null; // ISO UTC string
+  disabled?: boolean;
 }>();
 
 const emits = defineEmits<{
@@ -329,6 +343,16 @@ function clearTime() {
   background-color: var(--white);
   border: 1px solid var(--border-grey);
 
+  &.disabled {
+    pointer-events: none;
+    background-color: var(--grey1);
+
+    & * {
+      color: var(--grey4);
+      stroke: var(--grey4);
+    }
+  }
+
   & .time-picker-select-content {
     padding: 4px;
     display: flex;
@@ -346,6 +370,7 @@ function clearTime() {
     &:hover {
       background-color: var(--blue9);
     }
+
     &:active {
       color: var(--blue1);
     }
@@ -358,9 +383,11 @@ function clearTime() {
       justify-content: center;
       border-radius: 5px;
       color: var(--black);
+
       &:hover {
         background-color: var(--white);
       }
+
       &:active {
         color: var(--blue1);
       }
@@ -385,9 +412,11 @@ function clearTime() {
     }
 
     & .time-picker-input {
-      width: 96px;
+      width: 92px;
       height: 80px;
       background-color: var(--blue15);
+      padding-right: 0;
+
       &.pressed :deep(.input-yui-kit__input) {
         color: var(--blue20);
       }
@@ -428,6 +457,16 @@ function clearTime() {
     gap: 12px;
     margin-top: 24px;
     margin-bottom: 16px;
+
+    & > div {
+      & > span {
+        margin-top: 7px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 100%;
+        color: var(--grey6);
+      }
+    }
   }
 
   .time-picker-clock {
@@ -513,6 +552,7 @@ function clearTime() {
       height: 24px;
       margin-right: auto;
       cursor: pointer;
+
       &:hover {
         color: var(--blue1);
       }
