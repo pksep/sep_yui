@@ -131,17 +131,19 @@ watch(
   () => props.modelValue,
   (newValue, oldValue) => {
     state.inputElement =
-      props.zeroPad && Number(oldValue) === 0
+      props.zeroPad && (!state.isPressed || Number(oldValue) === 0)
         ? formatWithZeroPad(newValue)
         : newValue;
   }
 );
 
 const handleInput = (e: Event): void => {
-  const newValue = (e.target as HTMLInputElement).value;
-  const formattedValue = getFormateValue(newValue);
+  let newValue = (e.target as HTMLInputElement).value;
+  if (!(props.zeroPad && newValue === '00')) {
+    newValue = getFormateValue(newValue);
+  }
 
-  validateValue(formattedValue);
+  validateValue(newValue);
 
   if (
     !isNaN(+state.inputElement) &&
