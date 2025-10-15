@@ -129,8 +129,11 @@ watch([() => props.min, () => props.max], () => {
 
 watch(
   () => props.modelValue,
-  newValue => {
-    state.inputElement = formatWithZeroPad(newValue);
+  (newValue, oldValue) => {
+    state.inputElement =
+      props.zeroPad && Number(oldValue) === 0
+        ? formatWithZeroPad(newValue)
+        : newValue;
   }
 );
 
@@ -145,7 +148,6 @@ const handleInput = (e: Event): void => {
     Number(state.inputElement) <= props.max &&
     Number(state.inputElement) >= props.min
   ) {
-    state.inputElement = formatWithZeroPad(state.inputElement);
     emits('update:modelValue', state.inputElement);
   }
 };
@@ -234,7 +236,6 @@ const validateValue = (value: string): void => {
 const checkAndSetMinValue = (): void => {
   if (Number(state.inputElement) < props.min) {
     state.inputElement = props.min;
-    state.inputElement = formatWithZeroPad(state.inputElement);
     emits('update:modelValue', +state.inputElement);
   }
 };
@@ -242,7 +243,6 @@ const checkAndSetMinValue = (): void => {
 const checkAndSetMaxValue = (): void => {
   if (Number(state.inputElement) > props.max) {
     state.inputElement = props.max;
-    state.inputElement = formatWithZeroPad(state.inputElement);
     emits('update:modelValue', +state.inputElement);
   }
 };
