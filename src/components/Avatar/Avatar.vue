@@ -43,8 +43,6 @@ const useFirstSymbol = (): string => {
 
 <style scoped>
 .avatar-yui-kit {
-  --size-avatar: 100px;
-
   display: grid;
   place-content: center;
   border-radius: 50%;
@@ -52,8 +50,8 @@ const useFirstSymbol = (): string => {
   background-color: var(--background-color);
 
   &:has(svg.icon-yui-kit) {
-    height: var(--size-avatar);
-    width: var(--size-avatar);
+    height: var(--size-avatar, 100px);
+    width: var(--size-avatar, 100px);
     --background-color: var(--blue9);
     --color: var(--grey8);
   }
