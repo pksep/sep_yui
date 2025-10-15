@@ -2,7 +2,7 @@
   <div class="time-picker-select">
     <div class="time-picker-select-content" @click="openModal">
       <Icon :name="IconNameEnum.time" />
-      {{ showedValue }}
+      <span>{{ showedValue }}</span>
       <div
         class="time-picker-select-clear"
         @click.stop="clearTime"
@@ -140,14 +140,12 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
-import {
-  Button,
-  ButtonTypeEnum,
-  Dialog,
-  Icon,
-  IconNameEnum,
-  InputNumber
-} from '@/components';
+import Button from '../Button/Button.vue';
+import InputNumber from '../InputNumber/InputNumber.vue';
+import Dialog from '../Dialog/Dialog.vue';
+import Icon from '../Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum/enum';
+import { ButtonTypeEnum } from '../Button/enum/enum';
 
 interface IState {
   openModal: boolean;
@@ -340,6 +338,11 @@ function clearTime() {
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
+    & > span {
+      font-size: 14px;
+      line-height: 21px;
+    }
+
     &:hover {
       background-color: var(--blue9);
     }
@@ -354,6 +357,7 @@ function clearTime() {
       align-items: center;
       justify-content: center;
       border-radius: 5px;
+      color: var(--black);
       &:hover {
         background-color: var(--white);
       }

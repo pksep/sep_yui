@@ -1084,8 +1084,8 @@ export const closeTag: IVectorIcon = {
   fill: 'none',
   style: 'line',
   path: `
-    <path d="M7.5 2.5L2.5 7.5" stroke="#757D8A" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M2.5 2.5L7.5 7.5" stroke="#757D8A" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7.5 2.5L2.5 7.5" stroke="currentColor" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2.5 2.5L7.5 7.5" stroke="currentColor" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
 `,
   viewbox: '0 0 10 10'
 };

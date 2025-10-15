@@ -190,6 +190,7 @@ export {
   Tabs,
   ContentEditor,
   ModalCroppedAvatar,
+  TimePicker,
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
