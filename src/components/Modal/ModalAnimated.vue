@@ -1,5 +1,10 @@
 <template>
-  <Transition :name="transitionName" @after-leave="unmountLeaveAnimation">
+  <Transition
+    :name="transitionName"
+    @after-leave="unmountLeaveAnimation"
+    @before-leave="unmountBeforeLeave"
+    @after-enter="unmountEnterAnimation"
+  >
     <Modal
       ref="modalRef"
       v-if="props.open"
@@ -52,18 +57,50 @@ const state = reactive({
   function: () => {}
 });
 
-const close = () => {
-  if (modalRef.value) state.function = modalRef.value?.closeDialog;
-  emits('close');
+/**
+ * Обрабатывает хук afterEnter у анимации
+ *
+ * Устанавливает функцию закрытия модального окна
+ */
+const unmountEnterAnimation = (): void => {
+  setCloseFunction();
 };
 
 const unmounted = (): void => {
   emits('unmounted');
 };
 
+/**
+ * Обрабатывает хук beforeLeave у анимации
+ *
+ * устанавливает функцию закрытия модального окна
+ */
+const unmountBeforeLeave = (): void => {
+  setCloseFunction();
+};
+
+/**
+ * Обрабатывает хук afterLeave у анимации
+ *
+ * вызывает функцию закрытия модального окна
+ */
 const unmountLeaveAnimation = (): void => {
   state.function();
   emits('end-animation');
+};
+
+/**
+ * Устанавливает функцию закрытия модального окна
+ *
+ * Берет из компонента closeDialog и сохраняет функцию для дальнейшего выполнения
+ */
+const setCloseFunction = (): void => {
+  if (modalRef.value) state.function = modalRef.value?.closeDialog;
+};
+
+const close = () => {
+  setCloseFunction();
+  emits('close');
 };
 </script>
 
