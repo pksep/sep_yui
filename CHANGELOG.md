@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.113
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.112...v0.1.113)
+
+### 🩹 Fixes
+
+- Pnpm-lock.yaml ([6e3064b](https://github.com/pksep/sep_yui/commit/6e3064b))
+
 ## v0.1.112
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.111...v0.1.112)
