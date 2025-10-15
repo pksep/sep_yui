@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.1.112
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.111...v0.1.112)
+
+### 🚀 Enhancements
+
+- Added hooks to modal animations ([0490f93](https://github.com/pksep/sep_yui/commit/0490f93))
+
+### 🩹 Fixes
+
+- Position is a modifier of modal-yui-kit ([99dbc8e](https://github.com/pksep/sep_yui/commit/99dbc8e))
+
+### 🏡 Chore
+
+- **release:** V0.1.111 ([4e3b5a3](https://github.com/pksep/sep_yui/commit/4e3b5a3))
 
 ## v0.1.111
 
