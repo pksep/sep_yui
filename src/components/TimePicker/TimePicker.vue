@@ -1,14 +1,23 @@
 <template>
   <div class="time-picker-select">
-    <div class="time-picker-select-content" @click="state.openModal = true">
+    <div class="time-picker-select-content" @click="openModal">
       <Icon :name="IconNameEnum.time" />
       {{ showedValue }}
+      <div
+        class="time-picker-select-clear"
+        @click.stop="clearTime"
+        v-if="
+          state.localHours !== undefined || state.localMinutes !== undefined
+        "
+      >
+        <Icon :name="IconNameEnum.closeTag" :width="16" :height="16" />
+      </div>
     </div>
   </div>
 
   <Dialog
     :open="state.openModal"
-    @close="state.openModal = false"
+    @close="closeModal"
     class="time-picker-dialog"
     width="328px"
   >
@@ -17,127 +26,216 @@
 
       <div class="time-picker-header">
         <InputNumber
-          v-model="hours"
+          :model-value="state.hours"
+          @update:model-value="value => (state.hours = +value)"
           :min="0"
-          :max="11"
-          class="time-picker-input"
+          :max="23"
+          :class="{
+            'time-picker-input': true,
+            pressed: state.editingValue === 'hour'
+          }"
           input-message=""
-          @click="editingValue = 'hour'"
+          is-integer
+          zero-pad
+          @click="state.editingValue = 'hour'"
         />
         <span class="time-picker-separator">:</span>
         <InputNumber
-          v-model="minutes"
+          :model-value="state.minutes"
+          @update:model-value="value => (state.minutes = +value)"
           :min="0"
           :max="59"
-          class="time-picker-input"
+          :class="{
+            'time-picker-input': true,
+            pressed: state.editingValue === 'minute'
+          }"
           input-message=""
-          @click="editingValue = 'minute'"
+          is-integer
+          zero-pad
+          @click="state.editingValue = 'minute'"
         />
-
-        <div class="time-picker-ampm">
-          <button :class="{ active: period === 'AM' }" @click="setPeriod('AM')">
-            AM
-          </button>
-          <button :class="{ active: period === 'PM' }" @click="setPeriod('PM')">
-            PM
-          </button>
-        </div>
       </div>
 
       <!-- CLOCK -->
       <div
+        v-if="state.openClock"
         class="time-picker-clock"
         ref="clockRef"
         @mousedown="startDrag"
         @click="handleClick"
       >
-        <div class="clock-face" v-if="editingValue === 'hour'">
+        <!-- HOURS -->
+        <div class="clock-face" v-if="state.editingValue === 'hour'">
           <div class="clock-hand" :style="handStyleHours"></div>
+
+          <!-- OUTER RING 1–12 -->
           <div
             v-for="n in 12"
-            :key="n"
-            class="clock-number"
-            :style="numberStyle(n * 5)"
+            :key="'outer-' + n"
+            :class="{
+              'clock-number': true,
+              active: n === Number(state.hours)
+            }"
+            :style="numberStyle(n, 100)"
           >
             {{ n }}
           </div>
+
+          <!-- INNER RING 13–24 -->
+          <div
+            v-for="n in 12"
+            :key="'inner-' + n"
+            :class="{
+              'clock-number': true,
+              active: n + 12 === (Number(state.hours) || 24)
+            }"
+            :style="numberStyle(n + 12, 70)"
+          >
+            {{ n + 12 }}
+          </div>
         </div>
+
+        <!-- MINUTES -->
         <div class="clock-face" v-else>
           <div class="clock-hand" :style="handStyleMinutes"></div>
           <div
-            v-for="n in 60"
+            v-for="n in Array.from({ length: 60 }, (_, i) => i)"
             :key="n"
-            class="clock-number"
-            :style="numberStyle(n)"
+            :class="{
+              'clock-number': true,
+              active: n === Number(state.minutes || 0)
+            }"
+            :style="numberStyle(n / 5, 100)"
           >
-            {{ n % 5 ? '' : n }}
+            <div
+              v-if="n === Number(state.minutes) && n % 5"
+              class="clock-number__dot"
+            />
+            {{ n % 5 ? '' : n % 60 }}
           </div>
         </div>
+
+        <div class="clock-hand-center"></div>
       </div>
 
       <div class="time-picker-actions">
-        <button @click="state.openModal = false">Отменить</button>
-        <button @click="saveTime">Сохранить</button>
+        <div
+          class="time-picker-actions__switch"
+          @click="state.openClock = !state.openClock"
+        >
+          <Icon
+            :name="state.openClock ? IconNameEnum.keyboard : IconNameEnum.time"
+          />
+        </div>
+        <Button :type="ButtonTypeEnum.ghost" @click="closeModal"
+          >Отменить</Button
+        >
+        <Button :type="ButtonTypeEnum.primary" @click="saveTime"
+          >Сохранить</Button
+        >
       </div>
     </div>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, onBeforeUnmount } from 'vue';
-import { Dialog, Icon, IconNameEnum, InputNumber } from '@/components';
+import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import {
+  Button,
+  ButtonTypeEnum,
+  Dialog,
+  Icon,
+  IconNameEnum,
+  InputNumber
+} from '@/components';
 
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
+interface IState {
+  openModal: boolean;
+  hours: number | undefined;
+  minutes: number | undefined;
+  editingValue: 'hour' | 'minute';
+  openClock: boolean;
+  localHours: number | undefined;
+  localMinutes: number | undefined;
+}
+
+const props = defineProps<{
+  modelValue?: string | null; // ISO UTC string
 }>();
 
-const hours = ref<number | undefined>();
-const minutes = ref<number | undefined>();
-const editingValue = ref<'hour' | 'minute'>('hour');
-const period = ref<'AM' | 'PM'>('AM');
-const clockRef = ref<HTMLElement | null>(null);
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string | null): void;
+}>();
 
-const state = reactive({
-  openModal: false
+const state = reactive<IState>({
+  openModal: false,
+  hours: undefined,
+  minutes: undefined,
+  editingValue: 'hour',
+  openClock: false,
+  localHours: undefined,
+  localMinutes: undefined
 });
 
-// --------------------
-// DISPLAYED VALUE
-// --------------------
+const clockRef = ref<HTMLElement | null>(null);
+
+// --- Watch modelValue (UTC → local)
+watch(
+  () => props.modelValue,
+  val => {
+    if (val) {
+      const date = new Date(val);
+      state.localHours = date.getHours();
+      state.localMinutes = date.getMinutes();
+    } else {
+      state.localHours = undefined;
+      state.localMinutes = undefined;
+    }
+  },
+  { immediate: true }
+);
+
+// --- Copy local time when modal opens
+watch(
+  () => state.openModal,
+  open => {
+    if (open) {
+      state.hours = Number(state.localHours) || 0;
+      state.minutes = Number(state.localMinutes) || 0;
+    }
+  }
+);
+
+// --- Computed
 const showedValue = computed(() => {
-  if (hours.value !== undefined && minutes.value !== undefined) {
-    return `${String(hours.value).padStart(2, '0')}:${String(
-      minutes.value
-    ).padStart(2, '0')} ${period.value}`;
+  if (state.localHours !== undefined && state.localMinutes !== undefined) {
+    return `${String(state.localHours).padStart(2, '0')}:${String(
+      state.localMinutes
+    ).padStart(2, '0')}`;
   }
   return '-- --';
 });
 
-// --------------------
-// CLOCK HAND STYLES
-// --------------------
 const handStyleHours = computed(() => ({
-  transform: `rotate(${(hours.value ?? 0) * 30}deg)`
+  transform: `rotate(${((state.hours ?? 0) % 12) * 30}deg)`
 }));
 
 const handStyleMinutes = computed(() => ({
-  transform: `rotate(${(minutes.value ?? 0) * 6}deg)`
+  transform: `rotate(${(state.minutes ?? 0) * 6}deg)`
 }));
 
-const numberStyle = (n: number) => {
-  const angle = ((n % 60) / 60) * 360;
-  const radius = 100;
+// --- Dual ring number placement
+function numberStyle(n: number, radius = 100) {
+  const angle = ((n % 12) / 12) * 360;
   const x = radius * Math.sin((angle * Math.PI) / 180);
   const y = -radius * Math.cos((angle * Math.PI) / 180);
   return {
     left: `calc(50% + ${x}px - 24.5px)`,
-    top: `calc(50% + ${y}px - 24.5px)`
+    top: `calc(50% + ${y}px - 23.5px)`
   };
-};
+}
 
-// --------------------
-// CALCULATE ANGLE
-// --------------------
+// --- Clock interaction
 function getAngleFromEvent(event: MouseEvent): number {
   const rect = clockRef.value?.getBoundingClientRect();
   if (!rect) return 0;
@@ -147,21 +245,21 @@ function getAngleFromEvent(event: MouseEvent): number {
   return (angle + 90 + 360) % 360;
 }
 
-// --------------------
-// UPDATE TIME
-// --------------------
 function updateTime(event: MouseEvent) {
   const angle = getAngleFromEvent(event);
-  if (editingValue.value === 'hour') {
-    hours.value = Math.round(angle / 30) % 12;
+  if (state.editingValue === 'hour') {
+    const distance = Math.hypot(
+      event.clientX - (clockRef.value!.getBoundingClientRect().left + 128),
+      event.clientY - (clockRef.value!.getBoundingClientRect().top + 128)
+    );
+    const isInner = distance < 90;
+    const baseHour = Math.round(angle / 30) % 12 || 12;
+    state.hours = (isInner ? baseHour + 12 : baseHour) % 24;
   } else {
-    minutes.value = Math.round(angle / 6) % 60;
+    state.minutes = Math.round(angle / 6) % 60;
   }
 }
 
-// --------------------
-// CLICK & DRAG HANDLERS
-// --------------------
 function handleClick(event: MouseEvent) {
   updateTime(event);
 }
@@ -183,21 +281,43 @@ function stopDrag() {
 
 onBeforeUnmount(() => stopDrag());
 
-// --------------------
-// SAVE
-// --------------------
-function setPeriod(p: 'AM' | 'PM') {
-  period.value = p;
+// --- Modal actions
+function closeModal() {
+  state.openModal = false;
 }
 
+function openModal() {
+  state.editingValue = 'hour';
+  state.openModal = true;
+}
+
+// --- Save local → UTC ISO
 function saveTime() {
-  if (hours.value !== undefined && minutes.value !== undefined) {
-    const timeStr = `${String(hours.value).padStart(2, '0')}:${String(
-      minutes.value
-    ).padStart(2, '0')} ${period.value}`;
-    emits('update:modelValue', timeStr);
-    state.openModal = false;
-  }
+  if (state.hours === undefined || state.minutes === undefined) return;
+  const baseDate = props.modelValue ? new Date(props.modelValue) : new Date();
+  const localDate = new Date(
+    baseDate.getFullYear(),
+    baseDate.getMonth(),
+    baseDate.getDate(),
+    +state.hours,
+    +state.minutes,
+    0,
+    0
+  );
+  const utcString = new Date(localDate.getTime()).toISOString();
+  emits('update:modelValue', utcString);
+  state.localHours = state.hours;
+  state.localMinutes = state.minutes;
+  closeModal();
+}
+
+// --- Clear
+function clearTime() {
+  state.hours = undefined;
+  state.minutes = undefined;
+  state.localHours = undefined;
+  state.localMinutes = undefined;
+  emits('update:modelValue', null);
 }
 </script>
 
@@ -212,7 +332,7 @@ function saveTime() {
   border: 1px solid var(--border-grey);
 
   & .time-picker-select-content {
-    padding: 5px;
+    padding: 4px;
     display: flex;
     align-items: center;
     border-radius: 5px;
@@ -226,11 +346,26 @@ function saveTime() {
     &:active {
       color: var(--blue1);
     }
+
+    & .time-picker-select-clear {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      &:hover {
+        background-color: var(--white);
+      }
+      &:active {
+        color: var(--blue1);
+      }
+    }
   }
 }
 
 .time-picker-dialog {
-  background: #fff;
+  background: var(--white);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   font-family: sans-serif;
@@ -248,10 +383,10 @@ function saveTime() {
     & .time-picker-input {
       width: 96px;
       height: 80px;
-      gap: 0;
-      margin: 0;
-      padding: 0;
       background-color: var(--blue15);
+      &.pressed :deep(.input-yui-kit__input) {
+        color: var(--blue20);
+      }
 
       & :deep(.input-yui-kit__input) {
         padding: 0;
@@ -261,6 +396,10 @@ function saveTime() {
         line-height: 100%;
         text-align: center;
         border: none;
+      }
+
+      & :deep(.pressed) {
+        color: var(--blue1) !important;
       }
 
       & :deep(.input-yui-kit__buttons) {
@@ -285,37 +424,6 @@ function saveTime() {
     gap: 12px;
     margin-top: 24px;
     margin-bottom: 16px;
-
-    .time-picker-ampm {
-      display: flex;
-      flex-direction: column;
-      border: 0.5px solid var(--border-grey);
-      border-radius: 4px;
-      overflow: hidden;
-
-      & button {
-        width: 50px;
-        height: 40px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 100%;
-        color: var(--grey6);
-        overflow: hidden;
-
-        &:first-child {
-          height: 39.5px;
-          border-bottom: 0.5px solid var(--border-grey);
-        }
-
-        &.active {
-          background-color: var(--blue9);
-          color: var(--blue1);
-        }
-      }
-    }
   }
 
   .time-picker-clock {
@@ -339,11 +447,11 @@ function saveTime() {
 
       .clock-hand {
         width: 2px;
-        height: 80px;
-        background: #4285f4;
+        height: 78px;
+        background: var(--blue1);
         position: absolute;
-        top: calc(50% - 80px);
-        left: 50%;
+        top: calc(50% - 79px);
+        left: calc(50% - 3px);
         transform-origin: bottom center;
         transform: rotate(0deg);
       }
@@ -355,27 +463,54 @@ function saveTime() {
         height: 45px;
         text-align: center;
         line-height: 45px;
+        z-index: 2;
+        font-size: 14px;
+
+        &.active {
+          color: var(--white);
+          border-radius: 50%;
+          background: var(--blue1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1;
+        }
+
+        & .clock-number__dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: var(--white);
+        }
       }
+    }
+
+    .clock-hand-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-6px, -5px);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue1);
     }
   }
 
   .time-picker-actions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 8px;
     margin-top: 16px;
+    color: var(--grey6);
 
-    button {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 6px;
+    & .time-picker-actions__switch {
+      height: 24px;
+      margin-right: auto;
       cursor: pointer;
-      background: #4285f4;
-      color: white;
-
-      &:first-child {
-        background: #eee;
-        color: #333;
+      &:hover {
+        color: var(--blue1);
       }
     }
   }

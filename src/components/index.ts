@@ -52,6 +52,7 @@ import Avatar from '@/components/Avatar/Avatar.vue';
 import Tabs from './Tabs/Tabs.vue';
 import ContentEditor from './ContentEditor/ContentEditor.vue';
 import ModalCroppedAvatar from './Cropper/ModalCroppedAvatar.vue';
+import TimePicker from './TimePicker/TimePicker.vue';
 
 import vuePluginRemoveTestid from '@/helpers/vue-plugin-remove-testid';
 import { getFirstTime, getLastTime } from './Calendar/date-utils';
@@ -121,7 +122,8 @@ const components = {
   Tabs,
   ContentEditor,
   ModalCroppedAvatar,
-  Avatar
+  Avatar,
+  TimePicker
 };
 
 const install = (app: App): void => {
