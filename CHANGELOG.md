@@ -78,6 +78,7 @@
 
 ### 🩹 Fixes
 
+
 - Package.json ([3aa99a5](https://github.com/pksep/sep_yui/commit/3aa99a5))
 - Gitignore ([b881fdb](https://github.com/pksep/sep_yui/commit/b881fdb))
 - Position is a modifier of modal-yui-kit ([99dbc8e](https://github.com/pksep/sep_yui/commit/99dbc8e))

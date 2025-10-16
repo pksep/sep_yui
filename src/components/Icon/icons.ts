@@ -1084,8 +1084,8 @@ export const closeTag: IVectorIcon = {
   fill: 'none',
   style: 'line',
   path: `
-    <path d="M7.5 2.5L2.5 7.5" stroke="#757D8A" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M2.5 2.5L7.5 7.5" stroke="#757D8A" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7.5 2.5L2.5 7.5" stroke="currentColor" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2.5 2.5L7.5 7.5" stroke="currentColor" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
 `,
   viewbox: '0 0 10 10'
 };
@@ -1253,5 +1253,15 @@ export const logout: IVectorIcon = {
 <path d="M9.5 21H5.5C4.96957 21 4.46086 20.7893 4.08579 20.4142C3.71071 20.0391 3.5 19.5304 3.5 19V5C3.5 4.46957 3.71071 3.96086 4.08579 3.58579C4.46086 3.21071 4.96957 3 5.5 3H9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M16.5 17L21.5 12L16.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M21.5 12H9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const keyboard: IVectorIcon = {
+  name: IconNameEnum.keyboard,
+  viewbox: '0 0 24 24',
+  style: 'line',
+  fill: 'none',
+  path: `
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M20 5H4C2.9 5 2.01 5.96429 2.01 7.14286L2 17.8571C2 19.0357 2.9 20 4 20H20C21.1 20 22 19.0357 22 17.8571V7.14286C22 5.96429 21.1 5 20 5ZM20 7.14286V17.8571H4V7.14286H20ZM13 8.21429H11V10.3571H13V8.21429ZM11 11.4286H13V13.5714H11V11.4286ZM10 8.21429H8V10.3571H10V8.21429ZM8 11.4286H10V13.5714H8V11.4286ZM7 11.4286H5V13.5714H7V11.4286ZM5 8.21429H7V10.3571H5V8.21429ZM16 14.6429H8V16.7857H16V14.6429ZM14 11.4286H16V13.5714H14V11.4286ZM16 8.21429H14V10.3571H16V8.21429ZM17 11.4286H19V13.5714H17V11.4286ZM19 8.21429H17V10.3571H19V8.21429Z" fill="currentColor"/>
 `
 };
