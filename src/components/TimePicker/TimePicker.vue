@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'time-picker-select': true, disabled: !!props.disabled }">
+  <div :class="{ 'time-picker-select': true, disabled: props.disabled }">
     <div class="time-picker-select-content" @click="openModal">
       <Icon :name="IconNameEnum.time" />
       <span>{{ showedValue }}</span>
@@ -7,7 +7,8 @@
         class="time-picker-select-clear"
         @click.stop="clearTime"
         v-if="
-          state.localHours !== undefined || state.localMinutes !== undefined
+          !props.hideClearButton &&
+          (state.localHours !== undefined || state.localMinutes !== undefined)
         "
       >
         <Icon :name="IconNameEnum.closeTag" :width="16" :height="16" />
@@ -173,6 +174,7 @@ interface IState {
 const props = defineProps<{
   modelValue?: string | null; // ISO UTC string
   disabled?: boolean;
+  hideClearButton?: boolean;
 }>();
 
 const emits = defineEmits<{
