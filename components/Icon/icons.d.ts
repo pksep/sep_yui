@@ -113,3 +113,4 @@ export declare const read: IVectorIcon;
 export declare const addUser: IVectorIcon;
 export declare const noDistrub: IVectorIcon;
 export declare const logout: IVectorIcon;
+export declare const keyboard: IVectorIcon;

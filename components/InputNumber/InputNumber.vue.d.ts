@@ -8,6 +8,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     size: SizesEnum;
     dataTestid: string;
     isInteger: boolean;
+    zeroPad: boolean;
     modelModifiers: () => {};
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: string | number) => void;
@@ -19,6 +20,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     size: SizesEnum;
     dataTestid: string;
     isInteger: boolean;
+    zeroPad: boolean;
     modelModifiers: () => {};
 }>>> & Readonly<{
     "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
@@ -31,6 +33,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     min: number;
     modelModifiers: object;
     isInteger: boolean;
+    zeroPad: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;

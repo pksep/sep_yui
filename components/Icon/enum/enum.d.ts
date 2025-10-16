@@ -104,5 +104,6 @@ export declare enum IconNameEnum {
     addUser = "add-user",
     noDistrub = "no-distrub",
     logout = "logout",
-    minus = "minus"
+    minus = "minus",
+    keyboard = "keyboard"
 }
