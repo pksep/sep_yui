@@ -88,6 +88,7 @@ const props = withDefaults(defineProps<IInputNumberProps>(), {
   size: SizesEnum.medium,
   dataTestid: 'InputNumber',
   isInteger: false,
+  zeroPad: false,
   modelModifiers: () => ({}) // not delete
 });
 
@@ -96,6 +97,20 @@ const state = reactive<IState>({
   inputElement: props.modelValue || (props.min > 0 ? props.min : 0),
   prevValue: ''
 });
+
+const validPattern = /^-?\d{0,10}(\.\d{0,7})?$/;
+
+const inputNumberRef = ref<HTMLInputElement | null>(null);
+
+/**
+ * Добавляет ведущие нули, если zeroPad = true
+ */
+function formatWithZeroPad(value: number | string, digits = 2): string {
+  if (props.zeroPad && !isNaN(+value)) {
+    return String(value).padStart(digits, '0');
+  }
+  return String(value);
+}
 
 watch(
   () => props.isInteger,
@@ -114,20 +129,21 @@ watch([() => props.min, () => props.max], () => {
 
 watch(
   () => props.modelValue,
-  newValue => {
-    state.inputElement = newValue;
+  (newValue, oldValue) => {
+    state.inputElement =
+      props.zeroPad && (!state.isPressed || Number(oldValue) === 0)
+        ? formatWithZeroPad(newValue)
+        : newValue;
   }
 );
 
-const validPattern = /^-?\d{0,10}(\.\d{0,7})?$/;
-
-const inputNumberRef = ref<HTMLInputElement | null>(null);
-
 const handleInput = (e: Event): void => {
-  const newValue = (e.target as HTMLInputElement).value;
-  const formattedValue = getFormateValue(newValue);
+  let newValue = (e.target as HTMLInputElement).value;
+  if (!(props.zeroPad && newValue === '00')) {
+    newValue = getFormateValue(newValue);
+  }
 
-  validateValue(formattedValue);
+  validateValue(newValue);
 
   if (
     !isNaN(+state.inputElement) &&
@@ -271,6 +287,7 @@ const handleBlur = (): void => {
   state.inputElement = `${state.inputElement}`
     .replace(/(\.\d*?[1-9])0+$/, '$1')
     .replace(/\.0+$/, '');
+  state.inputElement = formatWithZeroPad(state.inputElement);
   emits('update:modelValue', state.inputElement);
   state.isPressed = false;
 };
@@ -287,6 +304,7 @@ const upValue = (): void => {
   if (!validPattern.test(`${state.inputElement}`)) {
     state.inputElement = state.prevValue;
   } else {
+    state.inputElement = formatWithZeroPad(state.inputElement);
     emits('update:modelValue', state.inputElement);
   }
   inputNumberRef.value?.focus();
@@ -300,6 +318,7 @@ const downValue = (): void => {
   } else {
     state.inputElement = 0;
   }
+  state.inputElement = formatWithZeroPad(state.inputElement);
   emits('update:modelValue', +state.inputElement);
   inputNumberRef.value?.focus();
 };
