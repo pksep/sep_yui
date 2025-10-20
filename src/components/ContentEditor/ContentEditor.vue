@@ -9,8 +9,9 @@
         class="toolbar-button attach-file-button"
         @click="addLink"
         disabled
-        ><Icon :name="IconNameEnum.paperClip" :width="16" :height="16"
-      /></Button>
+      >
+        <Icon :name="IconNameEnum.paperClip" :width="16" :height="16" />
+      </Button>
 
       <Button
         :type="ButtonTypeEnum.ghost"
@@ -53,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch, onMounted } from 'vue';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
@@ -80,7 +81,7 @@ const SpanNode = Node.create({
   name: 'spanNode',
   inline: true,
   group: 'inline',
-  atom: true, // treated as a single undeletable unit
+  atom: true,
   selectable: false,
   addAttributes() {
     return {
@@ -112,15 +113,14 @@ const SpanNode = Node.create({
   }
 });
 
-/* ------------------ Editor ------------------ */
 const editor = useEditor({
   extensions: [
-    StarterKit,
+    StarterKit.configure({
+      link: false
+    }),
     Link.configure({
       openOnClick: false,
-      HTMLAttributes: {
-        class: 'link'
-      }
+      HTMLAttributes: { class: 'link' }
     }),
     Image,
     Placeholder.configure({
@@ -133,23 +133,19 @@ const editor = useEditor({
   onUpdate: ({ editor }) => {
     modelValue.value = editor.getHTML();
   },
-  parseOptions: {
-    preserveWhitespace: true
-  }
+  parseOptions: { preserveWhitespace: true }
 });
 
-// Watch for external model changes
 watch(modelValue, newVal => {
-  if (editor.value && newVal !== editor.value.getHTML()) {
-    editor.value?.commands.setContent(newVal ?? '', {
+  if (editor?.value && newVal !== editor.value.getHTML()) {
+    editor.value.commands.setContent(newVal ?? '', {
       parseOptions: { preserveWhitespace: true }
     });
   }
 });
 
-/* ------------------ Toolbar actions ------------------ */
 function addLink() {
-  if (!editor.value) return;
+  if (!editor?.value) return;
   const url = prompt('Enter URL:');
   if (url) {
     editor.value
@@ -162,13 +158,13 @@ function addLink() {
 }
 
 function addEmoji(emoji: { i: string }) {
-  if (!editor.value) return;
+  if (!editor?.value) return;
   editor.value.chain().focus().insertContent(emoji.i).run();
   showEmojiPicker.value = false;
 }
 
 function attachFile() {
-  if (!editor.value) return;
+  if (!editor?.value) return;
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = 'image/*';
@@ -190,23 +186,19 @@ function attachFile() {
 }
 
 function handleSave() {
-  if (editor.value) {
-    emits('unmount-send', { content: editor.value.getHTML() });
-  }
+  if (!editor?.value) return;
+  emits('unmount-send', { content: editor.value.getHTML() });
 }
 
 /* ------------------ Insert undeletable span ------------------ */
 function addSpanLink(content: string) {
-  if (!editor.value) return;
+  if (!editor?.value) return;
   editor.value
     .chain()
     .focus()
     .insertContent({
       type: 'spanNode',
-      attrs: {
-        content: content + ',',
-        class: 'link'
-      }
+      attrs: { content: content + ',', class: 'link' }
     })
     .run();
 }
@@ -219,24 +211,19 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
-watch(editor, ed => {
-  if (ed) {
-    const el = ed.view.dom;
-    el.addEventListener('keydown', handleKeydown);
-  }
-});
+/* ------------------ Safe editor event listeners ------------------ */
+onMounted(() => {
+  if (!editor?.value?.view?.dom) return;
+  const el = editor.value.view.dom;
+  el.addEventListener('keydown', handleKeydown);
 
-onBeforeUnmount(() => {
-  if (editor.value) {
-    const el = editor.value.view.dom;
+  onBeforeUnmount(() => {
     el.removeEventListener('keydown', handleKeydown);
-    editor.value.destroy();
-  }
+    editor?.value?.destroy();
+  });
 });
 
-defineExpose({
-  addSpanLink
-});
+defineExpose({ addSpanLink });
 </script>
 
 <style>
@@ -255,6 +242,7 @@ defineExpose({
     }
   }
 }
+
 .toolbar {
   display: flex;
   gap: 8px;
