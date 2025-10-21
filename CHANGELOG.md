@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.116
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.115...v0.1.116)
+
+### 🚀 Enhancements
+
+- New exported members ([f23ee7f](https://github.com/pksep/sep_yui/commit/f23ee7f))
+
+### 🩹 Fixes
+
+- Editor content ([4aac36f](https://github.com/pksep/sep_yui/commit/4aac36f))
+
 ## v0.1.115
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.114...v0.1.115)
