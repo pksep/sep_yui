@@ -63,11 +63,12 @@ import { ButtonTypeEnum } from './Button/enum/enum';
 import { ColorsEnum } from '../common/colors';
 import { BadgesTypeEnum } from './Badges/enum/enum';
 import { ImageExtensionsEnum, VideoExtensionsEnum } from '../common/extentions';
-import { InputTypeEnum } from './Input/enum/enum';
+import { InputTypeEnum, TextFieldEnum } from './Input/enum/enum';
 import { TextareaTypeEnum } from './Textarea/enum';
+import { CheckboxSizeEnum } from './Checkbox/enum/enum';
 
 declare const _default: {
     install: (app: App) => void;
 };
 export default _default;
-export { Accordion, Badges, BreadCrumbs, Button, Dialog, Card, Calendar, DragAndDrop, Switch, SelectList, Dropdown, Textarea, Filter, Icon, Input, Combobox, InputNumber, Search, PushNotification, Picture, Scroll, Modal, Slider, Checkbox, Toggle, UserMenu, CopyIcon, Loader, FilterTag, CircularProgress, Popover, Table, TableSimple, TableNew, TableRow, TableRowNew, TableTd, TableTh, SectionTableRow, HeadTableRow, HeadTableRowNew, PopoverHover, ScrollWrapper, Radio, Tooltip, BaseFilter, Range, Avatar, Tabs, ContentEditor, ModalCroppedAvatar, TimePicker, type IDialogProps, type IRangeForDatePicker, type OptionsObject, type IDataTestIdProp, IconNameEnum, SizesEnum, ButtonTypeEnum, ColorsEnum, ImageExtensionsEnum, BadgesTypeEnum, VideoExtensionsEnum, InputTypeEnum, TextareaTypeEnum, getLastTime, getFirstTime, vuePluginRemoveTestid };
+export { Accordion, Badges, BreadCrumbs, Button, Dialog, Card, Calendar, DragAndDrop, Switch, SelectList, Dropdown, Textarea, Filter, Icon, Input, Combobox, InputNumber, Search, PushNotification, Picture, Scroll, Modal, Slider, Checkbox, Toggle, UserMenu, CopyIcon, Loader, FilterTag, CircularProgress, Popover, Table, TableSimple, TableNew, TableRow, TableRowNew, TableTd, TableTh, SectionTableRow, HeadTableRow, HeadTableRowNew, PopoverHover, ScrollWrapper, Radio, Tooltip, BaseFilter, Range, Avatar, Tabs, ContentEditor, ModalCroppedAvatar, TimePicker, type IDialogProps, type IRangeForDatePicker, type OptionsObject, type IDataTestIdProp, CheckboxSizeEnum, TextFieldEnum, IconNameEnum, SizesEnum, ButtonTypeEnum, ColorsEnum, ImageExtensionsEnum, BadgesTypeEnum, VideoExtensionsEnum, InputTypeEnum, TextareaTypeEnum, getLastTime, getFirstTime, vuePluginRemoveTestid };
