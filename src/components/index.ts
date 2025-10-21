@@ -69,6 +69,8 @@ import { BadgesTypeEnum } from './Badges/enum/enum';
 import { ImageExtensionsEnum, VideoExtensionsEnum } from '@/common/extentions';
 import { InputTypeEnum } from './Input/enum/enum';
 import { TextareaTypeEnum } from './Textarea/enum';
+import { TextFieldEnum } from './Input/enum/enum';
+import { CheckboxSizeEnum } from './Checkbox/enum/enum';
 
 const components = {
   Accordion,
@@ -195,6 +197,8 @@ export {
   type IRangeForDatePicker,
   type OptionsObject,
   type IDataTestIdProp,
+  CheckboxSizeEnum,
+  TextFieldEnum,
   IconNameEnum,
   SizesEnum,
   ButtonTypeEnum,
