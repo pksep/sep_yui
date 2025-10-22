@@ -2,14 +2,17 @@ import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ISwitchProps>, {
     dataTestid: string;
+    theme: string;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (event: IChangeSwitchEmit) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ISwitchProps>, {
     dataTestid: string;
+    theme: string;
 }>>> & Readonly<{
     onChange?: ((event: IChangeSwitchEmit) => any) | undefined;
 }>, {
     dataTestid: string;
+    theme: "default" | "contrast";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
