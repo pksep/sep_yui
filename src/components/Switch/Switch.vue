@@ -1,5 +1,9 @@
 <template>
-  <ul class="switch-yui-kit-list" :data-testid="props.dataTestid">
+  <ul
+    class="switch-yui-kit-list"
+    :class="switchClass"
+    :data-testid="props.dataTestid"
+  >
     <li
       v-for="(item, index) of props.items"
       :key="item"
@@ -8,7 +12,7 @@
       :data-testid="`${props.dataTestid}-Item${index}`"
     >
       <Icon
-        :name="item as IconNameEnum"
+        :name="item"
         v-if="props.isIcons"
         :data-testid="`${props.dataTestid}-Item-Icon${index}`"
       />
@@ -20,27 +24,29 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, watch } from 'vue';
+import { computed, onMounted, reactive, watch } from 'vue';
 import Icon from '@/components/Icon/Icon.vue';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
-import { IconNameEnum } from '../Icon/enum/enum';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {
-  dataTestid: 'Switch'
-});
-
-const state = reactive({
-  activeIndex: 0
+  dataTestid: 'Switch',
+  theme: 'default'
 });
 
 const emit = defineEmits<{
   (e: 'change', event: IChangeSwitchEmit): void;
 }>();
 
-/**
- * @param index:  number
- * @returns
- */
+const state = reactive({
+  activeIndex: 0
+});
+
+const switchClass = computed(() => [
+  {
+    'switch-yui-kit-list_default': props.theme === 'default',
+    'switch-yui-kit-list_contrast': props.theme === 'contrast'
+  }
+]);
 
 /**
  * Устанавливает и вычисляет классы для элементов списка
@@ -94,8 +100,12 @@ onMounted(() => {
   gap: 6px;
   width: inherit;
   border-radius: 5px;
-  background-color: $WHITE;
+  background-color: var(--white);
   margin: 0;
+}
+
+.switch-yui-kit-list_contrast {
+  background-color: var(--blue15);
 }
 
 .switch-yui-kit-item {
