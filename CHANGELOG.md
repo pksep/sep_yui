@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.117
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.116...v0.1.117)
+
+### 🚀 Enhancements
+
+- Added theme to switch ([4283bc7](https://github.com/pksep/sep_yui/commit/4283bc7))
+
 ## v0.1.116
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.115...v0.1.116)
