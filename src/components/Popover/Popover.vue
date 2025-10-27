@@ -91,6 +91,7 @@ const state = reactive<IPopoverState>({
   isShow: false
 });
 
+const isSupportAnchor = CSS.supports('top', 'anchor(bottom)');
 const id = useId();
 
 const anchorName = computed(() => `--anchor-popover-${id}`);
@@ -128,11 +129,8 @@ const handleClick = (item: IPopoverOption): void => {
  */
 const setCssPosition = (): void => {
   requestAnimationFrame(() => {
-    if (!reference.value || !floating.value) return;
-    const setedStyles: Record<string, string> = {
-      '--popover-top': '0',
-      '--popover-left': '0'
-    };
+    if (!reference.value || !floating.value || !state.isShow) return;
+    const setedStyles: Record<string, string> = {};
 
     const rect = reference.value.getBoundingClientRect();
 
@@ -166,9 +164,47 @@ const setCssPosition = (): void => {
 
     setedStyles['--popover-top'] = `${top}px`;
     setedStyles['--popover-left'] = `${left}px`;
-
     changeStyleProperties(setedStyles, floating.value);
+
+    /**
+     * Получаем направление относительно горизонтального края
+     */
+    const setDirect = (): void => {
+      if (!floating.value) return;
+      const floatingRect = floating.value.getBoundingClientRect();
+
+      // Если элемент расположен за правой границей, то меняем ему направление на лево
+      if (floatingRect.right > window.innerWidth) {
+        if (isSupportAnchor) {
+          setedStyles['--popover-right'] = `anchor(right) `;
+        } else {
+          setedStyles['--popover-right'] =
+            `${rect.right - floatingRect.width}px`;
+        }
+      }
+    };
+
+    setDirect();
+
+    if (setedStyles['--popover-right']) {
+      setedStyles.left = 'auto';
+      changeStyleProperties(setedStyles, floating.value);
+    }
   });
+};
+
+/**
+ * Проверяем на попадание в другие элементы над элементом, открывающим popover
+ * @param el
+ */
+const checkCovered = (el: Element): void => {
+  const rect = el.getBoundingClientRect();
+  const topEl = document.elementFromPoint(rect.left, rect.top);
+  const bottomEl = document.elementFromPoint(rect.right, rect.bottom);
+
+  if (!(topEl && el.contains(topEl)) && !(bottomEl && el.contains(bottomEl))) {
+    closeShow();
+  }
 };
 
 const intersectionObeserver = new IntersectionObserver(entries => {
@@ -194,6 +230,26 @@ const executeObservers = (): void => {
   }
 };
 
+const setCheckCovered = (): void => {
+  if (reference.value) {
+    window.addEventListener(
+      'scroll',
+      checkCovered.bind(null, reference.value),
+      true
+    );
+  }
+};
+
+const removeCheckCovered = (): void => {
+  if (reference.value) {
+    window.removeEventListener(
+      'scroll',
+      checkCovered.bind(null, reference.value),
+      true
+    );
+  }
+};
+
 watch(
   () => props.isShow,
   () => (state.isShow = props.isShow)
@@ -202,11 +258,17 @@ watch(
 watch(
   () => state.isShow,
   () => {
-    // если поддерживается anchor, то ничего не отслеживаем
-    if (CSS.supports('top', 'anchor(bottom)')) return;
-
     if (state.isShow) {
       setCssPosition();
+      setCheckCovered();
+    } else {
+      removeCheckCovered();
+    }
+
+    // если поддерживается anchor, то ничего не отслеживаем
+    if (isSupportAnchor) return;
+
+    if (state.isShow) {
       setObservers();
     } else {
       executeObservers();
@@ -237,13 +299,18 @@ onMounted(() => {
   }
 
   // Поддерживаем старые браузеры
-  if (!CSS.supports('top', 'anchor(bottom)')) {
+  if (isSupportAnchor) {
     setCssPosition();
   }
 });
 
 onUnmounted(() => {
   intersectionObeserver.disconnect();
+
+  removeCheckCovered();
+  if (!isSupportAnchor) {
+    executeObservers();
+  }
 });
 </script>
 
@@ -293,13 +360,15 @@ onUnmounted(() => {
 
   @supports (top: anchor(bottom)) {
     top: calc(anchor(bottom) + 10px);
-    left: anchor(left);
+    left: var(--popover-left, anchor(left));
+    right: var(--popover-right);
   }
 
   @supports not (top: anchor(bottom)) {
     position: absolute;
     top: var(--popover-top);
     left: var(--popover-left);
+    right: var(--popover-right);
   }
 
   & .popover-yui-kit__options__item {
