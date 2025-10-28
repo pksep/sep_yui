@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.118
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.117...v0.1.118)
+
+### 🚀 Enhancements
+
+- Changed logic open popover ([095f821](https://github.com/pksep/sep_yui/commit/095f821))
+- Added direction on horizontal window width ([25ce537](https://github.com/pksep/sep_yui/commit/25ce537))
+- Added support to dialog ([475de5a](https://github.com/pksep/sep_yui/commit/475de5a))
+
 ## v0.1.117
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.116...v0.1.117)
