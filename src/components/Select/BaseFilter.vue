@@ -169,10 +169,7 @@ const emits = defineEmits<IBaseFilterEmit>();
 const badgesRef = ref<InstanceType<typeof Badges> | null>(null);
 const lastOptionRef = ref<HTMLElement | null>(null);
 
-const model = defineModel<string | string[]>({
-  default: []
-});
-
+const model = defineModel<string | string[]>();
 const isOpened = ref<boolean>(props.isOpened);
 
 watch(isOpened, () => emits('unmount-open', isOpened.value));
