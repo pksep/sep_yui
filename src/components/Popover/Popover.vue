@@ -28,7 +28,7 @@
         />
       </div>
 
-      <Teleport to="body">
+      <Teleport :to="toTeleport">
         <Transition name="popover-animate">
           <div
             v-if="props.options?.length"
@@ -89,6 +89,14 @@ const emits = defineEmits<{
 
 const state = reactive<IPopoverState>({
   isShow: false
+});
+
+const toTeleport = computed(() => {
+  const dialog = reference.value?.closest('dialog');
+
+  if (dialog) return dialog;
+
+  return 'body';
 });
 
 const isSupportAnchor = CSS.supports('top', 'anchor(bottom)');
@@ -158,12 +166,16 @@ const setCssPosition = (): void => {
       // Добавляем смещение относительно скролл диалога
       top += dialogScrollTop;
       left += dialogScrollLeft;
+
+      top += 10;
     }
 
     top += 10;
 
     setedStyles['--popover-top'] = `${top}px`;
-    setedStyles['--popover-left'] = `${left}px`;
+    // Если не поддерживает anchor, то устанавливаем позицию по горизонту
+    if (!isSupportAnchor) setedStyles['--popover-left'] = `${left}px`;
+
     changeStyleProperties(setedStyles, floating.value);
 
     /**
