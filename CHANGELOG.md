@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.121
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.120...v0.1.121)
+
+### 🚀 Enhancements
+
+- Update readme ([1047309](https://github.com/pksep/sep_yui/commit/1047309))
+- Disabled teleport optional option ([6d62111](https://github.com/pksep/sep_yui/commit/6d62111))
+
 ## v0.1.120
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.119...v0.1.120)
