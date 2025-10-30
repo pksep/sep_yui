@@ -15,6 +15,7 @@ export interface IPopoverProps extends IDataTestIdProp {
     options: IPopoverOption[];
     tooltip?: string;
     tooltipPosition?: TTooltipPosition;
+    isWCUse?: boolean;
 }
 export interface IPopoverHoverProps extends IDataTestIdProp {
     position: PopoverHoverEnum;
