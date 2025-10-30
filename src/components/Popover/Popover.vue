@@ -28,7 +28,7 @@
         />
       </div>
 
-      <Teleport :to="toTeleport">
+      <Teleport :to="toTeleport" :disabled="props.isWCUse">
         <Transition name="popover-animate">
           <div
             v-if="props.options?.length"
@@ -311,7 +311,7 @@ onMounted(() => {
   }
 
   // Поддерживаем старые браузеры
-  if (isSupportAnchor) {
+  if (!isSupportAnchor) {
     setCssPosition();
   }
 });
