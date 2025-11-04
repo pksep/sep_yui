@@ -328,7 +328,7 @@ button.mobile-buttons {
   height: 0;
 }
 
-@media screen and (width <= 412px) {
+@media screen and (width <= 450px) {
   button.ghost-yui-kit.mobile-buttons {
     display: grid;
     background-color: transparent !important;
