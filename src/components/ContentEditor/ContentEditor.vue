@@ -1,6 +1,29 @@
 <template>
   <div class="editor-component">
+    <Button
+      :type="ButtonTypeEnum.ghost"
+      :size="SizesEnum.small"
+      class="toolbar-button attach-file-button mobile-buttons"
+      @click="addLink"
+      disabled
+    >
+      <Icon :name="IconNameEnum.paperClip" />
+    </Button>
+
     <EditorContent class="editor-content" :editor="editor" />
+
+    <Button
+      :type="ButtonTypeEnum.ghost"
+      :size="SizesEnum.small"
+      class="toolbar-button mobile-buttons"
+      @click="showEmojiPicker = !showEmojiPicker"
+      disabled
+    >
+      <Icon :name="IconNameEnum.smile" />
+      <div @click.stop class="emoji-picker" v-if="showEmojiPicker">
+        <EmojiPicker :native="true" @select="addEmoji" />
+      </div>
+    </Button>
 
     <div class="toolbar">
       <Button
@@ -248,41 +271,49 @@ defineExpose({ addSpanLink });
   gap: 8px;
   height: 30px;
   margin: 0 16px 16px;
+}
 
-  .toolbar-button {
-    min-height: 30px !important;
-    position: relative;
+.toolbar-button {
+  min-height: 30px !important;
+  position: relative;
 
-    & .emoji-picker {
-      position: absolute;
-      bottom: 50px;
-      left: 0;
-    }
-
-    &.right {
-      margin-left: auto;
-    }
+  & .emoji-picker {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
   }
 
-  .primary-yui-kit,
-  .ghost-yui-kit {
+  &.right {
+    margin-left: auto;
+  }
+}
+
+button.ghost-yui-kit.mobile-buttons {
+  display: none;
+}
+
+button.toolbar-button,
+button.mobile-buttons {
+  &.button-yui-kit.primary-yui-kit,
+  &.button-yui-kit.ghost-yui-kit {
     padding: 7px 8px !important;
     width: 32px;
     color: var(--grey5);
     &:not(.right) path {
       stroke-width: 1.5px;
     }
-    &:disabled {
-      background-color: var(--grey1) !important;
-      color: var(--grey7) !important;
+    &:disabled,
+    &.disable-yui-kit {
+      background-color: var(--grey1);
+      color: var(--grey7);
     }
   }
-
-  .ghost-yui-kit {
+  &.ghost-yui-kit.button-yui-kit,
+  &.ghost-yui-kit.button-yui-kit.disable-yui-kit {
     &:not(:disabled) {
-      background-color: var(--blue15) !important;
+      background-color: var(--blue15);
       &:hover {
-        background-color: var(--blue10) !important;
+        background-color: var(--blue10);
       }
     }
   }
@@ -295,5 +326,29 @@ defineExpose({ addSpanLink });
   pointer-events: none;
   float: left;
   height: 0;
+}
+
+@media screen and (width <= 412px) {
+  button.ghost-yui-kit.mobile-buttons {
+    display: grid;
+    background-color: transparent !important;
+    & svg.icon-yui-kit {
+      font-size: 27px;
+    }
+  }
+  .editor-component {
+    display: grid;
+    grid-template-columns: minmax(27px, min-content) 1fr auto;
+    align-items: center;
+    padding: 16px;
+    gap: 16px;
+    min-height: 59px;
+    & .tiptap {
+      padding: 0;
+    }
+  }
+  .toolbar {
+    display: none;
+  }
 }
 </style>
