@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.1.123
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.122...v0.1.123)
+
+### 🚀 Enhancements
+
+- Add mobile buttons of editor ([bc3f01e](https://github.com/pksep/sep_yui/commit/bc3f01e))
+
+### 🩹 Fixes
+
+- Smaller max-width ([efe200e](https://github.com/pksep/sep_yui/commit/efe200e))
+- Change width screen of mobile content editor ([e04aa5c](https://github.com/pksep/sep_yui/commit/e04aa5c))
+
 ## v0.1.122
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.121...v0.1.122)
