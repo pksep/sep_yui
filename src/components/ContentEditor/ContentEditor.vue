@@ -12,18 +12,30 @@
 
     <EditorContent class="editor-content" :editor="editor" />
 
-    <Button
-      :type="ButtonTypeEnum.ghost"
-      :size="SizesEnum.small"
-      class="toolbar-button mobile-buttons"
-      @click="showEmojiPicker = !showEmojiPicker"
-      disabled
-    >
-      <Icon :name="IconNameEnum.smile" />
-      <div @click.stop class="emoji-picker" v-if="showEmojiPicker">
-        <EmojiPicker :native="true" @select="addEmoji" />
-      </div>
-    </Button>
+    <div class="right-buttons">
+      <Button
+        :type="ButtonTypeEnum.ghost"
+        :size="SizesEnum.small"
+        class="toolbar-button mobile-buttons"
+        @click="showEmojiPicker = !showEmojiPicker"
+        disabled
+      >
+        <Icon :name="IconNameEnum.smile" />
+        <div @click.stop class="emoji-picker" v-if="showEmojiPicker">
+          <EmojiPicker :native="true" @select="addEmoji" />
+        </div>
+      </Button>
+
+      <Button
+        v-show="!editor?.isEmpty"
+        :type="ButtonTypeEnum.ghost"
+        :size="SizesEnum.small"
+        class="toolbar-button right mobile-buttons"
+        @click="handleSave"
+      >
+        <Icon :name="IconNameEnum.planeRightFill" :width="21" :height="21" />
+      </Button>
+    </div>
 
     <div class="toolbar">
       <Button
@@ -273,6 +285,10 @@ defineExpose({ addSpanLink });
   margin: 0 16px 16px;
 }
 
+.right-buttons {
+  display: none;
+}
+
 .toolbar-button {
   min-height: 30px !important;
   position: relative;
@@ -340,15 +356,22 @@ button.mobile-buttons {
     display: grid;
     grid-template-columns: minmax(27px, min-content) 1fr auto;
     align-items: center;
-    padding: 16px;
+    padding: 8px;
     gap: 16px;
-    min-height: 59px;
+    min-height: 17px;
     & .tiptap {
-      padding: 0;
+      padding: 5px;
     }
   }
   .toolbar {
     display: none;
+  }
+  .right-buttons {
+    display: flex;
+    gap: 8px;
+    & button.button-yui-kit.ghost-yui-kit.right {
+      color: var(--blue1);
+    }
   }
 }
 </style>
