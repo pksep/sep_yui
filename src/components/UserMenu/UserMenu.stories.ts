@@ -44,7 +44,7 @@ export const Default = Template.bind({});
 Default.args = {
   user: {
     name: 'David Perov',
-    role: 'admin',
+    role: 'Администратор',
     avatar: '/default-avatar.jpg'
   },
   languages: {

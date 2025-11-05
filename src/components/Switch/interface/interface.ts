@@ -1,9 +1,8 @@
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
-import { IconNameEnum } from '@/components/Icon/enum/enum';
 
 export interface ISwitchProps extends IDataTestIdProp {
-  items: IconNameEnum[];
-  defaultValue?: IconNameEnum;
+  items: string[];
+  defaultValue?: string;
   isIcons?: boolean;
   theme?: 'default' | 'contrast';
 }

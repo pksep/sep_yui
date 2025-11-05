@@ -326,8 +326,8 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-@global (body) {
+<style scoped>
+:global(body) {
   anchor-scope: all;
 }
 

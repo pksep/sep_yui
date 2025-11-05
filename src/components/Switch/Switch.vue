@@ -12,7 +12,7 @@
       :data-testid="`${props.dataTestid}-Item${index}`"
     >
       <Icon
-        :name="item"
+        :name="item as IconNameEnum"
         v-if="props.isIcons"
         :data-testid="`${props.dataTestid}-Item-Icon${index}`"
       />
@@ -26,6 +26,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, reactive, watch } from 'vue';
 import Icon from '@/components/Icon/Icon.vue';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {
