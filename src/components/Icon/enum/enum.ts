@@ -105,5 +105,6 @@ export enum IconNameEnum {
   noDistrub = 'no-distrub',
   logout = 'logout',
   minus = 'minus',
-  keyboard = 'keyboard'
+  keyboard = 'keyboard',
+  planeRightFill = 'plane-right-fill'
 }
