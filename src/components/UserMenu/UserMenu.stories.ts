@@ -1,5 +1,5 @@
 import { StoryFn, Meta } from '@storybook/vue3';
-import UserMenu from './UserMenu';
+import UserMenu from './UserMenu.vue';
 import { StorybookControlEnum } from '../../common/storybook';
 
 const meta = {

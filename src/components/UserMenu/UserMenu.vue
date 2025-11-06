@@ -1,12 +1,6 @@
 <template>
   <div class="menu-yui-kit" :data-testid="props.dataTestid">
     <div class="menu-yui-kit__wrapper">
-      <Avatar
-        class="menu-yui-kit__avatar"
-        :url="props.user.avatar"
-        alt="user-avatar"
-        :data-testid="`${props.dataTestid}-Avatar`"
-      />
       <PopoverWrapper
         :open="state.isShow"
         @unmount-close="state.isShow = false"
@@ -15,6 +9,12 @@
       >
         <template #trigger>
           <div :class="classes" @click="toggleShow">
+            <Avatar
+              class="menu-yui-kit__avatar"
+              :url="props.user.avatar"
+              alt="user-avatar"
+              :data-testid="`${props.dataTestid}-Avatar`"
+            />
             <div class="menu-yui-kit__names">
               <p class="menu-yui-kit__name">{{ props.user.name }}</p>
               <p class="menu-yui-kit__role">{{ props.user.role }}</p>
@@ -143,9 +143,6 @@ function handleLanguageSwitch(object: IChangeSwitchEmit) {
   display: flex;
   align-items: center;
   gap: 25px;
-  position: relative;
-  max-width: fit-content;
-  min-width: 212px;
 
   & .menu-yui-kit__wrapper {
     display: flex;
@@ -212,8 +209,8 @@ function handleLanguageSwitch(object: IChangeSwitchEmit) {
 .menu-yui-kit__avatar {
   --size-avatar: 40px;
   & :deep(img.user__image) {
-    height: 40px;
-    width: 40px;
+    height: var(--size-avatar);
+    width: var(--size-avatar);
   }
 }
 </style>
