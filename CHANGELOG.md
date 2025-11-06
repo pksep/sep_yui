@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.126
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.125...v0.1.126)
+
+### 🚀 Enhancements
+
+- Added disabled props and updated styles ([ffa3af8](https://github.com/pksep/sep_yui/commit/ffa3af8))
+
 ## v0.1.125
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.112...v0.1.125)
