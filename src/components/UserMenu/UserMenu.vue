@@ -1,9 +1,9 @@
 <template>
   <div class="menu-yui-kit" :data-testid="props.dataTestid">
     <div class="menu-yui-kit__wrapper">
-      <PopoverWrapper
+      <Popover
         :open="state.isShow"
-        @unmount-close="state.isShow = false"
+        @close="state.isShow = false"
         placement="bottom-start"
         :data-testid="`${props.dataTestid}-Popover`"
       >
@@ -36,7 +36,7 @@
           @theme-change="toggleThemeChange"
           @language-switch="handleLanguageSwitch"
         />
-      </PopoverWrapper>
+      </Popover>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 import Avatar from '../Avatar/Avatar.vue';
-import PopoverWrapper from '@/components/Calendar/PopoverWrapper.vue';
+import Popover from '../Popover/Popover.vue';
 import UserMenuList from './UserMenuList.vue';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
@@ -152,20 +152,16 @@ function handleLanguageSwitch(object: IChangeSwitchEmit) {
     width: 100%;
   }
 
-  & .menu-yui-kit__names {
-    max-width: 94px;
-  }
-
   & .menu-yui-kit__heading {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 5px 10px 3px 15px;
+    padding: 6px;
     border-radius: 3px;
-    gap: 20px;
+    gap: 10px;
     cursor: pointer;
     width: 100%;
-    height: 40px;
+    height: 52px;
+    width: 211px;
 
     &.active-yui-kit {
       background-color: var(--blue9);
@@ -193,11 +189,11 @@ function handleLanguageSwitch(object: IChangeSwitchEmit) {
   & .menu-yui-kit__button {
     background-color: transparent;
     padding: 0;
-    margin-right: 0;
+    margin-left: auto;
     height: inherit;
     & .menu-yui-kit__button-icon {
-      width: 16px;
-      height: 16px;
+      font-size: 16px;
+      stroke-width: 2px;
     }
 
     &:hover {

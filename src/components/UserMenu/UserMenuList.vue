@@ -101,7 +101,7 @@ function handleThemeSwitch(obj: IChangeSwitchEmit) {
 <style scoped>
 .menu-yui-kit__list {
   padding: 0;
-  width: 100%;
+  width: 211px;
 }
 
 .list-yui-kit {
