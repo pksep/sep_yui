@@ -5,6 +5,7 @@ export interface ISwitchProps extends IDataTestIdProp {
   items: IconNameEnum[];
   defaultValue?: IconNameEnum;
   isIcons?: boolean;
+  disabled?: boolean;
   theme?: 'default' | 'contrast';
 }
 

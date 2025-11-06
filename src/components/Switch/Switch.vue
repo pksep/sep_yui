@@ -8,8 +8,8 @@
       v-for="(item, index) of props.items"
       :key="item"
       :class="getClasses(index)"
-      @click="toChooseItem(index)"
       :data-testid="`${props.dataTestid}-Item${index}`"
+      @click="toChooseItem(index)"
     >
       <Icon
         :name="item"
@@ -44,7 +44,8 @@ const state = reactive({
 const switchClass = computed(() => [
   {
     'switch-yui-kit-list_default': props.theme === 'default',
-    'switch-yui-kit-list_contrast': props.theme === 'contrast'
+    'switch-yui-kit-list_contrast': props.theme === 'contrast',
+    'switch-yui-kit-list_disabled': props.disabled
   }
 ]);
 
@@ -53,7 +54,10 @@ const switchClass = computed(() => [
  */
 const getClasses = (index: number) => ({
   'switch-yui-kit-item': true,
-  'switch-yui-kit-active': state.activeIndex === index
+  'switch-yui-kit-active': state.activeIndex === index,
+  'switch-yui-kit-active_disabled':
+    state.activeIndex === index && props.disabled,
+  'switch-yui-kit-item_disabled': props.disabled
 });
 
 /**
@@ -64,7 +68,11 @@ const getClasses = (index: number) => ({
 /**
  * Получает выбранный элемнт списка, делает его активным и передает его родителю.
  */
-const toChooseItem = (index: number) => {
+const toChooseItem = (index: number): void => {
+  if (state.activeIndex === index) {
+    return;
+  }
+
   state.activeIndex = index;
   emit('change', {
     index,
@@ -102,10 +110,15 @@ onMounted(() => {
   border-radius: 5px;
   background-color: var(--white);
   margin: 0;
+  transition: all 0.3s ease-in-out;
 }
 
 .switch-yui-kit-list_contrast {
   background-color: var(--blue15);
+}
+
+.switch-yui-kit-list_disabled {
+  background-color: var(--grey1);
 }
 
 .switch-yui-kit-item {
@@ -117,12 +130,22 @@ onMounted(() => {
   cursor: pointer;
   width: inherit;
   height: 24px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.switch-yui-kit-item_disabled {
+  pointer-events: none;
+  color: var(--grey7);
+  background-color: var(--grey1);
 }
 
 .switch-yui-kit-active {
-  background-color: $BLUE-77A6FF;
-  color: $WHITE;
-  border-radius: 5px;
-  transition: 0.3s ease-in-out;
+  background-color: var(--blue1);
+  color: var(--white);
+}
+
+.switch-yui-kit-active_disabled {
+  background-color: var(--grey7);
 }
 </style>
