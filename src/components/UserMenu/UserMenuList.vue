@@ -2,46 +2,21 @@
   <div class="menu-yui-kit__list">
     <ul class="list-yui-kit">
       <MenuItem
-        :data-testid="`${props.dataTestid}-Profile-Item`"
-        :iconName="IconNameEnum.profile"
-        text="Profile"
-        :menuType="MenuTypeEnum.profile"
-        @click="choosedOptions"
-      />
-      <MenuItem
-        :data-testid="`${props.dataTestid}-Theme-Item`"
-        :iconName="IconNameEnum.paint"
-        text="Theme"
-        :menuType="MenuTypeEnum.theme"
-        @click="choosedOptions"
+        v-for="menuType in props.categories"
+        :key="menuType"
+        :data-testid="`${props.dataTestid}-${getTestIdSuffix(menuType)}-Item`"
+        :iconName="getIconForType(menuType)"
+        :text="props.texts?.[menuType] ?? getDefaultText(menuType)"
+        :menuType="menuType"
+        :disabled="isDisabled(menuType)"
+        :active="activeItem === menuType"
+        @click="() => choosedOptions(menuType)"
       >
-        <Switch
-          :items="['Light', 'Dark']"
-          :defaultValue="props.isBlackTheme ? 'Dark' : 'Light'"
+        <Toggle
+          v-if="menuType === MenuTypeEnum.theme"
           @change="handleThemeSwitch"
         />
       </MenuItem>
-      <MenuItem
-        :data-testid="`${props.dataTestid}-Settings-Item`"
-        :iconName="IconNameEnum.settings"
-        text="Settings"
-        :menuType="MenuTypeEnum.options"
-        @click="choosedOptions"
-      />
-      <MenuItem
-        :data-testid="`${props.dataTestid}-Exit-Item`"
-        :iconName="IconNameEnum.logout"
-        text="Log Out"
-        :menuType="MenuTypeEnum.exit"
-        @click="choosedOptions"
-      />
-      <MenuItem
-        :data-testid="`${props.dataTestid}-Help-Item`"
-        :iconName="IconNameEnum.help"
-        text="Help"
-        :menuType="MenuTypeEnum.help"
-        @click="choosedOptions"
-      />
     </ul>
 
     <Switch
@@ -55,23 +30,16 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, watch } from 'vue';
 import Switch from '@/components/Switch/Switch.vue';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 import MenuItem from './MenuItem.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { MenuTypeEnum } from './enum/enum';
-import { defineProps, defineEmits, withDefaults } from 'vue';
+import Toggle from '@/components/Toggle/Toggle.vue';
+import type { IMenuProps } from './interface/interface';
 
-interface IUserMenuListProps {
-  dataTestid: string;
-  isBlackTheme: boolean;
-  languages?: {
-    items?: string[];
-    defaultValue?: string;
-  };
-}
-
-const props = withDefaults(defineProps<IUserMenuListProps>(), {
+const props = withDefaults(defineProps<IMenuProps>(), {
   dataTestid: 'UserMenuList'
 });
 
@@ -81,21 +49,67 @@ const emit = defineEmits<{
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
-function choosedOptions(type: MenuTypeEnum) {
+const activeItem = ref<MenuTypeEnum | null>(null);
+
+watch(
+  () => props.menuOpen,
+  newVal => {
+    if (!newVal) activeItem.value = null;
+  }
+);
+
+const choosedOptions = (type: MenuTypeEnum) => {
+  activeItem.value = type;
   emit('click', type);
-}
+};
 
-function toggleThemeChange(value: boolean) {
-  emit('themeChange', value);
-}
-
-function handleLanguageSwitch(obj: IChangeSwitchEmit) {
+const handleLanguageSwitch = (obj: IChangeSwitchEmit) => {
   emit('languageSwitch', obj);
-}
+};
 
-function handleThemeSwitch(obj: IChangeSwitchEmit) {
-  toggleThemeChange(obj.value === 'Dark');
-}
+const handleThemeSwitch = (value: boolean) => {
+  emit('themeChange', value);
+};
+
+const getDefaultText = (type: MenuTypeEnum): string => {
+  const defaults: Record<MenuTypeEnum, string> = {
+    [MenuTypeEnum.profile]: 'Profile',
+    [MenuTypeEnum.qrAuth]: 'Auth with QR',
+    [MenuTypeEnum.theme]: 'Theme',
+    [MenuTypeEnum.options]: 'Settings',
+    [MenuTypeEnum.exit]: 'Log Out',
+    [MenuTypeEnum.help]: 'Help'
+  };
+  return defaults[type] ?? '';
+};
+
+const getIconForType = (type: MenuTypeEnum): IconNameEnum => {
+  const icons: Record<MenuTypeEnum, IconNameEnum> = {
+    [MenuTypeEnum.profile]: IconNameEnum.profile,
+    [MenuTypeEnum.qrAuth]: IconNameEnum.qrCode,
+    [MenuTypeEnum.theme]: IconNameEnum.darkThemeSwitcher,
+    [MenuTypeEnum.options]: IconNameEnum.settings,
+    [MenuTypeEnum.exit]: IconNameEnum.logout,
+    [MenuTypeEnum.help]: IconNameEnum.help
+  };
+  return icons[type] ?? IconNameEnum.profile;
+};
+
+const getTestIdSuffix = (type: MenuTypeEnum): string => {
+  const suffixes: Record<MenuTypeEnum, string> = {
+    [MenuTypeEnum.profile]: 'Profile',
+    [MenuTypeEnum.qrAuth]: 'QR',
+    [MenuTypeEnum.theme]: 'Theme',
+    [MenuTypeEnum.options]: 'Settings',
+    [MenuTypeEnum.exit]: 'Exit',
+    [MenuTypeEnum.help]: 'Help'
+  };
+  return suffixes[type] ?? type;
+};
+
+const isDisabled = (type: MenuTypeEnum): boolean => {
+  return type === MenuTypeEnum.theme || type === MenuTypeEnum.help;
+};
 </script>
 
 <style scoped>
@@ -112,13 +126,18 @@ function handleThemeSwitch(obj: IChangeSwitchEmit) {
   gap: 5px;
 }
 
-.switch-yui-kit-list {
+:deep(ul.switch-yui-kit-list) {
   width: 191px;
-  background-color: var(--blue9);
   padding: 2px;
+  background-color: var(--blue9);
 }
 
-.switch-yui-kit-item {
+:deep(li.switch-yui-kit-item) {
   height: 26px;
+}
+
+.toggle-yui-kit {
+  margin: 0;
+  margin-left: auto;
 }
 </style>

@@ -11,13 +11,13 @@
           <div :class="classes" @click="toggleShow">
             <Avatar
               class="menu-yui-kit__avatar"
-              :url="props.user.avatar"
+              :url="props.user?.avatar"
               alt="user-avatar"
               :data-testid="`${props.dataTestid}-Avatar`"
             />
             <div class="menu-yui-kit__names">
-              <p class="menu-yui-kit__name">{{ props.user.name }}</p>
-              <p class="menu-yui-kit__role">{{ props.user.role }}</p>
+              <p class="menu-yui-kit__name">{{ props.user?.name }}</p>
+              <p class="menu-yui-kit__role">{{ props.user?.role }}</p>
             </div>
             <Button
               :type="ButtonTypeEnum.ghost"
@@ -31,7 +31,10 @@
         <UserMenuList
           :data-testid="`${props.dataTestid}-List`"
           :is-black-theme="state.isBlackTheme"
+          :menu-open="state.isShow"
           :languages="props.languages"
+          :categories="props.categories"
+          :texts="props.texts"
           @click="choosedOptions"
           @theme-change="toggleThemeChange"
           @language-switch="handleLanguageSwitch"

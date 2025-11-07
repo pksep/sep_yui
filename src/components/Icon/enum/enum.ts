@@ -105,5 +105,8 @@ export enum IconNameEnum {
   noDistrub = 'no-distrub',
   logout = 'logout',
   minus = 'minus',
-  keyboard = 'keyboard'
+  keyboard = 'keyboard',
+  message = 'message',
+  darkThemeSwitcher = 'dark-theme-switcher',
+  qrCode = 'qr-code'
 }

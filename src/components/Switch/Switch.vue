@@ -92,7 +92,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .switch-yui-kit-list {
   display: flex;
   align-items: center;
@@ -121,8 +121,8 @@ onMounted(() => {
 }
 
 .switch-yui-kit-active {
-  background-color: $BLUE-77A6FF;
-  color: $WHITE;
+  background-color: var(--blue1);
+  color: var(--white);
   border-radius: 5px;
   transition: 0.3s ease-in-out;
 }

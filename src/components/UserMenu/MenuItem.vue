@@ -1,32 +1,37 @@
 <template>
-  <li class="list-yui-kit__item" @click="handleClick" :data-testid="dataTestid">
+  <li
+    :class="[
+      'list-yui-kit__item',
+      {
+        'list-yui-kit__item--disabled': disabled,
+        'list-yui-kit__item--active': active
+      }
+    ]"
+    @click="handleClick"
+    :data-testid="dataTestid"
+  >
     <Icon :name="iconName" />
     <span class="list-yui-kit__item-text">{{ text }}</span>
-    <slot name="extra"></slot>
+    <slot></slot>
   </li>
 </template>
 
 <script lang="ts" setup>
 import Icon from '@/components/Icon/Icon.vue';
 import { MenuTypeEnum } from './enum/enum';
-import { IconNameEnum } from '@/components/Icon/enum/enum';
+import type { IMenuItemProps } from './interface/interface';
 
-interface Props {
-  dataTestid: string;
-  iconName: IconNameEnum;
-  text: string;
-  menuType: MenuTypeEnum;
-}
-
-const { dataTestid, iconName, text, menuType } = defineProps<Props>();
+const { dataTestid, iconName, text, menuType, disabled, active } =
+  defineProps<IMenuItemProps>();
 
 const emit = defineEmits<{
   click: [MenuTypeEnum];
 }>();
 
-function handleClick() {
+const handleClick = () => {
+  if (disabled) return;
   emit('click', menuType);
-}
+};
 </script>
 
 <style scoped>
@@ -42,15 +47,22 @@ function handleClick() {
   padding: 6px;
   line-height: 16px;
 
-  &:hover,
-  &:active {
+  &:hover {
     background-color: var(--blue9);
     color: var(--blue19);
+    & svg.icon-yui-kit {
+      color: var(--black);
+    }
   }
 }
 
-.toggle-yui-kit {
-  margin: 0;
-  margin-left: auto;
+.list-yui-kit__item--active {
+  background-color: var(--blue9);
+  color: var(--blue19);
+}
+
+.list-yui-kit__item--disabled {
+  color: var(--grey6);
+  cursor: not-allowed;
 }
 </style>

@@ -1,27 +1,33 @@
 import { StoryFn, Meta } from '@storybook/vue3';
 import UserMenu from './UserMenu.vue';
 import { StorybookControlEnum } from '../../common/storybook';
+import { MenuTypeEnum } from './enum/enum';
 
 const meta = {
   title: 'UserMenu/UserMenu',
   component: UserMenu,
   argTypes: {
-    name: {
-      control: {
-        type: StorybookControlEnum.text
-      }
-    },
-    role: {
-      control: {
-        type: StorybookControlEnum.text
-      }
-    },
-    avatar: {
-      control: {
-        type: StorybookControlEnum.text
-      }
+    user: {
+      control: { type: 'object' }
     },
     languages: {
+      control: { type: 'object' }
+    },
+    categories: {
+      control: { type: 'object' }
+    },
+    texts: {
+      control: { type: 'object' }
+    },
+    categoryLabels: {
+      control: { type: 'object' }
+    },
+    isBlackTheme: {
+      control: {
+        type: StorybookControlEnum.boolean
+      }
+    },
+    closeAfterClick: {
       control: {
         type: StorybookControlEnum.boolean
       }
@@ -49,5 +55,17 @@ Default.args = {
   },
   languages: {
     items: ['En', 'Ru']
-  }
+  },
+  categories: [
+    MenuTypeEnum.profile,
+    MenuTypeEnum.theme,
+    MenuTypeEnum.options,
+    MenuTypeEnum.exit
+  ],
+  texts: {
+    [MenuTypeEnum.profile]: 'My Profile',
+    [MenuTypeEnum.options]: 'Preferences'
+  },
+  isBlackTheme: false,
+  closeAfterClick: true
 };
