@@ -1,6 +1,6 @@
-import { IMenuProps } from './interface/interface';
-import { MenuTypeEnum } from './enum/enum';
 import { IChangeSwitchEmit } from '../Switch/interface/interface';
+import { MenuTypeEnum } from './enum/enum';
+import { IMenuProps } from './interface/interface';
 
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IMenuProps>, {
     dataTestid: string;

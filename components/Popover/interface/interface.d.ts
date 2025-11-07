@@ -12,7 +12,7 @@ export interface IPopoverOption {
 export interface IPopoverProps extends IDataTestIdProp {
     isShow?: boolean;
     iconName?: IconNameEnum;
-    options: IPopoverOption[];
+    options?: IPopoverOption[];
     tooltip?: string;
     tooltipPosition?: TTooltipPosition;
     isWCUse?: boolean;

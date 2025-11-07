@@ -106,5 +106,8 @@ export declare enum IconNameEnum {
     logout = "logout",
     minus = "minus",
     keyboard = "keyboard",
-    planeRightFill = "plane-right-fill"
+    planeRightFill = "plane-right-fill",
+    message = "message",
+    darkThemeSwitcher = "dark-theme-switcher",
+    qrCode = "qr-code"
 }
