@@ -11,6 +11,7 @@ export interface ISwitchProps extends IDataTestIdProp {
   items: ItemsType;
   defaultValue?: string;
   isIcons?: boolean;
+  disabled?: boolean;
   theme?: 'default' | 'contrast';
 }
 
