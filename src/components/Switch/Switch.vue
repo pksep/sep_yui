@@ -97,8 +97,8 @@ watch(
   () => props.defaultValue,
   () => {
     state.activeIndex = props.defaultValue
-      ? props.items.findIndex(item => getValue(item) === props.defaultValue) ??
-        0
+      ? (props.items.findIndex(item => getValue(item) === props.defaultValue) ??
+        0)
       : 0;
   }
 );
