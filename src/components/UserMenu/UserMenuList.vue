@@ -100,19 +100,20 @@ function handleThemeSwitch(obj: IChangeSwitchEmit) {
 
 <style scoped>
 .menu-yui-kit__list {
-  padding: 0;
-  width: 211px;
+  padding: 10px;
 }
 
 .list-yui-kit {
   list-style-type: none;
   padding: 0;
-  margin: 0 0 23px 0;
+  margin-top: -5px;
+  margin-bottom: 10px;
   display: grid;
-  gap: 8px;
+  gap: 5px;
 }
 
 .switch-yui-kit-list {
+  width: 191px;
   background-color: var(--blue9);
   padding: 2px;
 }
