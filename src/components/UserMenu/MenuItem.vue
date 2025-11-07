@@ -52,7 +52,9 @@ const handleClick = () => {
   }
 }
 
-.list-yui-kit__item--active {
+.list-yui-kit__item--active,
+.list-yui-kit__item:focus-visible,
+.list-yui-kit__item:active {
   background-color: var(--blue9);
   color: var(--blue19);
 }
