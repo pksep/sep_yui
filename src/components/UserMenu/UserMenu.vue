@@ -175,6 +175,7 @@ const handleQrAuth = () => {
     height: 52px;
     width: 211px;
 
+    &:hover,
     &.active-yui-kit {
       background-color: var(--blue9);
     }
