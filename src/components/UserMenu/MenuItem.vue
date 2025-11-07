@@ -49,10 +49,6 @@ const handleClick = () => {
 
   &:hover {
     background-color: var(--blue9);
-    color: var(--blue19);
-    & svg.icon-yui-kit {
-      color: var(--black);
-    }
   }
 }
 
