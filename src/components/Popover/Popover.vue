@@ -411,20 +411,18 @@ onUnmounted(() => {
   }
 }
 
-.popover-animate {
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 0.2s ease;
-  }
+.popover-animate-enter-active,
+.popover-animate-leave-active {
+  transition: opacity 0.2s ease;
+}
 
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-  }
+.popover-animate-enter-from,
+.popover-animate-leave-to {
+  opacity: 0;
+}
 
-  &-enter-to,
-  &-leave-from {
-    opacity: 1;
-  }
+.popover-animate-enter-to,
+.popover-animate-leave-from {
+  opacity: 1;
 }
 </style>

@@ -22,7 +22,7 @@
     <Switch
       v-if="props.languages?.items"
       :items="props.languages?.items"
-      :defaultValue="props.languages?.defaultValue"
+      :default-value="props.languages?.defaultValue"
       @change="handleLanguageSwitch"
       :data-testid="`${props.dataTestid}-Language-Switch`"
     />
@@ -45,6 +45,7 @@ const props = withDefaults(defineProps<IMenuProps>(), {
 
 const emit = defineEmits<{
   (e: 'click', type: MenuTypeEnum): void;
+  (e: 'unmount-qr-auth'): void;
   (e: 'themeChange', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
@@ -60,6 +61,10 @@ watch(
 
 const choosedOptions = (type: MenuTypeEnum) => {
   activeItem.value = type;
+  if (type === MenuTypeEnum.qrAuth) {
+    emit('unmount-qr-auth');
+    return;
+  }
   emit('click', type);
 };
 
@@ -67,8 +72,13 @@ const handleLanguageSwitch = (obj: IChangeSwitchEmit) => {
   emit('languageSwitch', obj);
 };
 
-const handleThemeSwitch = (value: boolean) => {
-  emit('themeChange', value);
+/*
+Данная функция находится в разработке
+@date 2025-11-07
+*/
+const handleThemeSwitch = () => {
+  // emit('themeChange', value);
+  return false;
 };
 
 const getDefaultText = (type: MenuTypeEnum): string => {

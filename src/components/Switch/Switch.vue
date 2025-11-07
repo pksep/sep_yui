@@ -6,7 +6,7 @@
   >
     <li
       v-for="(item, index) of props.items"
-      :key="item"
+      :key="index"
       :class="getClasses(index)"
       @click="toChooseItem(index)"
       :data-testid="`${props.dataTestid}-Item${index}`"
@@ -17,7 +17,7 @@
         :data-testid="`${props.dataTestid}-Item-Icon${index}`"
       />
       <template v-else>
-        {{ item }}
+        {{ getDisplayText(item) }}
       </template>
     </li>
   </ul>
@@ -27,7 +27,11 @@
 import { computed, onMounted, reactive, watch } from 'vue';
 import Icon from '@/components/Icon/Icon.vue';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
-import { ISwitchProps, IChangeSwitchEmit } from './interface/interface';
+import {
+  ISwitchProps,
+  IChangeSwitchEmit,
+  type SwitchItem
+} from './interface/interface';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {
   dataTestid: 'Switch',
@@ -57,6 +61,14 @@ const getClasses = (index: number) => ({
   'switch-yui-kit-active': state.activeIndex === index
 });
 
+const getDisplayText = (item: string | SwitchItem): string => {
+  return typeof item === 'string' ? item : item.label;
+};
+
+const getValue = (item: string | SwitchItem): string => {
+  return typeof item === 'string' ? item : item.value;
+};
+
 /**
  * @param index:  number
  * @returns
@@ -69,7 +81,7 @@ const toChooseItem = (index: number) => {
   state.activeIndex = index;
   emit('change', {
     index,
-    value: props.items[index]
+    value: getValue(props.items[index])
   });
 };
 
@@ -77,7 +89,8 @@ watch(
   () => props.defaultValue,
   () => {
     state.activeIndex = props.defaultValue
-      ? props.items?.indexOf(props.defaultValue)
+      ? (props.items.findIndex(item => getValue(item) === props.defaultValue) ??
+        0)
       : 0;
   }
 );
@@ -86,8 +99,13 @@ watch(
  * Устанавливает и делает активным дефолтный элемент если он передан и содержится в массиве элементов.
  */
 onMounted(() => {
-  if (props.defaultValue && props.items.includes(props.defaultValue)) {
-    state.activeIndex = props.items.indexOf(props.defaultValue);
+  if (props.defaultValue) {
+    const idx = props.items.findIndex(
+      item => getValue(item) === props.defaultValue
+    );
+    if (idx !== -1) {
+      state.activeIndex = idx;
+    }
   }
 });
 </script>

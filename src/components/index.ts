@@ -70,6 +70,7 @@ import { InputTypeEnum } from './Input/enum/enum';
 import { TextareaTypeEnum } from './Textarea/enum';
 import { TextFieldEnum } from './Input/enum/enum';
 import { CheckboxSizeEnum } from './Checkbox/enum/enum';
+import { MenuTypeEnum } from './UserMenu/enum/enum';
 
 const components = {
   Accordion,
@@ -206,6 +207,7 @@ export {
   VideoExtensionsEnum,
   InputTypeEnum,
   TextareaTypeEnum,
+  MenuTypeEnum,
   getLastTime,
   getFirstTime,
   vuePluginRemoveTestid

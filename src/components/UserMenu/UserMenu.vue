@@ -38,6 +38,7 @@
           @click="choosedOptions"
           @theme-change="toggleThemeChange"
           @language-switch="handleLanguageSwitch"
+          @unmount-qr-auth="handleQrAuth"
         />
       </Popover>
     </div>
@@ -67,6 +68,7 @@ const state = reactive({
 
 const emit = defineEmits<{
   (e: 'click', type: MenuTypeEnum): void;
+  (e: 'unmount-qr-auth'): void;
   (e: 'themeChange', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
@@ -133,12 +135,19 @@ function toggleThemeChange(isBlackTheme: boolean) {
 /**
  * Меняет язык, передает значение родителю
  */
-function handleLanguageSwitch(object: IChangeSwitchEmit) {
+const handleLanguageSwitch = (object: IChangeSwitchEmit) => {
   if (props.closeAfterClick) {
     state.isShow = false;
   }
   emit('languageSwitch', object);
-}
+};
+
+const handleQrAuth = () => {
+  if (props.closeAfterClick) {
+    state.isShow = false;
+  }
+  emit('unmount-qr-auth');
+};
 </script>
 
 <style scoped>
