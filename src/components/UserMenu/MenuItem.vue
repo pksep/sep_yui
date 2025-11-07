@@ -61,8 +61,13 @@ const handleClick = () => {
   color: var(--blue19);
 }
 
-.list-yui-kit__item--disabled {
+.list-yui-kit__item--disabled,
+.list-yui-kit__item--disabled:hover {
   color: var(--grey6);
+  background-color: transparent;
   cursor: not-allowed;
+  & svg.icon-yui-kit {
+    color: var(--grey6);
+  }
 }
 </style>

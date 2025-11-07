@@ -14,6 +14,7 @@
       >
         <Toggle
           v-if="menuType === MenuTypeEnum.theme"
+          disabled
           @change="handleThemeSwitch"
         />
       </MenuItem>

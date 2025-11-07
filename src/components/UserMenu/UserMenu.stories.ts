@@ -60,6 +60,7 @@ Default.args = {
     MenuTypeEnum.profile,
     MenuTypeEnum.theme,
     MenuTypeEnum.options,
+    MenuTypeEnum.help,
     MenuTypeEnum.exit
   ],
   texts: {
