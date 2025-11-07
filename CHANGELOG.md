@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.127
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.126...v0.1.127)
+
+### 🚀 Enhancements
+
+- Update icon and hover ([c42f431](https://github.com/pksep/sep_yui/commit/c42f431))
+
+### 🩹 Fixes
+
+- Moview avatar and wrapper add ([772bb26](https://github.com/pksep/sep_yui/commit/772bb26))
+- Remove hover color styles in MenuItem ([0363b7a](https://github.com/pksep/sep_yui/commit/0363b7a))
+- Lint error of switch ([f251e5c](https://github.com/pksep/sep_yui/commit/f251e5c))
+
 ## v0.1.126
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.125...v0.1.126)
