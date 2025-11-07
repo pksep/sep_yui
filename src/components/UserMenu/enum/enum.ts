@@ -3,5 +3,6 @@ export enum MenuTypeEnum {
   theme = 'theme',
   options = 'options',
   exit = 'exit',
+  qrAuth = 'qr-auth',
   help = 'help'
 }

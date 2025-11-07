@@ -19,34 +19,40 @@
         :data-testid="`${props.dataTestid}-PopoverShow`"
         @click="toggleShow"
       >
-        <Icon
-          class="popover-yui-kit__icon"
-          :name="props.iconName"
-          :width="16"
-          :height="16"
-          :data-testid="`${props.dataTestid}-PopoverShow-Icon`"
-        />
+        <slot name="trigger">
+          <Icon
+            class="popover-yui-kit__icon"
+            :name="props.iconName"
+            :data-testid="`${props.dataTestid}-PopoverShow-Icon`"
+          />
+        </slot>
       </div>
 
       <Teleport :to="toTeleport" :disabled="props.isWCUse">
         <Transition name="popover-animate">
           <div
-            v-if="props.options?.length"
-            class="popover-yui-kit__options"
             v-show="state.isShow"
+            class="popover-yui-kit__content"
             ref="floating"
-            :data-testid="`${props.dataTestid}-PopoverShow-Options`"
           >
-            <div
-              class="popover-yui-kit__options__item"
-              :style="item.style"
-              v-for="(item, i) in props.options"
-              :key="i"
-              @click.stop="handleClick(item)"
-              :data-testid="`${props.dataTestid}-Item${i}`"
-            >
-              {{ item.value }}
-            </div>
+            <slot>
+              <div
+                v-if="props.options?.length"
+                class="popover-yui-kit__options"
+                :data-testid="`${props.dataTestid}-PopoverShow-Options`"
+              >
+                <div
+                  class="popover-yui-kit__options__item"
+                  v-for="(item, i) in props.options"
+                  :key="i"
+                  :style="item.style"
+                  @click.stop="handleClick(item)"
+                  :data-testid="`${props.dataTestid}-Item${i}`"
+                >
+                  {{ item.value }}
+                </div>
+              </div>
+            </slot>
           </div>
         </Transition>
       </Teleport>
@@ -326,8 +332,8 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-@global (body) {
+<style scoped>
+:global(body) {
   anchor-scope: all;
 }
 
@@ -335,6 +341,10 @@ onUnmounted(() => {
   display: grid;
   width: fit-content;
   position: relative;
+
+  & .popover-yui-kit__icon {
+    font-size: 16px;
+  }
 
   & .popover-yui-kit__wrapper {
     display: flex;
@@ -358,18 +368,12 @@ onUnmounted(() => {
   }
 }
 
-.popover-yui-kit__options {
+.popover-yui-kit__content {
   position: fixed;
   z-index: 20;
-  background-color: var(--white);
   border-radius: 5px;
-  box-shadow: 0 0 22px 0 #00000012;
-  padding: 5px;
-  display: grid;
-  gap: 5px;
+  background-color: var(--white);
   width: max-content;
-  font-size: 14px;
-
   @supports (top: anchor(bottom)) {
     top: calc(anchor(bottom) + 10px);
     left: var(--popover-left, anchor(left));
@@ -382,6 +386,14 @@ onUnmounted(() => {
     left: var(--popover-left);
     right: var(--popover-right);
   }
+}
+
+.popover-yui-kit__options {
+  display: grid;
+  box-shadow: 0 0 22px 0 #00000012;
+  font-size: 14px;
+  padding: 5px;
+  gap: 5px;
 
   & .popover-yui-kit__options__item {
     cursor: pointer;
@@ -399,20 +411,18 @@ onUnmounted(() => {
   }
 }
 
-.popover-animate {
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 0.2s ease;
-  }
+.popover-animate-enter-active,
+.popover-animate-leave-active {
+  transition: opacity 0.2s ease;
+}
 
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-  }
+.popover-animate-enter-from,
+.popover-animate-leave-to {
+  opacity: 0;
+}
 
-  &-enter-to,
-  &-leave-from {
-    opacity: 1;
-  }
+.popover-animate-enter-to,
+.popover-animate-leave-from {
+  opacity: 1;
 }
 </style>

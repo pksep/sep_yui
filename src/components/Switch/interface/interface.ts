@@ -1,9 +1,15 @@
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
-import { IconNameEnum } from '@/components/Icon/enum/enum';
+
+export interface SwitchItem {
+  label: string;
+  value: string;
+}
+
+type ItemsType = Array<string | SwitchItem>;
 
 export interface ISwitchProps extends IDataTestIdProp {
-  items: IconNameEnum[];
-  defaultValue?: IconNameEnum;
+  items: ItemsType;
+  defaultValue?: string;
   isIcons?: boolean;
   disabled?: boolean;
   theme?: 'default' | 'contrast';
