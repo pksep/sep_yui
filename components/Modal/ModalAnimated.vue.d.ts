@@ -1,5 +1,4 @@
 import { IModalProps } from './interface/interface';
-import { ModalAnimateEnum } from './enum';
 
 declare function __VLS_template(): {
     default?(_: {}): any;
@@ -7,7 +6,6 @@ declare function __VLS_template(): {
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IModalProps>, {
     dataTestid: string;
     position: string;
-    animateType: ModalAnimateEnum;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     close: () => void;
     unmounted: () => void;
@@ -15,15 +13,13 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IModalProps>, {
     dataTestid: string;
     position: string;
-    animateType: ModalAnimateEnum;
 }>>> & Readonly<{
     onClose?: (() => any) | undefined;
     onUnmounted?: (() => any) | undefined;
     "onEnd-animation"?: (() => any) | undefined;
 }>, {
     dataTestid: string;
-    position: "right" | "center";
-    animateType: ModalAnimateEnum;
+    position: "right" | "center" | "bottom";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;

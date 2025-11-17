@@ -19,7 +19,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     onUnmounted?: ((...args: any[]) => any) | undefined;
 }>, {
     dataTestid: string;
-    position: "right" | "center";
+    position: "right" | "center" | "bottom";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;
