@@ -48,7 +48,7 @@ const transitionName = computed(() => {
   if (props.position === 'right') {
     return 'slide-left';
   }
-  return 'modal';
+  return 'fade-and-scale';
 });
 
 const modalRef = ref<InstanceType<typeof Modal> | null>(null);
@@ -107,7 +107,7 @@ const close = () => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .slide-left-enter-active {
   animation: slide-in-left 0.5s var(--ease) forwards;
 }
@@ -161,5 +161,24 @@ const close = () => {
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
+}
+
+.fade-and-scale-enter-active,
+.fade-and-scale-leave-active {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.fade-and-scale-enter-from,
+.fade-and-scale-modal-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-and-scale-modal-enter-to,
+.fade-and-scale-modal-leave-from {
+  opacity: 1;
+  transform: scale(1);
 }
 </style>
