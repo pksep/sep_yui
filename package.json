@@ -1,5 +1,5 @@
 {
-  "name": "sep-yui",
+  "name": "@pksep/yui",
   "author": "Perov David",
   "version": "0.1.127",
   "packageManager": "pnpm@9.9.0",
