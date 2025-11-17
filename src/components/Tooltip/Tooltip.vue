@@ -12,10 +12,10 @@
     <Teleport v-if="isCanShow" :to="toTeleport">
       <Transition name="hint-animate" @enter="unmountAnimationEnter">
         <div
+          v-show="isShow || state.isShow"
           ref="hintRef"
-          v-if="isShow || state.isShow"
-          :data-testid="props.dataTestid"
           class="tooltip-yui-kit__hint"
+          :data-testid="props.dataTestid"
           :class="tooltipClass"
         >
           {{ hint }}
@@ -28,7 +28,16 @@
 <script lang="ts" setup>
 import { ITooltipProps } from '@/components/Tooltip/interface/interface';
 import changeStyleProperties from '@/helpers/change-style-properties';
-import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref,
+  useId,
+  watch
+} from 'vue';
 
 defineOptions({
   name: 'Tooltip'
@@ -43,6 +52,12 @@ const props = withDefaults(defineProps<ITooltipProps>(), {
   dataTestid: 'Tooltip',
   hintClass: ''
 });
+
+const isSupportAnchor = CSS.supports('top', 'anchor(bottom)');
+const id = useId();
+
+const anchorName = computed(() => `--anchor-tooltip-${id}`);
+
 const tooltipRef = ref<HTMLDivElement | null>(null);
 const hintRef = ref<HTMLDivElement | null>(null);
 
@@ -103,14 +118,18 @@ const setPosition = (): void => {
       return;
 
     const setedStyles: Record<string, string> = {
-      '--hint-top': '0',
-      '--hint-left': '0',
+      '--hint-top': 'anchor(top)',
+      '--hint-left': 'anchor(left)',
       '--hint-width': '0',
       '--hint-height': '0',
       '--tooltip-width': '0',
       '--tooltip-height': '0',
       '--hint-visibility': 'visible'
     };
+    if (!isSupportAnchor) {
+      setedStyles['--hint-top'] = '0';
+      setedStyles['--hint-left'] = '0';
+    }
 
     const rect = tooltipRef.value.getBoundingClientRect();
     const rectHint = hintRef.value.getBoundingClientRect();
@@ -147,8 +166,10 @@ const setPosition = (): void => {
     const hintWidth = rectHint.width;
     const hintHeigth = rectHint.height;
 
-    setedStyles['--hint-top'] = `${top}px`;
-    setedStyles['--hint-left'] = `${left}px`;
+    if (!isSupportAnchor) {
+      setedStyles['--hint-top'] = `${top}px`;
+      setedStyles['--hint-left'] = `${left}px`;
+    }
     setedStyles['--tooltip-width'] = `${tooltipWidth}px`;
     setedStyles['--tooltip-height'] = `${tooltipHeight}px`;
     setedStyles['--hint-width'] = `${hintWidth}px`;
@@ -173,9 +194,31 @@ const setHintGap = (): void => {
   });
 };
 
+const setPositionAnchor = (): void => {
+  if (hintRef.value) {
+    changeStyleProperties(
+      {
+        'position-anchor': `${anchorName.value}`
+      },
+      hintRef.value
+    );
+
+    setPosition();
+  }
+};
+
 watch(() => props.hintGap, setHintGap, {
   immediate: true
 });
+
+watch(
+  () => props.isCanShow,
+  () => {
+    nextTick(() => {
+      setPositionAnchor();
+    });
+  }
+);
 
 const showHint = () => {
   state.isShow = true;
@@ -207,7 +250,16 @@ const setObservers = (element: HTMLElement): void => {
 };
 
 onMounted(() => {
-  setPosition();
+  if (tooltipRef.value) {
+    changeStyleProperties(
+      {
+        'anchor-name': `${anchorName.value}`
+      },
+      tooltipRef.value
+    );
+  }
+
+  setPositionAnchor();
 
   if (hintRef.value) {
     setObservers(hintRef.value);
@@ -217,8 +269,10 @@ onMounted(() => {
     setObservers(tooltipRef.value);
   }
 
-  window.addEventListener('scroll', setPosition, true);
-  window.addEventListener('resize', setPosition);
+  if (!isSupportAnchor) {
+    window.addEventListener('scroll', setPosition, true);
+    window.addEventListener('resize', setPosition);
+  }
 });
 
 onUnmounted(() => {
@@ -230,6 +284,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
+:global(body) {
+  anchor-scope: all;
+}
 .tooltip-yui-kit {
   position: relative;
   display: inline-block;
