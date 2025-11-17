@@ -29,8 +29,7 @@ import { ModalAnimateEnum } from '@/components/Modal/enum';
 
 const props = withDefaults(defineProps<IModalProps>(), {
   dataTestid: 'Modal',
-  position: 'right',
-  animateType: ModalAnimateEnum.right
+  position: 'right'
 });
 
 const emits = defineEmits<{
@@ -40,16 +39,16 @@ const emits = defineEmits<{
 }>();
 
 const transitionName = computed(() => {
-  switch (props.animateType) {
-    case ModalAnimateEnum.fade:
-      return 'fade';
-
-    case ModalAnimateEnum.right:
-      return 'modal';
-
-    default:
-      return 'modal';
+  if (props.animateType === ModalAnimateEnum.fade) {
+    return 'fade';
   }
+  if (props.position === 'bottom') {
+    return 'slide-bottom';
+  }
+  if (props.position === 'right') {
+    return 'slide-left';
+  }
+  return 'fade-and-scale';
 });
 
 const modalRef = ref<InstanceType<typeof Modal> | null>(null);
@@ -108,18 +107,38 @@ const close = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-.modal-enter-active {
+<style scoped>
+.slide-left-enter-active {
   animation: slide-in-left 0.5s var(--ease) forwards;
 }
 
-.modal-leave-active {
+.slide-left-leave-active {
   animation: slide-out-left 0.5s var(--ease) forwards;
+}
+
+.slide-bottom-enter-active {
+  animation: slide-in-top 0.5s var(--ease) forwards;
+}
+
+.slide-bottom-leave-active {
+  animation: slide-out-bottom 0.5s var(--ease) forwards;
 }
 
 @keyframes slide-out-left {
   to {
     transform: translateX(100%);
+  }
+}
+
+@keyframes slide-in-top {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-out-bottom {
+  to {
+    transform: translateY(100%);
   }
 }
 
@@ -142,5 +161,24 @@ const close = () => {
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
+}
+
+.fade-and-scale-enter-active,
+.fade-and-scale-leave-active {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.fade-and-scale-enter-from,
+.fade-and-scale-modal-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-and-scale-modal-enter-to,
+.fade-and-scale-modal-leave-from {
+  opacity: 1;
+  transform: scale(1);
 }
 </style>

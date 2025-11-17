@@ -1,4 +1,6 @@
 export enum ModalAnimateEnum {
-  right = 'right',
+  slideTop = 'slide-top',
+  slideLeft = 'slide-left',
+  fadeAndScale = 'fade-and-scale',
   fade = 'fade'
 }

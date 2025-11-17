@@ -160,8 +160,12 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.modal-yui-kit.modal-yui-kit_right {
+.modal-yui-kit.modal-yui-kit_right,
+.modal-yui-kit.modal-yui-kit_bottom {
   --ease: cubic-bezier(0.25, 0, 0.3, 1);
+}
+
+.modal-yui-kit.modal-yui-kit_right {
   max-block-size: 100vh;
   min-height: 100vh;
   margin-right: 0;
@@ -171,6 +175,18 @@ onUnmounted(() => {
 
 .modal-yui-kit.modal-yui-kit_center {
   border-radius: 10px;
+}
+
+.modal-yui-kit.modal-yui-kit_bottom {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .modal-yui-kit {
