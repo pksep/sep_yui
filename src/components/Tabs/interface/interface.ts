@@ -5,5 +5,6 @@ export interface ITabsEmit {
 }
 
 export interface ITabsProps extends IDataTestIdProp {
+  defaultActiveTabId?: number;
   tabCount: number;
 }
