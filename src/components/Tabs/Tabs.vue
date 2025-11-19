@@ -57,7 +57,6 @@ const generateArray = (n: number): number[] => {
 watch(
   () => props.defaultActiveTabId,
   () => {
-    console.log('active-id:', props.defaultActiveTabId);
     if (props.defaultActiveTabId) {
       state.activeTab = props.defaultActiveTabId;
     }
