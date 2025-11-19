@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { watch, reactive } from 'vue';
 import { ITabsEmit, ITabsProps } from './interface/interface';
 
 defineOptions({
@@ -54,10 +54,31 @@ const generateArray = (n: number): number[] => {
   return Array.from({ length: n }, (_, i) => i + 1);
 };
 
+watch(
+  () => props.defaultActiveTabId,
+  () => {
+    if (props.defaultActiveTabId) {
+      state.activeTab = props.defaultActiveTabId;
+    }
+  },
+  {
+    immediate: true
+  }
+);
+
 const handleSelectTab = (id: number): void => {
   state.activeTab = id;
   emits('unmount-tab', id);
 };
+
+/*
+onMounted(() => {
+  console.log('active-id:', props.defaultActiveTabId);
+  if (props.defaultActiveTabId) {
+    state.activeTab = props.defaultActiveTabId;
+  }
+});
+*/
 </script>
 
 <style scoped>
