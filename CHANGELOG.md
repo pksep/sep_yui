@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.1.137
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.135...v0.1.137)
+
+### 🩹 Fixes
+
+- Icon name incorrect ([f2ab1ae](https://github.com/pksep/sep_yui/commit/f2ab1ae))
+
+### 🏡 Chore
+
+- **release:** V0.1.135 ([4521b7e](https://github.com/pksep/sep_yui/commit/4521b7e))
+
+## v0.1.136
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.135...v0.1.136)
+
+### 🩹 Fixes
+
+- Icon name incorrect ([f2ab1ae](https://github.com/pksep/sep_yui/commit/f2ab1ae))
+
+### 🏡 Chore
+
+- **release:** V0.1.135 ([4521b7e](https://github.com/pksep/sep_yui/commit/4521b7e))
+
 ## v0.1.135
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.132...v0.1.135)
