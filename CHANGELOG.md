@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.135
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.132...v0.1.135)
+
+### 🚀 Enhancements
+
+- Support active tabs on elements ([072aca1](https://github.com/pksep/sep_yui/commit/072aca1))
+
+### 🩹 Fixes
+
+- Remove console log ([af297bf](https://github.com/pksep/sep_yui/commit/af297bf))
+
+### 🏡 Chore
+
+- **release:** V0.1.134 ([874e24d](https://github.com/pksep/sep_yui/commit/874e24d))
+
 ## v0.1.134
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.129...v0.1.134)
