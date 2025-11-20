@@ -33,7 +33,7 @@
         class="toolbar-button right mobile-buttons"
         @click="handleSave"
       >
-        <Icon :name="IconNameEnum.planeRightFill" :width="21" :height="21" />
+        <Icon :name="IconNameEnum.planeRight" :width="21" :height="21" />
       </Button>
     </div>
 
