@@ -109,5 +109,6 @@ export declare enum IconNameEnum {
     planeRightFill = "plane-right-fill",
     message = "message",
     darkThemeSwitcher = "dark-theme-switcher",
-    qrCode = "qr-code"
+    qrCode = "qr-code",
+    distrub = "distrub"
 }

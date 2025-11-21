@@ -112,6 +112,7 @@ export declare const pin: IVectorIcon;
 export declare const read: IVectorIcon;
 export declare const addUser: IVectorIcon;
 export declare const noDistrub: IVectorIcon;
+export declare const distrub: IVectorIcon;
 export declare const logout: IVectorIcon;
 export declare const keyboard: IVectorIcon;
 export declare const message: IVectorIcon;
