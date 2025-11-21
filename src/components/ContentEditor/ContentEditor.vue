@@ -16,12 +16,17 @@
       <Button
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
-        class="toolbar-button mobile-buttons"
-        @click="showEmojiPicker = !showEmojiPicker"
+        class="toolbar-button mobile-buttons smile-button"
+        @click="toggleEmojiPicker"
         disabled
       >
         <Icon :name="IconNameEnum.smile" />
-        <div @click.stop class="emoji-picker" v-if="showEmojiPicker">
+        <div
+          @click.stop
+          class="emoji-picker"
+          :class="{ 'emoji-picker-top': emojiPickerPosition === 'top' }"
+          v-if="showEmojiPicker"
+        >
           <EmojiPicker :native="true" @select="addEmoji" />
         </div>
       </Button>
@@ -61,12 +66,16 @@
       <Button
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
-        class="toolbar-button"
-        @click="showEmojiPicker = !showEmojiPicker"
-        disabled
+        class="toolbar-button smile-button"
+        @click="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
-        <div @click.stop class="emoji-picker" v-if="showEmojiPicker">
+        <div
+          @click.stop
+          class="emoji-picker"
+          :class="{ 'emoji-picker-top': emojiPickerPosition === 'top' }"
+          v-if="showEmojiPicker"
+        >
           <EmojiPicker :native="true" @select="addEmoji" />
         </div>
       </Button>
@@ -89,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch, onMounted } from 'vue';
+import { onBeforeUnmount, ref, watch, onMounted, nextTick } from 'vue';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
@@ -109,6 +118,7 @@ import { ColorsEnum } from '@/common/colors.ts';
 // v-model binding
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
+const emojiPickerPosition = ref<'top' | 'bottom'>('bottom');
 const emits = defineEmits<IContentEditorEmit>();
 
 /* ------------------ Custom Span Node ------------------ */
@@ -131,9 +141,7 @@ const SpanNode = Node.create({
     node,
     HTMLAttributes
   }: {
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     node: any;
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     HTMLAttributes: Record<string, any>;
   }) {
     return [
@@ -246,15 +254,54 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
+/* ------------------ Emoji Picker positioning ------------------ */
+function updateEmojiPosition(buttonEl: HTMLElement) {
+  if (!buttonEl) return;
+
+  const rect = buttonEl.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+  const emojiHeight = 260; // adjust if your picker height differs
+
+  emojiPickerPosition.value =
+    rect.bottom + emojiHeight > viewportHeight ? 'top' : 'bottom';
+
+  console.log(emojiPickerPosition.value);
+}
+
+function toggleEmojiPicker(event: Event) {
+  showEmojiPicker.value = !showEmojiPicker.value;
+  if (showEmojiPicker.value) {
+    const btn = event.currentTarget as HTMLElement;
+    nextTick(() => {
+      updateEmojiPosition(btn);
+    });
+  }
+}
+
+function handleWindowUpdate() {
+  const btn = document.querySelector(
+    '.toolbar-button.smile-button'
+  ) as HTMLElement;
+  if (showEmojiPicker.value && btn) {
+    updateEmojiPosition(btn);
+  }
+}
+
 /* ------------------ Safe editor event listeners ------------------ */
 onMounted(() => {
   if (!editor?.value?.view?.dom) return;
   const el = editor.value.view.dom;
   el.addEventListener('keydown', handleKeydown);
 
+  window.addEventListener('resize', handleWindowUpdate);
+  window.addEventListener('scroll', handleWindowUpdate, true);
+
   onBeforeUnmount(() => {
     el.removeEventListener('keydown', handleKeydown);
     editor?.value?.destroy();
+
+    window.removeEventListener('resize', handleWindowUpdate);
+    window.removeEventListener('scroll', handleWindowUpdate, true);
   });
 });
 
@@ -295,8 +342,13 @@ defineExpose({ addSpanLink });
 
   & .emoji-picker {
     position: absolute;
-    bottom: 50px;
+    top: 40px;
     left: 0;
+  }
+
+  & .emoji-picker-top {
+    top: auto;
+    bottom: 50px;
   }
 
   &.right {
