@@ -141,7 +141,9 @@ const SpanNode = Node.create({
     node,
     HTMLAttributes
   }: {
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     node: any;
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     HTMLAttributes: Record<string, any>;
   }) {
     return [
@@ -264,8 +266,6 @@ function updateEmojiPosition(buttonEl: HTMLElement) {
 
   emojiPickerPosition.value =
     rect.bottom + emojiHeight > viewportHeight ? 'top' : 'bottom';
-
-  console.log(emojiPickerPosition.value);
 }
 
 function toggleEmojiPicker(event: Event) {
