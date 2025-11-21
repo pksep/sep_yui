@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.138
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.137...v0.1.138)
+
+### 🚀 Enhancements
+
+- Add distrub icon ([4cdcb51](https://github.com/pksep/sep_yui/commit/4cdcb51))
+- Allow emojy ([9669563](https://github.com/pksep/sep_yui/commit/9669563))
+- Eslint ([a378d41](https://github.com/pksep/sep_yui/commit/a378d41))
+
+### 🏡 Chore
+
+- **release:** V0.1.137 ([058a829](https://github.com/pksep/sep_yui/commit/058a829))
+
 ## v0.1.137
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.135...v0.1.137)
