@@ -26,8 +26,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>, {
     dataTestid: string;
     options: IFilterTagOption[];
-    multiply: boolean;
     iconName: IconNameEnum;
+    multiply: boolean;
     selectedValues: string[];
     maxShowCount: number;
     showClearButton: boolean;
