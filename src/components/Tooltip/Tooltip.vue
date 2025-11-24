@@ -299,7 +299,7 @@ onUnmounted(() => {
     --hint-height: 1lh;
     --hint-before-width: 11px;
     --tooltip-hint-gap: 8px;
-    position: absolute;
+    position: fixed;
     z-index: 20;
 
     top: var(--hint-top);
@@ -322,7 +322,7 @@ onUnmounted(() => {
     line-height: initial;
 
     &::before {
-      position: absolute;
+      position: fixed;
       content: '';
 
       width: var(--hint-before-width, 11px);
