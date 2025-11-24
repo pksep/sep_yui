@@ -4,8 +4,8 @@
       :type="ButtonTypeEnum.ghost"
       :size="SizesEnum.small"
       class="toolbar-button attach-file-button mobile-buttons"
-      @click="addLink"
-      disabled
+      @click="attachFile"
+      :disabled="!!props.disableAttachFile"
     >
       <Icon :name="IconNameEnum.paperClip" />
     </Button>
@@ -18,7 +18,6 @@
         :size="SizesEnum.small"
         class="toolbar-button mobile-buttons smile-button"
         @click="toggleEmojiPicker"
-        disabled
       >
         <Icon :name="IconNameEnum.smile" />
         <div
@@ -47,18 +46,18 @@
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
         class="toolbar-button attach-file-button"
-        @click="addLink"
-        disabled
+        @click="attachFile"
+        :disabled="!!props.disableAttachFile"
       >
         <Icon :name="IconNameEnum.paperClip" :width="16" :height="16" />
       </Button>
 
       <Button
+        v-if="false"
         :type="ButtonTypeEnum.ghost"
         class="toolbar-button"
         :size="SizesEnum.small"
-        @click="attachFile"
-        disabled
+        @click="addLink"
       >
         <Icon :name="IconNameEnum.atSign" />
       </Button>
@@ -116,6 +115,7 @@ import type { IContentEditorEmit } from './interfaces/content-editor';
 import { ColorsEnum } from '@/common/colors.ts';
 
 // v-model binding
+const props = defineProps<{ disableAttachFile: boolean }>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
 const emojiPickerPosition = ref<'top' | 'bottom'>('bottom');
