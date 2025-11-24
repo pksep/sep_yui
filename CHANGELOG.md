@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.140
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.139...v0.1.140)
+
+### 🚀 Enhancements
+
+- ContentEditor add 2 variant uploads ([4a93d0c](https://github.com/pksep/sep_yui/commit/4a93d0c))
+- Add translateY for popover ([701776f](https://github.com/pksep/sep_yui/commit/701776f))
+
 ## v0.1.139
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.138...v0.1.139)
