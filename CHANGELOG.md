@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.139
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.138...v0.1.139)
+
+### 🚀 Enhancements
+
+- Changed position ([a397c2b](https://github.com/pksep/sep_yui/commit/a397c2b))
+- Add disableFile props ([0af50de](https://github.com/pksep/sep_yui/commit/0af50de))
+
 ## v0.1.138
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.137...v0.1.138)
