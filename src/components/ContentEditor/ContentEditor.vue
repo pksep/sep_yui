@@ -7,7 +7,7 @@
         { value: 'Фото или видео', function: () => attachFile(true) },
         { value: 'Файл', function: () => attachFile(false) }
       ]"
-      position="top"
+      translateY="-115px"
       class="mobile-item"
     >
       <template #trigger>
@@ -56,7 +56,7 @@
           { value: 'Фото или видео', function: () => attachFile(true) },
           { value: 'Файл', function: () => attachFile(false) }
         ]"
-        position="top"
+        translateY="-115px"
       >
         <template #trigger>
           <Button

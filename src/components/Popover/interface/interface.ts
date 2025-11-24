@@ -17,7 +17,7 @@ export interface IPopoverProps extends IDataTestIdProp {
   tooltip?: string;
   tooltipPosition?: TTooltipPosition;
   isWCUse?: boolean;
-  position?: 'top' | 'bottom';
+  translateY?: string;
 }
 
 export interface IPopoverHoverProps extends IDataTestIdProp {
