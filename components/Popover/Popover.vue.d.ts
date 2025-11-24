@@ -11,7 +11,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     tooltip: string;
     dataTestid: string;
     tooltipPosition: string;
-    position: string;
+    translateY: string;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     close: () => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IPopoverProps>, {
@@ -20,16 +20,16 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     tooltip: string;
     dataTestid: string;
     tooltipPosition: string;
-    position: string;
+    translateY: string;
 }>>> & Readonly<{
     onClose?: (() => any) | undefined;
 }>, {
     dataTestid: string;
     options: IPopoverOption[];
-    position: "top" | "bottom";
     iconName: IconNameEnum;
     tooltip: string;
     tooltipPosition: import('../Tooltip/interface/interface').TTooltipPosition;
+    translateY: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;
