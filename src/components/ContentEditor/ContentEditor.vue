@@ -1,14 +1,26 @@
 <template>
   <div class="editor-component">
-    <Button
-      :type="ButtonTypeEnum.ghost"
-      :size="SizesEnum.small"
-      class="toolbar-button attach-file-button mobile-buttons"
-      @click="attachFile"
-      :disabled="!!props.disableAttachFile"
+    <Popover
+      isWCUse
+      :disabled="!props.activeAttachFile"
+      :options="[
+        { value: 'Фото или видео', function: () => attachFile(true) },
+        { value: 'Файл', function: () => attachFile(false) }
+      ]"
+      position="top"
+      class="mobile-item"
     >
-      <Icon :name="IconNameEnum.paperClip" />
-    </Button>
+      <template #trigger>
+        <Button
+          :type="ButtonTypeEnum.ghost"
+          :size="SizesEnum.small"
+          class="toolbar-button attach-file-button mobile-buttons"
+          :disabled="!props.activeAttachFile"
+        >
+          <Icon :name="IconNameEnum.paperClip" />
+        </Button>
+      </template>
+    </Popover>
 
     <EditorContent class="editor-content" :editor="editor" />
 
@@ -20,12 +32,7 @@
         @click="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" />
-        <div
-          @click.stop
-          class="emoji-picker"
-          :class="{ 'emoji-picker-top': emojiPickerPosition === 'top' }"
-          v-if="showEmojiPicker"
-        >
+        <div @click.stop :class="pickerClasses" v-show="showEmojiPicker">
           <EmojiPicker :native="true" @select="addEmoji" />
         </div>
       </Button>
@@ -42,15 +49,26 @@
     </div>
 
     <div class="toolbar">
-      <Button
-        :type="ButtonTypeEnum.ghost"
-        :size="SizesEnum.small"
-        class="toolbar-button attach-file-button"
-        @click="attachFile"
-        :disabled="!!props.disableAttachFile"
+      <Popover
+        isWCUse
+        :disabled="!props.activeAttachFile"
+        :options="[
+          { value: 'Фото или видео', function: () => attachFile(true) },
+          { value: 'Файл', function: () => attachFile(false) }
+        ]"
+        position="top"
       >
-        <Icon :name="IconNameEnum.paperClip" :width="16" :height="16" />
-      </Button>
+        <template #trigger>
+          <Button
+            :type="ButtonTypeEnum.ghost"
+            :size="SizesEnum.small"
+            class="toolbar-button attach-file-button"
+            :disabled="!props.activeAttachFile"
+          >
+            <Icon :name="IconNameEnum.paperClip" :width="16" :height="16" />
+          </Button>
+        </template>
+      </Popover>
 
       <Button
         v-if="false"
@@ -69,12 +87,7 @@
         @click="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
-        <div
-          @click.stop
-          class="emoji-picker"
-          :class="{ 'emoji-picker-top': emojiPickerPosition === 'top' }"
-          v-if="showEmojiPicker"
-        >
+        <div @click.stop :class="pickerClasses" v-show="showEmojiPicker">
           <EmojiPicker :native="true" @select="addEmoji" />
         </div>
       </Button>
@@ -97,7 +110,14 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch, onMounted, nextTick } from 'vue';
+import {
+  onBeforeUnmount,
+  ref,
+  watch,
+  onMounted,
+  nextTick,
+  computed
+} from 'vue';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
@@ -113,13 +133,23 @@ import { ButtonTypeEnum } from '../Button/enum/enum';
 import 'vue3-emoji-picker/css';
 import type { IContentEditorEmit } from './interfaces/content-editor';
 import { ColorsEnum } from '@/common/colors.ts';
+import Popover from '../Popover/Popover.vue';
 
 // v-model binding
-const props = defineProps<{ disableAttachFile: boolean }>();
+const props = defineProps<{ activeAttachFile: boolean }>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
-const emojiPickerPosition = ref<'top' | 'bottom'>('bottom');
+const emojiPickerPosition = ref({
+  vertical: 'bottom' as 'top' | 'bottom',
+  horizontal: 'left' as 'left' | 'right'
+});
 const emits = defineEmits<IContentEditorEmit>();
+
+const pickerClasses = computed(() => [
+  'emoji-picker',
+  `emoji-picker-${emojiPickerPosition.value.vertical}`,
+  `emoji-picker-${emojiPickerPosition.value.horizontal}`
+]);
 
 /* ------------------ Custom Span Node ------------------ */
 const SpanNode = Node.create({
@@ -208,24 +238,16 @@ function addEmoji(emoji: { i: string }) {
   showEmojiPicker.value = false;
 }
 
-function attachFile() {
+function attachFile(onlyMedia: boolean = false) {
   if (!editor?.value) return;
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = 'image/*';
+  if (onlyMedia) {
+    input.accept = 'image/*,video/*';
+  }
   input.onchange = () => {
     if (!input?.files) return;
-    const file = input.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const result = e.target?.result;
-        if (result && typeof result === 'string') {
-          editor.value?.chain().focus().setImage({ src: result }).run();
-        }
-      };
-      reader.readAsDataURL(file);
-    }
+    emits('unmount-attach-file', input.files, onlyMedia);
   };
   input.click();
 }
@@ -256,16 +278,23 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
-/* ------------------ Emoji Picker positioning ------------------ */
-function updateEmojiPosition(buttonEl: HTMLElement) {
+function updateEmojiPosition(
+  buttonEl: HTMLElement,
+  pickerWidth = 300,
+  pickerHeight = 260
+) {
   if (!buttonEl) return;
 
   const rect = buttonEl.getBoundingClientRect();
+  /* ------------------ Emoji Picker positioning ------------------ */
+  const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
-  const emojiHeight = 260; // adjust if your picker height differs
 
-  emojiPickerPosition.value =
-    rect.bottom + emojiHeight > viewportHeight ? 'top' : 'bottom';
+  emojiPickerPosition.value.vertical =
+    rect.bottom + pickerHeight > viewportHeight ? 'top' : 'bottom';
+
+  emojiPickerPosition.value.horizontal =
+    rect.left + pickerWidth > viewportWidth ? 'right' : 'left';
 }
 
 function toggleEmojiPicker(event: Event) {
@@ -350,10 +379,25 @@ defineExpose({ addSpanLink });
     top: auto;
     bottom: 50px;
   }
+  .emoji-picker-bottom {
+    top: 50px;
+  }
+
+  .emoji-picker-left {
+    left: 0;
+  }
+  .emoji-picker-right {
+    left: auto;
+    right: -7px;
+  }
 
   &.right {
     margin-left: auto;
   }
+}
+
+.mobile-item {
+  display: none !important;
 }
 
 button.ghost-yui-kit.mobile-buttons {
@@ -424,6 +468,9 @@ button.mobile-buttons {
     & button.button-yui-kit.ghost-yui-kit.right {
       color: var(--blue1);
     }
+  }
+  .mobile-item {
+    display: inline-block !important;
   }
 }
 </style>
