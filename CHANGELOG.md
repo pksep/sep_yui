@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.140
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.139...v0.1.140)
+
+### 🚀 Enhancements
+
+- Publish task run ([c3a432d](https://github.com/pksep/sep_yui/commit/c3a432d))
+
+### 🏡 Chore
+
+- **release:** V0.1.139 ([e1a5127](https://github.com/pksep/sep_yui/commit/e1a5127))
+
 ## v0.1.139
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.138...v0.1.139)
