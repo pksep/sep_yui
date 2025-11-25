@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.142
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.141...v0.1.142)
+
+### 🩹 Fixes
+
+- Content editor actions ([36e651e](https://github.com/pksep/sep_yui/commit/36e651e))
+
 ## v0.1.141
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.140...v0.1.141)
