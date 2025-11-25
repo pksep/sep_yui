@@ -29,7 +29,7 @@
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
         class="toolbar-button mobile-buttons smile-button"
-        @click="toggleEmojiPicker"
+        @click.stop="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" />
         <div @click.stop :class="pickerClasses" v-show="showEmojiPicker">
@@ -84,11 +84,15 @@
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
         class="toolbar-button smile-button"
-        @click="toggleEmojiPicker"
+        @click.stop="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
         <div @click.stop :class="pickerClasses" v-show="showEmojiPicker">
-          <EmojiPicker :native="true" @select="addEmoji" />
+          <EmojiPicker
+            :native="true"
+            @select="addEmoji"
+            v-on-click-outside.bubble="closeEmojiPicker"
+          />
         </div>
       </Button>
 
@@ -134,6 +138,7 @@ import 'vue3-emoji-picker/css';
 import type { IContentEditorEmit } from './interfaces/content-editor';
 import { ColorsEnum } from '@/common/colors.ts';
 import Popover from '../Popover/Popover.vue';
+import { vOnClickOutside } from '@vueuse/components';
 
 // v-model binding
 const props = defineProps<{ activeAttachFile: boolean }>();
@@ -148,7 +153,8 @@ const emits = defineEmits<IContentEditorEmit>();
 const pickerClasses = computed(() => [
   'emoji-picker',
   `emoji-picker-${emojiPickerPosition.value.vertical}`,
-  `emoji-picker-${emojiPickerPosition.value.horizontal}`
+  `emoji-picker-${emojiPickerPosition.value.horizontal}`,
+  !editor.value?.isEmpty ? 'translateX' : ''
 ]);
 
 /* ------------------ Custom Span Node ------------------ */
@@ -235,13 +241,13 @@ function addLink() {
 function addEmoji(emoji: { i: string }) {
   if (!editor?.value) return;
   editor.value.chain().focus().insertContent(emoji.i).run();
-  showEmojiPicker.value = false;
 }
 
 function attachFile(onlyMedia: boolean = false) {
   if (!editor?.value) return;
   const input = document.createElement('input');
   input.type = 'file';
+  input.multiple = true;
   if (onlyMedia) {
     input.accept = 'image/*,video/*';
   }
@@ -305,6 +311,10 @@ function toggleEmojiPicker(event: Event) {
       updateEmojiPosition(btn);
     });
   }
+}
+
+function closeEmojiPicker() {
+  showEmojiPicker.value = false;
 }
 
 function handleWindowUpdate() {
@@ -467,6 +477,10 @@ button.mobile-buttons {
     gap: 8px;
     & button.button-yui-kit.ghost-yui-kit.right {
       color: var(--blue1);
+    }
+
+    .translateX {
+      transform: translateX(41px);
     }
   }
   .mobile-item {
