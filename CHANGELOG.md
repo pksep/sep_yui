@@ -2897,4 +2897,3 @@
 #### ⚠️ Breaking Changes
 
 - ⚠️  Choosed anble not change state choosed, but change behavoir ([bf74aba](https://github.com/NPO-Automotive/sep_yui/commit/bf74aba))
-

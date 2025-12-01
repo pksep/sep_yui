@@ -1,7 +1,7 @@
 {
   "name": "@pksep/yui",
   "author": "Perov David",
-  "version": "0.1.140",
+  "version": "0.1.142",
   "packageManager": "pnpm@9.9.0",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",

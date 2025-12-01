@@ -33,6 +33,9 @@
           <div
             v-show="state.isShow"
             class="popover-yui-kit__content"
+            :style="{
+              transform: `translateY(${props.translateY})`
+            }"
             ref="floating"
           >
             <slot>
@@ -86,7 +89,8 @@ const props = withDefaults(defineProps<IPopoverProps>(), {
   options: () => [],
   tooltip: '',
   dataTestid: 'Popover',
-  tooltipPosition: 'top-left'
+  tooltipPosition: 'top-left',
+  translateY: '0'
 });
 
 const emits = defineEmits<{
