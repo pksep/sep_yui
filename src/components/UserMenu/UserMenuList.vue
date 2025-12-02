@@ -119,7 +119,7 @@ const getTestIdSuffix = (type: MenuTypeEnum): string => {
 };
 
 const isDisabled = (type: MenuTypeEnum): boolean => {
-  return type === MenuTypeEnum.theme || type === MenuTypeEnum.help;
+  return type === MenuTypeEnum.theme;
 };
 </script>
 

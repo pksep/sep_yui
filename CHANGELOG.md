@@ -1,25 +1,16 @@
 # Changelog
 
-## v0.1.142
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.141...v0.1.142)
-
-### 🩹 Fixes
-
-- Content editor actions ([36e651e](https://github.com/pksep/sep_yui/commit/36e651e))
-
-## v0.1.141
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.140...v0.1.141)
-
 ## v0.1.140
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.139...v0.1.140)
 
 ### 🚀 Enhancements
 
-- ContentEditor add 2 variant uploads ([4a93d0c](https://github.com/pksep/sep_yui/commit/4a93d0c))
-- Add translateY for popover ([701776f](https://github.com/pksep/sep_yui/commit/701776f))
+- Publish task run ([c3a432d](https://github.com/pksep/sep_yui/commit/c3a432d))
+
+### 🏡 Chore
+
+- **release:** V0.1.139 ([e1a5127](https://github.com/pksep/sep_yui/commit/e1a5127))
 
 ## v0.1.139
 
@@ -2906,4 +2897,3 @@
 #### ⚠️ Breaking Changes
 
 - ⚠️  Choosed anble not change state choosed, but change behavoir ([bf74aba](https://github.com/NPO-Automotive/sep_yui/commit/bf74aba))
-
