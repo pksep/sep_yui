@@ -14,4 +14,4 @@ ref = "main"
 ref = "canary"
 
 [pre-commit.commands.protected]
-#run = "echo 'Protected branch' && exit 1"
+run = "echo 'Protected branch' && exit 1"
