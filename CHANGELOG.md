@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.144
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.143...v0.1.144)
+
+### 🩹 Fixes
+
+- Lefthook enable main ([177b57a](https://github.com/pksep/sep_yui/commit/177b57a))
+
 ## v0.1.143
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.142...v0.1.143)
