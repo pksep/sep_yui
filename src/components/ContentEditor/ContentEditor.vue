@@ -157,6 +157,8 @@ const pickerClasses = computed(() => [
   !editor.value?.isEmpty ? 'translateX' : ''
 ]);
 
+const editorDom = ref<HTMLElement | null>(null);
+
 /* ------------------ Custom Span Node ------------------ */
 const SpanNode = Node.create({
   name: 'spanNode',
@@ -225,7 +227,7 @@ watch(modelValue, newVal => {
   }
 });
 
-function addLink() {
+const addLink = (): void => {
   if (!editor?.value) return;
   const url = prompt('Enter URL:');
   if (url) {
@@ -236,14 +238,14 @@ function addLink() {
       .setLink({ href: url })
       .run();
   }
-}
+};
 
-function addEmoji(emoji: { i: string }) {
+const addEmoji = (emoji: { i: string }): void => {
   if (!editor?.value) return;
   editor.value.chain().focus().insertContent(emoji.i).run();
-}
+};
 
-function attachFile(onlyMedia: boolean = false) {
+const attachFile = (onlyMedia: boolean = false): void => {
   if (!editor?.value) return;
   const input = document.createElement('input');
   input.type = 'file';
@@ -256,15 +258,15 @@ function attachFile(onlyMedia: boolean = false) {
     emits('unmount-attach-file', input.files, onlyMedia);
   };
   input.click();
-}
+};
 
-function handleSave() {
+const handleSave = (): void => {
   if (!editor?.value) return;
   emits('unmount-send', { content: editor.value.getHTML() });
-}
+};
 
 /* ------------------ Insert undeletable span ------------------ */
-function addSpanLink(content: string) {
+const addSpanLink = (content: string): void => {
   if (!editor?.value) return;
   editor.value
     .chain()
@@ -274,21 +276,13 @@ function addSpanLink(content: string) {
       attrs: { content: content + ',', class: 'link' }
     })
     .run();
-}
+};
 
-/* ------------------ Keyboard shortcut: Ctrl+Enter ------------------ */
-function handleKeydown(event: KeyboardEvent) {
-  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
-    event.preventDefault();
-    handleSave();
-  }
-}
-
-function updateEmojiPosition(
+const updateEmojiPosition = (
   buttonEl: HTMLElement,
   pickerWidth = 300,
   pickerHeight = 260
-) {
+): void => {
   if (!buttonEl) return;
 
   const rect = buttonEl.getBoundingClientRect();
@@ -301,9 +295,9 @@ function updateEmojiPosition(
 
   emojiPickerPosition.value.horizontal =
     rect.left + pickerWidth > viewportWidth ? 'right' : 'left';
-}
+};
 
-function toggleEmojiPicker(event: Event) {
+const toggleEmojiPicker = (event: Event): void => {
   showEmojiPicker.value = !showEmojiPicker.value;
   if (showEmojiPicker.value) {
     const btn = event.currentTarget as HTMLElement;
@@ -311,37 +305,53 @@ function toggleEmojiPicker(event: Event) {
       updateEmojiPosition(btn);
     });
   }
-}
+};
 
-function closeEmojiPicker() {
+const closeEmojiPicker = (): void => {
   showEmojiPicker.value = false;
-}
+};
 
-function handleWindowUpdate() {
+const handleWindowUpdate = (): void => {
   const btn = document.querySelector(
     '.toolbar-button.smile-button'
   ) as HTMLElement;
   if (showEmojiPicker.value && btn) {
     updateEmojiPosition(btn);
   }
-}
+};
+
+/* ------------------ Enter key to save ------------------ */
+const handleKeydown = (event: KeyboardEvent): void => {
+  if (
+    event.key === 'Enter' &&
+    !(event.shiftKey || event.ctrlKey || event.metaKey)
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+    handleSave();
+  }
+};
 
 /* ------------------ Safe editor event listeners ------------------ */
 onMounted(() => {
   if (!editor?.value?.view?.dom) return;
-  const el = editor.value.view.dom;
-  el.addEventListener('keydown', handleKeydown);
+  editorDom.value = editor.value.view.dom;
 
   window.addEventListener('resize', handleWindowUpdate);
   window.addEventListener('scroll', handleWindowUpdate, true);
+  editorDom.value.addEventListener('keydown', handleKeydown, { capture: true });
+});
 
-  onBeforeUnmount(() => {
-    el.removeEventListener('keydown', handleKeydown);
-    editor?.value?.destroy();
+onBeforeUnmount(() => {
+  editor?.value?.destroy();
+  if (editorDom.value) {
+    editorDom.value.removeEventListener('keydown', handleKeydown, {
+      capture: true
+    });
+  }
 
-    window.removeEventListener('resize', handleWindowUpdate);
-    window.removeEventListener('scroll', handleWindowUpdate, true);
-  });
+  window.removeEventListener('resize', handleWindowUpdate);
+  window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
 defineExpose({ addSpanLink });
