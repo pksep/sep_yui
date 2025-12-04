@@ -1,5 +1,4 @@
 
-declare function addSpanLink(content: string): void;
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
     activeAttachFile: {
@@ -7,7 +6,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         required: true;
     };
 }>, {
-    addSpanLink: typeof addSpanLink;
+    addSpanLink: (content: string) => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-send": (params: {
         content?: string;
