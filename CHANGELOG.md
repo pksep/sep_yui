@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.145
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.144...v0.1.145)
+
+### 🩹 Fixes
+
+- Avatar state ([d6942bc](https://github.com/pksep/sep_yui/commit/d6942bc))
+- Avatar state ([1c0ac19](https://github.com/pksep/sep_yui/commit/1c0ac19))
+
 ## v0.1.144
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.143...v0.1.144)
