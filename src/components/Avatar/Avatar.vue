@@ -1,23 +1,25 @@
 <template>
   <div :data-testid="props.dataTestid" class="avatar-yui-kit">
-    <template v-if="props.url && !imgError">
-      <img
-        :src="props.url"
-        :alt="props.alt"
-        class="avatar-yui-kit__image"
-        @error="imgError = true"
-      />
-    </template>
-
     <img
-      v-else-if="props.defaultImage"
-      :src="props.defaultImage"
+      v-if="props.url && !imgError"
+      :src="props.url"
+      :alt="props.alt"
       class="avatar-yui-kit__image"
+      :style="{ visibility: imgLoad ? 'visible' : 'hidden' }"
+      @load="imgLoad = true"
+      @error="imgError = true"
     />
 
-    <div v-else class="avatar-yui-kit__text">
-      {{ useFirstSymbol() }}
-    </div>
+    <template v-if="imgError || !props.url">
+      <img
+        v-if="props.defaultImage"
+        :src="props.defaultImage"
+        class="avatar-yui-kit__image"
+      />
+      <div v-else class="avatar-yui-kit__text">
+        {{ useFirstSymbol() }}
+      </div>
+    </template>
   </div>
 </template>
 
@@ -27,11 +29,13 @@ import type { IAvatar } from './interfaces/interfaces';
 
 const props = defineProps<IAvatar>();
 const imgError = ref(false);
+const imgLoad = ref(false);
 
 watch(
   () => props.url,
   () => {
     imgError.value = false;
+    imgLoad.value = false;
   }
 );
 
