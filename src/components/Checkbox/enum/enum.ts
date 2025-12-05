@@ -8,3 +8,8 @@ export enum CheckboxCircularEnum {
   circled = 'circled',
   rounded = 'rounded'
 }
+
+export enum CheckboxColorEnum {
+  blue = 'blue',
+  red = 'red'
+}

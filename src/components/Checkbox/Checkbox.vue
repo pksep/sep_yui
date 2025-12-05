@@ -1,7 +1,7 @@
 <template>
   <input
     type="checkbox"
-    :class="`checkbox-yui-kit checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular}`"
+    :class="`checkbox-yui-kit checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular} checkbox-yui-kit_${props.color}`"
     :data-testid="`${props.dataTestid}`"
     tabindex="0"
     @change="onClick"
@@ -14,14 +14,19 @@
 <script setup lang="ts">
 import { reactive, watchEffect } from 'vue';
 import type { ICheckboxProps } from './interface/interface';
-import { CheckboxSizeEnum, CheckboxCircularEnum } from './enum/enum';
+import {
+  CheckboxSizeEnum,
+  CheckboxCircularEnum,
+  CheckboxColorEnum
+} from './enum/enum';
 
 const props = withDefaults(defineProps<ICheckboxProps>(), {
   size: CheckboxSizeEnum.medium,
   circular: CheckboxCircularEnum.rounded,
   modelValue: false,
   disabled: false,
-  dataTestid: 'Checkbox'
+  dataTestid: 'Checkbox',
+  color: CheckboxColorEnum.blue
 });
 
 const emits = defineEmits<{
@@ -69,7 +74,6 @@ const onClick = (): void => {
   width: var(--size);
   height: var(--size);
   color: var(--white);
-  border: 2px solid var(--blue1);
   border-radius: var(--radius);
   cursor: pointer;
   padding: 2px;
@@ -80,9 +84,28 @@ const onClick = (): void => {
   }
 }
 
+.checkbox-yui-kit_blue,
+.checkbox-yui-kit_blue:focus,
+.checkbox-yui-kit_blue:focus-visible {
+  border: 2px solid var(--blue1);
+
+  &:checked {
+    background: var(--blue1);
+  }
+}
+
+.checkbox-yui-kit_red,
+.checkbox-yui-kit_red:focus,
+.checkbox-yui-kit_red:focus-visible {
+  border: 2px solid var(--red4);
+
+  &:checked {
+    background: var(--red4);
+  }
+}
+
 .checkbox-yui-kit:checked {
   color: var(--white);
-  background: var(--blue1);
   content: url('data:image/svg+xml,<svg viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.66667 0.666748L3 7.34008L1 5.34008" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 
   &:disabled {
