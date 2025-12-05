@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.146
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.145...v0.1.146)
+
+### 🚀 Enhancements
+
+- Add checkbox color ([81f8982](https://github.com/pksep/sep_yui/commit/81f8982))
+
 ## v0.1.145
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.144...v0.1.145)
