@@ -1,5 +1,5 @@
 import { ICheckboxProps } from './interface/interface';
-import { CheckboxSizeEnum, CheckboxCircularEnum } from './enum/enum';
+import { CheckboxSizeEnum, CheckboxCircularEnum, CheckboxColorEnum } from './enum/enum';
 
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ICheckboxProps>, {
     size: CheckboxSizeEnum;
@@ -7,6 +7,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     modelValue: boolean;
     disabled: boolean;
     dataTestid: string;
+    color: CheckboxColorEnum;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (isChecked: boolean) => void;
     "update:modelValue": (value: boolean) => void;
@@ -16,10 +17,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     modelValue: boolean;
     disabled: boolean;
     dataTestid: string;
+    color: CheckboxColorEnum;
 }>>> & Readonly<{
     onChange?: ((isChecked: boolean) => any) | undefined;
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
 }>, {
+    color: CheckboxColorEnum;
     dataTestid: string;
     disabled: boolean;
     size: CheckboxSizeEnum;
