@@ -52,6 +52,7 @@ const useFirstSymbol = (): string => {
   border-radius: 50%;
   color: var(--color, var(--white));
   background-color: var(--background-color);
+  font-size: 16px;
 
   &:has(svg.icon-yui-kit) {
     height: var(--size-avatar, 100px);
@@ -68,7 +69,8 @@ const useFirstSymbol = (): string => {
   }
 
   .avatar-yui-kit__text {
-    font-size: 16px;
+    font-size: 1em;
+    text-transform: uppercase;
   }
 }
 img.avatar-yui-kit__image {
