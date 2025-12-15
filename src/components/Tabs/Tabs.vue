@@ -100,12 +100,13 @@ button.tabs__navigation-button {
   font-size: 14px;
   font-weight: 600;
   line-height: 100%;
-  color: var(--text-black);
+  color: var(--grey6);
   background: transparent;
   padding-bottom: 5px;
   border: 0;
   &:hover,
   &.active {
+    color: var(--text-black);
     border-bottom-style: solid;
     border-bottom-width: 0.5px;
     border-bottom-color: var(--text-black);
