@@ -52,30 +52,35 @@ const useFirstSymbol = (): string => {
   border-radius: 50%;
   color: var(--color, var(--white));
   background-color: var(--background-color);
+  font-size: var(--size-avatar);
 
   &:has(svg.icon-yui-kit) {
-    height: var(--size-avatar, 100px);
-    width: var(--size-avatar, 100px);
+    height: 2em;
+    width: 2em;
     --background-color: var(--blue9);
     --color: var(--grey8);
   }
 
   &:has(.avatar-yui-kit__text) {
     --background-color: var(--red4);
-    width: max-content;
+    height: 2em;
+    min-height: 2em;
+    width: 2em;
+    min-width: 2em;
     padding-inline: 9px;
     line-height: 30px;
   }
 
   .avatar-yui-kit__text {
-    font-size: 16px;
+    font-size: 1em;
+    text-transform: uppercase;
   }
 }
 img.avatar-yui-kit__image {
   font-size: var(--size-avatar);
   object-fit: cover;
   border-radius: 50%;
-  height: var(--size-avatar);
-  width: var(--size-avatar);
+  height: 2em;
+  width: 2em;
 }
 </style>
