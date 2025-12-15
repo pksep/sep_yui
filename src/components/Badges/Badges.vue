@@ -125,13 +125,13 @@ onMounted(() => {
 }
 
 .light-blue-yui-kit span {
-  color: var(--primary-pressed-light-color4);
-  background-color: var(--primary-pressed-light-color3);
+  color: var(--blue-color);
+  background-color: var(--blue-light-color);
 }
 
 .contrast-blue-yui-kit span {
   color: var(--white);
-  background-color: var(--primary-pressed-light-color2);
+  background-color: var(--blue-dark-color);
 }
 
 .blue-yui-kit span {

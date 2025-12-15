@@ -420,7 +420,7 @@ function clearTime() {
       padding-right: 0;
 
       &.pressed :deep(.input-yui-kit__input) {
-        color: var(--primary-pressed-light-color0);
+        color: var(--link-color);
       }
 
       & :deep(.input-yui-kit__input) {

@@ -194,7 +194,7 @@ const handleQrAuth = () => {
   }
 
   & .menu-yui-kit__role {
-    color: var(--button-neutral-color0);
+    color: var(--grey10);
     font-size: 12px;
     line-height: 14px;
   }
