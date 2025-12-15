@@ -3,7 +3,7 @@ fieldset.input-yui-kit.success {
 }
 
 fieldset.input-yui-kit.error {
-  @include fieldset-border(var(--red6));
+  @include fieldset-border(var(--error-dark-color));
 }
 
 fieldset.input-yui-kit.warning {

@@ -133,11 +133,11 @@ onMounted(() => {
 }
 
 .switch-yui-kit-list_contrast {
-  background-color: var(--blue15);
+  background-color: var(--background-light-color);
 }
 
 .switch-yui-kit-list_disabled {
-  background-color: var(--grey1);
+  background-color: var(--button-neutral-color);
 }
 
 .switch-yui-kit-item {
@@ -155,16 +155,16 @@ onMounted(() => {
 
 .switch-yui-kit-item_disabled {
   pointer-events: none;
-  color: var(--grey7);
-  background-color: var(--grey1);
+  color: var(--text-light-color);
+  background-color: var(--button-neutral-color);
 }
 
 .switch-yui-kit-active {
-  background-color: var(--blue1);
+  background-color: var(--primary-color);
   color: var(--white);
 }
 
 .switch-yui-kit-active_disabled {
-  background-color: var(--grey7);
+  background-color: var(--text-light-color);
 }
 </style>

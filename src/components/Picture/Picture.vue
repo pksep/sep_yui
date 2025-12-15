@@ -52,7 +52,7 @@ const props = withDefaults(defineProps<IPictureProps>(), {
   display: grid;
   place-content: center;
   border-radius: 15px;
-  background-color: var(--blue9);
+  background-color: var(--primary-hover-light-color);
   & .picture-yui-kit__caption__title {
     font-weight: bold;
     font-size: 54px;
@@ -64,7 +64,7 @@ const props = withDefaults(defineProps<IPictureProps>(), {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background-color: var(--blue9);
+  background-color: var(--primary-hover-light-color);
   border-radius: 15px;
 }
 </style>

@@ -125,7 +125,7 @@ input[type='search']::-webkit-search-cancel-button {
   border: 0;
   color: var(--text-grey);
   width: max-content;
-  border: 1px solid var(--border-grey);
+  border: 1px solid var(--border-color);
   max-width: 214px;
 
   .filter__header-title {

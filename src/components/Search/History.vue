@@ -133,26 +133,26 @@ const handleChoosePost = (item: string) => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: var(--blue15);
+    background-color: var(--background-light-color);
 
     &:hover,
     &:focus,
     &:focus-visible,
     &:active {
-      border: 1px solid var(--border-blue);
+      border: 1px solid var(--border-primary-color);
       outline: none;
     }
 
     &:focus,
     &:focus-visible,
     &:active {
-      color: var(--border-blue);
+      color: var(--border-primary-color);
     }
 
     &:focus + svg,
     &:focus-visible + svg,
     &:active + svg {
-      color: var(--border-blue);
+      color: var(--border-primary-color);
     }
   }
 
@@ -217,21 +217,21 @@ const handleChoosePost = (item: string) => {
       transition: all 0.2s;
 
       &.empty-content {
-        color: var(--grey6);
+        color: var(--text-neutral-color);
       }
     }
 
     &.show-result:hover {
       & span {
-        background-color: var(--blue15);
+        background-color: var(--background-light-color);
       }
     }
 
     &.show-result:active {
       background-color: var(--white) !important;
       & span {
-        background-color: var(--blue10);
-        color: var(--blue1);
+        background-color: var(--primary-pressed-light-color);
+        color: var(--primary-color);
       }
     }
   }
@@ -246,7 +246,7 @@ const handleChoosePost = (item: string) => {
     margin: 0;
     background-color: var(--white);
     box-shadow: 0 4px 9.8px 0 #0000000d;
-    border: 0.5px solid var(--border-blue);
+    border: 0.5px solid var(--border-primary-color);
     border-radius: 5px;
 
     &--opened {
@@ -296,7 +296,7 @@ const handleChoosePost = (item: string) => {
 
     &:hover {
       cursor: pointer;
-      background-color: var(--blue9);
+      background-color: var(--primary-hover-light-color);
 
       button {
         width: 16px;
@@ -305,7 +305,7 @@ const handleChoosePost = (item: string) => {
         justify-content: center;
         align-items: center;
         padding: 0;
-        color: var(--grey4);
+        color: var(--text-light-color);
 
         &:hover {
           background-color: transparent;
@@ -314,7 +314,7 @@ const handleChoosePost = (item: string) => {
     }
 
     &:active {
-      background-color: var(--blue10);
+      background-color: var(--primary-pressed-light-color);
     }
   }
 }

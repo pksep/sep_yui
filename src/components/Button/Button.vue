@@ -127,7 +127,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 }
 
 .primary-yui-kit {
-  background-color: var(--blue1);
+  background-color: var(--primary-color);
 
   &:hover,
   &:active,
@@ -136,28 +136,28 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--grey6);
-    background-color: var(--grey1);
+    color: var(--text-neutral-color);
+    background-color: var(--button-neutral-color);
   }
 }
 
 .secondary-yui-kit {
-  background-color: var(--blue15);
-  color: var(--blue1);
+  background-color: var(--background-light-color);
+  color: var(--primary-color);
 
   &:active,
   &.active {
-    background-color: var(--blue10);
+    background-color: var(--primary-pressed-light-color);
   }
   &.disabled-yui-kit {
-    color: var(--grey6);
-    background-color: var(--grey1);
+    color: var(--text-neutral-color);
+    background-color: var(--button-neutral-color);
   }
 }
 
 .outline-yui-kit {
   background-color: transparent;
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--border-primary-color);
   color: var(--grey14);
 
   &:active,
@@ -167,64 +167,64 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--grey6);
-    background-color: var(--grey1);
-    border: 1px solid var(--grey7);
+    color: var(--text-neutral-color);
+    background-color: var(--button-neutral-color);
+    border: 1px solid var(--text-light-color);
   }
 }
 
 .reject-yui-kit {
-  background-color: var(--grey1);
+  background-color: var(--button-neutral-color);
   border: 1px solid transparent;
-  color: var(--grey6);
+  color: var(--text-neutral-color);
 
   &:active,
   &.active {
-    color: var(--grey6);
-    background-color: var(--grey1);
+    color: var(--text-neutral-color);
+    background-color: var(--button-neutral-color);
   }
 
   &.disabled-yui-kit {
-    color: var(--grey6);
-    background-color: var(--grey1);
-    border: 1px solid var(--grey7);
+    color: var(--text-neutral-color);
+    background-color: var(--button-neutral-color);
+    border: 1px solid var(--text-light-color);
   }
 }
 
 .ghost-yui-kit {
   background-color: transparent;
-  color: var(--black2);
+  color: var(--text-color2);
 
   &:hover {
-    background-color: var(--blue15);
+    background-color: var(--background-light-color);
   }
 
   &:active,
   &.active {
-    color: var(--blue1);
-    background-color: var(--blue10);
+    color: var(--primary-color);
+    background-color: var(--primary-pressed-light-color);
   }
   &.disabled-yui-kit {
-    background-color: var(--grey2);
+    background-color: var(--border-color);
   }
 }
 
 .minor-yui-kit {
   background-color: var(--white);
-  color: var(--grey6);
+  color: var(--text-neutral-color);
 
   &:hover {
-    background-color: var(--blue15);
+    background-color: var(--background-light-color);
   }
 
   &:active,
   &.active {
-    color: var(--blue1);
-    background-color: var(--blue10);
+    color: var(--primary-color);
+    background-color: var(--primary-pressed-light-color);
   }
   &.disabled-yui-kit {
-    color: var(--grey6);
-    background-color: var(--grey11);
+    color: var(--text-neutral-color);
+    background-color: var(--button-neutral-color);
   }
 }
 

@@ -237,7 +237,7 @@ onUnmounted(() => {
     overflow: auto;
     scrollbar-width: none;
 
-    border: 0.5px solid var(--scroll-slot-border, var(--border-grey));
+    border: 0.5px solid var(--scroll-slot-border, var(--border-color));
     border-radius: var(--scroll-border-radius, 15px);
     background-color: var(--scroll-slot-background-color, transparent);
     &::-webkit-scrollbar {

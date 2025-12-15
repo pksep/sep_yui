@@ -48,24 +48,24 @@ const handleClick = () => {
   line-height: 16px;
 
   &:hover {
-    background-color: var(--blue9);
+    background-color: var(--primary-hover-light-color);
   }
 }
 
 .list-yui-kit__item--active,
 .list-yui-kit__item:focus-visible,
 .list-yui-kit__item:active {
-  background-color: var(--blue9);
+  background-color: var(--primary-hover-light-color);
   color: var(--blue19);
 }
 
 .list-yui-kit__item--disabled,
 .list-yui-kit__item--disabled:hover {
-  color: var(--grey6);
+  color: var(--text-neutral-color);
   background-color: transparent;
   cursor: not-allowed;
   & svg.icon-yui-kit {
-    color: var(--grey6);
+    color: var(--text-neutral-color);
   }
 }
 </style>

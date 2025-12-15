@@ -161,7 +161,7 @@ const getOption = (
 
     border-radius: 50%;
 
-    background-color: var(--green4);
+    background-color: var(--success-color);
   }
 }
 </style>

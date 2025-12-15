@@ -91,7 +91,7 @@ onMounted(() => {
   justify-content: space-between;
   border-bottom-width: 0.5px;
   border-bottom-style: solid;
-  border-bottom-color: var(--border-grey);
+  border-bottom-color: var(--border-color);
 }
 
 button.tabs__navigation-button {

@@ -56,12 +56,12 @@ const useFirstSymbol = (): string => {
   &:has(svg.icon-yui-kit) {
     height: var(--size-avatar, 100px);
     width: var(--size-avatar, 100px);
-    --background-color: var(--blue9);
+    --background-color: var(--primary-hover-light-color);
     --color: var(--grey8);
   }
 
   &:has(.avatar-yui-kit__text) {
-    --background-color: var(--red4);
+    --background-color: var(--error-color);
     width: max-content;
     padding-inline: 9px;
     line-height: 30px;

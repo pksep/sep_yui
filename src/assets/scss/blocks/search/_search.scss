@@ -18,22 +18,22 @@
 .select-list-yui-kit {
   &__item {
     &:hover {
-      background-color: var(--blue9);
+      background-color: var(--primary-hover-light-color);
     }
 
     &:active {
-      background-color: var(--blue10);
+      background-color: var(--primary-pressed-light-color);
     }
 
     &.active {
-      background-color: var(--blue9);
+      background-color: var(--primary-hover-light-color);
     }
   }
 
   &.minor {
     & .select-list-yui-kit__list,
     & .select-list-yui-kit__current {
-      background-color: var(--blue15);
+      background-color: var(--background-light-color);
     }
 
     & .select-list-yui-kit__current {
@@ -41,18 +41,18 @@
     }
 
     & .active-yui-kit {
-      border: 1px solid var(--border-blue);
+      border: 1px solid var(--border-primary-color);
     }
 
     & .select-list-yui-kit__item {
       &:hover {
-        background-color: var(--blue10);
+        background-color: var(--primary-pressed-light-color);
       }
       &.active {
-        background-color: var(--blue10);
+        background-color: var(--primary-pressed-light-color);
       }
       &:active {
-        background-color: var(--blue12);
+        background-color: var(--background-primary-color);
       }
     }
   }

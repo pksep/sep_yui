@@ -357,12 +357,12 @@ onUnmounted(() => {
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
-    color: var(--popover-icon-color, var(--grey4));
+    color: var(--popover-icon-color, var(--text-light-color));
     &:hover,
     &.active-yui-kit {
-      color: var(--border-blue);
+      color: var(--border-primary-color);
       &.empty-yui-kit {
-        color: var(--popover-icon-color, var(--grey4));
+        color: var(--popover-icon-color, var(--text-light-color));
       }
     }
 
@@ -407,10 +407,10 @@ onUnmounted(() => {
     text-align: left;
     transition: background-color 0.2s ease;
     &:hover {
-      background-color: var(--blue9);
+      background-color: var(--primary-hover-light-color);
     }
     &:active {
-      background-color: var(--blue10);
+      background-color: var(--primary-pressed-light-color);
     }
   }
 }

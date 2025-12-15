@@ -436,16 +436,16 @@ button.mobile-buttons {
     }
     &:disabled,
     &.disable-yui-kit {
-      background-color: var(--grey1);
-      color: var(--grey7);
+      background-color: var(--button-neutral-color);
+      color: var(--text-light-color);
     }
   }
   &.ghost-yui-kit.button-yui-kit,
   &.ghost-yui-kit.button-yui-kit.disable-yui-kit {
     &:not(:disabled) {
-      background-color: var(--blue15);
+      background-color: var(--background-light-color);
       &:hover {
-        background-color: var(--blue10);
+        background-color: var(--primary-pressed-light-color);
       }
     }
   }
@@ -453,7 +453,7 @@ button.mobile-buttons {
 
 .is-editor-empty::before {
   content: attr(data-placeholder);
-  color: var(--grey6);
+  color: var(--text-neutral-color);
   font-size: 16px;
   pointer-events: none;
   float: left;
@@ -486,7 +486,7 @@ button.mobile-buttons {
     display: flex;
     gap: 8px;
     & button.button-yui-kit.ghost-yui-kit.right {
-      color: var(--blue1);
+      color: var(--primary-color);
     }
 
     .translateX {

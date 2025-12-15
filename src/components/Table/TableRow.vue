@@ -34,17 +34,17 @@ const classRow = computed(() => [
 }
 
 .table-row:last-child > * {
-  border-bottom: 0.5px solid var(--border-grey);
+  border-bottom: 0.5px solid var(--border-color);
 }
 
 .table-row_active,
 .table-row:hover {
-  background-color: var(--blue21);
+  background-color: var(--primary-pressed-light-color1);
   color: inherit;
 }
 
 .table-row.ava {
-  background-color: var(--orange10);
+  background-color: var(--ava-color);
 }
 .table-row.ava:hover,
 .table-row.ava_active {

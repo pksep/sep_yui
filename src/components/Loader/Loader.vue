@@ -72,7 +72,7 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
   font-size: 18px;
   font-weight: bold;
   margin-top: 13px;
-  color: var(--blue1);
+  color: var(--primary-color);
 }
 
 @keyframes light-blue-circle {

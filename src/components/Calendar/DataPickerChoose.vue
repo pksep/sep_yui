@@ -96,17 +96,17 @@ const formatLetter = (str: string): string | null => {
   padding: var(--header-padding, 10px);
   border-radius: 10px;
   font-size: 14px;
-  color: var(--color, var(--grey6));
-  border: 1px solid var(--border, var(--border-grey));
+  color: var(--color, var(--text-neutral-color));
+  border: 1px solid var(--border, var(--border-color));
   padding-left: 1px;
   &:hover {
     cursor: pointer;
     background: #f8f9fd;
   }
   &.date-active-yui-kit {
-    --background: var(--blue9);
-    --color: var(--blue1);
-    --border: var(--active-border, var(--border-blue));
+    --background: var(--primary-hover-light-color);
+    --color: var(--primary-color);
+    --border: var(--active-border, var(--border-primary-color));
   }
   &:nth-child(2) {
     padding-left: 10px;
@@ -124,11 +124,11 @@ const formatLetter = (str: string): string | null => {
 .date-disable-yui-kit {
   user-select: none;
   pointer-events: none;
-  --color: var(--grey4);
-  --background: var(--grey1);
-  --border: var(--disable-border, var(--border-grey));
+  --color: var(--text-light-color);
+  --background: var(--button-neutral-color);
+  --border: var(--disable-border, var(--border-color));
   & button.disabled-yui-kit {
-    color: var(--grey4);
+    color: var(--text-light-color);
     background: transparent;
   }
 }

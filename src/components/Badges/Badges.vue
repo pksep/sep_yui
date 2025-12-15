@@ -13,7 +13,7 @@
       :height="10"
       :data-testid="`${props.dataTestid}-Icon`"
       :name="IconNameEnum.closeTag"
-      color="var(--grey6)"
+      color="var(--text-neutral-color)"
     />
   </div>
 </template>
@@ -120,58 +120,58 @@ onMounted(() => {
 }
 
 .default-yui-kit span {
-  color: var(--grey6);
-  background-color: var(--grey3);
+  color: var(--text-neutral-color);
+  background-color: var(--background-light-color);
 }
 
 .light-blue-yui-kit span {
-  color: var(--blue24);
-  background-color: var(--blue23);
+  color: var(--primary-pressed-light-color4);
+  background-color: var(--primary-pressed-light-color3);
 }
 
 .contrast-blue-yui-kit span {
   color: var(--white);
-  background-color: var(--blue22);
+  background-color: var(--primary-pressed-light-color2);
 }
 
 .blue-yui-kit span {
-  color: var(--blue4);
-  background-color: var(--blue12);
+  color: var(--link-color);
+  background-color: var(--background-primary-color);
 }
 
 .green-yui-kit span {
-  color: var(--green2);
-  background-color: var(--green1);
+  color: var(--success-color);
+  background-color: var(--positive-color);
 }
 
 .orange-yui-kit span {
   color: var(--orange8);
-  background-color: var(--orange7);
+  background-color: var(--ava-ctive-color);
 }
 
 .yellow-yui-kit span {
-  color: var(--orange12);
-  background-color: var(--orange11);
+  color: var(--orange-color);
+  background-color: var(--orange-light-color);
 }
 
 .red-yui-kit span {
-  color: var(--red4);
-  background-color: var(--red3);
+  color: var(--error-color);
+  background-color: var(--ban-color);
 }
 
 .pink-yui-kit span {
-  color: var(--pink2);
-  background-color: var(--pink1);
+  color: var(--pink-color);
+  background-color: var(--pink-light-color);
 }
 
 .violet-yui-kit span {
-  color: var(--violet2);
-  background-color: var(--violet3);
+  color: var(--purple-color);
+  background-color: var(--purple-light-color);
 }
 
 .base-yui-kit.choosed-yui-kit {
   position: relative;
-  background-color: var(--blue9);
+  background-color: var(--primary-hover-light-color);
   padding: 3px;
   display: flex;
   align-items: center;

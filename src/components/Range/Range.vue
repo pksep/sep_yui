@@ -86,7 +86,7 @@ onMounted(() => {
 .range {
   width: 100%;
   --range-width-thumb: 20px;
-  --range-track-color: var(--grey4);
+  --range-track-color: var(--text-light-color);
 
   -webkit-appearance: none;
   appearance: none;
@@ -96,8 +96,8 @@ onMounted(() => {
 
   background: linear-gradient(
     90deg,
-    var(--blue1) 0%,
-    var(--blue1) var(--progress, 0%),
+    var(--primary-color) 0%,
+    var(--primary-color) var(--progress, 0%),
     var(--range-track-color) var(--progress, 0%),
     var(--range-track-color) 100%
   );
@@ -107,8 +107,8 @@ onMounted(() => {
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--blue1);
-    border: 0px solid var(--blue1);
+    background-color: var(--primary-color);
+    border: 0px solid var(--primary-color);
     border-radius: 50%;
     height: var(--range-width-thumb);
     width: var(--range-width-thumb);
@@ -117,8 +117,8 @@ onMounted(() => {
   &::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--blue1);
-    border: 0px solid var(--blue1);
+    background-color: var(--primary-color);
+    border: 0px solid var(--primary-color);
     border-radius: 50%;
     height: var(--range-width-thumb);
     width: var(--range-width-thumb);

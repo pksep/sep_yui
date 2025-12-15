@@ -127,7 +127,7 @@ watch(
     transition: 0.3s ease-in-out;
     margin: 0;
     background-color: var(--white);
-    border: 1px solid var(--border-blue);
+    border: 1px solid var(--border-primary-color);
     gap: 5px;
     border-radius: 5px;
     cursor: pointer;
@@ -148,7 +148,7 @@ watch(
       padding: 4px 5px;
 
       &:hover {
-        background-color: var(--blue9);
+        background-color: var(--primary-hover-light-color);
       }
 
       & span {
@@ -161,7 +161,7 @@ watch(
       }
 
       & .blue-yui-kit {
-        color: var(--blue1);
+        color: var(--primary-color);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -188,7 +188,7 @@ watch(
         font-size: 12px;
         line-height: 100%;
         letter-spacing: 0;
-        color: var(--grey6);
+        color: var(--text-neutral-color);
       }
     }
   }
