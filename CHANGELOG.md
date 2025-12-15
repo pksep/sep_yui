@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.147
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.146...v0.1.147)
+
+### 🚀 Enhancements
+
+- Add font-size and tabs size ([f96bf9f](https://github.com/pksep/sep_yui/commit/f96bf9f))
+
+### 🩹 Fixes
+
+- Size avatar is now font-size and calculation ([68d3c7e](https://github.com/pksep/sep_yui/commit/68d3c7e))
+
 ## v0.1.146
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.145...v0.1.146)
