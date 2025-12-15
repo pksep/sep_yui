@@ -51,11 +51,11 @@ const classRow = computed(() => [
   background-color: #ffebc1;
 }
 .table-row.ban {
-  background-color: #ffefee;
+  background-color: var(--ban-color);
 }
 .table-row.ban:hover,
 .table-row.ban_active {
-  background-color: #ffd3ca;
+  background-color: var(--ban-active-color);
 }
 .table-row.passive {
   background-color: #f8f8f9;

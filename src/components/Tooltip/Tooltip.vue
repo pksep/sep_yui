@@ -344,7 +344,7 @@ onUnmounted(() => {
 
     &_white {
       --tooltip-background-color: var(--white);
-      --tooltip-color: #181818;
+      --tooltip-color: var(--text-color);
     }
 
     &_small {

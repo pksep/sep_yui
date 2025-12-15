@@ -451,7 +451,7 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: #f8f9fd;
+    background-color: var(--background-light-color);
   }
 }
 

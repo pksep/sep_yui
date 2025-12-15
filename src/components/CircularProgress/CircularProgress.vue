@@ -7,7 +7,10 @@
     <div
       class="pie-chart-border"
       :style="{
-        'border-color': props.percent < 50 ? '#ef9b8f' : '#ffcc00'
+        'border-color':
+          props.percent < 50
+            ? 'var(--error-light-color)'
+            : 'var(--orange-color)'
       }"
       :data-testid="`${props.dataTestid}-PieChart-Border`"
     >
@@ -15,7 +18,10 @@
         class="sector"
         :style="{
           clipPath: calculateClipPath(),
-          'background-color': props.percent < 50 ? '#ef9b8f' : '#ffcc00'
+          'background-color':
+            props.percent < 50
+              ? 'var(--error-light-color)'
+              : 'var(--orange-color)'
         }"
         :data-testid="`${props.dataTestid}-PieChart-Sector`"
       ></div>

@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<ICardProps>(), {
   &:hover,
   &:active,
   .pressed {
-    border-color: #9cbeff;
+    border-color: var(--border-primary-color);
   }
   &:hover {
     border-width: 0.5px;

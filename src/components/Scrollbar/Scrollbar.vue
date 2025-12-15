@@ -61,19 +61,23 @@ const updateCSSVariables = () => {
   const railY = scrollbar.value.querySelector('.ps__rail-y') as HTMLElement;
   const railX = scrollbar.value.querySelector('.ps__rail-x') as HTMLElement;
 
-  thrumbY.style.background = props.thrumbStyle?.y?.background || '#77a6ff';
+  thrumbY.style.background =
+    props.thrumbStyle?.y?.background || 'var(--primary-color)';
   thrumbY.style.width = props.thrumbStyle?.y?.width || '6px';
   thrumbY.style.right = '0px';
 
-  thrumbX.style.background = props.thrumbStyle?.x?.background || '#77a6ff';
+  thrumbX.style.background =
+    props.thrumbStyle?.x?.background || 'var(--primary-color)';
   thrumbX.style.width = props.thrumbStyle?.x?.width || '6px';
   thrumbX.style.right = '0px';
 
-  railY.style.background = props.railStyle?.y?.background || '#F5F5F5';
+  railY.style.background =
+    props.railStyle?.y?.background || 'var(--button-neutral-color)';
   railY.style.width = props.thrumbStyle?.y?.width || '6px';
   railY.style.right = props.railStyle?.y?.right || '0px';
 
-  railX.style.background = props.railStyle?.x?.background || '#F5F5F5';
+  railX.style.background =
+    props.railStyle?.x?.background || 'var(--button-neutral-color)';
   railX.style.width = props.thrumbStyle?.x?.width || '6px';
   railX.style.right = props.railStyle?.x?.right || '0px';
 

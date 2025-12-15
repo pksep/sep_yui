@@ -74,10 +74,10 @@ table.table-yui-kit {
       }
     }
     &.ban {
-      --background: #ffefee;
+      --background: var(--ban-color);
       &:hover,
       &.active {
-        --background: #ffd3ca;
+        --background: var(--ban-active-color);
       }
     }
   }

@@ -360,7 +360,7 @@ defineExpose({ addSpanLink });
 <style>
 .editor-component {
   background-color: var(--white);
-  border: 0.5px solid #e7e7e7;
+  border: 0.5px solid var(--border-color);
   border-radius: 10px;
   min-height: 105px;
 

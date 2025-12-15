@@ -101,7 +101,7 @@ const formatLetter = (str: string): string | null => {
   padding-left: 1px;
   &:hover {
     cursor: pointer;
-    background: #f8f9fd;
+    background: var(--background-light-color);
   }
   &.date-active-yui-kit {
     --background: var(--primary-hover-light-color);

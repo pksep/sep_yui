@@ -127,7 +127,7 @@ const getOption = (
   }
 
   &.active-yui-kit {
-    background-color: #ecf3ff;
+    background-color: var(--primary-pressed-light-color);
   }
 }
 

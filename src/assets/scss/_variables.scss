@@ -6,20 +6,20 @@ $WHITE: var(--white);
 $BLACK: var(--text-color);
 $TRANSPARENT: transparent;
 
-$WHITE-F5F5F5: #f5f5f5;
-$WHITE-F8F9FD: #f8f9fd;
-$WHITE-ECF3FF: #ecf3ff;
-$WHITE-E6E6E6: #e6e6e6;
-$WHITE-E7E7E7: #e7e7e7;
-$WHITE-E0E0E0: #e0e0e0;
-$WHITE-F0F0F0: #f0f0f0;
+$WHITE-F5F5F5: var(--button-neutral-color);
+$WHITE-F8F9FD: var(--background-light-color);
+$WHITE-ECF3FF: var(--primary-pressed-light-color);
+$WHITE-E6E6E6: var(--border-color);
+$WHITE-E7E7E7: var(--border-color);
+$WHITE-E0E0E0: var(--border-color);
+$WHITE-F0F0F0: var(--button-neutral-color);
 
 $BLUE-5CBAFF: var(--blue14);
 $BLUE-77A6FF: var(--primary-color);
 $BLUE-70A6FF: #70a6ff;
 $BLUE-548CF6: #548cf6;
 $BLUE-EAF2FF: var(--primary-pressed-light-color);
-$BLUE-9CBEFF: #9cbeff;
+$BLUE-9CBEFF: var(--border-primary-color);
 $BLUE-D6E4FF: var(--background-primary-color);
 $BLUE-E0F2FF: var(--blue13);
 $BLUE-F2F7FF: var(--primary-hover-light-color);
@@ -29,7 +29,7 @@ $BLUE-E6EFFF: #e6efff;
 $BLUE-4480F345: #4480f345;
 $BLUE-4480F3: #4480f3;
 $BLUE-407BFF: var(--link-color);
-$BLUE-ECF3FF: #ecf3ff;
+$BLUE-ECF3FF: var(--primary-pressed-light-color);
 
 $GREY-9A9B9D: #9a9b9d;
 $GREY-757D8A: var(--text-neutral-color);

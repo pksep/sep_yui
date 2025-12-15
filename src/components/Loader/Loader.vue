@@ -55,14 +55,14 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
 }
 
 .loader__circle--light-blue {
-  background-color: #77a6ff;
+  background-color: var(--primary-color);
   animation-name: light-blue-circle;
   transform: translateX(16.25px);
   z-index: 1;
 }
 
 .loader__circle--blue {
-  background-color: #407bff;
+  background-color: var(--link-color);
   animation-name: blue-circle;
   transform: translateX(37.75px);
   z-index: 1;
