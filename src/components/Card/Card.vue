@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<ICardProps>(), {
   &:hover,
   &:active,
   .pressed {
-    border-color: #9cbeff;
+    border-color: var(--border-primary-color);
   }
   &:hover {
     border-width: 0.5px;
@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<ICardProps>(), {
   }
 
   &__left {
-    color: var(--blue1);
+    color: var(--primary-color);
     font-size: 24px;
     font-weight: 700;
     line-height: 100%;

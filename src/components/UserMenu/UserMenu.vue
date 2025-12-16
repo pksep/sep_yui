@@ -177,7 +177,7 @@ const handleQrAuth = () => {
 
     &:hover,
     &.active-yui-kit {
-      background-color: var(--blue9);
+      background-color: var(--primary-hover-light-color);
     }
   }
 
@@ -187,7 +187,7 @@ const handleQrAuth = () => {
   }
 
   & .menu-yui-kit__name {
-    color: var(--grey9);
+    color: var(--text-color);
     margin-bottom: 2px;
     font-size: 14px;
     line-height: 16px;

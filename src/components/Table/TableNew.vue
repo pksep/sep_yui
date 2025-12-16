@@ -222,7 +222,7 @@ onMounted(() => {
   &__search-th {
     --th-horizontal-padding: 5px;
     --th-vertical-padding: 5px;
-    border-bottom: 1px solid var(--border-grey);
+    border-bottom: 1px solid var(--border-color);
     background-color: var(--table-background-color, var(--white));
   }
 

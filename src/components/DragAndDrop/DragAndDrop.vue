@@ -130,7 +130,7 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   font-family: $PRIMARY-FONT;
   font-size: 18px;
   font-weight: 700;
-  color: #a6a3ad;
+  color: var(--text-light-color);
   svg {
     margin-right: 5px;
   }
@@ -139,19 +139,19 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
 div.dnd-yui-kit label.dnd-yui-kit__label {
   &:hover,
   &.is-pressed {
-    border: 1.5px solid #77a6ff;
-    background: #f9fbff;
+    border: 1.5px solid var(--primary-color);
+    background: var(--background-light-color);
   }
   &.active,
   &.is-pressed {
     & span.dnd-yui-kit__span,
     svg {
-      color: #77a6ff;
+      color: var(--primary-color);
     }
   }
   &.active {
-    border: 2.5px dashed #77a6ff;
-    background: #f9fbff;
+    border: 2.5px dashed var(--primary-color);
+    background: var(--background-light-color);
   }
 }
 </style>

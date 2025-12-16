@@ -333,18 +333,17 @@ onUnmounted(() => {
     }
 
     &_black {
-      --tooltip-background-color: var(--black2);
       --tooltip-color: var(--white);
     }
 
     &_blue {
-      --tooltip-background-color: var(--blue7);
+      --tooltip-background-color: var(--border-color);
       --tooltip-color: var(--white);
     }
 
     &_white {
       --tooltip-background-color: var(--white);
-      --tooltip-color: #181818;
+      --tooltip-color: var(--text-color);
     }
 
     &_small {

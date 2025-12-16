@@ -14,11 +14,11 @@ export const colors: ColorsType = {
   },
   Black: {
     text: 'Black',
-    color: '#000000'
+    color: 'var(--text-color)'
   },
   Black1: {
     text: 'Black1',
-    color: '#262A38'
+    color: 'var(--tooltip-background-color)'
   },
   Black2: {
     text: 'Black2',
@@ -26,19 +26,19 @@ export const colors: ColorsType = {
   },
   Blue1: {
     text: 'Blue1',
-    color: '#77A6FF'
+    color: 'var(--primary-color)'
   },
   Blue2: {
     text: 'Blue2',
-    color: '#DCDFED'
+    color: 'var(--primary-pressed-light-color)'
   },
   Blue3: {
     text: 'Blue3',
-    color: '#6695FF'
+    color: 'var(--primary-pressed-color)'
   },
   Blue4: {
     text: 'Blue4',
-    color: '#407BFF'
+    color: 'var(--link-color)'
   },
   Blue5: {
     text: 'Blue5',
@@ -50,7 +50,7 @@ export const colors: ColorsType = {
   },
   Blue7: {
     text: 'Blue7',
-    color: '#A5C4FF'
+    color: 'var(--border-color)'
   },
   Blue8: {
     text: 'Blue8',
@@ -58,19 +58,19 @@ export const colors: ColorsType = {
   },
   Blue9: {
     text: 'Blue9',
-    color: '#F2F7FF'
+    color: 'var(--primary-hover-light-color)'
   },
   Blue10: {
     text: 'Blue10',
-    color: '#ECF3FF'
+    color: 'var(--primary-pressed-light-color)'
   },
   Blue11: {
     text: 'Blue11',
-    color: '#EAF2FF'
+    color: 'var(--primary-pressed-light-color)'
   },
   Blue12: {
     text: 'Blue12',
-    color: '#D6E4FF'
+    color: 'var(--background-primary-color)'
   },
   Blue13: {
     text: 'Blue13',
@@ -82,28 +82,28 @@ export const colors: ColorsType = {
   },
   Blue15: {
     text: 'Blue15',
-    color: '#F8F9FD'
+    color: 'var(--background-light-color)'
   },
   Blue16: {
     text: 'Blue16',
-    color: '#9CBEFF'
+    color: 'var(--border-primary-color)'
   },
 
   Grey1: {
     text: 'Grey1',
-    color: '#F5F5F5'
+    color: 'var(--button-neutral-color)'
   },
   Grey2: {
     text: 'Grey2',
-    color: '#E6E6E6'
+    color: 'var(--border-color)'
   },
   Grey3: {
     text: 'Grey3',
-    color: '#E2E2E2'
+    color: 'var(--border-color)'
   },
   Grey4: {
     text: 'Grey4',
-    color: '#A6A3AD'
+    color: 'var(--text-light-color)'
   },
   Grey5: {
     text: 'Grey5',
@@ -111,11 +111,11 @@ export const colors: ColorsType = {
   },
   Grey6: {
     text: 'Grey6',
-    color: '#757D8A'
+    color: 'var(--text-neutral-color)'
   },
   Grey7: {
     text: 'Grey7',
-    color: '#E7E7E7'
+    color: 'var(--border-color)'
   },
 
   Orange1: {
@@ -132,23 +132,23 @@ export const colors: ColorsType = {
   },
   Orange4: {
     text: 'Orange4',
-    color: '#FFB833'
+    color: 'var(--warning-color)'
   },
   Orange5: {
     text: 'Orange5',
-    color: '#FFD683'
+    color: 'var(--warning-color)'
   },
   Orange6: {
     text: 'Orange6',
-    color: '#F79400'
+    color: 'var(--warning-color)'
   },
   Orange7: {
     text: 'Orange7',
-    color: '#FAEED5'
+    color: 'var(--ava-active-color)'
   },
   Orange8: {
     text: 'Orange8',
-    color: '#E8A702'
+    color: 'var(--warning-color)'
   },
 
   Red1: {
@@ -157,38 +157,38 @@ export const colors: ColorsType = {
   },
   Red2: {
     text: 'Red2',
-    color: '#EF9B8F'
+    color: 'var(--error-light-color)'
   },
   Red3: {
     text: 'Red3',
-    color: '#FFE2E1'
+    color: 'var(--ban-color)'
   },
   Red4: {
     text: 'Red4',
-    color: '#FF6868'
+    color: 'var(--error-color)'
   },
 
   Pink1: {
     text: 'Pink1',
-    color: '#FEDAE9'
+    color: 'var(--pink-light-color)'
   },
   Pink2: {
     text: 'Pink2',
-    color: '#FE3A8B'
+    color: 'var(--pink-color)'
   },
 
   Green1: {
     text: 'Green1',
-    color: '#D8F2DA'
+    color: 'var(--positive-color)'
   },
   Green2: {
     text: 'Green2',
-    color: '#0FBE3F'
+    color: 'var(--success-color)'
   },
 
   Gradient1: {
     text: 'Gradient1',
-    color: 'linear-gradient(#77A6FF, #0ACED2, #1AE4B6) '
+    color: 'linear-gradient(var(--primary-color, #0ACED2, #1AE4B6) )'
   },
   Gradient2: {
     text: 'Gradient2',

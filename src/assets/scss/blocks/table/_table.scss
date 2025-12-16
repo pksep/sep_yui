@@ -1,5 +1,5 @@
 div.table-yui-kit__border {
-  border: 0.5px solid var(--grey13);
+  border: 0.5px solid var(--border-color);
   border-radius: 15px;
   overflow: clip;
 }
@@ -38,19 +38,19 @@ table.table-yui-kit {
   }
   & th.table-yui-kit__th {
     padding: 12px 8px;
-    border-bottom: 0.5px solid var(--grey3);
+    border-bottom: 0.5px solid var(--border-color);
     &.colored {
-      background-color: var(--blue9);
+      background-color: var(--primary-hover-light-color);
     }
   }
 
   & th.table-yui-kit__th {
-    border-right: 0.5px solid var(--grey3);
+    border-right: 0.5px solid var(--border-color);
   }
 
   & tr.table-yui-kit__tr:not(:last-child) {
     & td.table-yui-kit__td {
-      border-bottom: 0.5px solid var(--grey3);
+      border-bottom: 0.5px solid var(--border-color);
     }
   }
 
@@ -63,27 +63,27 @@ table.table-yui-kit {
     }
     &:hover,
     &.active {
-      --background: var(--blue21);
+      --background: var(--primary-hover-light-color);
       color: inherit;
     }
     &.ava {
-      --background: var(--orange10);
+      --background: var(--ava-color);
       &:hover,
       &.active {
         --background: #ffebc1;
       }
     }
     &.ban {
-      --background: #ffefee;
+      --background: var(--ban-color);
       &:hover,
       &.active {
-        --background: #ffd3ca;
+        --background: var(--ban-active-color);
       }
     }
   }
 
   & td.table-yui-kit__td {
-    border-right: 0.5px solid var(--grey3);
+    border-right: 0.5px solid var(--border-color);
   }
 
   & td.table-yui-kit__td {
@@ -145,5 +145,5 @@ table.table-yui-kit tr.table-yui-kit__tr {
 }
 
 table.table-yui-kit tbody.table-yui-kit__tbody:has(tr.table-yui-kit__tr:last-child) td.table-yui-kit__td {
-  border-bottom: 0.5px solid var(--grey0);
+  border-bottom: 0.5px solid var(--border-color);
 }

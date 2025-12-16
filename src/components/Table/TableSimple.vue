@@ -92,7 +92,7 @@ table.simple-table-yui-kit {
 
   position: relative;
   width: 100%;
-  border: 0.5px solid var(--grey13);
+  border: 0.5px solid var(--border-color);
   outline: none;
   border-collapse: separate;
   border-radius: 15px;
@@ -111,7 +111,7 @@ table.simple-table-yui-kit {
   &.simple-table-yui-kit__search-row {
     --th-horizontal-padding: 5px;
     --th-vertical-padding: 5px;
-    border-bottom: 1px solid var(--border-grey);
+    border-bottom: 1px solid var(--border-color);
     background-color: var(--table-background-color, var(--white));
   }
 }

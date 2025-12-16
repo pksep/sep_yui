@@ -1,56 +1,54 @@
-$PRIMARY-FONT: 'Inter Variable', sans-serif;
+$PRIMARY-FONT: "Inter Variable", sans-serif;
 
-$STAR-FONT: 'Source Sans Pro', sans-serif;
+$STAR-FONT: "Source Sans Pro", sans-serif;
 
 $WHITE: var(--white);
-$BLACK: var(--black);
+$BLACK: var(--text-color);
 $TRANSPARENT: transparent;
 
-$WHITE-F5F5F5: #f5f5f5;
-$WHITE-F8F9FD: #f8f9fd;
-$WHITE-ECF3FF: #ecf3ff;
-$WHITE-E6E6E6: #e6e6e6;
-$WHITE-E7E7E7: #e7e7e7;
-$WHITE-E0E0E0: #e0e0e0;
-$WHITE-F0F0F0: #f0f0f0;
+$WHITE-F5F5F5: var(--button-neutral-color);
+$WHITE-F8F9FD: var(--background-light-color);
+$WHITE-ECF3FF: var(--primary-pressed-light-color);
+$WHITE-E6E6E6: var(--border-color);
+$WHITE-E7E7E7: var(--border-color);
+$WHITE-E0E0E0: var(--border-color);
+$WHITE-F0F0F0: var(--button-neutral-color);
 
-$BLUE-5CBAFF: var(--blue14);
-$BLUE-77A6FF: var(--blue1);
+$BLUE-77A6FF: var(--primary-color);
 $BLUE-70A6FF: #70a6ff;
 $BLUE-548CF6: #548cf6;
-$BLUE-EAF2FF: var(--blue11);
-$BLUE-9CBEFF: #9cbeff;
-$BLUE-D6E4FF: var(--blue12);
-$BLUE-E0F2FF: var(--blue13);
-$BLUE-F2F7FF: var(--blue9);
-$BLUE-F8F9FD: var(--blue15);
+$BLUE-EAF2FF: var(--primary-pressed-light-color);
+$BLUE-9CBEFF: var(--border-primary-color);
+$BLUE-D6E4FF: var(--background-primary-color);
+$BLUE-F2F7FF: var(--primary-hover-light-color);
+$BLUE-F8F9FD: var(--background-light-color);
 $BLUE-E7EDF8: #e7edf8;
 $BLUE-E6EFFF: #e6efff;
 $BLUE-4480F345: #4480f345;
 $BLUE-4480F3: #4480f3;
-$BLUE-407BFF: var(--blue4);
-$BLUE-ECF3FF: #ecf3ff;
+$BLUE-407BFF: var(--link-color);
+$BLUE-ECF3FF: var(--primary-pressed-light-color);
 
 $GREY-9A9B9D: #9a9b9d;
-$GREY-757D8A: var(--grey6);
-$GREY-E2E2E2: var(--grey3);
+$GREY-757D8A: var(--text-neutral-color);
+$GREY-E2E2E2: var(--border-color);
 $GREY-A6A3AD: var(--grey4);
 $GREY-282828: #282828;
 $GREY-262626: #262626;
 $GREY-121212: #121212;
 $GREY-B8B8B8: #b8b8b8;
 $GREY-515151: #515151;
-$GREY-DCDFED: var(--blue2);
-$GREY-677074: var(--grey5);
+$GREY-DCDFED: var(--primary-pressed-light-color);
+$GREY-677074: var(--text-neutral-color);
 
-$GREEN-0FBE3F: var(--green2);
-$GREEN-D8F2DA: var(--green1);
+$GREEN-0FBE3F: var(--success-color);
+$GREEN-D8F2DA: var(--positive-color);
 
 $ORANGE-E8A702: var(--orange8);
-$ORANGE-FAEED5: var(--orange7);
+$ORANGE-FAEED5: var(--ava-active-color);
 
-$RED-FF6868: var(--red4);
-$RED-FFE2E1: var(--red3);
+$RED-FF6868: var(--error-color);
+$RED-FFE2E1: var(--ban-color);
 
-$PINK-FEDAE9: var(--pink1);
-$PINK-FE3A8B: var(--pink2);
+$PINK-FEDAE9: var(--pink-light-color);
+$PINK-FE3A8B: var(--pink-color);

@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<ISectionTableRow>(), {
 .section-table-row__td {
   text-align: center;
   padding: 15px 8px;
-  color: var(--blue1);
+  color: var(--primary-color);
   font-size: 16px;
   font-weight: 700;
 }

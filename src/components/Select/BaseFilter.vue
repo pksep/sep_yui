@@ -373,7 +373,7 @@ onUnmounted(() => {
   gap: 5px;
   padding: var(--filter-padding, 13px 10px);
   justify-content: start;
-  border: 1px solid var(--border-grey);
+  border: 1px solid var(--border-color);
   color: var(--text-grey);
   width: max-content;
   max-width: 237px;
@@ -402,7 +402,7 @@ onUnmounted(() => {
 }
 
 :deep(.filter__header:hover) {
-  border-color: var(--border-blue);
+  border-color: var(--border-primary-color);
 }
 
 :deep(.filter__options) {
@@ -451,7 +451,7 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: #f8f9fd;
+    background-color: var(--background-light-color);
   }
 }
 
@@ -462,7 +462,7 @@ onUnmounted(() => {
 
 .filter__cross:active,
 .filter__count:hover {
-  color: var(--blue1);
+  color: var(--primary-color);
 }
 
 .filter__count:hover .filter__values,
@@ -495,7 +495,7 @@ li.filter__options-underline {
   & .filter__options-underline-hr {
     margin: 0;
     border: none;
-    border-bottom: 0.5px solid var(--border-grey);
+    border-bottom: 0.5px solid var(--border-color);
   }
 
   &:last-child,

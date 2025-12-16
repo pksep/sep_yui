@@ -27,8 +27,8 @@ const model = defineModel();
 
 <style scoped lang="scss">
 .radio {
-  --radio-color: var(--blue1);
-  --radio-disabled-color: var(--grey7);
+  --radio-color: var(--primary-color);
+  --radio-disabled-color: var(--text-light-color);
 
   --radio-width: 18px;
 

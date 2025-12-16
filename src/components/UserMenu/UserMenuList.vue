@@ -140,7 +140,7 @@ const isDisabled = (type: MenuTypeEnum): boolean => {
 :deep(ul.switch-yui-kit-list) {
   width: 191px;
   padding: 2px;
-  background-color: var(--blue9);
+  background-color: var(--primary-hover-light-color);
 }
 
 :deep(li.switch-yui-kit-item) {

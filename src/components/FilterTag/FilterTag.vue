@@ -294,7 +294,7 @@ onMounted(setOptions);
     align-items: center;
     width: fit-content;
     border: 1px solid $WHITE-E7E7E7;
-    color: var(--grey6);
+    color: var(--text-neutral-color);
     background-color: var(--white);
     transition: 0.3s ease-in-out;
     padding: 10px;
@@ -307,21 +307,21 @@ onMounted(setOptions);
     }
 
     &:hover {
-      border: 1px solid var(--border-blue);
+      border: 1px solid var(--border-primary-color);
     }
 
     &.active-yui-kit {
-      color: var(--border-blue);
-      border: 1px solid var(--border-blue);
+      color: var(--border-primary-color);
+      border: 1px solid var(--border-primary-color);
     }
 
     & .filter-yui-kit__counter {
-      color: var(--grey6);
+      color: var(--text-neutral-color);
       position: relative;
       font-size: 14px;
 
       &:hover {
-        color: var(--border-blue);
+        color: var(--border-primary-color);
 
         & .filter-yui-kit__counter-content {
           position: absolute;
@@ -359,7 +359,7 @@ onMounted(setOptions);
       width: 100%;
       height: 0.5px;
       margin-block: 10px;
-      background-color: var(--border-grey);
+      background-color: var(--border-color);
     }
   }
 
@@ -373,7 +373,7 @@ onMounted(setOptions);
     gap: 5px;
 
     &.selected {
-      border-bottom: 0.5px solid var(--border-grey);
+      border-bottom: 0.5px solid var(--border-color);
       padding-bottom: 10px;
     }
 
@@ -389,13 +389,13 @@ onMounted(setOptions);
 
       .filter__select-item {
         padding: 10px;
-        border-bottom: 1px solid var(--border-grey);
+        border-bottom: 1px solid var(--border-color);
       }
     }
   }
 
   &__close {
-    color: var(--grey6);
+    color: var(--text-neutral-color);
     cursor: pointer;
     background-color: transparent;
     border: 1px solid transparent;

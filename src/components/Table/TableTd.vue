@@ -25,8 +25,8 @@ const props = withDefaults(defineProps<ITableTd>(), {
   padding: var(--td-vertical-padding, 0) var(--td-horizontal-padding, 0);
 
   border: none;
-  border-left: 0.5px solid var(--border-grey);
-  border-top: 0.5px solid var(--border-grey);
+  border-left: 0.5px solid var(--border-color);
+  border-top: 0.5px solid var(--border-color);
   border-bottom: 0.5px solid transparent;
   font-size: var(--td-font-size, 14px);
 }

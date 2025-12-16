@@ -35,7 +35,7 @@
         >
           <Icon
             :name="IconNameEnum.exitSmall"
-            color="var(--grey4)"
+            color="var(--text-light-color)"
             :data-testid="`${props.dataTestid}-Clear-Button-Icon`"
           />
         </Button>
@@ -222,8 +222,8 @@ watch(
       input {
         padding-left: 12px;
         padding-right: 36px;
-        color: var(--black);
-        caret-color: var(--border-blue);
+        color: var(--text-color);
+        caret-color: var(--border-primary-color);
         background-color: var(--white);
 
         &::placeholder {
@@ -243,7 +243,7 @@ watch(
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: var(--blue15);
+    background-color: var(--background-light-color);
 
     font-size: 14px;
     line-height: 16px;
@@ -253,7 +253,7 @@ watch(
     &:focus,
     &:focus-visible,
     &:active {
-      border: 1px solid var(--border-blue);
+      border: 1px solid var(--border-primary-color);
       outline: none;
     }
 

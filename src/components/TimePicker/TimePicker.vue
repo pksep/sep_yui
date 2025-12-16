@@ -341,17 +341,17 @@ function clearTime() {
   height: 44px;
   padding: 5px;
   border-radius: 10px;
-  color: var(--grey6);
+  color: var(--text-neutral-color);
   background-color: var(--white);
-  border: 1px solid var(--border-grey);
+  border: 1px solid var(--border-color);
 
   &.disabled {
     pointer-events: none;
-    background-color: var(--grey1);
+    background-color: var(--button-neutral-color);
 
     & * {
-      color: var(--grey4);
-      stroke: var(--grey4);
+      color: var(--text-light-color);
+      stroke: var(--text-light-color);
     }
   }
 
@@ -370,11 +370,11 @@ function clearTime() {
     }
 
     &:hover {
-      background-color: var(--blue9);
+      background-color: var(--primary-hover-light-color);
     }
 
     &:active {
-      color: var(--blue1);
+      color: var(--primary-color);
     }
 
     & .time-picker-select-clear {
@@ -384,14 +384,14 @@ function clearTime() {
       align-items: center;
       justify-content: center;
       border-radius: 5px;
-      color: var(--black);
+      color: var(--text-color);
 
       &:hover {
         background-color: var(--white);
       }
 
       &:active {
-        color: var(--blue1);
+        color: var(--primary-color);
       }
     }
   }
@@ -416,11 +416,11 @@ function clearTime() {
     & .time-picker-input {
       width: 92px;
       height: 80px;
-      background-color: var(--blue15);
+      background-color: var(--background-light-color);
       padding-right: 0;
 
       &.pressed :deep(.input-yui-kit__input) {
-        color: var(--blue20);
+        color: var(--link-color);
       }
 
       & :deep(.input-yui-kit__input) {
@@ -434,7 +434,7 @@ function clearTime() {
       }
 
       & :deep(.pressed) {
-        color: var(--blue1) !important;
+        color: var(--primary-color) !important;
       }
 
       & :deep(.input-yui-kit__buttons) {
@@ -466,7 +466,7 @@ function clearTime() {
         font-weight: 400;
         font-size: 14px;
         line-height: 100%;
-        color: var(--grey6);
+        color: var(--text-neutral-color);
       }
     }
   }
@@ -488,12 +488,12 @@ function clearTime() {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: var(--blue15);
+      background: var(--background-light-color);
 
       .clock-hand {
         width: 2px;
         height: 78px;
-        background: var(--blue1);
+        background: var(--primary-color);
         position: absolute;
         top: calc(50% - 79px);
         left: calc(50% - 3px);
@@ -514,7 +514,7 @@ function clearTime() {
         &.active {
           color: var(--white);
           border-radius: 50%;
-          background: var(--blue1);
+          background: var(--primary-color);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -538,7 +538,7 @@ function clearTime() {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--blue1);
+      background: var(--primary-color);
     }
   }
 
@@ -548,7 +548,7 @@ function clearTime() {
     align-items: center;
     gap: 8px;
     margin-top: 16px;
-    color: var(--grey6);
+    color: var(--text-neutral-color);
 
     & .time-picker-actions__switch {
       height: 24px;
@@ -556,7 +556,7 @@ function clearTime() {
       cursor: pointer;
 
       &:hover {
-        color: var(--blue1);
+        color: var(--primary-color);
       }
     }
   }

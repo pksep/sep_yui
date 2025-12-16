@@ -127,7 +127,7 @@ const getOption = (
   }
 
   &.active-yui-kit {
-    background-color: #ecf3ff;
+    background-color: var(--primary-pressed-light-color);
   }
 }
 
@@ -161,7 +161,7 @@ const getOption = (
 
     border-radius: 50%;
 
-    background-color: var(--green4);
+    background-color: var(--success-color);
   }
 }
 </style>

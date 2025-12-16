@@ -344,7 +344,7 @@ fieldset.input-yui-kit {
       width: 24px;
       height: 16px;
       background-color: var(--white);
-      border: 0.3px solid var(--border-grey);
+      border: 0.3px solid var(--border-color);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -352,11 +352,11 @@ fieldset.input-yui-kit {
       overflow: hidden;
 
       &:not(:disabled):hover {
-        border-color: var(--blue1);
+        border-color: var(--primary-color);
         cursor: pointer;
 
         & * {
-          color: var(--blue1);
+          color: var(--primary-color);
         }
       }
     }
@@ -389,7 +389,7 @@ fieldset.input-yui-kit {
   }
 
   &.active {
-    background: var(--blue9);
+    background: var(--primary-hover-light-color);
   }
 }
 /* Hide default arrows on input[type=number] for WebKit browsers */

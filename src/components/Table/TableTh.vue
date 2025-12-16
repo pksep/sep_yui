@@ -27,10 +27,10 @@ const props = withDefaults(defineProps<ITableTd>(), {
   line-height: 28px;
 
   border: none;
-  border-left: 0.5px solid var(--border-grey);
-  border-top: 0.5px solid var(--border-grey);
+  border-left: 0.5px solid var(--border-color);
+  border-top: 0.5px solid var(--border-color);
 
-  background-color: var(--blue9);
+  background-color: var(--primary-hover-light-color);
 }
 
 .table-th:first-child {

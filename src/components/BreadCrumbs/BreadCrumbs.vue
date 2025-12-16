@@ -252,8 +252,8 @@ onMounted(() => {
     }
 
     &.active {
-      color: var(--blue4);
-      background-color: var(--blue12);
+      color: var(--link-color);
+      background-color: var(--background-primary-color);
       border-radius: 6px;
       padding: 3px 8px;
     }
@@ -264,14 +264,14 @@ onMounted(() => {
     }
 
     &.disabled-yui-kit {
-      color: var(--grey0);
+      color: var(--border-color);
       user-select: none;
       pointer-events: none;
       cursor: auto;
     }
 
     &:hover {
-      color: var(--blue4);
+      color: var(--link-color);
     }
   }
 }

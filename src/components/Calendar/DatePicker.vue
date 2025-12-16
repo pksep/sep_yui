@@ -230,7 +230,7 @@ col-cal-header button.popup {
   padding: 5px 7px;
   border-radius: 5px;
   &:hover {
-    background-color: var(--blue15);
+    background-color: var(--background-light-color);
   }
   div[name='months-popup-icon'],
   div[name='years-popup-icon'] {
@@ -240,13 +240,13 @@ col-cal-header button.popup {
 }
 
 col-cal-header button.popup:has(.open-popup) {
-  background-color: var(--blue9);
-  color: var(--blue1);
+  background-color: var(--primary-hover-light-color);
+  color: var(--primary-color);
 }
 
 col-cal-months::part(disabled),
 col-cal-years::part(disabled) {
-  color: var(--grey4);
+  color: var(--text-light-color);
 }
 
 col-cal-months::part(month):hover,
@@ -256,7 +256,7 @@ col-cal-years::part(year):hover {
 
 col-cal-months::part(disabled):hover,
 col-cal-years::part(disabled):hover {
-  color: var(--grey4);
+  color: var(--text-light-color);
   background-color: transparent;
 }
 </style>

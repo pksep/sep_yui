@@ -112,7 +112,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 .push-notification-yui-kit_success {
-  --primary-color: var(--green2);
+  --primary-color: var(--success-color);
 }
 
 .push-notification-yui-kit_warning {
@@ -120,11 +120,11 @@ defineExpose({
 }
 
 .push-notification-yui-kit_error {
-  --primary-color: var(--red4);
+  --primary-color: var(--error-color);
 }
 
 .push-notification-yui-kit_info {
-  --primary-color: var(--blue1);
+  --primary-color: var(--primary-color);
 }
 
 .push-notification-yui-kit {
