@@ -158,7 +158,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 .outline-yui-kit {
   background-color: transparent;
   border: 1px solid var(--border-primary-color);
-  color: var(--grey14);
+  color: var(--text-color);
 
   &:active,
   &.active {

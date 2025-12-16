@@ -56,7 +56,7 @@ const handleClick = () => {
 .list-yui-kit__item:focus-visible,
 .list-yui-kit__item:active {
   background-color: var(--primary-hover-light-color);
-  color: var(--blue19);
+  color: var(--primary-color);
 }
 
 .list-yui-kit__item--disabled,

@@ -114,7 +114,7 @@ watch(
 <style lang="scss" scoped>
 .result-yui-kit {
   width: 100%;
-  color: var(--grey14);
+  color: var(--text-color);
   outline: none;
   border-radius: 5px;
   margin-top: 5px;
@@ -156,7 +156,7 @@ watch(
         font-size: 12px;
         line-height: 100%;
         letter-spacing: 0;
-        color: var(--grey14);
+        color: var(--text-color);
         flex-shrink: 0;
       }
 

@@ -430,7 +430,7 @@ button.mobile-buttons {
   &.button-yui-kit.ghost-yui-kit {
     padding: 7px 8px !important;
     width: 32px;
-    color: var(--grey5);
+    color: var(--text-neutral-color);
     &:not(.right) path {
       stroke-width: 1.5px;
     }

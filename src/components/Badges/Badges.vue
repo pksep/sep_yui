@@ -146,7 +146,7 @@ onMounted(() => {
 
 .orange-yui-kit span {
   color: var(--orange8);
-  background-color: var(--ava-ctive-color);
+  background-color: var(--ava-active-color);
 }
 
 .yellow-yui-kit span {

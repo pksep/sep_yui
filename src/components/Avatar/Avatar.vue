@@ -58,7 +58,7 @@ const useFirstSymbol = (): string => {
     height: 2em;
     width: 2em;
     --background-color: var(--primary-hover-light-color);
-    --color: var(--grey8);
+    --color: var(--text-color);
   }
 
   &:has(.avatar-yui-kit__text) {

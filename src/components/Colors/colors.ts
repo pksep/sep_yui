@@ -144,7 +144,7 @@ export const colors: ColorsType = {
   },
   Orange7: {
     text: 'Orange7',
-    color: 'var(--ava-ctive-color)'
+    color: 'var(--ava-active-color)'
   },
   Orange8: {
     text: 'Orange8',
