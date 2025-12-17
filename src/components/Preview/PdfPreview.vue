@@ -5,55 +5,65 @@
 <script setup lang="ts">
 import { IPdfPreviewProps } from '@/components/Preview/interface';
 import { onMounted, ref, watch } from 'vue';
-import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
+import cachePdf from '@/helpers/file/cache-pdf';
 
 defineOptions({
   name: 'PdfPreview'
 });
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const props = defineProps<IPdfPreviewProps>();
 const canvas = ref<HTMLCanvasElement | null>(null);
 
-watch(
-  () => props.src,
-  () => {
-    setPdf();
-  }
-);
+watch([() => props.src, () => props.page], () => {
+  setPdf();
+});
 
 const setPdf = async (): Promise<void> => {
-  if (!canvas.value || !props.src) return;
+  try {
+    if (!canvas.value || !props.src) return;
 
-  const pdf = await pdfjsLib.getDocument(props.src).promise;
-  const page = await pdf.getPage(1);
+    let pdf;
+    if (props.cacheKeyPdfDocument) {
+      pdf = cachePdf.getCache(props.cacheKeyPdfDocument);
+    } else {
+      pdf = await getDocument(props.src).promise;
+    }
 
-  const rect = canvas.value.getBoundingClientRect();
+    if (!pdf) return;
 
-  // viewport при масштабе 1
-  const baseViewport = page.getViewport({ scale: 1 });
+    const page = await pdf.getPage(props.page ?? 1);
 
-  const scaleX = rect.width / baseViewport.width;
-  const scaleY = rect.height / baseViewport.height;
+    const rect = canvas.value.getBoundingClientRect();
 
-  // чтобы полностью влезло (contain)
-  const scale = Math.min(scaleX, scaleY);
+    // viewport при масштабе 1
+    const baseViewport = page.getViewport({ scale: 1 });
 
-  const viewport = page.getViewport({ scale });
-  const ctx = canvas.value.getContext('2d');
+    const scaleX = rect.width / baseViewport.width;
+    const scaleY = rect.height / baseViewport.height;
 
-  if (ctx === null) return;
+    // чтобы полностью влезло (contain)
+    const scale = Math.min(scaleX, scaleY);
 
-  canvas.value.width = viewport.width;
-  canvas.value.height = viewport.height;
+    const viewport = page.getViewport({ scale });
+    const ctx = canvas.value.getContext('2d');
 
-  await page.render({
-    canvas: canvas.value,
-    canvasContext: ctx,
-    viewport
-  }).promise;
+    if (ctx === null) return;
+
+    canvas.value.width = viewport.width;
+    canvas.value.height = viewport.height;
+
+    await page.render({
+      canvas: canvas.value,
+      canvasContext: ctx,
+      viewport
+    }).promise;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 onMounted(() => {

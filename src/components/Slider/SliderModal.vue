@@ -1,0 +1,195 @@
+<template>
+  <ModalAnimated
+    position="center"
+    class="slider-modal"
+    :open
+    :height
+    :width
+    :animate-type="ModalAnimateEnum.fade"
+    @close="$emit('close')"
+    @end-animation="$emit('end-animation')"
+    @unmounted="$emit('unmounted')"
+  >
+    <div class="slider-modal__content" @click.self="$emit('close')">
+      <!-- pdf -->
+      <template v-if="true">
+        <div class="slider-modal__side-bar">
+          <div
+            v-for="(file, idx) in state.sideBarItems"
+            class="slider-modal__side-bar-item"
+            :key="idx"
+          >
+            <PdfPreview
+              class="slider-modal__mini-preview"
+              :src="file"
+              :page="idx + 1"
+              :cache-key-pdf-document="state.file?.path"
+            />
+
+            <div class="slider-modal__side-bar-count">{{ idx + 1 }}</div>
+          </div>
+        </div>
+
+        <div class="slider-modal__item">
+          <PdfPreview
+            class="slider-modal__pdf"
+            :src="state.file?.path"
+            :page="state.sideBarIndex + 1"
+            :cache-key-pdf-document="state.file?.path"
+          />
+        </div>
+      </template>
+    </div>
+  </ModalAnimated>
+</template>
+
+<script setup lang="ts">
+import { ModalAnimateEnum } from '@/components/Modal/enum';
+import ModalAnimated from '@/components/Modal/ModalAnimated.vue';
+import PdfPreview from '@/components/Preview/PdfPreview.vue';
+import {
+  IFile,
+  ISliderModalEmit,
+  ISliderModalProps
+} from '@/components/Slider/interface/interface';
+import { reactive, watch } from 'vue';
+import checkPath from '@/helpers/file/check-path';
+import { getDocument, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
+import cachePdf from '@/helpers/file/cache-pdf';
+
+defineOptions({
+  name: 'SliderModal'
+});
+
+const props = withDefaults(defineProps<ISliderModalProps>(), {
+  dataTestid: 'SliderModal'
+});
+defineEmits<ISliderModalEmit>();
+
+const state = reactive<{
+  file: IFile | null;
+  // индекс для открытия файлов из переданного списка
+  defaultIndex: number;
+  // индекс для открытия файла из богового меню
+  sideBarIndex: number;
+  sideBarItems: string[];
+  sideBarLength: number;
+  pdfDocument: PDFDocumentProxy | null;
+  pdfPage: PDFPageProxy | null;
+}>({
+  defaultIndex: props.defaultIndex ?? 0,
+  file: props.items[props.defaultIndex ?? 0],
+  sideBarItems: [],
+  sideBarIndex: 0,
+  sideBarLength: 0,
+  pdfDocument: null,
+  pdfPage: null
+});
+
+watch([() => props.items, () => props.defaultIndex], () => {
+  state.file = props.items[props.defaultIndex ?? 0];
+  state.defaultIndex = props.defaultIndex ?? 0;
+});
+
+watch([() => state.file, () => props.open], () => {
+  if (!props.open) return;
+  initFile();
+});
+
+const initFile = (): void => {
+  if (!state.file) return;
+
+  const extension = checkPath(state.file.path);
+
+  if (extension === 'pdf') {
+    initPdf();
+  } else {
+    state.pdfDocument = null;
+  }
+};
+
+const initPdf = async (): Promise<void> => {
+  try {
+    if (state.file === null) return;
+    const pdf = await getDocument(state.file?.path).promise;
+    state.sideBarLength = pdf.numPages;
+    state.sideBarItems = new Array(pdf.numPages).fill(state.file?.path ?? '');
+
+    cachePdf.setCache(state.file.path, pdf);
+
+    setPdfPage(0);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const setPdfPage = async (index: number = 0): Promise<void> => {
+  state.sideBarIndex = index;
+};
+</script>
+
+<style scoped>
+.modal-yui-kit.slider-modal {
+  backdrop-filter: blur(20px);
+  max-width: none;
+  max-height: none;
+  margin: 0;
+
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.slider-modal::backdrop {
+  background-color: transparent;
+}
+.slider-modal__content {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color-40);
+
+  transition: all 0.2s ease;
+}
+
+.slider-modal__side-bar {
+  width: 300px;
+  height: 100vh;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  background-color: var(--background-color-40);
+}
+
+.slider-modal__side-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-modal__mini-preview {
+  width: 150px;
+}
+
+.slider-modal__side-bar-count {
+  color: var(--white);
+}
+
+.slider-modal__item {
+  padding: 60px;
+  height: 100vh;
+  width: 100%;
+}
+
+.slider-modal__pdf {
+  width: 100%;
+  height: 100%;
+}
+</style>

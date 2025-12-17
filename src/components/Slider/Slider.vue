@@ -72,6 +72,7 @@
             v-else-if="isPdf(state.file?.path ?? '')"
             class="slider-yui-kit__pdf-preview"
             :src="state.file?.path"
+            @click="handleClickOnItem(state.file)"
           />
         </template>
       </div>
@@ -88,12 +89,21 @@
         />
       </button>
     </div>
+
+    <Teleport to="body">
+      <SliderModal
+        :open="state.isShowSliderModal"
+        :items="state.files"
+        :default-index="state.indexModal"
+        @close="unmountCloseModal"
+      />
+    </Teleport>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, Ref, watch } from 'vue';
-import { ISliderProps, ISlider } from './interface/interface';
+import { ISliderProps, ISlider, IFile } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import {
@@ -102,6 +112,7 @@ import {
 } from '@/common/extentions.ts';
 import closedCamera from './../../assets/images/slider/closed-camera.svg';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
+import SliderModal from '@/components/Slider/SliderModal.vue';
 
 const props = withDefaults(defineProps<ISliderProps>(), {
   dataTestid: 'Slider'
@@ -112,7 +123,9 @@ const state = reactive<ISlider>({
   file: null,
   currentIndex: props.defaultIndex || 0,
   extension: null,
-  filePath: null
+  filePath: null,
+  isShowSliderModal: false,
+  indexModal: 0
 });
 
 const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
@@ -132,6 +145,22 @@ watch(
 
 const handleErrorImage = (): void => {
   state.filePath = closedCamera;
+};
+
+const handleClickOnItem = (file: IFile | null): void => {
+  if (!file) return;
+  const index = state.files.findIndex(
+    (arrFile: IFile) => file.path === arrFile.path
+  );
+
+  if (index === -1) return;
+
+  state.indexModal = index;
+  state.isShowSliderModal = true;
+};
+
+const unmountCloseModal = (): void => {
+  state.isShowSliderModal = false;
 };
 
 const rigthIndex = (): boolean =>
