@@ -14,4 +14,5 @@ export interface ISlider {
   file: IFile | null;
   currentIndex: number;
   extension: null | string;
+  filePath: null | string;
 }

@@ -16,6 +16,7 @@
           :data-testid="`${props.dataTestid}-Prev-Icon`"
         />
       </button>
+
       <div
         class="slider-yui-kit__slides"
         :data-testid="`${props.dataTestid}-Slides-Container`"
@@ -26,47 +27,55 @@
           :data-testid="`${props.dataTestid}-NoContent-Placeholder`"
         >
           <img
-            src="./../../assets/images/slider/closed-camera.svg"
+            :src="closedCamera"
             alt=""
             width="111px"
             height="111px"
             :data-testid="`${props.dataTestid}-NoContent-Image`"
           />
+
           <p :data-testid="`${props.dataTestid}-NoContent-Paragrpah`">
             Контент отсутствует
           </p>
         </div>
+
         <div
           class="placeholder-yui-kit"
           v-else-if="showPlaceholderExtension()"
           :data-testid="`${props.dataTestid}-Invalid-Extension-Placeholder`"
         >
-          <img
-            src="./../../assets/images/slider/closed-camera.svg"
-            alt=""
-            width="111px"
-            height="111px"
-          />
+          <img :src="closedCamera" alt="" width="111px" height="111px" />
+
           <p>.{{ state.extension }}</p>
         </div>
+
         <template v-else>
           <img
             v-if="isImage(state.file?.path ?? '')"
-            @click="e => toFullsizeImage(e)"
-            :src="state.file?.path ?? ''"
             ref="fullsizeImageRef"
+            :src="state.filePath ?? ''"
             :data-testid="`${props.dataTestid}-Image`"
-          />
-          <video
-            v-if="isVideo(state.file?.path ?? '')"
             @click="e => toFullsizeImage(e)"
+            @error="handleErrorImage"
+          />
+
+          <video
+            v-else-if="isVideo(state.file?.path ?? '')"
             controls
             :data-testid="`${props.dataTestid}-Video`"
+            @click="e => toFullsizeImage(e)"
           >
-            <source :src="state.file?.path ?? ''" />
+            <source :src="state.filePath ?? ''" />
           </video>
+
+          <PdfPreview
+            v-else-if="isPdf(state.file?.path ?? '')"
+            class="slider-yui-kit__pdf-preview"
+            :src="state.file?.path"
+          />
         </template>
       </div>
+
       <button
         class="slider-yui-kit__button slider-yui-kit__button--next"
         @click="nextSlide"
@@ -83,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, defineExpose, Ref, watch } from 'vue';
+import { onMounted, reactive, ref, Ref, watch } from 'vue';
 import { ISliderProps, ISlider } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -91,6 +100,8 @@ import {
   ImageExtensionsEnum,
   VideoExtensionsEnum
 } from '@/common/extentions.ts';
+import closedCamera from './../../assets/images/slider/closed-camera.svg';
+import PdfPreview from '@/components/Preview/PdfPreview.vue';
 
 const props = withDefaults(defineProps<ISliderProps>(), {
   dataTestid: 'Slider'
@@ -100,13 +111,28 @@ const state = reactive<ISlider>({
   files: props.items.length ? props.items : [],
   file: null,
   currentIndex: props.defaultIndex || 0,
-  extension: null
+  extension: null,
+  filePath: null
 });
 
 const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
 const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
 
 const CLASS_FULL_SIZE = 'slider-yui-kit__full-size';
+
+watch(
+  () => state.file,
+  () => {
+    state.filePath = state.file?.path ?? null;
+  },
+  {
+    immediate: true
+  }
+);
+
+const handleErrorImage = (): void => {
+  state.filePath = closedCamera;
+};
 
 const rigthIndex = (): boolean =>
   props.items?.length ? state.currentIndex === props.items.length - 1 : true;
@@ -132,6 +158,7 @@ const checkPath = (str: string | null): string | null => {
  */
 const isImage = (path: string | null): boolean => {
   const extension = checkPath(path) as ImageExtensionsEnum;
+
   return extension
     ? Object.values(ImageExtensionsEnum).includes(
         extension.toLowerCase() as ImageExtensionsEnum
@@ -148,6 +175,12 @@ const isVideo = (path: string | null): boolean => {
   return extension
     ? Object.values(VideoExtensionsEnum).includes(extension)
     : false;
+};
+
+const isPdf = (path: string | null): boolean => {
+  const extension = checkPath(path);
+
+  return extension === 'pdf';
 };
 
 /**
@@ -212,10 +245,14 @@ const showPlaceholder = () => state.files.length === 0;
 /**
  * Показывает заглушку на контент, когда файл есть, но не принадлежит к картинкам и видео
  */
-const showPlaceholderExtension = () =>
-  isImage(state.file?.path ?? null) == false &&
-  isVideo(state.file?.path ?? null) == false &&
-  state.files.length > 0;
+const showPlaceholderExtension = () => {
+  return (
+    isImage(state.file?.path ?? null) == false &&
+    isVideo(state.file?.path ?? null) == false &&
+    isPdf(state.file?.path ?? null) == false &&
+    state.files.length > 0
+  );
+};
 
 /**
  * Проверяет на наличие файлов, устанавливает их в стейты, далее устанавливляет слайд по дефолту если пропс есть, либо показывает действующий слайд.
@@ -287,7 +324,8 @@ defineExpose({
     flex-grow: 1;
 
     img,
-    video {
+    video,
+    .slider-yui-kit__pdf-preview {
       object-fit: contain;
       max-width: 100%;
       height: 100%;
