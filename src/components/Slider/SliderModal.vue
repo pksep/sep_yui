@@ -65,11 +65,10 @@ import {
   ISliderModalEmit,
   ISliderModalProps
 } from '@/components/Slider/interface/interface';
-import { nextTick, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import { nextTick, reactive, ref, watch } from 'vue';
 import checkPath from '@/helpers/file/check-path';
 import { getDocument } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
-import { throttle } from 'lodash';
 
 defineOptions({
   name: 'SliderModal'
@@ -129,7 +128,7 @@ const handleWheelOnItem = (event: WheelEvent): void => {
   updateIndexByWheel(event.deltaY);
 };
 
-const updateIndexByWheel = throttle((deltaY: number) => {
+const updateIndexByWheel = (deltaY: number) => {
   let newIndex = state.sideBarIndex;
   if (deltaY > 0) {
     newIndex = state.sideBarIndex + 1;
@@ -139,7 +138,7 @@ const updateIndexByWheel = throttle((deltaY: number) => {
     newIndex = Math.max(0, newIndex);
   }
   state.sideBarIndex = newIndex;
-}, 500);
+};
 
 const initFile = (): void => {
   if (!state.file) return;
@@ -201,10 +200,6 @@ const initPdf = async (): Promise<void> => {
 const setPdfPage = async (index: number = 0): Promise<void> => {
   state.sideBarIndex = index;
 };
-
-onBeforeUnmount(() => {
-  updateIndexByWheel.cancel();
-});
 </script>
 
 <style scoped>
