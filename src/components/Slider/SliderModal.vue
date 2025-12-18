@@ -28,6 +28,7 @@
               @click="handleClickOnMiniPreview(idx)"
             >
               <PdfPreview
+                ref="miniPreviewsRef"
                 class="slider-modal__mini-preview"
                 :src="file"
                 :page="idx + 1"
@@ -46,6 +47,7 @@
         >
           <PdfPreview
             class="slider-modal__pdf"
+            ref="pdfRef"
             :src="state.file?.path"
             :page="state.sideBarIndex + 1"
             :cache-key-pdf-document="state.file?.path"
@@ -65,7 +67,7 @@ import {
   ISliderModalEmit,
   ISliderModalProps
 } from '@/components/Slider/interface/interface';
-import { nextTick, reactive, ref, watch } from 'vue';
+import { nextTick, onUnmounted, reactive, ref, watch } from 'vue';
 import checkPath from '@/helpers/file/check-path';
 import { getDocument } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
@@ -104,7 +106,10 @@ watch([() => props.items, () => props.defaultIndex], () => {
 });
 
 watch([() => state.file, () => props.open], () => {
-  if (!props.open) return;
+  if (!props.open) {
+    clearPdf();
+    return;
+  }
   initFile();
 });
 
@@ -200,6 +205,14 @@ const initPdf = async (): Promise<void> => {
 const setPdfPage = async (index: number = 0): Promise<void> => {
   state.sideBarIndex = index;
 };
+
+const clearPdf = (): void => {
+  state.sideBarItems = [];
+};
+
+onUnmounted(() => {
+  clearPdf();
+});
 </script>
 
 <style scoped>

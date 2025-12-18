@@ -136,6 +136,10 @@ const clearCanvas = (): void => {
   ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
 };
 
+defineExpose({
+  clearCanvas
+});
+
 onMounted(() => {
   init();
 });
