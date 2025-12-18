@@ -55,7 +55,7 @@
             ref="fullsizeImageRef"
             :src="state.filePath ?? ''"
             :data-testid="`${props.dataTestid}-Image`"
-            @click="e => toFullsizeImage(e)"
+            @click="handleClickOnItem(state.file)"
             @error="handleErrorImage"
           />
 
