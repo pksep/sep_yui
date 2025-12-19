@@ -1305,7 +1305,7 @@ export const qrCode: IVectorIcon = {
 `
 };
 
-export const notDelivered = {
+export const notDelivered: IVectorIcon = {
   name: IconNameEnum.notDelivered,
   viewbox: '0 0 16 16',
   style: 'line',
@@ -1315,7 +1315,7 @@ export const notDelivered = {
 <path d="M8 6V8.25L10 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>`
 };
 
-export const delivered = {
+export const delivered: IVectorIcon = {
   name: IconNameEnum.delivered,
   viewbox: '0 0 16 16',
   style: 'line',
