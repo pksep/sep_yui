@@ -1,3 +1,4 @@
+import { IconNameEnum } from './enum/enum';
 import { IVectorIcon } from './interface/interface';
 
 export declare const alertTriangle: IVectorIcon;
@@ -118,3 +119,17 @@ export declare const keyboard: IVectorIcon;
 export declare const message: IVectorIcon;
 export declare const darkThemeSwitcher: IVectorIcon;
 export declare const qrCode: IVectorIcon;
+export declare const notDelivered: {
+    name: IconNameEnum;
+    viewbox: string;
+    style: string;
+    fill: string;
+    path: string;
+};
+export declare const delivered: {
+    name: IconNameEnum;
+    viewbox: string;
+    style: string;
+    fill: string;
+    path: string;
+};
