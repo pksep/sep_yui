@@ -1,5 +1,5 @@
 <template>
-  <div class="base-slider">
+  <div ref="sliderRef" class="base-slider">
     <div ref="contentRef" class="base-slider__content">
       <slot></slot>
     </div>
@@ -7,33 +7,79 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
+import { onMounted, reactive, ref, watch } from 'vue';
 
 defineOptions({
   name: 'BaseSlider'
 });
 
+const props = withDefaults(
+  defineProps<{
+    activeIndex?: number;
+  }>(),
+  {
+    activeIndex: 0
+  }
+);
+
 const state = reactive<{
-  children: HTMLCollection | null;
+  children: Element[] | null;
   activeIndex: number;
 }>({
   children: null,
-  activeIndex: 0
+  activeIndex: props.activeIndex
 });
 
 const contentRef = ref<HTMLElement | null>(null);
+const sliderRef = ref<HTMLElement | null>(null);
 
-const shiftPosition = (): void => {};
+watch(
+  () => props.activeIndex,
+  () => {
+    console.log(state.activeIndex, props.activeIndex);
+
+    shiftPosition(props.activeIndex);
+    console.log(state.activeIndex, props.activeIndex);
+  }
+);
+
+const shiftPosition = (index: number): void => {
+  if (!contentRef.value || !sliderRef.value) return;
+  const arr = [...contentRef.value.children];
+
+  if (index > arr.length - 1 || index < 0) return;
+
+  scrollToElementIfNotVisible(
+    arr[index] as HTMLElement,
+    sliderRef.value as HTMLElement
+  );
+
+  state.activeIndex = index;
+};
+
+const nextSlide = (): number => {
+  shiftPosition(state.activeIndex + 1);
+
+  return state.activeIndex;
+};
+
+const prevSlide = (): number => {
+  shiftPosition(state.activeIndex - 1);
+
+  return state.activeIndex;
+};
 
 onMounted(() => {
-  if (!contentRef.value) return;
-  console.dir(contentRef.value);
+  if (!contentRef.value || !sliderRef.value) return;
 
-  state.children = contentRef.value.children;
+  state.children = [...contentRef.value.children];
 });
 
 defineExpose({
-  shiftPosition
+  shiftPosition,
+  nextSlide,
+  prevSlide
 });
 </script>
 
@@ -41,11 +87,17 @@ defineExpose({
 .base-slider {
   width: 100%;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  user-select: none;
 }
 .base-slider__content {
-  width: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+.base-slider__content > * {
+  flex-shrink: 0;
 }
 </style>

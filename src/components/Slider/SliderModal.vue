@@ -77,9 +77,24 @@
           <div class="slider-modal__nav-block"></div>
 
           <div class="slider-modal__nav-block">
-            <div class="slider-modal__side-button">left</div>
+            <button
+              class="slider-modal__side-button"
+              :disabled="isDisabledPrevButton"
+              @click="handleClickOnPrevSlideButton"
+            >
+              <YIcon
+                class="slider-modal__icon"
+                name="left-big"
+                width="24"
+                height="24"
+              />
+            </button>
 
-            <BaseSlider class="slider-modal__bottom-slider">
+            <BaseSlider
+              ref="sliderRef"
+              class="slider-modal__bottom-slider"
+              :active-index="state.defaultIndex"
+            >
               <BaseSlide
                 v-for="(item, idx) in props.items"
                 class="slider-modal__slide"
@@ -106,10 +121,60 @@
               </BaseSlide>
             </BaseSlider>
 
-            <div class="slider-modal__side-button">right</div>
+            <button
+              class="slider-modal__side-button"
+              :disabled="isDisabledNextButton"
+              @click="handleClickOnNextSlideButton"
+            >
+              <YIcon
+                class="slider-modal__icon"
+                name="right-big"
+                width="24"
+                height="24"
+              />
+            </button>
           </div>
 
-          <div class="slider-modal__nav-block"></div>
+          <div class="slider-modal__nav-block">
+            <button
+              class="slider-modal__side-button"
+              :disabled="isDisabledDownloadButton"
+              @click="handleClickOnRotateButton"
+            >
+              <YIcon
+                class="slider-modal__icon"
+                name="reset"
+                width="24"
+                height="24"
+              />
+            </button>
+
+            <button
+              class="slider-modal__side-button"
+              :disabled="isDisabledDownloadButton"
+              @click="handleClickOnDownloadButton"
+            >
+              <YIcon
+                class="slider-modal__icon"
+                name="upload-cloud"
+                width="24"
+                height="24"
+              />
+            </button>
+
+            <button
+              class="slider-modal__side-button"
+              :disabled="isDisabledDownloadButton"
+              @click="handleClickOnPrintButton"
+            >
+              <YIcon
+                class="slider-modal__icon"
+                name="printer"
+                width="24"
+                height="24"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -125,7 +190,7 @@ import {
   ISliderModalEmit,
   ISliderModalProps
 } from '@/components/Slider/interface/interface';
-import { nextTick, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
 import checkPath from '@/helpers/file/check-path';
 import { getDocument, isPdfFile } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
@@ -133,6 +198,9 @@ import BaseSlider from '@/components/Slider/BaseSlider.vue';
 import BaseSlide from '@/components/Slider/BaseSlide.vue';
 import isImage from '@/helpers/file/is-image';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
+import isElementVisible from '@/helpers/element/is-element-visible';
+import downloadFile from '@/helpers/file/download-file';
+import printJs, { PrintTypes } from 'print-js';
 
 defineOptions({
   name: 'SliderModal'
@@ -151,16 +219,30 @@ const state = reactive<{
   sideBarIndex: number;
   sideBarItems: string[];
   sideBarLength: number;
+  isErrorFile: boolean;
 }>({
   defaultIndex: props.defaultIndex ?? 0,
   file: props.items[props.defaultIndex ?? 0],
   sideBarItems: [],
   sideBarIndex: 0,
-  sideBarLength: 0
+  sideBarLength: 0,
+  isErrorFile: false
 });
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
+
+const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
+
+const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
+
+const isDisabledNextButton = computed(
+  () => state.defaultIndex === props.items.length - 1
+);
+
+const isDisabledDownloadButton = computed(
+  () => !state.file || state.isErrorFile
+);
 
 watch([() => props.items, () => props.defaultIndex], () => {
   state.file = props.items[props.defaultIndex ?? 0];
@@ -168,6 +250,7 @@ watch([() => props.items, () => props.defaultIndex], () => {
 });
 
 watch([() => state.file, () => props.open], () => {
+  state.isErrorFile = false;
   if (!props.open) {
     clearPdf();
     state.file = null;
@@ -182,6 +265,14 @@ watch([() => state.file, () => props.open], () => {
 });
 
 watch(
+  () => props.open,
+  () => {
+    if (!props.open) return;
+    state.defaultIndex = props.defaultIndex ?? 0;
+  }
+);
+
+watch(
   () => state.sideBarIndex,
   () => {
     nextTick(() => {
@@ -194,9 +285,7 @@ watch(
 );
 
 const handleClickOnItem = (idx: number): void => {
-  state.defaultIndex = idx;
-  clearPdf();
-  state.file = props.items[idx];
+  setItem(idx);
 };
 
 const handleClickOnMiniPreview = (idx: number): void => {
@@ -207,9 +296,49 @@ const handleWheelOnItem = (event: WheelEvent): void => {
   updateIndexByWheel(event.deltaY);
 };
 
+const handleClickOnRotateButton = (): void => {};
+
+const handleClickOnPrintButton = (): void => {
+  if (!state.file?.path) return;
+  let type: PrintTypes = 'pdf';
+
+  if (isImage(state.file?.path)) {
+    type = 'image';
+  }
+
+  printJs({
+    printable: state.file?.path,
+    type
+  });
+};
+
+const handleClickOnDownloadButton = (): void => {
+  if (!state.file?.path) return;
+  downloadFile(state.file?.path);
+};
+
 const handleErrorImage = (e: Event): void => {
   const target = e.target as HTMLImageElement;
   target.src = closedCamer;
+  state.isErrorFile = true;
+};
+
+const handleClickOnNextSlideButton = (): void => {
+  if (!sliderRef.value) return;
+
+  setItem(sliderRef.value.nextSlide());
+};
+
+const handleClickOnPrevSlideButton = (): void => {
+  if (!sliderRef.value) return;
+
+  setItem(sliderRef.value.prevSlide());
+};
+
+const setItem = (idx: number): void => {
+  state.defaultIndex = idx;
+  clearPdf();
+  state.file = props.items[idx];
 };
 
 const updateIndexByWheel = (deltaY: number) => {
@@ -233,20 +362,6 @@ const initFile = (): void => {
       initPdf();
     }
   });
-};
-
-const isElementVisible = (
-  el: HTMLElement,
-  container: HTMLElement | Window = window
-): boolean => {
-  const rect = el.getBoundingClientRect();
-
-  if (container instanceof Window) {
-    return rect.top < window.innerHeight && rect.bottom > 0;
-  } else {
-    const containerRect = container.getBoundingClientRect();
-    return rect.top < containerRect.bottom && rect.bottom > containerRect.top;
-  }
 };
 
 const scrollToElementIfNotVisible = (
@@ -393,6 +508,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100vh;
 
+  padding: 60px 60px 0 60px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -402,7 +518,6 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
 
-  padding: 60px 60px 0 60px;
   height: 100%;
   width: 100%;
 }
@@ -419,6 +534,7 @@ onUnmounted(() => {
 }
 
 .slider-modal__bottom {
+  padding: 10px 0;
   height: 120px;
   display: flex;
   justify-content: space-between;
@@ -433,6 +549,12 @@ onUnmounted(() => {
 
 .slider-modal__nav-block:nth-child(2) {
   flex: 1 1 50%;
+}
+
+.slider-modal__nav-block:nth-child(3) {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
 }
 
 .slider-modal__bottom-slider {
@@ -450,5 +572,38 @@ onUnmounted(() => {
   height: 100%;
   object-fit: fill;
   background-color: var(--white);
+}
+
+.slider-modal__icon {
+  color: var(--white);
+  transition: all 0.2s ease;
+}
+
+.slider-modal__side-button {
+  width: 60px;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  user-select: none;
+}
+
+.slider-modal__nav-block:nth-child(3) .slider-modal__side-button {
+  width: 42px;
+  height: 40px;
+}
+
+:is(.slider-modal__side-button:hover, .slider-modal__side-button:active)
+  .slider-modal__icon {
+  color: var(--primary-color);
+}
+
+.slider-modal__side-button:disabled .slider-modal__icon {
+  color: var(--text-light-color);
 }
 </style>
