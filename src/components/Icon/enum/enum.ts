@@ -110,5 +110,7 @@ export enum IconNameEnum {
   message = 'message',
   darkThemeSwitcher = 'dark-theme-switcher',
   qrCode = 'qr-code',
-  distrub = 'distrub'
+  distrub = 'distrub',
+  delivered = 'delivered',
+  notDelivered = 'notDelivered'
 }
