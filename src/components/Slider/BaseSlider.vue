@@ -104,6 +104,7 @@ defineExpose({
   display: flex;
   justify-content: center;
   gap: 10px;
+  flex-grow: 1;
 }
 
 .base-slider__content > * {

@@ -2,6 +2,7 @@
   <ModalAnimated
     position="center"
     class="slider-modal"
+    ref="modalRef"
     :open
     :height
     :width
@@ -10,7 +11,7 @@
     @end-animation="$emit('end-animation')"
     @unmounted="$emit('unmounted')"
   >
-    <div class="slider-modal__content">
+    <div ref="contentRef" class="slider-modal__content">
       <div
         ref="sideBarRef"
         class="slider-modal__side-bar"
@@ -45,7 +46,7 @@
         </div>
       </div>
 
-      <div class="slider-modal__main">
+      <div class="slider-modal__main" @click.self="$emit('close')">
         <!-- pdf -->
         <template v-if="isPdfFile(state.file?.path)">
           <div
@@ -85,73 +86,75 @@
           </div>
         </template>
 
-        <div v-if="props.items.length > 1" class="slider-modal__bottom">
+        <div class="slider-modal__bottom">
           <div class="slider-modal__nav-block"></div>
 
           <div class="slider-modal__nav-block">
-            <button
-              class="slider-modal__side-button"
-              :disabled="isDisabledPrevButton"
-              @click="handleClickOnPrevSlideButton"
-            >
-              <YIcon
-                class="slider-modal__icon"
-                name="left-big"
-                width="24"
-                height="24"
-              />
-            </button>
-
-            <BaseSlider
-              ref="sliderRef"
-              class="slider-modal__bottom-slider"
-              :active-index="state.defaultIndex"
-            >
-              <BaseSlide
-                v-for="(item, idx) in props.items"
-                class="slider-modal__slide"
-                :key="idx"
-                :is-active="idx === state.defaultIndex"
-                @click="handleClickOnItem(idx)"
+            <template v-if="props.items.length > 1">
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledPrevButton"
+                @click="handleClickOnPrevSlideButton"
               >
-                <template v-if="isImage(item.path)">
-                  <img
-                    class="slider-modal__slide-image"
-                    :src="item.path"
-                    :alt="item.path"
-                    @error="handleErrorImage"
-                  />
-                </template>
+                <YIcon
+                  class="slider-modal__icon"
+                  name="left-big"
+                  width="24"
+                  height="24"
+                />
+              </button>
 
-                <template v-if="isPdfFile(item.path)">
-                  <PdfPreview
-                    class="slider-modal__slide-image"
-                    :src="item.path"
-                    :page="1"
-                  />
-                </template>
+              <BaseSlider
+                ref="sliderRef"
+                class="slider-modal__bottom-slider"
+                :active-index="state.defaultIndex"
+              >
+                <BaseSlide
+                  v-for="(item, idx) in props.items"
+                  class="slider-modal__slide"
+                  :key="idx"
+                  :is-active="idx === state.defaultIndex"
+                  @click="handleClickOnItem(idx)"
+                >
+                  <template v-if="isImage(item.path)">
+                    <img
+                      class="slider-modal__slide-image"
+                      :src="item.path"
+                      :alt="item.path"
+                      @error="handleErrorImage"
+                    />
+                  </template>
 
-                <template v-if="isVideo(item.path)">
-                  <VideoPreview
-                    class="slider-modal__slide-image"
-                    :src="item.path"
-                  />
-                </template>
-              </BaseSlide>
-            </BaseSlider>
+                  <template v-if="isPdfFile(item.path)">
+                    <PdfPreview
+                      class="slider-modal__slide-image"
+                      :src="item.path"
+                      :page="1"
+                    />
+                  </template>
 
-            <button
-              class="slider-modal__side-button"
-              :disabled="isDisabledNextButton"
-              @click="handleClickOnNextSlideButton"
-            >
-              <YIcon
-                class="slider-modal__icon"
-                name="right-big"
-                width="24"
-                height="24"
-              />
-            </button>
+                  <template v-if="isVideo(item.path)">
+                    <VideoPreview
+                      class="slider-modal__slide-image"
+                      :src="item.path"
+                    />
+                  </template>
+                </BaseSlide>
+              </BaseSlider>
+
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledNextButton"
+                @click="handleClickOnNextSlideButton"
+              >
+                <YIcon
+                  class="slider-modal__icon"
+                  name="right-big"
+                  width="24"
+                  height="24"
+                />
+              </button>
+            </template>
           </div>
 
           <div class="slider-modal__nav-block">
@@ -252,6 +255,7 @@ const state = reactive<{
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
+const contentRef = ref<HTMLElement | null>(null);
 
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 
@@ -306,7 +310,19 @@ watch(
     if (!props.open) return;
 
     nextTick(() => {
-      if (sliderRef.value) sliderRef.value.initScroll();
+      if (!contentRef.value) return;
+      contentRef.value.requestFullscreen();
+
+      const onFullscreen = (): void => {
+        document.removeEventListener('fullscreenchange', onFullscreen);
+
+        nextTick(() => {
+          if (!sliderRef.value) return;
+          sliderRef.value.initScroll();
+        });
+      };
+
+      document.addEventListener('fullscreenchange', onFullscreen);
     });
 
     state.defaultIndex = props.defaultIndex ?? 0;
@@ -574,6 +590,12 @@ onUnmounted(() => {
     :has(.slider-modal__video)
   ) {
   height: calc(100% - 130px);
+}
+
+.slider-modal__main:not(
+    :has(.slider-modal__bottom .slider-modal__nav-block:nth-child(2):empty)
+  ) {
+  padding: 60px;
 }
 
 .slider-modal__pdf,
