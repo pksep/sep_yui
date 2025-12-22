@@ -13,6 +13,7 @@ import {
   RenderTask
 } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
+import closedCamer from '@/assets/images/slider/closed-camera.svg';
 
 defineOptions({
   name: 'PdfPreview'
@@ -34,7 +35,7 @@ watch([() => props.src, () => props.page], () => {
 
 const setPdf = async (): Promise<void> => {
   try {
-    if (!canvas.value || !props.src) return;
+    if (!canvas.value || !props.src) throw new Error('Canvas not found');
 
     if (currentRenderTask) {
       currentRenderTask?.cancel();
@@ -51,7 +52,7 @@ const setPdf = async (): Promise<void> => {
       cachePdf.setCache(props.src, pdf);
     }
 
-    if (!pdf) return;
+    if (!pdf) throw new Error('Pdf not found');
     const numberOfPage = props.page ?? 1;
     const cacheKey = `${props.src}-${numberOfPage}`;
     const cachedPage = cachePdf.getPageCache(cacheKey);
@@ -78,7 +79,7 @@ const setPdf = async (): Promise<void> => {
     const viewport = page.getViewport({ scale });
     const ctx = canvas.value.getContext('2d');
 
-    if (ctx === null) return;
+    if (ctx === null) throw new Error('Context not found');
 
     canvas.value.width = viewport.width;
     canvas.value.height = viewport.height;
@@ -103,6 +104,7 @@ const setPdf = async (): Promise<void> => {
     }
 
     console.error(error);
+    drawFallback();
   }
 };
 
@@ -134,6 +136,22 @@ const clearCanvas = (): void => {
   if (!ctx) return;
 
   ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
+};
+
+const drawFallback = (): void => {
+  if (!canvas.value) return;
+
+  const ctx = canvas.value.getContext('2d');
+  if (!ctx) return;
+
+  const image = new Image();
+  image.src = closedCamer;
+
+  image.onload = () => {
+    if (!canvas.value) return;
+    ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
+    ctx.drawImage(image, 0, 0, canvas.value.width, canvas.value.height);
+  };
 };
 
 defineExpose({

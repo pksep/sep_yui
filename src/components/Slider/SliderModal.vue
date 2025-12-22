@@ -73,6 +73,18 @@
           </div>
         </template>
 
+        <template v-else-if="isVideo(state.file?.path)">
+          <div class="slider-modal__item" @click.self="$emit('close')">
+            <video
+              controls
+              class="slider-modal__video"
+              :data-testid="`${props.dataTestid}-Video`"
+            >
+              <source :src="state.file?.path ?? ''" />
+            </video>
+          </div>
+        </template>
+
         <div v-if="props.items.length > 1" class="slider-modal__bottom">
           <div class="slider-modal__nav-block"></div>
 
@@ -118,6 +130,13 @@
                     :page="1"
                   />
                 </template>
+
+                <template v-if="isVideo(item.path)">
+                  <VideoPreview
+                    class="slider-modal__slide-image"
+                    :src="item.path"
+                  />
+                </template>
               </BaseSlide>
             </BaseSlider>
 
@@ -138,7 +157,7 @@
           <div class="slider-modal__nav-block">
             <button
               class="slider-modal__side-button"
-              :disabled="isDisabledDownloadButton"
+              :disabled="isDisabledRotateButton"
               @click="handleClickOnRotateButton"
             >
               <YIcon
@@ -164,7 +183,7 @@
 
             <button
               class="slider-modal__side-button"
-              :disabled="isDisabledDownloadButton"
+              :disabled="isDisabledPrintButton"
               @click="handleClickOnPrintButton"
             >
               <YIcon
@@ -201,6 +220,8 @@ import closedCamer from '@/assets/images/slider/closed-camera.svg';
 import isElementVisible from '@/helpers/element/is-element-visible';
 import downloadFile from '@/helpers/file/download-file';
 import printJs, { PrintTypes } from 'print-js';
+import isVideo from '@/helpers/file/is-video';
+import VideoPreview from '@/components/Preview/VideoPreview.vue';
 
 defineOptions({
   name: 'SliderModal'
@@ -240,9 +261,24 @@ const isDisabledNextButton = computed(
   () => state.defaultIndex === props.items.length - 1
 );
 
-const isDisabledDownloadButton = computed(
-  () => !state.file || state.isErrorFile
-);
+const isDisabledRotateButton = computed(() => {
+  let isDisabled = !state.file || state.isErrorFile;
+  isDisabled = isVideo(state.file?.path) || isDisabled;
+  return isDisabled;
+});
+
+const isDisabledPrintButton = computed(() => {
+  let isDisabled = !state.file || state.isErrorFile;
+  isDisabled = isVideo(state.file?.path) || isDisabled;
+
+  return isDisabled;
+});
+
+const isDisabledDownloadButton = computed(() => {
+  const isDisabled = !state.file || state.isErrorFile;
+
+  return isDisabled;
+});
 
 watch([() => props.items, () => props.defaultIndex], () => {
   state.file = props.items[props.defaultIndex ?? 0];
@@ -268,6 +304,11 @@ watch(
   () => props.open,
   () => {
     if (!props.open) return;
+
+    nextTick(() => {
+      if (sliderRef.value) sliderRef.value.initScroll();
+    });
+
     state.defaultIndex = props.defaultIndex ?? 0;
   }
 );
@@ -275,12 +316,7 @@ watch(
 watch(
   () => state.sideBarIndex,
   () => {
-    nextTick(() => {
-      if (!miniItemsRef.value || !sideBarRef.value) return;
-
-      const el = miniItemsRef.value[state.sideBarIndex];
-      scrollToElementIfNotVisible(el, sideBarRef.value);
-    });
+    initScroll();
   }
 );
 
@@ -380,6 +416,15 @@ const scrollToElementIfNotVisible = (
       block: 'nearest' // минимально необходимое смещение
     });
   }
+};
+
+const initScroll = (): void => {
+  nextTick(() => {
+    if (!miniItemsRef.value || !sideBarRef.value) return;
+
+    const el = miniItemsRef.value[state.sideBarIndex];
+    scrollToElementIfNotVisible(el, sideBarRef.value);
+  });
 };
 
 const initPdf = async (): Promise<void> => {
@@ -523,12 +568,17 @@ onUnmounted(() => {
 }
 
 .slider-modal__main:has(.slider-modal__bottom)
-  .slider-modal__item:has(.slider-modal__image) {
+  .slider-modal__item:is(
+    :has(.slider-modal__pdf),
+    :has(.slider-modal__image),
+    :has(.slider-modal__video)
+  ) {
   height: calc(100% - 130px);
 }
 
 .slider-modal__pdf,
-.slider-modal__image {
+.slider-modal__image,
+.slider-modal__video {
   max-width: 100%;
   height: 100%;
 }

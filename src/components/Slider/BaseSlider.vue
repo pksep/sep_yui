@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
-import { onMounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 
 defineOptions({
   name: 'BaseSlider'
@@ -37,10 +37,7 @@ const sliderRef = ref<HTMLElement | null>(null);
 watch(
   () => props.activeIndex,
   () => {
-    console.log(state.activeIndex, props.activeIndex);
-
     shiftPosition(props.activeIndex);
-    console.log(state.activeIndex, props.activeIndex);
   }
 );
 
@@ -56,6 +53,17 @@ const shiftPosition = (index: number): void => {
   );
 
   state.activeIndex = index;
+};
+
+const initScroll = (): void => {
+  nextTick(() => {
+    if (!state.children || !sliderRef.value) return;
+
+    scrollToElementIfNotVisible(
+      state.children[state.activeIndex] as HTMLElement,
+      sliderRef.value
+    );
+  });
 };
 
 const nextSlide = (): number => {
@@ -79,7 +87,8 @@ onMounted(() => {
 defineExpose({
   shiftPosition,
   nextSlide,
-  prevSlide
+  prevSlide,
+  initScroll
 });
 </script>
 

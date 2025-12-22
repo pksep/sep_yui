@@ -52,25 +52,23 @@
         <template v-else>
           <img
             v-if="isImage(state.file?.path ?? '')"
-            ref="fullsizeImageRef"
+            class="slider__item"
             :src="state.filePath ?? ''"
             :data-testid="`${props.dataTestid}-Image`"
             @click="handleClickOnItem(state.file)"
             @error="handleErrorImage"
           />
 
-          <video
+          <VideoPreview
             v-else-if="isVideo(state.file?.path ?? '')"
-            controls
-            :data-testid="`${props.dataTestid}-Video`"
-            @click="e => toFullsizeImage(e)"
-          >
-            <source :src="state.filePath ?? ''" />
-          </video>
+            class="slider__item"
+            :src="state.file?.path ?? ''"
+            @click="handleClickOnItem(state.file)"
+          />
 
           <PdfPreview
             v-else-if="isPdf(state.file?.path ?? '')"
-            class="slider-yui-kit__pdf-preview"
+            class="slider-yui-kit__pdf-preview slider__item"
             :src="state.file?.path"
             @click="handleClickOnItem(state.file)"
           />
@@ -102,7 +100,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, Ref, watch } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import { ISliderProps, ISlider, IFile } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -113,6 +111,7 @@ import {
 import closedCamera from './../../assets/images/slider/closed-camera.svg';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
 import SliderModal from '@/components/Slider/SliderModal.vue';
+import VideoPreview from '@/components/Preview/VideoPreview.vue';
 
 const props = withDefaults(defineProps<ISliderProps>(), {
   dataTestid: 'Slider'
@@ -127,11 +126,6 @@ const state = reactive<ISlider>({
   isShowSliderModal: false,
   indexModal: 0
 });
-
-const sliderWrapperRef: Ref<HTMLElement | null> = ref(null);
-const fullsizeImageRef: Ref<HTMLImageElement | null> = ref(null);
-
-const CLASS_FULL_SIZE = 'slider-yui-kit__full-size';
 
 watch(
   () => state.file,
@@ -210,44 +204,6 @@ const isPdf = (path: string | null): boolean => {
   const extension = checkPath(path);
 
   return extension === 'pdf';
-};
-
-/**
- * Закрывает полноразмерный просмотр слайда
- */
-const closeFullSize = (e: KeyboardEvent) => {
-  if (e instanceof KeyboardEvent && e.key === 'Escape') {
-    if (
-      fullsizeImageRef.value &&
-      fullsizeImageRef.value.classList.contains(CLASS_FULL_SIZE)
-    ) {
-      fullsizeImageRef.value.classList.remove(CLASS_FULL_SIZE);
-      document.body.style.overflow = 'auto';
-    }
-  }
-};
-
-/**
- * Открывает полноразмерный просмотр слайда
- */
-const toFullsizeImage = (e: MouseEvent): void => {
-  if (e.type === 'click') {
-    const imageElement = e.target as HTMLElement;
-    imageElement.classList.toggle(CLASS_FULL_SIZE);
-
-    if (imageElement.classList.contains(CLASS_FULL_SIZE)) {
-      window.addEventListener('keydown', closeFullSize);
-
-      if (sliderWrapperRef.value) {
-        sliderWrapperRef.value.style.cursor = 'zoom-out';
-      }
-    } else {
-      window.removeEventListener('keydown', closeFullSize);
-      if (sliderWrapperRef.value) {
-        sliderWrapperRef.value.style.cursor = 'zoom-in';
-      }
-    }
-  }
 };
 
 /**
@@ -453,5 +409,9 @@ defineExpose({
   p {
     color: var(--text-light-color);
   }
+}
+
+.slider__item {
+  height: 100%;
 }
 </style>
