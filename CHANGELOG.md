@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.154
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.153...v0.1.154)
+
+### 🚀 Enhancements
+
+- Added pdf preview ([f72ab3c](https://github.com/pksep/sep_yui/commit/f72ab3c))
+- Updated pdf viewer ([fa25bd6](https://github.com/pksep/sep_yui/commit/fa25bd6))
+- Finished pdf viewer slider ([3188d93](https://github.com/pksep/sep_yui/commit/3188d93))
+- Drafted slider in modal ([64514db](https://github.com/pksep/sep_yui/commit/64514db))
+- Added interaction ([b839c71](https://github.com/pksep/sep_yui/commit/b839c71))
+
 ## v0.1.153
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.147...v0.1.153)
