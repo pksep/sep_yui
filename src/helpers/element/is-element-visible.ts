@@ -17,10 +17,6 @@ const isElementVisible = (
   } else {
     const containerRect = container.getBoundingClientRect();
 
-    console.log('rect', rect);
-
-    console.log('containerRect', containerRect);
-
     return (
       rect.top < containerRect.bottom &&
       rect.bottom > containerRect.top &&
