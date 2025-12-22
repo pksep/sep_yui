@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.155
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.154...v0.1.155)
+
+### 🩹 Fixes
+
+- Fix issue ([0f19406](https://github.com/pksep/sep_yui/commit/0f19406))
+
 ## v0.1.154
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.153...v0.1.154)
