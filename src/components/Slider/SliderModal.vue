@@ -592,12 +592,6 @@ onUnmounted(() => {
   height: calc(100% - 130px);
 }
 
-.slider-modal__main:not(
-    :has(.slider-modal__bottom .slider-modal__nav-block:nth-child(2):empty)
-  ) {
-  padding: 60px;
-}
-
 .slider-modal__pdf,
 .slider-modal__image,
 .slider-modal__video {
