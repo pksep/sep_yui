@@ -66,11 +66,10 @@
         <!-- image -->
         <template v-else-if="isImage(state.file?.path)">
           <div class="slider-modal__item" @click.self="$emit('close')">
-            <img
-              :src="state.file?.path"
-              :alt="state.file?.path"
+            <ImagePreview
+              ref="imagePreviewRef"
               class="slider-modal__image"
-              @error="handleErrorImage($event, true)"
+              :src="state.file?.path"
             />
           </div>
         </template>
@@ -133,7 +132,7 @@
                     />
                   </template>
 
-                  <template v-if="isPdfFile(item.path)">
+                  <template v-else-if="isPdfFile(item.path)">
                     <PdfPreview
                       class="slider-modal__slide-image"
                       :src="item.path"
@@ -141,7 +140,7 @@
                     />
                   </template>
 
-                  <template v-if="isVideo(item.path)">
+                  <template v-else-if="isVideo(item.path)">
                     <VideoPreview
                       class="slider-modal__slide-image"
                       :src="item.path"
@@ -237,6 +236,7 @@ import printJs, { PrintTypes } from 'print-js';
 import isVideo from '@/helpers/file/is-video';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
 import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
+import ImagePreview from '@/components/Preview/ImagePreview.vue';
 
 defineOptions({
   name: 'SliderModal'
@@ -268,9 +268,10 @@ const state = reactive<{
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
-const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 
+const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
+const imagePreviewRef = ref<InstanceType<typeof ImagePreview> | null>(null);
 
 const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
 
@@ -377,6 +378,10 @@ const handleWheelOnItem = (event: WheelEvent): void => {
 const handleClickOnRotateButton = (): void => {
   if (pdfRef.value) {
     pdfRef.value.rotatePdf(-90);
+  }
+
+  if (imagePreviewRef.value) {
+    imagePreviewRef.value.rotateImage(-90);
   }
 };
 

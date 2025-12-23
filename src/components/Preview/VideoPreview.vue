@@ -23,7 +23,10 @@ const state = reactive<{
 watch(
   () => props.src,
   () => {
-    initVideo();
+    state.isError = false;
+    nextTick(() => {
+      initVideo();
+    });
   }
 );
 
@@ -31,7 +34,6 @@ const canvasRef = ref<HTMLCanvasElement | null>(null);
 
 const initVideo = async (): Promise<void> => {
   try {
-    state.isError = false;
     if (!canvasRef.value || !props.src) return;
     const video = document.createElement('video');
     video.muted = true;
