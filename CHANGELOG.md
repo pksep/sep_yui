@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.161
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.160...v0.1.161)
+
+### 🚀 Enhancements
+
+- Added name when download file, fixed minor errors with pdf ([93af5ca](https://github.com/pksep/sep_yui/commit/93af5ca))
+- Added rotate pdf file ([e6882f0](https://github.com/pksep/sep_yui/commit/e6882f0))
+- Added image preview ([ccc6377](https://github.com/pksep/sep_yui/commit/ccc6377))
+
+### 🩹 Fixes
+
+- Fixed printer and order ([8d01bcd](https://github.com/pksep/sep_yui/commit/8d01bcd))
+
 ## v0.1.160
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.159...v0.1.160)
