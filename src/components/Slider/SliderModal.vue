@@ -202,7 +202,7 @@
             >
               <Icon
                 class="slider-modal__icon"
-                :name="IconNameEnum.uploadCloud"
+                :name="IconNameEnum.printer"
                 :width="24"
                 :height="24"
               />
