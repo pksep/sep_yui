@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { IPdfPreviewProps } from '@/components/Preview/interface';
-import { onMounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
 import {
   getDocument,
@@ -39,12 +39,15 @@ watch([() => props.src, () => props.page], () => {
   intersenctionObserver?.disconnect();
   clearCanvas();
 
-  init();
+  state.isError = false;
+  // Выполняем после отрисовки, чтобы canvas был доступен
+  nextTick(() => {
+    init();
+  });
 });
 
 const setPdf = async (): Promise<void> => {
   try {
-    state.isError = false;
     if (!canvas.value || !props.src) throw new Error('Canvas not found');
 
     if (currentRenderTask) {
