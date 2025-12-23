@@ -1,9 +1,11 @@
 <template>
-  <canvas ref="canvasRef" class="video-preview" />
+  <canvas v-if="!state.isError" ref="canvasRef" class="video-preview" />
+
+  <img v-else :src="closedCamer" />
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
 
 defineOptions({
@@ -13,6 +15,10 @@ defineOptions({
 const props = defineProps<{
   src: string | undefined;
 }>();
+
+const state = reactive<{
+  isError: boolean;
+}>({ isError: false });
 
 watch(
   () => props.src,
@@ -25,6 +31,7 @@ const canvasRef = ref<HTMLCanvasElement | null>(null);
 
 const initVideo = async (): Promise<void> => {
   try {
+    state.isError = false;
     if (!canvasRef.value || !props.src) return;
     const video = document.createElement('video');
     video.muted = true;
@@ -60,24 +67,8 @@ const initVideo = async (): Promise<void> => {
   } catch (error) {
     console.log(error);
 
-    drawFallback();
+    state.isError = true;
   }
-};
-
-const drawFallback = (): void => {
-  if (!canvasRef.value) return;
-
-  const ctx = canvasRef.value.getContext('2d');
-  if (!ctx) return;
-
-  const image = new Image();
-  image.src = closedCamer;
-
-  image.onload = () => {
-    if (!canvasRef.value) return;
-    ctx.clearRect(0, 0, canvasRef.value.width, canvasRef.value.height);
-    ctx.drawImage(image, 0, 0, canvasRef.value.width, canvasRef.value.height);
-  };
 };
 
 onMounted(() => {
