@@ -137,6 +137,13 @@ watch(
   }
 );
 
+watch(
+  () => props.items,
+  () => {
+    state.files = props.items.length ? props.items : [];
+  }
+);
+
 const handleErrorImage = (): void => {
   state.filePath = closedCamera;
 };

@@ -71,6 +71,7 @@ import { TextareaTypeEnum } from './Textarea/enum';
 import { TextFieldEnum } from './Input/enum/enum';
 import { CheckboxSizeEnum } from './Checkbox/enum/enum';
 import { MenuTypeEnum } from './UserMenu/enum/enum';
+import SliderModal from '@/components/Slider/SliderModal.vue';
 
 const components = {
   Accordion,
@@ -125,7 +126,8 @@ const components = {
   ContentEditor,
   ModalCroppedAvatar,
   Avatar,
-  TimePicker
+  TimePicker,
+  SliderModal
 };
 
 const install = (app: App): void => {
@@ -210,5 +212,6 @@ export {
   MenuTypeEnum,
   getLastTime,
   getFirstTime,
-  vuePluginRemoveTestid
+  vuePluginRemoveTestid,
+  SliderModal
 };

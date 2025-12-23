@@ -383,14 +383,22 @@ const handleClickOnRotateButton = (): void => {};
 const handleClickOnPrintButton = (): void => {
   if (!state.file?.path) return;
   let type: PrintTypes = 'pdf';
+  let style: string = ``;
 
   if (isImage(state.file?.path)) {
     type = 'image';
+    style = `
+        @page {
+          size: A4 portrait;
+          margin: 10mm;
+        }
+      `;
   }
 
   printJs({
     printable: state.file?.path,
-    type
+    type,
+    style
   });
 };
 
