@@ -2,18 +2,21 @@ import { ISliderModalProps } from './interface/interface';
 
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ISliderModalProps>, {
     dataTestid: string;
+    defaultIndex: number;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     close: () => void;
     unmounted: () => void;
     "end-animation": () => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ISliderModalProps>, {
     dataTestid: string;
+    defaultIndex: number;
 }>>> & Readonly<{
     onClose?: (() => any) | undefined;
     onUnmounted?: (() => any) | undefined;
     "onEnd-animation"?: (() => any) | undefined;
 }>, {
     dataTestid: string;
+    defaultIndex: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;

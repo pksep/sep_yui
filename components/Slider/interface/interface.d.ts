@@ -3,9 +3,11 @@ import { IModalEmit, IModalProps } from '../../Modal/interface/interface';
 
 export type SliderItem = {
     path: string;
+    name?: string;
 };
 export type IFile = {
     path: string;
+    name?: string;
 };
 export interface ISliderProps extends IDataTestIdProp {
     items: SliderItem[];
