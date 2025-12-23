@@ -103,11 +103,11 @@
                 :disabled="isDisabledPrevButton"
                 @click="handleClickOnPrevSlideButton"
               >
-                <YIcon
+                <Icon
                   class="slider-modal__icon"
-                  name="left-big"
-                  width="24"
-                  height="24"
+                  :name="IconNameEnum.leftBig"
+                  :width="24"
+                  :height="24"
                 />
               </button>
 
@@ -158,11 +158,11 @@
                 :disabled="isDisabledNextButton"
                 @click="handleClickOnNextSlideButton"
               >
-                <YIcon
+                <Icon
                   class="slider-modal__icon"
-                  name="right-big"
-                  width="24"
-                  height="24"
+                  :name="IconNameEnum.rightBig"
+                  :width="24"
+                  :height="24"
                 />
               </button>
             </template>
@@ -174,11 +174,11 @@
               :disabled="isDisabledRotateButton"
               @click="handleClickOnRotateButton"
             >
-              <YIcon
+              <Icon
                 class="slider-modal__icon"
-                name="reset"
-                width="24"
-                height="24"
+                :name="IconNameEnum.reset"
+                :width="24"
+                :height="24"
               />
             </button>
 
@@ -187,11 +187,11 @@
               :disabled="isDisabledDownloadButton"
               @click="handleClickOnDownloadButton"
             >
-              <YIcon
+              <Icon
                 class="slider-modal__icon"
-                name="upload-cloud"
-                width="24"
-                height="24"
+                :name="IconNameEnum.uploadCloud"
+                :width="24"
+                :height="24"
               />
             </button>
 
@@ -200,11 +200,11 @@
               :disabled="isDisabledPrintButton"
               @click="handleClickOnPrintButton"
             >
-              <YIcon
+              <Icon
                 class="slider-modal__icon"
-                name="printer"
-                width="24"
-                height="24"
+                :name="IconNameEnum.uploadCloud"
+                :width="24"
+                :height="24"
               />
             </button>
           </div>
@@ -237,6 +237,8 @@ import isVideo from '@/helpers/file/is-video';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
 import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
 import ImagePreview from '@/components/Preview/ImagePreview.vue';
+import Icon from '../Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum/enum';
 
 defineOptions({
   name: 'SliderModal'
