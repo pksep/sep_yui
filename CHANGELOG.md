@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.162
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.161...v0.1.162)
+
+### 🩹 Fixes
+
+- Icons ([ac66187](https://github.com/pksep/sep_yui/commit/ac66187))
+
 ## v0.1.161
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.160...v0.1.161)
