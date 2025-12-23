@@ -268,6 +268,7 @@ const state = reactive<{
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
+const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 
@@ -373,7 +374,11 @@ const handleWheelOnItem = (event: WheelEvent): void => {
   updateIndexByWheel(event.deltaY);
 };
 
-const handleClickOnRotateButton = (): void => {};
+const handleClickOnRotateButton = (): void => {
+  if (pdfRef.value) {
+    pdfRef.value.rotatePdf(-90);
+  }
+};
 
 /**
  * Обрабатывает клик по кнопке печати
