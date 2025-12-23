@@ -63,17 +63,18 @@
           </div>
         </template>
 
-        <template v-if="isImage(state.file?.path)">
+        <!-- image -->
+        <template v-else-if="isImage(state.file?.path)">
           <div class="slider-modal__item" @click.self="$emit('close')">
-            <img
-              :src="state.file?.path"
-              :alt="state.file?.path"
+            <ImagePreview
+              ref="imagePreviewRef"
               class="slider-modal__image"
-              @error="handleErrorImage"
+              :src="state.file?.path"
             />
           </div>
         </template>
 
+        <!-- video -->
         <template v-else-if="isVideo(state.file?.path)">
           <div class="slider-modal__item" @click.self="$emit('close')">
             <video
@@ -83,6 +84,12 @@
             >
               <source :src="state.file?.path ?? ''" />
             </video>
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="slider-modal__item" @click.self="$emit('close')">
+            <img class="slider-modal__image" :src="closedCamer" />
           </div>
         </template>
 
@@ -125,7 +132,7 @@
                     />
                   </template>
 
-                  <template v-if="isPdfFile(item.path)">
+                  <template v-else-if="isPdfFile(item.path)">
                     <PdfPreview
                       class="slider-modal__slide-image"
                       :src="item.path"
@@ -133,11 +140,15 @@
                     />
                   </template>
 
-                  <template v-if="isVideo(item.path)">
+                  <template v-else-if="isVideo(item.path)">
                     <VideoPreview
                       class="slider-modal__slide-image"
                       :src="item.path"
                     />
+                  </template>
+
+                  <template v-else>
+                    <img class="slider-modal__slide-image" :src="closedCamer" />
                   </template>
                 </BaseSlide>
               </BaseSlider>
@@ -220,23 +231,25 @@ import BaseSlider from '@/components/Slider/BaseSlider.vue';
 import BaseSlide from '@/components/Slider/BaseSlide.vue';
 import isImage from '@/helpers/file/is-image';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
-import isElementVisible from '@/helpers/element/is-element-visible';
 import downloadFile from '@/helpers/file/download-file';
 import printJs, { PrintTypes } from 'print-js';
 import isVideo from '@/helpers/file/is-video';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
+import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
+import ImagePreview from '@/components/Preview/ImagePreview.vue';
 
 defineOptions({
   name: 'SliderModal'
 });
 
 const props = withDefaults(defineProps<ISliderModalProps>(), {
-  dataTestid: 'SliderModal'
+  dataTestid: 'SliderModal',
+  defaultIndex: 0
 });
 defineEmits<ISliderModalEmit>();
 
 const state = reactive<{
-  file: IFile | null;
+  file: IFile | null | undefined;
   // индекс для открытия файлов из переданного списка
   defaultIndex: number;
   // индекс для открытия файла из богового меню
@@ -245,8 +258,8 @@ const state = reactive<{
   sideBarLength: number;
   isErrorFile: boolean;
 }>({
-  defaultIndex: props.defaultIndex ?? 0,
-  file: props.items[props.defaultIndex ?? 0],
+  defaultIndex: props.defaultIndex,
+  file: props.items[props.defaultIndex],
   sideBarItems: [],
   sideBarIndex: 0,
   sideBarLength: 0,
@@ -256,7 +269,9 @@ const state = reactive<{
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
 
+const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
+const imagePreviewRef = ref<InstanceType<typeof ImagePreview> | null>(null);
 
 const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
 
@@ -266,12 +281,14 @@ const isDisabledNextButton = computed(
 
 const isDisabledRotateButton = computed(() => {
   let isDisabled = !state.file || state.isErrorFile;
+  // Если это видео, то нельзя поворачивать
   isDisabled = isVideo(state.file?.path) || isDisabled;
   return isDisabled;
 });
 
 const isDisabledPrintButton = computed(() => {
   let isDisabled = !state.file || state.isErrorFile;
+  // Если это видео, то нельзя печатать
   isDisabled = isVideo(state.file?.path) || isDisabled;
 
   return isDisabled;
@@ -283,13 +300,14 @@ const isDisabledDownloadButton = computed(() => {
   return isDisabled;
 });
 
+// отслеживаем изменение списка
 watch([() => props.items, () => props.defaultIndex], () => {
   state.file = props.items[props.defaultIndex ?? 0];
   state.defaultIndex = props.defaultIndex ?? 0;
 });
 
+// Отслеживаем изменение открытого файла
 watch([() => state.file, () => props.open], () => {
-  state.isErrorFile = false;
   if (!props.open) {
     clearPdf();
     state.file = null;
@@ -299,6 +317,7 @@ watch([() => state.file, () => props.open], () => {
   if (!state.file) {
     state.file = props.items[props.defaultIndex ?? 0];
   }
+  state.isErrorFile = false;
 
   initFile();
 });
@@ -309,6 +328,7 @@ watch(
     if (!props.open) return;
 
     nextTick(() => {
+      // Скроллим к выбранному элементу
       if (!sliderRef.value) return;
       sliderRef.value.initScroll();
     });
@@ -317,6 +337,7 @@ watch(
   }
 );
 
+// При изменение индекса бокового меню, скролим к выбранному элементу
 watch(
   () => state.sideBarIndex,
   () => {
@@ -324,65 +345,138 @@ watch(
   }
 );
 
+/**
+ * Обрабатывает клик по элементу
+ *
+ * Устанавливает конкретный элемент
+ * @param idx
+ */
 const handleClickOnItem = (idx: number): void => {
   setItem(idx);
 };
 
+/**
+ * Обрабатывает клик элементу бокового меню
+ *
+ * Устанавливает конкретный элемент
+ * @param idx
+ */
 const handleClickOnMiniPreview = (idx: number): void => {
   state.sideBarIndex = idx;
 };
 
+/**
+ * Обрабатывает событие средней кнопки мыши при скролле над элементом
+ *
+ * Меняет индекс для бокового меню
+ * @param event
+ */
 const handleWheelOnItem = (event: WheelEvent): void => {
   updateIndexByWheel(event.deltaY);
 };
 
-const handleClickOnRotateButton = (): void => {};
+const handleClickOnRotateButton = (): void => {
+  if (pdfRef.value) {
+    pdfRef.value.rotatePdf(-90);
+  }
 
+  if (imagePreviewRef.value) {
+    imagePreviewRef.value.rotateImage(-90);
+  }
+};
+
+/**
+ * Обрабатывает клик по кнопке печати
+ *
+ * Открывает окно печати
+ */
 const handleClickOnPrintButton = (): void => {
   if (!state.file?.path) return;
   let type: PrintTypes = 'pdf';
+  let style: string = ``;
 
   if (isImage(state.file?.path)) {
     type = 'image';
+    style = `
+        @page {
+          size: A4 portrait;
+          margin: 10mm;
+        }
+      `;
   }
 
   printJs({
     printable: state.file?.path,
-    type
+    type,
+    style
   });
 };
 
+/**
+ * Обрабатывает клик по кнопке скачать
+ *
+ * Скачивает файл
+ */
 const handleClickOnDownloadButton = (): void => {
   if (!state.file?.path) return;
-  downloadFile(state.file?.path);
+  downloadFile(state.file?.path, state.file?.name);
 };
 
-const handleErrorImage = (e: Event): void => {
+/**
+ * Обрабатывает ошибку загрузки изображения
+ *
+ * Устанавливает заглушку при ошибке загрузке файла
+ * @param e
+ */
+const handleErrorImage = (e: Event, isMainImage: boolean = false): void => {
   const target = e.target as HTMLImageElement;
   target.src = closedCamer;
-  state.isErrorFile = true;
+
+  if (isMainImage) state.isErrorFile = true;
 };
 
+/**
+ * Обрабатывает клик по кнопке следующего элемента
+ *
+ * Переключает на следующий элемент
+ */
 const handleClickOnNextSlideButton = (): void => {
   if (!sliderRef.value) return;
 
   setItem(sliderRef.value.nextSlide());
 };
 
+/**
+ * Обрабатывает клик по кнопке предыдущего элемента
+ *
+ * Переключает на предыдущий элемент
+ */
 const handleClickOnPrevSlideButton = (): void => {
   if (!sliderRef.value) return;
 
   setItem(sliderRef.value.prevSlide());
 };
 
+/**
+ * Устанавливает основной элемент
+ * @param idx
+ */
 const setItem = (idx: number): void => {
+  // Ставим индекс отображаемого элемента
   state.defaultIndex = idx;
+  // Очищаем pdf если он был показан
   clearPdf();
+  // Устанавливаем данные нового элемента
   state.file = props.items[idx];
 };
 
+/**
+ * Обновляет индекс бокового меню по прокрутке мышки
+ * @param deltaY
+ */
 const updateIndexByWheel = (deltaY: number) => {
   let newIndex = state.sideBarIndex;
+  // В зависимости в какую сторону прокручена мышка, ставим новый индекс
   if (deltaY > 0) {
     newIndex = state.sideBarIndex + 1;
     newIndex = Math.min(state.sideBarLength - 1, newIndex);
@@ -393,33 +487,21 @@ const updateIndexByWheel = (deltaY: number) => {
   state.sideBarIndex = newIndex;
 };
 
+/**
+ * Инициализация файла
+ */
 const initFile = (): void => {
   nextTick(() => {
     if (!state.file) return;
     const extension = checkPath(state.file.path);
 
+    // Если это pdf, то инициализурем pdf
     if (extension === 'pdf') {
+      // Устанавливаем ошибку, чтобы блокировать кнопки печати и скачивания, пока не прогрузится pdf
+      state.isErrorFile = true;
       initPdf();
     }
   });
-};
-
-const scrollToElementIfNotVisible = (
-  el: HTMLElement,
-  container: HTMLElement | null = null
-): void => {
-  if (!el) return;
-
-  const isVisible = container
-    ? isElementVisible(el, container)
-    : isElementVisible(el);
-
-  if (!isVisible) {
-    el.scrollIntoView({
-      behavior: 'smooth', // плавная прокрутка
-      block: 'nearest' // минимально необходимое смещение
-    });
-  }
 };
 
 const initScroll = (): void => {
@@ -431,34 +513,58 @@ const initScroll = (): void => {
   });
 };
 
+/**
+ * Инициализируем pdf
+ */
 const initPdf = async (): Promise<void> => {
   try {
-    if (state.file === null) return;
+    if (!state.file) return;
+    // Получаем из кэша pdf
     const cachedPdf = cachePdf.getCache(state.file.path);
     let pdf;
+    // Если pdf есть в кэше, то берем его
     if (cachedPdf) {
       pdf = cachedPdf;
     } else {
+      // Подгружаем pdf
       pdf = await getDocument(state.file?.path).promise;
     }
 
-    if (!pdf) return;
+    // Если pdf не существует, то выходим
+    if (!pdf) {
+      state.isErrorFile = true;
+      return;
+    }
 
+    // Устанавливаем кол-во страниц pdf
     state.sideBarLength = pdf.numPages;
+    // создаем массив страниц
     state.sideBarItems = new Array(pdf.numPages).fill(state.file?.path ?? '');
 
+    // устанавливаем в кэш pdf
     cachePdf.setCache(state.file.path, pdf);
 
+    // Устанавливаем первую страницу
     setPdfPage(0);
+    // Снимаем ошибку
+    state.isErrorFile = false;
   } catch (error) {
     console.error(error);
+    state.isErrorFile = true;
   }
 };
 
+/**
+ * Устанавливаем страницу для  pdf
+ * @param index
+ */
 const setPdfPage = async (index: number = 0): Promise<void> => {
   state.sideBarIndex = index;
 };
 
+/**
+ * Очищает данные от данных pdf
+ */
 const clearPdf = (): void => {
   state.sideBarItems = [];
   state.sideBarIndex = 0;

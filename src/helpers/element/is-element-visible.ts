@@ -1,3 +1,9 @@
+/**
+ * Возвращает состояние видимости ```el``` внутри ```container```.
+ * @param el
+ * @param container
+ * @returns
+ */
 const isElementVisible = (
   el: HTMLElement,
   container: HTMLElement | Window = window
