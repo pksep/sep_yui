@@ -255,7 +255,6 @@ const state = reactive<{
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
-const contentRef = ref<HTMLElement | null>(null);
 
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 
@@ -310,19 +309,8 @@ watch(
     if (!props.open) return;
 
     nextTick(() => {
-      if (!contentRef.value) return;
-      contentRef.value.requestFullscreen();
-
-      const onFullscreen = (): void => {
-        document.removeEventListener('fullscreenchange', onFullscreen);
-
-        nextTick(() => {
-          if (!sliderRef.value) return;
-          sliderRef.value.initScroll();
-        });
-      };
-
-      document.addEventListener('fullscreenchange', onFullscreen);
+      if (!sliderRef.value) return;
+      sliderRef.value.initScroll();
     });
 
     state.defaultIndex = props.defaultIndex ?? 0;

@@ -1,10 +1,12 @@
 <template>
-  <canvas ref="canvas"> </canvas>
+  <canvas v-if="!state.isError" ref="canvas"> </canvas>
+
+  <img v-else :src="closedCamer" />
 </template>
 
 <script setup lang="ts">
 import { IPdfPreviewProps } from '@/components/Preview/interface';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
 import {
   getDocument,
@@ -22,6 +24,13 @@ defineOptions({
 GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const props = defineProps<IPdfPreviewProps>();
+
+const state = reactive<{
+  isError: boolean;
+}>({
+  isError: false
+});
+
 const canvas = ref<HTMLCanvasElement | null>(null);
 let intersenctionObserver: IntersectionObserver | undefined;
 let currentRenderTask: RenderTask | null = null;
@@ -35,6 +44,7 @@ watch([() => props.src, () => props.page], () => {
 
 const setPdf = async (): Promise<void> => {
   try {
+    state.isError = false;
     if (!canvas.value || !props.src) throw new Error('Canvas not found');
 
     if (currentRenderTask) {
@@ -104,7 +114,7 @@ const setPdf = async (): Promise<void> => {
     }
 
     console.error(error);
-    drawFallback();
+    state.isError = true;
   }
 };
 
@@ -136,22 +146,6 @@ const clearCanvas = (): void => {
   if (!ctx) return;
 
   ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
-};
-
-const drawFallback = (): void => {
-  if (!canvas.value) return;
-
-  const ctx = canvas.value.getContext('2d');
-  if (!ctx) return;
-
-  const image = new Image();
-  image.src = closedCamer;
-
-  image.onload = () => {
-    if (!canvas.value) return;
-    ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
-    ctx.drawImage(image, 0, 0, canvas.value.width, canvas.value.height);
-  };
 };
 
 defineExpose({
