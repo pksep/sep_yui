@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.164
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.163...v0.1.164)
+
+### 🩹 Fixes
+
+- Not focusout input after sending message ([0269884](https://github.com/pksep/sep_yui/commit/0269884))
+
 ## v0.1.163
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.162...v0.1.163)
