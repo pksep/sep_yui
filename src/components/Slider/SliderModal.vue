@@ -70,6 +70,7 @@
               ref="imagePreviewRef"
               class="slider-modal__image"
               :src="state.file?.path"
+              @error="handleErrorItem($event, true)"
             />
           </div>
         </template>
@@ -81,6 +82,7 @@
               controls
               class="slider-modal__video"
               :data-testid="`${props.dataTestid}-Video`"
+              @error="handleErrorItem($event, true)"
             >
               <source :src="state.file?.path ?? ''" />
             </video>
@@ -94,7 +96,9 @@
         </template>
 
         <div class="slider-modal__bottom">
-          <div class="slider-modal__nav-block"></div>
+          <div class="slider-modal__nav-block">
+            <br />
+          </div>
 
           <div class="slider-modal__nav-block">
             <template v-if="props.items.length > 1">
@@ -128,7 +132,7 @@
                       class="slider-modal__slide-image"
                       :src="item.path"
                       :alt="item.path"
-                      @error="handleErrorImage"
+                      @error="handleErrorItem"
                     />
                   </template>
 
@@ -480,9 +484,10 @@ const handleClickOnDownloadButton = (): void => {
  * Устанавливает заглушку при ошибке загрузке файла
  * @param e
  */
-const handleErrorImage = (e: Event, isMainImage: boolean = false): void => {
+const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
   const target = e.target as HTMLImageElement;
-  target.src = closedCamer;
+
+  if (target) target.src = closedCamer;
 
   if (isMainImage) state.isErrorFile = true;
 };

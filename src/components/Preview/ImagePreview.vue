@@ -16,6 +16,10 @@ const props = defineProps<{
   src: string | undefined;
 }>();
 
+const emit = defineEmits<{
+  (e: 'error', error: Event): void;
+}>();
+
 const state = reactive<{
   isError: boolean;
   rotate: number;
@@ -87,11 +91,13 @@ const initImage = async (): Promise<void> => {
       ctx.restore();
     });
 
-    image.addEventListener('error', () => {
+    image.addEventListener('error', (e: Event) => {
       state.isError = true;
+
+      emit('error', e);
     });
   } catch (error) {
-    console.log(error);
+    emit('error', new Event('error'));
 
     state.isError = true;
   }
