@@ -450,6 +450,7 @@ const handleClickOnPrintButton = (): void => {
   if (!state.file?.path) return;
   let type: PrintTypes = 'pdf';
   let style: string = ``;
+  let imageStyle: string = ``;
 
   if (isImage(state.file?.path)) {
     type = 'image';
@@ -459,12 +460,14 @@ const handleClickOnPrintButton = (): void => {
           margin: 10mm;
         }
       `;
+    imageStyle = 'max-height: 95vh; margin-bottom: 10px; max-width: 100%';
   }
 
   printJs({
     printable: state.file?.path,
     type,
-    style
+    style,
+    imageStyle
   });
 };
 
