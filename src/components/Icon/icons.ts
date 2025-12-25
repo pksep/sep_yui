@@ -1172,8 +1172,17 @@ export const smile: IVectorIcon = {
   viewbox: '0 0 16 16'
 };
 
+export const planeRightFill: IVectorIcon = {
+  name: IconNameEnum.planeRightFill,
+  path: `
+  <path d="M0.00167845 1.03125C0.00167845 0.6875 0.00167845 1.50119e-05 1.22098 0C2.78866 -1.93009e-05 20.2073 8.9375 21.4266 9.96875C22.4021 10.7938 21.9475 11.6875 21.4249 12.0312C20.206 13.0622 2.62208 21.9946 1.21931 22C0 22 0 21.3125 0 20.9688L1.22053 13.4062C1.35951 12.5813 1.74325 12.375 1.91774 12.375L12.3689 11.3438C12.485 11.3438 12.7173 11.275 12.7173 11C12.7173 10.725 12.485 10.6562 12.3689 10.6563L1.91774 9.625C1.74325 9.625 1.35951 9.41875 1.22053 8.59375C0.812545 6.10097 0.00167845 1.375 0.00167845 1.03125Z" fill="currentColor"/>
+  `,
+  fill: 'none',
+  style: 'line'
+};
+
 export const planeRight: IVectorIcon = {
-  name: 'plane-right',
+  name: IconNameEnum.planeRight,
   fill: 'none',
   style: 'line',
   path: `
