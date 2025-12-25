@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.166
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.165...v0.1.166)
+
+### 🚀 Enhancements
+
+- Chaaged focus ([877d855](https://github.com/pksep/sep_yui/commit/877d855))
+
 ## v0.1.165
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.164...v0.1.165)
