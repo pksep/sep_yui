@@ -17,7 +17,8 @@
         class="slider-modal__side-bar"
         :class="[
           {
-            'slider-modal__side-bar_active': isPdfFile(state.file?.path)
+            'slider-modal__side-bar_active':
+              isPdfFile(state.file?.path) || isPdfFile(state.file?.file)
           }
         ]"
       >
@@ -48,7 +49,9 @@
 
       <div class="slider-modal__main" @click.self="$emit('close')">
         <!-- pdf -->
-        <template v-if="isPdfFile(state.file?.path)">
+        <template
+          v-if="isPdfFile(state.file?.path) || isPdfFile(state.file?.file)"
+        >
           <div
             class="slider-modal__item"
             @click.self="$emit('close')"
@@ -136,7 +139,11 @@
                     />
                   </template>
 
-                  <template v-else-if="isPdfFile(item.path)">
+                  <template
+                    v-else-if="
+                      isPdfFile(item.path) || isPdfFile(state.file?.file)
+                    "
+                  >
                     <PdfPreview
                       class="slider-modal__slide-image"
                       :src="item.path"
@@ -258,8 +265,7 @@ import {
   ISliderModalProps
 } from '@/components/Slider/interface/interface';
 import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
-import checkPath from '@/helpers/file/check-path';
-import { getDocument, isPdfFile } from 'pdfjs-dist';
+import { getDocument } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
 import BaseSlider from '@/components/Slider/BaseSlider.vue';
 import BaseSlide from '@/components/Slider/BaseSlide.vue';
@@ -274,6 +280,7 @@ import ImagePreview from '@/components/Preview/ImagePreview.vue';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import changeStyleProperties from '@/helpers/change-style-properties';
+import isPdfFile from '@/helpers/file/isPdfFile';
 
 defineOptions({
   name: 'SliderModal'
@@ -591,10 +598,10 @@ const updateIndexByWheel = (deltaY: number) => {
 const initFile = (): void => {
   nextTick(() => {
     if (!state.file) return;
-    const extension = checkPath(state.file.path);
+    // const extension = checkPath(state.file.path);
 
     // Если это pdf, то инициализурем pdf
-    if (extension === 'pdf') {
+    if (isPdfFile(state.file?.path) || isPdfFile(state.file?.file)) {
       // Устанавливаем ошибку, чтобы блокировать кнопки печати и скачивания, пока не прогрузится pdf
       state.isErrorFile = true;
       initPdf();

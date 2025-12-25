@@ -7,6 +7,12 @@ import checkPath from '@/helpers/file/check-path';
  */
 const isImage = (path: string | null | undefined): boolean => {
   if (!path) return false;
+
+  // data:image/*
+  if (path.startsWith('data:image/')) {
+    return true;
+  }
+
   const extension = checkPath(path) as ImageExtensionsEnum;
 
   return extension
