@@ -130,6 +130,10 @@ onMounted(() => {
     if (props.open !== visible.value) {
       showDialog();
       visible.value = props.open;
+
+      if (dialog.value) {
+        dialog.value.focus();
+      }
     }
   });
 
