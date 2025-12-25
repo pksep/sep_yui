@@ -133,3 +133,5 @@ export declare const delivered: {
     fill: string;
     path: string;
 };
+export declare const zoomMinus: IVectorIcon;
+export declare const zoomPlus: IVectorIcon;
