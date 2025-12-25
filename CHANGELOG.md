@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.165
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.164...v0.1.165)
+
+### 🚀 Enhancements
+
+- Changed slide block ([7fe0237](https://github.com/pksep/sep_yui/commit/7fe0237))
+- Added zoom ([f11faf3](https://github.com/pksep/sep_yui/commit/f11faf3))
+- Added error handler ([33ded9c](https://github.com/pksep/sep_yui/commit/33ded9c))
+- Added max-width to printed image ([bc00af1](https://github.com/pksep/sep_yui/commit/bc00af1))
+- Finished slider ([a415385](https://github.com/pksep/sep_yui/commit/a415385))
+
 ## v0.1.164
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.163...v0.1.164)
