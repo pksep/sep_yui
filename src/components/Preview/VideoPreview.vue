@@ -16,6 +16,10 @@ const props = defineProps<{
   src: string | undefined;
 }>();
 
+const emit = defineEmits<{
+  (e: 'error', error: Event): void;
+}>();
+
 const state = reactive<{
   isError: boolean;
 }>({ isError: false });
@@ -66,8 +70,13 @@ const initVideo = async (): Promise<void> => {
         canvasRef.value?.height
       );
     });
+
+    video.addEventListener('error', (error: Event) => {
+      state.isError = true;
+      emit('error', error);
+    });
   } catch (error) {
-    console.log(error);
+    emit('error', new Event('error'));
 
     state.isError = true;
   }

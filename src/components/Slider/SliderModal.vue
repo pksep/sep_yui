@@ -17,7 +17,8 @@
         class="slider-modal__side-bar"
         :class="[
           {
-            'slider-modal__side-bar_active': isPdfFile(state.file?.path)
+            'slider-modal__side-bar_active':
+              isPdfFile(state.file?.path) || isPdfFile(state.file?.file)
           }
         ]"
       >
@@ -48,7 +49,9 @@
 
       <div class="slider-modal__main" @click.self="$emit('close')">
         <!-- pdf -->
-        <template v-if="isPdfFile(state.file?.path)">
+        <template
+          v-if="isPdfFile(state.file?.path) || isPdfFile(state.file?.file)"
+        >
           <div
             class="slider-modal__item"
             @click.self="$emit('close')"
@@ -70,6 +73,7 @@
               ref="imagePreviewRef"
               class="slider-modal__image"
               :src="state.file?.path"
+              @error="handleErrorItem($event, true)"
             />
           </div>
         </template>
@@ -81,6 +85,7 @@
               controls
               class="slider-modal__video"
               :data-testid="`${props.dataTestid}-Video`"
+              @error="handleErrorItem($event, true)"
             >
               <source :src="state.file?.path ?? ''" />
             </video>
@@ -94,7 +99,9 @@
         </template>
 
         <div class="slider-modal__bottom">
-          <div class="slider-modal__nav-block"></div>
+          <div class="slider-modal__nav-block">
+            <br />
+          </div>
 
           <div class="slider-modal__nav-block">
             <template v-if="props.items.length > 1">
@@ -128,11 +135,15 @@
                       class="slider-modal__slide-image"
                       :src="item.path"
                       :alt="item.path"
-                      @error="handleErrorImage"
+                      @error="handleErrorItem"
                     />
                   </template>
 
-                  <template v-else-if="isPdfFile(item.path)">
+                  <template
+                    v-else-if="
+                      isPdfFile(item.path) || isPdfFile(state.file?.file)
+                    "
+                  >
                     <PdfPreview
                       class="slider-modal__slide-image"
                       :src="item.path"
@@ -169,44 +180,74 @@
           </div>
 
           <div class="slider-modal__nav-block">
-            <button
-              class="slider-modal__side-button"
-              :disabled="isDisabledRotateButton"
-              @click="handleClickOnRotateButton"
-            >
-              <Icon
-                class="slider-modal__icon"
-                :name="IconNameEnum.reset"
-                :width="24"
-                :height="24"
-              />
-            </button>
+            <div class="slider-modal__sub-nav">
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledZoomButton"
+                @click="handleClickOnZoomMinusButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.zoomMinus"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
 
-            <button
-              class="slider-modal__side-button"
-              :disabled="isDisabledDownloadButton"
-              @click="handleClickOnDownloadButton"
-            >
-              <Icon
-                class="slider-modal__icon"
-                :name="IconNameEnum.uploadCloud"
-                :width="24"
-                :height="24"
-              />
-            </button>
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledZoomButton"
+                @click="handleClickOnZoomPlusButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.zoomPlus"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
 
-            <button
-              class="slider-modal__side-button"
-              :disabled="isDisabledPrintButton"
-              @click="handleClickOnPrintButton"
-            >
-              <Icon
-                class="slider-modal__icon"
-                :name="IconNameEnum.printer"
-                :width="24"
-                :height="24"
-              />
-            </button>
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledRotateButton"
+                @click="handleClickOnRotateButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.reset"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+            </div>
+
+            <div class="slider-modal__sub-nav">
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledDownloadButton"
+                @click="handleClickOnDownloadButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.uploadCloud"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledPrintButton"
+                @click="handleClickOnPrintButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.printer"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -224,8 +265,7 @@ import {
   ISliderModalProps
 } from '@/components/Slider/interface/interface';
 import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
-import checkPath from '@/helpers/file/check-path';
-import { getDocument, isPdfFile } from 'pdfjs-dist';
+import { getDocument } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
 import BaseSlider from '@/components/Slider/BaseSlider.vue';
 import BaseSlide from '@/components/Slider/BaseSlide.vue';
@@ -239,6 +279,8 @@ import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not
 import ImagePreview from '@/components/Preview/ImagePreview.vue';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
+import changeStyleProperties from '@/helpers/change-style-properties';
+import isPdfFile from '@/helpers/file/isPdfFile';
 
 defineOptions({
   name: 'SliderModal'
@@ -259,13 +301,15 @@ const state = reactive<{
   sideBarItems: string[];
   sideBarLength: number;
   isErrorFile: boolean;
+  zoomValue: number;
 }>({
   defaultIndex: props.defaultIndex,
   file: props.items[props.defaultIndex],
   sideBarItems: [],
   sideBarIndex: 0,
   sideBarLength: 0,
-  isErrorFile: false
+  isErrorFile: false,
+  zoomValue: 1
 });
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
@@ -302,6 +346,13 @@ const isDisabledDownloadButton = computed(() => {
   return isDisabled;
 });
 
+const isDisabledZoomButton = computed(() => {
+  let isDisabled = !state.file || state.isErrorFile;
+  // Если это видео, то нельзя увеличивать
+  isDisabled = isVideo(state.file?.path) || isDisabled;
+  return isDisabled;
+});
+
 // отслеживаем изменение списка
 watch([() => props.items, () => props.defaultIndex], () => {
   state.file = props.items[props.defaultIndex ?? 0];
@@ -315,6 +366,8 @@ watch([() => state.file, () => props.open], () => {
     state.file = null;
     return;
   }
+  //  Обнуляем зум
+  state.zoomValue = 1;
 
   if (!state.file) {
     state.file = props.items[props.defaultIndex ?? 0];
@@ -377,6 +430,14 @@ const handleWheelOnItem = (event: WheelEvent): void => {
   updateIndexByWheel(event.deltaY);
 };
 
+const handleClickOnZoomPlusButton = (): void => {
+  zoom(true);
+};
+
+const handleClickOnZoomMinusButton = (): void => {
+  zoom(false);
+};
+
 const handleClickOnRotateButton = (): void => {
   if (pdfRef.value) {
     pdfRef.value.rotatePdf(-90);
@@ -396,6 +457,7 @@ const handleClickOnPrintButton = (): void => {
   if (!state.file?.path) return;
   let type: PrintTypes = 'pdf';
   let style: string = ``;
+  let imageStyle: string = ``;
 
   if (isImage(state.file?.path)) {
     type = 'image';
@@ -405,12 +467,14 @@ const handleClickOnPrintButton = (): void => {
           margin: 10mm;
         }
       `;
+    imageStyle = 'max-height: 95vh; margin-bottom: 10px; max-width: 100%';
   }
 
   printJs({
     printable: state.file?.path,
     type,
-    style
+    style,
+    imageStyle
   });
 };
 
@@ -430,9 +494,10 @@ const handleClickOnDownloadButton = (): void => {
  * Устанавливает заглушку при ошибке загрузке файла
  * @param e
  */
-const handleErrorImage = (e: Event, isMainImage: boolean = false): void => {
+const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
   const target = e.target as HTMLImageElement;
-  target.src = closedCamer;
+
+  if (target) target.src = closedCamer;
 
   if (isMainImage) state.isErrorFile = true;
 };
@@ -457,6 +522,44 @@ const handleClickOnPrevSlideButton = (): void => {
   if (!sliderRef.value) return;
 
   setItem(sliderRef.value.prevSlide());
+};
+
+/**
+ * Увеличивает или уменьшает масштаб
+ *
+ * Если isIncrease - увеличивает, иначе уменьшает
+ * @param isIncrease
+ */
+const zoom = (isIncrease: boolean): void => {
+  // Изменяем масштаб
+  if (isIncrease) {
+    state.zoomValue += 1;
+  } else {
+    state.zoomValue -= 1;
+  }
+
+  // Ограничиваем масштаб
+  state.zoomValue = Math.min(Math.max(1, state.zoomValue), 3);
+
+  // Увеличиваем масштаб для изображений
+  if (imagePreviewRef.value) {
+    changeStyleProperties(
+      {
+        transform: `scale(${state.zoomValue})`
+      },
+      imagePreviewRef.value.$el
+    );
+  }
+
+  // Увеличиваем масштаб для pdf
+  if (pdfRef.value) {
+    changeStyleProperties(
+      {
+        transform: `scale(${state.zoomValue})`
+      },
+      pdfRef.value.$el
+    );
+  }
 };
 
 /**
@@ -495,10 +598,10 @@ const updateIndexByWheel = (deltaY: number) => {
 const initFile = (): void => {
   nextTick(() => {
     if (!state.file) return;
-    const extension = checkPath(state.file.path);
+    // const extension = checkPath(state.file.path);
 
     // Если это pdf, то инициализурем pdf
-    if (extension === 'pdf') {
+    if (isPdfFile(state.file?.path) || isPdfFile(state.file?.file)) {
       // Устанавливаем ошибку, чтобы блокировать кнопки печати и скачивания, пока не прогрузится pdf
       state.isErrorFile = true;
       initPdf();
@@ -665,7 +768,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100vh;
 
-  padding: 60px 60px 0 60px;
+  padding: 60px 30px 0 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -674,6 +777,8 @@ onUnmounted(() => {
 .slider-modal__item {
   display: flex;
   justify-content: center;
+
+  overflow: hidden;
 
   height: 100%;
   width: 100%;
@@ -716,6 +821,12 @@ onUnmounted(() => {
 .slider-modal__nav-block:nth-child(3) {
   justify-content: flex-end;
   align-items: center;
+  gap: 30px;
+}
+
+.slider-modal__sub-nav {
+  display: flex;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -730,8 +841,9 @@ onUnmounted(() => {
 }
 
 .slider-modal__slide-image {
-  width: 100%;
+  max-width: 100%;
   height: 100%;
+
   object-fit: fill;
   background-color: var(--white);
 }
