@@ -1331,3 +1331,28 @@ export const delivered: IVectorIcon = {
   fill: 'none',
   path: `<path d="M13.3824 4.23754C13.072 3.9243 12.5663 3.92035 12.251 4.22873L6.33767 10.0617L3.76709 7.40573C3.4605 7.0868 2.95293 7.07633 2.63341 7.38233C2.31387 7.68833 2.30338 8.19491 2.60997 8.5138C2.61136 8.51522 2.61272 8.51665 2.61411 8.51807L5.74838 11.7599C5.89838 11.9126 6.10339 11.9991 6.31767 11.9999H6.32649C6.53671 11.9993 6.73828 11.9162 6.88776 11.7687L13.3751 5.36669C13.6886 5.05647 13.6918 4.55175 13.3824 4.23754Z" fill="currentColor" />`
 };
+
+export const zoomMinus: IVectorIcon = {
+  name: IconNameEnum.zoomMinus,
+  path: `
+  <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14.0001 14.0001L11.1001 11.1001" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M5.33325 7.33325H9.33325" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+`,
+  viewbox: '0 0 16 16',
+  style: 'line',
+  fill: 'none'
+};
+
+export const zoomPlus: IVectorIcon = {
+  name: IconNameEnum.zoomPlus,
+  path: `
+  <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.0001 14.0001L11.1001 11.1001" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.33325 5.33325V9.33325" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M5.33325 7.33325H9.33325" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+`,
+  viewbox: '0 0 16 16',
+  style: 'line',
+  fill: 'none'
+};

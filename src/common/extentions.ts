@@ -3,8 +3,7 @@ export enum ImageExtensionsEnum {
   png = 'png',
   jpeg = 'jpeg',
   webp = 'webp',
-  svg = 'svg',
-  pdf = 'pdf'
+  svg = 'svg'
 }
 
 export enum VideoExtensionsEnum {

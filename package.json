@@ -1,7 +1,7 @@
 {
   "name": "@pksep/yui",
   "author": "Perov David",
-  "version": "0.1.155",
+  "version": "0.1.166",
   "packageManager": "pnpm@9.9.0",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",
@@ -30,6 +30,8 @@
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.3",
     "col-cal": "2.0.0-alpha.1",
+    "pdfjs-dist": "^5.4.449",
+    "print-js": "^1.6.0",
     "vue": "^3.5.22",
     "vue3-emoji-picker": "^1.1.8",
     "vue3-perfect-scrollbar": "^2.0.0"

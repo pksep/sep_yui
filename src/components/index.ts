@@ -71,6 +71,10 @@ import { TextareaTypeEnum } from './Textarea/enum';
 import { TextFieldEnum } from './Input/enum/enum';
 import { CheckboxSizeEnum } from './Checkbox/enum/enum';
 import { MenuTypeEnum } from './UserMenu/enum/enum';
+import SliderModal from '@/components/Slider/SliderModal.vue';
+import PdfPreview from '@/components/Preview/PdfPreview.vue';
+import ImagePreview from '@/components/Preview/ImagePreview.vue';
+import VideoPreview from '@/components/Preview/VideoPreview.vue';
 
 const components = {
   Accordion,
@@ -125,7 +129,11 @@ const components = {
   ContentEditor,
   ModalCroppedAvatar,
   Avatar,
-  TimePicker
+  TimePicker,
+  SliderModal,
+  PdfPreview,
+  ImagePreview,
+  VideoPreview
 };
 
 const install = (app: App): void => {
@@ -210,5 +218,9 @@ export {
   MenuTypeEnum,
   getLastTime,
   getFirstTime,
-  vuePluginRemoveTestid
+  vuePluginRemoveTestid,
+  SliderModal,
+  PdfPreview,
+  ImagePreview,
+  VideoPreview
 };

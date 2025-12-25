@@ -11,3 +11,9 @@ export interface IDialogProps extends IDataTestIdProp {
 export interface IModalProps extends IDialogProps {
   animateType?: ModalAnimateEnum;
 }
+
+export interface IModalEmit {
+  (e: 'close'): void;
+  (e: 'unmounted'): void;
+  (e: 'end-animation'): void;
+}
