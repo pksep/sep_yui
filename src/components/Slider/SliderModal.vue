@@ -1,0 +1,883 @@
+<template>
+  <ModalAnimated
+    position="center"
+    class="slider-modal"
+    ref="modalRef"
+    :open
+    :height
+    :width
+    :animate-type="ModalAnimateEnum.fade"
+    @close="$emit('close')"
+    @end-animation="$emit('end-animation')"
+    @unmounted="$emit('unmounted')"
+  >
+    <div ref="contentRef" class="slider-modal__content">
+      <div
+        ref="sideBarRef"
+        class="slider-modal__side-bar"
+        :class="[
+          {
+            'slider-modal__side-bar_active':
+              isPdfFile(state.file?.path) || isPdfFile(state.file?.file)
+          }
+        ]"
+      >
+        <div
+          v-for="(file, idx) in state.sideBarItems"
+          ref="miniItemsRef"
+          class="slider-modal__side-bar-item"
+          :class="{
+            'slider-modal__side-bar-item_active': idx === state.sideBarIndex
+          }"
+          :key="idx"
+        >
+          <div
+            class="slider-modal__mini-prewiew-wrapper"
+            @click="handleClickOnMiniPreview(idx)"
+          >
+            <PdfPreview
+              ref="miniPreviewsRef"
+              class="slider-modal__mini-preview"
+              :src="file"
+              :page="idx + 1"
+            />
+          </div>
+
+          <div class="slider-modal__side-bar-count">{{ idx + 1 }}</div>
+        </div>
+      </div>
+
+      <div class="slider-modal__main" @click.self="$emit('close')">
+        <!-- pdf -->
+        <template
+          v-if="isPdfFile(state.file?.path) || isPdfFile(state.file?.file)"
+        >
+          <div
+            class="slider-modal__item"
+            @click.self="$emit('close')"
+            @wheel="handleWheelOnItem"
+          >
+            <PdfPreview
+              class="slider-modal__pdf"
+              ref="pdfRef"
+              :src="state?.file?.path"
+              :page="state.sideBarIndex + 1"
+            />
+          </div>
+        </template>
+
+        <!-- image -->
+        <template v-else-if="isImage(state.file?.path)">
+          <div class="slider-modal__item" @click.self="$emit('close')">
+            <ImagePreview
+              ref="imagePreviewRef"
+              class="slider-modal__image"
+              :src="state.file?.path"
+              @error="handleErrorItem($event, true)"
+            />
+          </div>
+        </template>
+
+        <!-- video -->
+        <template v-else-if="isVideo(state.file?.path)">
+          <div class="slider-modal__item" @click.self="$emit('close')">
+            <video
+              controls
+              class="slider-modal__video"
+              :data-testid="`${props.dataTestid}-Video`"
+              @error="handleErrorItem($event, true)"
+            >
+              <source :src="state.file?.path ?? ''" />
+            </video>
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="slider-modal__item" @click.self="$emit('close')">
+            <img class="slider-modal__image" :src="closedCamer" />
+          </div>
+        </template>
+
+        <div class="slider-modal__bottom">
+          <div class="slider-modal__nav-block">
+            <br />
+          </div>
+
+          <div class="slider-modal__nav-block">
+            <template v-if="props.items.length > 1">
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledPrevButton"
+                @click="handleClickOnPrevSlideButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.leftBig"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+
+              <BaseSlider
+                ref="sliderRef"
+                class="slider-modal__bottom-slider"
+                :active-index="state.defaultIndex"
+              >
+                <BaseSlide
+                  v-for="(item, idx) in props.items"
+                  class="slider-modal__slide"
+                  :key="idx"
+                  :is-active="idx === state.defaultIndex"
+                  @click="handleClickOnItem(idx)"
+                >
+                  <template v-if="isImage(item.path)">
+                    <img
+                      class="slider-modal__slide-image"
+                      :src="item.path"
+                      :alt="item.path"
+                      @error="handleErrorItem"
+                    />
+                  </template>
+
+                  <template
+                    v-else-if="
+                      isPdfFile(item.path) || isPdfFile(state.file?.file)
+                    "
+                  >
+                    <PdfPreview
+                      class="slider-modal__slide-image"
+                      :src="item.path"
+                      :page="1"
+                    />
+                  </template>
+
+                  <template v-else-if="isVideo(item.path)">
+                    <VideoPreview
+                      class="slider-modal__slide-image"
+                      :src="item.path"
+                    />
+                  </template>
+
+                  <template v-else>
+                    <img class="slider-modal__slide-image" :src="closedCamer" />
+                  </template>
+                </BaseSlide>
+              </BaseSlider>
+
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledNextButton"
+                @click="handleClickOnNextSlideButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.rightBig"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+            </template>
+          </div>
+
+          <div class="slider-modal__nav-block">
+            <div class="slider-modal__sub-nav">
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledZoomButton"
+                @click="handleClickOnZoomMinusButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.zoomMinus"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledZoomButton"
+                @click="handleClickOnZoomPlusButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.zoomPlus"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledRotateButton"
+                @click="handleClickOnRotateButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.reset"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+            </div>
+
+            <div class="slider-modal__sub-nav">
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledDownloadButton"
+                @click="handleClickOnDownloadButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.uploadCloud"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+
+              <button
+                class="slider-modal__side-button"
+                :disabled="isDisabledPrintButton"
+                @click="handleClickOnPrintButton"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.printer"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ModalAnimated>
+</template>
+
+<script setup lang="ts">
+import { ModalAnimateEnum } from '@/components/Modal/enum';
+import ModalAnimated from '@/components/Modal/ModalAnimated.vue';
+import PdfPreview from '@/components/Preview/PdfPreview.vue';
+import {
+  IFile,
+  ISliderModalEmit,
+  ISliderModalProps
+} from '@/components/Slider/interface/interface';
+import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
+import { getDocument } from 'pdfjs-dist';
+import cachePdf from '@/helpers/file/cache-pdf';
+import BaseSlider from '@/components/Slider/BaseSlider.vue';
+import BaseSlide from '@/components/Slider/BaseSlide.vue';
+import isImage from '@/helpers/file/is-image';
+import closedCamer from '@/assets/images/slider/closed-camera.svg';
+import downloadFile from '@/helpers/file/download-file';
+import printJs, { PrintTypes } from 'print-js';
+import isVideo from '@/helpers/file/is-video';
+import VideoPreview from '@/components/Preview/VideoPreview.vue';
+import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
+import ImagePreview from '@/components/Preview/ImagePreview.vue';
+import Icon from '../Icon/Icon.vue';
+import { IconNameEnum } from '../Icon/enum/enum';
+import changeStyleProperties from '@/helpers/change-style-properties';
+import isPdfFile from '@/helpers/file/isPdfFile';
+
+defineOptions({
+  name: 'SliderModal'
+});
+
+const props = withDefaults(defineProps<ISliderModalProps>(), {
+  dataTestid: 'SliderModal',
+  defaultIndex: 0
+});
+defineEmits<ISliderModalEmit>();
+
+const state = reactive<{
+  file: IFile | null | undefined;
+  // индекс для открытия файлов из переданного списка
+  defaultIndex: number;
+  // индекс для открытия файла из богового меню
+  sideBarIndex: number;
+  sideBarItems: string[];
+  sideBarLength: number;
+  isErrorFile: boolean;
+  zoomValue: number;
+}>({
+  defaultIndex: props.defaultIndex,
+  file: props.items[props.defaultIndex],
+  sideBarItems: [],
+  sideBarIndex: 0,
+  sideBarLength: 0,
+  isErrorFile: false,
+  zoomValue: 1
+});
+
+const miniItemsRef = ref<HTMLElement[] | null>(null);
+const sideBarRef = ref<HTMLElement | null>(null);
+
+const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
+const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
+const imagePreviewRef = ref<InstanceType<typeof ImagePreview> | null>(null);
+
+const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
+
+const isDisabledNextButton = computed(
+  () => state.defaultIndex === props.items.length - 1
+);
+
+const isDisabledRotateButton = computed(() => {
+  let isDisabled = !state.file || state.isErrorFile;
+  // Если это видео, то нельзя поворачивать
+  isDisabled = isVideo(state.file?.path) || isDisabled;
+  return isDisabled;
+});
+
+const isDisabledPrintButton = computed(() => {
+  let isDisabled = !state.file || state.isErrorFile;
+  // Если это видео, то нельзя печатать
+  isDisabled = isVideo(state.file?.path) || isDisabled;
+
+  return isDisabled;
+});
+
+const isDisabledDownloadButton = computed(() => {
+  const isDisabled = !state.file || state.isErrorFile;
+
+  return isDisabled;
+});
+
+const isDisabledZoomButton = computed(() => {
+  let isDisabled = !state.file || state.isErrorFile;
+  // Если это видео, то нельзя увеличивать
+  isDisabled = isVideo(state.file?.path) || isDisabled;
+  return isDisabled;
+});
+
+// отслеживаем изменение списка
+watch([() => props.items, () => props.defaultIndex], () => {
+  state.file = props.items[props.defaultIndex ?? 0];
+  state.defaultIndex = props.defaultIndex ?? 0;
+});
+
+// Отслеживаем изменение открытого файла
+watch([() => state.file, () => props.open], () => {
+  if (!props.open) {
+    clearPdf();
+    state.file = null;
+    return;
+  }
+  //  Обнуляем зум
+  state.zoomValue = 1;
+
+  if (!state.file) {
+    state.file = props.items[props.defaultIndex ?? 0];
+  }
+  state.isErrorFile = false;
+
+  initFile();
+});
+
+watch(
+  () => props.open,
+  () => {
+    if (!props.open) return;
+
+    nextTick(() => {
+      // Скроллим к выбранному элементу
+      if (!sliderRef.value) return;
+      sliderRef.value.initScroll();
+    });
+
+    state.defaultIndex = props.defaultIndex ?? 0;
+  }
+);
+
+// При изменение индекса бокового меню, скролим к выбранному элементу
+watch(
+  () => state.sideBarIndex,
+  () => {
+    initScroll();
+  }
+);
+
+/**
+ * Обрабатывает клик по элементу
+ *
+ * Устанавливает конкретный элемент
+ * @param idx
+ */
+const handleClickOnItem = (idx: number): void => {
+  setItem(idx);
+};
+
+/**
+ * Обрабатывает клик элементу бокового меню
+ *
+ * Устанавливает конкретный элемент
+ * @param idx
+ */
+const handleClickOnMiniPreview = (idx: number): void => {
+  state.sideBarIndex = idx;
+};
+
+/**
+ * Обрабатывает событие средней кнопки мыши при скролле над элементом
+ *
+ * Меняет индекс для бокового меню
+ * @param event
+ */
+const handleWheelOnItem = (event: WheelEvent): void => {
+  updateIndexByWheel(event.deltaY);
+};
+
+const handleClickOnZoomPlusButton = (): void => {
+  zoom(true);
+};
+
+const handleClickOnZoomMinusButton = (): void => {
+  zoom(false);
+};
+
+const handleClickOnRotateButton = (): void => {
+  if (pdfRef.value) {
+    pdfRef.value.rotatePdf(-90);
+  }
+
+  if (imagePreviewRef.value) {
+    imagePreviewRef.value.rotateImage(-90);
+  }
+};
+
+/**
+ * Обрабатывает клик по кнопке печати
+ *
+ * Открывает окно печати
+ */
+const handleClickOnPrintButton = (): void => {
+  if (!state.file?.path) return;
+  let type: PrintTypes = 'pdf';
+  let style: string = ``;
+  let imageStyle: string = ``;
+
+  if (isImage(state.file?.path)) {
+    type = 'image';
+    style = `
+        @page {
+          size: A4 portrait;
+          margin: 10mm;
+        }
+      `;
+    imageStyle = 'max-height: 95vh; margin-bottom: 10px; max-width: 100%';
+  }
+
+  printJs({
+    printable: state.file?.path,
+    type,
+    style,
+    imageStyle
+  });
+};
+
+/**
+ * Обрабатывает клик по кнопке скачать
+ *
+ * Скачивает файл
+ */
+const handleClickOnDownloadButton = (): void => {
+  if (!state.file?.path) return;
+  downloadFile(state.file?.path, state.file?.name);
+};
+
+/**
+ * Обрабатывает ошибку загрузки изображения
+ *
+ * Устанавливает заглушку при ошибке загрузке файла
+ * @param e
+ */
+const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
+  const target = e.target as HTMLImageElement;
+
+  if (target) target.src = closedCamer;
+
+  if (isMainImage) state.isErrorFile = true;
+};
+
+/**
+ * Обрабатывает клик по кнопке следующего элемента
+ *
+ * Переключает на следующий элемент
+ */
+const handleClickOnNextSlideButton = (): void => {
+  if (!sliderRef.value) return;
+
+  setItem(sliderRef.value.nextSlide());
+};
+
+/**
+ * Обрабатывает клик по кнопке предыдущего элемента
+ *
+ * Переключает на предыдущий элемент
+ */
+const handleClickOnPrevSlideButton = (): void => {
+  if (!sliderRef.value) return;
+
+  setItem(sliderRef.value.prevSlide());
+};
+
+/**
+ * Увеличивает или уменьшает масштаб
+ *
+ * Если isIncrease - увеличивает, иначе уменьшает
+ * @param isIncrease
+ */
+const zoom = (isIncrease: boolean): void => {
+  // Изменяем масштаб
+  if (isIncrease) {
+    state.zoomValue += 1;
+  } else {
+    state.zoomValue -= 1;
+  }
+
+  // Ограничиваем масштаб
+  state.zoomValue = Math.min(Math.max(1, state.zoomValue), 3);
+
+  // Увеличиваем масштаб для изображений
+  if (imagePreviewRef.value) {
+    changeStyleProperties(
+      {
+        transform: `scale(${state.zoomValue})`
+      },
+      imagePreviewRef.value.$el
+    );
+  }
+
+  // Увеличиваем масштаб для pdf
+  if (pdfRef.value) {
+    changeStyleProperties(
+      {
+        transform: `scale(${state.zoomValue})`
+      },
+      pdfRef.value.$el
+    );
+  }
+};
+
+/**
+ * Устанавливает основной элемент
+ * @param idx
+ */
+const setItem = (idx: number): void => {
+  // Ставим индекс отображаемого элемента
+  state.defaultIndex = idx;
+  // Очищаем pdf если он был показан
+  clearPdf();
+  // Устанавливаем данные нового элемента
+  state.file = props.items[idx];
+};
+
+/**
+ * Обновляет индекс бокового меню по прокрутке мышки
+ * @param deltaY
+ */
+const updateIndexByWheel = (deltaY: number) => {
+  let newIndex = state.sideBarIndex;
+  // В зависимости в какую сторону прокручена мышка, ставим новый индекс
+  if (deltaY > 0) {
+    newIndex = state.sideBarIndex + 1;
+    newIndex = Math.min(state.sideBarLength - 1, newIndex);
+  } else {
+    newIndex = state.sideBarIndex - 1;
+    newIndex = Math.max(0, newIndex);
+  }
+  state.sideBarIndex = newIndex;
+};
+
+/**
+ * Инициализация файла
+ */
+const initFile = (): void => {
+  nextTick(() => {
+    if (!state.file) return;
+    // const extension = checkPath(state.file.path);
+
+    // Если это pdf, то инициализурем pdf
+    if (isPdfFile(state.file?.path) || isPdfFile(state.file?.file)) {
+      // Устанавливаем ошибку, чтобы блокировать кнопки печати и скачивания, пока не прогрузится pdf
+      state.isErrorFile = true;
+      initPdf();
+    }
+  });
+};
+
+const initScroll = (): void => {
+  nextTick(() => {
+    if (!miniItemsRef.value || !sideBarRef.value) return;
+
+    const el = miniItemsRef.value[state.sideBarIndex];
+    scrollToElementIfNotVisible(el, sideBarRef.value);
+  });
+};
+
+/**
+ * Инициализируем pdf
+ */
+const initPdf = async (): Promise<void> => {
+  try {
+    if (!state.file) return;
+    // Получаем из кэша pdf
+    const cachedPdf = cachePdf.getCache(state.file.path);
+    let pdf;
+    // Если pdf есть в кэше, то берем его
+    if (cachedPdf) {
+      pdf = cachedPdf;
+    } else {
+      // Подгружаем pdf
+      pdf = await getDocument(state.file?.path).promise;
+    }
+
+    // Если pdf не существует, то выходим
+    if (!pdf) {
+      state.isErrorFile = true;
+      return;
+    }
+
+    // Устанавливаем кол-во страниц pdf
+    state.sideBarLength = pdf.numPages;
+    // создаем массив страниц
+    state.sideBarItems = new Array(pdf.numPages).fill(state.file?.path ?? '');
+
+    // устанавливаем в кэш pdf
+    cachePdf.setCache(state.file.path, pdf);
+
+    // Устанавливаем первую страницу
+    setPdfPage(0);
+    // Снимаем ошибку
+    state.isErrorFile = false;
+  } catch (error) {
+    console.error(error);
+    state.isErrorFile = true;
+  }
+};
+
+/**
+ * Устанавливаем страницу для  pdf
+ * @param index
+ */
+const setPdfPage = async (index: number = 0): Promise<void> => {
+  state.sideBarIndex = index;
+};
+
+/**
+ * Очищает данные от данных pdf
+ */
+const clearPdf = (): void => {
+  state.sideBarItems = [];
+  state.sideBarIndex = 0;
+  state.sideBarLength = 0;
+};
+
+onUnmounted(() => {
+  clearPdf();
+});
+</script>
+
+<style scoped>
+.modal-yui-kit.slider-modal {
+  backdrop-filter: blur(20px);
+  max-width: none;
+  max-height: none;
+  margin: 0;
+
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.slider-modal::backdrop {
+  background-color: transparent;
+}
+.slider-modal__content {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color-80);
+
+  transition: all 0.2s ease;
+}
+
+.slider-modal__side-bar {
+  width: 0;
+  height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+
+  padding: 60px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  background-color: var(--background-color-80);
+
+  transition: all 0.2s ease;
+}
+
+.slider-modal__side-bar_active {
+  width: 300px;
+}
+
+.slider-modal__side-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-modal__side-bar-item_active .slider-modal__mini-prewiew-wrapper {
+  background-color: var(--primary-color);
+}
+
+.slider-modal__side-bar-item_active .slider-modal__mini-preview {
+  clip-path: inset(5px 5px 5px 5px);
+}
+
+.slider-modal__mini-prewiew-wrapper {
+  width: 150px;
+  height: 212px;
+  background-color: var(--primary-color-20);
+
+  transition: all 0.2s ease;
+}
+
+.slider-modal__mini-preview {
+  width: 100%;
+  height: 100%;
+
+  clip-path: inset(0 0 0 0);
+  transition: all 0.2s ease;
+}
+
+.slider-modal__side-bar-count {
+  color: var(--white);
+}
+
+.slider-modal__main {
+  width: 100%;
+  height: 100vh;
+
+  padding: 60px 30px 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slider-modal__item {
+  display: flex;
+  justify-content: center;
+
+  overflow: hidden;
+
+  height: 100%;
+  width: 100%;
+}
+
+.slider-modal__main:has(.slider-modal__bottom)
+  .slider-modal__item:is(
+    :has(.slider-modal__pdf),
+    :has(.slider-modal__image),
+    :has(.slider-modal__video)
+  ) {
+  height: calc(100% - 130px);
+}
+
+.slider-modal__pdf,
+.slider-modal__image,
+.slider-modal__video {
+  max-width: 100%;
+  height: 100%;
+}
+
+.slider-modal__bottom {
+  padding: 10px 0;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.slider-modal__nav-block {
+  flex: 1 1 25%;
+
+  display: flex;
+}
+
+.slider-modal__nav-block:nth-child(2) {
+  flex: 1 1 50%;
+}
+
+.slider-modal__nav-block:nth-child(3) {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+}
+
+.slider-modal__sub-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.slider-modal__bottom-slider {
+  width: 45.8vw;
+}
+
+.slider-modal__slide {
+  --w: 100px;
+  width: var(--w);
+  height: var(--w);
+}
+
+.slider-modal__slide-image {
+  max-width: 100%;
+  height: 100%;
+
+  object-fit: fill;
+  background-color: var(--white);
+}
+
+.slider-modal__icon {
+  color: var(--white);
+  transition: all 0.2s ease;
+}
+
+.slider-modal__side-button {
+  width: 60px;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  user-select: none;
+}
+
+.slider-modal__nav-block:nth-child(3) .slider-modal__side-button {
+  width: 42px;
+  height: 40px;
+}
+
+:is(.slider-modal__side-button:hover, .slider-modal__side-button:active)
+  .slider-modal__icon {
+  color: var(--primary-color);
+}
+
+.slider-modal__side-button:disabled .slider-modal__icon {
+  color: var(--text-light-color);
+}
+</style>

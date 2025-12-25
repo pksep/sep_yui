@@ -261,8 +261,10 @@ const attachFile = (onlyMedia: boolean = false): void => {
 };
 
 const handleSave = (): void => {
-  if (!editor?.value) return;
-  emits('unmount-send', { content: editor.value.getHTML() });
+  if (editor?.value) {
+    emits('unmount-send', { content: editor.value.getHTML() });
+    editor.value.chain().focus();
+  }
 };
 
 /* ------------------ Insert undeletable span ------------------ */

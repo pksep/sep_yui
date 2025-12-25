@@ -112,5 +112,7 @@ export enum IconNameEnum {
   qrCode = 'qr-code',
   distrub = 'distrub',
   delivered = 'delivered',
-  notDelivered = 'not-delivered'
+  notDelivered = 'not-delivered',
+  zoomMinus = 'zoom-minus',
+  zoomPlus = 'zoom-plus'
 }

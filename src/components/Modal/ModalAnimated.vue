@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import Modal from './Modal.vue';
-import type { IModalProps } from './interface/interface';
+import type { IModalEmit, IModalProps } from './interface/interface';
 import { ModalAnimateEnum } from '@/components/Modal/enum';
 
 const props = withDefaults(defineProps<IModalProps>(), {
@@ -32,11 +32,7 @@ const props = withDefaults(defineProps<IModalProps>(), {
   position: 'right'
 });
 
-const emits = defineEmits<{
-  (e: 'close'): void;
-  (e: 'unmounted'): void;
-  (e: 'end-animation'): void;
-}>();
+const emits = defineEmits<IModalEmit>();
 
 const transitionName = computed(() => {
   if (props.animateType === ModalAnimateEnum.fade) {
