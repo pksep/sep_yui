@@ -6,7 +6,7 @@
         :data-testid="`${props.dataTestid}-Picture`"
       >
         <img
-          class="picture-yui-kit__picture__image"
+          class="picture-yui-kit__picture_image"
           :src="props.url"
           :alt="props.alt"
           :data-testid="`${props.dataTestid}-Picture-Img`"
@@ -19,6 +19,16 @@
         {{ props.caption }}
       </figcaption>
     </template>
+
+    <template v-else-if="isPdfFile(props.url)">
+      <PdfPreview
+        class="picture-yui-kit__picture_image"
+        :src="props.url"
+        :page="1"
+        :dataTestid="`${props.dataTestid}-PdfPreview`"
+      />
+    </template>
+
     <div
       class="picture-yui-kit__caption"
       :data-testid="`${props.dataTestid}-Caption-Box`"
@@ -35,8 +45,10 @@
 </template>
 
 <script setup lang="ts">
+import { isPdfFile } from 'pdfjs-dist';
 import { PictureEnum } from './enums/enums';
 import type { IPictureProps } from './interface/interface';
+import PdfPreview from '@/components/Preview/PdfPreview.vue';
 
 const props = withDefaults(defineProps<IPictureProps>(), {
   dataTestid: 'Picture'
@@ -60,7 +72,7 @@ const props = withDefaults(defineProps<IPictureProps>(), {
   }
 }
 
-.picture-yui-kit__picture__image {
+.picture-yui-kit__picture_image {
   width: 100%;
   height: 100%;
   object-fit: contain;

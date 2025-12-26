@@ -47,34 +47,63 @@
         </div>
       </div>
 
-      <div class="slider-modal__main" @click.self="$emit('close')">
+      <div
+        ref="mainRef"
+        class="slider-modal__main"
+        @mousedown.self="handleMouseDownOnExitItem"
+        @mouseup.self="handleMouseUpOnExitItem"
+      >
         <!-- pdf -->
         <template
           v-if="isPdfFile(state.file?.path) || isPdfFile(state.file?.file)"
         >
           <div
+            ref="itemRef"
             class="slider-modal__item"
-            @click.self="$emit('close')"
+            @mousedown.self="handleMouseDownOnExitItem"
+            @mouseup.self="handleMouseUpOnExitItem"
             @wheel="handleWheelOnItem"
           >
-            <PdfPreview
-              class="slider-modal__pdf"
-              ref="pdfRef"
-              :src="state?.file?.path"
-              :page="state.sideBarIndex + 1"
-            />
+            <div
+              ref="viewportRef"
+              class="slider-modal__viewport"
+              @mousedown.stop="handleMouseDownOnViewport"
+              @mousemove="handleMouseMoveOnViewport"
+              @mouseup="handleMouseUpOnViewport"
+              @mouseleave="handleMouseUpOnViewport"
+            >
+              <PdfPreview
+                class="slider-modal__pdf"
+                ref="pdfRef"
+                :src="state?.file?.path"
+                :page="state.sideBarIndex + 1"
+              />
+            </div>
           </div>
         </template>
 
         <!-- image -->
         <template v-else-if="isImage(state.file?.path)">
-          <div class="slider-modal__item" @click.self="$emit('close')">
-            <ImagePreview
-              ref="imagePreviewRef"
-              class="slider-modal__image"
-              :src="state.file?.path"
-              @error="handleErrorItem($event, true)"
-            />
+          <div
+            ref="itemRef"
+            class="slider-modal__item"
+            @click.self="$emit('close')"
+          >
+            <div
+              ref="viewportRef"
+              class="slider-modal__viewport"
+              @mousedown.stop="handleMouseDownOnViewport"
+              @mousemove="handleMouseMoveOnViewport"
+              @mouseup="handleMouseUpOnViewport"
+              @mouseleave="handleMouseUpOnViewport"
+            >
+              <ImagePreview
+                ref="imagePreviewRef"
+                class="slider-modal__image"
+                :src="state.file?.path"
+                @error="handleErrorItem($event, true)"
+              />
+            </div>
           </div>
         </template>
 
@@ -290,7 +319,7 @@ const props = withDefaults(defineProps<ISliderModalProps>(), {
   dataTestid: 'SliderModal',
   defaultIndex: 0
 });
-defineEmits<ISliderModalEmit>();
+const emit = defineEmits<ISliderModalEmit>();
 
 const state = reactive<{
   file: IFile | null | undefined;
@@ -301,7 +330,13 @@ const state = reactive<{
   sideBarItems: string[];
   sideBarLength: number;
   isErrorFile: boolean;
+  isDragging: boolean;
+  isClickOnExit: boolean;
   zoomValue: number;
+  offsetX: number;
+  offsetY: number;
+  startX: number;
+  startY: number;
 }>({
   defaultIndex: props.defaultIndex,
   file: props.items[props.defaultIndex],
@@ -309,11 +344,20 @@ const state = reactive<{
   sideBarIndex: 0,
   sideBarLength: 0,
   isErrorFile: false,
-  zoomValue: 1
+  isClickOnExit: false,
+  isDragging: false,
+  zoomValue: 1,
+  offsetX: 0,
+  offsetY: 0,
+  startX: 0,
+  startY: 0
 });
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
+const itemRef = ref<HTMLElement | null>(null);
+const viewportRef = ref<HTMLElement | null>(null);
+const mainRef = ref<HTMLElement | null>(null);
 
 const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
@@ -352,6 +396,13 @@ const isDisabledZoomButton = computed(() => {
   isDisabled = isVideo(state.file?.path) || isDisabled;
   return isDisabled;
 });
+
+const contentStyle = computed(() => ({
+  transform: `
+    translate(${state.offsetX}px, ${state.offsetY}px)
+    scale(${state.zoomValue})
+  `
+}));
 
 // отслеживаем изменение списка
 watch([() => props.items, () => props.defaultIndex], () => {
@@ -525,40 +576,121 @@ const handleClickOnPrevSlideButton = (): void => {
 };
 
 /**
+ * Обрабатывает нажатие кнопки мышки на элементе выхода
+ *
+ * Ставит флаг что кликнули на выход
+ */
+const handleMouseDownOnExitItem = (e: MouseEvent): void => {
+  const target = e.target as HTMLElement;
+  if (target === mainRef.value || target === itemRef.value)
+    state.isClickOnExit = true;
+};
+
+/**
+ * Обрабатывает поднятие кнопки мышки на элементе выхода
+ *
+ * Отправлят родителю событие о закрытие модального окна
+ */
+const handleMouseUpOnExitItem = (e: MouseEvent): void => {
+  const target = e.target as HTMLElement;
+  if (target === mainRef.value || target === itemRef.value)
+    if (state.isClickOnExit) emit('close');
+
+  state.isClickOnExit = false;
+};
+
+/**
+ * Обрабатывает нажатие кнопки мышки на элементе viewport
+ *
+ * Запускает перетаскивание
+ * @param e
+ */
+const handleMouseDownOnViewport = (e: MouseEvent): void => {
+  state.isDragging = true;
+  state.startX = e.clientX - state.offsetX;
+  state.startY = e.clientY - state.offsetY;
+};
+
+/**
+ * Обрабатывает движение кнопки мышки на элементе viewport
+ *
+ * Изменяет положение элемента
+ * @param e
+ */
+const handleMouseMoveOnViewport = (e: MouseEvent): void => {
+  if (!state.isDragging) return;
+
+  state.offsetX = e.clientX - state.startX;
+  state.offsetY = e.clientY - state.startY;
+
+  limitPosition();
+
+  requestAnimationFrame(() => {
+    if (!viewportRef.value) return;
+
+    changeStyleProperties(contentStyle.value, viewportRef.value);
+  });
+};
+
+/**
+ * Обрабатывает поднятие кнопки мышки на элементе viewport
+ *
+ * Останавливает перетаскивание
+ */
+const handleMouseUpOnViewport = (): void => {
+  state.isDragging = false;
+};
+
+/**
+ * Устнавливает ограничения на положение элемента при перетаскивании
+ */
+const limitPosition = (): void => {
+  if (!itemRef.value || !viewportRef.value) return;
+
+  const viewerW = itemRef.value.clientWidth;
+  const viewerH = itemRef.value.clientHeight;
+
+  const contentW = viewportRef.value.offsetWidth * state.zoomValue;
+  const contentH = viewportRef.value.offsetHeight * state.zoomValue;
+
+  // ---------- X ----------
+  const maxOffsetX = Math.max(0, (contentW - viewerW) / 2);
+  state.offsetX = Math.min(maxOffsetX, Math.max(-maxOffsetX, state.offsetX));
+
+  // ---------- Y ----------
+  const maxOffsetY = Math.max(0, (contentH - viewerH) / 2);
+  state.offsetY = Math.min(maxOffsetY, Math.max(-maxOffsetY, state.offsetY));
+};
+
+/**
  * Увеличивает или уменьшает масштаб
  *
  * Если isIncrease - увеличивает, иначе уменьшает
  * @param isIncrease
  */
 const zoom = (isIncrease: boolean): void => {
-  // Изменяем масштаб
-  if (isIncrease) {
-    state.zoomValue += 1;
-  } else {
-    state.zoomValue -= 1;
-  }
+  const prevZoom = state.zoomValue;
 
+  // Изменяем масштаб
+  state.zoomValue += isIncrease ? 1 : -1;
   // Ограничиваем масштаб
   state.zoomValue = Math.min(Math.max(1, state.zoomValue), 3);
 
-  // Увеличиваем масштаб для изображений
-  if (imagePreviewRef.value) {
-    changeStyleProperties(
-      {
-        transform: `scale(${state.zoomValue})`
-      },
-      imagePreviewRef.value.$el
-    );
-  }
+  const nextZoom = state.zoomValue;
+  if (prevZoom === nextZoom) return;
 
-  // Увеличиваем масштаб для pdf
-  if (pdfRef.value) {
-    changeStyleProperties(
-      {
-        transform: `scale(${state.zoomValue})`
-      },
-      pdfRef.value.$el
-    );
+  // 2️⃣ масштабируем offsets
+  const ratio = nextZoom / prevZoom;
+  state.offsetX *= ratio;
+  state.offsetY *= ratio;
+
+  limitPosition();
+
+  if (!viewportRef.value) return;
+
+  // Увеличиваем масштаб для изображений
+  if (imagePreviewRef.value || pdfRef.value) {
+    changeStyleProperties(contentStyle.value, viewportRef.value);
   }
 };
 
