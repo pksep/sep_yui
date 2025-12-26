@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.167
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.166...v0.1.167)
+
+### 🩹 Fixes
+
+- Icon change type and notDelivered fix name ([1e993ed](https://github.com/pksep/sep_yui/commit/1e993ed))
+
+### 🏡 Chore
+
+- **release:** V0.1.155 ([0190c4f](https://github.com/pksep/sep_yui/commit/0190c4f))
+
 ## v0.1.155
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.148...v0.1.155)
