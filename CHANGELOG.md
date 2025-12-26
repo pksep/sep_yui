@@ -1,106 +1,44 @@
 # Changelog
 
-## v0.1.166
+## v0.1.155
 
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.165...v0.1.166)
-
-### 🚀 Enhancements
-
-- Chaaged focus ([877d855](https://github.com/pksep/sep_yui/commit/877d855))
-
-## v0.1.165
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.164...v0.1.165)
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.148...v0.1.155)
 
 ### 🚀 Enhancements
 
-- Changed slide block ([7fe0237](https://github.com/pksep/sep_yui/commit/7fe0237))
-- Added zoom ([f11faf3](https://github.com/pksep/sep_yui/commit/f11faf3))
-- Added error handler ([33ded9c](https://github.com/pksep/sep_yui/commit/33ded9c))
-- Added max-width to printed image ([bc00af1](https://github.com/pksep/sep_yui/commit/bc00af1))
-- Finished slider ([a415385](https://github.com/pksep/sep_yui/commit/a415385))
-
-## v0.1.164
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.163...v0.1.164)
+- Recoded colors ([3b8b0a5](https://github.com/pksep/sep_yui/commit/3b8b0a5))
+- Delivered and notDelivered icon add ([4c1e271](https://github.com/pksep/sep_yui/commit/4c1e271))
 
 ### 🩹 Fixes
 
-- Not focusout input after sending message ([0269884](https://github.com/pksep/sep_yui/commit/0269884))
-
-## v0.1.163
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.162...v0.1.163)
-
-### 🩹 Fixes
-
-- Icon ([d954e55](https://github.com/pksep/sep_yui/commit/d954e55))
-
-## v0.1.162
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.161...v0.1.162)
-
-### 🩹 Fixes
-
-- Icons ([ac66187](https://github.com/pksep/sep_yui/commit/ac66187))
-
-## v0.1.161
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.160...v0.1.161)
-
-### 🚀 Enhancements
-
-- Added name when download file, fixed minor errors with pdf ([93af5ca](https://github.com/pksep/sep_yui/commit/93af5ca))
-- Added rotate pdf file ([e6882f0](https://github.com/pksep/sep_yui/commit/e6882f0))
-- Added image preview ([ccc6377](https://github.com/pksep/sep_yui/commit/ccc6377))
-
-### 🩹 Fixes
-
-- Fixed printer and order ([8d01bcd](https://github.com/pksep/sep_yui/commit/8d01bcd))
-
-## v0.1.160
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.159...v0.1.160)
-
-### 🚀 Enhancements
-
-- Changed full screen ([4fc6fe5](https://github.com/pksep/sep_yui/commit/4fc6fe5))
-
-## v0.1.159
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.157...v0.1.159)
-
-## v0.1.157
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.154...v0.1.157)
-
-### 🩹 Fixes
-
-- Fix issue ([0f19406](https://github.com/pksep/sep_yui/commit/0f19406))
+- Fixed error variables ([3858878](https://github.com/pksep/sep_yui/commit/3858878))
+- Fixed tooltip style ([d6e4b76](https://github.com/pksep/sep_yui/commit/d6e4b76))
+- Icon change type and notDelivered fix name ([1e993ed](https://github.com/pksep/sep_yui/commit/1e993ed))
 
 ### 🏡 Chore
 
-- **release:** V0.1.155 ([818e0d1](https://github.com/pksep/sep_yui/commit/818e0d1))
-
-## v0.1.155
-
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.154...v0.1.155)
-
-### 🩹 Fixes
-
-- Fix issue ([0f19406](https://github.com/pksep/sep_yui/commit/0f19406))
+- **release:** V0.1.148 ([0ef690c](https://github.com/pksep/sep_yui/commit/0ef690c))
+- **release:** V0.1.153 ([98ec6e1](https://github.com/pksep/sep_yui/commit/98ec6e1))
 
 ## v0.1.154
 
-[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.153...v0.1.154)
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.148...v0.1.154)
 
 ### 🚀 Enhancements
 
-- Added pdf preview ([f72ab3c](https://github.com/pksep/sep_yui/commit/f72ab3c))
-- Updated pdf viewer ([fa25bd6](https://github.com/pksep/sep_yui/commit/fa25bd6))
-- Finished pdf viewer slider ([3188d93](https://github.com/pksep/sep_yui/commit/3188d93))
-- Drafted slider in modal ([64514db](https://github.com/pksep/sep_yui/commit/64514db))
-- Added interaction ([b839c71](https://github.com/pksep/sep_yui/commit/b839c71))
+- Recoded colors ([3b8b0a5](https://github.com/pksep/sep_yui/commit/3b8b0a5))
+- Delivered and notDelivered icon add ([4c1e271](https://github.com/pksep/sep_yui/commit/4c1e271))
+
+### 🩹 Fixes
+
+- Fixed error variables ([3858878](https://github.com/pksep/sep_yui/commit/3858878))
+- Fixed tooltip style ([d6e4b76](https://github.com/pksep/sep_yui/commit/d6e4b76))
+- Icon change type and notDelivered fix name ([1e993ed](https://github.com/pksep/sep_yui/commit/1e993ed))
+
+### 🏡 Chore
+
+- **release:** V0.1.148 ([0ef690c](https://github.com/pksep/sep_yui/commit/0ef690c))
+- **release:** V0.1.153 ([98ec6e1](https://github.com/pksep/sep_yui/commit/98ec6e1))
 
 ## v0.1.153
 

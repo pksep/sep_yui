@@ -44,7 +44,12 @@
         class="toolbar-button right mobile-buttons"
         @click="handleSave"
       >
-        <Icon :name="IconNameEnum.planeRight" :width="21" :height="21" />
+        <Icon
+          :name="IconNameEnum.planeRightFill"
+          :width="22"
+          :height="22"
+          class="content-editor__save"
+        />
       </Button>
     </div>
 
@@ -430,8 +435,8 @@ button.toolbar-button,
 button.mobile-buttons {
   &.button-yui-kit.primary-yui-kit,
   &.button-yui-kit.ghost-yui-kit {
-    padding: 7px 8px !important;
-    width: 32px;
+    padding: 7px 8px;
+    width: 30px;
     color: var(--text-neutral-color);
     &:not(.right) path {
       stroke-width: 1.5px;
@@ -462,19 +467,32 @@ button.mobile-buttons {
   height: 0;
 }
 
-@media screen and (width <= 28rem) {
-  button.ghost-yui-kit.mobile-buttons {
+@media screen and (width <= 480px) {
+  button.ghost-yui-kit.small.mobile-buttons {
     display: grid;
+    padding: 3px;
     background-color: transparent !important;
     & svg.icon-yui-kit {
-      font-size: 27px;
+      font-size: 24px;
+    }
+    & svg.icon-yui-kit.content-editor__save {
+      & path {
+        fill: var(--primary-color);
+      }
+    }
+  }
+  button.ghost-yui-kit.small.mobile-buttons.smile-button {
+    & svg.icon-yui-kit {
+      & path {
+        stroke-width: 1.33px !important;
+      }
     }
   }
   .editor-component {
     display: grid;
     grid-template-columns: minmax(27px, min-content) 1fr auto;
     align-items: center;
-    padding: 8px;
+    padding: 15px;
     gap: 16px;
     min-height: 17px;
     & .tiptap {
@@ -487,6 +505,7 @@ button.mobile-buttons {
   .right-buttons {
     display: flex;
     gap: 8px;
+    align-items: center;
     & button.button-yui-kit.ghost-yui-kit.right {
       color: var(--primary-color);
     }
