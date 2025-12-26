@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.168
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.167...v0.1.168)
+
+### 🚀 Enhancements
+
+- Added drag ([bc3034c](https://github.com/pksep/sep_yui/commit/bc3034c))
+
 ## v0.1.167
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.166...v0.1.167)
