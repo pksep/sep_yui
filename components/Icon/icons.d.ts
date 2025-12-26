@@ -1,4 +1,3 @@
-import { IconNameEnum } from './enum/enum';
 import { IVectorIcon } from './interface/interface';
 
 export declare const alertTriangle: IVectorIcon;
@@ -107,6 +106,7 @@ export declare const time: IVectorIcon;
 export declare const remains: IVectorIcon;
 export declare const atSign: IVectorIcon;
 export declare const smile: IVectorIcon;
+export declare const planeRightFill: IVectorIcon;
 export declare const planeRight: IVectorIcon;
 export declare const sidebar: IVectorIcon;
 export declare const pin: IVectorIcon;
@@ -119,19 +119,7 @@ export declare const keyboard: IVectorIcon;
 export declare const message: IVectorIcon;
 export declare const darkThemeSwitcher: IVectorIcon;
 export declare const qrCode: IVectorIcon;
-export declare const notDelivered: {
-    name: IconNameEnum;
-    viewbox: string;
-    style: string;
-    fill: string;
-    path: string;
-};
-export declare const delivered: {
-    name: IconNameEnum;
-    viewbox: string;
-    style: string;
-    fill: string;
-    path: string;
-};
+export declare const notDelivered: IVectorIcon;
+export declare const delivered: IVectorIcon;
 export declare const zoomMinus: IVectorIcon;
 export declare const zoomPlus: IVectorIcon;
