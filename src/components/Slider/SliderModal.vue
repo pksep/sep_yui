@@ -10,6 +10,7 @@
     @close="$emit('close')"
     @end-animation="$emit('end-animation')"
     @unmounted="$emit('unmounted')"
+    @pointerup="handlePointerEnd"
   >
     <div ref="contentRef" class="slider-modal__content">
       <div
@@ -47,11 +48,17 @@
         </div>
       </div>
 
+      <div v-if="state.isMobile" class="slider-modal__counter">
+        {{ state.defaultIndex + 1 }} из {{ props.items.length }}
+      </div>
+
       <div
         ref="mainRef"
         class="slider-modal__main"
         @mousedown.self="handleMouseDownOnExitItem"
         @mouseup.self="handleMouseUpOnExitItem"
+        @pointerdown="handlePointerStart"
+        @pointermove="handlePointerMove"
       >
         <!-- pdf -->
         <template
@@ -65,6 +72,7 @@
             @wheel="handleWheelOnItem"
           >
             <div
+              v-if="!state.isMobile"
               ref="viewportRef"
               class="slider-modal__viewport"
               @mousedown.stop="handleMouseDownOnViewport"
@@ -79,6 +87,21 @@
                 :page="state.sideBarIndex + 1"
               />
             </div>
+
+            <template v-else>
+              <div
+                v-for="(file, idx) in state.sideBarItems"
+                :key="idx"
+                class="slider-modal__viewport"
+              >
+                <PdfPreview
+                  ref="miniPreviewsRef"
+                  class="slider-modal__pdf slider-modal__pdf_mobile"
+                  :src="file"
+                  :page="idx + 1"
+                />
+              </div>
+            </template>
           </div>
         </template>
 
@@ -155,6 +178,9 @@
                 <BaseSlide
                   v-for="(item, idx) in props.items"
                   class="slider-modal__slide"
+                  :class="{
+                    'slider-modal__slide_active': idx === state.defaultIndex
+                  }"
                   :key="idx"
                   :is-active="idx === state.defaultIndex"
                   @click="handleClickOnItem(idx)"
@@ -211,7 +237,7 @@
           <div class="slider-modal__nav-block">
             <div class="slider-modal__sub-nav">
               <button
-                class="slider-modal__side-button"
+                class="slider-modal__side-button slider-modal__side-button_zoom"
                 :disabled="isDisabledZoomButton"
                 @click="handleClickOnZoomMinusButton"
               >
@@ -224,7 +250,7 @@
               </button>
 
               <button
-                class="slider-modal__side-button"
+                class="slider-modal__side-button slider-modal__side-button_zoom"
                 :disabled="isDisabledZoomButton"
                 @click="handleClickOnZoomPlusButton"
               >
@@ -265,7 +291,7 @@
               </button>
 
               <button
-                class="slider-modal__side-button"
+                class="slider-modal__side-button slider-modal__side-button_printer"
                 :disabled="isDisabledPrintButton"
                 @click="handleClickOnPrintButton"
               >
@@ -293,7 +319,15 @@ import {
   ISliderModalEmit,
   ISliderModalProps
 } from '@/components/Slider/interface/interface';
-import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref,
+  watch
+} from 'vue';
 import { getDocument } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
 import BaseSlider from '@/components/Slider/BaseSlider.vue';
@@ -332,11 +366,17 @@ const state = reactive<{
   isErrorFile: boolean;
   isDragging: boolean;
   isClickOnExit: boolean;
+  isPointerActive: boolean;
+  isMobile: boolean;
   zoomValue: number;
   offsetX: number;
   offsetY: number;
   startX: number;
   startY: number;
+  startXForMobile: number;
+  startYForMobile: number;
+  endXForMobile: number;
+  endYForMobile: number;
 }>({
   defaultIndex: props.defaultIndex,
   file: props.items[props.defaultIndex],
@@ -346,12 +386,22 @@ const state = reactive<{
   isErrorFile: false,
   isClickOnExit: false,
   isDragging: false,
+  isMobile: false,
+  isPointerActive: false,
   zoomValue: 1,
   offsetX: 0,
   offsetY: 0,
   startX: 0,
-  startY: 0
+  startY: 0,
+  startXForMobile: 0,
+  startYForMobile: 0,
+  endXForMobile: 0,
+  endYForMobile: 0
 });
+
+const mediaQuery = window.matchMedia('(max-width: 768px)');
+
+const SWIPE_EXIT_THRESHOLD = 80;
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
@@ -373,6 +423,8 @@ const isDisabledRotateButton = computed(() => {
   let isDisabled = !state.file || state.isErrorFile;
   // Если это видео, то нельзя поворачивать
   isDisabled = isVideo(state.file?.path) || isDisabled;
+
+  isDisabled = (state.isMobile && isPdfFile(state.file?.path)) || isDisabled;
   return isDisabled;
 });
 
@@ -478,6 +530,7 @@ const handleClickOnMiniPreview = (idx: number): void => {
  * @param event
  */
 const handleWheelOnItem = (event: WheelEvent): void => {
+  if (state.isMobile) return;
   updateIndexByWheel(event.deltaY);
 };
 
@@ -581,6 +634,8 @@ const handleClickOnPrevSlideButton = (): void => {
  * Ставит флаг что кликнули на выход
  */
 const handleMouseDownOnExitItem = (e: MouseEvent): void => {
+  if (state.isMobile) return;
+
   const target = e.target as HTMLElement;
   if (target === mainRef.value || target === itemRef.value)
     state.isClickOnExit = true;
@@ -639,6 +694,71 @@ const handleMouseMoveOnViewport = (e: MouseEvent): void => {
  */
 const handleMouseUpOnViewport = (): void => {
   state.isDragging = false;
+};
+
+const handlePointerStart = (e: PointerEvent): void => {
+  if (!state.isMobile) return;
+
+  state.startXForMobile = e.clientX;
+  state.startYForMobile = e.clientY;
+
+  state.isPointerActive = true;
+};
+
+const handlePointerEnd = (e: PointerEvent): void => {
+  if (!state.isMobile) return;
+
+  const endX = e.clientX;
+  const endY = e.clientY;
+
+  const deltax = Math.abs(endX - state.startXForMobile);
+  const deltay = endY - state.startYForMobile;
+
+  if (deltay > SWIPE_EXIT_THRESHOLD && deltay > deltax) {
+    emit('close');
+  }
+
+  state.isPointerActive = false;
+
+  resetOpacity();
+};
+
+const handlePointerMove = (e: PointerEvent): void => {
+  if (!state.isMobile || !state.isPointerActive) return;
+
+  const deltaY = e.clientY - state.startYForMobile;
+  const deltaX = e.clientX - state.startXForMobile;
+
+  if (deltaX > deltaY) {
+    resetOpacity();
+    return;
+  }
+
+  const opacity = Math.max(0, 1 - deltaY / SWIPE_EXIT_THRESHOLD);
+
+  requestAnimationFrame(() => {
+    if (!mainRef.value) return;
+
+    changeStyleProperties(
+      {
+        opacity: opacity
+      },
+      mainRef.value
+    );
+  });
+};
+
+const resetOpacity = (): void => {
+  requestAnimationFrame(() => {
+    if (!mainRef.value) return;
+
+    changeStyleProperties(
+      {
+        opacity: 1
+      },
+      mainRef.value
+    );
+  });
 };
 
 /**
@@ -808,8 +928,22 @@ const clearPdf = (): void => {
   state.sideBarLength = 0;
 };
 
+/**
+ * Обновляет состоняние параметра isMobile
+ */
+const updateMediaParams = (): void => {
+  state.isMobile = mediaQuery.matches;
+};
+
+onMounted(() => {
+  updateMediaParams();
+  mediaQuery.addEventListener('change', updateMediaParams);
+});
+
 onUnmounted(() => {
   clearPdf();
+
+  mediaQuery.removeEventListener('change', updateMediaParams);
 });
 </script>
 
@@ -1011,5 +1145,150 @@ onUnmounted(() => {
 
 .slider-modal__side-button:disabled .slider-modal__icon {
   color: var(--text-light-color);
+}
+
+.slider-modal__viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-modal__pdf_mobile {
+  display: none;
+  height: calc(100vh - 180px);
+}
+
+.slider-modal__counter {
+  display: flex;
+  justify-content: center;
+
+  color: var(--white);
+
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Мобильная версия + планшет */
+@media (max-width: 768px) {
+  .slider-modal__side-bar,
+  .slider-modal__side-button_printer,
+  .slider-modal__side-button_zoom {
+    display: none;
+  }
+
+  .slider-modal__content {
+    flex-direction: column;
+    padding: 15px 0 0;
+    gap: 45px;
+  }
+
+  .slider-modal__main {
+    position: relative;
+    padding: 0;
+
+    height: calc(100vh - 60px - 20px);
+
+    justify-content: space-between;
+  }
+
+  .slider-modal__viewport {
+    height: 100%;
+  }
+
+  .slider-modal__main:has(.slider-modal__bottom)
+    .slider-modal__item:is(
+      :has(.slider-modal__image),
+      :has(.slider-modal__video)
+    ) {
+    height: calc(100% - 100px);
+    justify-content: center;
+  }
+
+  .slider-modal__main:has(.slider-modal__bottom)
+    .slider-modal__item:is(
+      :has(.slider-modal__image),
+      :has(.slider-modal__video)
+    ),
+  .slider-modal__item .slider-modal__pdf {
+    padding: 0 10px;
+  }
+
+  .slider-modal__item:has(.slider-modal__pdf) {
+    overflow-y: auto;
+
+    scrollbar-width: none;
+  }
+
+  .slider-modal__item:has(.slider-modal__pdf)::-webkit-scrollbar {
+    display: none;
+  }
+
+  .slider-modal__main:has(.slider-modal__bottom)
+    .slider-modal__item:is(:has(.slider-modal__pdf)) {
+    height: 100%;
+    padding-bottom: 105px;
+  }
+
+  .slider-modal__pdf_mobile {
+    display: block;
+  }
+
+  .slider-modal__bottom {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+
+    padding: 0 10px;
+    height: 90px;
+    width: 100%;
+
+    background-color: var(--background-color-80);
+  }
+
+  .slider-modal__bottom-slider {
+    width: auto;
+  }
+
+  .slider-modal__nav-block:first-child {
+    display: none;
+  }
+
+  .slider-modal__nav-block:nth-child(2) {
+    justify-content: center;
+  }
+
+  .slider-modal__nav-block:nth-child(2) .slider-modal__side-button {
+    display: none;
+  }
+
+  .slider-modal__nav-block:nth-child(3) {
+    flex: 0 0 auto;
+    gap: 10px;
+  }
+
+  .slider-modal__slide-image {
+    max-width: none;
+  }
+
+  .slider-modal__image {
+    height: auto;
+  }
+
+  .slider-modal__slide {
+    width: 20px;
+    height: 40px;
+
+    transition: all 0.2s ease;
+  }
+
+  .slider-modal__item {
+    flex-direction: column;
+    justify-content: initial;
+    gap: 10px;
+  }
+
+  .slider-modal__slide_active {
+    width: 40px;
+  }
 }
 </style>

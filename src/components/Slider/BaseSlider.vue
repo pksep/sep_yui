@@ -110,4 +110,11 @@ defineExpose({
 .base-slider__content > * {
   flex-shrink: 0;
 }
+
+/* Мобильная версия + планшет */
+@media (max-width: 768px) {
+  .base-slider__content {
+    gap: 5px;
+  }
+}
 </style>

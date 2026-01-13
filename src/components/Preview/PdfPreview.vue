@@ -115,8 +115,13 @@ const setPdf = async (): Promise<void> => {
     // чтобы полностью влезло (contain)
     const scale = Math.min(scaleX, scaleY);
 
+    const dpr = window.devicePixelRatio || 1;
+
     // Устаннавливаем масштаб и поворот
-    const viewport = page.getViewport({ scale, rotation: state.rotate });
+    const viewport = page.getViewport({
+      scale: scale * dpr,
+      rotation: state.rotate
+    });
 
     // Получаем контекст
     const ctx = canvas.value.getContext('2d');
@@ -151,6 +156,8 @@ const setPdf = async (): Promise<void> => {
 
     console.error(error);
     state.isError = true;
+  } finally {
+    currentRenderTask = null;
   }
 };
 
@@ -216,6 +223,8 @@ const rotatePdf = async (deltaAngle: number): Promise<void> => {
 
     console.error(error);
     state.isError = true;
+  } finally {
+    currentRenderTask = null;
   }
 };
 
@@ -224,6 +233,7 @@ const rotatePdf = async (deltaAngle: number): Promise<void> => {
  *
  */
 const init = (): void => {
+  if (!canvas.value) return;
   // Используем IntersectionObserver для оптимизации и подгрузки контента, когда он входит в зону видимости
   intersenctionObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(
@@ -240,10 +250,7 @@ const init = (): void => {
     );
   });
 
-  // Если canvas существует, то наблюдаем за ним
-  if (canvas.value) {
-    intersenctionObserver.observe(canvas.value);
-  }
+  intersenctionObserver.observe(canvas.value);
 };
 
 /** Очищает canvas */
