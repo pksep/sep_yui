@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.169
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.168...v0.1.169)
+
+### 🚀 Enhancements
+
+- Added mobile version ([5b14bf6](https://github.com/pksep/sep_yui/commit/5b14bf6))
+- Finished slider ([a5f5f62](https://github.com/pksep/sep_yui/commit/a5f5f62))
+
 ## v0.1.168
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.167...v0.1.168)
