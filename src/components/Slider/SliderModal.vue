@@ -7,10 +7,11 @@
     :height
     :width
     :animate-type="ModalAnimateEnum.fade"
-    @close="$emit('close')"
+    @close="unmountClose"
     @end-animation="$emit('end-animation')"
     @unmounted="$emit('unmounted')"
     @pointerup="handlePointerEnd"
+    @pointerleave="handlePinterLeave"
   >
     <div ref="contentRef" class="slider-modal__content">
       <div
@@ -57,8 +58,6 @@
         class="slider-modal__main"
         @mousedown.self="handleMouseDownOnExitItem"
         @mouseup.self="handleMouseUpOnExitItem"
-        @pointerdown="handlePointerStart"
-        @pointermove="handlePointerMove"
       >
         <!-- pdf -->
         <template
@@ -70,6 +69,8 @@
             @mousedown.self="handleMouseDownOnExitItem"
             @mouseup.self="handleMouseUpOnExitItem"
             @wheel="handleWheelOnItem"
+            @pointerdown="handlePointerStart"
+            @pointermove="handlePointerMove"
           >
             <div
               v-if="!state.isMobile"
@@ -110,7 +111,9 @@
           <div
             ref="itemRef"
             class="slider-modal__item"
-            @click.self="$emit('close')"
+            @click.self="unmountClose"
+            @pointerdown="handlePointerStart"
+            @pointermove="handlePointerMove"
           >
             <div
               ref="viewportRef"
@@ -132,7 +135,12 @@
 
         <!-- video -->
         <template v-else-if="isVideo(state.file?.path)">
-          <div class="slider-modal__item" @click.self="$emit('close')">
+          <div
+            class="slider-modal__item"
+            @click.self="unmountClose"
+            @pointerdown="handlePointerStart"
+            @pointermove="handlePointerMove"
+          >
             <video
               controls
               class="slider-modal__video"
@@ -145,7 +153,12 @@
         </template>
 
         <template v-else>
-          <div class="slider-modal__item" @click.self="$emit('close')">
+          <div
+            class="slider-modal__item"
+            @click.self="unmountClose"
+            @pointerdown="handlePointerStart"
+            @pointermove="handlePointerMove"
+          >
             <img class="slider-modal__image" :src="closedCamer" />
           </div>
         </template>
@@ -355,6 +368,8 @@ const props = withDefaults(defineProps<ISliderModalProps>(), {
 });
 const emit = defineEmits<ISliderModalEmit>();
 
+const mediaQuery = window.matchMedia('(max-width: 768px)');
+
 const state = reactive<{
   file: IFile | null | undefined;
   // индекс для открытия файлов из переданного списка
@@ -367,6 +382,10 @@ const state = reactive<{
   isDragging: boolean;
   isClickOnExit: boolean;
   isPointerActive: boolean;
+  isExistSwipe: boolean;
+  isChangeItemSwipe: boolean;
+  isSwipeNextSlide: boolean;
+  isSwipePrevSlide: boolean;
   isMobile: boolean;
   zoomValue: number;
   offsetX: number;
@@ -388,6 +407,10 @@ const state = reactive<{
   isDragging: false,
   isMobile: false,
   isPointerActive: false,
+  isExistSwipe: false,
+  isChangeItemSwipe: false,
+  isSwipeNextSlide: false,
+  isSwipePrevSlide: false,
   zoomValue: 1,
   offsetX: 0,
   offsetY: 0,
@@ -399,9 +422,10 @@ const state = reactive<{
   endYForMobile: 0
 });
 
-const mediaQuery = window.matchMedia('(max-width: 768px)');
-
 const SWIPE_EXIT_THRESHOLD = 80;
+const SWIPE_DELAY_EXIT_THRESHOLD = 20;
+const SWIPE_CHANGE_ITEM_THRESHOLD = 150;
+const SWIPE_DELAY_CHANGE_ITEM_THRESHOLD = 50;
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
@@ -502,6 +526,10 @@ watch(
     initScroll();
   }
 );
+
+const unmountClose = (): void => {
+  if (state.isClickOnExit) emit('close');
+};
 
 /**
  * Обрабатывает клик по элементу
@@ -648,8 +676,7 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
  */
 const handleMouseUpOnExitItem = (e: MouseEvent): void => {
   const target = e.target as HTMLElement;
-  if (target === mainRef.value || target === itemRef.value)
-    if (state.isClickOnExit) emit('close');
+  if (target === mainRef.value || target === itemRef.value) unmountClose();
 
   state.isClickOnExit = false;
 };
@@ -705,6 +732,12 @@ const handlePointerStart = (e: PointerEvent): void => {
   state.isPointerActive = true;
 };
 
+const handlePinterLeave = (): void => {
+  if (!state.isMobile) return;
+  resetMobileState();
+  resetOpacity();
+};
+
 const handlePointerEnd = (e: PointerEvent): void => {
   if (!state.isMobile) return;
 
@@ -714,13 +747,20 @@ const handlePointerEnd = (e: PointerEvent): void => {
   const deltax = Math.abs(endX - state.startXForMobile);
   const deltay = endY - state.startYForMobile;
 
-  if (deltay > SWIPE_EXIT_THRESHOLD && deltay > deltax) {
+  if (state.isExistSwipe && deltay > SWIPE_EXIT_THRESHOLD && deltay > deltax) {
     emit('close');
   }
 
-  state.isPointerActive = false;
+  if (state.isChangeItemSwipe && sliderRef.value) {
+    if (state.isSwipeNextSlide) setItem(sliderRef.value?.nextSlide());
 
-  resetOpacity();
+    if (state.isSwipePrevSlide) setItem(sliderRef.value?.prevSlide());
+  }
+
+  resetMobileState();
+  nextTick(() => {
+    resetOpacity();
+  });
 };
 
 const handlePointerMove = (e: PointerEvent): void => {
@@ -728,24 +768,63 @@ const handlePointerMove = (e: PointerEvent): void => {
 
   const deltaY = e.clientY - state.startYForMobile;
   const deltaX = e.clientX - state.startXForMobile;
+  const absDeltaX = Math.abs(deltaX);
 
-  if (deltaX > deltaY) {
-    resetOpacity();
-    return;
+  // Если свайпнули вниз и прошли минимальный порог начала анимация закрытия
+  // устанавливаем флаг на событие закрытия свайпом
+  if (
+    absDeltaX < deltaY &&
+    deltaY > SWIPE_DELAY_EXIT_THRESHOLD &&
+    !state.isChangeItemSwipe &&
+    itemRef.value &&
+    itemRef.value.scrollTop === 0
+  ) {
+    state.isExistSwipe = true;
   }
 
-  const opacity = Math.max(0, 1 - deltaY / SWIPE_EXIT_THRESHOLD);
+  if (
+    absDeltaX > deltaY &&
+    absDeltaX > SWIPE_DELAY_CHANGE_ITEM_THRESHOLD &&
+    !state.isExistSwipe
+  ) {
+    state.isChangeItemSwipe = true;
+  }
 
-  requestAnimationFrame(() => {
-    if (!mainRef.value) return;
-
-    changeStyleProperties(
-      {
-        opacity: opacity
-      },
-      mainRef.value
+  if (state.isExistSwipe) {
+    const opacity = Math.max(
+      0,
+      1 - (deltaY - SWIPE_DELAY_EXIT_THRESHOLD) / SWIPE_EXIT_THRESHOLD
     );
-  });
+    requestAnimationFrame(() => {
+      if (!mainRef.value) return;
+
+      changeStyleProperties(
+        {
+          opacity: opacity
+        },
+        mainRef.value
+      );
+    });
+  }
+
+  if (state.isChangeItemSwipe) {
+    if (absDeltaX > SWIPE_CHANGE_ITEM_THRESHOLD) {
+      const isOverflowArr = state.defaultIndex === props.items.length - 1;
+      const isStartIndex = state.defaultIndex === 0;
+
+      if (deltaX > 0) {
+        if (isStartIndex) return;
+
+        state.isSwipePrevSlide = true;
+      }
+
+      if (deltaX < 0) {
+        if (isOverflowArr) return;
+
+        state.isSwipeNextSlide = true;
+      }
+    }
+  }
 };
 
 const resetOpacity = (): void => {
@@ -761,6 +840,14 @@ const resetOpacity = (): void => {
   });
 };
 
+const resetMobileState = (): void => {
+  // Сброс состояний
+  state.isPointerActive = false;
+  state.isExistSwipe = false;
+  state.isSwipeNextSlide = false;
+  state.isSwipePrevSlide = false;
+  state.isChangeItemSwipe = false;
+};
 /**
  * Устнавливает ограничения на положение элемента при перетаскивании
  */
@@ -819,6 +906,7 @@ const zoom = (isIncrease: boolean): void => {
  * @param idx
  */
 const setItem = (idx: number): void => {
+  if (!props.items[idx]) return;
   // Ставим индекс отображаемого элемента
   state.defaultIndex = idx;
   // Очищаем pdf если он был показан
@@ -1038,6 +1126,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow: hidden;
 }
 
 .slider-modal__item {
