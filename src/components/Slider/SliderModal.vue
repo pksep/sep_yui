@@ -1391,14 +1391,14 @@ onUnmounted(() => {
   .slider-modal__content {
     flex-direction: column;
     padding: 5px 0 0;
-    gap: 45px;
+    gap: 29px;
   }
 
   .slider-modal__main {
     position: relative;
     padding: 0;
 
-    height: calc(100svh - 60px - 32px);
+    height: calc(100svh - 60px - 15px);
 
     justify-content: space-between;
   }
