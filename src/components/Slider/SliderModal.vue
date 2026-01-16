@@ -12,6 +12,7 @@
     @unmounted="$emit('unmounted')"
     @pointerup="handlePointerEnd"
     @pointerleave="handlePinterLeave"
+    @touchend="handleTouchEnd"
   >
     <div ref="contentRef" class="slider-modal__content">
       <div
@@ -49,8 +50,27 @@
         </div>
       </div>
 
-      <div v-if="state.isMobile" class="slider-modal__counter">
-        {{ state.defaultIndex + 1 }} из {{ props.items.length }}
+      <div class="slider-modal__mobile-header">
+        <div class="slider-modal__mobile-header-block">
+          <div class="slider-modal__exit-button" @click="$emit('close')">
+            <YIcon
+              class="slider-modal__exit-icon"
+              :name="IconNameEnum.leftBig"
+              :width="16"
+              :height="16"
+            />
+
+            <div class="slider-modal__exit-text">Назад</div>
+          </div>
+        </div>
+
+        <div class="slider-modal__mobile-header-block">
+          <div v-if="state.isMobile" class="slider-modal__counter">
+            {{ state.defaultIndex + 1 }} из {{ props.items.length }}
+          </div>
+        </div>
+
+        <div class="slider-modal__mobile-header-block"></div>
       </div>
 
       <div
@@ -69,8 +89,9 @@
             @mousedown.self="handleMouseDownOnExitItem"
             @mouseup.self="handleMouseUpOnExitItem"
             @wheel="handleWheelOnItem"
-            @pointerdown="handlePointerStart"
-            @pointermove="handlePointerMove"
+            @scroll="handleScrollItem"
+            @touchstart="handleTouchStart"
+            @touchmove="handleTouchMove"
           >
             <div
               v-if="!state.isMobile"
@@ -138,11 +159,13 @@
           <div
             class="slider-modal__item"
             @click.self="unmountClose"
-            @pointerdown="handlePointerStart"
-            @pointermove="handlePointerMove"
+            @touchstart.prevent="handleTouchStart"
+            @touchmove.prevent="handleTouchMove"
           >
             <video
               controls
+              playsinline
+              webkit-playsinline
               class="slider-modal__video"
               :data-testid="`${props.dataTestid}-Video`"
               @error="handleErrorItem($event, true)"
@@ -386,6 +409,8 @@ const state = reactive<{
   isChangeItemSwipe: boolean;
   isSwipeNextSlide: boolean;
   isSwipePrevSlide: boolean;
+  isExitScrollActive: boolean;
+
   isMobile: boolean;
   zoomValue: number;
   offsetX: number;
@@ -396,6 +421,8 @@ const state = reactive<{
   startYForMobile: number;
   endXForMobile: number;
   endYForMobile: number;
+  startScrollTop: number;
+  overscrollDelta: number;
 }>({
   defaultIndex: props.defaultIndex,
   file: props.items[props.defaultIndex],
@@ -411,6 +438,7 @@ const state = reactive<{
   isChangeItemSwipe: false,
   isSwipeNextSlide: false,
   isSwipePrevSlide: false,
+  isExitScrollActive: false,
   zoomValue: 1,
   offsetX: 0,
   offsetY: 0,
@@ -419,13 +447,15 @@ const state = reactive<{
   startXForMobile: 0,
   startYForMobile: 0,
   endXForMobile: 0,
-  endYForMobile: 0
+  endYForMobile: 0,
+  overscrollDelta: 0,
+  startScrollTop: 0
 });
 
 const SWIPE_EXIT_THRESHOLD = 80;
 const SWIPE_DELAY_EXIT_THRESHOLD = 20;
-const SWIPE_CHANGE_ITEM_THRESHOLD = 150;
-const SWIPE_DELAY_CHANGE_ITEM_THRESHOLD = 50;
+const SWIPE_CHANGE_ITEM_THRESHOLD = 80;
+const SWIPE_DELAY_CHANGE_ITEM_THRESHOLD = 20;
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
@@ -676,6 +706,7 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
  */
 const handleMouseUpOnExitItem = (e: MouseEvent): void => {
   const target = e.target as HTMLElement;
+
   if (target === mainRef.value || target === itemRef.value) unmountClose();
 
   state.isClickOnExit = false;
@@ -732,6 +763,15 @@ const handlePointerStart = (e: PointerEvent): void => {
   state.isPointerActive = true;
 };
 
+const handleTouchStart = (e: TouchEvent): void => {
+  if (!state.isMobile) return;
+
+  state.startXForMobile = e.touches[0].clientX;
+  state.startYForMobile = e.touches[0].clientY;
+
+  state.isPointerActive = true;
+};
+
 const handlePinterLeave = (): void => {
   if (!state.isMobile) return;
   resetMobileState();
@@ -763,11 +803,63 @@ const handlePointerEnd = (e: PointerEvent): void => {
   });
 };
 
+const handleTouchEnd = (e: TouchEvent): void => {
+  if (!state.isMobile) return;
+
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+
+  const deltax = Math.abs(endX - state.startXForMobile);
+  const deltay = endY - state.startYForMobile;
+
+  if (state.isExistSwipe && deltay > SWIPE_EXIT_THRESHOLD && deltay > deltax) {
+    emit('close');
+  }
+
+  if (state.isChangeItemSwipe && sliderRef.value) {
+    if (state.isSwipeNextSlide) setItem(sliderRef.value?.nextSlide());
+
+    if (state.isSwipePrevSlide) setItem(sliderRef.value?.prevSlide());
+  }
+
+  resetMobileState();
+  nextTick(() => {
+    resetOpacity();
+  });
+};
+
 const handlePointerMove = (e: PointerEvent): void => {
   if (!state.isMobile || !state.isPointerActive) return;
 
   const deltaY = e.clientY - state.startYForMobile;
   const deltaX = e.clientX - state.startXForMobile;
+  mobileMoveEvent(deltaX, deltaY);
+};
+
+const handleTouchMove = (e: TouchEvent): void => {
+  if (!state.isMobile) return;
+
+  const currentX = e.touches[0].clientX;
+  const currentY = e.touches[0].clientY;
+  const deltaX = currentX - state.startXForMobile;
+  const deltaY = currentY - state.startYForMobile;
+
+  mobileMoveEvent(deltaX, deltaY);
+};
+
+const handleScrollItem = (e: Event): void => {
+  const target = e.target as HTMLElement;
+  if (!state.isMobile || !target) return;
+
+  if (target.scrollHeight <= target.clientHeight) return;
+
+  // Начало жеста
+  if (!state.isExitScrollActive && target.scrollTop === 0) {
+    e.preventDefault();
+  }
+};
+
+const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
   const absDeltaX = Math.abs(deltaX);
 
   // Если свайпнули вниз и прошли минимальный порог начала анимация закрытия
@@ -848,6 +940,7 @@ const resetMobileState = (): void => {
   state.isSwipePrevSlide = false;
   state.isChangeItemSwipe = false;
 };
+
 /**
  * Устнавливает ограничения на положение элемента при перетаскивании
  */
@@ -1063,7 +1156,7 @@ onUnmounted(() => {
 
 .slider-modal__side-bar {
   width: 0;
-  height: 100vh;
+  height: 100svh;
   overflow: auto;
   overflow-x: hidden;
 
@@ -1120,7 +1213,7 @@ onUnmounted(() => {
 
 .slider-modal__main {
   width: 100%;
-  height: 100vh;
+  height: 100svh;
 
   padding: 60px 30px 0 30px;
   display: flex;
@@ -1244,17 +1337,47 @@ onUnmounted(() => {
 
 .slider-modal__pdf_mobile {
   display: none;
-  height: calc(100vh - 180px);
+  height: calc(100svh - 180px);
 }
 
 .slider-modal__counter {
   display: flex;
   justify-content: center;
 
-  color: var(--white);
-
   text-align: center;
   font-size: 16px;
+}
+
+.slider-modal__mobile-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: var(--white);
+}
+
+.slider-modal__exit-button {
+  padding: 12px 13px;
+
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+
+  font-size: 14px;
+
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none; /* запрет лупы/меню */
+}
+
+.slider-modal__exit-icon,
+.slider-modal__exit-text {
+  flex-shrink: 0;
+}
+
+.slider-modal__mobile-header-block {
+  flex: 1 1 0;
 }
 
 /* Мобильная версия + планшет */
@@ -1267,7 +1390,7 @@ onUnmounted(() => {
 
   .slider-modal__content {
     flex-direction: column;
-    padding: 15px 0 0;
+    padding: 5px 0 0;
     gap: 45px;
   }
 
@@ -1275,7 +1398,7 @@ onUnmounted(() => {
     position: relative;
     padding: 0;
 
-    height: calc(100vh - 60px - 20px);
+    height: calc(100svh - 60px - 32px);
 
     justify-content: space-between;
   }
@@ -1304,8 +1427,24 @@ onUnmounted(() => {
 
   .slider-modal__item:has(.slider-modal__pdf) {
     overflow-y: auto;
+    touch-action: pan-y;
+
+    overscroll-behavior: none;
 
     scrollbar-width: none;
+  }
+
+  .slider-modal__item:has(.slider-modal__video) {
+    touch-action: none;
+  }
+
+  .slider-modal__item:is(:has(.slider-modal__pdf), :has(.slider-modal__video)) {
+    -webkit-overflow-scrolling: touch;
+    pointer-events: auto;
+  }
+
+  .slider-modal__video {
+    pointer-events: auto;
   }
 
   .slider-modal__item:has(.slider-modal__pdf)::-webkit-scrollbar {
@@ -1335,7 +1474,7 @@ onUnmounted(() => {
   }
 
   .slider-modal__bottom-slider {
-    width: auto;
+    width: 100%;
   }
 
   .slider-modal__nav-block:first-child {
@@ -1343,7 +1482,9 @@ onUnmounted(() => {
   }
 
   .slider-modal__nav-block:nth-child(2) {
+    width: 100%;
     justify-content: center;
+    overflow-x: auto;
   }
 
   .slider-modal__nav-block:nth-child(2) .slider-modal__side-button {

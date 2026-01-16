@@ -223,4 +223,10 @@ onUnmounted(() => {
     justify-content: center;
   }
 }
+
+@media (max-width: 767px) {
+  .modal-yui-kit {
+    overscroll-behavior: contain;
+  }
+}
 </style>
