@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <div class="slider-modal__mobile-header">
+      <div v-if="state.isMobile" class="slider-modal__mobile-header">
         <div class="slider-modal__mobile-header-block">
           <div class="slider-modal__exit-button" @click="$emit('close')">
             <YIcon
@@ -65,7 +65,7 @@
         </div>
 
         <div class="slider-modal__mobile-header-block">
-          <div v-if="state.isMobile" class="slider-modal__counter">
+          <div class="slider-modal__counter">
             {{ state.defaultIndex + 1 }} из {{ props.items.length }}
           </div>
         </div>
