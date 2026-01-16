@@ -784,10 +784,10 @@ const handlePointerEnd = (e: PointerEvent): void => {
   const endX = e.clientX;
   const endY = e.clientY;
 
-  const deltax = Math.abs(endX - state.startXForMobile);
-  const deltay = endY - state.startYForMobile;
+  const deltaX = Math.abs(endX - state.startXForMobile);
+  const deltaY = endY - state.startYForMobile;
 
-  if (state.isExistSwipe && deltay > SWIPE_EXIT_THRESHOLD && deltay > deltax) {
+  if (state.isExistSwipe && deltaY > SWIPE_EXIT_THRESHOLD && deltaY > deltaX) {
     emit('close');
   }
 
