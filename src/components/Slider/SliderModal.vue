@@ -1391,7 +1391,7 @@ onUnmounted(() => {
   .slider-modal__content {
     flex-direction: column;
     padding: 5px 0 0;
-    gap: 29px;
+    gap: 28px;
   }
 
   .slider-modal__main {
