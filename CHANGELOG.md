@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.170
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.169...v0.1.170)
+
+### 🚀 Enhancements
+
+- Finished mobile version ([e42a6bd](https://github.com/pksep/sep_yui/commit/e42a6bd))
+
 ## v0.1.169
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.168...v0.1.169)
