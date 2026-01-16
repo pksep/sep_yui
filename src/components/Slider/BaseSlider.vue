@@ -113,6 +113,15 @@ defineExpose({
 
 /* Мобильная версия + планшет */
 @media (max-width: 768px) {
+  .base-slider {
+    overflow: auto;
+    scrollbar-width: none;
+  }
+
+  .base-slider::-webkit-scrollbar {
+    display: none;
+  }
+
   .base-slider__content {
     gap: 5px;
   }
