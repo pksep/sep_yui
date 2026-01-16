@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.172
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.171...v0.1.172)
+
+### 🎨 Styles
+
+- Changed style ([5831bf3](https://github.com/pksep/sep_yui/commit/5831bf3))
+
 ## v0.1.171
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.170...v0.1.171)
