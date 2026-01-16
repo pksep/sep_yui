@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.171
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.170...v0.1.171)
+
+### 🎨 Styles
+
+- Changed height ([26058da](https://github.com/pksep/sep_yui/commit/26058da))
+
 ## v0.1.170
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.169...v0.1.170)
