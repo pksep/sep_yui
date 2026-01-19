@@ -90,6 +90,8 @@
             @mouseup.self="handleMouseUpOnExitItem"
             @wheel="handleWheelOnItem"
             @scroll="handleScrollItem"
+            @pointerdown="handlePointerStart"
+            @pointermove="handlePointerMove"
             @touchstart="handleTouchStart"
             @touchmove="handleTouchMove"
           >
@@ -135,6 +137,10 @@
             @click.self="unmountClose"
             @pointerdown="handlePointerStart"
             @pointermove="handlePointerMove"
+            @touchstart="handleTouchStart"
+            @touchmove="handleTouchMove"
+            @mousedown.self="handleMouseDownOnExitItem"
+            @mouseup.self="handleMouseUpOnExitItem"
           >
             <div
               ref="viewportRef"
@@ -159,8 +165,12 @@
           <div
             class="slider-modal__item"
             @click.self="unmountClose"
+            @pointerdown="handlePointerStart"
+            @pointermove="handlePointerMove"
             @touchstart.prevent="handleTouchStart"
             @touchmove.prevent="handleTouchMove"
+            @mousedown.self="handleMouseDownOnExitItem"
+            @mouseup.self="handleMouseUpOnExitItem"
           >
             <video
               controls
@@ -181,6 +191,10 @@
             @click.self="unmountClose"
             @pointerdown="handlePointerStart"
             @pointermove="handlePointerMove"
+            @touchstart="handleTouchStart"
+            @touchmove="handleTouchMove"
+            @mousedown.self="handleMouseDownOnExitItem"
+            @mouseup.self="handleMouseUpOnExitItem"
           >
             <img class="slider-modal__image" :src="closedCamer" />
           </div>
