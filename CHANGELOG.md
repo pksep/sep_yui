@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.175
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.174...v0.1.175)
+
+### 🚀 Enhancements
+
+- MessageTypeEnum added to exports ([6a4a545](https://github.com/pksep/sep_yui/commit/6a4a545))
+
 ## v0.1.174
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.173...v0.1.174)
