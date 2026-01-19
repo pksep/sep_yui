@@ -60,6 +60,7 @@ import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
 import type { IDialogProps } from '@/components/Modal/interface/interface';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import { MessageTypeEnum } from './Notification/enum/enum';
 import { IconNameEnum } from './Icon/enum/enum';
 import { SizesEnum } from '@/common/sizes';
 import { ButtonTypeEnum } from './Button/enum/enum';
@@ -216,6 +217,7 @@ export {
   InputTypeEnum,
   TextareaTypeEnum,
   MenuTypeEnum,
+  MessageTypeEnum,
   getLastTime,
   getFirstTime,
   vuePluginRemoveTestid,
