@@ -56,6 +56,7 @@ import { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import { OptionsObject } from './Select/interface/interface';
 import { IDialogProps } from './Modal/interface/interface';
 import { IDataTestIdProp } from '../common/dataTestidProps';
+import { MessageTypeEnum } from './Notification/enum/enum';
 import { IconNameEnum } from './Icon/enum/enum';
 import { SizesEnum } from '../common/sizes';
 import { ButtonTypeEnum } from './Button/enum/enum';
@@ -75,4 +76,4 @@ declare const _default: {
     install: (app: App) => void;
 };
 export default _default;
-export { Accordion, Badges, BreadCrumbs, Button, Dialog, Card, Calendar, DragAndDrop, Switch, SelectList, Dropdown, Textarea, Filter, Icon, Input, Combobox, InputNumber, Search, PushNotification, Picture, Scroll, Modal, Slider, Checkbox, Toggle, UserMenu, CopyIcon, Loader, FilterTag, CircularProgress, Popover, Table, TableSimple, TableNew, TableRow, TableRowNew, TableTd, TableTh, SectionTableRow, HeadTableRow, HeadTableRowNew, ScrollWrapper, Radio, Tooltip, BaseFilter, Range, Avatar, Tabs, ContentEditor, ModalCroppedAvatar, TimePicker, type IDialogProps, type IRangeForDatePicker, type OptionsObject, type IDataTestIdProp, CheckboxSizeEnum, TextFieldEnum, IconNameEnum, SizesEnum, ButtonTypeEnum, ColorsEnum, ImageExtensionsEnum, BadgesTypeEnum, VideoExtensionsEnum, InputTypeEnum, TextareaTypeEnum, MenuTypeEnum, getLastTime, getFirstTime, vuePluginRemoveTestid, SliderModal, PdfPreview, ImagePreview, VideoPreview };
+export { Accordion, Badges, BreadCrumbs, Button, Dialog, Card, Calendar, DragAndDrop, Switch, SelectList, Dropdown, Textarea, Filter, Icon, Input, Combobox, InputNumber, Search, PushNotification, Picture, Scroll, Modal, Slider, Checkbox, Toggle, UserMenu, CopyIcon, Loader, FilterTag, CircularProgress, Popover, Table, TableSimple, TableNew, TableRow, TableRowNew, TableTd, TableTh, SectionTableRow, HeadTableRow, HeadTableRowNew, ScrollWrapper, Radio, Tooltip, BaseFilter, Range, Avatar, Tabs, ContentEditor, ModalCroppedAvatar, TimePicker, type IDialogProps, type IRangeForDatePicker, type OptionsObject, type IDataTestIdProp, CheckboxSizeEnum, TextFieldEnum, IconNameEnum, SizesEnum, ButtonTypeEnum, ColorsEnum, ImageExtensionsEnum, BadgesTypeEnum, VideoExtensionsEnum, InputTypeEnum, TextareaTypeEnum, MenuTypeEnum, MessageTypeEnum, getLastTime, getFirstTime, vuePluginRemoveTestid, SliderModal, PdfPreview, ImagePreview, VideoPreview };
