@@ -18,6 +18,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'error', error: Event): void;
+  (e: 'load'): void;
 }>();
 
 const state = reactive<{
@@ -57,6 +58,7 @@ const initVideo = async (): Promise<void> => {
 
     video.addEventListener('loadeddata', () => {
       video.currentTime = 0;
+      emit('load');
     });
 
     video.addEventListener('seeked', () => {
