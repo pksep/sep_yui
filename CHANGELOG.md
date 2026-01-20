@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.176
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.175...v0.1.176)
+
+### 🚀 Enhancements
+
+- Added loader ([c531dab](https://github.com/pksep/sep_yui/commit/c531dab))
+
 ## v0.1.175
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.174...v0.1.175)
