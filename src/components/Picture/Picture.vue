@@ -6,13 +6,23 @@
         :data-testid="`${props.dataTestid}-Picture`"
       >
         <img
+          v-if="!state.isError"
           class="picture-yui-kit__picture_image"
           :src="props.url"
           :alt="props.alt"
           :data-testid="`${props.dataTestid}-Picture-Img`"
           @load="handleLoad"
+          @error="handleError"
+        />
+
+        <img
+          :src="closedCamera"
+          alt="not found"
+          class="picture-yui-kit__picture_image"
+          :data-testid="`${props.dataTestid}-Picture-Img`"
         />
       </picture>
+
       <figcaption
         class="picture-yui-kit__picture__caption"
         :data-testid="`${props.dataTestid}-Caption`"
@@ -58,6 +68,7 @@ import type { IPictureProps } from './interface/interface';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
 import { computed, reactive, watch } from 'vue';
 import Loader from '@/components/Loader/Loader.vue';
+import closedCamera from './../../assets/images/slider/closed-camera.svg';
 
 const props = withDefaults(defineProps<IPictureProps>(), {
   dataTestid: 'Picture'
@@ -65,14 +76,20 @@ const props = withDefaults(defineProps<IPictureProps>(), {
 
 const state = reactive<{
   isLoad: boolean;
+  isError: boolean;
 }>({
-  isLoad: false
+  isLoad: false,
+  isError: false
 });
 
 const isRequiredLoad = computed(() => {
+  if (state.isError) return false;
+  if (!props.url || !props.type) return true;
+
   if (props.type == PictureEnum.img) {
     return true;
   }
+
   return isPdfFile(props.url);
 });
 
@@ -80,8 +97,13 @@ const handleLoad = () => {
   state.isLoad = true;
 };
 
+const handleError = () => {
+  state.isError = true;
+};
+
 const reset = () => {
   state.isLoad = false;
+  state.isError = false;
 };
 
 watch(
