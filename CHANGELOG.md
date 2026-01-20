@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.177
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.176...v0.1.177)
+
+### 🚀 Enhancements
+
+- Updated logic picture ([7c4861e](https://github.com/pksep/sep_yui/commit/7c4861e))
+
 ## v0.1.176
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.175...v0.1.176)
