@@ -16,6 +16,7 @@
         />
 
         <img
+          v-else
           :src="closedCamera"
           alt="not found"
           class="picture-yui-kit__picture_image"
