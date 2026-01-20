@@ -2,10 +2,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     src: string | undefined;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     error: (error: Event) => void;
+    load: () => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{
     src: string | undefined;
 }>>> & Readonly<{
     onError?: ((error: Event) => any) | undefined;
+    onLoad?: (() => any) | undefined;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;

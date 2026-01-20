@@ -27,4 +27,6 @@ export interface ISlider {
     filePath: null | string;
     isShowSliderModal: boolean;
     indexModal: number;
+    isLoad: boolean;
+    isError: boolean;
 }
