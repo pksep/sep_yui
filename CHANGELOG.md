@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.178
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.177...v0.1.178)
+
+### 🚀 Enhancements
+
+- Added checks ([8f02f87](https://github.com/pksep/sep_yui/commit/8f02f87))
+
 ## v0.1.177
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.176...v0.1.177)
