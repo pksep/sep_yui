@@ -6,7 +6,7 @@
         :data-testid="`${props.dataTestid}-Picture`"
       >
         <img
-          v-if="!state.isError"
+          v-if="!state.isError && props.url"
           class="picture-yui-kit__picture_image"
           :src="props.url"
           :alt="props.alt"
@@ -98,7 +98,7 @@ const handleLoad = () => {
   state.isLoad = true;
 };
 
-const handleError = () => {
+const handleError = (e: unknown) => {
   state.isError = true;
 };
 
