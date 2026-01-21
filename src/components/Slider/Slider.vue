@@ -141,6 +141,7 @@ const state = reactive<ISlider>({
 });
 
 const isRequiredLoad = computed(() => {
+  if (!state.files.length) return false;
   let isRequired = !showPlaceholder();
   isRequired = isRequired || !showPlaceholderExtension();
 
