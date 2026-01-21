@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.179
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.178...v0.1.179)
+
+### 🩹 Fixes
+
+- Fixed errrog ([ac95c5e](https://github.com/pksep/sep_yui/commit/ac95c5e))
+- Fixed errrog ([6f0daa0](https://github.com/pksep/sep_yui/commit/6f0daa0))
+
 ## v0.1.178
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.177...v0.1.178)
