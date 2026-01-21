@@ -98,7 +98,7 @@ const handleLoad = () => {
   state.isLoad = true;
 };
 
-const handleError = (e: unknown) => {
+const handleError = () => {
   state.isError = true;
 };
 
