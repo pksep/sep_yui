@@ -53,7 +53,7 @@
       <div v-if="state.isMobile" class="slider-modal__mobile-header">
         <div class="slider-modal__mobile-header-block">
           <div class="slider-modal__exit-button" @click="$emit('close')">
-            <YIcon
+            <Icon
               class="slider-modal__exit-icon"
               :name="IconNameEnum.leftBig"
               :width="16"
