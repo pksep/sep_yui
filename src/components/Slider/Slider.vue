@@ -56,7 +56,8 @@
             :src="state.filePath ?? ''"
             :data-testid="`${props.dataTestid}-Image`"
             @click="handleClickOnItem(state.file)"
-            @error="handleErrorImage"
+            @error="handleError"
+            @load="handleLoad"
           />
 
           <VideoPreview
@@ -64,6 +65,8 @@
             class="slider__item"
             :src="state.file?.path ?? ''"
             @click="handleClickOnItem(state.file)"
+            @load="handleLoad"
+            @error="handleError"
           />
 
           <PdfPreview
@@ -71,8 +74,15 @@
             class="slider-yui-kit__pdf-preview slider__item"
             :src="state.file?.path"
             @click="handleClickOnItem(state.file)"
+            @load="handleLoad"
+            @error="handleError"
           />
         </template>
+
+        <Loader
+          v-if="!state.isLoad && isRequiredLoad && !state.isError"
+          class="slider-yui-kit__loader"
+        />
       </div>
 
       <button
@@ -100,7 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, watch } from 'vue';
+import { computed, onMounted, reactive, watch } from 'vue';
 import { ISliderProps, ISlider, IFile } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -112,6 +122,7 @@ import closedCamera from './../../assets/images/slider/closed-camera.svg';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
 import SliderModal from '@/components/Slider/SliderModal.vue';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
+import Loader from '@/components/Loader/Loader.vue';
 
 const props = withDefaults(defineProps<ISliderProps>(), {
   dataTestid: 'Slider'
@@ -124,13 +135,29 @@ const state = reactive<ISlider>({
   extension: null,
   filePath: null,
   isShowSliderModal: false,
-  indexModal: 0
+  indexModal: 0,
+  isLoad: false,
+  isError: false
 });
+
+const isRequiredLoad = computed(() => {
+  if (!state.files.length) return false;
+  let isRequired = !showPlaceholder();
+  isRequired = isRequired || !showPlaceholderExtension();
+
+  return isRequired;
+});
+
+const reset = () => {
+  state.isError = false;
+  state.isLoad = false;
+};
 
 watch(
   () => state.file,
   () => {
     state.filePath = state.file?.path ?? null;
+    reset();
   },
   {
     immediate: true
@@ -144,7 +171,12 @@ watch(
   }
 );
 
-const handleErrorImage = (): void => {
+const handleLoad = (): void => {
+  state.isLoad = true;
+};
+
+const handleError = (): void => {
+  state.isError = true;
   state.filePath = closedCamera;
 };
 
@@ -274,6 +306,7 @@ watch(
   () => props.items,
   () => {
     state.files = props.items;
+    reset();
   },
   { deep: true }
 );
@@ -420,5 +453,24 @@ defineExpose({
 
 .slider__item {
   height: 100%;
+}
+
+.slider-yui-kit__slides {
+  position: relative;
+}
+
+.slider-yui-kit__loader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--primary-hover-light-color);
 }
 </style>

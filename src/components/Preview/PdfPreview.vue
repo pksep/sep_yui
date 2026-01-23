@@ -5,7 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import { IPdfPreviewProps } from '@/components/Preview/interface';
+import {
+  IPdfPreviewEmit,
+  IPdfPreviewProps
+} from '@/components/Preview/interface';
 import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
 import {
@@ -24,6 +27,7 @@ defineOptions({
 GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const props = defineProps<IPdfPreviewProps>();
+const emit = defineEmits<IPdfPreviewEmit>();
 
 const state = reactive<{
   isError: boolean;
@@ -144,6 +148,7 @@ const setPdf = async (): Promise<void> => {
     currentRenderTask = renderTask;
 
     await renderTask.promise;
+    emit('load');
   } catch (error) {
     if (
       error &&
@@ -156,6 +161,7 @@ const setPdf = async (): Promise<void> => {
 
     console.error(error);
     state.isError = true;
+    emit('error', error);
   } finally {
     currentRenderTask = null;
   }
@@ -211,6 +217,7 @@ const rotatePdf = async (deltaAngle: number): Promise<void> => {
     currentRenderTask = renderTask;
 
     await renderTask.promise;
+    emit('load');
   } catch (error) {
     if (
       error &&

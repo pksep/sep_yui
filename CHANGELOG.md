@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.1.178
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.177...v0.1.178)
+
+### 🚀 Enhancements
+
+- Added checks ([8f02f87](https://github.com/pksep/sep_yui/commit/8f02f87))
+
+## v0.1.177
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.176...v0.1.177)
+
+### 🚀 Enhancements
+
+- Updated logic picture ([7c4861e](https://github.com/pksep/sep_yui/commit/7c4861e))
+
+## v0.1.176
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.175...v0.1.176)
+
+### 🚀 Enhancements
+
+- Added loader ([c531dab](https://github.com/pksep/sep_yui/commit/c531dab))
+
+## v0.1.175
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.174...v0.1.175)
+
+### 🚀 Enhancements
+
+- MessageTypeEnum added to exports ([6a4a545](https://github.com/pksep/sep_yui/commit/6a4a545))
+
 ## v0.1.174
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.173...v0.1.174)
