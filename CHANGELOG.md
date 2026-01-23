@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.180
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.179...v0.1.180)
+
+### 🩹 Fixes
+
+- YIcon in slider modal not correct name ([b0075ce](https://github.com/pksep/sep_yui/commit/b0075ce))
+
 ## v0.1.179
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.178...v0.1.179)
