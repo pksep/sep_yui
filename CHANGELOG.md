@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.182
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.181...v0.1.182)
+
+### 🩹 Fixes
+
+- Fix error ([a74a31d](https://github.com/pksep/sep_yui/commit/a74a31d))
+
 ## v0.1.181
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.180...v0.1.181)
