@@ -3,7 +3,7 @@
     @change="change"
     :is-opened="isOpened"
     :class="props.class"
-    :is-use-anchor
+    :is-use-anchor="isUseAnchor"
     header-classes="filter__header"
     options-classes="filter__options"
     :data-testid="props.dataTestid"
