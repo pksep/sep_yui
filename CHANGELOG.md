@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.181
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.180...v0.1.181)
+
+### 🚀 Enhancements
+
+- Added new slot and added anchor positions as a oportunity ([2339242](https://github.com/pksep/sep_yui/commit/2339242))
+
 ## v0.1.180
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.179...v0.1.180)
