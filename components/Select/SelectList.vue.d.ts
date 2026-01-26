@@ -1,24 +1,30 @@
 import { ISelectListProps } from './interface/interface';
 
 declare function __VLS_template(): {
+    body?(_: {
+        closeOpenList: () => void;
+    }): any;
     header?(_: {}): any;
     options?(_: {}): any;
 };
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ISelectListProps>, {
     isOpened: boolean;
     dataTestid: string;
+    isUseAnchor: boolean;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (val: boolean) => void;
     "focusout-options": () => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ISelectListProps>, {
     isOpened: boolean;
     dataTestid: string;
+    isUseAnchor: boolean;
 }>>> & Readonly<{
     onChange?: ((val: boolean) => any) | undefined;
     "onFocusout-options"?: (() => any) | undefined;
 }>, {
     dataTestid: string;
     isOpened: boolean;
+    isUseAnchor: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;
