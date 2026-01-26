@@ -30,6 +30,7 @@ export interface IOptionsProps extends IDataTestIdProp {
 
 export interface ISelectListProps extends IDataTestIdProp {
   isOpened: boolean;
+  isUseAnchor?: boolean;
   disableOpen?: boolean;
   headerClasses?: VueClasses;
   optionsClasses?: VueClasses;
@@ -55,6 +56,7 @@ export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
   isSearch?: boolean;
   isPosibleToClear?: boolean;
   isShowMiniOptions?: boolean;
+  isUseAnchor?: boolean;
   isOpened?: boolean;
   tooltipPosition?: TTooltipPosition;
   onUnmountPagination?: () => void;
