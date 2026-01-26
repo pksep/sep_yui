@@ -1,24 +1,28 @@
 <template>
   <div
+    ref="selectRef"
     class="select-list-yui-kit"
     v-on-click-outside.bubble="dropdownHandler"
     :data-testid="props.dataTestid"
   >
-    <div
-      ref="currentRef"
-      :class="[
-        'select-list-yui-kit__current',
-        { 'active-yui-kit': state.isOpened },
-        { 'disabled-yui-kit': props.disabled },
-        props?.headerClasses
-      ]"
-      tabindex="0"
-      @keyup.enter="closeOpenList"
-      @click="closeOpenList"
-      :data-testid="`${props.dataTestid}-Current`"
-    >
-      <slot name="header" />
-    </div>
+    <slot name="body" :close-open-list="closeOpenList">
+      <div
+        ref="currentRef"
+        :class="[
+          'select-list-yui-kit__current',
+          { 'active-yui-kit': state.isOpened },
+          { 'disabled-yui-kit': props.disabled },
+          props?.headerClasses
+        ]"
+        tabindex="0"
+        @keyup.enter="closeOpenList"
+        @click="closeOpenList"
+        :data-testid="`${props.dataTestid}-Current`"
+      >
+        <slot name="header" />
+      </div>
+    </slot>
+
     <ul
       ref="dropdownRef"
       :class="['select-list-yui-kit__list', props?.optionsClasses]"
@@ -31,28 +35,42 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref, watchEffect, onMounted, onUnmounted, watch } from 'vue';
+import {
+  reactive,
+  ref,
+  watchEffect,
+  onMounted,
+  onUnmounted,
+  watch,
+  useId,
+  computed
+} from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import type { OnClickOutsideHandler } from '@vueuse/core';
 import type { ISelectListProps } from './interface/interface';
+import changeStyleProperties from '@/helpers/change-style-properties';
 
 const props = withDefaults(defineProps<ISelectListProps>(), {
   isOpened: false,
-  dataTestid: 'SelectList'
+  dataTestid: 'SelectList',
+  isUseAnchor: false
 });
-
-const state = reactive({
-  isOpened: false
-});
-
-const dropdownRef = ref<HTMLElement | null>(null);
-const currentRef = ref<HTMLElement | null>(null);
-
 const emits = defineEmits<{
   (e: 'change', val: boolean): void;
   (e: 'focusout-options'): void;
 }>();
 
+const state = reactive({
+  isOpened: false
+});
+
+const id = useId();
+
+const dropdownRef = ref<HTMLElement | null>(null);
+const currentRef = ref<HTMLElement | null>(null);
+const selectRef = ref<HTMLElement | null>(null);
+
+const anchorName = computed(() => `--anchor-select-${id}`);
 watchEffect(() => (state.isOpened = props.isOpened));
 
 /**
@@ -60,6 +78,7 @@ watchEffect(() => (state.isOpened = props.isOpened));
  */
 const closeOpenList = () => {
   if (props.disabled || props.disableOpen) return;
+
   state.isOpened = !state.isOpened;
   emits('change', state.isOpened);
 };
@@ -86,7 +105,28 @@ watch(
 
 watch(() => state.isOpened, updateDropdownPosition);
 
+const setAnchor = (): void => {
+  if (selectRef.value) {
+    changeStyleProperties(
+      {
+        'anchor-name': `${anchorName.value}`
+      },
+      selectRef.value
+    );
+  }
+  if (dropdownRef.value) {
+    changeStyleProperties(
+      {
+        'position-anchor': `${anchorName.value}`
+      },
+      dropdownRef.value
+    );
+  }
+};
+
 onMounted(() => {
+  if (props.isUseAnchor) setAnchor();
+
   window.addEventListener('scroll', updateDropdownPosition, true);
 });
 
@@ -145,6 +185,9 @@ onUnmounted(() => {
     overflow: auto;
     overflow-x: hidden;
     z-index: 2222;
+
+    left: anchor(left);
+    top: calc(anchor(bottom) + 5px);
   }
   &__list > div {
     display: grid;

@@ -3,88 +3,96 @@
     @change="change"
     :is-opened="isOpened"
     :class="props.class"
+    :is-use-anchor
     header-classes="filter__header"
     options-classes="filter__options"
     :data-testid="props.dataTestid"
   >
-    <template #header>
-      <span
-        :class="[
-          'filter__header-title',
-          { 'filter__header-title__active': isOpened }
-        ]"
-        :data-testid="`${props.dataTestid}-Title`"
-      >
-        {{ title }}
-      </span>
-      <Tooltip
-        :position="tooltipPosition"
-        type="blue"
-        :is-can-show="isCanShowHint && !(isShowValues && isShowMiniOptions)"
-        :hint="choosedHint"
-        :hint-gap="28"
-        class="filter__header-tooltip"
-        :data-testid="`${props.dataTestid}-Tooltip`"
-      >
-        <Badges
-          ref="badgesRef"
-          :type="
-            choosedOption === props.defaultOption
-              ? BadgesTypeEnum.default
-              : BadgesTypeEnum.blue
-          "
-          class="filter__options-badge"
-          :data-testid="`${props.dataTestid}-Badge`"
-          :text="choosedOption"
-          @mouseenter="onMouseEnter"
-          @mouseleave="onMouseLeave"
-          disabled
-        />
-
-        <div
-          v-if="isShowValues && isShowMiniOptions"
-          class="filter__values"
-          :data-testid="`${props.dataTestid}-Filter-Value`"
-        >
-          <ChoosenMiniOptions
-            :data-testid="`${props.dataTestid}-Filter-Value-MiniOptions`"
-            @click.stop
-            :options="choosedMiniOptions"
-            @remove="getChoosenOption"
-          />
-        </div>
-      </Tooltip>
-
-      <span
-        v-if="countModelValue && countModelValue > 1"
-        class="filter__count"
-        :data-testid="`${props.dataTestid}-Filter-Count`"
-      >
-        +{{ countModelValue - 1 }}
-
-        <div
-          v-if="isShowValues"
-          class="filter__values"
-          :data-testid="`${props.dataTestid}-Filter-Values`"
-        >
-          <ChoosenMiniOptions
-            @click.stop
-            :options="choosedOptions"
-            @remove="getChoosenOption"
-            :data-testid="`${props.dataTestid}-MiniOptions`"
-          />
-        </div>
-      </span>
-
-      <span
-        v-if="isPosibleToClear"
-        class="filter__cross"
-        @click.stop="clear"
-        :data-testid="`${props.dataTestid}-Filter-Cross`"
-      >
-        <Icon :name="IconNameEnum.crossLarge" :width="16" :height="16" />
-      </span>
+    <template v-if="$slots['body']" #body="slotBodyProps">
+      <slot name="body" :close-open-list="slotBodyProps.closeOpenList"></slot>
     </template>
+
+    <template #header>
+      <slot name="header">
+        <span
+          :class="[
+            'filter__header-title',
+            { 'filter__header-title__active': isOpened }
+          ]"
+          :data-testid="`${props.dataTestid}-Title`"
+        >
+          {{ title }}
+        </span>
+        <Tooltip
+          :position="tooltipPosition"
+          type="blue"
+          :is-can-show="isCanShowHint && !(isShowValues && isShowMiniOptions)"
+          :hint="choosedHint"
+          :hint-gap="28"
+          class="filter__header-tooltip"
+          :data-testid="`${props.dataTestid}-Tooltip`"
+        >
+          <Badges
+            ref="badgesRef"
+            :type="
+              choosedOption === props.defaultOption
+                ? BadgesTypeEnum.default
+                : BadgesTypeEnum.blue
+            "
+            class="filter__options-badge"
+            :data-testid="`${props.dataTestid}-Badge`"
+            :text="choosedOption"
+            @mouseenter="onMouseEnter"
+            @mouseleave="onMouseLeave"
+            disabled
+          />
+
+          <div
+            v-if="isShowValues && isShowMiniOptions"
+            class="filter__values"
+            :data-testid="`${props.dataTestid}-Filter-Value`"
+          >
+            <ChoosenMiniOptions
+              :data-testid="`${props.dataTestid}-Filter-Value-MiniOptions`"
+              @click.stop
+              :options="choosedMiniOptions"
+              @remove="getChoosenOption"
+            />
+          </div>
+        </Tooltip>
+
+        <span
+          v-if="countModelValue && countModelValue > 1"
+          class="filter__count"
+          :data-testid="`${props.dataTestid}-Filter-Count`"
+        >
+          +{{ countModelValue - 1 }}
+
+          <div
+            v-if="isShowValues"
+            class="filter__values"
+            :data-testid="`${props.dataTestid}-Filter-Values`"
+          >
+            <ChoosenMiniOptions
+              @click.stop
+              :options="choosedOptions"
+              @remove="getChoosenOption"
+              :data-testid="`${props.dataTestid}-MiniOptions`"
+            />
+          </div>
+        </span>
+
+        <span
+          v-if="isPosibleToClear"
+          class="filter__cross"
+          @click.stop="clear"
+          :data-testid="`${props.dataTestid}-Filter-Cross`"
+        >
+          <Icon :name="IconNameEnum.crossLarge" :width="16" :height="16" />
+        </span>
+      </slot>
+    </template>
+
     <template #options>
       <Search
         v-if="isSearch"
@@ -157,7 +165,8 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   isShowMiniOptions: false,
   dataTestid: 'BaseFilter',
   isOpened: false,
-  tooltipPosition: 'top-center'
+  tooltipPosition: 'top-center',
+  isUseAnchor: false
 });
 
 const state = reactive({
