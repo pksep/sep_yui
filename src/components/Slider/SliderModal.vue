@@ -150,7 +150,7 @@
               @mouseup="handleMouseUpOnViewport"
               @mouseleave="handleMouseUpOnViewport"
             >
-              <ImagePreview
+              <img
                 ref="imagePreviewRef"
                 class="slider-modal__image"
                 :src="state.file?.path"
@@ -389,7 +389,6 @@ import printJs, { PrintTypes } from 'print-js';
 import isVideo from '@/helpers/file/is-video';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
 import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
-import ImagePreview from '@/components/Preview/ImagePreview.vue';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import changeStyleProperties from '@/helpers/change-style-properties';
@@ -437,6 +436,7 @@ const state = reactive<{
   endYForMobile: number;
   startScrollTop: number;
   overscrollDelta: number;
+  rotateValue: number;
 }>({
   defaultIndex: props.defaultIndex,
   file: props.items[props.defaultIndex],
@@ -463,7 +463,8 @@ const state = reactive<{
   endXForMobile: 0,
   endYForMobile: 0,
   overscrollDelta: 0,
-  startScrollTop: 0
+  startScrollTop: 0,
+  rotateValue: 0
 });
 
 const SWIPE_EXIT_THRESHOLD = 80;
@@ -479,7 +480,7 @@ const mainRef = ref<HTMLElement | null>(null);
 
 const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
-const imagePreviewRef = ref<InstanceType<typeof ImagePreview> | null>(null);
+const imagePreviewRef = ref<HTMLImageElement | null>(null);
 
 const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
 
@@ -539,6 +540,7 @@ watch([() => state.file, () => props.open], () => {
   }
   //  Обнуляем зум
   state.zoomValue = 1;
+  state.rotateValue = 0;
 
   if (!state.file) {
     state.file = props.items[props.defaultIndex ?? 0];
@@ -620,7 +622,14 @@ const handleClickOnRotateButton = (): void => {
   }
 
   if (imagePreviewRef.value) {
-    imagePreviewRef.value.rotateImage(-90);
+    state.rotateValue += -90;
+
+    const scaleImage = getScaleImage();
+    const style = {
+      transform: ` rotate(${state.rotateValue}deg) scale(${scaleImage})`
+    };
+
+    changeStyleProperties(style, imagePreviewRef.value);
   }
 };
 
@@ -871,6 +880,29 @@ const handleScrollItem = (e: Event): void => {
   if (!state.isExitScrollActive && target.scrollTop === 0) {
     e.preventDefault();
   }
+};
+
+/**
+ * Возвращает scale для изображения
+ */
+const getScaleImage = (): number => {
+  if (!itemRef.value || !imagePreviewRef.value) return 1;
+
+  const widthViewport = itemRef.value.offsetWidth;
+  const heightImage = imagePreviewRef.value.offsetHeight;
+
+  let scale = 1;
+  const absRotate = Math.abs(state.rotateValue);
+
+  const evenRotate = absRotate % 180 === 0;
+  // Если не четный поворот, то считаем масштаб по высоте изображения и длине вьюпорта
+  if (!evenRotate) {
+    if (heightImage > widthViewport) {
+      scale = widthViewport / heightImage;
+    }
+  }
+
+  return scale;
 };
 
 const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
@@ -1515,7 +1547,7 @@ onUnmounted(() => {
   }
 
   .slider-modal__image {
-    height: auto;
+    /* height: auto; */
   }
 
   .slider-modal__slide {
