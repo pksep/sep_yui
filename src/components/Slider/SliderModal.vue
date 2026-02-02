@@ -540,7 +540,7 @@ watch([() => state.file, () => props.open], () => {
   }
   //  Обнуляем зум
   state.zoomValue = 1;
-  state.rotateValue = 0;
+  resetRotate();
 
   if (!state.file) {
     state.file = props.items[props.defaultIndex ?? 0];
@@ -889,6 +889,8 @@ const getScaleImage = (): number => {
   if (!itemRef.value || !imagePreviewRef.value) return 1;
 
   const widthViewport = itemRef.value.offsetWidth;
+  const heightViewport = itemRef.value.offsetHeight;
+  const widthImage = imagePreviewRef.value.offsetWidth;
   const heightImage = imagePreviewRef.value.offsetHeight;
 
   let scale = 1;
@@ -899,6 +901,8 @@ const getScaleImage = (): number => {
   if (!evenRotate) {
     if (heightImage > widthViewport) {
       scale = widthViewport / heightImage;
+    } else if (widthImage > heightViewport) {
+      scale = heightViewport / widthImage;
     }
   }
 
@@ -963,6 +967,25 @@ const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
       }
     }
   }
+};
+
+/**
+ * Сбрасывает поворот и возвращает в начальное положение
+ */
+const resetRotate = (): void => {
+  const isChanged = state.rotateValue !== 0;
+
+  if (!imagePreviewRef.value) return;
+
+  state.rotateValue = 0;
+
+  if (isChanged)
+    changeStyleProperties(
+      {
+        transform: 'none'
+      },
+      imagePreviewRef.value
+    );
 };
 
 const resetOpacity = (): void => {
