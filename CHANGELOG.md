@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.184
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.183...v0.1.184)
+
+### 🚀 Enhancements
+
+- Updated function ([56a4700](https://github.com/pksep/sep_yui/commit/56a4700))
+
 ## v0.1.183
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.182...v0.1.183)
