@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.183
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.182...v0.1.183)
+
+### 🚀 Enhancements
+
+- Changed image in slider modal ([7b03ff4](https://github.com/pksep/sep_yui/commit/7b03ff4))
+
 ## v0.1.182
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.181...v0.1.182)
