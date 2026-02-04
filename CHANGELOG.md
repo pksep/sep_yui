@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.185
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.184...v0.1.185)
+
+### 🚀 Enhancements
+
+- Add dropzone, fix handlePaste,  fix mobile press enter ([15031b4](https://github.com/pksep/sep_yui/commit/15031b4))
+
 ## v0.1.184
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.183...v0.1.184)
