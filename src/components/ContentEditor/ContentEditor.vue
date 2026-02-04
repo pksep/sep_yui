@@ -23,6 +23,7 @@
     </Popover>
 
     <EditorContent class="editor-content" :editor="editor" />
+    <DropZone v-if="props.activeAttachFile" @files-dropped="fileDropped" />
 
     <div class="right-buttons">
       <Button
@@ -144,6 +145,7 @@ import type { IContentEditorEmit } from './interfaces/content-editor';
 import { ColorsEnum } from '@/common/colors.ts';
 import Popover from '../Popover/Popover.vue';
 import { vOnClickOutside } from '@vueuse/components';
+import DropZone from './DropZone.vue';
 
 // v-model binding
 const props = defineProps<{ activeAttachFile: boolean }>();
@@ -218,6 +220,37 @@ const editor = useEditor({
     SpanNode
   ],
   content: modelValue.value,
+  editorProps: {
+    handlePaste(view, event) {
+      const clipboardData = event.clipboardData;
+      if (!clipboardData) return false;
+
+      if (clipboardData.files.length > 0 && props.activeAttachFile) {
+        const onlyMedia = Array.from(clipboardData.files).every(
+          file =>
+            file.type.startsWith('image/') || file.type.startsWith('video/')
+        );
+
+        emits('unmount-attach-file', clipboardData.files, onlyMedia);
+
+        event.preventDefault();
+        return true;
+      }
+
+      const text = clipboardData.getData('text/plain');
+
+      if (clipboardData.files.length > 0) {
+        event.preventDefault();
+        return true;
+      }
+
+      event.preventDefault();
+
+      view.dispatch(view.state.tr.insertText(text));
+
+      return true;
+    }
+  },
   onUpdate: ({ editor }) => {
     modelValue.value = editor.getHTML();
   },
@@ -263,6 +296,19 @@ const attachFile = (onlyMedia: boolean = false): void => {
     emits('unmount-attach-file', input.files, onlyMedia);
   };
   input.click();
+};
+
+const fileDropped = (data: File[]) => {
+  const onlyMedia = data.every(
+    file => file.type.startsWith('image/') || file.type.startsWith('video/')
+  );
+
+  const dataTransfer = new DataTransfer();
+  data.forEach(file => dataTransfer.items.add(file));
+
+  const fileList = dataTransfer.files;
+
+  emits('unmount-attach-file', fileList, onlyMedia);
 };
 
 const handleSave = (): void => {
@@ -331,6 +377,7 @@ const handleWindowUpdate = (): void => {
 const handleKeydown = (event: KeyboardEvent): void => {
   if (
     event.key === 'Enter' &&
+    !!event.code &&
     !(event.shiftKey || event.ctrlKey || event.metaKey)
   ) {
     event.preventDefault();
