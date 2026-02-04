@@ -225,30 +225,29 @@ const editor = useEditor({
       const clipboardData = event.clipboardData;
       if (!clipboardData) return false;
 
-      if (clipboardData.files.length > 0 && props.activeAttachFile) {
-        const onlyMedia = Array.from(clipboardData.files).every(
-          file =>
-            file.type.startsWith('image/') || file.type.startsWith('video/')
-        );
-
-        emits('unmount-attach-file', clipboardData.files, onlyMedia);
-
-        event.preventDefault();
-        return true;
+      if (clipboardData.files.length > 0) {
+        return false;
       }
 
       const text = clipboardData.getData('text/plain');
 
-      if (clipboardData.files.length > 0) {
+      if (text) {
         event.preventDefault();
+
+        const lines = text.split(/\r?\n/);
+        const { state, dispatch } = view;
+        let { tr } = state;
+
+        lines.forEach((line, i) => {
+          if (i > 0) tr = tr.insertText('\n');
+          tr = tr.insertText(line, tr.selection.from);
+        });
+
+        dispatch(tr);
         return true;
       }
 
-      event.preventDefault();
-
-      view.dispatch(view.state.tr.insertText(text));
-
-      return true;
+      return false;
     }
   },
   onUpdate: ({ editor }) => {
