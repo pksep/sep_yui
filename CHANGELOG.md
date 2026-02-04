@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.186
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.185...v0.1.186)
+
+### 🩹 Fixes
+
+- Copy paste content ([0521ee1](https://github.com/pksep/sep_yui/commit/0521ee1))
+
 ## v0.1.185
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.184...v0.1.185)
