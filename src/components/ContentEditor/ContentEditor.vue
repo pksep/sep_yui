@@ -131,7 +131,6 @@ import {
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 import EmojiPicker from 'vue3-emoji-picker';
 import { Node, mergeAttributes } from '@tiptap/core';
@@ -212,7 +211,6 @@ const editor = useEditor({
       openOnClick: false,
       HTMLAttributes: { class: 'link' }
     }),
-    Image,
     Placeholder.configure({
       placeholder: 'Начните печатать...',
       emptyEditorClass: 'is-editor-empty'
@@ -225,29 +223,17 @@ const editor = useEditor({
       const clipboardData = event.clipboardData;
       if (!clipboardData) return false;
 
-      if (clipboardData.files.length > 0) {
-        return false;
-      }
+      if (clipboardData.files.length > 0 && props.activeAttachFile) {
+        const onlyMedia = Array.from(clipboardData.files).every(
+          file =>
+            file.type.startsWith('image/') || file.type.startsWith('video/')
+        );
 
-      const text = clipboardData.getData('text/plain');
+        emits('unmount-attach-file', clipboardData.files, onlyMedia);
 
-      if (text) {
         event.preventDefault();
-
-        const lines = text.split(/\r?\n/);
-        const { state, dispatch } = view;
-        let { tr } = state;
-
-        lines.forEach((line, i) => {
-          if (i > 0) tr = tr.insertText('\n');
-          tr = tr.insertText(line, tr.selection.from);
-        });
-
-        dispatch(tr);
         return true;
       }
-
-      return false;
     }
   },
   onUpdate: ({ editor }) => {
