@@ -219,7 +219,7 @@ const editor = useEditor({
   ],
   content: modelValue.value,
   editorProps: {
-    handlePaste(view, event) {
+    handlePaste(_, event) {
       const clipboardData = event.clipboardData;
       if (!clipboardData) return false;
 
