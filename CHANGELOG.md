@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.187
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.186...v0.1.187)
+
+### 🩹 Fixes
+
+- Handle paste content without media ([30e1e58](https://github.com/pksep/sep_yui/commit/30e1e58))
+- Lint ([15ac124](https://github.com/pksep/sep_yui/commit/15ac124))
+
 ## v0.1.186
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.185...v0.1.186)
