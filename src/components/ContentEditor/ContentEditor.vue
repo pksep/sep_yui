@@ -261,7 +261,7 @@ const addLink = (): void => {
       .chain()
       .focus()
       .extendMarkRange('link')
-      .setLink({ href: url })
+      .setLink({ href: url, class: 'link' })
       .run();
   }
 };
@@ -400,6 +400,15 @@ defineExpose({ addSpanLink });
 </script>
 
 <style>
+.link {
+  color: var(--link-color);
+}
+
+.link:visited,
+.link:active {
+  color: var(--primary-color);
+}
+
 .editor-component {
   background-color: var(--white);
   border: 0.5px solid var(--border-color);
