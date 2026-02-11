@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.188
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.187...v0.1.188)
+
+### 🚀 Enhancements
+
+- Add action slot for ContentEditor ([6cd91e8](https://github.com/pksep/sep_yui/commit/6cd91e8))
+
+### 🩹 Fixes
+
+- Link color ([1737b8f](https://github.com/pksep/sep_yui/commit/1737b8f))
+
 ## v0.1.187
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.186...v0.1.187)
