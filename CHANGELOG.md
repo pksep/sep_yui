@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.189
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.188...v0.1.189)
+
+### 🚀 Enhancements
+
+- Add focus contentEditor ([d35a787](https://github.com/pksep/sep_yui/commit/d35a787))
+
 ## v0.1.188
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.187...v0.1.188)
