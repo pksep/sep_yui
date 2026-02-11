@@ -319,6 +319,11 @@ const addSpanLink = (content: string): void => {
     .run();
 };
 
+const focus = (): void => {
+  if (!editor?.value) return;
+  editor.value.chain().focus();
+};
+
 const updateEmojiPosition = (
   buttonEl: HTMLElement,
   pickerWidth = 300,
@@ -396,7 +401,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
-defineExpose({ addSpanLink });
+defineExpose({ addSpanLink, focus });
 </script>
 
 <style>
