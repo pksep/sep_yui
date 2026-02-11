@@ -10,6 +10,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     };
 }>, {
     addSpanLink: (content: string) => void;
+    focus: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-send": (params: {
         content?: string;
