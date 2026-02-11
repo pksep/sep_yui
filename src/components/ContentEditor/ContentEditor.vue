@@ -1,5 +1,8 @@
 <template>
   <div class="editor-component">
+    <div class="editor-component-slot" v-if="$slots.action">
+      <slot name="action" />
+    </div>
     <Popover
       isWCUse
       :disabled="!props.activeAttachFile"
@@ -258,7 +261,7 @@ const addLink = (): void => {
       .chain()
       .focus()
       .extendMarkRange('link')
-      .setLink({ href: url })
+      .setLink({ href: url, class: 'link' })
       .run();
   }
 };
@@ -397,6 +400,15 @@ defineExpose({ addSpanLink });
 </script>
 
 <style>
+.link {
+  color: var(--link-color);
+}
+
+.link:visited,
+.link:active {
+  color: var(--primary-color);
+}
+
 .editor-component {
   background-color: var(--white);
   border: 0.5px solid var(--border-color);
@@ -499,6 +511,11 @@ button.mobile-buttons {
   height: 0;
 }
 
+.editor-component-slot {
+  grid-column: span 3;
+  padding: 16px 16px 0;
+}
+
 @media screen and (width <= 480px) {
   button.ghost-yui-kit.small.mobile-buttons {
     display: grid;
@@ -548,6 +565,10 @@ button.mobile-buttons {
   }
   .mobile-item {
     display: inline-block !important;
+  }
+
+  .editor-component-slot {
+    padding: 0;
   }
 }
 </style>
