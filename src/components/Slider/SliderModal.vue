@@ -145,16 +145,15 @@
             <div
               ref="viewportRef"
               class="slider-modal__viewport"
-              @mousedown.stop="handleMouseDownOnViewport"
-              @mousemove="handleMouseMoveOnViewport"
-              @mouseup="handleMouseUpOnViewport"
-              @mouseleave="handleMouseUpOnViewport"
+              @mousedown.self="handleMouseDownOnExitItem"
+              @mouseup.self="handleMouseUpOnExitItem"
             >
               <img
                 ref="imagePreviewRef"
                 class="slider-modal__image"
                 :src="state.file?.path"
                 @error="handleErrorItem($event, true)"
+                @load="handleLoadImage"
               />
             </div>
           </div>
@@ -177,6 +176,7 @@
               playsinline
               webkit-playsinline
               class="slider-modal__video"
+              :key="state.file?.path"
               :data-testid="`${props.dataTestid}-Video`"
               @error="handleErrorItem($event, true)"
             >
@@ -393,6 +393,7 @@ import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import changeStyleProperties from '@/helpers/change-style-properties';
 import isPdfFile from '@/helpers/file/isPdfFile';
+import Panzoom from '@panzoom/panzoom';
 
 defineOptions({
   name: 'SliderModal'
@@ -482,6 +483,8 @@ const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 const imagePreviewRef = ref<HTMLImageElement | null>(null);
 
+let panzoomInstance: ReturnType<typeof Panzoom> | null = null;
+
 const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
 
 const isDisabledNextButton = computed(
@@ -520,10 +523,102 @@ const isDisabledZoomButton = computed(() => {
 
 const contentStyle = computed(() => ({
   transform: `
-    translate(${state.offsetX}px, ${state.offsetY}px)
     scale(${state.zoomValue})
   `
 }));
+
+const setZoomElement = (): void => {
+  if (!imagePreviewRef.value) return;
+
+  const parent = imagePreviewRef.value.parentElement;
+
+  if (!parent) return;
+
+  const parentRect = parent.getBoundingClientRect();
+  const elemRect = imagePreviewRef.value.getBoundingClientRect();
+
+  const x = (parentRect.width - elemRect.width) / 2;
+  const y = (parentRect.height - elemRect.height) / 2;
+
+  panzoomInstance = Panzoom(imagePreviewRef.value, {
+    maxScale: 3,
+    minScale: 1,
+    startX: x,
+    startY: y,
+    panOnlyWhenZoomed: true,
+    startScale: 1,
+    cursor: 'default',
+    setTransform: (elem, { x, y, scale }) => {
+      const parent = elem.parentElement;
+
+      const element = elem as HTMLElement;
+      if (!parent) return;
+      element;
+
+      const { top: parentTop, left: parentLeft } =
+        parent.getBoundingClientRect();
+
+      const { top: elemTop, left: elemLeft } = element.getBoundingClientRect();
+
+      console.log('parentTop', parentTop, 'parentLeft', parentLeft);
+      console.log('elemTop', elemTop, 'elemLeft', elemLeft);
+
+      // const scaledWidth = elemWidth * scale;
+      // const scaledHeight = elemHeight * scale;
+
+      // let newX = x;
+      // let newY = y;
+
+      // // ---- Ограничение X ----
+      // if (scaledWidth <= parentWidth) {
+      //   newX = (parentWidth - scaledWidth) / 2;
+      // } else {
+      //   const minX = parentWidth - scaledWidth;
+      //   const maxX = 0;
+      //   newX = Math.min(maxX, Math.max(minX, x));
+      // }
+
+      // // ---- Ограничение Y ----
+      // if (scaledHeight <= parentHeight) {
+      //   newY = (parentHeight - scaledHeight) / 2;
+      // } else {
+      //   const minY = parentHeight - scaledHeight;
+      //   const maxY = 0;
+      //   newY = Math.min(maxY, Math.max(minY, y));
+      // }
+
+      panzoomInstance?.setStyle(
+        'transform',
+        `translate(${x}px, ${y}px) scale(${scale})`
+      );
+    }
+  });
+};
+
+const centerPositionPanzoom = (): void => {
+  if (!panzoomInstance || !imagePreviewRef.value) return;
+
+  const parent = imagePreviewRef.value.parentElement;
+  const scale = panzoomInstance.getScale();
+  if (!parent) return;
+  const parentRect = parent.getBoundingClientRect();
+
+  const elemWidth = imagePreviewRef.value.offsetWidth;
+  const elemHeight = imagePreviewRef.value.offsetHeight;
+
+  console.log('parentRect', parentRect);
+  console.log('elemRect', elemWidth, elemHeight);
+  console.log('scale', scale);
+
+  const x = (parentRect.width - elemWidth) / 2;
+  const y = (parentRect.height - elemHeight) / 2;
+
+  console.log('x, y', x, y);
+
+  panzoomInstance.pan(x, y, {
+    force: true
+  });
+};
 
 // отслеживаем изменение списка
 watch([() => props.items, () => props.defaultIndex], () => {
@@ -545,6 +640,7 @@ watch([() => state.file, () => props.open], () => {
   if (!state.file) {
     state.file = props.items[props.defaultIndex ?? 0];
   }
+
   state.isErrorFile = false;
 
   initFile();
@@ -553,7 +649,10 @@ watch([() => state.file, () => props.open], () => {
 watch(
   () => props.open,
   () => {
-    if (!props.open) return;
+    if (!props.open) {
+      panzoomInstance?.destroy();
+      return;
+    }
 
     nextTick(() => {
       // Скроллим к выбранному элементу
@@ -687,6 +786,10 @@ const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
   if (isMainImage) state.isErrorFile = true;
 };
 
+const handleLoadImage = (): void => {
+  setZoomElement();
+};
+
 /**
  * Обрабатывает клик по кнопке следующего элемента
  *
@@ -718,7 +821,11 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
   if (state.isMobile) return;
 
   const target = e.target as HTMLElement;
-  if (target === mainRef.value || target === itemRef.value)
+  if (
+    target === mainRef.value ||
+    target === itemRef.value ||
+    (target === viewportRef.value && imagePreviewRef.value)
+  )
     state.isClickOnExit = true;
 };
 
@@ -753,13 +860,13 @@ const handleMouseDownOnViewport = (e: MouseEvent): void => {
  * Изменяет положение элемента
  * @param e
  */
-const handleMouseMoveOnViewport = (e: MouseEvent): void => {
+const handleMouseMoveOnViewport = (): void => {
   if (!state.isDragging) return;
 
-  state.offsetX = e.clientX - state.startX;
-  state.offsetY = e.clientY - state.startY;
+  // state.offsetX = e.clientX - state.startX;
+  // state.offsetY = e.clientY - state.startY;
 
-  limitPosition();
+  // limitPosition();
 
   requestAnimationFrame(() => {
     if (!viewportRef.value) return;
@@ -1011,27 +1118,6 @@ const resetMobileState = (): void => {
 };
 
 /**
- * Устнавливает ограничения на положение элемента при перетаскивании
- */
-const limitPosition = (): void => {
-  if (!itemRef.value || !viewportRef.value) return;
-
-  const viewerW = itemRef.value.clientWidth;
-  const viewerH = itemRef.value.clientHeight;
-
-  const contentW = viewportRef.value.offsetWidth * state.zoomValue;
-  const contentH = viewportRef.value.offsetHeight * state.zoomValue;
-
-  // ---------- X ----------
-  const maxOffsetX = Math.max(0, (contentW - viewerW) / 2);
-  state.offsetX = Math.min(maxOffsetX, Math.max(-maxOffsetX, state.offsetX));
-
-  // ---------- Y ----------
-  const maxOffsetY = Math.max(0, (contentH - viewerH) / 2);
-  state.offsetY = Math.min(maxOffsetY, Math.max(-maxOffsetY, state.offsetY));
-};
-
-/**
  * Увеличивает или уменьшает масштаб
  *
  * Если isIncrease - увеличивает, иначе уменьшает
@@ -1042,24 +1128,37 @@ const zoom = (isIncrease: boolean): void => {
 
   // Изменяем масштаб
   state.zoomValue += isIncrease ? 1 : -1;
+
   // Ограничиваем масштаб
   state.zoomValue = Math.min(Math.max(1, state.zoomValue), 3);
 
   const nextZoom = state.zoomValue;
   if (prevZoom === nextZoom) return;
 
-  // 2️⃣ масштабируем offsets
-  const ratio = nextZoom / prevZoom;
-  state.offsetX *= ratio;
-  state.offsetY *= ratio;
-
-  limitPosition();
-
   if (!viewportRef.value) return;
 
   // Увеличиваем масштаб для изображений
-  if (imagePreviewRef.value || pdfRef.value) {
+  if (pdfRef.value) {
     changeStyleProperties(contentStyle.value, viewportRef.value);
+  }
+
+  if (imagePreviewRef.value) {
+    panzoomInstance?.zoom(state.zoomValue, {
+      force: true
+    });
+
+    if (state.zoomValue === 1) {
+      panzoomInstance?.setOptions({
+        cursor: 'default'
+      });
+      nextTick(() => {
+        centerPositionPanzoom();
+      });
+    } else {
+      panzoomInstance?.setOptions({
+        cursor: 'move'
+      });
+    }
   }
 };
 
@@ -1293,7 +1392,6 @@ onUnmounted(() => {
 
 .slider-modal__item {
   display: flex;
-  justify-content: center;
 
   overflow: hidden;
 
@@ -1315,6 +1413,11 @@ onUnmounted(() => {
 .slider-modal__video {
   max-width: 100%;
   height: 100%;
+}
+
+.slider-modal__image {
+  max-height: 100%;
+  height: auto;
 }
 
 .slider-modal__bottom {
@@ -1399,9 +1502,14 @@ onUnmounted(() => {
 }
 
 .slider-modal__viewport {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.slider-modal__viewport:has(.slider-modal__image) {
+  display: block;
 }
 
 .slider-modal__pdf_mobile {
