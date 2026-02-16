@@ -123,3 +123,18 @@ export declare const notDelivered: IVectorIcon;
 export declare const delivered: IVectorIcon;
 export declare const zoomMinus: IVectorIcon;
 export declare const zoomPlus: IVectorIcon;
+export declare const timeAttention: IVectorIcon;
+export declare const timeError: {
+    name: string;
+    style: string;
+    fill: string;
+    path: string;
+    viewbox: string;
+};
+export declare const materials: {
+    name: string;
+    style: string;
+    fill: string;
+    path: string;
+    viewbox: string;
+};
