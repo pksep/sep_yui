@@ -1356,3 +1356,54 @@ export const zoomPlus: IVectorIcon = {
   style: 'line',
   fill: 'none'
 };
+
+export const timeAttention: IVectorIcon = {
+  name: 'time-attention',
+  path: `
+  <g clip-path="url(#clip0_30912_1412)">
+    <path d="M5.99999 11C8.76141 11 11 8.76141 11 5.99999C11 3.23857 8.76141 1 5.99999 1C3.23857 1 1 3.23857 1 5.99999C1 8.76141 3.23857 11 5.99999 11Z" stroke="currentColor" stroke-width="0.999998" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M6 3V5.99999L8 6.99999" stroke="currentColor" stroke-width="0.999998" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <g clip-path="url(#clip1_30912_1412)">
+    <path d="M9.5153 13.5459L6.45408 10.4847C6.18197 10.2126 6.18197 9.78741 6.45408 9.5153L9.5153 6.45408C9.78741 6.18197 10.2126 6.18197 10.4847 6.45408L13.5459 9.5153C13.818 9.78741 13.818 10.2126 13.5459 10.4847L10.4847 13.5459C10.2126 13.818 9.7704 13.818 9.5153 13.5459Z" fill="#F42C2B"/>
+    <path d="M9.58325 11.488C9.58325 11.437 9.60026 11.386 9.61727 11.335C9.63427 11.2839 9.66829 11.2499 9.7023 11.2159C9.73631 11.1819 9.78733 11.1479 9.83835 11.1309C9.88937 11.1139 9.94039 11.0969 10.0084 11.0969C10.0764 11.0969 10.1275 11.1139 10.1785 11.1309C10.2295 11.1479 10.2805 11.1819 10.3145 11.2159C10.3486 11.2499 10.3826 11.2839 10.3996 11.335C10.4166 11.386 10.4336 11.437 10.4336 11.488C10.4336 11.539 10.4166 11.5901 10.3996 11.6411C10.3826 11.6921 10.3486 11.7261 10.3145 11.7601C10.2805 11.7941 10.2295 11.8282 10.1785 11.8452C10.1275 11.8622 10.0764 11.8792 10.0084 11.8792C9.94039 11.8792 9.88937 11.8622 9.83835 11.8452C9.78733 11.8282 9.75332 11.7941 9.7023 11.7601C9.66829 11.7261 9.63427 11.6921 9.61727 11.6411C9.60026 11.5901 9.58325 11.5561 9.58325 11.488ZM10.2975 10.7057H9.68529L9.60026 8.1377H10.3826L10.2975 10.7057Z" fill="white"/>
+  </g>
+
+  <defs>
+    <clipPath id="clip0_30912_1412">
+      <rect width="12" height="12" fill="none"/>
+    </clipPath>
+
+    <clipPath id="clip1_30912_1412">
+      <rect width="7.99998" height="7.99998" fill="white" transform="translate(6 6)"/>
+    </clipPath>
+  </defs>
+`,
+  viewbox: '0 0 14 14',
+  style: 'line',
+  fill: 'none'
+};
+
+export const timeError = {
+  name: 'time-error',
+  style: 'line',
+  fill: 'none',
+  path: `
+    <path d="M12.459 7.01366C12.5922 5.98008 12.399 4.93073 11.9065 4.0123C11.4141 3.09387 10.647 2.35226 9.71245 1.89114C8.7779 1.43001 7.72263 1.27241 6.69413 1.44037C5.66564 1.60834 4.71532 2.09346 3.97603 2.82794C3.23674 3.56242 2.74542 4.50955 2.57074 5.53692C2.39607 6.5643 2.54677 7.62058 3.00178 8.55812C3.4568 9.49565 4.19338 10.2676 5.10858 10.766C6.02377 11.2644 7.07183 11.4645 8.10626 11.3381" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12.5001 11.875L10.0001 9.375M10.0001 11.875L12.5001 9.375" stroke="#F42C2B" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7.5 3.875V6.87499L9.5 7.87499" stroke="currentColor" stroke-width="0.999998" stroke-linecap="round" stroke-linejoin="round"/>
+    `,
+  viewbox: '0 0 15 15'
+};
+
+export const materials = {
+  name: 'materials',
+  style: 'line',
+  fill: 'none',
+  path: `
+  <path d="M1.5 3.5L5 1.5L10.5 3.5M1.5 3.5V6L7 8L10.5 6V3.5M1.5 3.5L7 5.5L10.5 3.5" stroke="currentColor" stroke-linejoin="round"/>
+  <path d="M1.5 6V8.5L7 10.5L10.5 8.5V6" stroke="currentColor" stroke-linejoin="round"/>
+  `,
+  viewbox: `0 0 12 12`
+};
