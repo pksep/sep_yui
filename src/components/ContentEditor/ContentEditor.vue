@@ -208,7 +208,16 @@ const SpanNode = Node.create({
 const editor = useEditor({
   extensions: [
     StarterKit.configure({
-      link: false
+      link: false,
+      bold: false,
+      italic: false,
+      strike: false,
+      heading: false,
+      bulletList: false,
+      orderedList: false,
+      codeBlock: false,
+      blockquote: false,
+      underline: false
     }),
     Link.configure({
       openOnClick: false,
@@ -368,6 +377,10 @@ const handleWindowUpdate = (): void => {
 
 /* ------------------ Enter key to save ------------------ */
 const handleKeydown = (event: KeyboardEvent): void => {
+  if (window.innerWidth <= 480) {
+    return;
+  }
+
   if (
     event.key === 'Enter' &&
     !!event.code &&
