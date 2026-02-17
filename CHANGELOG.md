@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.191
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.190...v0.1.191)
+
+### 🚀 Enhancements
+
+- Added disabled state to base filter ([9473de3](https://github.com/pksep/sep_yui/commit/9473de3))
+
 ## v0.1.190
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.189...v0.1.190)
