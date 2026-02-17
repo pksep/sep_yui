@@ -21,6 +21,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     };
     disabled: {
         type: import('vue').PropType<boolean>;
+        default: boolean;
     };
     options: {
         type: import('vue').PropType<OptionsObject[] | import('./interface/interface').IOptionsObjectWithHint[]>;
@@ -78,6 +79,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     };
     disabled: {
         type: import('vue').PropType<boolean>;
+        default: boolean;
     };
     options: {
         type: import('vue').PropType<OptionsObject[] | import('./interface/interface').IOptionsObjectWithHint[]>;
@@ -122,6 +124,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     "onUnmount-pagination"?: (() => any) | undefined;
 }>, {
     dataTestid: string;
+    disabled: boolean;
     tooltipPosition: import('../Tooltip/interface/interface').TTooltipPosition;
     defaultOption: string;
     isOpened: boolean;

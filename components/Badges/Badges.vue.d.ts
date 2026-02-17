@@ -20,8 +20,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>, {
     dataTestid: string;
     type: BadgesTypeEnum;
-    choosed: boolean;
     disabled: boolean;
+    choosed: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
