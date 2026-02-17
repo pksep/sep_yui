@@ -59,6 +59,7 @@ export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
   isUseAnchor?: boolean;
   isOpened?: boolean;
   tooltipPosition?: TTooltipPosition;
+  disabled?: boolean;
   onUnmountPagination?: () => void;
 }
 
