@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.192
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.191...v0.1.192)
+
+### 🩹 Fixes
+
+- ContentEditor enter and md ([49be7d8](https://github.com/pksep/sep_yui/commit/49be7d8))
+
 ## v0.1.191
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.190...v0.1.191)
