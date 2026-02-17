@@ -1385,7 +1385,7 @@ export const timeAttention: IVectorIcon = {
   fill: 'none'
 };
 
-export const timeError = {
+export const timeError: IVectorIcon = {
   name: 'time-error',
   style: 'line',
   fill: 'none',
@@ -1397,7 +1397,7 @@ export const timeError = {
   viewbox: '0 0 15 15'
 };
 
-export const materials = {
+export const materials: IVectorIcon = {
   name: 'materials',
   style: 'line',
   fill: 'none',
@@ -1406,4 +1406,15 @@ export const materials = {
   <path d="M1.5 6V8.5L7 10.5L10.5 8.5V6" stroke="currentColor" stroke-linejoin="round"/>
   `,
   viewbox: `0 0 12 12`
+};
+
+export const support: IVectorIcon = {
+  name: 'support',
+  style: 'line',
+  fill: 'none',
+  path: `
+  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+  <circle cx="11.6086" cy="16.5653" r="0.434783" fill="currentColor" stroke="currentColor" stroke-width="1.1"/>
+  <path d="M11.6087 14.8261V13.5923C11.6087 12.7712 12.1341 12.0423 12.913 11.7826C13.692 11.523 14.2174 10.794 14.2174 9.97292V9.52669C14.2174 8.13124 13.0862 7 11.6907 7H11.6087C10.168 7 9 8.16795 9 9.6087" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+  `
 };
