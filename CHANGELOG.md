@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.195
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.194...v0.1.195)
+
+### 🩹 Fixes
+
+- Avatar styles ([77ab2a4](https://github.com/pksep/sep_yui/commit/77ab2a4))
+
 ## v0.1.194
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.193...v0.1.194)
