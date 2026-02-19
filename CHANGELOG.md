@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.196
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.195...v0.1.196)
+
+### 🚀 Enhancements
+
+- Updated filter ([2924ea8](https://github.com/pksep/sep_yui/commit/2924ea8))
+
 ## v0.1.195
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.194...v0.1.195)
