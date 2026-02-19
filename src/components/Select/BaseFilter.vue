@@ -193,7 +193,11 @@ const filterClass = computed(() => [
   props.class
 ]);
 
-watch(isOpened, () => emits('unmount-open', isOpened.value));
+watch(isOpened, () => {
+  emits('unmount-open', isOpened.value);
+  searchData.value = '';
+});
+
 watch(
   () => props.isOpened,
   () => {
