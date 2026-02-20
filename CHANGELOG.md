@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.197
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.196...v0.1.197)
+
+### 🎨 Styles
+
+- Changed styles ([1ab59fa](https://github.com/pksep/sep_yui/commit/1ab59fa))
+
 ## v0.1.196
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.195...v0.1.196)
