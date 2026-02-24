@@ -10,6 +10,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     isSpanOverflow: import('vue').Ref<boolean, boolean>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     choose: (state: boolean, value?: string | undefined) => void;
+    remove: (value: string) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IBadgesProps>, {
     type: BadgesTypeEnum;
     choosed: boolean;
@@ -17,6 +18,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataTestid: string;
 }>>> & Readonly<{
     onChoose?: ((state: boolean, value?: string | undefined) => any) | undefined;
+    onRemove?: ((value: string) => any) | undefined;
 }>, {
     dataTestid: string;
     type: BadgesTypeEnum;
