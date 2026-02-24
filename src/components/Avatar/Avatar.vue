@@ -1,5 +1,9 @@
 <template>
-  <div :data-testid="props.dataTestid" class="avatar-yui-kit">
+  <div
+    :data-testid="props.dataTestid"
+    class="avatar-yui-kit"
+    :style="{ backgroundColor: backgroundColor }"
+  >
     <!-- Real Image (always rendered if url exists) -->
     <img
       v-if="props.url"
@@ -39,6 +43,24 @@ const hasError = ref(false);
 const firstSymbol = computed(() => {
   if (!props.initials) return '';
   return props.initials.charAt(0).toUpperCase();
+});
+
+const colors = [
+  'var(--error-color)',
+  'var(--orange4)',
+  'var(--green2)',
+  'var(--blue24)',
+  'var(--blue22)',
+  'var(--blue4)',
+  'var(--violet2)',
+  'var(--pink-color)'
+];
+
+const backgroundColor = computed(() => {
+  if (!firstSymbol.value) return colors[0];
+
+  const code = firstSymbol.value.charCodeAt(0);
+  return colors[code % colors.length];
 });
 
 const showFallback = computed(() => {
@@ -91,7 +113,6 @@ watch(
 
   font-size: var(--size-avatar, 16px);
 
-  background-color: var(--error-color);
   color: var(--color, #fff);
 
   user-select: none;
