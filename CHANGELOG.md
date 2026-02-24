@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.199
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.198...v0.1.199)
+
+### 🚀 Enhancements
+
+- Add avatar ([42a3aa2](https://github.com/pksep/sep_yui/commit/42a3aa2))
+
 ## v0.1.198
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.197...v0.1.198)
