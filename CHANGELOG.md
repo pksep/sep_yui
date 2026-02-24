@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.200
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.199...v0.1.200)
+
+### 🚀 Enhancements
+
+- Add remove event in badges ([186db98](https://github.com/pksep/sep_yui/commit/186db98))
+
 ## v0.1.199
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.198...v0.1.199)
