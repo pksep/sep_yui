@@ -718,7 +718,11 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
   if (state.isMobile) return;
 
   const target = e.target as HTMLElement;
-  if (target === mainRef.value || target === itemRef.value)
+  if (
+    target === mainRef.value ||
+    target === itemRef.value ||
+    target === viewportRef.value
+  )
     state.isClickOnExit = true;
 };
 
@@ -730,7 +734,12 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
 const handleMouseUpOnExitItem = (e: MouseEvent): void => {
   const target = e.target as HTMLElement;
 
-  if (target === mainRef.value || target === itemRef.value) unmountClose();
+  if (
+    target === mainRef.value ||
+    target === itemRef.value ||
+    target === viewportRef.value
+  )
+    unmountClose();
 
   state.isClickOnExit = false;
 };
@@ -742,6 +751,7 @@ const handleMouseUpOnExitItem = (e: MouseEvent): void => {
  * @param e
  */
 const handleMouseDownOnViewport = (e: MouseEvent): void => {
+  handleMouseDownOnExitItem(e);
   state.isDragging = true;
   state.startX = e.clientX - state.offsetX;
   state.startY = e.clientY - state.offsetY;
@@ -773,7 +783,8 @@ const handleMouseMoveOnViewport = (e: MouseEvent): void => {
  *
  * Останавливает перетаскивание
  */
-const handleMouseUpOnViewport = (): void => {
+const handleMouseUpOnViewport = (e: MouseEvent): void => {
+  handleMouseUpOnExitItem(e);
   state.isDragging = false;
 };
 
