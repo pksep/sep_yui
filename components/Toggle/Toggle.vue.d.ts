@@ -10,12 +10,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<ToggleEnum>;
         default: ToggleEnum;
     };
+    backgroundColor: {
+        type: import('vue').PropType<string>;
+    };
     disabled: {
         type: import('vue').PropType<boolean>;
         default: boolean;
-    };
-    backgroundColor: {
-        type: import('vue').PropType<string>;
     };
 }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (isChecked: boolean) => void;
@@ -29,12 +29,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<ToggleEnum>;
         default: ToggleEnum;
     };
+    backgroundColor: {
+        type: import('vue').PropType<string>;
+    };
     disabled: {
         type: import('vue').PropType<boolean>;
         default: boolean;
-    };
-    backgroundColor: {
-        type: import('vue').PropType<string>;
     };
 }>> & Readonly<{
     onChange?: ((isChecked: boolean) => any) | undefined;
