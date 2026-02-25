@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.201
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.200...v0.1.201)
+
+### 🚀 Enhancements
+
+- Add active-send in content editor ([ae2782f](https://github.com/pksep/sep_yui/commit/ae2782f))
+
 ## v0.1.200
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.199...v0.1.200)
