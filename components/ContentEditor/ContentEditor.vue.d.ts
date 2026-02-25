@@ -8,6 +8,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
         type: import('vue').PropType<boolean>;
         required: true;
     };
+    activeSend: {
+        type: import('vue').PropType<boolean>;
+    };
 }>, {
     addSpanLink: (content: string) => void;
     focus: () => void;
@@ -21,6 +24,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     activeAttachFile: {
         type: import('vue').PropType<boolean>;
         required: true;
+    };
+    activeSend: {
+        type: import('vue').PropType<boolean>;
     };
 }>> & Readonly<{
     "onUnmount-send"?: ((params: {
