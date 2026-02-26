@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.202
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.201...v0.1.202)
+
+### 🚀 Enhancements
+
+- Add max-height in slider modal ([839e894](https://github.com/pksep/sep_yui/commit/839e894))
+
 ## v0.1.201
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.200...v0.1.201)
