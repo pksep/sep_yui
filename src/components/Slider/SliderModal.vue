@@ -1325,6 +1325,7 @@ onUnmounted(() => {
 .slider-modal__image,
 .slider-modal__video {
   max-width: 100%;
+  max-height: 100%;
 }
 
 .slider-modal__video,
