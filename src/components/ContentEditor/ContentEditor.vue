@@ -387,6 +387,7 @@ const handleKeydown = (event: KeyboardEvent): void => {
   }
 
   if (
+    !props.disableSendOnEnter &&
     event.key === 'Enter' &&
     !!event.code &&
     !(event.shiftKey || event.ctrlKey || event.metaKey)
