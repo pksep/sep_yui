@@ -529,6 +529,7 @@ const contentStyle = computed(() => ({
 
 const setZoomElement = (): void => {
   if (!imagePreviewRef.value) return;
+  resetListenerPanzoom();
 
   const parent = imagePreviewRef.value.parentElement;
 
@@ -547,7 +548,9 @@ const setZoomElement = (): void => {
     startY: y,
     panOnlyWhenZoomed: true,
     startScale: 1,
+    animate: true,
     cursor: 'default',
+
     setTransform: (elem, { x, y, scale }) => {
       const parent = elem.parentElement;
 
@@ -555,60 +558,119 @@ const setZoomElement = (): void => {
       if (!parent) return;
       element;
 
-      const { top: parentTop, left: parentLeft } =
-        parent.getBoundingClientRect();
-
-      const { top: elemTop, left: elemLeft } = element.getBoundingClientRect();
-
-      console.log('parentTop', parentTop, 'parentLeft', parentLeft);
-      console.log('elemTop', elemTop, 'elemLeft', elemLeft);
-
-      // const scaledWidth = elemWidth * scale;
-      // const scaledHeight = elemHeight * scale;
-
-      // let newX = x;
-      // let newY = y;
-
-      // // ---- Ограничение X ----
-      // if (scaledWidth <= parentWidth) {
-      //   newX = (parentWidth - scaledWidth) / 2;
-      // } else {
-      //   const minX = parentWidth - scaledWidth;
-      //   const maxX = 0;
-      //   newX = Math.min(maxX, Math.max(minX, x));
-      // }
-
-      // // ---- Ограничение Y ----
-      // if (scaledHeight <= parentHeight) {
-      //   newY = (parentHeight - scaledHeight) / 2;
-      // } else {
-      //   const minY = parentHeight - scaledHeight;
-      //   const maxY = 0;
-      //   newY = Math.min(maxY, Math.max(minY, y));
-      // }
-
       panzoomInstance?.setStyle(
         'transform',
         `translate(${x}px, ${y}px) scale(${scale})`
       );
     }
   });
+
+  panzoomInstance.handleUp = () => {
+    if (!panzoomInstance || !imagePreviewRef.value) return;
+
+    const element = imagePreviewRef.value;
+    const scale = panzoomInstance.getScale();
+
+    if (scale === 1) return;
+
+    const {
+      top: parentTop,
+      left: parentLeft,
+      bottom: parentBottom,
+      right: parentRight
+    } = parent.getBoundingClientRect();
+
+    const { x, y } = panzoomInstance.getPan();
+
+    const {
+      top: elemTop,
+      left: elemLeft,
+      right: elemRight,
+      bottom: elemBottom,
+      width: elementWidth,
+      height: elementHeight
+    } = element.getBoundingClientRect();
+
+    const normalizedWidth = elementWidth / scale;
+    const normalizedHeight = elementHeight / scale;
+
+    console.log(
+      'parentTop',
+      parentTop,
+      'parentLeft',
+      parentLeft,
+      'parentBottom',
+      parentBottom,
+      'parentRight',
+      parentRight
+    );
+    console.log(
+      'elemTop',
+      elemTop,
+      'elemLeft',
+      elemLeft,
+      'elemBottom',
+      elemBottom,
+      'elemRight',
+      elemRight
+    );
+    console.log('x', x, 'y', y);
+
+    console.log(
+      'normalizedHeight',
+      normalizedHeight,
+      'normalizedWidth',
+      normalizedWidth
+    );
+
+    console.log('scale', scale);
+
+    let newX = x;
+    let newY = y;
+
+    if (parentLeft < elemLeft) {
+      newX = (normalizedWidth - normalizedWidth / 2) * (scale - 1);
+    }
+
+    if (parentTop < elemTop) {
+      newY = (normalizedHeight - normalizedHeight / 2) * (scale - 1);
+    }
+
+    if (parentRight > elemRight) {
+      newX =
+        parentRight -
+        parentLeft -
+        normalizedWidth * scale +
+        (normalizedWidth * (scale - 1)) / 2;
+    }
+
+    if (parentBottom > elemBottom) {
+      newY = (normalizedHeight - normalizedHeight / 2) * (scale - 1) * -1;
+    }
+
+    panzoomInstance.pan(newX, newY, {
+      force: true
+    });
+  };
+
+  document.addEventListener('pointerup', panzoomInstance.handleUp);
+};
+
+const resetListenerPanzoom = (): void => {
+  if (!panzoomInstance) return;
+
+  document.removeEventListener('pointerup', panzoomInstance.handleUp);
 };
 
 const centerPositionPanzoom = (): void => {
   if (!panzoomInstance || !imagePreviewRef.value) return;
 
   const parent = imagePreviewRef.value.parentElement;
-  const scale = panzoomInstance.getScale();
   if (!parent) return;
   const parentRect = parent.getBoundingClientRect();
 
   const elemWidth = imagePreviewRef.value.offsetWidth;
   const elemHeight = imagePreviewRef.value.offsetHeight;
-
-  console.log('parentRect', parentRect);
-  console.log('elemRect', elemWidth, elemHeight);
-  console.log('scale', scale);
 
   const x = (parentRect.width - elemWidth) / 2;
   const y = (parentRect.height - elemHeight) / 2;
@@ -624,6 +686,7 @@ const centerPositionPanzoom = (): void => {
 watch([() => props.items, () => props.defaultIndex], () => {
   state.file = props.items[props.defaultIndex ?? 0];
   state.defaultIndex = props.defaultIndex ?? 0;
+  resetListenerPanzoom();
 });
 
 // Отслеживаем изменение открытого файла
@@ -651,6 +714,8 @@ watch(
   () => {
     if (!props.open) {
       panzoomInstance?.destroy();
+      resetListenerPanzoom();
+
       return;
     }
 
