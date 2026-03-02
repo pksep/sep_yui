@@ -70,7 +70,9 @@
           </div>
         </div>
 
-        <div class="slider-modal__mobile-header-block"></div>
+        <div class="slider-modal__mobile-header-block">
+          {{ state.zoomValue }}
+        </div>
       </div>
 
       <div
@@ -558,6 +560,11 @@ const setZoomElement = (): void => {
       if (!parent) return;
       element;
 
+      if (state.isMobile) {
+        scale = Math.max(Math.min(scale, 3), 1);
+        state.zoomValue = scale;
+      }
+
       panzoomInstance?.setStyle(
         'transform',
         `translate(${x}px, ${y}px) scale(${scale})`
@@ -571,7 +578,12 @@ const setZoomElement = (): void => {
     const element = imagePreviewRef.value;
     const scale = panzoomInstance.getScale();
 
-    if (scale === 1) return;
+    if (scale <= 1) {
+      centerPositionPanzoom();
+      return;
+    }
+
+    if (state.isMobile) return;
 
     const {
       top: parentTop,
@@ -593,37 +605,6 @@ const setZoomElement = (): void => {
 
     const normalizedWidth = elementWidth / scale;
     const normalizedHeight = elementHeight / scale;
-
-    console.log(
-      'parentTop',
-      parentTop,
-      'parentLeft',
-      parentLeft,
-      'parentBottom',
-      parentBottom,
-      'parentRight',
-      parentRight
-    );
-    console.log(
-      'elemTop',
-      elemTop,
-      'elemLeft',
-      elemLeft,
-      'elemBottom',
-      elemBottom,
-      'elemRight',
-      elemRight
-    );
-    console.log('x', x, 'y', y);
-
-    console.log(
-      'normalizedHeight',
-      normalizedHeight,
-      'normalizedWidth',
-      normalizedWidth
-    );
-
-    console.log('scale', scale);
 
     let newX = x;
     let newY = y;
@@ -660,6 +641,7 @@ const resetListenerPanzoom = (): void => {
   if (!panzoomInstance) return;
 
   document.removeEventListener('pointerup', panzoomInstance.handleUp);
+  panzoomInstance.destroy();
 };
 
 const centerPositionPanzoom = (): void => {
@@ -674,8 +656,6 @@ const centerPositionPanzoom = (): void => {
 
   const x = (parentRect.width - elemWidth) / 2;
   const y = (parentRect.height - elemHeight) / 2;
-
-  console.log('x, y', x, y);
 
   panzoomInstance.pan(x, y, {
     force: true
@@ -990,13 +970,14 @@ const handlePointerEnd = (e: PointerEvent): void => {
   const deltaY = endY - state.startYForMobile;
 
   if (state.isExistSwipe && deltaY > SWIPE_EXIT_THRESHOLD && deltaY > deltaX) {
-    emit('close');
+    // emit('close');
   }
 
   if (state.isChangeItemSwipe && sliderRef.value) {
-    if (state.isSwipeNextSlide) setItem(sliderRef.value?.nextSlide());
-
-    if (state.isSwipePrevSlide) setItem(sliderRef.value?.prevSlide());
+    if ((state.isMobile && state.zoomValue === 1) || !state.isMobile) {
+      if (state.isSwipeNextSlide) setItem(sliderRef.value?.nextSlide());
+      if (state.isSwipePrevSlide) setItem(sliderRef.value?.prevSlide());
+    }
   }
 
   resetMobileState();
@@ -1111,22 +1092,22 @@ const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
     state.isChangeItemSwipe = true;
   }
 
-  if (state.isExistSwipe) {
-    const opacity = Math.max(
-      0,
-      1 - (deltaY - SWIPE_DELAY_EXIT_THRESHOLD) / SWIPE_EXIT_THRESHOLD
-    );
-    requestAnimationFrame(() => {
-      if (!mainRef.value) return;
+  // if (state.isExistSwipe) {
+  //   const opacity = Math.max(
+  //     0,
+  //     1 - (deltaY - SWIPE_DELAY_EXIT_THRESHOLD) / SWIPE_EXIT_THRESHOLD
+  //   );
+  //   requestAnimationFrame(() => {
+  //     if (!mainRef.value) return;
 
-      changeStyleProperties(
-        {
-          opacity: opacity
-        },
-        mainRef.value
-      );
-    });
-  }
+  //     changeStyleProperties(
+  //       {
+  //         opacity: opacity
+  //       },
+  //       mainRef.value
+  //     );
+  //   });
+  // }
 
   if (state.isChangeItemSwipe) {
     if (absDeltaX > SWIPE_CHANGE_ITEM_THRESHOLD) {
