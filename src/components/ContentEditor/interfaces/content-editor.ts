@@ -7,3 +7,8 @@ export interface IContentEditorEmit {
   ): void;
   (e: 'unmount-attach-file', files: FileList, onlyMedia: boolean): void;
 }
+
+export interface IContentEditorProps {
+  activeAttachFile: boolean;
+  activeSend?: boolean;
+}

@@ -1,12 +1,14 @@
 <template>
   <SelectList
-    @change="change"
-    :is-opened="isOpened"
-    :class="props.class"
-    :is-use-anchor="isUseAnchor"
     header-classes="filter__header"
     options-classes="filter__options"
+    :is-opened="isOpened"
+    class="filter"
+    :class="filterClass"
+    :is-use-anchor="isUseAnchor"
     :data-testid="props.dataTestid"
+    :disabled
+    @change="change"
   >
     <template v-if="$slots['body']" #body="slotBodyProps">
       <slot name="body" :close-open-list="slotBodyProps.closeOpenList"></slot>
@@ -35,9 +37,11 @@
           <Badges
             ref="badgesRef"
             :type="
-              choosedOption === props.defaultOption
-                ? BadgesTypeEnum.default
-                : BadgesTypeEnum.blue
+              disabled
+                ? BadgesTypeEnum.disabled
+                : choosedOption === props.defaultOption
+                  ? BadgesTypeEnum.default
+                  : BadgesTypeEnum.blue
             "
             class="filter__options-badge"
             :data-testid="`${props.dataTestid}-Badge`"
@@ -166,7 +170,8 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   dataTestid: 'BaseFilter',
   isOpened: false,
   tooltipPosition: 'top-center',
-  isUseAnchor: false
+  isUseAnchor: false,
+  disabled: false
 });
 
 const state = reactive({
@@ -181,10 +186,26 @@ const lastOptionRef = ref<HTMLElement | null>(null);
 const model = defineModel<string | string[]>();
 const isOpened = ref<boolean>(props.isOpened);
 
-watch(isOpened, () => emits('unmount-open', isOpened.value));
+const filterClass = computed(() => [
+  {
+    filter_disabled: props.disabled
+  },
+  props.class
+]);
+
+watch(isOpened, () => {
+  emits('unmount-open', isOpened.value);
+  searchData.value = '';
+});
+
 watch(
   () => props.isOpened,
   () => {
+    if (props.disabled) {
+      isOpened.value = false;
+
+      return;
+    }
     isOpened.value = props.isOpened;
   }
 );
@@ -314,6 +335,13 @@ const countModelValue = computed(() => {
 });
 
 const getChoosenOption = async (value: string): Promise<void> => {
+  // Если disabled, то не меняем
+  if (props.disabled) {
+    isOpened.value = false;
+
+    return;
+  }
+
   if (isArray(model.value)) {
     if (model.value.includes(value)) {
       model.value = model.value.filter(item => item !== value);
@@ -338,10 +366,17 @@ const getChoosenOption = async (value: string): Promise<void> => {
 };
 
 const change = (val: boolean): void => {
+  if (props.disabled) {
+    isOpened.value = false;
+    return;
+  }
   isOpened.value = val;
 };
 
 const clear = async (): Promise<void> => {
+  // Если disabled, то не меняем
+  if (props.disabled) return;
+
   if (isArray(model.value)) {
     model.value = [];
   } else {
@@ -387,6 +422,8 @@ onUnmounted(() => {
   width: max-content;
   max-width: 237px;
 
+  transition: all 0.2s ease;
+
   display: flex;
   align-items: center;
 
@@ -412,6 +449,10 @@ onUnmounted(() => {
 
 :deep(.filter__header:hover) {
   border-color: var(--border-primary-color);
+}
+
+.filter_disabled {
+  pointer-events: none;
 }
 
 :deep(.filter__options) {
@@ -469,8 +510,10 @@ onUnmounted(() => {
   transition: all 0.2s ease;
 }
 
-.filter__cross:active,
-.filter__count:hover {
+filter:has(:not(filter_disabled)):is(
+    .filter__cross:active,
+    .filter__count:hover
+  ) {
   color: var(--primary-color);
 }
 

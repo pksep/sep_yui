@@ -1,5 +1,125 @@
 # Changelog
 
+## v0.1.202
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.201...v0.1.202)
+
+### 🚀 Enhancements
+
+- Add max-height in slider modal ([839e894](https://github.com/pksep/sep_yui/commit/839e894))
+
+## v0.1.201
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.200...v0.1.201)
+
+### 🚀 Enhancements
+
+- Add active-send in content editor ([ae2782f](https://github.com/pksep/sep_yui/commit/ae2782f))
+
+## v0.1.200
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.199...v0.1.200)
+
+### 🚀 Enhancements
+
+- Add remove event in badges ([186db98](https://github.com/pksep/sep_yui/commit/186db98))
+
+## v0.1.199
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.198...v0.1.199)
+
+### 🚀 Enhancements
+
+- Add avatar ([42a3aa2](https://github.com/pksep/sep_yui/commit/42a3aa2))
+
+## v0.1.198
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.197...v0.1.198)
+
+### 🚀 Enhancements
+
+- Updated close fucntion ([ab0b40e](https://github.com/pksep/sep_yui/commit/ab0b40e))
+
+## v0.1.197
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.196...v0.1.197)
+
+### 🎨 Styles
+
+- Changed styles ([1ab59fa](https://github.com/pksep/sep_yui/commit/1ab59fa))
+
+## v0.1.196
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.195...v0.1.196)
+
+### 🚀 Enhancements
+
+- Updated filter ([2924ea8](https://github.com/pksep/sep_yui/commit/2924ea8))
+
+## v0.1.195
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.194...v0.1.195)
+
+### 🩹 Fixes
+
+- Avatar styles ([77ab2a4](https://github.com/pksep/sep_yui/commit/77ab2a4))
+
+## v0.1.194
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.193...v0.1.194)
+
+## v0.1.193
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.192...v0.1.193)
+
+### 🚀 Enhancements
+
+- Added icon ([8c49d64](https://github.com/pksep/sep_yui/commit/8c49d64))
+
+## v0.1.192
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.191...v0.1.192)
+
+### 🩹 Fixes
+
+- ContentEditor enter and md ([49be7d8](https://github.com/pksep/sep_yui/commit/49be7d8))
+
+## v0.1.191
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.190...v0.1.191)
+
+### 🚀 Enhancements
+
+- Added disabled state to base filter ([9473de3](https://github.com/pksep/sep_yui/commit/9473de3))
+
+## v0.1.190
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.189...v0.1.190)
+
+### 🚀 Enhancements
+
+- Added new icons ([3a5fc01](https://github.com/pksep/sep_yui/commit/3a5fc01))
+
+## v0.1.189
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.188...v0.1.189)
+
+### 🚀 Enhancements
+
+- Add focus contentEditor ([d35a787](https://github.com/pksep/sep_yui/commit/d35a787))
+
+## v0.1.188
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.187...v0.1.188)
+
+### 🚀 Enhancements
+
+- Add action slot for ContentEditor ([6cd91e8](https://github.com/pksep/sep_yui/commit/6cd91e8))
+
+### 🩹 Fixes
+
+- Link color ([1737b8f](https://github.com/pksep/sep_yui/commit/1737b8f))
+
 ## v0.1.187
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.186...v0.1.187)

@@ -14,6 +14,7 @@
       :data-testid="`${props.dataTestid}-Icon`"
       :name="IconNameEnum.closeTag"
       color="var(--text-neutral-color)"
+      @click="handleRemove"
     />
   </div>
 </template>
@@ -34,6 +35,7 @@ const props = withDefaults(defineProps<IBadgesProps>(), {
 
 const emit = defineEmits<{
   (e: 'choose', state: boolean, value?: string): void;
+  (e: 'remove', value: string): void;
 }>();
 
 const state = reactive({
@@ -66,7 +68,8 @@ const classes = computed(() => ({
   'pink-yui-kit': props.type === BadgesTypeEnum.pink,
   'violet-yui-kit': props.type === BadgesTypeEnum.violet,
   'yellow-yui-kit': props.type === BadgesTypeEnum.yellow,
-  'choosed-yui-kit': props.choosed || state.choosed
+  'choosed-yui-kit': props.choosed || state.choosed,
+  'disabled-yui-kit': props.type === BadgesTypeEnum.disabled
 }));
 
 /**
@@ -75,6 +78,10 @@ const classes = computed(() => ({
 const isChoosen = () => {
   emit('choose', state.choosed, props.text);
   if (!props.disabled) state.choosed = !state.choosed;
+};
+
+const handleRemove = () => {
+  emit('remove', props.text);
 };
 
 const resizeObserver = new ResizeObserver(() => {
@@ -167,6 +174,11 @@ onMounted(() => {
 .violet-yui-kit span {
   color: var(--purple-color);
   background-color: var(--purple-light-color);
+}
+
+.disabled-yui-kit span {
+  color: var(--text-light-color);
+  background-color: var(--border-color);
 }
 
 .base-yui-kit.choosed-yui-kit {

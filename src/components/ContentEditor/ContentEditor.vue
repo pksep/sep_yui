@@ -1,5 +1,8 @@
 <template>
   <div class="editor-component">
+    <div class="editor-component-slot" v-if="$slots.action">
+      <slot name="action" />
+    </div>
     <Popover
       isWCUse
       :disabled="!props.activeAttachFile"
@@ -39,7 +42,7 @@
       </Button>
 
       <Button
-        v-show="!editor?.isEmpty"
+        v-show="!disableSend"
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
         class="toolbar-button right mobile-buttons"
@@ -103,7 +106,7 @@
       </Button>
 
       <Button
-        :disabled="editor?.isEmpty"
+        :disabled="disableSend"
         class="toolbar-button right"
         :size="SizesEnum.small"
         @click="handleSave"
@@ -140,14 +143,17 @@ import { SizesEnum } from '@/common/sizes';
 import { IconNameEnum } from '../Icon/enum/enum';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import 'vue3-emoji-picker/css';
-import type { IContentEditorEmit } from './interfaces/content-editor';
+import type {
+  IContentEditorEmit,
+  IContentEditorProps
+} from './interfaces/content-editor';
 import { ColorsEnum } from '@/common/colors.ts';
 import Popover from '../Popover/Popover.vue';
 import { vOnClickOutside } from '@vueuse/components';
 import DropZone from './DropZone.vue';
 
 // v-model binding
-const props = defineProps<{ activeAttachFile: boolean }>();
+const props = defineProps<IContentEditorProps>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
 const emojiPickerPosition = ref({
@@ -156,11 +162,13 @@ const emojiPickerPosition = ref({
 });
 const emits = defineEmits<IContentEditorEmit>();
 
+const disableSend = computed(() => !props.activeSend && editor.value?.isEmpty);
+
 const pickerClasses = computed(() => [
   'emoji-picker',
   `emoji-picker-${emojiPickerPosition.value.vertical}`,
   `emoji-picker-${emojiPickerPosition.value.horizontal}`,
-  !editor.value?.isEmpty ? 'translateX' : ''
+  !disableSend.value ? 'translateX' : ''
 ]);
 
 const editorDom = ref<HTMLElement | null>(null);
@@ -205,7 +213,16 @@ const SpanNode = Node.create({
 const editor = useEditor({
   extensions: [
     StarterKit.configure({
-      link: false
+      link: false,
+      bold: false,
+      italic: false,
+      strike: false,
+      heading: false,
+      bulletList: false,
+      orderedList: false,
+      codeBlock: false,
+      blockquote: false,
+      underline: false
     }),
     Link.configure({
       openOnClick: false,
@@ -258,7 +275,7 @@ const addLink = (): void => {
       .chain()
       .focus()
       .extendMarkRange('link')
-      .setLink({ href: url })
+      .setLink({ href: url, class: 'link' })
       .run();
   }
 };
@@ -316,6 +333,11 @@ const addSpanLink = (content: string): void => {
     .run();
 };
 
+const focus = (): void => {
+  if (!editor?.value) return;
+  editor.value.chain().focus();
+};
+
 const updateEmojiPosition = (
   buttonEl: HTMLElement,
   pickerWidth = 300,
@@ -360,6 +382,10 @@ const handleWindowUpdate = (): void => {
 
 /* ------------------ Enter key to save ------------------ */
 const handleKeydown = (event: KeyboardEvent): void => {
+  if (window.innerWidth <= 480) {
+    return;
+  }
+
   if (
     event.key === 'Enter' &&
     !!event.code &&
@@ -393,10 +419,19 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
-defineExpose({ addSpanLink });
+defineExpose({ addSpanLink, focus });
 </script>
 
 <style>
+.link {
+  color: var(--link-color);
+}
+
+.link:visited,
+.link:active {
+  color: var(--primary-color);
+}
+
 .editor-component {
   background-color: var(--white);
   border: 0.5px solid var(--border-color);
@@ -499,6 +534,11 @@ button.mobile-buttons {
   height: 0;
 }
 
+.editor-component-slot {
+  grid-column: span 3;
+  padding: 16px 16px 0;
+}
+
 @media screen and (width <= 480px) {
   button.ghost-yui-kit.small.mobile-buttons {
     display: grid;
@@ -548,6 +588,10 @@ button.mobile-buttons {
   }
   .mobile-item {
     display: inline-block !important;
+  }
+
+  .editor-component-slot {
+    padding: 0;
   }
 }
 </style>

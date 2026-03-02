@@ -156,7 +156,7 @@ onUnmounted(() => {
 
     &.disabled-yui-kit {
       cursor: unset;
-      background-color: var(--button-neutral-color);
+      background-color: var(--white);
       color: var(--text-light-color);
     }
 

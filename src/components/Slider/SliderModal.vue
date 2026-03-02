@@ -902,7 +902,12 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
 const handleMouseUpOnExitItem = (e: MouseEvent): void => {
   const target = e.target as HTMLElement;
 
-  if (target === mainRef.value || target === itemRef.value) unmountClose();
+  if (
+    target === mainRef.value ||
+    target === itemRef.value ||
+    target === viewportRef.value
+  )
+    unmountClose();
 
   state.isClickOnExit = false;
 };
@@ -914,6 +919,7 @@ const handleMouseUpOnExitItem = (e: MouseEvent): void => {
  * @param e
  */
 const handleMouseDownOnViewport = (e: MouseEvent): void => {
+  handleMouseDownOnExitItem(e);
   state.isDragging = true;
   state.startX = e.clientX - state.offsetX;
   state.startY = e.clientY - state.offsetY;
@@ -945,7 +951,8 @@ const handleMouseMoveOnViewport = (): void => {
  *
  * Останавливает перетаскивание
  */
-const handleMouseUpOnViewport = (): void => {
+const handleMouseUpOnViewport = (e: MouseEvent): void => {
+  handleMouseUpOnExitItem(e);
   state.isDragging = false;
 };
 
@@ -1477,6 +1484,11 @@ onUnmounted(() => {
 .slider-modal__image,
 .slider-modal__video {
   max-width: 100%;
+  max-height: 100%;
+}
+
+.slider-modal__video,
+.slider-modal__pdf {
   height: 100%;
 }
 
