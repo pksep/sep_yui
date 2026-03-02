@@ -7,4 +7,5 @@ export interface IContentEditorEmit {
 export interface IContentEditorProps {
     activeAttachFile: boolean;
     activeSend?: boolean;
+    disableSendOnEnter?: boolean;
 }

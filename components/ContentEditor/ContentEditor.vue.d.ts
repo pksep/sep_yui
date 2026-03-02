@@ -11,6 +11,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     activeSend: {
         type: import('vue').PropType<boolean>;
     };
+    disableSendOnEnter: {
+        type: import('vue').PropType<boolean>;
+    };
 }>, {
     addSpanLink: (content: string) => void;
     focus: () => void;
@@ -26,6 +29,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
         required: true;
     };
     activeSend: {
+        type: import('vue').PropType<boolean>;
+    };
+    disableSendOnEnter: {
         type: import('vue').PropType<boolean>;
     };
 }>> & Readonly<{
