@@ -1000,9 +1000,11 @@ const handleTouchEnd = (e: TouchEvent): void => {
   }
 
   if (state.isChangeItemSwipe && sliderRef.value) {
-    if (state.isSwipeNextSlide) setItem(sliderRef.value?.nextSlide());
+    if ((state.isMobile && state.zoomValue === 1) || !state.isMobile) {
+      if (state.isSwipeNextSlide) setItem(sliderRef.value?.nextSlide());
 
-    if (state.isSwipePrevSlide) setItem(sliderRef.value?.prevSlide());
+      if (state.isSwipePrevSlide) setItem(sliderRef.value?.prevSlide());
+    }
   }
 
   resetMobileState();
@@ -1072,6 +1074,8 @@ const getScaleImage = (): number => {
 const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
   const absDeltaX = Math.abs(deltaX);
 
+  if (state.zoomValue !== 1) return;
+
   // Если свайпнули вниз и прошли минимальный порог начала анимация закрытия
   // устанавливаем флаг на событие закрытия свайпом
   if (
@@ -1092,22 +1096,22 @@ const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
     state.isChangeItemSwipe = true;
   }
 
-  // if (state.isExistSwipe) {
-  //   const opacity = Math.max(
-  //     0,
-  //     1 - (deltaY - SWIPE_DELAY_EXIT_THRESHOLD) / SWIPE_EXIT_THRESHOLD
-  //   );
-  //   requestAnimationFrame(() => {
-  //     if (!mainRef.value) return;
+  if (state.isExistSwipe) {
+    const opacity = Math.max(
+      0,
+      1 - (deltaY - SWIPE_DELAY_EXIT_THRESHOLD) / SWIPE_EXIT_THRESHOLD
+    );
+    requestAnimationFrame(() => {
+      if (!mainRef.value) return;
 
-  //     changeStyleProperties(
-  //       {
-  //         opacity: opacity
-  //       },
-  //       mainRef.value
-  //     );
-  //   });
-  // }
+      changeStyleProperties(
+        {
+          opacity: opacity
+        },
+        mainRef.value
+      );
+    });
+  }
 
   if (state.isChangeItemSwipe) {
     if (absDeltaX > SWIPE_CHANGE_ITEM_THRESHOLD) {
