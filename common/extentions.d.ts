@@ -8,5 +8,6 @@ export declare enum ImageExtensionsEnum {
 export declare enum VideoExtensionsEnum {
     mp4 = "mp4",
     mp3 = "mp3",
-    avif = "avif"
+    avif = "avif",
+    mov = "mov"
 }
