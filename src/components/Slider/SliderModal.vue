@@ -592,55 +592,22 @@ const setZoomElement = (): void => {
       top: elemTop,
       left: elemLeft,
       right: elemRight,
-      bottom: elemBottom,
-      width: elementWidth,
-      height: elementHeight
+      bottom: elemBottom
     } = element.getBoundingClientRect();
-
-    const normalizedWidth = elementWidth / scale;
-    const normalizedHeight = elementHeight / scale;
 
     let newX = x;
     let newY = y;
 
-    const isHorizontal = state.rotateValue % 180 === 0;
+    const deltaLeft = elemLeft - parentLeft;
+    const deltaRight = parentRight - elemRight;
+    const deltaTop = elemTop - parentTop;
+    const deltaBottom = parentBottom - elemBottom;
 
-    if (parentLeft < elemLeft && parentRight < elemRight) {
-      if (isHorizontal) {
-        newX = (normalizedWidth - normalizedWidth / 2) * (scale - 1);
-      } else {
-        //
-      }
-    }
+    if (deltaLeft > 0 && deltaRight < 0) newX = x - deltaLeft;
+    if (deltaRight > 0 && deltaLeft < 0) newX = x + deltaRight;
 
-    if (parentTop < elemTop && parentBottom < elemBottom) {
-      newY = (normalizedHeight * (scale - 1)) / 2;
-    }
-
-    if (parentRight > elemRight && parentLeft > elemLeft) {
-      newX =
-        parentRight -
-        parentLeft -
-        normalizedWidth * scale +
-        (normalizedWidth * (scale - 1)) / 2;
-    }
-
-    if (parentBottom > elemBottom && parentTop > elemTop) {
-      newY = (normalizedHeight - normalizedHeight / 2) * (scale - 1) * -1;
-    }
-
-    if (state.isMobile) {
-      const deltaLeft = elemLeft - parentLeft;
-      const deltaRight = parentRight - elemRight;
-      const deltaTop = elemTop - parentTop;
-      const deltaBottom = parentBottom - elemBottom;
-
-      if (deltaLeft > 0 && deltaRight < 0) newX = x - deltaLeft;
-      if (deltaRight > 0 && deltaLeft < 0) newX = x + deltaRight;
-
-      if (deltaTop > 0 && deltaBottom < 0) newY = y - deltaTop;
-      if (deltaBottom > 0 && deltaTop < 0) newY = y + deltaBottom;
-    }
+    if (deltaTop > 0 && deltaBottom < 0) newY = y - deltaTop;
+    if (deltaBottom > 0 && deltaTop < 0) newY = y + deltaBottom;
 
     panzoomInstance.pan(newX, newY, {
       force: true
@@ -710,6 +677,7 @@ watch(
     if (!props.open) {
       panzoomInstance?.destroy();
       resetListenerPanzoom();
+      resetRotate();
 
       return;
     }
@@ -793,7 +761,6 @@ const handleClickOnRotateButton = (): void => {
     };
 
     changeStyleProperties(style, imagePreviewRef.value);
-    // centerPositionPanzoom();
   }
 };
 
