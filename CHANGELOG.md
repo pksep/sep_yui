@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.1.204
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.203...v0.1.204)
+
+### 🚀 Enhancements
+
+- Added support mov video ([1194ee7](https://github.com/pksep/sep_yui/commit/1194ee7))
+- Added panzomm ([f8433f3](https://github.com/pksep/sep_yui/commit/f8433f3))
+- Updated zoom ([c05d38d](https://github.com/pksep/sep_yui/commit/c05d38d))
+- Updated zoom in mobile ([b764bc2](https://github.com/pksep/sep_yui/commit/b764bc2))
+- Updated zoom in mobile ([714d5d3](https://github.com/pksep/sep_yui/commit/714d5d3))
+- Finished zoom function ([db43ff3](https://github.com/pksep/sep_yui/commit/db43ff3))
+- Added new conditions ([fe144e3](https://github.com/pksep/sep_yui/commit/fe144e3))
+- Finished rotatet and zoom function ([fd5e2e2](https://github.com/pksep/sep_yui/commit/fd5e2e2))
+
 ## v0.1.203
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.202...v0.1.203)
