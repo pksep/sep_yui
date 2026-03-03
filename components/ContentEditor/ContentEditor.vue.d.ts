@@ -6,7 +6,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     modelValue: import('vue').PropType<string>;
     activeAttachFile: {
         type: import('vue').PropType<boolean>;
-        required: true;
+    };
+    activeSelectUser: {
+        type: import('vue').PropType<boolean>;
     };
     activeSend: {
         type: import('vue').PropType<boolean>;
@@ -14,24 +16,34 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     disableSendOnEnter: {
         type: import('vue').PropType<boolean>;
     };
+    isMentionModalOpen: {
+        type: import('vue').PropType<boolean>;
+    };
 }>, {
-    addSpanLink: (content: string) => void;
+    addSpanLink: (content: string, attrs?: Record<string, string>) => void;
     focus: () => void;
+    editor: import('vue').ShallowRef<import('@tiptap/vue-3').Editor | undefined, import('@tiptap/vue-3').Editor | undefined>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-send": (params: {
         content?: string;
     }) => void;
     "unmount-attach-file": (files: FileList, onlyMedia: boolean) => void;
+    "mention-change": (search: string | null) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
     activeAttachFile: {
         type: import('vue').PropType<boolean>;
-        required: true;
+    };
+    activeSelectUser: {
+        type: import('vue').PropType<boolean>;
     };
     activeSend: {
         type: import('vue').PropType<boolean>;
     };
     disableSendOnEnter: {
+        type: import('vue').PropType<boolean>;
+    };
+    isMentionModalOpen: {
         type: import('vue').PropType<boolean>;
     };
 }>> & Readonly<{
@@ -39,6 +51,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
         content?: string;
     }) => any) | undefined;
     "onUnmount-attach-file"?: ((files: FileList, onlyMedia: boolean) => any) | undefined;
+    "onMention-change"?: ((search: string | null) => any) | undefined;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;
