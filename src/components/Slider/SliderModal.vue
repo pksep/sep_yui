@@ -70,9 +70,7 @@
           </div>
         </div>
 
-        <div class="slider-modal__mobile-header-block">
-          {{ state.zoomValue }}
-        </div>
+        <div class="slider-modal__mobile-header-block"></div>
       </div>
 
       <div
@@ -583,8 +581,6 @@ const setZoomElement = (): void => {
       return;
     }
 
-    if (state.isMobile) return;
-
     const {
       top: parentTop,
       left: parentLeft,
@@ -609,15 +605,15 @@ const setZoomElement = (): void => {
     let newX = x;
     let newY = y;
 
-    if (parentLeft < elemLeft) {
+    if (parentLeft < elemLeft && parentRight < elemRight) {
       newX = (normalizedWidth - normalizedWidth / 2) * (scale - 1);
     }
 
-    if (parentTop < elemTop) {
-      newY = (normalizedHeight - normalizedHeight / 2) * (scale - 1);
+    if (parentTop < elemTop && parentBottom < elemBottom) {
+      newY = (normalizedHeight * (scale - 1)) / 2;
     }
 
-    if (parentRight > elemRight) {
+    if (parentRight > elemRight && parentLeft > elemLeft) {
       newX =
         parentRight -
         parentLeft -
@@ -625,8 +621,21 @@ const setZoomElement = (): void => {
         (normalizedWidth * (scale - 1)) / 2;
     }
 
-    if (parentBottom > elemBottom) {
+    if (parentBottom > elemBottom && parentTop > elemTop) {
       newY = (normalizedHeight - normalizedHeight / 2) * (scale - 1) * -1;
+    }
+
+    if (state.isMobile) {
+      const deltaLeft = elemLeft - parentLeft;
+      const deltaRight = parentRight - elemRight;
+      const deltaTop = elemTop - parentTop;
+      const deltaBottom = parentBottom - elemBottom;
+
+      if (deltaLeft > 0 && deltaRight < 0) newX = x - deltaLeft;
+      if (deltaRight > 0 && deltaLeft < 0) newX = x + deltaRight;
+
+      if (deltaTop > 0 && deltaBottom < 0) newY = y - deltaTop;
+      if (deltaBottom > 0 && deltaTop < 0) newY = y + deltaBottom;
     }
 
     panzoomInstance.pan(newX, newY, {
@@ -635,10 +644,12 @@ const setZoomElement = (): void => {
   };
 
   document.addEventListener('pointerup', panzoomInstance.handleUp);
+  window.addEventListener('resize', centerPositionPanzoom);
 };
 
 const resetListenerPanzoom = (): void => {
   if (!panzoomInstance) return;
+  window.removeEventListener('resize', centerPositionPanzoom);
 
   document.removeEventListener('pointerup', panzoomInstance.handleUp);
   panzoomInstance.destroy();
