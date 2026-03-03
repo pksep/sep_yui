@@ -416,7 +416,6 @@ const state = reactive<{
   sideBarItems: string[];
   sideBarLength: number;
   isErrorFile: boolean;
-  isDragging: boolean;
   isClickOnExit: boolean;
   isPointerActive: boolean;
   isExistSwipe: boolean;
@@ -446,7 +445,6 @@ const state = reactive<{
   sideBarLength: 0,
   isErrorFile: false,
   isClickOnExit: false,
-  isDragging: false,
   isMobile: false,
   isPointerActive: false,
   isExistSwipe: false,
@@ -565,7 +563,7 @@ const setZoomElement = (): void => {
 
       panzoomInstance?.setStyle(
         'transform',
-        `translate(${x}px, ${y}px) scale(${scale})`
+        `translate(${x}px, ${y}px) scale(${scale}) rotate(${state.rotateValue}deg)`
       );
     }
   });
@@ -605,8 +603,14 @@ const setZoomElement = (): void => {
     let newX = x;
     let newY = y;
 
+    const isHorizontal = state.rotateValue % 180 === 0;
+
     if (parentLeft < elemLeft && parentRight < elemRight) {
-      newX = (normalizedWidth - normalizedWidth / 2) * (scale - 1);
+      if (isHorizontal) {
+        newX = (normalizedWidth - normalizedWidth / 2) * (scale - 1);
+      } else {
+        //
+      }
     }
 
     if (parentTop < elemTop && parentBottom < elemBottom) {
@@ -779,12 +783,17 @@ const handleClickOnRotateButton = (): void => {
   if (imagePreviewRef.value) {
     state.rotateValue += -90;
 
-    const scaleImage = getScaleImage();
+    let x = 0;
+    let y = 0;
+    const scale = getScaleImage();
+    x = panzoomInstance?.getPan().x || 0;
+    y = panzoomInstance?.getPan().y || 0;
     const style = {
-      transform: ` rotate(${state.rotateValue}deg) scale(${scaleImage})`
+      transform: `translate(${x || 0}px, ${y || 0}px) rotate(${state.rotateValue}deg) scale(${scale || 1})`
     };
 
     changeStyleProperties(style, imagePreviewRef.value);
+    // centerPositionPanzoom();
   }
 };
 
@@ -911,9 +920,6 @@ const handleMouseUpOnExitItem = (e: MouseEvent): void => {
  */
 const handleMouseDownOnViewport = (e: MouseEvent): void => {
   handleMouseDownOnExitItem(e);
-  state.isDragging = true;
-  state.startX = e.clientX - state.offsetX;
-  state.startY = e.clientY - state.offsetY;
 };
 
 /**
@@ -923,13 +929,6 @@ const handleMouseDownOnViewport = (e: MouseEvent): void => {
  * @param e
  */
 const handleMouseMoveOnViewport = (): void => {
-  if (!state.isDragging) return;
-
-  // state.offsetX = e.clientX - state.startX;
-  // state.offsetY = e.clientY - state.startY;
-
-  // limitPosition();
-
   requestAnimationFrame(() => {
     if (!viewportRef.value) return;
 
@@ -944,7 +943,6 @@ const handleMouseMoveOnViewport = (): void => {
  */
 const handleMouseUpOnViewport = (e: MouseEvent): void => {
   handleMouseUpOnExitItem(e);
-  state.isDragging = false;
 };
 
 const handlePointerStart = (e: PointerEvent): void => {
@@ -981,7 +979,7 @@ const handlePointerEnd = (e: PointerEvent): void => {
   const deltaY = endY - state.startYForMobile;
 
   if (state.isExistSwipe && deltaY > SWIPE_EXIT_THRESHOLD && deltaY > deltaX) {
-    // emit('close');
+    emit('close');
   }
 
   if (state.isChangeItemSwipe && sliderRef.value) {
@@ -1060,6 +1058,8 @@ const handleScrollItem = (e: Event): void => {
  */
 const getScaleImage = (): number => {
   if (!itemRef.value || !imagePreviewRef.value) return 1;
+
+  if (state.zoomValue !== 1) return state.zoomValue;
 
   const widthViewport = itemRef.value.offsetWidth;
   const heightViewport = itemRef.value.offsetHeight;
