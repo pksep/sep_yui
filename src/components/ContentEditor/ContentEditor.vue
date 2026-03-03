@@ -80,16 +80,6 @@
       </Popover>
 
       <Button
-        v-if="false"
-        :type="ButtonTypeEnum.ghost"
-        class="toolbar-button"
-        :size="SizesEnum.small"
-        @click="addLink"
-      >
-        <Icon :name="IconNameEnum.atSign" />
-      </Button>
-
-      <Button
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
         class="toolbar-button smile-button"
@@ -103,6 +93,26 @@
             v-on-click-outside.bubble="closeEmojiPicker"
           />
         </div>
+      </Button>
+      <Button
+        :disabled="!props.activeSelectUser"
+        :type="ButtonTypeEnum.ghost"
+        class="toolbar-button"
+        :size="SizesEnum.small"
+        @click="toggleUserSelect"
+      >
+        <Icon :name="IconNameEnum.atSign" :width="16" :height="16" />
+      </Button>
+
+      <Button
+        v-if="false"
+        :disabled="!props.activeSelectUser"
+        :type="ButtonTypeEnum.ghost"
+        class="toolbar-button"
+        :size="SizesEnum.small"
+        @click="addLink"
+      >
+        <Icon :name="IconNameEnum.atSign" />
       </Button>
 
       <Button
@@ -183,7 +193,17 @@ const SpanNode = Node.create({
   addAttributes() {
     return {
       class: { default: 'link' },
-      content: { default: '' }
+      content: { default: '' },
+      userId: {
+        default: null,
+        parseHTML: element => element.getAttribute('data-user-id'),
+        renderHTML: attributes => {
+          if (!attributes.userId) {
+            return {};
+          }
+          return { 'data-user-id': attributes.userId };
+        }
+      }
     };
   },
   parseHTML() {
@@ -255,6 +275,24 @@ const editor = useEditor({
   },
   onUpdate: ({ editor }) => {
     modelValue.value = editor.getHTML();
+
+    if (props.activeSelectUser) {
+      const { from } = editor.state.selection;
+      const rangeStart = Math.max(0, from - 50);
+      const textBefore = editor.state.doc.textBetween(
+        rangeStart,
+        from,
+        null,
+        '\ufffc'
+      );
+      const match = textBefore.match(/@([^\s]*)$/);
+
+      if (match) {
+        emits('mention-change', match[1].toLowerCase());
+      } else {
+        emits('mention-change', null);
+      }
+    }
   },
   parseOptions: { preserveWhitespace: true }
 });
@@ -321,16 +359,69 @@ const handleSave = (): void => {
 };
 
 /* ------------------ Insert undeletable span ------------------ */
-const addSpanLink = (content: string): void => {
+const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
   if (!editor?.value) return;
-  editor.value
-    .chain()
-    .focus()
-    .insertContent({
-      type: 'spanNode',
-      attrs: { content: content + ',', class: 'link' }
-    })
-    .run();
+
+  const { from } = editor.value.state.selection;
+  const rangeStart = Math.max(0, from - 50);
+  const textBefore = editor.value.state.doc.textBetween(
+    rangeStart,
+    from,
+    null,
+    '\ufffc'
+  );
+
+  const match = textBefore.match(/@([^\s]*)$/);
+
+  if (match) {
+    const matchStart = rangeStart + (match.index || 0) + 1;
+    editor.value
+      .chain()
+      .focus()
+      .insertContentAt(
+        { from: matchStart, to: from },
+        {
+          type: 'spanNode',
+          attrs: { content, class: 'link', ...attrs }
+        }
+      )
+      .run();
+  } else {
+    editor.value
+      .chain()
+      .focus()
+      .insertContent({
+        type: 'spanNode',
+        attrs: { content, class: 'link', ...attrs }
+      })
+      .run();
+  }
+};
+
+const toggleUserSelect = (): void => {
+  if (!editor?.value) return;
+
+  const { from } = editor.value.state.selection;
+  const rangeStart = Math.max(0, from - 50);
+  const textBefore = editor.value.state.doc.textBetween(
+    rangeStart,
+    from,
+    null,
+    '\ufffc'
+  );
+
+  const match = textBefore.match(/@([^\s]*)$/);
+
+  if (match) {
+    const matchStart = rangeStart + (match.index || 0) + 1;
+    editor.value
+      .chain()
+      .focus()
+      .deleteRange({ from: matchStart, to: from })
+      .run();
+  } else {
+    editor.value.chain().focus().insertContent('@').run();
+  }
 };
 
 const focus = (): void => {
@@ -420,7 +511,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
-defineExpose({ addSpanLink, focus });
+defineExpose({ addSpanLink, focus, editor });
 </script>
 
 <style>
