@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.205
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.204...v0.1.205)
+
+### 🚀 Enhancements
+
+- Add online indicator in avatar ([644a6ec](https://github.com/pksep/sep_yui/commit/644a6ec))
+
 ## v0.1.204
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.203...v0.1.204)
