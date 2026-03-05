@@ -2,6 +2,7 @@
   <div
     :data-testid="props.dataTestid"
     class="avatar-yui-kit"
+    :class="{ 'is-online': props.isOnline }"
     :style="{ backgroundColor: backgroundColor }"
   >
     <!-- Real Image (always rendered if url exists) -->
@@ -104,7 +105,7 @@ watch(
   justify-content: center;
 
   border-radius: 50%;
-  overflow: hidden;
+  --online-indicator-size: 9px;
 
   width: 2em;
   height: 2em;
@@ -116,6 +117,33 @@ watch(
   color: var(--color, #fff);
 
   user-select: none;
+  container-type: inline-size;
+}
+
+.avatar-yui-kit::after {
+  content: '';
+  transition: all 0.3s ease-in-out;
+  transform: scale(0);
+  position: absolute;
+  background-color: var(--green2);
+  width: var(--online-indicator-size);
+  height: var(--online-indicator-size);
+  border-radius: 50%;
+  border: 1px solid var(--white, #fff);
+  left: calc(85% - calc(var(--online-indicator-size) / 2));
+  top: calc(85% - calc(var(--online-indicator-size) / 2));
+  transform-origin: center;
+  z-index: 2;
+}
+
+@container (min-width: 48px) {
+  .avatar-yui-kit::after {
+    --online-indicator-size: 12px;
+  }
+}
+
+.avatar-yui-kit.is-online::after {
+  transform: scale(1);
 }
 
 /* ============ IMAGE LAYER ============ */
@@ -146,6 +174,8 @@ watch(
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
 
   padding-inline: 0.25em;
 }
