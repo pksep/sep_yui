@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.207
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.205...v0.1.207)
+
+### 🏡 Chore
+
+- **release:** V0.1.206 ([a644113](https://github.com/pksep/sep_yui/commit/a644113))
+
 ## v0.1.206
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.205...v0.1.206)
