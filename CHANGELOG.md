@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.211
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.209...v0.1.211)
+
+### 🚀 Enhancements
+
+- Centered video and fixed close func ([1b789f0](https://github.com/pksep/sep_yui/commit/1b789f0))
+
+### 🩹 Fixes
+
+- Package.json ([3b1e56c](https://github.com/pksep/sep_yui/commit/3b1e56c))
+
 ## v0.1.209
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.208...v0.1.209)
