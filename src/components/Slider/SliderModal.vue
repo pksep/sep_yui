@@ -162,6 +162,7 @@
         <!-- video -->
         <template v-else-if="isVideo(state.file?.path)">
           <div
+            ref="itemRef"
             class="slider-modal__item"
             @click.self="unmountClose"
             @pointerdown="handlePointerStart"
@@ -1595,6 +1596,10 @@ onUnmounted(() => {
 
 .slider-modal__mobile-header-block {
   flex: 1 1 0;
+}
+
+.slider-modal__item:has(.slider-modal__video) {
+  justify-content: center;
 }
 
 /* Мобильная версия + планшет */
