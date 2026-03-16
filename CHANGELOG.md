@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.212
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.211...v0.1.212)
+
+### 🎨 Styles
+
+- Changed color ([60945b6](https://github.com/pksep/sep_yui/commit/60945b6))
+
 ## v0.1.211
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.209...v0.1.211)
