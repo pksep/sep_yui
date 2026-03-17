@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.213
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.212...v0.1.213)
+
+### 🚀 Enhancements
+
+- Added name ([7e72b8c](https://github.com/pksep/sep_yui/commit/7e72b8c))
+
 ## v0.1.212
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.211...v0.1.212)
