@@ -79,6 +79,9 @@
         @mousedown.self="handleMouseDownOnExitItem"
         @mouseup.self="handleMouseUpOnExitItem"
       >
+        <div class="slider-modal__name">
+          {{ state.file?.name }}
+        </div>
         <!-- pdf -->
         <template
           v-if="isPdfFile(state.file?.path) || isPdfFile(state.file?.file)"
@@ -99,10 +102,8 @@
               v-if="!state.isMobile"
               ref="viewportRef"
               class="slider-modal__viewport"
-              @mousedown.stop="handleMouseDownOnViewport"
-              @mousemove="handleMouseMoveOnViewport"
-              @mouseup="handleMouseUpOnViewport"
-              @mouseleave="handleMouseUpOnViewport"
+              @mousedown.self="handleMouseDownOnExitItem"
+              @mouseup.self="handleMouseUpOnExitItem"
             >
               <PdfPreview
                 class="slider-modal__pdf"
@@ -857,7 +858,7 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
   if (
     target === mainRef.value ||
     target === itemRef.value ||
-    (target === viewportRef.value && imagePreviewRef.value)
+    target === viewportRef.value
   )
     state.isClickOnExit = true;
 };
@@ -878,39 +879,6 @@ const handleMouseUpOnExitItem = (e: MouseEvent): void => {
     unmountClose();
 
   state.isClickOnExit = false;
-};
-
-/**
- * Обрабатывает нажатие кнопки мышки на элементе viewport
- *
- * Запускает перетаскивание
- * @param e
- */
-const handleMouseDownOnViewport = (e: MouseEvent): void => {
-  handleMouseDownOnExitItem(e);
-};
-
-/**
- * Обрабатывает движение кнопки мышки на элементе viewport
- *
- * Изменяет положение элемента
- * @param e
- */
-const handleMouseMoveOnViewport = (): void => {
-  requestAnimationFrame(() => {
-    if (!viewportRef.value) return;
-
-    changeStyleProperties(contentStyle.value, viewportRef.value);
-  });
-};
-
-/**
- * Обрабатывает поднятие кнопки мышки на элементе viewport
- *
- * Останавливает перетаскивание
- */
-const handleMouseUpOnViewport = (e: MouseEvent): void => {
-  handleMouseUpOnExitItem(e);
 };
 
 const handlePointerStart = (e: PointerEvent): void => {
@@ -1203,7 +1171,7 @@ const zoom = (isIncrease: boolean): void => {
  * @param idx
  */
 const setItem = (idx: number): void => {
-  if (!props.items[idx]) return;
+  if (!props.items[idx] || state.defaultIndex === idx) return;
   // Ставим индекс отображаемого элемента
   state.defaultIndex = idx;
   // Очищаем pdf если он был показан
@@ -1321,12 +1289,17 @@ const updateMediaParams = (): void => {
 };
 
 onMounted(() => {
+  if (sideBarRef.value) {
+    sideBarRef.value.addEventListener('resize', centerPositionPanzoom);
+  }
   updateMediaParams();
   mediaQuery.addEventListener('change', updateMediaParams);
 });
 
 onUnmounted(() => {
   clearPdf();
+  if (sideBarRef.value)
+    sideBarRef.value.removeEventListener('resize', centerPositionPanzoom);
 
   mediaQuery.removeEventListener('change', updateMediaParams);
 });
@@ -1419,11 +1392,19 @@ onUnmounted(() => {
   width: 100%;
   height: 100svh;
 
-  padding: 60px 30px 0 30px;
+  padding: 0 30px 0 30px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   overflow: hidden;
+}
+
+.slider-modal__name {
+  text-align: center;
+  font-size: 18px;
+  line-height: 22px;
+
+  padding: 20px 0 18px 0;
+  color: var(--white);
 }
 
 .slider-modal__item {
@@ -1613,16 +1594,20 @@ onUnmounted(() => {
   .slider-modal__content {
     flex-direction: column;
     padding: 5px 0 0;
-    gap: 28px;
+    gap: 20px;
   }
 
   .slider-modal__main {
     position: relative;
     padding: 0;
+    padding-bottom: 43px;
+    gap: 10px;
 
-    height: calc(100svh - 60px - 15px);
+    height: calc(100svh - 60px - 6px);
+  }
 
-    justify-content: space-between;
+  .slider-modal__name {
+    padding: 0;
   }
 
   .slider-modal__viewport {
