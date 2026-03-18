@@ -2,6 +2,18 @@
 
 ## v0.1.214
 
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.214...v0.1.214)
+
+### 🚀 Enhancements
+
+- Add props disableCloseOnOutsideClick ([8546b12](https://github.com/pksep/sep_yui/commit/8546b12))
+
+### 🩹 Fixes
+
+- Modal interface ([ebaf2d8](https://github.com/pksep/sep_yui/commit/ebaf2d8))
+
+## v0.1.214
+
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.213...v0.1.214)
 
 ### 🩹 Fixes
