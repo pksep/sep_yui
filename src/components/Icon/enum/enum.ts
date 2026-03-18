@@ -114,5 +114,8 @@ export enum IconNameEnum {
   delivered = 'delivered',
   notDelivered = 'not-delivered',
   zoomMinus = 'zoom-minus',
-  zoomPlus = 'zoom-plus'
+  zoomPlus = 'zoom-plus',
+  download = 'download',
+  android = 'android',
+  apple = 'apple'
 }

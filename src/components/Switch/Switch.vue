@@ -17,6 +17,12 @@
         :data-testid="`${props.dataTestid}-Item-Icon${index}`"
       />
       <template v-else>
+        <Icon
+          class="switch-yui-kit-item-icon"
+          :name="(item as SwitchItem).icon as IconNameEnum"
+          v-if="(item as SwitchItem).icon"
+          :data-testid="`${props.dataTestid}-Item-Icon${index}`"
+        />
         {{ getDisplayText(item) }}
       </template>
     </li>
@@ -166,5 +172,11 @@ onMounted(() => {
 
 .switch-yui-kit-active_disabled {
   background-color: var(--text-light-color);
+}
+
+.switch-yui-kit-item-icon {
+  margin-right: 10px;
+  width: 28px;
+  height: 28px;
 }
 </style>

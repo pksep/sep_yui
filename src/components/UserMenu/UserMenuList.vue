@@ -86,6 +86,7 @@ const getDefaultText = (type: MenuTypeEnum): string => {
   const defaults: Record<MenuTypeEnum, string> = {
     [MenuTypeEnum.profile]: 'Profile',
     [MenuTypeEnum.qrAuth]: 'Auth with QR',
+    [MenuTypeEnum.downloadChat]: 'Auth with QR',
     [MenuTypeEnum.theme]: 'Theme',
     [MenuTypeEnum.options]: 'Settings',
     [MenuTypeEnum.exit]: 'Log Out',
@@ -98,6 +99,7 @@ const getIconForType = (type: MenuTypeEnum): IconNameEnum => {
   const icons: Record<MenuTypeEnum, IconNameEnum> = {
     [MenuTypeEnum.profile]: IconNameEnum.profile,
     [MenuTypeEnum.qrAuth]: IconNameEnum.qrCode,
+    [MenuTypeEnum.downloadChat]: IconNameEnum.download,
     [MenuTypeEnum.theme]: IconNameEnum.darkThemeSwitcher,
     [MenuTypeEnum.options]: IconNameEnum.settings,
     [MenuTypeEnum.exit]: IconNameEnum.logout,
@@ -110,6 +112,7 @@ const getTestIdSuffix = (type: MenuTypeEnum): string => {
   const suffixes: Record<MenuTypeEnum, string> = {
     [MenuTypeEnum.profile]: 'Profile',
     [MenuTypeEnum.qrAuth]: 'QR',
+    [MenuTypeEnum.downloadChat]: 'Chat',
     [MenuTypeEnum.theme]: 'Theme',
     [MenuTypeEnum.options]: 'Settings',
     [MenuTypeEnum.exit]: 'Exit',
