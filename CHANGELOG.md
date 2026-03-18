@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.217
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.216...v0.1.217)
+
+### 🚀 Enhancements
+
+- Download chat icons ([8251b30](https://github.com/pksep/sep_yui/commit/8251b30))
+
 ## v0.1.216
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.214...v0.1.216)
