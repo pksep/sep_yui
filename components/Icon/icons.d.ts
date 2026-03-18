@@ -127,3 +127,6 @@ export declare const timeAttention: IVectorIcon;
 export declare const timeError: IVectorIcon;
 export declare const materials: IVectorIcon;
 export declare const support: IVectorIcon;
+export declare const download: IVectorIcon;
+export declare const android: IVectorIcon;
+export declare const apple: IVectorIcon;
