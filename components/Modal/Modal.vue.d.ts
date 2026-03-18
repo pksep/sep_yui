@@ -6,6 +6,7 @@ declare function __VLS_template(): {
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IDialogProps>, {
     dataTestid: string;
     position: string;
+    disableCloseOnOutsideClick: boolean;
 }>>, {
     closeDialog: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
@@ -14,12 +15,14 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IDialogProps>, {
     dataTestid: string;
     position: string;
+    disableCloseOnOutsideClick: boolean;
 }>>> & Readonly<{
     onClose?: ((...args: any[]) => any) | undefined;
     onUnmounted?: ((...args: any[]) => any) | undefined;
 }>, {
     dataTestid: string;
     position: "right" | "center" | "bottom";
+    disableCloseOnOutsideClick: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;
