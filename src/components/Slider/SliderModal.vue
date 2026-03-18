@@ -152,6 +152,9 @@
               <img
                 ref="imagePreviewRef"
                 class="slider-modal__image"
+                :class="{
+                  'slider-modal__image_error': state.isErrorFile
+                }"
                 :src="state.file?.path"
                 @error="handleErrorItem($event, true)"
                 @load="handleLoadImage"
@@ -198,7 +201,17 @@
             @mousedown.self="handleMouseDownOnExitItem"
             @mouseup.self="handleMouseUpOnExitItem"
           >
-            <img class="slider-modal__image" :src="closedCamer" />
+            <div
+              ref="viewportRef"
+              class="slider-modal__viewport"
+              @mousedown.self="handleMouseDownOnExitItem"
+              @mouseup.self="handleMouseUpOnExitItem"
+            >
+              <img
+                class="slider-modal__image slider-modal__image_error"
+                :src="closedCamer"
+              />
+            </div>
           </div>
         </template>
 
@@ -417,6 +430,7 @@ const state = reactive<{
   sideBarIndex: number;
   sideBarItems: string[];
   sideBarLength: number;
+  // Проверка на корректность загрузки файла
   isErrorFile: boolean;
   isClickOnExit: boolean;
   isPointerActive: boolean;
@@ -491,8 +505,19 @@ const isDisabledNextButton = computed(
   () => state.defaultIndex === props.items.length - 1
 );
 
+// Проверка на корректность файла
+const isErrorFile = computed(
+  () =>
+    !(
+      isPdfFile(state.file?.path) ||
+      isPdfFile(state.file?.file) ||
+      isImage(state.file?.path) ||
+      isVideo(state.file?.path)
+    )
+);
+
 const isDisabledRotateButton = computed(() => {
-  let isDisabled = !state.file || state.isErrorFile;
+  let isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
   // Если это видео, то нельзя поворачивать
   isDisabled = isVideo(state.file?.path) || isDisabled;
 
@@ -501,7 +526,7 @@ const isDisabledRotateButton = computed(() => {
 });
 
 const isDisabledPrintButton = computed(() => {
-  let isDisabled = !state.file || state.isErrorFile;
+  let isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
   // Если это видео, то нельзя печатать
   isDisabled = isVideo(state.file?.path) || isDisabled;
 
@@ -509,13 +534,13 @@ const isDisabledPrintButton = computed(() => {
 });
 
 const isDisabledDownloadButton = computed(() => {
-  const isDisabled = !state.file || state.isErrorFile;
+  const isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
 
   return isDisabled;
 });
 
 const isDisabledZoomButton = computed(() => {
-  let isDisabled = !state.file || state.isErrorFile;
+  let isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
   // Если это видео, то нельзя увеличивать
   isDisabled = isVideo(state.file?.path) || isDisabled;
   return isDisabled;
@@ -626,6 +651,13 @@ const resetListenerPanzoom = (): void => {
 
   document.removeEventListener('pointerup', panzoomInstance.handleUp);
   panzoomInstance.destroy();
+
+  if (imagePreviewRef.value) {
+    changeStyleProperties(
+      { transform: 'none', transition: 'none' },
+      imagePreviewRef.value
+    );
+  }
 };
 
 const centerPositionPanzoom = (): void => {
@@ -821,7 +853,11 @@ const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
 };
 
 const handleLoadImage = (): void => {
-  setZoomElement();
+  if (!state.isErrorFile && !isErrorFile.value) {
+    setZoomElement();
+  } else {
+    resetListenerPanzoom();
+  }
 };
 
 /**
@@ -1532,6 +1568,10 @@ onUnmounted(() => {
 
 .slider-modal__viewport:has(.slider-modal__image) {
   display: block;
+}
+
+.slider-modal__viewport:has(.slider-modal__image_error) {
+  display: flex;
 }
 
 .slider-modal__pdf_mobile {
