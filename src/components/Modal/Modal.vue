@@ -33,7 +33,8 @@ const { lastOpenedModal, addOpenedModal, reduceOpenedModal } = useModal();
 
 const props = withDefaults(defineProps<IDialogProps>(), {
   dataTestid: 'Modal',
-  position: 'right'
+  position: 'right',
+  disableCloseOnOutsideClick: false
 });
 
 const dialog = ref<HTMLDialogElement | null>(null);
@@ -116,6 +117,8 @@ const resetBlock = (): void => {
 };
 
 const handleCloseDialog = (event: Event): void => {
+  if (props.disableCloseOnOutsideClick) return;
+
   if (event.target === dialog.value) {
     hideDialog();
   }

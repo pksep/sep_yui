@@ -15,6 +15,7 @@
       :data-testid="props.dataTestid"
       @close="close"
       @unmounted="unmounted"
+      :disable-close-on-outside-click="props.disableCloseOnOutsideClick"
     >
       <slot />
     </Modal>
@@ -29,7 +30,8 @@ import { ModalAnimateEnum } from '@/components/Modal/enum';
 
 const props = withDefaults(defineProps<IModalProps>(), {
   dataTestid: 'Modal',
-  position: 'right'
+  position: 'right',
+  disableCloseOnOutsideClick: false
 });
 
 const emits = defineEmits<IModalEmit>();
