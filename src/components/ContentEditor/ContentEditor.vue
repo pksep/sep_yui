@@ -7,10 +7,11 @@
       isWCUse
       :disabled="!props.activeAttachFile"
       :options="[
+        { value: 'Камера', function: () => (isCameraModalOpen = true) },
         { value: 'Фото или видео', function: () => attachFile(true) },
         { value: 'Файл', function: () => attachFile(false) }
       ]"
-      translateY="-115px"
+      translateY="calc(-100% - 47px)"
       class="mobile-item"
     >
       <template #trigger>
@@ -65,7 +66,7 @@
           { value: 'Фото или видео', function: () => attachFile(true) },
           { value: 'Файл', function: () => attachFile(false) }
         ]"
-        translateY="-115px"
+        translateY="calc(-100% - 47px)"
       >
         <template #trigger>
           <Button
@@ -129,6 +130,35 @@
         />
       </Button>
     </div>
+
+    <Modal
+      v-if="isCameraModalOpen"
+      :open="isCameraModalOpen"
+      @close="isCameraModalOpen = false"
+      position="center"
+      width="320px"
+      height="auto"
+    >
+      <div class="camera-selection">
+        <div class="camera-selection-header">Выберите действие</div>
+        <div class="camera-selection-options">
+          <Button
+            :type="ButtonTypeEnum.outline"
+            @click="openCameraCapture('image')"
+            class="camera-selection-item"
+          >
+            Сделать фото
+          </Button>
+          <Button
+            :type="ButtonTypeEnum.outline"
+            @click="openCameraCapture('video')"
+            class="camera-selection-item"
+          >
+            Записать видео
+          </Button>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -161,6 +191,7 @@ import { ColorsEnum } from '@/common/colors.ts';
 import Popover from '../Popover/Popover.vue';
 import { vOnClickOutside } from '@vueuse/components';
 import DropZone from './DropZone.vue';
+import Modal from '../Modal/Modal.vue';
 
 // v-model binding
 const props = defineProps<IContentEditorProps>();
@@ -182,8 +213,13 @@ const pickerClasses = computed(() => [
 ]);
 
 const editorDom = ref<HTMLElement | null>(null);
+const isCameraModalOpen = ref(false);
 
-/* ------------------ Custom Span Node ------------------ */
+const openCameraCapture = (type: 'image' | 'video') => {
+  isCameraModalOpen.value = false;
+  attachFile(true, type);
+};
+
 const SpanNode = Node.create({
   name: 'spanNode',
   inline: true,
@@ -323,13 +359,28 @@ const addEmoji = (emoji: { i: string }): void => {
   editor.value.chain().focus().insertContent(emoji.i).run();
 };
 
-const attachFile = (onlyMedia: boolean = false): void => {
+const attachFile = (
+  onlyMedia: boolean = false,
+  cameraType?: 'image' | 'video'
+): void => {
   if (!editor?.value) return;
   const input = document.createElement('input');
   input.type = 'file';
-  input.multiple = true;
-  if (onlyMedia) {
-    input.accept = 'image/*,video/*';
+  if (cameraType) {
+    if (cameraType === 'video') {
+      input.accept = 'video/*';
+    } else if (cameraType === 'image') {
+      input.accept = 'image/*';
+    } else {
+      input.accept = 'image/*,video/*';
+    }
+    input.capture = 'environment';
+    input.multiple = false;
+  } else {
+    input.multiple = true;
+    if (onlyMedia) {
+      input.accept = 'image/*,video/*';
+    }
   }
   input.onchange = () => {
     if (!input?.files) return;
@@ -684,6 +735,46 @@ button.mobile-buttons {
 
   .editor-component-slot {
     padding: 0;
+  }
+}
+
+.camera-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.camera-selection-header {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-color, #1a1a1a);
+}
+
+.camera-selection-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.camera-selection-item {
+  width: 100%;
+  justify-content: flex-start;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: var(--background-light-color);
+  transition: all 0.2s ease;
+
+  &:active {
+    background-color: var(--primary-pressed-light-color);
+    transform: scale(0.98);
+  }
+
+  & :deep(.icon-yui-kit) {
+    margin-right: 12px;
+    color: var(--primary-color);
   }
 }
 </style>
