@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.214
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.213...v0.1.214)
+
+### 🩹 Fixes
+
+- Fixed error file representation ([e4d8dc8](https://github.com/pksep/sep_yui/commit/e4d8dc8))
+
 ## v0.1.213
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.212...v0.1.213)
