@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.218
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.217...v0.1.218)
+
+### 🩹 Fixes
+
+- Selecting user in content editor ([45ced04](https://github.com/pksep/sep_yui/commit/45ced04))
+
 ## v0.1.217
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.216...v0.1.217)
