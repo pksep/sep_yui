@@ -313,11 +313,11 @@ const editor = useEditor({
     modelValue.value = editor.getHTML();
 
     if (props.activeSelectUser) {
-      const { from } = editor.state.selection;
-      const rangeStart = Math.max(0, from - 50);
-      const textBefore = editor.state.doc.textBetween(
+      const { $from } = editor.state.selection;
+      const rangeStart = Math.max(0, $from.parentOffset - 50);
+      const textBefore = $from.parent.textBetween(
         rangeStart,
-        from,
+        $from.parentOffset,
         null,
         '\ufffc'
       );
@@ -413,11 +413,11 @@ const handleSave = (): void => {
 const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
   if (!editor?.value) return;
 
-  const { from } = editor.value.state.selection;
-  const rangeStart = Math.max(0, from - 50);
-  const textBefore = editor.value.state.doc.textBetween(
+  const { $from } = editor.value.state.selection;
+  const rangeStart = Math.max(0, $from.parentOffset - 50);
+  const textBefore = $from.parent.textBetween(
     rangeStart,
-    from,
+    $from.parentOffset,
     null,
     '\ufffc'
   );
@@ -425,12 +425,12 @@ const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
   const match = textBefore.match(/@([^\s]*)$/);
 
   if (match) {
-    const matchStart = rangeStart + (match.index || 0) + 1;
+    const matchStart = $from.start() + rangeStart + (match.index || 0);
     editor.value
       .chain()
       .focus()
       .insertContentAt(
-        { from: matchStart, to: from },
+        { from: matchStart, to: $from.pos },
         {
           type: 'spanNode',
           attrs: { content, class: 'link', ...attrs }
@@ -452,11 +452,11 @@ const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
 const toggleUserSelect = (): void => {
   if (!editor?.value) return;
 
-  const { from } = editor.value.state.selection;
-  const rangeStart = Math.max(0, from - 50);
-  const textBefore = editor.value.state.doc.textBetween(
+  const { $from } = editor.value.state.selection;
+  const rangeStart = Math.max(0, $from.parentOffset - 50);
+  const textBefore = $from.parent.textBetween(
     rangeStart,
-    from,
+    $from.parentOffset,
     null,
     '\ufffc'
   );
@@ -464,11 +464,11 @@ const toggleUserSelect = (): void => {
   const match = textBefore.match(/@([^\s]*)$/);
 
   if (match) {
-    const matchStart = rangeStart + (match.index || 0) + 1;
+    const matchStart = $from.start() + rangeStart + (match.index || 0);
     editor.value
       .chain()
       .focus()
-      .deleteRange({ from: matchStart, to: from })
+      .deleteRange({ from: matchStart, to: $from.pos })
       .run();
   } else {
     editor.value.chain().focus().insertContent('@').run();
