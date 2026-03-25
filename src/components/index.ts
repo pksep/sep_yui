@@ -76,6 +76,7 @@ import SliderModal from '@/components/Slider/SliderModal.vue';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
 import ImagePreview from '@/components/Preview/ImagePreview.vue';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
+import Skeleton from '@/components/Skeleton/Skeleton.vue';
 
 const components = {
   Accordion,
@@ -134,7 +135,8 @@ const components = {
   SliderModal,
   PdfPreview,
   ImagePreview,
-  VideoPreview
+  VideoPreview,
+  Skeleton
 };
 
 const install = (app: App): void => {
@@ -224,5 +226,6 @@ export {
   SliderModal,
   PdfPreview,
   ImagePreview,
-  VideoPreview
+  VideoPreview,
+  Skeleton
 };
