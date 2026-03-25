@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.219
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.218...v0.1.219)
+
+### 🚀 Enhancements
+
+- Added skeleton ([13ed3ac](https://github.com/pksep/sep_yui/commit/13ed3ac))
+
 ## v0.1.218
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.217...v0.1.218)
