@@ -1,4 +1,4 @@
-import{A as d}from"./Avatar-CXOzWF18.js";import"./vue.esm-bundler-BFfG1ECN.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const I={title:"Avatar/Avatar",component:d,argTypes:{},tags:["autodocs"]},e=g=>({components:{Avatar:d},setup(){return{args:g}},template:'<Avatar v-bind="args" />'}),a=e.bind({});a.args={initials:"Перов"};const r=e.bind({});r.args={isIcon:!0};const t=e.bind({});t.args={url:"/default-avatar.jpg",alt:"cat avatar"};var n,s,o;a.parameters={...a.parameters,docs:{...(n=a.parameters)==null?void 0:n.docs,source:{originalSource:`args => ({
+import{A as d}from"./Avatar-CT349s0F.js";import"./vue.esm-bundler-BFfG1ECN.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const I={title:"Avatar/Avatar",component:d,argTypes:{},tags:["autodocs"]},e=g=>({components:{Avatar:d},setup(){return{args:g}},template:'<Avatar v-bind="args" />'}),a=e.bind({});a.args={initials:"Перов"};const r=e.bind({});r.args={isIcon:!0};const t=e.bind({});t.args={url:"/default-avatar.jpg",alt:"cat avatar"};var n,s,o;a.parameters={...a.parameters,docs:{...(n=a.parameters)==null?void 0:n.docs,source:{originalSource:`args => ({
   components: {
     Avatar
   },
