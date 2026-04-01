@@ -31,6 +31,11 @@
   </div>
 </template>
 
+<script lang="ts">
+const loadedAvatarUrls = new Set<string>();
+const failedAvatarUrls = new Set<string>();
+</script>
+
 <script lang="ts" setup>
 import { ref, computed, watch, nextTick } from 'vue';
 import type { IAvatar } from './interfaces/interfaces';
@@ -69,11 +74,21 @@ const showFallback = computed(() => {
 });
 
 const onLoad = () => {
+  if (props.url) {
+    loadedAvatarUrls.add(props.url);
+    failedAvatarUrls.delete(props.url);
+  }
+
   isLoaded.value = true;
   hasError.value = false;
 };
 
 const onError = () => {
+  if (props.url) {
+    failedAvatarUrls.add(props.url);
+    loadedAvatarUrls.delete(props.url);
+  }
+
   hasError.value = true;
   isLoaded.value = false;
 };
@@ -85,6 +100,16 @@ watch(
     hasError.value = false;
 
     if (!newUrl) return;
+
+    if (loadedAvatarUrls.has(newUrl)) {
+      isLoaded.value = true;
+      return;
+    }
+
+    if (failedAvatarUrls.has(newUrl)) {
+      hasError.value = true;
+      return;
+    }
 
     await nextTick();
 
