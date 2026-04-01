@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.220
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.219...v0.1.220)
+
+### 🚀 Enhancements
+
+- Cache avatars ([5174ac6](https://github.com/pksep/sep_yui/commit/5174ac6))
+
 ## v0.1.219
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.218...v0.1.219)
