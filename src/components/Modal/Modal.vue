@@ -4,7 +4,7 @@
     v-bind="attrs"
     :class="[`modal-yui-kit`, `modal-yui-kit_${props.position}`]"
     :data-testid="props.dataTestid"
-    @click.self.left="handleCloseDialog"
+    @mousedown.self.left="handleMouseDownOnDialog"
   >
     <div
       class="modal-yui-kit__modal-content"
@@ -40,6 +40,7 @@ const props = withDefaults(defineProps<IDialogProps>(), {
 const dialog = ref<HTMLDialogElement | null>(null);
 const attrs = useAttrs();
 const visible = ref(false);
+const isCanClose = ref(false);
 const stylesContent = computed(() => ({
   width: props.width,
   height: props.height
@@ -116,12 +117,20 @@ const resetBlock = (): void => {
   }
 };
 
-const handleCloseDialog = (event: Event): void => {
-  if (props.disableCloseOnOutsideClick) return;
-
+const handleMouseUp = (event: MouseEvent): void => {
+  isCanClose.value = false;
   if (event.target === dialog.value) {
+    if (props.disableCloseOnOutsideClick) return;
     hideDialog();
   }
+
+  window.removeEventListener('mouseup', handleMouseUp);
+};
+
+const handleMouseDownOnDialog = (): void => {
+  isCanClose.value = true;
+
+  window.addEventListener('mouseup', handleMouseUp);
 };
 
 defineExpose({
