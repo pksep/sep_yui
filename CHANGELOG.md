@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.221
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.220...v0.1.221)
+
+### 🚀 Enhancements
+
+- Changed behaivior modal ([d2d80c1](https://github.com/pksep/sep_yui/commit/d2d80c1))
+
 ## v0.1.220
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.219...v0.1.220)
