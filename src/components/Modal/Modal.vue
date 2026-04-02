@@ -40,7 +40,6 @@ const props = withDefaults(defineProps<IDialogProps>(), {
 const dialog = ref<HTMLDialogElement | null>(null);
 const attrs = useAttrs();
 const visible = ref(false);
-const isCanClose = ref(false);
 const stylesContent = computed(() => ({
   width: props.width,
   height: props.height
@@ -78,6 +77,7 @@ const hideDialog = (): void => {
 const closeDialog = (): void => {
   dialog.value?.close();
   document.documentElement.focus();
+  window.removeEventListener('mouseup', handleMouseUp);
 
   resetBlock();
 };
@@ -118,7 +118,6 @@ const resetBlock = (): void => {
 };
 
 const handleMouseUp = (event: MouseEvent): void => {
-  isCanClose.value = false;
   if (event.target === dialog.value) {
     if (props.disableCloseOnOutsideClick) return;
     hideDialog();
@@ -128,8 +127,7 @@ const handleMouseUp = (event: MouseEvent): void => {
 };
 
 const handleMouseDownOnDialog = (): void => {
-  isCanClose.value = true;
-
+  window.removeEventListener('mouseup', handleMouseUp);
   window.addEventListener('mouseup', handleMouseUp);
 };
 
@@ -170,6 +168,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   resetBlock();
+  window.removeEventListener('mouseup', handleMouseUp);
   document.removeEventListener('keydown', handleKeyPressed);
   emit('unmounted');
 });
