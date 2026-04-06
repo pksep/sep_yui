@@ -160,9 +160,12 @@ const setAnchor = (): void => {
 };
 
 onMounted(() => {
-  if (props.isUseAnchor) setAnchor();
+  if (props.isUseAnchor) {
+    setAnchor();
+  } else {
+    window.addEventListener('scroll', updateDropdownPosition, true);
+  }
 
-  window.addEventListener('scroll', updateDropdownPosition, true);
   window.addEventListener('resize', updateDropdownPosition);
 });
 
