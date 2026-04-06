@@ -173,7 +173,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  window.addEventListener('scroll', updateDropdownPosition, false);
+  window.removeEventListener('scroll', updateDropdownPosition, false);
   window.removeEventListener('resize', updateDropdownPosition);
 });
 </script>
