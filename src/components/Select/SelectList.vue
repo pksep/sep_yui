@@ -109,8 +109,11 @@ const updateDropdownPosition = () => {
       let translateY = 0;
       let translateX = 0;
 
-      if (dropdownRect.bottom > window.innerHeight) {
-        translateY = -dropdownRect.bottom + window.innerHeight + 10;
+      console.log(document.documentElement.scrollHeight, dropdownRect.bottom);
+
+      if (dropdownRect.bottom > document.documentElement.scrollHeight) {
+        translateY =
+          -dropdownRect.bottom + document.documentElement.scrollHeight - 10;
         changeStyleProperties(
           {
             transform: `translateY(${translateY}px)`
