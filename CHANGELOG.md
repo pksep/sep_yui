@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.222
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.221...v0.1.222)
+
+### 🚀 Enhancements
+
+- Added addaptive to select list ([e239349](https://github.com/pksep/sep_yui/commit/e239349))
+- Minor changes ([9a95f20](https://github.com/pksep/sep_yui/commit/9a95f20))
+
 ## v0.1.221
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.220...v0.1.221)
