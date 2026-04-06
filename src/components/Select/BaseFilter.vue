@@ -170,7 +170,7 @@ const props = withDefaults(defineProps<IBaseFilterProps>(), {
   dataTestid: 'BaseFilter',
   isOpened: false,
   tooltipPosition: 'top-center',
-  isUseAnchor: false,
+  isUseAnchor: true,
   disabled: false
 });
 
