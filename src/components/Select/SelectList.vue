@@ -94,46 +94,39 @@ const updateDropdownPosition = () => {
     if (!currentRef.value || !dropdownRef.value || !state.isOpened) return;
     const currentRect = currentRef.value.getBoundingClientRect();
 
-    if (!props.isUseAnchor)
+    if (!props.isUseAnchor) {
       dropdownRef.value.style.top = `${currentRect.top + currentRect.height}px`;
-
-    const dropdownRect = dropdownRef.value.getBoundingClientRect();
-
-    let translateY = 0;
-    let translateX = 0;
-
-    if (dropdownRect.bottom > window.innerHeight) {
-      translateY = -dropdownRect.bottom + window.innerHeight + 10;
-      changeStyleProperties(
-        {
-          transform: `translateY(${translateY}px)`
-        },
-        dropdownRef.value
-      );
     } else {
       changeStyleProperties(
         {
-          transform: `translateY(0) translateX(${translateX}px)`
+          transform: 'translateX(0) translateY(0)'
         },
         dropdownRef.value
       );
-    }
 
-    if (dropdownRect.right > window.innerWidth) {
-      translateX = -dropdownRect.right + window.innerWidth - 10;
-      changeStyleProperties(
-        {
-          transform: `translateX(${translateX}px) translateY(${translateY}px)`
-        },
-        dropdownRef.value
-      );
-    } else {
-      changeStyleProperties(
-        {
-          transform: `translateX(0) translateY(${translateY}px)`
-        },
-        dropdownRef.value
-      );
+      const dropdownRect = dropdownRef.value.getBoundingClientRect();
+
+      let translateY = 0;
+      let translateX = 0;
+
+      if (dropdownRect.bottom > window.innerHeight) {
+        translateY = -dropdownRect.bottom + window.innerHeight + 10;
+        changeStyleProperties(
+          {
+            transform: `translateY(${translateY}px)`
+          },
+          dropdownRef.value
+        );
+      }
+      if (dropdownRect.right > window.innerWidth) {
+        translateX = -dropdownRect.right + window.innerWidth - 10;
+        changeStyleProperties(
+          {
+            transform: `translateX(${translateX}px) translateY(${translateY}px)`
+          },
+          dropdownRef.value
+        );
+      }
     }
   });
 };
@@ -169,10 +162,12 @@ const setAnchor = (): void => {
 onMounted(() => {
   if (props.isUseAnchor) setAnchor();
 
+  window.addEventListener('scroll', updateDropdownPosition, true);
   window.addEventListener('resize', updateDropdownPosition);
 });
 
 onUnmounted(() => {
+  window.addEventListener('scroll', updateDropdownPosition, false);
   window.removeEventListener('resize', updateDropdownPosition);
 });
 </script>
