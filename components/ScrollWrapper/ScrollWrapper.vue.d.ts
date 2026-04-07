@@ -9,6 +9,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
 }>>, {
     scrollToTop: () => void;
     setHeightSlot: () => void;
+    slotRef: import('vue').Ref<HTMLElement | null, HTMLElement | null>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-scroll": (event: Event) => void;
     "unmount-paginate": (isCanPagiante: boolean) => void;
