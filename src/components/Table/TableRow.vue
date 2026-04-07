@@ -1,12 +1,34 @@
 <template>
-  <tr class="table-row" :class="classRow" :data-testid="props.dataTestid">
-    <slot />
+  <tr
+    ref="row"
+    class="table-row"
+    :class="classRow"
+    :data-testid="props.dataTestid"
+  >
+    <template v-if="state.isShow">
+      <slot />
+    </template>
+
+    <template v-else>
+      <slot v-if="$slots['skeleton']" name="skeleton" />
+
+      <TableTd
+        v-else
+        class="table-row__td table-row__td_stub"
+        :colspan
+        :rowspan
+      >
+        <Skeleton class="table-row__skeleton" />
+      </TableTd>
+    </template>
   </tr>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import type { ITableRow } from '@/components/Table/interface/interface';
+import TableTd from '@/components/Table/TableTd.vue';
+import Skeleton from '@/components/Skeleton/Skeleton.vue';
 
 defineOptions({
   name: 'TableRow'
@@ -14,12 +36,68 @@ defineOptions({
 
 const props = withDefaults(defineProps<ITableRow>(), {
   type: 'default',
-  colspan: 1
+  colspan: 1,
+  rowspan: 1,
+  isObserved: false
 });
 
+const state = reactive<{
+  isShow: boolean;
+  observer: IntersectionObserver | null;
+}>({
+  isShow: !props.isObserved,
+  observer: null
+});
+
+const row = ref<HTMLTableRowElement | null>(null);
+
 const classRow = computed(() => [
-  { 'table-row_active': props.type === 'selected' }
+  {
+    'table-row_active': props.type === 'selected',
+    'table-row_is-stub': props.isObserved
+  }
 ]);
+
+const getObserver = (): IntersectionObserver => {
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          state.isShow = true;
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      root: props.scrolledElement,
+      rootMargin: '600px'
+    }
+  );
+
+  return observer;
+};
+
+const setObserver = (): void => {
+  if (props.isObserved && row.value) {
+    state.observer = getObserver();
+    state.observer.observe(row.value);
+  }
+};
+
+watch(
+  () => props.scrolledElement,
+  () => {
+    state.observer?.disconnect();
+
+    setObserver();
+  }
+);
+
+onMounted(() => {
+  setObserver();
+
+  console.log(row.value);
+});
 </script>
 
 <style scoped>
@@ -59,5 +137,19 @@ const classRow = computed(() => [
 }
 .table-row.passive {
   background-color: #f8f8f9;
+}
+
+.table-row_is-stub {
+}
+
+.table-row__td_stub {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.table-row__skeleton {
+  height: 1lh;
+  width: 100%;
 }
 </style>

@@ -179,7 +179,7 @@ const resizeObserver = new ResizeObserver(() => {
 defineExpose({
   scrollToTop,
   setHeightSlot: scrollWrapperRef.value?.setHeightSlot,
-
+  scrollWrapperRef,
   tbodyRef,
   tableRef,
   theadRef
