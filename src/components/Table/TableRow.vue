@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import type { ITableRow } from '@/components/Table/interface/interface';
 import TableTd from '@/components/Table/TableTd.vue';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
@@ -95,8 +95,10 @@ watch(
 
 onMounted(() => {
   setObserver();
+});
 
-  console.log(row.value);
+onUnmounted(() => {
+  state.observer?.disconnect();
 });
 </script>
 
