@@ -15,8 +15,8 @@
       <TableTd
         v-else
         class="table-row__td table-row__td_stub"
-        :colspan
-        :rowspan
+        :colspan="props.colspan"
+        :rowspan="props.rowspan"
       >
         <Skeleton class="table-row__skeleton" />
       </TableTd>
