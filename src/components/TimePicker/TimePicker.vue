@@ -172,7 +172,7 @@ interface IState {
 }
 
 const props = defineProps<{
-  modelValue?: string | null; // ISO UTC string
+  modelValue?: string | null | Date; // ISO UTC string
   disabled?: boolean;
   hideClearButton?: boolean;
 }>();

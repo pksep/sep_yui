@@ -11,16 +11,19 @@
     @change="changeValues"
     :data-testid="`${props.dataTestid}-DataPickerRange`"
   />
-  <DatePicker
-    v-model="state.date"
-    :disabled="props.disabled"
-    :locale="props.locale"
-    :is-small="props.isSmall"
-    :data-testid="`${props.dataTestid}-DataPicker`"
-    v-else
-    @click="emits('click')"
-    @change="changeValues"
-  />
+  <template v-else>
+    <DatePicker
+      v-model="state.date"
+      :disabled="props.disabled"
+      :locale="props.locale"
+      :is-small="props.isSmall"
+      :data-testid="`${props.dataTestid}-DataPicker`"
+      @click="emits('click')"
+      @change="changeValues"
+    />
+
+    <TimePicker v-if="props.isSelectTime" v-model="state.date" />
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -33,9 +36,11 @@ import type {
   IDatePickerProps,
   IRangeForDatePicker
 } from './interfaces/interfaces';
+import TimePicker from '@/components/TimePicker/TimePicker.vue';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
-  dataTestid: 'Calendar'
+  dataTestid: 'Calendar',
+  isSelectTime: false
 });
 
 const state = reactive({

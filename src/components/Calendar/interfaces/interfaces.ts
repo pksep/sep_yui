@@ -19,6 +19,7 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
   setDate?: Date | null;
   startDate?: Date | null;
   endDate?: Date | null;
+  isSelectTime?: boolean;
 }
 
 export interface IDatePickerChooserProps extends IDatePickerBaseProps {
