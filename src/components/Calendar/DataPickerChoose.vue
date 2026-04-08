@@ -188,6 +188,10 @@ const formatLetter = (str: string): string | null => {
   height: auto;
 }
 
+.data-picker-choose_time .date-picker-yui-kit__header-btn {
+  --header-padding: 5px;
+}
+
 .data-picker-choose_time
   :is(.date-picker-yui-kit__header-btn, .data-picker-choose__time-picker) {
   --border: transparent;
