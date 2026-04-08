@@ -117,5 +117,6 @@ export enum IconNameEnum {
   zoomPlus = 'zoom-plus',
   download = 'download',
   android = 'android',
-  apple = 'apple'
+  apple = 'apple',
+  refresh = 'refresh'
 }
