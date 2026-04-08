@@ -1,44 +1,61 @@
 <template>
-  <button
-    @click="handleClick"
-    :class="[
-      'date-picker-yui-kit__header-btn',
-      { 'date-picker-yui-kit__header-btn_table-view': props.isSmall },
-      { 'date-picker-yui-kit__header-btn_range-view': props.isRange },
-      { 'date-disable-yui-kit': props.disabled },
-      { 'date-active-yui-kit': state.isActive }
-    ]"
-    :data-testid="`${props.dataTestid}-HeaderBtn-Trigger`"
+  <div
+    class="data-picker-choose"
+    :class="{
+      'data-picker-choose_time': props.isTimeSelect
+    }"
   >
-    <Icon
-      :name="IconNameEnum.calendar"
-      :data-testid="`${props.dataTestid}-Icon`"
-    />
-    <span v-if="state.value" :data-testid="`${props.dataTestid}-Value-Display`">
-      {{ formatLetter(state.value) }}
-    </span>
-    <span
-      class="date-picker-yui-kit__header-btn__dash"
-      v-else
-      :data-testid="`${props.dataTestid}-HeaderBtnDash-Placeholder`"
-    >
-      {{ state.defaultValue }}
-    </span>
-    <Button
-      :size="SizesEnum.small"
-      :type="ButtonTypeEnum.ghost"
-      :disabled="props.disabled"
-      v-if="state.value"
-      @click.stop="handleClear"
-      class="date-picker-close-yui-kit"
-      :data-testid="`${props.dataTestid}-Button-Clear`"
+    <button
+      @click="handleClick"
+      :class="[
+        'date-picker-yui-kit__header-btn',
+        { 'date-picker-yui-kit__header-btn_table-view': props.isSmall },
+        { 'date-picker-yui-kit__header-btn_range-view': props.isRange },
+        { 'date-disable-yui-kit': props.disabled },
+        { 'date-active-yui-kit': state.isActive }
+      ]"
+      :data-testid="`${props.dataTestid}-HeaderBtn-Trigger`"
     >
       <Icon
-        :name="IconNameEnum.crossSmall"
-        :data-testid="`${props.dataTestid}-ButtonClose-Icon`"
+        :name="IconNameEnum.calendar"
+        :data-testid="`${props.dataTestid}-Icon`"
       />
-    </Button>
-  </button>
+      <span
+        v-if="state.value"
+        :data-testid="`${props.dataTestid}-Value-Display`"
+      >
+        {{ formatLetter(state.value) }}
+      </span>
+      <span
+        class="date-picker-yui-kit__header-btn__dash"
+        v-else
+        :data-testid="`${props.dataTestid}-HeaderBtnDash-Placeholder`"
+      >
+        {{ state.defaultValue }}
+      </span>
+      <Button
+        :size="SizesEnum.small"
+        :type="ButtonTypeEnum.ghost"
+        :disabled="props.disabled"
+        v-if="state.value"
+        @click.stop="handleClear"
+        class="date-picker-close-yui-kit"
+        :data-testid="`${props.dataTestid}-Button-Clear`"
+      >
+        <Icon
+          :name="IconNameEnum.crossSmall"
+          :data-testid="`${props.dataTestid}-ButtonClose-Icon`"
+        />
+      </Button>
+    </button>
+
+    <TimePicker
+      v-if="props.isTimeSelect"
+      class="data-picker-choose__time-picker"
+      v-model="date"
+      @update:model-value="handleChangeTime"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -49,6 +66,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import { SizesEnum } from '@/common/sizes';
 import type { IDatePickerChooserProps } from './interfaces/interfaces';
+import TimePicker from '@/components/TimePicker/TimePicker.vue';
 
 const props = withDefaults(defineProps<IDatePickerChooserProps>(), {
   dataTestid: 'DatePickerChoose'
@@ -63,11 +81,18 @@ const state = reactive({
 const emits = defineEmits<{
   (e: 'clear'): void;
   (e: 'click'): void;
+  (e: 'change', value: string | Date | null | undefined): void;
 }>();
+
+const date = defineModel<string | null | Date>();
 
 watchEffect(() => (state.isActive = props.isActive));
 
 watchEffect(() => (state.value = props.value));
+
+const handleChangeTime = (value: string | null): void => {
+  emits('change', value);
+};
 
 const handleClear = (): void => {
   emits('clear');
@@ -141,5 +166,30 @@ const formatLetter = (str: string): string | null => {
 .date-picker-close-yui-kit {
   padding: 0;
   min-height: auto;
+}
+
+.data-picker-choose_time {
+  display: flex;
+
+  align-items: center;
+  gap: 7px;
+
+  background: var(--white);
+  border-radius: 10px;
+  border: 1px solid var(--border, var(--border-color));
+  padding: 5px;
+}
+
+.data-picker-choose_time .data-picker-choose__time-picker {
+  padding: 0;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  height: auto;
+}
+
+.data-picker-choose_time
+  :is(.date-picker-yui-kit__header-btn, .data-picker-choose__time-picker) {
+  --border: transparent;
 }
 </style>

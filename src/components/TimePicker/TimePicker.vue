@@ -14,141 +14,143 @@
         <Icon :name="IconNameEnum.closeTag" :width="16" :height="16" />
       </div>
     </div>
-  </div>
 
-  <Dialog
-    :open="state.openModal"
-    @close="closeModal"
-    class="time-picker-dialog"
-    width="328px"
-  >
-    <div class="time-picker-dialog-content">
-      <h3>Установка времени</h3>
+    <Dialog
+      :open="state.openModal"
+      @close="closeModal"
+      class="time-picker-dialog"
+      width="328px"
+    >
+      <div class="time-picker-dialog-content">
+        <h3>Установка времени</h3>
 
-      <div class="time-picker-header">
-        <div>
-          <InputNumber
-            :model-value="state.hours"
-            @update:model-value="value => (state.hours = +value)"
-            :min="0"
-            :max="23"
-            :class="{
-              'time-picker-input': true,
-              pressed: state.editingValue === 'hour'
-            }"
-            input-message=""
-            is-integer
-            zero-pad
-            @click="state.editingValue = 'hour'"
-          />
-          <span>Часы</span>
-        </div>
-        <span class="time-picker-separator">:</span>
-        <div>
-          <InputNumber
-            :model-value="state.minutes"
-            @update:model-value="value => (state.minutes = +value)"
-            :min="0"
-            :max="59"
-            :class="{
-              'time-picker-input': true,
-              pressed: state.editingValue === 'minute'
-            }"
-            input-message=""
-            is-integer
-            zero-pad
-            @click="state.editingValue = 'minute'"
-          />
-          <span>Минуты</span>
-        </div>
-      </div>
-
-      <!-- CLOCK -->
-      <div
-        v-if="state.openClock"
-        class="time-picker-clock"
-        ref="clockRef"
-        @mousedown="startDrag"
-        @click="handleClick"
-      >
-        <!-- HOURS -->
-        <div class="clock-face" v-if="state.editingValue === 'hour'">
-          <div class="clock-hand" :style="handStyleHours"></div>
-
-          <!-- OUTER RING 1–12 -->
-          <div
-            v-for="n in 12"
-            :key="'outer-' + n"
-            :class="{
-              'clock-number': true,
-              active: n === Number(state.hours)
-            }"
-            :style="numberStyle(n, 100)"
-          >
-            {{ n }}
-          </div>
-
-          <!-- INNER RING 13–24 -->
-          <div
-            v-for="n in 12"
-            :key="'inner-' + n"
-            :class="{
-              'clock-number': true,
-              active: n + 12 === (Number(state.hours) || 24)
-            }"
-            :style="numberStyle(n + 12, 70)"
-          >
-            {{ n + 12 }}
-          </div>
-        </div>
-
-        <!-- MINUTES -->
-        <div class="clock-face" v-else>
-          <div class="clock-hand" :style="handStyleMinutes"></div>
-          <div
-            v-for="n in Array.from({ length: 60 }, (_, i) => i)"
-            :key="n"
-            :class="{
-              'clock-number': true,
-              active: n === Number(state.minutes || 0)
-            }"
-            :style="numberStyle(n / 5, 100)"
-          >
-            <div
-              v-if="n === Number(state.minutes) && n % 5"
-              class="clock-number__dot"
+        <div class="time-picker-header">
+          <div>
+            <InputNumber
+              :model-value="state.hours"
+              @update:model-value="value => (state.hours = +value)"
+              :min="0"
+              :max="23"
+              :class="{
+                'time-picker-input': true,
+                pressed: state.editingValue === 'hour'
+              }"
+              input-message=""
+              is-integer
+              zero-pad
+              @click="state.editingValue = 'hour'"
             />
-            {{ n % 5 ? '' : n % 60 }}
+            <span>Часы</span>
+          </div>
+          <span class="time-picker-separator">:</span>
+          <div>
+            <InputNumber
+              :model-value="state.minutes"
+              @update:model-value="value => (state.minutes = +value)"
+              :min="0"
+              :max="59"
+              :class="{
+                'time-picker-input': true,
+                pressed: state.editingValue === 'minute'
+              }"
+              input-message=""
+              is-integer
+              zero-pad
+              @click="state.editingValue = 'minute'"
+            />
+            <span>Минуты</span>
           </div>
         </div>
 
-        <div class="clock-hand-center"></div>
-      </div>
-
-      <div class="time-picker-actions">
+        <!-- CLOCK -->
         <div
-          class="time-picker-actions__switch"
-          @click="state.openClock = !state.openClock"
+          v-if="state.openClock"
+          class="time-picker-clock"
+          ref="clockRef"
+          @mousedown="startDrag"
+          @click="handleClick"
         >
-          <Icon
-            :name="state.openClock ? IconNameEnum.keyboard : IconNameEnum.time"
-          />
+          <!-- HOURS -->
+          <div class="clock-face" v-if="state.editingValue === 'hour'">
+            <div class="clock-hand" :style="handStyleHours"></div>
+
+            <!-- OUTER RING 1–12 -->
+            <div
+              v-for="n in 12"
+              :key="'outer-' + n"
+              :class="{
+                'clock-number': true,
+                active: n === Number(state.hours)
+              }"
+              :style="numberStyle(n, 100)"
+            >
+              {{ n }}
+            </div>
+
+            <!-- INNER RING 13–24 -->
+            <div
+              v-for="n in 12"
+              :key="'inner-' + n"
+              :class="{
+                'clock-number': true,
+                active: n + 12 === (Number(state.hours) || 24)
+              }"
+              :style="numberStyle(n + 12, 70)"
+            >
+              {{ n + 12 }}
+            </div>
+          </div>
+
+          <!-- MINUTES -->
+          <div class="clock-face" v-else>
+            <div class="clock-hand" :style="handStyleMinutes"></div>
+            <div
+              v-for="n in Array.from({ length: 60 }, (_, i) => i)"
+              :key="n"
+              :class="{
+                'clock-number': true,
+                active: n === Number(state.minutes || 0)
+              }"
+              :style="numberStyle(n / 5, 100)"
+            >
+              <div
+                v-if="n === Number(state.minutes) && n % 5"
+                class="clock-number__dot"
+              />
+              {{ n % 5 ? '' : n % 60 }}
+            </div>
+          </div>
+
+          <div class="clock-hand-center"></div>
         </div>
-        <Button
-          :size="SizesEnum.little"
-          :type="ButtonTypeEnum.ghost"
-          @click="closeModal"
-          >Отменить
-        </Button>
-        <Button
-          :size="SizesEnum.little"
-          :type="ButtonTypeEnum.primary"
-          @click="saveTime"
-          >Сохранить
-        </Button>
+
+        <div class="time-picker-actions">
+          <div
+            class="time-picker-actions__switch"
+            @click="state.openClock = !state.openClock"
+          >
+            <Icon
+              :name="
+                state.openClock ? IconNameEnum.keyboard : IconNameEnum.time
+              "
+            />
+          </div>
+          <Button
+            :size="SizesEnum.little"
+            :type="ButtonTypeEnum.ghost"
+            @click="closeModal"
+            >Отменить
+          </Button>
+          <Button
+            :size="SizesEnum.little"
+            :type="ButtonTypeEnum.primary"
+            @click="saveTime"
+            >Сохранить
+          </Button>
+        </div>
       </div>
-    </div>
-  </Dialog>
+    </Dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -370,7 +372,7 @@ function clearTime() {
     }
 
     &:hover {
-      background-color: var(--primary-hover-light-color);
+      background-color: var(--background-light-color);
     }
 
     &:active {

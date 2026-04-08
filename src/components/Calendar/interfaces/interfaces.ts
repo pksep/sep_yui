@@ -25,6 +25,7 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
 export interface IDatePickerChooserProps extends IDatePickerBaseProps {
   value: string;
   isActive: boolean;
+  isTimeSelect?: boolean;
 }
 
 export interface IRangeForDatePickerState {

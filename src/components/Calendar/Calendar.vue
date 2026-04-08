@@ -17,12 +17,11 @@
       :disabled="props.disabled"
       :locale="props.locale"
       :is-small="props.isSmall"
+      :is-select-time="props.isSelectTime"
       :data-testid="`${props.dataTestid}-DataPicker`"
       @click="emits('click')"
       @change="changeValues"
     />
-
-    <TimePicker v-if="props.isSelectTime" v-model="state.date" />
   </template>
 </template>
 
@@ -36,11 +35,9 @@ import type {
   IDatePickerProps,
   IRangeForDatePicker
 } from './interfaces/interfaces';
-import TimePicker from '@/components/TimePicker/TimePicker.vue';
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
-  dataTestid: 'Calendar',
-  isSelectTime: false
+  dataTestid: 'Calendar'
 });
 
 const state = reactive({
