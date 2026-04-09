@@ -15,12 +15,15 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
         <DataPickerChoose
           @click="showPopover"
           @clear="clearChoose"
+          v-model="date"
+          :is-time-select="props.isSelectTime"
           :is-active="state.isActive"
           :is-small="props.isSmall"
           :is-range="props.isRange"
           :disabled="props.disabled"
           :data-testid="`${props.dataTestid}-Choose`"
           :value="formatDates((date as Date) || null, props.locale)"
+          @change="handleChangeDataPickerChoose"
         />
       </template>
       <col-cal
@@ -135,6 +138,12 @@ const clearChoose = (): void => {
       date: null
     }
   });
+};
+
+const handleChangeDataPickerChoose = (
+  value: Date | string | null | undefined
+): void => {
+  emits('change', value ? new Date(value) : null);
 };
 
 const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {

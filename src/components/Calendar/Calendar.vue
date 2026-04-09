@@ -11,16 +11,18 @@
     @change="changeValues"
     :data-testid="`${props.dataTestid}-DataPickerRange`"
   />
-  <DatePicker
-    v-model="state.date"
-    :disabled="props.disabled"
-    :locale="props.locale"
-    :is-small="props.isSmall"
-    :data-testid="`${props.dataTestid}-DataPicker`"
-    v-else
-    @click="emits('click')"
-    @change="changeValues"
-  />
+  <template v-else>
+    <DatePicker
+      v-model="state.date"
+      :disabled="props.disabled"
+      :locale="props.locale"
+      :is-small="props.isSmall"
+      :is-select-time="props.isSelectTime"
+      :data-testid="`${props.dataTestid}-DataPicker`"
+      @click="emits('click')"
+      @change="changeValues"
+    />
+  </template>
 </template>
 
 <script setup lang="ts">
