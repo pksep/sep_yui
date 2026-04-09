@@ -130,6 +130,7 @@ export declare const support: IVectorIcon;
 export declare const download: IVectorIcon;
 export declare const android: IVectorIcon;
 export declare const apple: IVectorIcon;
+export declare const refresh: IVectorIcon;
 export declare const project: IVectorIcon;
 export declare const taskStatus: IVectorIcon;
 export declare const taskPriority: IVectorIcon;

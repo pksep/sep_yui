@@ -118,6 +118,7 @@ export declare enum IconNameEnum {
     download = "download",
     android = "android",
     apple = "apple",
+    refresh = "refresh",
     project = "project",
     taskStatus = "task-status",
     taskPriority = "task-priority",
