@@ -51,6 +51,7 @@
 
     <TimePicker
       v-if="props.isTimeSelect"
+      :disabled="props.disabled"
       class="data-picker-choose__time-picker"
       v-model="date"
       @update:model-value="handleChangeTime"
