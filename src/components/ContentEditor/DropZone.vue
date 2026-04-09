@@ -23,11 +23,38 @@ const state = reactive({
   dragging: false
 });
 
+const getDroppedFiles = (dataTransfer: DataTransfer): File[] => {
+  const itemFiles = Array.from(dataTransfer.items ?? [])
+    .filter(item => item.kind === 'file')
+    .map(item => item.getAsFile())
+    .filter((file): file is File => !!file);
+
+  if (itemFiles.length) {
+    return itemFiles;
+  }
+
+  return Array.from(dataTransfer.files ?? []);
+};
+
+const hasDraggedFiles = (dataTransfer?: DataTransfer | null): boolean => {
+  if (!dataTransfer) return false;
+
+  const types = Array.from(dataTransfer.types ?? []);
+
+  if (types.includes('Files')) {
+    return true;
+  }
+
+  return Array.from(dataTransfer.items ?? []).some(
+    item => item.kind === 'file'
+  );
+};
+
 const handleDrop = (e: DragEvent): void => {
   e.preventDefault();
   state.dragging = false;
   if (!e.dataTransfer) return;
-  const files = Array.from(e.dataTransfer.files);
+  const files = getDroppedFiles(e.dataTransfer);
   if (files.length) emits('files-dropped', files);
 };
 
@@ -42,7 +69,7 @@ const handleWindowDragover = (e: DragEvent): void => {
 
 const handleWindowDragEnter = (e: DragEvent): void => {
   e.preventDefault();
-  if (e.dataTransfer?.types[0] === 'Files') {
+  if (hasDraggedFiles(e.dataTransfer)) {
     state.dragging = true;
   }
 };
