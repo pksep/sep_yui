@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.1.225
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.224...v0.1.225)
+
+### 🚀 Enhancements
+
+- Added time to calendar ([cacbe13](https://github.com/pksep/sep_yui/commit/cacbe13))
+- Added time in date picker ([f79142c](https://github.com/pksep/sep_yui/commit/f79142c))
+- Minor changes ([1330e0a](https://github.com/pksep/sep_yui/commit/1330e0a))
+- Added disabled to time picker in calendar ([37b1a4f](https://github.com/pksep/sep_yui/commit/37b1a4f))
+
 ## v0.1.224
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.223...v0.1.224)
