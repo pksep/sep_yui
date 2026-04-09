@@ -148,9 +148,21 @@ const handleChangeDataPickerChoose = (
 
 const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {
   if (!detail) return;
-  date.value = detail.date;
+  let newDate = detail.date;
+
+  if (date.value && newDate) {
+    newDate = new Date(
+      newDate.getFullYear(),
+      newDate.getMonth(),
+      newDate.getDate(),
+      date.value.getHours(),
+      date.value.getMinutes()
+    );
+  }
+  date.value = newDate;
+
   state.isActive = false;
-  emits('change', detail.date);
+  emits('change', newDate);
 };
 
 const changeShowMonths = (): void => {
