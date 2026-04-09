@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.226
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.225...v0.1.226)
+
+### 🚀 Enhancements
+
+- Add to export CheckboxCircularEnum ([e54b8b7](https://github.com/pksep/sep_yui/commit/e54b8b7))
+- Change pin icon ([459487d](https://github.com/pksep/sep_yui/commit/459487d))
+
 ## v0.1.225
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.224...v0.1.225)
