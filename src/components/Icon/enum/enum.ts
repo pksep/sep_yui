@@ -117,5 +117,15 @@ export enum IconNameEnum {
   zoomPlus = 'zoom-plus',
   download = 'download',
   android = 'android',
-  apple = 'apple'
+  apple = 'apple',
+  project = 'project',
+  taskStatus = 'task-status',
+  taskPriority = 'task-priority',
+  taskAssignees = 'task-assignees',
+  taskTags = 'task-tags',
+  taskDueDate = 'task-due-date',
+  priorityLow = 'priority-low',
+  priorityMedium = 'priority-medium',
+  priorityHigh = 'priority-high',
+  priorityUrgent = 'priority-urgent'
 }
