@@ -8,8 +8,11 @@ export interface ISectionTable<T> {
 
 export type TTableRow = 'selected' | 'default';
 
-export interface ITableRow extends IDataTestIdProp {
+export interface ITableRow extends IDataTestIdProp, ITableTd {
   type?: TTableRow;
+  isObserved?: boolean;
+  observer?: IntersectionObserver | undefined | null;
+  scrolledElement?: HTMLElement | undefined | null;
 }
 
 export interface ISectionTableRow extends IDataTestIdProp {

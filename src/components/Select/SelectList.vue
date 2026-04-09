@@ -90,10 +90,48 @@ const dropdownHandler: OnClickOutsideHandler = () => {
 };
 
 const updateDropdownPosition = () => {
-  if (currentRef.value && dropdownRef.value && state.isOpened) {
+  requestAnimationFrame(() => {
+    if (!currentRef.value || !dropdownRef.value || !state.isOpened) return;
     const currentRect = currentRef.value.getBoundingClientRect();
-    dropdownRef.value.style.top = `${currentRect.top + currentRect.height}px`;
-  }
+
+    if (!props.isUseAnchor) {
+      dropdownRef.value.style.top = `${currentRect.top + currentRect.height}px`;
+    } else {
+      changeStyleProperties(
+        {
+          transform: 'translateX(0) translateY(0)'
+        },
+        dropdownRef.value
+      );
+
+      const dropdownRect = dropdownRef.value.getBoundingClientRect();
+
+      let translateY = 0;
+      let translateX = 0;
+
+      console.log(document.documentElement.scrollHeight, dropdownRect.bottom);
+
+      if (dropdownRect.bottom > document.documentElement.scrollHeight) {
+        translateY =
+          -dropdownRect.bottom + document.documentElement.scrollHeight - 10;
+        changeStyleProperties(
+          {
+            transform: `translateY(${translateY}px)`
+          },
+          dropdownRef.value
+        );
+      }
+      if (dropdownRect.right > window.innerWidth) {
+        translateX = -dropdownRect.right + window.innerWidth - 10;
+        changeStyleProperties(
+          {
+            transform: `translateX(${translateX}px) translateY(${translateY}px)`
+          },
+          dropdownRef.value
+        );
+      }
+    }
+  });
 };
 
 watch(
@@ -125,13 +163,18 @@ const setAnchor = (): void => {
 };
 
 onMounted(() => {
-  if (props.isUseAnchor) setAnchor();
+  if (props.isUseAnchor) {
+    setAnchor();
+  } else {
+    window.addEventListener('scroll', updateDropdownPosition, true);
+  }
 
-  window.addEventListener('scroll', updateDropdownPosition, true);
+  window.addEventListener('resize', updateDropdownPosition);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', updateDropdownPosition, true);
+  window.removeEventListener('scroll', updateDropdownPosition, false);
+  window.removeEventListener('resize', updateDropdownPosition);
 });
 </script>
 <style lang="scss" scoped>
@@ -188,10 +231,14 @@ onUnmounted(() => {
 
     left: anchor(left);
     top: calc(anchor(bottom) + 5px);
+
+    &_bottom {
+      top: calc(anchor(top) - var(--options-max-height, 390px) - 10px);
+    }
   }
   &__list > div {
     display: grid;
-    max-height: 120px;
+    max-height: var(--height-list, 120px);
     gap: 10px;
   }
 }

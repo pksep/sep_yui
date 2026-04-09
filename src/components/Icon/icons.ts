@@ -1197,9 +1197,9 @@ export const pin: IVectorIcon = {
   name: IconNameEnum.pin,
   style: 'line',
   fill: 'none',
-  viewbox: '0 0 16 16',
+  viewbox: '0 0 24 24',
   path: `
-<path d="M9.82606 2L9.30431 3.56517L9.82606 4.08693L6.85534 7.05763C6.43352 6.85174 5.97317 6.68568 5.52115 6.58145C5.15448 6.49691 4.79703 6.45529 4.47105 6.45863C4.03764 6.46309 3.66022 6.54717 3.39075 6.71531L9.28459 12.6091C9.5792 12.137 9.61538 11.3328 9.41842 10.4788C9.31419 10.0267 9.14814 9.56641 8.9423 9.14458L11.913 6.17381L12.4348 6.69559L14 6.17383L9.82606 2ZM5.50885 9.48858L2 13.9999L6.51137 10.4911L5.50885 9.48858Z" fill="currentColor"/>
+<path d="M15.4004 4.40039V5.2002H15.2002C14.8689 5.2002 14.5997 5.46852 14.5996 5.7998V11.917C14.5996 12.0761 14.6629 12.2293 14.7754 12.3418L16.2002 13.7656V14.7998H12.6396C12.3084 14.8 12.04 15.0691 12.04 15.4004L12.04 19.5996H11.5596L11.5596 15.4004C11.5596 15.069 11.2913 14.7998 10.96 14.7998H7.40039V13.7656L8.82422 12.3418C8.93674 12.2293 9 12.0761 9 11.917L9 5.7998C8.99989 5.46865 8.73152 5.20041 8.40039 5.2002H8.2002V4.40039L15.4004 4.40039ZM10.4004 5.2002C10.0691 5.2002 9.79991 5.46852 9.7998 5.7998L9.7998 12.4746L9.29883 12.9756C8.92089 13.3535 9.18824 13.9998 9.72266 14L13.877 14C14.4115 14 14.6796 13.3536 14.3018 12.9756L13.7998 12.4736L13.7998 5.7998C13.7997 5.46859 13.5314 5.2003 13.2002 5.2002L10.4004 5.2002Z" fill="currentColor" stroke="currentColor" stroke-width="0.8"/>
 `
 };
 
@@ -1462,4 +1462,124 @@ export const refresh: IVectorIcon = {
   </clipPath>
   </defs>
   `
+};
+export const project: IVectorIcon = {
+  name: 'project',
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 24 24',
+  path: `
+<path d="M18.2222 4H5.77778C4.79594 4 4 4.79594 4 5.77778V18.2222C4 19.2041 4.79594 20 5.77778 20H18.2222C19.2041 20 20 19.2041 20 18.2222V5.77778C20 4.79594 19.2041 4 18.2222 4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11 8H7V17H11V8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 8H13V13H17V8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const taskStatus: IVectorIcon = {
+  name: 'task-status',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M8 1.33301C11.6799 1.33301 14.667 4.32009 14.667 8C14.667 11.6799 11.6799 14.667 8 14.667C4.32009 14.667 1.33301 11.6799 1.33301 8C1.33301 4.32009 4.32009 1.33301 8 1.33301ZM8 2.06641C4.7219 2.06641 2.06641 4.7219 2.06641 8C2.06641 11.2781 4.72191 13.9336 8 13.9336C11.2781 13.9336 13.9336 11.2781 13.9336 8C13.9336 4.72191 11.2781 2.06641 8 2.06641Z" fill="currentColor" stroke="currentColor" stroke-width="0.666667"/>
+<circle cx="8" cy="8" r="4" transform="rotate(-180 8 8)" fill="currentColor"/>
+<path d="M10 6L7.5 9.83935L6 8.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const taskPriority: IVectorIcon = {
+  name: 'task-priority',
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M8 13.3327V6.66602" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 13.3327V2.66602" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4 13.3327V10.666" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const taskAssignees: IVectorIcon = {
+  name: 'task-assignees',
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M13.3337 14V12.6667C13.3337 11.9594 13.0527 11.2811 12.5526 10.781C12.0525 10.281 11.3742 10 10.667 10H5.33366C4.62641 10 3.94814 10.281 3.44804 10.781C2.94794 11.2811 2.66699 11.9594 2.66699 12.6667V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.99967 7.33333C9.47243 7.33333 10.6663 6.13943 10.6663 4.66667C10.6663 3.19391 9.47243 2 7.99967 2C6.52691 2 5.33301 3.19391 5.33301 4.66667C5.33301 6.13943 6.52691 7.33333 7.99967 7.33333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const taskTags: IVectorIcon = {
+  name: 'task-tags',
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M13.7263 8.94065L8.94634 13.7207C8.82251 13.8446 8.67546 13.943 8.51359 14.0101C8.35173 14.0772 8.17823 14.1117 8.00301 14.1117C7.82779 14.1117 7.65428 14.0772 7.49242 14.0101C7.33056 13.943 7.1835 13.8446 7.05967 13.7207L1.33301 8.00065V1.33398H7.99967L13.7263 7.06065C13.9747 7.31047 14.1141 7.6484 14.1141 8.00065C14.1141 8.3529 13.9747 8.69083 13.7263 8.94065Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.66699 4.66602H4.67366" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const taskDueDate: IVectorIcon = {
+  name: 'task-due-date',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M6 1C6.17681 1 6.34638 1.07763 6.4714 1.21582C6.59643 1.354 6.66667 1.54142 6.66667 1.73684V2.47368H9.33333V1.73684C9.33333 1.54142 9.40357 1.354 9.5286 1.21582C9.65362 1.07763 9.82319 1 10 1C10.1768 1 10.3464 1.07763 10.4714 1.21582C10.5964 1.354 10.6667 1.54142 10.6667 1.73684V2.47368H12.6667C13.0203 2.47368 13.3594 2.62895 13.6095 2.90532C13.8595 3.18169 14 3.55652 14 3.94737V13.5263C14 13.9172 13.8595 14.292 13.6095 14.5684C13.3594 14.8447 13.0203 15 12.6667 15H3.33333C2.97971 15 2.64057 14.8447 2.39052 14.5684C2.14048 14.292 2 13.9172 2 13.5263V3.94737C2 3.55652 2.14048 3.18169 2.39052 2.90532C2.64057 2.62895 2.97971 2.47368 3.33333 2.47368H5.33333V1.73684C5.33333 1.54142 5.40357 1.354 5.5286 1.21582C5.65362 1.07763 5.82319 1 6 1ZM5.33333 3.94737H3.33333V6.1579H12.6667V3.94737H10.6667V4.68421C10.6667 4.87963 10.5964 5.06705 10.4714 5.20524C10.3464 5.34342 10.1768 5.42105 10 5.42105C9.82319 5.42105 9.65362 5.34342 9.5286 5.20524C9.40357 5.06705 9.33333 4.87963 9.33333 4.68421V3.94737H6.66667V4.68421C6.66667 4.87963 6.59643 5.06705 6.4714 5.20524C6.34638 5.34342 6.17681 5.42105 6 5.42105C5.82319 5.42105 5.65362 5.34342 5.5286 5.20524C5.40357 5.06705 5.33333 4.87963 5.33333 4.68421V3.94737ZM12.6667 7.3H3.33333V13.5263H12.6667V7.3Z" fill="currentColor"/>
+<ellipse cx="5.66062" cy="8.71111" rx="0.660622" ry="0.711111" fill="currentColor"/>
+<ellipse cx="7.98191" cy="8.71111" rx="0.660622" ry="0.711111" fill="currentColor"/>
+<ellipse cx="10.3032" cy="8.71111" rx="0.660622" ry="0.711111" fill="currentColor"/>
+<ellipse cx="5.66062" cy="11.133" rx="0.660622" ry="0.711111" fill="currentColor"/>
+<ellipse cx="7.98191" cy="11.133" rx="0.660622" ry="0.711111" fill="currentColor"/>
+<ellipse cx="10.3032" cy="11.133" rx="0.660622" ry="0.711111" fill="currentColor"/>
+`
+};
+
+export const priorityLow: IVectorIcon = {
+  name: 'priority-low',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<rect x="3" y="9" width="2" height="6" rx="1" fill="#0FBE3F"/>
+<rect x="7" y="5" width="2" height="10" rx="1" fill="#E7E7E7"/>
+<rect x="11" y="1" width="2" height="14" rx="1" fill="#E7E7E7"/>
+`
+};
+
+export const priorityMedium: IVectorIcon = {
+  name: 'priority-medium',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<rect x="3" y="9" width="2" height="6" rx="1" fill="#FFB833"/>
+<rect x="7" y="5" width="2" height="10" rx="1" fill="#FFB833"/>
+<rect x="11" y="1" width="2" height="14" rx="1" fill="#E7E7E7"/>
+`
+};
+
+export const priorityHigh: IVectorIcon = {
+  name: 'priority-high',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<rect x="3" y="9" width="2" height="6" rx="1" fill="#FF6868"/>
+<rect x="7" y="5" width="2" height="10" rx="1" fill="#FF6868"/>
+<rect x="11" y="1" width="2" height="14" rx="1" fill="#FF6868"/>
+`
+};
+
+export const priorityUrgent: IVectorIcon = {
+  name: 'priority-urgent',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M7.03061 15.0918L0.908163 8.96939C0.363946 8.42517 0.363946 7.57483 0.908163 7.03061L7.03061 0.908163C7.57483 0.363946 8.42517 0.363946 8.96939 0.908163L15.0918 7.03061C15.6361 7.57483 15.6361 8.42517 15.0918 8.96939L8.96939 15.0918C8.42517 15.6361 7.54082 15.6361 7.03061 15.0918Z" fill="#F42C2B"/>
+<path d="M7.16602 10.9761C7.16602 10.874 7.20003 10.772 7.23404 10.6699C7.26806 10.5679 7.33608 10.4999 7.40411 10.4319C7.47214 10.3638 7.57418 10.2958 7.67622 10.2618C7.77826 10.2278 7.8803 10.1938 8.01636 10.1938C8.15241 10.1938 8.25445 10.2278 8.35649 10.2618C8.45853 10.2958 8.56057 10.3638 8.6286 10.4319C8.69663 10.4999 8.76465 10.5679 8.79867 10.6699C8.83268 10.772 8.8667 10.874 8.8667 10.9761C8.8667 11.0781 8.83268 11.1802 8.79867 11.2822C8.76465 11.3842 8.69663 11.4523 8.6286 11.5203C8.56057 11.5883 8.45853 11.6563 8.35649 11.6904C8.25445 11.7244 8.15241 11.7584 8.01636 11.7584C7.8803 11.7584 7.77826 11.7244 7.67622 11.6904C7.57418 11.6563 7.50615 11.5883 7.40411 11.5203C7.33608 11.4523 7.26806 11.3842 7.23404 11.2822C7.20003 11.1802 7.16602 11.1121 7.16602 10.9761ZM8.59459 9.41144H7.3701L7.20003 4.27539H8.76465L8.59459 9.41144Z" fill="white"/>
+`
 };

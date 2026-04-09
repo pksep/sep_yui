@@ -184,7 +184,8 @@ const setResizeElement = (value: HTMLElement) => {
 
 defineExpose({
   scrollToTop,
-  setHeightSlot
+  setHeightSlot,
+  slotRef
 });
 
 onMounted(() => {

@@ -70,7 +70,7 @@ import { ImageExtensionsEnum, VideoExtensionsEnum } from '@/common/extentions';
 import { InputTypeEnum } from './Input/enum/enum';
 import { TextareaTypeEnum } from './Textarea/enum';
 import { TextFieldEnum } from './Input/enum/enum';
-import { CheckboxSizeEnum } from './Checkbox/enum/enum';
+import { CheckboxCircularEnum, CheckboxSizeEnum } from './Checkbox/enum/enum';
 import { MenuTypeEnum } from './UserMenu/enum/enum';
 import SliderModal from '@/components/Slider/SliderModal.vue';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
@@ -208,6 +208,7 @@ export {
   type OptionsObject,
   type IDataTestIdProp,
   CheckboxSizeEnum,
+  CheckboxCircularEnum,
   TextFieldEnum,
   IconNameEnum,
   SizesEnum,
