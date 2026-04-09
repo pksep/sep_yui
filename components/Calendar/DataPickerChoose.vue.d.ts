@@ -1,33 +1,64 @@
-import { IDatePickerChooserProps } from './interfaces/interfaces';
-
-declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IDatePickerChooserProps>, {
-    dataTestid: string;
-}>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
+    modelValue: import('vue').PropType<string | null | Date>;
+    dataTestid: {
+        type: import('vue').PropType<string>;
+        default: string;
+    };
+    value: {
+        type: import('vue').PropType<string>;
+        required: true;
+    };
+    disabled: {
+        type: import('vue').PropType<boolean>;
+    };
+    isRange: {
+        type: import('vue').PropType<boolean>;
+    };
+    isSmall: {
+        type: import('vue').PropType<boolean>;
+    };
+    isActive: {
+        type: import('vue').PropType<boolean>;
+        required: true;
+    };
+    isTimeSelect: {
+        type: import('vue').PropType<boolean>;
+    };
+}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     clear: () => void;
     click: () => void;
-}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IDatePickerChooserProps>, {
-    dataTestid: string;
-}>>> & Readonly<{
+    change: (value: string | Date | null | undefined) => void;
+}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+    modelValue: import('vue').PropType<string | null | Date>;
+    dataTestid: {
+        type: import('vue').PropType<string>;
+        default: string;
+    };
+    value: {
+        type: import('vue').PropType<string>;
+        required: true;
+    };
+    disabled: {
+        type: import('vue').PropType<boolean>;
+    };
+    isRange: {
+        type: import('vue').PropType<boolean>;
+    };
+    isSmall: {
+        type: import('vue').PropType<boolean>;
+    };
+    isActive: {
+        type: import('vue').PropType<boolean>;
+        required: true;
+    };
+    isTimeSelect: {
+        type: import('vue').PropType<boolean>;
+    };
+}>> & Readonly<{
+    onChange?: ((value: string | Date | null | undefined) => any) | undefined;
     onClick?: (() => any) | undefined;
     onClear?: (() => any) | undefined;
 }>, {
     dataTestid: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
-type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
-type __VLS_TypePropsToRuntimeProps<T> = {
-    [K in keyof T]-?: {} extends Pick<T, K> ? {
-        type: import('vue').PropType<__VLS_NonUndefinedable<T[K]>>;
-    } : {
-        type: import('vue').PropType<T[K]>;
-        required: true;
-    };
-};
-type __VLS_WithDefaults<P, D> = {
-    [K in keyof Pick<P, keyof P>]: K extends keyof D ? __VLS_Prettify<P[K] & {
-        default: D[K];
-    }> : P[K];
-};
-type __VLS_Prettify<T> = {
-    [K in keyof T]: T[K];
-} & {};

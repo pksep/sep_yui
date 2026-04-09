@@ -32,6 +32,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     setDate: {
         type: import('vue').PropType<Date | null>;
     };
+    isSelectTime: {
+        type: import('vue').PropType<boolean>;
+    };
 }>, {
     clear: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
@@ -67,6 +70,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     setDate: {
         type: import('vue').PropType<Date | null>;
+    };
+    isSelectTime: {
+        type: import('vue').PropType<boolean>;
     };
 }>> & Readonly<{
     onChange?: ((value: IRangeForDatePicker) => any) | undefined;

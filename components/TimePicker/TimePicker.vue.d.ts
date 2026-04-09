@@ -1,11 +1,11 @@
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{
-    modelValue?: string | null;
+    modelValue?: string | null | Date;
     disabled?: boolean;
     hideClearButton?: boolean;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: string | null) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{
-    modelValue?: string | null;
+    modelValue?: string | null | Date;
     disabled?: boolean;
     hideClearButton?: boolean;
 }>>> & Readonly<{

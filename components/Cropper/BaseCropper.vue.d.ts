@@ -20,8 +20,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>>> & Readonly<{
     "onUnmount-scale"?: ((value: number) => any) | undefined;
 }>, {
-    max: number;
     min: number;
+    max: number;
     step: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

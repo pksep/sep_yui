@@ -25,10 +25,10 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataTestid: string;
     type: TextFieldEnum;
     required: boolean;
-    modelValue: string;
     inputMessage: string;
-    hideClearButton: boolean;
+    modelValue: string;
     modelModifiers: object;
+    hideClearButton: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;

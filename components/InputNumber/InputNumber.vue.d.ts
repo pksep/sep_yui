@@ -29,11 +29,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataTestid: string;
     size: SizesEnum.small | SizesEnum.medium;
     modelValue: number;
-    max: number;
-    min: number;
-    modelModifiers: object;
     isInteger: boolean;
+    min: number;
+    max: number;
     zeroPad: boolean;
+    modelModifiers: object;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
