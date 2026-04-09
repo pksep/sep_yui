@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.227
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.226...v0.1.227)
+
+### 🚀 Enhancements
+
+- Add refresh icon ([f76db26](https://github.com/pksep/sep_yui/commit/f76db26))
+- Dropzone for support macos screenshot ([3a3774e](https://github.com/pksep/sep_yui/commit/3a3774e))
+
 ## v0.1.226
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.225...v0.1.226)
