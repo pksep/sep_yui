@@ -203,7 +203,7 @@ export const exitCircle: IVectorIcon = {
   style: 'line',
   fill: 'none',
   path: `
-<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#FF6868" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M9 9L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   `
@@ -1445,6 +1445,24 @@ export const apple: IVectorIcon = {
   viewbox: '0 0 28 28'
 };
 
+export const refresh: IVectorIcon = {
+  name: 'refresh',
+  style: 'line',
+  fill: 'none',
+  path: `
+  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g clip-path="url(#clip0_27703_333119)">
+  <path d="M17.5 8V11H14.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M6.5 16L6.5 13H9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M7.755 10.5008C8.00858 9.78416 8.43957 9.14347 9.00773 8.63848C9.5759 8.13349 10.2627 7.78065 11.0041 7.6129C11.7456 7.44515 12.5174 7.46794 13.2476 7.67916C13.9778 7.89037 14.6426 8.28313 15.18 8.82077L17.5 11.0008M6.5 13.0008L8.82 15.1808C9.35737 15.7184 10.0222 16.1112 10.7524 16.3224C11.4826 16.5336 12.2544 16.5564 12.9959 16.3886C13.7373 16.2209 14.4241 15.8681 14.9923 15.3631C15.5604 14.8581 15.9914 14.2174 16.245 13.5008" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <defs>
+  <clipPath id="clip0_27703_333119">
+  <rect width="14" height="12" fill="white" transform="translate(5 6)"/>
+  </clipPath>
+  </defs>
+  `
+};
 export const project: IVectorIcon = {
   name: 'project',
   style: 'line',
