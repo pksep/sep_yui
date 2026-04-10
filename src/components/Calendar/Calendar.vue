@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<IDatePickerProps>(), {
 });
 
 const state = reactive({
-  date: null as Date | null,
+  date: null as Date | string | null,
   dateObject: {
     start: null,
     end: null
