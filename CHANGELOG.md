@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.230
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.229...v0.1.230)
+
+### 🚀 Enhancements
+
+- Add file icon ([042a05f](https://github.com/pksep/sep_yui/commit/042a05f))
+
+### 🩹 Fixes
+
+- Fixed body ([181a10b](https://github.com/pksep/sep_yui/commit/181a10b))
+
 ## v0.1.229
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.228...v0.1.229)
