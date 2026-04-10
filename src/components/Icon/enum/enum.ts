@@ -129,5 +129,5 @@ export enum IconNameEnum {
   priorityMedium = 'priority-medium',
   priorityHigh = 'priority-high',
   priorityUrgent = 'priority-urgent',
-  file = 'file'
+  fileItem = 'file-item'
 }

@@ -1584,8 +1584,8 @@ export const priorityUrgent: IVectorIcon = {
 `
 };
 
-export const file: IVectorIcon = {
-  name: 'file',
+export const fileItem: IVectorIcon = {
+  name: 'file-item',
   style: 'solid',
   fill: 'none',
   viewbox: '0 0 12 12',
