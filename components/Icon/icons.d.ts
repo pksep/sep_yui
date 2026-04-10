@@ -141,3 +141,4 @@ export declare const priorityLow: IVectorIcon;
 export declare const priorityMedium: IVectorIcon;
 export declare const priorityHigh: IVectorIcon;
 export declare const priorityUrgent: IVectorIcon;
+export declare const file: IVectorIcon;

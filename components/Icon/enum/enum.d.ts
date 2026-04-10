@@ -128,5 +128,6 @@ export declare enum IconNameEnum {
     priorityLow = "priority-low",
     priorityMedium = "priority-medium",
     priorityHigh = "priority-high",
-    priorityUrgent = "priority-urgent"
+    priorityUrgent = "priority-urgent",
+    file = "file"
 }
