@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, onMounted, computed } from 'vue';
+import { ref, onBeforeUnmount, onMounted } from 'vue';
 import {
   useFloating,
   offset,
@@ -44,10 +44,10 @@ const popoverContent = ref<HTMLElement | null>(null);
  * Если компонент рендерится внутри dialog (модальное окно),
  * телепортируем поповер туда, чтобы он вышел из overflow-контейнеров,
  * но остался внутри top-layer диалога.
+ *
+ * Если нет dialog, то телепортируем в body
  */
-const dialogTarget = ref<HTMLElement | null>(null);
-
-const teleportTarget = computed(() => dialogTarget.value);
+const teleportTarget = ref<HTMLElement | null>(null);
 
 const { floatingStyles } = useFloating(popoverTrigger, popoverContent, {
   middleware: [
@@ -84,11 +84,13 @@ onBeforeUnmount(() => {
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 
-  // Ищем ближайший dialog-предок для телепорта
   if (popoverWrapper.value) {
+    // Ищем ближайший dialog-предок для телепорта
     const closestDialog = popoverWrapper.value.closest('dialog');
     if (closestDialog) {
-      dialogTarget.value = closestDialog;
+      teleportTarget.value = closestDialog;
+    } else {
+      teleportTarget.value = document.body;
     }
   }
 });
