@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.233
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.232...v0.1.233)
+
+### 🩹 Fixes
+
+- FileItem icon ([ca2620e](https://github.com/pksep/sep_yui/commit/ca2620e))
+
 ## v0.1.232
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.231...v0.1.232)
