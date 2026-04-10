@@ -1,6 +1,6 @@
 
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
-    modelValue: import('vue').PropType<Date | null>;
+    modelValue: import('vue').PropType<Date | string | null>;
     dataTestid: {
         type: import('vue').PropType<string>;
         default: string;
@@ -45,7 +45,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     clear: () => void;
     change: (value: Date | null) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
-    modelValue: import('vue').PropType<Date | null>;
+    modelValue: import('vue').PropType<Date | string | null>;
     dataTestid: {
         type: import('vue').PropType<string>;
         default: string;
