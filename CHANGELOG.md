@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.229
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.228...v0.1.229)
+
+### 🚀 Enhancements
+
+- Deleted cross and fixed string date ([ff3a45d](https://github.com/pksep/sep_yui/commit/ff3a45d))
+- Minor changes ([7445730](https://github.com/pksep/sep_yui/commit/7445730))
+
 ## v0.1.228
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.227...v0.1.228)
