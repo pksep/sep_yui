@@ -37,7 +37,7 @@
         :size="SizesEnum.small"
         :type="ButtonTypeEnum.ghost"
         :disabled="props.disabled"
-        v-if="state.value"
+        v-if="state.value && !props.isTimeSelect"
         @click.stop="handleClear"
         class="date-picker-close-yui-kit"
         :data-testid="`${props.dataTestid}-Button-Clear`"
