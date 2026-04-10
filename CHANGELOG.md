@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.232
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.231...v0.1.232)
+
+### 🚀 Enhancements
+
+- Add icon file-item ([80749e3](https://github.com/pksep/sep_yui/commit/80749e3))
+
 ## v0.1.231
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.230...v0.1.231)
