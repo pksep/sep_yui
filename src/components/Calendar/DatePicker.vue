@@ -27,7 +27,7 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
         />
       </template>
       <col-cal
-        :date.prop="date"
+        :date.prop="parsedDate"
         :minDate.prop="getDateStart()"
         :maxDate.prop="getDateEnd()"
         :locale="props.locale ?? 'ru-RU'"
@@ -86,7 +86,7 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, watchEffect } from 'vue';
+import { reactive, watch, watchEffect, computed } from 'vue';
 import 'col-cal';
 import DataPickerChoose from './DataPickerChoose.vue';
 import PopoverWrapper from './PopoverWrapper.vue';
@@ -126,7 +126,13 @@ const emits = defineEmits<{
   (e: 'change', value: Date | null): void;
 }>();
 
-const date = defineModel<Date | null>();
+const date = defineModel<Date | string | null>();
+
+const parsedDate = computed<Date | null>(() => {
+  if (!date.value) return null;
+  const d = new Date(date.value as Date | string);
+  return isNaN(d.getTime()) ? null : d;
+});
 
 const clearChoose = (): void => {
   state.isNotClear = false;
@@ -150,13 +156,13 @@ const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {
   if (!detail) return;
   let newDate = detail.date;
 
-  if (date.value && newDate) {
+  if (parsedDate.value && newDate) {
     newDate = new Date(
       newDate.getFullYear(),
       newDate.getMonth(),
       newDate.getDate(),
-      date.value.getHours(),
-      date.value.getMinutes()
+      parsedDate.value.getHours(),
+      parsedDate.value.getMinutes()
     );
   }
   date.value = newDate;
@@ -193,7 +199,7 @@ watchEffect(() => (state.endDate = (props.endDate ?? null) as null));
 const getDateStart = (): Date | null => {
   const startSafeDate = state.startDate ?? new Date();
   if (props.startDate) {
-    const safeDate = date.value ?? new Date();
+    const safeDate = parsedDate.value ?? new Date();
     if (startSafeDate.valueOf() <= safeDate.valueOf()) {
       return startSafeDate;
     } else if (startSafeDate != null) {
@@ -206,7 +212,7 @@ const getDateStart = (): Date | null => {
 const getDateEnd = (): Date | null => {
   const endSafeDate = state.endDate ?? new Date();
   if (props.endDate) {
-    const safeDate = date.value ?? new Date();
+    const safeDate = parsedDate.value ?? new Date();
     if (endSafeDate.valueOf() >= safeDate.valueOf()) {
       return endSafeDate;
     } else if (endSafeDate != null) {
