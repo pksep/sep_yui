@@ -1,4 +1,4 @@
-import{P as i,a as p}from"./Picture-BIU00t6C.js";import"./vue.esm-bundler-BES00G3L.js";import"./Loader-BbYiLSV6.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const x={title:"Picture/Picture",component:i,argTypes:{},tags:["autodocs"]},m=u=>({components:{Picture:i},setup(){return{args:u}},template:`<Picture v-bind="args" style="width: 500px;"
+import{P as i,a as p}from"./Picture-g515SN9I.js";import"./vue.esm-bundler-BES00G3L.js";import"./Loader-BbYiLSV6.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const x={title:"Picture/Picture",component:i,argTypes:{},tags:["autodocs"]},m=u=>({components:{Picture:i},setup(){return{args:u}},template:`<Picture v-bind="args" style="width: 500px;"
  />`}),e=m.bind({});e.args={type:p.img,url:"https://interactive-examples.mdn.mozilla.net/media/cc0-images/elephant-660-480.jpg",alt:"elephant"};const t=m.bind({});t.args={type:p.docx,caption:".sldrt"};var r,a,n;e.parameters={...e.parameters,docs:{...(r=e.parameters)==null?void 0:r.docs,source:{originalSource:`args => ({
   components: {
     Picture
