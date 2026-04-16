@@ -106,6 +106,7 @@ const setPdf = async (): Promise<void> => {
       cachePdf.setPageCache(cacheKey, page);
     }
 
+    if (!canvas.value) return;
     // Получаем размеры canvas
     const rect = canvas.value.getBoundingClientRect();
 
