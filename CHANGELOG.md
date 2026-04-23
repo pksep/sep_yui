@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.235
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.234...v0.1.235)
+
+### 🚀 Enhancements
+
+- Add image and video extensions ([b073291](https://github.com/pksep/sep_yui/commit/b073291))
+
+### 🏡 Chore
+
+- **release:** V0.1.234 ([10149ec](https://github.com/pksep/sep_yui/commit/10149ec))
+
 ## v0.1.234
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.234...v0.1.234)
