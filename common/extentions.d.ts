@@ -3,11 +3,19 @@ export declare enum ImageExtensionsEnum {
     png = "png",
     jpeg = "jpeg",
     webp = "webp",
-    svg = "svg"
+    svg = "svg",
+    avif = "avif",
+    gif = "gif",
+    bmp = "bmp",
+    tiff = "tiff",
+    ico = "ico"
 }
 export declare enum VideoExtensionsEnum {
     mp4 = "mp4",
-    mp3 = "mp3",
-    avif = "avif",
-    mov = "mov"
+    webm = "webm",
+    mkv = "mkv",
+    avi = "avi",
+    mov = "mov",
+    qt = "qt",
+    m4v = "m4v"
 }
