@@ -164,7 +164,7 @@
         </template>
 
         <!-- video -->
-        <template v-else-if="isVideo(state.file?.path)">
+        <template v-else-if="isVideo(state.file?.path) && !state.isErrorFile">
           <div
             ref="itemRef"
             class="slider-modal__item"
@@ -178,6 +178,8 @@
           >
             <video
               controls
+              autoplay
+              name="media"
               playsinline
               webkit-playsinline
               class="slider-modal__video"
@@ -185,7 +187,10 @@
               :data-testid="`${props.dataTestid}-Video`"
               @error="handleErrorItem($event, true)"
             >
-              <source :src="state.file?.path ?? ''" />
+              <source
+                :src="videoSourceUrl ?? state.file?.path ?? ''"
+                :type="getMediaMimeType(state.file?.path ?? '')"
+              />
             </video>
           </div>
         </template>
@@ -496,8 +501,10 @@ const mainRef = ref<HTMLElement | null>(null);
 const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 const imagePreviewRef = ref<HTMLImageElement | null>(null);
+const videoSourceUrl = ref<string | null>(null);
 
 let panzoomInstance: ReturnType<typeof Panzoom> | null = null;
+let videoObjectUrl: string | null = null;
 
 const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
 
@@ -689,6 +696,7 @@ watch([() => props.items, () => props.defaultIndex], () => {
 watch([() => state.file, () => props.open], () => {
   if (!props.open) {
     clearPdf();
+    cleanupVideoSource();
     state.file = null;
     return;
   }
@@ -702,6 +710,7 @@ watch([() => state.file, () => props.open], () => {
 
   state.isErrorFile = false;
 
+  void syncVideoSource();
   initFile();
 });
 
@@ -845,9 +854,11 @@ const handleClickOnDownloadButton = (): void => {
  * @param e
  */
 const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
-  const target = e.target as HTMLImageElement;
+  const target = e.target;
 
-  if (target) target.src = closedCamer;
+  if (target instanceof HTMLImageElement) {
+    target.src = closedCamer;
+  }
 
   if (isMainImage) state.isErrorFile = true;
 };
@@ -1359,6 +1370,54 @@ const getMediaMimeType = (path: string, fallbackType?: string): string => {
   return MEDIA_MIME_BY_EXTENSION[extension] ?? 'application/octet-stream';
 };
 
+const cleanupVideoSource = (): void => {
+  if (videoObjectUrl) {
+    URL.revokeObjectURL(videoObjectUrl);
+    videoObjectUrl = null;
+  }
+
+  videoSourceUrl.value = null;
+};
+
+const syncVideoSource = async (): Promise<void> => {
+  cleanupVideoSource();
+
+  const currentFile = state.file;
+
+  if (!currentFile?.path || !isVideo(currentFile.path)) return;
+
+  if (currentFile.file) {
+    videoObjectUrl = URL.createObjectURL(currentFile.file);
+    videoSourceUrl.value = videoObjectUrl;
+    return;
+  }
+
+  try {
+    const response = await fetch(currentFile.path, {
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch video: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    const normalizedBlob = blob.type
+      ? blob
+      : new Blob([blob], {
+          type: getMediaMimeType(currentFile.path)
+        });
+
+    if (state.file?.path !== currentFile.path) return;
+
+    videoObjectUrl = URL.createObjectURL(normalizedBlob);
+    videoSourceUrl.value = videoObjectUrl;
+  } catch (error) {
+    console.error('Failed to prepare video source', error);
+    videoSourceUrl.value = currentFile.path;
+  }
+};
+
 const getClipboardBlob = async (): Promise<Blob | null> => {
   if (!state.file?.path) return null;
 
@@ -1430,6 +1489,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearPdf();
+  cleanupVideoSource();
   if (sideBarRef.value)
     sideBarRef.value.removeEventListener('resize', centerPositionPanzoom);
 

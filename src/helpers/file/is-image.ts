@@ -1,4 +1,4 @@
-import { ImageExtensionsEnum } from '@/components';
+import { ImageExtensionsEnum } from '@/common/extentions';
 import checkPath from '@/helpers/file/check-path';
 
 /**

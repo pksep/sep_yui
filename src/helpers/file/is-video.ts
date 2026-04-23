@@ -1,4 +1,4 @@
-import { VideoExtensionsEnum } from '@/components';
+import { VideoExtensionsEnum } from '@/common/extentions';
 import checkPath from '@/helpers/file/check-path';
 
 /**
