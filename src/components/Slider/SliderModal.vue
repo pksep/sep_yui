@@ -1324,12 +1324,108 @@ const updateMediaParams = (): void => {
   state.isMobile = mediaQuery.matches;
 };
 
+const MEDIA_MIME_BY_EXTENSION: Record<string, string> = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  bmp: 'image/bmp',
+  svg: 'image/svg+xml',
+  mp4: 'video/mp4',
+  webm: 'video/webm',
+  ogv: 'video/ogg',
+  mov: 'video/quicktime'
+};
+
+const isEditableTarget = (target: EventTarget | null): boolean => {
+  if (!(target instanceof HTMLElement)) return false;
+
+  return Boolean(
+    target.closest(
+      'input, textarea, [contenteditable="true"], [contenteditable=""]'
+    )
+  );
+};
+
+const getMediaMimeType = (path: string, fallbackType?: string): string => {
+  if (fallbackType) return fallbackType;
+
+  const [pathname] = path.split('?');
+  const extension = pathname.split('.').pop()?.toLowerCase();
+
+  if (!extension) return 'application/octet-stream';
+
+  return MEDIA_MIME_BY_EXTENSION[extension] ?? 'application/octet-stream';
+};
+
+const getClipboardBlob = async (): Promise<Blob | null> => {
+  if (!state.file?.path) return null;
+
+  if (state.file.file) {
+    return new Blob([state.file.file], {
+      type: getMediaMimeType(state.file.path, state.file.file.type)
+    });
+  }
+
+  const response = await fetch(state.file.path, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch media for clipboard: ${response.status}`);
+  }
+
+  const blob = await response.blob();
+
+  if (blob.type) return blob;
+
+  return new Blob([blob], {
+    type: getMediaMimeType(state.file.path)
+  });
+};
+
+const copyCurrentMediaToClipboard = async (): Promise<void> => {
+  if (!state.file?.path) return;
+  if (!isImage(state.file.path) && !isVideo(state.file.path)) return;
+  if (!navigator.clipboard?.write || typeof ClipboardItem === 'undefined') {
+    return;
+  }
+
+  const blob = await getClipboardBlob();
+  if (!blob) return;
+
+  await navigator.clipboard.write([
+    new ClipboardItem({
+      [blob.type]: blob
+    })
+  ]);
+};
+
+const handleCopyMediaKeydown = (event: KeyboardEvent): void => {
+  if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 'c') {
+    return;
+  }
+
+  if (isEditableTarget(event.target)) return;
+  if (window.getSelection()?.toString()) return;
+  if (!state.file?.path || state.isErrorFile || isErrorFile.value) return;
+  if (!isImage(state.file.path) && !isVideo(state.file.path)) return;
+
+  event.preventDefault();
+
+  void copyCurrentMediaToClipboard().catch(error => {
+    console.error('Failed to copy media to clipboard', error);
+  });
+};
+
 onMounted(() => {
   if (sideBarRef.value) {
     sideBarRef.value.addEventListener('resize', centerPositionPanzoom);
   }
   updateMediaParams();
   mediaQuery.addEventListener('change', updateMediaParams);
+  document.addEventListener('keydown', handleCopyMediaKeydown);
 });
 
 onUnmounted(() => {
@@ -1338,6 +1434,7 @@ onUnmounted(() => {
     sideBarRef.value.removeEventListener('resize', centerPositionPanzoom);
 
   mediaQuery.removeEventListener('change', updateMediaParams);
+  document.removeEventListener('keydown', handleCopyMediaKeydown);
 });
 </script>
 
