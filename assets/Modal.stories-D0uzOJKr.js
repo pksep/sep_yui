@@ -1,0 +1,18 @@
+import{S as i}from"./storybook-BJU81olc.js";import{M as p}from"./ModalAnimated-Bpm87CoF.js";import{B as l}from"./Button-LGC5nSlp.js";import{w as c,u as n}from"./index-CGbn3E6N.js";import"./vue.esm-bundler-CrrBMa2I.js";import"./Modal-gO1O9Scq.js";import"./change-style-properties-1EhjFsjc.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./sizes-9jYRAigb.js";const M={title:"Modal/Modal",component:p,argTypes:{open:{control:{type:i.boolean},defaultValue:!0}},args:{open:!1},tags:["autodocs"]},m=o=>({components:{ModalAnimated:p,Button:l},setup(){return{args:o}},template:`
+    <Button @click="args.open=true"> Open Dialog </Button>
+    <ModalAnimated v-bind="args" :open="args.open"  width="30vw" height="100vh" @close="args.open=false" />
+  `}),t=m.bind({});t.play=async({canvasElement:o})=>{const e=c(o).getByRole("button");await n.click(e),await n.click(e,{delay:5e3})};var a,r,s;t.parameters={...t.parameters,docs:{...(a=t.parameters)==null?void 0:a.docs,source:{originalSource:`args => ({
+  components: {
+    ModalAnimated,
+    Button
+  },
+  setup() {
+    return {
+      args
+    };
+  },
+  template: \`
+    <Button @click="args.open=true"> Open Dialog </Button>
+    <ModalAnimated v-bind="args" :open="args.open"  width="30vw" height="100vh" @close="args.open=false" />
+  \`
+})`,...(s=(r=t.parameters)==null?void 0:r.docs)==null?void 0:s.source}}};const k=["Default"];export{t as Default,k as __namedExportsOrder,M as default};
