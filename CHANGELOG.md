@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.239
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.238...v0.1.239)
+
+### 🚀 Enhancements
+
+- Add copy logic for image ([d041120](https://github.com/pksep/sep_yui/commit/d041120))
+
+### 🩹 Fixes
+
+- Package.json ([939296b](https://github.com/pksep/sep_yui/commit/939296b))
+
 ## v0.1.238
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.237...v0.1.238)
