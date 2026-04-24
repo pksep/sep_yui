@@ -8,7 +8,7 @@
     :width
     :animate-type="ModalAnimateEnum.fade"
     @close="unmountClose"
-    @end-animation="$emit('end-animation')"
+    @end-animation="handleEndAnimation"
     @unmounted="$emit('unmounted')"
     @pointerup="handlePointerEnd"
     @pointerleave="handlePinterLeave"
@@ -153,7 +153,8 @@
                 ref="imagePreviewRef"
                 class="slider-modal__image"
                 :class="{
-                  'slider-modal__image_error': state.isErrorFile
+                  'slider-modal__image_error': state.isErrorFile,
+                  'slider-modal__image_positioned': state.isImagePositioned
                 }"
                 :src="state.file?.path"
                 @error="handleErrorItem($event, true)"
@@ -444,6 +445,7 @@ const state = reactive<{
   isSwipeNextSlide: boolean;
   isSwipePrevSlide: boolean;
   isExitScrollActive: boolean;
+  isImagePositioned: boolean;
 
   isMobile: boolean;
   zoomValue: number;
@@ -473,6 +475,7 @@ const state = reactive<{
   isSwipeNextSlide: false,
   isSwipePrevSlide: false,
   isExitScrollActive: false,
+  isImagePositioned: false,
   zoomValue: 1,
   offsetX: 0,
   offsetY: 0,
@@ -580,7 +583,7 @@ const setZoomElement = (): void => {
     startY: y,
     panOnlyWhenZoomed: true,
     startScale: 1,
-    animate: true,
+    animate: false,
     cursor: 'default',
 
     setTransform: (elem, { x, y, scale }) => {
@@ -601,6 +604,14 @@ const setZoomElement = (): void => {
       );
     }
   });
+
+  requestAnimationFrame(() => {
+    panzoomInstance?.setOptions({
+      animate: true
+    });
+  });
+
+  state.isImagePositioned = true;
 
   panzoomInstance.handleUp = () => {
     if (!panzoomInstance || !imagePreviewRef.value) return;
@@ -652,14 +663,15 @@ const setZoomElement = (): void => {
   window.addEventListener('resize', centerPositionPanzoom);
 };
 
-const resetListenerPanzoom = (): void => {
+const resetListenerPanzoom = (resetTransform: boolean = true): void => {
   if (!panzoomInstance) return;
   window.removeEventListener('resize', centerPositionPanzoom);
 
   document.removeEventListener('pointerup', panzoomInstance.handleUp);
   panzoomInstance.destroy();
+  panzoomInstance = null;
 
-  if (imagePreviewRef.value) {
+  if (resetTransform && imagePreviewRef.value) {
     changeStyleProperties(
       { transform: 'none', transition: 'none' },
       imagePreviewRef.value
@@ -695,13 +707,11 @@ watch([() => props.items, () => props.defaultIndex], () => {
 // Отслеживаем изменение открытого файла
 watch([() => state.file, () => props.open], () => {
   if (!props.open) {
-    clearPdf();
-    cleanupVideoSource();
-    state.file = null;
     return;
   }
   //  Обнуляем зум
   state.zoomValue = 1;
+  state.isImagePositioned = false;
   resetRotate();
 
   if (!state.file) {
@@ -718,9 +728,7 @@ watch(
   () => props.open,
   () => {
     if (!props.open) {
-      panzoomInstance?.destroy();
-      resetListenerPanzoom();
-      resetRotate();
+      resetListenerPanzoom(false);
 
       return;
     }
@@ -745,6 +753,17 @@ watch(
 
 const unmountClose = (): void => {
   if (state.isClickOnExit) emit('close');
+};
+
+const handleEndAnimation = (): void => {
+  if (!props.open) {
+    resetRotate();
+    clearPdf();
+    cleanupVideoSource();
+    state.file = null;
+  }
+
+  emit('end-animation');
 };
 
 /**
@@ -868,6 +887,7 @@ const handleLoadImage = (): void => {
     setZoomElement();
   } else {
     resetListenerPanzoom();
+    state.isImagePositioned = true;
   }
 };
 
@@ -1133,11 +1153,9 @@ const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
 const resetRotate = (): void => {
   const isChanged = state.rotateValue !== 0;
 
-  if (!imagePreviewRef.value) return;
-
   state.rotateValue = 0;
 
-  if (isChanged)
+  if (isChanged && imagePreviewRef.value)
     changeStyleProperties(
       {
         transform: 'none'
@@ -1674,6 +1692,15 @@ onUnmounted(() => {
 .slider-modal__image {
   max-height: 100%;
   height: auto;
+  opacity: 0;
+}
+
+.slider-modal__image_positioned {
+  opacity: 1;
+}
+
+.slider-modal__image_error {
+  opacity: 1;
 }
 
 .slider-modal__bottom {
