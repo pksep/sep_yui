@@ -1418,6 +1418,32 @@ const syncVideoSource = async (): Promise<void> => {
   }
 };
 
+const convertImageToPngBlob = (blob: Blob): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject('No canvas context');
+
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob(pngBlob => {
+        if (!pngBlob) return reject('PNG conversion failed');
+        resolve(pngBlob);
+      }, 'image/png');
+    };
+
+    img.onerror = reject;
+
+    img.src = URL.createObjectURL(blob);
+  });
+};
+
 const getClipboardBlob = async (): Promise<Blob | null> => {
   if (!state.file?.path) return null;
 
@@ -1435,43 +1461,58 @@ const getClipboardBlob = async (): Promise<Blob | null> => {
     throw new Error(`Failed to fetch media for clipboard: ${response.status}`);
   }
 
-  const blob = await response.blob();
-
-  if (blob.type) return blob;
-
-  return new Blob([blob], {
-    type: getMediaMimeType(state.file.path)
-  });
+  return await response.blob();
 };
 
 const copyCurrentMediaToClipboard = async (): Promise<void> => {
   if (!state.file?.path) return;
-  if (!isImage(state.file.path) && !isVideo(state.file.path)) return;
-  if (!navigator.clipboard?.write || typeof ClipboardItem === 'undefined') {
+
+  if (isVideo(state.file.path)) return;
+
+  if (!isImage(state.file.path)) return;
+
+  const nav = navigator;
+
+  if (!nav.clipboard?.write || typeof window.ClipboardItem === 'undefined') {
     return;
   }
 
-  const blob = await getClipboardBlob();
+  let blob = await getClipboardBlob();
   if (!blob) return;
 
-  await navigator.clipboard.write([
-    new ClipboardItem({
-      [blob.type]: blob
-    })
-  ]);
+  if (blob.type !== 'image/png') {
+    blob = await convertImageToPngBlob(blob);
+  }
+
+  try {
+    await nav.clipboard.write([
+      new ClipboardItem({
+        'image/png': blob
+      })
+    ]);
+  } catch (e) {
+    console.error('Clipboard write failed', e);
+  }
 };
 
 const handleCopyMediaKeydown = (event: KeyboardEvent): void => {
-  if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 'c') {
-    return;
-  }
+  const isCopyKey =
+    (event.ctrlKey || event.metaKey) &&
+    event.key &&
+    event.key.toLowerCase() === 'c';
+
+  if (!isCopyKey) return;
 
   if (isEditableTarget(event.target)) return;
-  if (window.getSelection()?.toString()) return;
+
+  const selection = window.getSelection()?.toString();
+  if (selection && selection.trim().length > 0) return;
+
   if (!state.file?.path || state.isErrorFile || isErrorFile.value) return;
   if (!isImage(state.file.path) && !isVideo(state.file.path)) return;
 
   event.preventDefault();
+  event.stopPropagation();
 
   void copyCurrentMediaToClipboard().catch(error => {
     console.error('Failed to copy media to clipboard', error);
