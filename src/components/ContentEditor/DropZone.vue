@@ -50,12 +50,27 @@ const hasDraggedFiles = (dataTransfer?: DataTransfer | null): boolean => {
   );
 };
 
-const handleDrop = (e: DragEvent): void => {
+const toSafeFile = async (file: File): Promise<File> => {
+  const buffer = await file.arrayBuffer();
+
+  return new File([buffer], file.name, {
+    type: file.type,
+    lastModified: file.lastModified
+  });
+};
+
+const handleDrop = async (e: DragEvent): Promise<void> => {
   e.preventDefault();
   state.dragging = false;
+
   if (!e.dataTransfer) return;
+
   const files = getDroppedFiles(e.dataTransfer);
-  if (files.length) emits('files-dropped', files);
+  if (!files.length) return;
+
+  const safeFiles = await Promise.all(files.map(toSafeFile));
+
+  emits('files-dropped', safeFiles);
 };
 
 const handleWindowDrop = (e: DragEvent): void => {
