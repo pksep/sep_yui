@@ -1,13 +1,13 @@
 {
   "name": "@pksep/yui",
   "author": "Perov David",
-  "version": "0.1.238",
+  "version": "0.1.237",
   "packageManager": "pnpm@9.9.0",
   "main": "./dist/sep-yui.umd.ts",
   "module": "./dist/sep-yui.ts",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "vite build",
+    "build": "pnpm run lint && vue-tsc && vite build",
     "publish:lib": "pnpm run build && pnpm changelogen --release --publish",
     "lint": "eslint --fix --ext .ts,.vue src",
     "start:dev": "storybook dev -p 6006",
