@@ -2,6 +2,15 @@
 
 ## v0.1.237
 
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.237...v0.1.237)
+
+### 🩹 Fixes
+
+- Package.json ([70b5998](https://github.com/pksep/sep_yui/commit/70b5998))
+- Dropzone for pva ([a4677b1](https://github.com/pksep/sep_yui/commit/a4677b1))
+
+## v0.1.237
+
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.236...v0.1.237)
 
 ### 🚀 Enhancements
