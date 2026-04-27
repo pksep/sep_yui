@@ -13,6 +13,7 @@
       :width="props.width"
       :height="props.height"
       :data-testid="props.dataTestid"
+      :is-reset-focus="props.isResetFocus"
       @close="close"
       @unmounted="unmounted"
       :disable-close-on-outside-click="props.disableCloseOnOutsideClick"

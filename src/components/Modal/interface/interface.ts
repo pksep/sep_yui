@@ -7,6 +7,7 @@ export interface IDialogProps extends IDataTestIdProp {
   width?: string;
   height?: string;
   disableCloseOnOutsideClick?: boolean;
+  isResetFocus?: boolean;
 }
 
 export interface IModalProps extends IDialogProps {
