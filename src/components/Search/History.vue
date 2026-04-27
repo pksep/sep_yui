@@ -29,9 +29,10 @@
       >
         <span
           @click="handleChoosePost(item)"
+          class="history-yui-kit__hint"
           :data-testid="`${props.dataTestid}-HandleChoosePost-Title${inx}`"
         >
-          {{ trimText(item) }}</span
+          {{ item }}</span
         ><Button
           :type="ButtonTypeEnum.ghost"
           @click="removeItem(item)"
@@ -64,7 +65,6 @@
 import { reactive, computed } from 'vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from './../Icon/Icon.vue';
-import { trimText } from './../../helpers/trimText';
 import Button from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum.ts';
 import { IHistoryProps } from './interface/interface';
@@ -211,9 +211,6 @@ const handleChoosePost = (item: string) => {
       width: 100%;
       height: 100%;
       border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       transition: all 0.2s;
 
       &.empty-content {
@@ -277,21 +274,25 @@ const handleChoosePost = (item: string) => {
     position: relative;
     height: 30px;
     border-radius: 5px;
+    padding: 5px 5px 5px 10px;
 
     span {
-      display: flex;
       flex-grow: 1;
-      align-items: center;
       font-weight: normal;
-      padding: 5px 50px 5px 10px;
-      height: 24px;
       border-radius: 5px;
     }
 
     button {
-      display: none;
-      position: absolute;
-      right: 5px;
+      width: 16px;
+      height: 16px;
+      min-height: auto;
+      opacity: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      color: var(--text-light-color);
+      transition: all 0.2s ease;
     }
 
     &:hover {
@@ -299,13 +300,7 @@ const handleChoosePost = (item: string) => {
       background-color: var(--primary-hover-light-color);
 
       button {
-        width: 16px;
-        height: 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-        color: var(--text-light-color);
+        opacity: 1;
 
         &:hover {
           background-color: transparent;
@@ -317,6 +312,13 @@ const handleChoosePost = (item: string) => {
       background-color: var(--primary-pressed-light-color);
     }
   }
+}
+
+.history-yui-kit__hint {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .search-yui-kit__history {

@@ -8,7 +8,7 @@
     :width
     :animate-type="ModalAnimateEnum.fade"
     @close="unmountClose"
-    @end-animation="$emit('end-animation')"
+    @end-animation="handleEndAnimation"
     @unmounted="$emit('unmounted')"
     @pointerup="handlePointerEnd"
     @pointerleave="handlePinterLeave"
@@ -153,7 +153,8 @@
                 ref="imagePreviewRef"
                 class="slider-modal__image"
                 :class="{
-                  'slider-modal__image_error': state.isErrorFile
+                  'slider-modal__image_error': state.isErrorFile,
+                  'slider-modal__image_positioned': state.isImagePositioned
                 }"
                 :src="state.file?.path"
                 @error="handleErrorItem($event, true)"
@@ -444,6 +445,7 @@ const state = reactive<{
   isSwipeNextSlide: boolean;
   isSwipePrevSlide: boolean;
   isExitScrollActive: boolean;
+  isImagePositioned: boolean;
 
   isMobile: boolean;
   zoomValue: number;
@@ -473,6 +475,7 @@ const state = reactive<{
   isSwipeNextSlide: false,
   isSwipePrevSlide: false,
   isExitScrollActive: false,
+  isImagePositioned: false,
   zoomValue: 1,
   offsetX: 0,
   offsetY: 0,
@@ -505,6 +508,10 @@ const videoSourceUrl = ref<string | null>(null);
 
 let panzoomInstance: ReturnType<typeof Panzoom> | null = null;
 let videoObjectUrl: string | null = null;
+let imagePositionFallbackTimer: ReturnType<typeof window.setTimeout> | null =
+  null;
+
+const IMAGE_POSITION_FALLBACK_DELAY = 200;
 
 const isDisabledPrevButton = computed(() => state.defaultIndex === 0);
 
@@ -559,13 +566,53 @@ const contentStyle = computed(() => ({
   `
 }));
 
-const setZoomElement = (): void => {
-  if (!imagePreviewRef.value) return;
+/**
+ * Очищает таймер fallback-показа изображения
+ *
+ * Нужен, чтобы старый файл не открылся поверх нового после смены слайда,
+ * закрытия модалки или ошибки загрузки.
+ */
+const clearImagePositionFallback = (): void => {
+  if (!imagePositionFallbackTimer) return;
+
+  window.clearTimeout(imagePositionFallbackTimer);
+  imagePositionFallbackTimer = null;
+};
+
+/**
+ * Планирует fallback-показ изображения
+ *
+ * Если Panzoom не смог инициализироваться после загрузки, изображение всё равно
+ * становится видимым через небольшую задержку.
+ * @param path путь изображения на момент планирования fallback
+ */
+const scheduleImagePositionFallback = (path?: string): void => {
+  clearImagePositionFallback();
+
+  imagePositionFallbackTimer = window.setTimeout(() => {
+    imagePositionFallbackTimer = null;
+
+    // Проверяем путь, чтобы таймер от предыдущего слайда не повлиял на текущий.
+    if (path && state.file?.path !== path) return;
+    if (state.isImagePositioned || !imagePreviewRef.value) return;
+
+    state.isImagePositioned = true;
+  }, IMAGE_POSITION_FALLBACK_DELAY);
+};
+
+/**
+ * Инициализирует Panzoom и позиционирует изображение в центре viewport
+ *
+ * Возвращает статус, чтобы вызывающий код мог включить fallback-показ
+ * изображения, если DOM ещё не готов или Panzoom завершился ошибкой.
+ */
+const setZoomElement = (): boolean => {
+  if (!imagePreviewRef.value) return false;
   resetListenerPanzoom();
 
   const parent = imagePreviewRef.value.parentElement;
 
-  if (!parent) return;
+  if (!parent) return false;
 
   const parentRect = parent.getBoundingClientRect();
   const elemRect = imagePreviewRef.value.getBoundingClientRect();
@@ -573,34 +620,51 @@ const setZoomElement = (): void => {
   const x = (parentRect.width - elemRect.width) / 2;
   const y = (parentRect.height - elemRect.height) / 2;
 
-  panzoomInstance = Panzoom(imagePreviewRef.value, {
-    maxScale: 3,
-    minScale: 1,
-    startX: x,
-    startY: y,
-    panOnlyWhenZoomed: true,
-    startScale: 1,
-    animate: true,
-    cursor: 'default',
+  try {
+    // Panzoom может упасть на краевых DOM-состояниях; в этом случае изображение покажет fallback.
+    panzoomInstance = Panzoom(imagePreviewRef.value, {
+      maxScale: 3,
+      minScale: 1,
+      startX: x,
+      startY: y,
+      panOnlyWhenZoomed: true,
+      startScale: 1,
+      animate: false,
+      cursor: 'default',
 
-    setTransform: (elem, { x, y, scale }) => {
-      const parent = elem.parentElement;
+      setTransform: (elem, { x, y, scale }) => {
+        const parent = elem.parentElement;
 
-      const element = elem as HTMLElement;
-      if (!parent) return;
-      element;
+        const element = elem as HTMLElement;
+        if (!parent) return;
+        element;
 
-      if (state.isMobile) {
-        scale = Math.max(Math.min(scale, 3), 1);
-        state.zoomValue = scale;
+        if (state.isMobile) {
+          scale = Math.max(Math.min(scale, 3), 1);
+          state.zoomValue = scale;
+        }
+
+        panzoomInstance?.setStyle(
+          'transform',
+          `translate(${x}px, ${y}px) scale(${scale}) rotate(${state.rotateValue}deg)`
+        );
       }
+    });
+  } catch (error) {
+    // Не блокируем показ изображения, если не удалось подготовить масштабирование.
+    console.error('Failed to initialize image panzoom', error);
+    panzoomInstance = null;
 
-      panzoomInstance?.setStyle(
-        'transform',
-        `translate(${x}px, ${y}px) scale(${scale}) rotate(${state.rotateValue}deg)`
-      );
-    }
+    return false;
+  }
+
+  requestAnimationFrame(() => {
+    panzoomInstance?.setOptions({
+      animate: true
+    });
   });
+
+  state.isImagePositioned = true;
 
   panzoomInstance.handleUp = () => {
     if (!panzoomInstance || !imagePreviewRef.value) return;
@@ -650,16 +714,19 @@ const setZoomElement = (): void => {
 
   document.addEventListener('pointerup', panzoomInstance.handleUp);
   window.addEventListener('resize', centerPositionPanzoom);
+
+  return true;
 };
 
-const resetListenerPanzoom = (): void => {
+const resetListenerPanzoom = (resetTransform: boolean = true): void => {
   if (!panzoomInstance) return;
   window.removeEventListener('resize', centerPositionPanzoom);
 
   document.removeEventListener('pointerup', panzoomInstance.handleUp);
   panzoomInstance.destroy();
+  panzoomInstance = null;
 
-  if (imagePreviewRef.value) {
+  if (resetTransform && imagePreviewRef.value) {
     changeStyleProperties(
       { transform: 'none', transition: 'none' },
       imagePreviewRef.value
@@ -689,19 +756,21 @@ const centerPositionPanzoom = (): void => {
 watch([() => props.items, () => props.defaultIndex], () => {
   state.file = props.items[props.defaultIndex ?? 0];
   state.defaultIndex = props.defaultIndex ?? 0;
+  // При смене входных данных старый fallback уже неактуален.
+  clearImagePositionFallback();
   resetListenerPanzoom();
 });
 
 // Отслеживаем изменение открытого файла
 watch([() => state.file, () => props.open], () => {
   if (!props.open) {
-    clearPdf();
-    cleanupVideoSource();
-    state.file = null;
     return;
   }
   //  Обнуляем зум
   state.zoomValue = 1;
+  state.isImagePositioned = false;
+  // Новый файл должен сам пройти загрузку, ошибку или fallback.
+  clearImagePositionFallback();
   resetRotate();
 
   if (!state.file) {
@@ -718,9 +787,9 @@ watch(
   () => props.open,
   () => {
     if (!props.open) {
-      panzoomInstance?.destroy();
-      resetListenerPanzoom();
-      resetRotate();
+      resetListenerPanzoom(false);
+      // Закрытая модалка не должна получать отложенное изменение видимости.
+      clearImagePositionFallback();
 
       return;
     }
@@ -745,6 +814,17 @@ watch(
 
 const unmountClose = (): void => {
   if (state.isClickOnExit) emit('close');
+};
+
+const handleEndAnimation = (): void => {
+  if (!props.open) {
+    resetRotate();
+    clearPdf();
+    cleanupVideoSource();
+    state.file = props.items[props.defaultIndex];
+  }
+
+  emit('end-animation');
 };
 
 /**
@@ -860,15 +940,53 @@ const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
     target.src = closedCamer;
   }
 
-  if (isMainImage) state.isErrorFile = true;
+  if (isMainImage) {
+    // Ошибка загрузки показывает заглушку сразу, fallback для изображения больше не нужен.
+    clearImagePositionFallback();
+    state.isErrorFile = true;
+  }
 };
 
 const handleLoadImage = (): void => {
+  // Повторный load не должен оставить старый таймер активным.
+  clearImagePositionFallback();
+
   if (!state.isErrorFile && !isErrorFile.value) {
-    setZoomElement();
+    const isZoomInitialized = setZoomElement();
+
+    if (!isZoomInitialized) {
+      // Если позиционирование не удалось, показываем изображение без Panzoom.
+      scheduleImagePositionFallback(state.file?.path);
+    }
   } else {
     resetListenerPanzoom();
+    // Для ошибочного состояния изображение-заглушка должно быть видимо сразу.
+    clearImagePositionFallback();
+    state.isImagePositioned = true;
   }
+};
+
+/**
+ * Инициализирует уже загруженное изображение
+ *
+ * Страхует сценарии браузерного кеша, когда img уже готов, но повторное
+ * событие load не пришло после рендера компонента.
+ * @param path путь изображения на момент запуска проверки
+ */
+const initLoadedImage = (path?: string): void => {
+  nextTick(() => {
+    // Защищаемся от ситуации, когда nextTick пришёл уже после смены слайда.
+    if (!path || state.file?.path !== path) return;
+    if (state.isImagePositioned || state.isErrorFile || isErrorFile.value) {
+      return;
+    }
+
+    const image = imagePreviewRef.value;
+    // В некоторых сценариях кеша load может не сработать повторно, но img уже готов.
+    if (!image?.complete || image.naturalWidth <= 0) return;
+
+    handleLoadImage();
+  });
 };
 
 /**
@@ -1133,11 +1251,9 @@ const mobileMoveEvent = (deltaX: number, deltaY: number): void => {
 const resetRotate = (): void => {
   const isChanged = state.rotateValue !== 0;
 
-  if (!imagePreviewRef.value) return;
-
   state.rotateValue = 0;
 
-  if (isChanged)
+  if (isChanged && imagePreviewRef.value)
     changeStyleProperties(
       {
         transform: 'none'
@@ -1248,6 +1364,8 @@ const updateIndexByWheel = (deltaY: number) => {
  * Инициализация файла
  */
 const initFile = (): void => {
+  const path = state.file?.path;
+
   nextTick(() => {
     if (!state.file) return;
     // const extension = checkPath(state.file.path);
@@ -1257,6 +1375,11 @@ const initFile = (): void => {
       // Устанавливаем ошибку, чтобы блокировать кнопки печати и скачивания, пока не прогрузится pdf
       state.isErrorFile = true;
       initPdf();
+      return;
+    }
+
+    if (isImage(state.file?.path)) {
+      initLoadedImage(path);
     }
   });
 };
@@ -1530,6 +1653,8 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearPdf();
+  // При размонтировании убираем таймер, чтобы не менять состояние уничтоженного компонента.
+  clearImagePositionFallback();
   cleanupVideoSource();
   if (sideBarRef.value)
     sideBarRef.value.removeEventListener('resize', centerPositionPanzoom);
@@ -1674,6 +1799,15 @@ onUnmounted(() => {
 .slider-modal__image {
   max-height: 100%;
   height: auto;
+  opacity: 0;
+}
+
+.slider-modal__image_positioned {
+  opacity: 1;
+}
+
+.slider-modal__image_error {
+  opacity: 1;
 }
 
 .slider-modal__bottom {

@@ -248,6 +248,7 @@ watch(
     font-size: 14px;
     line-height: 16px;
     padding-left: 44px;
+    padding-right: 36px;
 
     &:hover,
     &:focus,
@@ -255,14 +256,6 @@ watch(
     &:active {
       border: 1px solid var(--border-primary-color);
       outline: none;
-    }
-
-    &:focus,
-    &:focus-visible,
-    &:active {
-      & ~ .clear-button {
-        opacity: 1;
-      }
     }
   }
 
@@ -288,7 +281,6 @@ watch(
       height: 24px;
       min-height: max-content;
       padding: 0;
-      opacity: 0;
     }
   }
 }

@@ -62,7 +62,7 @@
 
           <VideoPreview
             v-else-if="isVideo(state.file?.path ?? '')"
-            class="slider__item"
+            class="slider__item slider__item_video"
             :src="state.file?.path ?? ''"
             @click="handleClickOnItem(state.file)"
             @load="handleLoad"
@@ -453,6 +453,11 @@ defineExpose({
 
 .slider__item {
   height: 100%;
+}
+
+.slider__item_video {
+  width: 100%;
+  object-fit: contain;
 }
 
 .slider-yui-kit__slides {
