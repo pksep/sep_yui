@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.241
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.240...v0.1.241)
+
+### 🚀 Enhancements
+
+- Added new attribute to modal ([3896200](https://github.com/pksep/sep_yui/commit/3896200))
+
 ## v0.1.240
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.239...v0.1.240)
