@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.240
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.239...v0.1.240)
+
+### 🚀 Enhancements
+
+- Updated modal ([2084b63](https://github.com/pksep/sep_yui/commit/2084b63))
+
 ## v0.1.239
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.238...v0.1.239)
