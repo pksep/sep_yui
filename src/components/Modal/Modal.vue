@@ -34,7 +34,8 @@ const { lastOpenedModal, addOpenedModal, reduceOpenedModal } = useModal();
 const props = withDefaults(defineProps<IDialogProps>(), {
   dataTestid: 'Modal',
   position: 'right',
-  disableCloseOnOutsideClick: false
+  disableCloseOnOutsideClick: false,
+  isResetFocus: true
 });
 
 const dialog = ref<HTMLDialogElement | null>(null);
@@ -141,7 +142,7 @@ onMounted(() => {
       showDialog();
       visible.value = props.open;
 
-      if (dialog.value) {
+      if (dialog.value && props.isResetFocus) {
         dialog.value.focus();
       }
     }
