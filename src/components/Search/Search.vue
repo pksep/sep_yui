@@ -257,10 +257,6 @@ watch(
       border: 1px solid var(--border-primary-color);
       outline: none;
     }
-
-    .clear-button {
-      opacity: 1;
-    }
   }
 
   &__icon-wrapper {
