@@ -11,7 +11,10 @@
       :class="'history-yui-kit__button-text show-result'"
       :data-testid="`${props.dataTestid}-ShowResult`"
     >
-      <span :data-testid="`${props.dataTestid}-ShowResult-Title`">
+      <span
+        class="search-yui-kit__button-label"
+        :data-testid="`${props.dataTestid}-ShowResult-Title`"
+      >
         Просмотреть историю запросов
       </span>
     </Button>
@@ -312,6 +315,14 @@ const handleChoosePost = (item: string) => {
       background-color: var(--primary-pressed-light-color);
     }
   }
+}
+
+.search-yui-kit__button-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .history-yui-kit__hint {
