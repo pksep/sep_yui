@@ -7,6 +7,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     dataTestid: string;
     position: string;
     disableCloseOnOutsideClick: boolean;
+    isResetFocus: boolean;
 }>>, {
     closeDialog: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
@@ -16,6 +17,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     dataTestid: string;
     position: string;
     disableCloseOnOutsideClick: boolean;
+    isResetFocus: boolean;
 }>>> & Readonly<{
     onClose?: ((...args: any[]) => any) | undefined;
     onUnmounted?: ((...args: any[]) => any) | undefined;
@@ -23,6 +25,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     dataTestid: string;
     position: "right" | "center" | "bottom";
     disableCloseOnOutsideClick: boolean;
+    isResetFocus: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;
