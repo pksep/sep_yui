@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.243
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.242...v0.1.243)
+
+### 🩹 Fixes
+
+- Retry drop logic in macos if error ([0ee2f21](https://github.com/pksep/sep_yui/commit/0ee2f21))
+
 ## v0.1.242
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.241...v0.1.242)
