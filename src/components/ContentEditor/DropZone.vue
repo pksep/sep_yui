@@ -24,42 +24,28 @@ const state = reactive({
 });
 
 const getDroppedFiles = (dataTransfer: DataTransfer): File[] => {
-  const itemFiles = Array.from(dataTransfer.items ?? [])
+  if (dataTransfer.files && dataTransfer.files.length > 0) {
+    return Array.from(dataTransfer.files);
+  }
+
+  // fallback (редко нужен, но пусть будет)
+  return Array.from(dataTransfer.items ?? [])
     .filter(item => item.kind === 'file')
     .map(item => item.getAsFile())
     .filter((file): file is File => !!file);
-
-  if (itemFiles.length) {
-    return itemFiles;
-  }
-
-  return Array.from(dataTransfer.files ?? []);
 };
 
 const hasDraggedFiles = (dataTransfer?: DataTransfer | null): boolean => {
   if (!dataTransfer) return false;
 
-  const types = Array.from(dataTransfer.types ?? []);
-
-  if (types.includes('Files')) {
-    return true;
-  }
+  if (dataTransfer.types?.includes('Files')) return true;
 
   return Array.from(dataTransfer.items ?? []).some(
     item => item.kind === 'file'
   );
 };
 
-const toSafeFile = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-
-  return new File([buffer], file.name, {
-    type: file.type,
-    lastModified: file.lastModified
-  });
-};
-
-const handleDrop = async (e: DragEvent): Promise<void> => {
+const handleDrop = (e: DragEvent): void => {
   e.preventDefault();
   state.dragging = false;
 
@@ -68,9 +54,7 @@ const handleDrop = async (e: DragEvent): Promise<void> => {
   const files = getDroppedFiles(e.dataTransfer);
   if (!files.length) return;
 
-  const safeFiles = await Promise.all(files.map(toSafeFile));
-
-  emits('files-dropped', safeFiles);
+  emits('files-dropped', files);
 };
 
 const handleWindowDrop = (e: DragEvent): void => {
@@ -90,6 +74,7 @@ const handleWindowDragEnter = (e: DragEvent): void => {
 };
 
 const handleWindowDragLeave = (e: DragEvent): void => {
+  // когда курсор уходит за пределы окна
   if (e.clientX === 0 && e.clientY === 0) {
     state.dragging = false;
   }
@@ -100,7 +85,9 @@ const handleWindowDragEnd = (): void => {
 };
 
 const handleDragLeave = (e: DragEvent): void => {
-  if (e.clientX === 0 && e.clientY === 0) state.dragging = false;
+  if (e.clientX === 0 && e.clientY === 0) {
+    state.dragging = false;
+  }
 };
 
 onMounted(() => {
