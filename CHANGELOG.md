@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.242
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.241...v0.1.242)
+
+### 🩹 Fixes
+
+- Drop in macos ([11ebe64](https://github.com/pksep/sep_yui/commit/11ebe64))
+
+### 🎨 Styles
+
+- Changed style ([e9cb2bf](https://github.com/pksep/sep_yui/commit/e9cb2bf))
+
 ## v0.1.241
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.240...v0.1.241)
