@@ -23,6 +23,62 @@ const state = reactive({
   dragging: false
 });
 
+const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+/**
+ *  Проверка — можно ли вообще читать файл
+ */
+const isFileReadable = async (file: File): Promise<boolean> => {
+  try {
+    await file.slice(0, 1).arrayBuffer();
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ *  Безопасное чтение с retry (macOS fix)
+ */
+const readFileSafe = async (file: File, retries = 3): Promise<void> => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await file.arrayBuffer();
+      return;
+    } catch (e) {
+      if (i === retries - 1) throw e;
+      await delay(100);
+    }
+  }
+};
+
+/**
+ *  Нормализация файлов (фильтр + retry)
+ */
+const normalizeFiles = async (files: File[]) => {
+  const valid: File[] = [];
+  const rejected: File[] = [];
+
+  for (const file of files) {
+    try {
+      const readable = await isFileReadable(file);
+
+      if (!readable) {
+        rejected.push(file);
+        continue;
+      }
+
+      await readFileSafe(file);
+
+      valid.push(file);
+    } catch {
+      rejected.push(file);
+    }
+  }
+
+  return { valid, rejected };
+};
+
 const getDroppedFiles = (dataTransfer: DataTransfer): File[] => {
   if (dataTransfer.files && dataTransfer.files.length > 0) {
     return Array.from(dataTransfer.files);
@@ -45,7 +101,7 @@ const hasDraggedFiles = (dataTransfer?: DataTransfer | null): boolean => {
   );
 };
 
-const handleDrop = (e: DragEvent): void => {
+const handleDrop = async (e: DragEvent): Promise<void> => {
   e.preventDefault();
   state.dragging = false;
 
@@ -54,7 +110,15 @@ const handleDrop = (e: DragEvent): void => {
   const files = getDroppedFiles(e.dataTransfer);
   if (!files.length) return;
 
-  emits('files-dropped', files);
+  const { valid, rejected } = await normalizeFiles(files);
+
+  if (rejected.length) {
+    console.warn('Unreadable files (macOS issue):', rejected);
+  }
+
+  if (valid.length) {
+    emits('files-dropped', valid);
+  }
 };
 
 const handleWindowDrop = (e: DragEvent): void => {
@@ -90,12 +154,24 @@ const handleDragLeave = (e: DragEvent): void => {
   }
 };
 
+const handlePaste = async (e: ClipboardEvent) => {
+  const files = Array.from(e.clipboardData?.files ?? []);
+  if (!files.length) return;
+
+  const { valid } = await normalizeFiles(files);
+
+  if (valid.length) {
+    emits('files-dropped', valid);
+  }
+};
+
 onMounted(() => {
   window.addEventListener('dragenter', handleWindowDragEnter);
   window.addEventListener('dragover', handleWindowDragover);
   window.addEventListener('drop', handleWindowDrop);
   window.addEventListener('dragleave', handleWindowDragLeave);
   window.addEventListener('dragend', handleWindowDragEnd);
+  window.addEventListener('paste', handlePaste);
 });
 
 onUnmounted(() => {
@@ -104,6 +180,7 @@ onUnmounted(() => {
   window.removeEventListener('drop', handleWindowDrop);
   window.removeEventListener('dragleave', handleWindowDragLeave);
   window.removeEventListener('dragend', handleWindowDragEnd);
+  window.removeEventListener('paste', handlePaste);
 });
 </script>
 
