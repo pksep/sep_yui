@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.244
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.243...v0.1.244)
+
+### 🩹 Fixes
+
+- Paste media in contentEditor ([cbc0ce6](https://github.com/pksep/sep_yui/commit/cbc0ce6))
+
 ## v0.1.243
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.242...v0.1.243)
