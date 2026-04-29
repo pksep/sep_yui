@@ -220,6 +220,8 @@ const openCameraCapture = (type: 'image' | 'video') => {
   attachFile(true, type);
 };
 
+let isPasting = false;
+
 const SpanNode = Node.create({
   name: 'spanNode',
   inline: true,
@@ -297,6 +299,16 @@ const editor = useEditor({
       if (!clipboardData) return false;
 
       if (clipboardData.files.length > 0 && props.activeAttachFile) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // если уже вставляем — игнорим (зажатая V)
+        if (isPasting) {
+          return true;
+        }
+
+        isPasting = true;
+
         const onlyMedia = Array.from(clipboardData.files).every(
           file =>
             file.type.startsWith('image/') || file.type.startsWith('video/')
@@ -304,9 +316,14 @@ const editor = useEditor({
 
         emits('unmount-attach-file', clipboardData.files, onlyMedia);
 
-        event.preventDefault();
+        setTimeout(() => {
+          isPasting = false;
+        }, 200);
+
         return true;
       }
+
+      return false;
     }
   },
   onUpdate: ({ editor }) => {
