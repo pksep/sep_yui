@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.246
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.245...v0.1.246)
+
+### 🩹 Fixes
+
+- Refactor logic drop for macos, add error logs and warn ([2e9d6e6](https://github.com/pksep/sep_yui/commit/2e9d6e6))
+
 ## v0.1.245
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.244...v0.1.245)
