@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.245
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.244...v0.1.245)
+
+### 🩹 Fixes
+
+- Refactor logic drop for macos ([a4eaaa6](https://github.com/pksep/sep_yui/commit/a4eaaa6))
+
 ## v0.1.244
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.243...v0.1.244)
