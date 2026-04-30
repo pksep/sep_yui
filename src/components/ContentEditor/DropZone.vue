@@ -23,8 +23,123 @@ const state = reactive({
   dragging: false
 });
 
+const LOG_PREFIX = '[ContentEditor][DropZone]';
+
 const delay = (ms: number): Promise<void> =>
   new Promise(resolve => setTimeout(resolve, ms));
+
+const SCREENSHOT_MIME_TYPES = new Set(['image/png', 'image/jpeg']);
+
+const getDropRetryCount = (file: File): number =>
+  SCREENSHOT_MIME_TYPES.has(file.type.toLowerCase()) ? 8 : 4;
+
+const getDropRetryDelay = (attempt: number, file: File): number =>
+  SCREENSHOT_MIME_TYPES.has(file.type.toLowerCase())
+    ? 180 * (attempt + 1)
+    : 120 * (attempt + 1);
+
+const getFileLogMeta = (file: File) => ({
+  fileName: file.name,
+  fileType: file.type,
+  fileSize: file.size,
+  lastModified: file.lastModified
+});
+
+const isFileReadable = async (file: File): Promise<boolean> => {
+  try {
+    await file.slice(0, 1).arrayBuffer();
+    console.warn(`${LOG_PREFIX} file became readable`, getFileLogMeta(file));
+    return true;
+  } catch (error) {
+    console.warn(`${LOG_PREFIX} file is not readable yet`, {
+      ...getFileLogMeta(file),
+      error
+    });
+    return false;
+  }
+};
+
+const warmupFile = async (file: File, retries = 3): Promise<File> => {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      console.warn(`${LOG_PREFIX} warmup attempt`, {
+        ...getFileLogMeta(file),
+        attempt: i + 1,
+        maxAttempts: retries + 1
+      });
+      const buffer = await file.arrayBuffer();
+
+      console.warn(`${LOG_PREFIX} warmup success`, {
+        ...getFileLogMeta(file),
+        attempt: i + 1,
+        bufferSize: buffer.byteLength
+      });
+
+      return new File([buffer], file.name, {
+        type: file.type,
+        lastModified: file.lastModified
+      });
+    } catch (error) {
+      if (i === retries) {
+        throw error;
+      }
+
+      console.warn(`${LOG_PREFIX} warmup retry scheduled`, {
+        ...getFileLogMeta(file),
+        attempt: i + 1,
+        nextDelayMs: getDropRetryDelay(i, file),
+        error
+      });
+      await delay(getDropRetryDelay(i, file));
+    }
+  }
+
+  return file;
+};
+
+const normalizeDroppedFiles = async (files: File[]): Promise<File[]> => {
+  const normalizedFiles: File[] = [];
+
+  for (const file of files) {
+    const retries = getDropRetryCount(file);
+    console.warn(`${LOG_PREFIX} normalize dropped file`, {
+      ...getFileLogMeta(file),
+      maxAttempts: retries + 1
+    });
+
+    for (let i = 0; i <= retries; i++) {
+      try {
+        const readable = await isFileReadable(file);
+
+        if (!readable) {
+          throw new Error('File is not readable yet');
+        }
+
+        normalizedFiles.push(await warmupFile(file, 1));
+        break;
+      } catch (error) {
+        if (i === retries) {
+          console.warn('Skip unreadable dropped file', {
+            ...getFileLogMeta(file),
+            attempt: i + 1,
+            error
+          });
+          break;
+        }
+
+        console.warn(`${LOG_PREFIX} normalize retry scheduled`, {
+          ...getFileLogMeta(file),
+          attempt: i + 1,
+          nextDelayMs: getDropRetryDelay(i, file),
+          error
+        });
+        await delay(getDropRetryDelay(i, file));
+      }
+    }
+  }
+
+  return normalizedFiles;
+};
 
 const getDroppedFiles = (dataTransfer: DataTransfer): File[] => {
   if (dataTransfer.files && dataTransfer.files.length > 0) {
@@ -44,6 +159,13 @@ const waitDroppedFiles = async (
 ): Promise<File[]> => {
   for (let i = 0; i <= retries; i++) {
     const files = getDroppedFiles(dataTransfer);
+    console.warn(`${LOG_PREFIX} inspect dataTransfer`, {
+      attempt: i + 1,
+      maxAttempts: retries + 1,
+      fileCount: files.length,
+      itemCount: dataTransfer.items?.length ?? 0,
+      types: Array.from(dataTransfer.types ?? [])
+    });
 
     if (files.length || i === retries) {
       return files;
@@ -71,10 +193,30 @@ const handleDrop = async (e: DragEvent): Promise<void> => {
 
   if (!e.dataTransfer) return;
 
+  console.warn(`${LOG_PREFIX} drop detected`, {
+    itemCount: e.dataTransfer.items?.length ?? 0,
+    fileCount: e.dataTransfer.files?.length ?? 0,
+    types: Array.from(e.dataTransfer.types ?? [])
+  });
+
   const files = await waitDroppedFiles(e.dataTransfer);
   if (!files.length) return;
 
-  emits('files-dropped', files);
+  console.warn(
+    `${LOG_PREFIX} files extracted from drop`,
+    files.map(getFileLogMeta)
+  );
+
+  const normalizedFiles = await normalizeDroppedFiles(files);
+
+  if (!normalizedFiles.length) return;
+
+  console.warn(
+    `${LOG_PREFIX} emitting normalized dropped files`,
+    normalizedFiles.map(getFileLogMeta)
+  );
+
+  emits('files-dropped', normalizedFiles);
 };
 
 const handleWindowDrop = (e: DragEvent): void => {

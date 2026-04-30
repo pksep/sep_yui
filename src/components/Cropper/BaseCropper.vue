@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<IBaseCropperProps>(), {
 });
 
 const emit = defineEmits<IBaseCropperEmit>();
+const LOG_PREFIX = '[Cropper][BaseCropper]';
 
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 const container = useTemplateRef<HTMLElement>('container');
@@ -121,13 +122,41 @@ const drawImage = (): void => {
   }
 };
 
+const delay = (ms: number): Promise<void> =>
+  new Promise(resolve => setTimeout(resolve, ms));
+
+const isScreenshotLikeImage = (file: File): boolean =>
+  ['image/png', 'image/jpeg'].includes(file.type.toLowerCase());
+
+const getFileLogMeta = (file: File) => ({
+  fileName: file.name,
+  fileType: file.type,
+  fileSize: file.size,
+  lastModified: file.lastModified,
+  isScreenshotLike: isScreenshotLikeImage(file)
+});
+
 const loadImage = (file: File): void => {
+  const maxRetries = isScreenshotLikeImage(file) ? 6 : 3;
+  let retries = 0;
+  console.warn(`${LOG_PREFIX} loadImage start`, {
+    ...getFileLogMeta(file),
+    maxRetries
+  });
   const reader = new FileReader();
   reader.onload = async e => {
+    console.warn(`${LOG_PREFIX} FileReader load success`, {
+      ...getFileLogMeta(file),
+      attempt: retries + 1
+    });
     if (typeof e.target?.result === 'string') {
       state.image = new Image();
       state.image.src = e.target.result;
       state.image.onload = async () => {
+        console.warn(
+          `${LOG_PREFIX} image decode success`,
+          getFileLogMeta(file)
+        );
         await nextTick();
 
         if (canvas.value && state.image) {
@@ -160,6 +189,54 @@ const loadImage = (file: File): void => {
     }
   };
 
+  reader.onerror = async () => {
+    console.warn(`${LOG_PREFIX} FileReader load error`, {
+      ...getFileLogMeta(file),
+      attempt: retries + 1,
+      maxRetries,
+      error: reader.error
+    });
+
+    if (retries >= maxRetries) {
+      try {
+        console.warn(
+          `${LOG_PREFIX} fallback to detached file`,
+          getFileLogMeta(file)
+        );
+        const buffer = await file.arrayBuffer();
+        const detachedFile = new File([buffer], file.name, {
+          type: file.type || 'application/octet-stream',
+          lastModified: file.lastModified
+        });
+
+        retries += 1;
+        console.warn(`${LOG_PREFIX} retry readAsDataURL with detached file`, {
+          ...getFileLogMeta(detachedFile),
+          attempt: retries + 1
+        });
+        reader.readAsDataURL(detachedFile);
+      } catch (error) {
+        console.error('Failed to load cropper image', {
+          fileName: file.name,
+          error
+        });
+      }
+
+      return;
+    }
+
+    retries += 1;
+    const retryDelay = (isScreenshotLikeImage(file) ? 180 : 120) * retries;
+    console.warn(`${LOG_PREFIX} schedule FileReader retry`, {
+      ...getFileLogMeta(file),
+      attempt: retries + 1,
+      retryDelay
+    });
+    await delay(retryDelay);
+    reader.readAsDataURL(file);
+  };
+
+  console.warn(`${LOG_PREFIX} initial readAsDataURL`, getFileLogMeta(file));
   reader.readAsDataURL(file);
 };
 

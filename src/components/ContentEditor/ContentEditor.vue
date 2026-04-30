@@ -202,6 +202,7 @@ const emojiPickerPosition = ref({
   horizontal: 'left' as 'left' | 'right'
 });
 const emits = defineEmits<IContentEditorEmit>();
+const LOG_PREFIX = '[ContentEditor]';
 
 const disableSend = computed(() => !props.activeSend && editor.value?.isEmpty);
 
@@ -295,18 +296,61 @@ const getNormalizedFileName = (file: File, mimeType: string): string => {
   return `${trimmedName}.${fallbackExtension}`;
 };
 
-const normalizeFile = (file: File): File => {
+const getFileLogMeta = (file: File, mimeType = getMimeType(file)) => ({
+  fileName: file.name,
+  fileType: file.type,
+  normalizedMimeType: mimeType,
+  fileSize: file.size,
+  lastModified: file.lastModified
+});
+
+const shouldDetachFile = (mimeType: string): boolean =>
+  mimeType.startsWith('image/') || mimeType.startsWith('video/');
+
+const normalizeFile = async (file: File): Promise<File> => {
   const mimeType = getMimeType(file);
   const fileName = getNormalizedFileName(file, mimeType);
 
-  if (mimeType === file.type && fileName === file.name) {
+  console.warn(`${LOG_PREFIX} normalize file`, {
+    ...getFileLogMeta(file, mimeType),
+    normalizedFileName: fileName,
+    shouldDetach: shouldDetachFile(mimeType)
+  });
+
+  if (
+    mimeType === file.type &&
+    fileName === file.name &&
+    !shouldDetachFile(mimeType)
+  ) {
+    console.warn(
+      `${LOG_PREFIX} keep original file`,
+      getFileLogMeta(file, mimeType)
+    );
     return file;
   }
 
-  return new File([file], fileName, {
-    type: mimeType || file.type,
-    lastModified: file.lastModified
-  });
+  try {
+    // Keep media detached from the original handle to avoid macOS drop read errors.
+    const buffer = await file.arrayBuffer();
+
+    console.warn(`${LOG_PREFIX} detached file copy created`, {
+      ...getFileLogMeta(file, mimeType),
+      normalizedFileName: fileName,
+      bufferSize: buffer.byteLength
+    });
+
+    return new File([buffer], fileName, {
+      type: mimeType || file.type,
+      lastModified: file.lastModified
+    });
+  } catch (error) {
+    console.warn(`${LOG_PREFIX} failed to detach file, using original`, {
+      ...getFileLogMeta(file, mimeType),
+      normalizedFileName: fileName,
+      error
+    });
+    return file;
+  }
 };
 
 const toFileList = (files: File[]): FileList => {
@@ -317,13 +361,19 @@ const toFileList = (files: File[]): FileList => {
   return dataTransfer.files;
 };
 
-const emitAttachFiles = (
+const emitAttachFiles = async (
   files: FileList | File[],
   onlyMedia?: boolean
-): void => {
-  const normalizedFiles = Array.from(files, normalizeFile);
+): Promise<void> => {
+  console.warn(`${LOG_PREFIX} emitAttachFiles called`, {
+    inputCount: Array.from(files).length,
+    onlyMedia
+  });
+
+  const normalizedFiles = await Promise.all(Array.from(files, normalizeFile));
 
   if (!normalizedFiles.length) {
+    console.warn(`${LOG_PREFIX} no files after normalization`);
     return;
   }
 
@@ -334,6 +384,11 @@ const emitAttachFiles = (
 
       return mimeType.startsWith('image/') || mimeType.startsWith('video/');
     });
+
+  console.warn(`${LOG_PREFIX} emit normalized files`, {
+    files: normalizedFiles.map(file => getFileLogMeta(file)),
+    isOnlyMedia
+  });
 
   emits('unmount-attach-file', toFileList(normalizedFiles), isOnlyMedia);
 };
@@ -425,7 +480,7 @@ const editor = useEditor({
 
         isPasting = true;
 
-        emitAttachFiles(clipboardData.files);
+        void emitAttachFiles(clipboardData.files);
 
         setTimeout(() => {
           isPasting = false;
@@ -512,13 +567,17 @@ const attachFile = (
   }
   input.onchange = () => {
     if (!input?.files) return;
-    emitAttachFiles(input.files, onlyMedia);
+    void emitAttachFiles(input.files, onlyMedia);
   };
   input.click();
 };
 
 const fileDropped = (data: File[]) => {
-  emitAttachFiles(data);
+  console.warn(
+    `${LOG_PREFIX} fileDropped event received`,
+    data.map(file => getFileLogMeta(file))
+  );
+  void emitAttachFiles(data);
 };
 
 const handleSave = (): void => {
