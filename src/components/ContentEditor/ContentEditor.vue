@@ -222,6 +222,122 @@ const openCameraCapture = (type: 'image' | 'video') => {
 
 let isPasting = false;
 
+const FILE_EXTENSION_TO_MIME: Record<string, string> = {
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  bmp: 'image/bmp',
+  heic: 'image/heic',
+  heif: 'image/heif',
+  mov: 'video/quicktime',
+  mp4: 'video/mp4',
+  m4v: 'video/x-m4v',
+  webm: 'video/webm'
+};
+
+const MIME_EXTENSION_ALIASES: Record<string, string> = {
+  'image/png': 'png',
+  'image/x-png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+  'image/pjpeg': 'jpg',
+  'image/gif': 'gif',
+  'image/webp': 'webp',
+  'image/bmp': 'bmp',
+  'image/x-ms-bmp': 'bmp',
+  'image/heic': 'heic',
+  'image/heif': 'heif',
+  'video/quicktime': 'mov',
+  'video/mp4': 'mp4',
+  'video/x-m4v': 'm4v',
+  'video/webm': 'webm'
+};
+
+const getFileExtension = (fileName: string): string => {
+  const match = fileName.match(/\.([^.]+)$/);
+
+  return match?.[1]?.toLowerCase() ?? '';
+};
+
+const getMimeType = (file: File): string => {
+  if (file.type) {
+    return file.type.toLowerCase();
+  }
+
+  const extension = getFileExtension(file.name);
+
+  return FILE_EXTENSION_TO_MIME[extension] ?? '';
+};
+
+const getNormalizedFileName = (file: File, mimeType: string): string => {
+  const trimmedName = file.name.trim();
+  const fallbackExtension = MIME_EXTENSION_ALIASES[mimeType];
+  const hasExtension = Boolean(getFileExtension(trimmedName));
+
+  if (!trimmedName) {
+    const baseName = mimeType.startsWith('image/')
+      ? 'image'
+      : mimeType.startsWith('video/')
+        ? 'video'
+        : 'file';
+
+    return fallbackExtension
+      ? `${baseName}-${Date.now()}.${fallbackExtension}`
+      : `${baseName}-${Date.now()}`;
+  }
+
+  if (hasExtension || !fallbackExtension) {
+    return trimmedName;
+  }
+
+  return `${trimmedName}.${fallbackExtension}`;
+};
+
+const normalizeFile = (file: File): File => {
+  const mimeType = getMimeType(file);
+  const fileName = getNormalizedFileName(file, mimeType);
+
+  if (mimeType === file.type && fileName === file.name) {
+    return file;
+  }
+
+  return new File([file], fileName, {
+    type: mimeType || file.type,
+    lastModified: file.lastModified
+  });
+};
+
+const toFileList = (files: File[]): FileList => {
+  const dataTransfer = new DataTransfer();
+
+  files.forEach(file => dataTransfer.items.add(file));
+
+  return dataTransfer.files;
+};
+
+const emitAttachFiles = (
+  files: FileList | File[],
+  onlyMedia?: boolean
+): void => {
+  const normalizedFiles = Array.from(files, normalizeFile);
+
+  if (!normalizedFiles.length) {
+    return;
+  }
+
+  const isOnlyMedia =
+    onlyMedia ??
+    normalizedFiles.every(file => {
+      const mimeType = getMimeType(file);
+
+      return mimeType.startsWith('image/') || mimeType.startsWith('video/');
+    });
+
+  emits('unmount-attach-file', toFileList(normalizedFiles), isOnlyMedia);
+};
+
 const SpanNode = Node.create({
   name: 'spanNode',
   inline: true,
@@ -309,12 +425,7 @@ const editor = useEditor({
 
         isPasting = true;
 
-        const onlyMedia = Array.from(clipboardData.files).every(
-          file =>
-            file.type.startsWith('image/') || file.type.startsWith('video/')
-        );
-
-        emits('unmount-attach-file', clipboardData.files, onlyMedia);
+        emitAttachFiles(clipboardData.files);
 
         setTimeout(() => {
           isPasting = false;
@@ -401,22 +512,13 @@ const attachFile = (
   }
   input.onchange = () => {
     if (!input?.files) return;
-    emits('unmount-attach-file', input.files, onlyMedia);
+    emitAttachFiles(input.files, onlyMedia);
   };
   input.click();
 };
 
 const fileDropped = (data: File[]) => {
-  const onlyMedia = data.every(
-    file => file.type.startsWith('image/') || file.type.startsWith('video/')
-  );
-
-  const dataTransfer = new DataTransfer();
-  data.forEach(file => dataTransfer.items.add(file));
-
-  const fileList = dataTransfer.files;
-
-  emits('unmount-attach-file', fileList, onlyMedia);
+  emitAttachFiles(data);
 };
 
 const handleSave = (): void => {
