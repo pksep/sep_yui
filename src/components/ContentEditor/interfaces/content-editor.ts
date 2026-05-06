@@ -1,10 +1,11 @@
+export interface IContentEditorSendPayload {
+  content?: string;
+  files?: FileList;
+  mediaFiles?: FileList;
+}
+
 export interface IContentEditorEmit {
-  (
-    e: 'unmount-send',
-    params: {
-      content?: string;
-    }
-  ): void;
+  (e: 'unmount-send', params: IContentEditorSendPayload): void;
   (e: 'unmount-attach-file', files: FileList, onlyMedia: boolean): void;
   (e: 'mention-change', search: string | null): void;
 }
