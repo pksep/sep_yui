@@ -1,35 +1,48 @@
 <template>
-  <div class="editor-component">
-    <div class="editor-component-slot" v-if="$slots.action">
+  <div
+    ref="mainMentionAnchorRef"
+    class="editor-component"
+    :class="{ 'editor-component--mentions-open': showMentionList }"
+  >
+    <div
+      class="editor-component-slot"
+      v-if="$slots.action && !isAttachModalOpen"
+    >
       <slot name="action" />
     </div>
     <Popover
+      v-if="props.activeAttachFile"
       isWCUse
-      :disabled="!props.activeAttachFile"
-      :options="[
-        { value: 'Камера', function: () => (isCameraModalOpen = true) },
-        { value: 'Фото или видео', function: () => attachFile(true) },
-        { value: 'Файл', function: () => attachFile(false) }
-      ]"
+      :options="mobileAttachOptions"
       translateY="calc(-100% - 47px)"
-      class="mobile-item"
+      class="mobile-item attach-file-popover"
     >
       <template #trigger>
         <Button
           :type="ButtonTypeEnum.ghost"
           :size="SizesEnum.small"
           class="toolbar-button attach-file-button mobile-buttons"
-          :disabled="!props.activeAttachFile"
         >
           <Icon :name="IconNameEnum.paperClip" />
         </Button>
       </template>
     </Popover>
 
-    <EditorContent class="editor-content" :editor="editor" />
-    <DropZone v-if="props.activeAttachFile" @files-dropped="fileDropped" />
+    <EditorContent
+      v-if="!isAttachModalOpen"
+      class="editor-content"
+      :editor="editor"
+    />
+    <ContentEditorFormattingToolbar
+      v-if="!isAttachModalOpen"
+      :editor="editor || null"
+    />
+    <DropZone
+      v-if="props.activeAttachFile && !isAttachModalOpen"
+      @files-dropped="fileDropped"
+    />
 
-    <div class="right-buttons">
+    <div v-if="!isAttachModalOpen" class="right-buttons">
       <Button
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
@@ -58,14 +71,11 @@
       </Button>
     </div>
 
-    <div class="toolbar">
+    <div v-if="!isAttachModalOpen" class="toolbar">
       <Popover
+        v-if="props.activeAttachFile"
         isWCUse
-        :disabled="!props.activeAttachFile"
-        :options="[
-          { value: 'Фото или видео', function: () => attachFile(true) },
-          { value: 'Файл', function: () => attachFile(false) }
-        ]"
+        :options="desktopAttachOptions"
         translateY="calc(-100% - 47px)"
       >
         <template #trigger>
@@ -73,7 +83,6 @@
             :type="ButtonTypeEnum.ghost"
             :size="SizesEnum.small"
             class="toolbar-button attach-file-button"
-            :disabled="!props.activeAttachFile"
           >
             <Icon :name="IconNameEnum.paperClip" :width="16" :height="16" />
           </Button>
@@ -96,7 +105,7 @@
         </div>
       </Button>
       <Button
-        :disabled="!props.activeSelectUser"
+        v-if="props.activeSelectUser"
         :type="ButtonTypeEnum.ghost"
         class="toolbar-button"
         :size="SizesEnum.small"
@@ -132,6 +141,185 @@
     </div>
 
     <Modal
+      v-if="isAttachModalOpen"
+      :open="isAttachModalOpen"
+      @close="handleAttachModalClose"
+      disable-close-on-outside-click
+      position="center"
+      width="min(430px, calc(100vw - 32px))"
+      height="auto"
+      class="attach-modal-container"
+    >
+      <div class="attach-modal">
+        <DropZone @files-dropped="fileDropped" />
+
+        <div class="attach-modal__header">
+          <Button
+            :type="ButtonTypeEnum.ghost"
+            :size="SizesEnum.small"
+            class="attach-modal__close"
+            @click="handleAttachModalClose"
+          >
+            <Icon :name="IconNameEnum.crossLarge" />
+          </Button>
+        </div>
+
+        <div
+          class="attach-modal__attachments__all"
+          v-if="
+            pendingMediaPreviewChunks.length > 0 || pendingFileItems.length > 0
+          "
+        >
+          <div class="attach-modal__media-groups">
+            <div
+              v-for="(chunk, chunkIndex) in pendingMediaPreviewChunks"
+              :key="`media-chunk-${chunkIndex}`"
+              :class="[
+                'attach-modal__media-grid',
+                `attach-modal__media-grid-${chunk.length}-item`
+              ]"
+            >
+              <div
+                v-for="item in chunk"
+                :key="item.id"
+                class="attach-modal__media-tile"
+              >
+                <video
+                  draggable="false"
+                  v-if="item.isVideo"
+                  :src="item.url"
+                  muted
+                  playsinline
+                />
+                <img
+                  draggable="false"
+                  v-else
+                  :src="item.url"
+                  :alt="item.file.name"
+                />
+                <Button
+                  :type="ButtonTypeEnum.ghost"
+                  :size="SizesEnum.small"
+                  class="attach-modal__media-tile-remove"
+                  @click.stop="removePendingAttachment('media', item.index)"
+                >
+                  <Icon :name="IconNameEnum.trash" :width="24" :height="24" />
+                </Button>
+              </div>
+            </div>
+
+            <div
+              v-if="pendingFileItems.length"
+              class="attach-modal__attachments"
+            >
+              <div
+                v-for="item in pendingFileItems"
+                :key="item.id"
+                class="attach-modal__attachment"
+              >
+                <div class="attach-modal__attachment-icon">
+                  <Icon
+                    :name="IconNameEnum.fileItem"
+                    :width="18"
+                    :height="18"
+                  />
+                </div>
+                <div class="attach-modal__attachment-body">
+                  <div class="attach-modal__attachment-name">
+                    {{ item.file.name }}
+                  </div>
+                  <div class="attach-modal__attachment-size">
+                    {{ formatFileSize(item.file.size) }}
+                  </div>
+                </div>
+                <Button
+                  :type="ButtonTypeEnum.ghost"
+                  :size="SizesEnum.small"
+                  class="attach-modal__attachment-remove"
+                  @click="removePendingAttachment(item.kind, item.index)"
+                >
+                  <Icon :name="IconNameEnum.trash" :width="24" :height="24" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ref="modalMentionAnchorRef" class="attach-modal__editor">
+          <div class="editor-component-slot" v-if="$slots.action">
+            <slot name="action" />
+          </div>
+          <EditorContent class="editor-content" :editor="editor" />
+          <div class="attach-modal__toolbar">
+            <div class="attach-modal__toolbar-left">
+              <Popover
+                isWCUse
+                :disabled="!props.activeAttachFile"
+                :options="desktopAttachOptions"
+                translateY="calc(-100% - 47px)"
+              >
+                <template #trigger>
+                  <Button
+                    :type="ButtonTypeEnum.ghost"
+                    :size="SizesEnum.small"
+                    class="toolbar-button attach-file-button"
+                    :disabled="!props.activeAttachFile"
+                  >
+                    <Icon
+                      :name="IconNameEnum.paperClip"
+                      :width="16"
+                      :height="16"
+                    />
+                  </Button>
+                </template>
+              </Popover>
+              <Button
+                :type="ButtonTypeEnum.ghost"
+                :size="SizesEnum.small"
+                class="toolbar-button smile-button"
+                @click.stop="toggleEmojiPicker"
+              >
+                <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
+                <div
+                  @click.stop
+                  :class="pickerClasses"
+                  v-show="showEmojiPicker"
+                >
+                  <EmojiPicker
+                    :native="true"
+                    @select="addEmoji"
+                    v-on-click-outside.bubble="closeEmojiPicker"
+                  />
+                </div>
+              </Button>
+              <Button
+                v-if="props.activeSelectUser"
+                :type="ButtonTypeEnum.ghost"
+                class="toolbar-button"
+                :size="SizesEnum.small"
+                @click="toggleUserSelect"
+              >
+                <Icon :name="IconNameEnum.atSign" :width="16" :height="16" />
+              </Button>
+            </div>
+            <Button
+              :disabled="disableSend"
+              class="toolbar-button right"
+              :size="SizesEnum.small"
+              @click="handleAttachModalSend"
+            >
+              <Icon
+                :name="IconNameEnum.planeRight"
+                :color="ColorsEnum.white"
+                :width="16"
+                :height="16"
+              />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Modal>
+
+    <Modal
       v-if="isCameraModalOpen"
       :open="isCameraModalOpen"
       @close="isCameraModalOpen = false"
@@ -159,7 +347,45 @@
         </div>
       </div>
     </Modal>
+
+    <input
+      ref="pendingFileInputRef"
+      type="file"
+      multiple
+      class="attach-hidden-input"
+      @change="handlePendingInputChange($event, false)"
+    />
+    <input
+      ref="pendingMediaInputRef"
+      type="file"
+      accept="image/*,video/*"
+      multiple
+      class="attach-hidden-input"
+      @change="handlePendingInputChange($event, true)"
+    />
   </div>
+
+  <Teleport :to="mentionTeleportTarget">
+    <div
+      v-if="showMentionList && mentionItems.length"
+      ref="mentionListRef"
+      class="editor-component__mentions-portal"
+    >
+      <ContentEditorMentionList
+        :items="mentionItems"
+        :selected-index="mentionSelectedIndex"
+        is-fixed
+        :position-style="mentionListStyle"
+        :get-key="getMentionItemKey"
+        :get-label="getMentionItemLabel"
+        :get-subtitle="getMentionItemSubtitle"
+        :get-avatar-url="getMentionItemAvatarUrl"
+        :get-avatar-initials="getMentionItemAvatarInitials"
+        :get-is-online="getMentionItemIsOnline"
+        @select="selectMentionItem"
+      />
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -172,6 +398,7 @@ import {
   computed
 } from 'vue';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
+import { TextSelection } from '@tiptap/pm/state';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -192,8 +419,9 @@ import Popover from '../Popover/Popover.vue';
 import { vOnClickOutside } from '@vueuse/components';
 import DropZone from './DropZone.vue';
 import Modal from '../Modal/Modal.vue';
+import ContentEditorMentionList from './ContentEditorMentionList.vue';
+import ContentEditorFormattingToolbar from './ContentEditorFormattingToolbar.vue';
 
-// v-model binding
 const props = defineProps<IContentEditorProps>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
@@ -204,7 +432,66 @@ const emojiPickerPosition = ref({
 const emits = defineEmits<IContentEditorEmit>();
 const LOG_PREFIX = '[ContentEditor]';
 
-const disableSend = computed(() => !props.activeSend && editor.value?.isEmpty);
+const editorDom = ref<HTMLElement | null>(null);
+const mainMentionAnchorRef = ref<HTMLElement | null>(null);
+const modalMentionAnchorRef = ref<HTMLElement | null>(null);
+const mentionListRef = ref<HTMLDivElement | null>(null);
+const mentionListStyle = ref<Record<string, string>>({});
+const isCameraModalOpen = ref(false);
+const isAttachModalOpen = ref(false);
+const pendingFiles = ref<File[]>([]);
+const pendingMediaFiles = ref<File[]>([]);
+const currentMediaPreviewUrl = ref<string | null>(null);
+const pendingMediaPreviewUrls = ref<string[]>([]);
+const mentionSearch = ref<string | null>(null);
+const dismissedMentionSearch = ref<string | null>(null);
+const mentionSelectedIndex = ref(0);
+
+const hasPendingAttachments = computed(
+  () => pendingFiles.value.length > 0 || pendingMediaFiles.value.length > 0
+);
+
+const disableSend = computed(
+  () =>
+    !props.activeSend && editor.value?.isEmpty && !hasPendingAttachments.value
+);
+
+const mentionItems = computed(() => props.mentionItems ?? []);
+
+const showMentionList = computed(
+  () =>
+    Boolean(props.activeSelectUser) &&
+    mentionSearch.value !== null &&
+    dismissedMentionSearch.value !== mentionSearch.value
+);
+
+const getMentionItemKey = (item: unknown, index: number): string | number =>
+  props.mentionConfig?.getKey?.(item, index) ??
+  props.mentionItemKey?.(item, index) ??
+  index;
+
+const getMentionItemLabel = (item: unknown): string =>
+  props.mentionConfig?.getLabel?.(item) ?? props.mentionItemLabel?.(item) ?? '';
+
+const getMentionItemSubtitle = (item: unknown): string =>
+  props.mentionConfig?.getSubtitle?.(item) ??
+  props.mentionItemSubtitle?.(item) ??
+  '';
+
+const getMentionItemAvatarUrl = (item: unknown): string =>
+  props.mentionConfig?.getAvatarUrl?.(item) ??
+  props.mentionItemAvatarUrl?.(item) ??
+  '';
+
+const getMentionItemAvatarInitials = (item: unknown): string =>
+  props.mentionConfig?.getAvatarInitials?.(item) ??
+  props.mentionItemAvatarInitials?.(item) ??
+  getMentionItemLabel(item);
+
+const getMentionItemIsOnline = (item: unknown): boolean =>
+  props.mentionConfig?.getIsOnline?.(item) ??
+  props.mentionItemIsOnline?.(item) ??
+  false;
 
 const pickerClasses = computed(() => [
   'emoji-picker',
@@ -213,8 +500,134 @@ const pickerClasses = computed(() => [
   !disableSend.value ? 'translateX' : ''
 ]);
 
-const editorDom = ref<HTMLElement | null>(null);
-const isCameraModalOpen = ref(false);
+const desktopAttachOptions = computed(() => [
+  {
+    value: 'Фото или видео',
+    function: () => attachFile(true),
+    iconName: IconNameEnum.image
+  },
+  {
+    value: 'Файл',
+    function: () => attachFile(false),
+    iconName: IconNameEnum.file
+  }
+]);
+
+const mobileAttachOptions = computed(() => [
+  {
+    value: 'Камера',
+    function: () => (isCameraModalOpen.value = true),
+    iconName: IconNameEnum.camera
+  },
+  ...desktopAttachOptions.value
+]);
+
+const pendingAttachmentItems = computed(() => [
+  ...pendingMediaFiles.value.map((file, index) => ({
+    id: `media-${file.name}-${file.lastModified}-${index}`,
+    file,
+    kind: 'media' as const,
+    index
+  })),
+  ...pendingFiles.value.map((file, index) => ({
+    id: `file-${file.name}-${file.lastModified}-${index}`,
+    file,
+    kind: 'file' as const,
+    index
+  }))
+]);
+
+const pendingFileItems = computed(() =>
+  pendingAttachmentItems.value.filter(item => item.kind === 'file')
+);
+
+const pendingMediaPreviewItems = computed(() =>
+  pendingMediaFiles.value
+    .map((file, index) => ({
+      id: `media-preview-${file.name}-${file.lastModified}-${index}`,
+      file,
+      index,
+      url: pendingMediaPreviewUrls.value[index] || '',
+      isVideo: getMimeType(file).startsWith('video/')
+    }))
+    .filter(item => !!item.url)
+);
+
+const chunkItems = <T,>(items: T[], chunkSize: number): T[][] => {
+  const chunks: T[][] = [];
+
+  for (let index = 0; index < items.length; index += chunkSize) {
+    chunks.push(items.slice(index, index + chunkSize));
+  }
+
+  return chunks;
+};
+
+const pendingMediaPreviewChunks = computed(() =>
+  chunkItems(pendingMediaPreviewItems.value, 10)
+);
+
+const mentionAnchorRef = computed(
+  () =>
+    (isAttachModalOpen.value
+      ? modalMentionAnchorRef.value
+      : mainMentionAnchorRef.value) ?? null
+);
+
+const mentionTeleportTarget = computed(() => {
+  const anchor = mentionAnchorRef.value;
+  const dialog = anchor?.closest('dialog');
+
+  return dialog ?? 'body';
+});
+
+const updateMentionListPosition = () => {
+  if (!showMentionList.value || !mentionItems.value.length) {
+    return;
+  }
+
+  const anchor = mentionAnchorRef.value;
+
+  if (!anchor) {
+    return;
+  }
+
+  const rect = anchor.getBoundingClientRect();
+  const viewportPadding = 12;
+  const gap = isAttachModalOpen.value ? 10 : 3;
+  const width = Math.min(rect.width, window.innerWidth - viewportPadding * 2);
+  const maxLeft = window.innerWidth - width - viewportPadding;
+  const left = Math.min(Math.max(rect.left, viewportPadding), maxLeft);
+
+  mentionListStyle.value = {
+    left: `${left}px`,
+    bottom: `${window.innerHeight - rect.top + gap}px`,
+    width: `${width}px`,
+    zIndex: '1001'
+  };
+};
+
+const scrollActiveMentionIntoView = () => {
+  nextTick(() => {
+    const container = mentionListRef.value;
+
+    if (!container) {
+      return;
+    }
+
+    const activeItem = container.querySelector('[data-mention-active="true"]');
+
+    if (!(activeItem instanceof HTMLElement)) {
+      return;
+    }
+
+    activeItem.scrollIntoView({
+      block: 'nearest'
+    });
+  });
+};
+
+const isMobileViewport = (): boolean => window.innerWidth <= 480;
 
 const openCameraCapture = (type: 'image' | 'video') => {
   isCameraModalOpen.value = false;
@@ -222,6 +635,7 @@ const openCameraCapture = (type: 'image' | 'video') => {
 };
 
 let isPasting = false;
+let orderedListExitIntent: { pos: number; timestamp: number } | null = null;
 
 const FILE_EXTENSION_TO_MIME: Record<string, string> = {
   png: 'image/png',
@@ -330,7 +744,6 @@ const normalizeFile = async (file: File): Promise<File> => {
   }
 
   try {
-    // Keep media detached from the original handle to avoid macOS drop read errors.
     const buffer = await file.arrayBuffer();
 
     console.warn(`${LOG_PREFIX} detached file copy created`, {
@@ -393,6 +806,129 @@ const emitAttachFiles = async (
   emits('unmount-attach-file', toFileList(normalizedFiles), isOnlyMedia);
 };
 
+const queueAttachFiles = async (
+  files: FileList | File[],
+  onlyMedia: boolean
+): Promise<void> => {
+  const normalizedFiles = await Promise.all(Array.from(files, normalizeFile));
+
+  if (!normalizedFiles.length) {
+    return;
+  }
+
+  if (onlyMedia) {
+    const mediaFiles = normalizedFiles.filter(file =>
+      shouldDetachFile(getMimeType(file))
+    );
+    const regularFiles = normalizedFiles.filter(
+      file => !shouldDetachFile(getMimeType(file))
+    );
+
+    if (mediaFiles.length) {
+      pendingMediaFiles.value = [...pendingMediaFiles.value, ...mediaFiles];
+    }
+
+    if (regularFiles.length) {
+      pendingFiles.value = [...pendingFiles.value, ...regularFiles];
+    }
+  } else {
+    pendingFiles.value = [...pendingFiles.value, ...normalizedFiles];
+  }
+
+  isAttachModalOpen.value = true;
+};
+
+const clearPendingAttachments = (): void => {
+  pendingFiles.value = [];
+  pendingMediaFiles.value = [];
+};
+
+const handleAttachModalClose = (): void => {
+  closeEmojiPicker();
+  isAttachModalOpen.value = false;
+  clearPendingAttachments();
+};
+
+const removePendingAttachment = (
+  kind: 'file' | 'media',
+  index: number
+): void => {
+  if (kind === 'media') {
+    const nextMediaFiles = pendingMediaFiles.value.filter(
+      (_, fileIndex) => fileIndex !== index
+    );
+    pendingMediaFiles.value = nextMediaFiles;
+
+    if (!nextMediaFiles.length && !pendingFiles.value.length) {
+      handleAttachModalClose();
+    }
+
+    return;
+  }
+
+  const nextFiles = pendingFiles.value.filter(
+    (_, fileIndex) => fileIndex !== index
+  );
+  pendingFiles.value = nextFiles;
+
+  if (!nextFiles.length && !pendingMediaFiles.value.length) {
+    handleAttachModalClose();
+  }
+};
+
+const handlePendingInputChange = async (
+  event: Event,
+  onlyMedia: boolean
+): Promise<void> => {
+  const target = event.target as HTMLInputElement;
+
+  if (!target.files?.length) {
+    return;
+  }
+
+  await queueAttachFiles(target.files, onlyMedia);
+  target.value = '';
+};
+
+const formatFileSize = (bytes: number): string => {
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(1)} KB`;
+  }
+
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+watch(
+  () => pendingMediaFiles.value,
+  files => {
+    pendingMediaPreviewUrls.value.forEach(url => URL.revokeObjectURL(url));
+    pendingMediaPreviewUrls.value = files.map(file =>
+      URL.createObjectURL(file)
+    );
+  },
+  { deep: true }
+);
+
+watch(
+  () => pendingMediaFiles.value[0],
+  (file, previousFile) => {
+    if (currentMediaPreviewUrl.value) {
+      URL.revokeObjectURL(currentMediaPreviewUrl.value);
+      currentMediaPreviewUrl.value = null;
+    }
+
+    if (!file || file === previousFile) {
+      return;
+    }
+
+    currentMediaPreviewUrl.value = URL.createObjectURL(file);
+  }
+);
+
 const SpanNode = Node.create({
   name: 'spanNode',
   inline: true,
@@ -422,9 +958,9 @@ const SpanNode = Node.create({
     node,
     HTMLAttributes
   }: {
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     node: any;
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     HTMLAttributes: Record<string, any>;
   }) {
     return [
@@ -443,15 +979,9 @@ const editor = useEditor({
   extensions: [
     StarterKit.configure({
       link: false,
-      bold: false,
-      italic: false,
-      strike: false,
       heading: false,
-      bulletList: false,
-      orderedList: false,
-      codeBlock: false,
       blockquote: false,
-      underline: false
+      codeBlock: false
     }),
     Link.configure({
       openOnClick: false,
@@ -473,14 +1003,13 @@ const editor = useEditor({
         event.preventDefault();
         event.stopPropagation();
 
-        // если уже вставляем — игнорим (зажатая V)
         if (isPasting) {
           return true;
         }
 
         isPasting = true;
 
-        void emitAttachFiles(clipboardData.files);
+        void queueAttachFiles(clipboardData.files, true);
 
         setTimeout(() => {
           isPasting = false;
@@ -507,8 +1036,17 @@ const editor = useEditor({
       const match = textBefore.match(/@([^\s]*)$/);
 
       if (match) {
-        emits('mention-change', match[1].toLowerCase());
+        const nextMentionSearch = match[1].toLowerCase();
+
+        if (mentionSearch.value !== nextMentionSearch) {
+          mentionSelectedIndex.value = 0;
+        }
+
+        mentionSearch.value = nextMentionSearch;
+        emits('mention-change', nextMentionSearch);
       } else {
+        mentionSearch.value = null;
+        dismissedMentionSearch.value = null;
         emits('mention-change', null);
       }
     }
@@ -523,6 +1061,57 @@ watch(modelValue, newVal => {
     });
   }
 });
+
+watch(mentionItems, items => {
+  if (!items.length) {
+    mentionSelectedIndex.value = 0;
+    mentionListStyle.value = {};
+    return;
+  }
+
+  if (mentionSelectedIndex.value >= items.length) {
+    mentionSelectedIndex.value = items.length - 1;
+  }
+
+  if (showMentionList.value) {
+    nextTick(() => {
+      updateMentionListPosition();
+      scrollActiveMentionIntoView();
+    });
+  }
+});
+
+watch(mentionSelectedIndex, () => {
+  if (showMentionList.value) {
+    nextTick(() => {
+      updateMentionListPosition();
+      scrollActiveMentionIntoView();
+    });
+  }
+});
+
+watch(showMentionList, isOpen => {
+  if (!isOpen) {
+    mentionSelectedIndex.value = 0;
+    mentionListStyle.value = {};
+    return;
+  }
+
+  dismissedMentionSearch.value = null;
+  nextTick(() => {
+    updateMentionListPosition();
+    scrollActiveMentionIntoView();
+  });
+});
+
+watch(
+  () => isAttachModalOpen.value,
+  () => {
+    if (showMentionList.value) {
+      nextTick(() => updateMentionListPosition());
+    }
+  }
+);
 
 const addLink = (): void => {
   if (!editor?.value) return;
@@ -542,10 +1131,10 @@ const addEmoji = (emoji: { i: string }): void => {
   editor.value.chain().focus().insertContent(emoji.i).run();
 };
 
-const attachFile = (
+const attachFile = async (
   onlyMedia: boolean = false,
   cameraType?: 'image' | 'video'
-): void => {
+): Promise<void> => {
   if (!editor?.value) return;
   const input = document.createElement('input');
   input.type = 'file';
@@ -567,27 +1156,63 @@ const attachFile = (
   }
   input.onchange = () => {
     if (!input?.files) return;
-    void emitAttachFiles(input.files, onlyMedia);
+
+    const shouldSendImmediately =
+      isMobileViewport() && (onlyMedia || Boolean(cameraType));
+
+    if (shouldSendImmediately) {
+      void emitAttachFiles(input.files, true);
+      return;
+    }
+
+    void queueAttachFiles(input.files, onlyMedia);
   };
   input.click();
 };
 
-const fileDropped = (data: File[]) => {
+const fileDropped = (payload: { files: File[]; onlyMedia: boolean }): void => {
   console.warn(
     `${LOG_PREFIX} fileDropped event received`,
-    data.map(file => getFileLogMeta(file))
+    payload.files.map(file => getFileLogMeta(file))
   );
-  void emitAttachFiles(data);
+  void queueAttachFiles(payload.files, payload.onlyMedia);
+};
+
+const handleAttachModalSend = (): void => {
+  if (!editor?.value) {
+    return;
+  }
+
+  emits('unmount-send', {
+    content: editor.value.getHTML(),
+    files: pendingFiles.value.length
+      ? toFileList(pendingFiles.value)
+      : undefined,
+    mediaFiles: pendingMediaFiles.value.length
+      ? toFileList(pendingMediaFiles.value)
+      : undefined
+  });
+
+  isAttachModalOpen.value = false;
+  clearPendingAttachments();
+  closeEmojiPicker();
+  editor.value.chain().focus();
 };
 
 const handleSave = (): void => {
-  if (editor?.value) {
-    emits('unmount-send', { content: editor.value.getHTML() });
-    editor.value.chain().focus();
+  if (!editor?.value) {
+    return;
   }
+
+  if (hasPendingAttachments.value) {
+    handleAttachModalSend();
+    return;
+  }
+
+  emits('unmount-send', { content: editor.value.getHTML() });
+  editor.value.chain().focus();
 };
 
-/* ------------------ Insert undeletable span ------------------ */
 const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
   if (!editor?.value) return;
 
@@ -625,6 +1250,34 @@ const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
       })
       .run();
   }
+};
+
+const clearMentionState = (): void => {
+  mentionSearch.value = null;
+  dismissedMentionSearch.value = null;
+  mentionSelectedIndex.value = 0;
+  emits('mention-change', null);
+};
+
+const selectMentionItem = (item: unknown): void => {
+  const getInsertLabel =
+    props.mentionConfig?.getInsertLabel ?? props.mentionInsertLabel;
+
+  if (!getInsertLabel) {
+    return;
+  }
+
+  const content = getInsertLabel(item);
+
+  if (!content) {
+    return;
+  }
+
+  addSpanLink(
+    content,
+    (props.mentionConfig?.getInsertAttrs ?? props.mentionInsertAttrs)?.(item)
+  );
+  clearMentionState();
 };
 
 const toggleUserSelect = (): void => {
@@ -666,7 +1319,6 @@ const updateEmojiPosition = (
   if (!buttonEl) return;
 
   const rect = buttonEl.getBoundingClientRect();
-  /* ------------------ Emoji Picker positioning ------------------ */
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
 
@@ -698,12 +1350,182 @@ const handleWindowUpdate = (): void => {
   if (showEmojiPicker.value && btn) {
     updateEmojiPosition(btn);
   }
+
+  if (showMentionList.value) {
+    updateMentionListPosition();
+  }
 };
 
-/* ------------------ Enter key to save ------------------ */
+const getOrderedListCursorContext = () => {
+  if (!editor.value) {
+    return null;
+  }
+
+  const { selection, doc } = editor.value.state;
+
+  if (!selection.empty) {
+    return null;
+  }
+
+  const { $from } = selection;
+  let listItemDepth = -1;
+  let orderedListDepth = -1;
+
+  for (let depth = $from.depth; depth > 0; depth -= 1) {
+    const node = $from.node(depth);
+
+    if (listItemDepth === -1 && node.type.name === 'listItem') {
+      listItemDepth = depth;
+    }
+
+    if (node.type.name === 'orderedList') {
+      orderedListDepth = depth;
+      break;
+    }
+  }
+
+  if (listItemDepth === -1 || orderedListDepth === -1) {
+    return null;
+  }
+
+  const orderedListNode = $from.node(orderedListDepth);
+  const listItemNode = $from.node(listItemDepth);
+  const listItemIndex = $from.index(orderedListDepth);
+  const orderedListAfter = $from.after(orderedListDepth);
+  const cursorAtEndOfTextblock =
+    $from.parent.isTextblock &&
+    $from.parentOffset === $from.parent.content.size &&
+    $from.index(listItemDepth) === listItemNode.childCount - 1;
+
+  return {
+    cursorPos: $from.pos,
+    docSize: doc.content.size,
+    isLastItem: listItemIndex === orderedListNode.childCount - 1,
+    isAtEndOfItem: cursorAtEndOfTextblock,
+    orderedListAfter
+  };
+};
+
+const exitOrderedListToParagraph = () => {
+  if (!editor.value) {
+    return;
+  }
+
+  const context = getOrderedListCursorContext();
+
+  if (!context) {
+    return;
+  }
+
+  const { state, view } = editor.value;
+  const positionAfterList = context.orderedListAfter;
+  const nextNode = state.doc.resolve(positionAfterList).nodeAfter;
+  let tr = state.tr;
+
+  if (!nextNode || nextNode.type.name !== 'paragraph') {
+    const paragraph = state.schema.nodes.paragraph.create();
+
+    tr = tr.insert(positionAfterList, paragraph);
+  }
+
+  tr = tr.setSelection(
+    TextSelection.near(tr.doc.resolve(positionAfterList + 1))
+  );
+
+  view.dispatch(tr.scrollIntoView());
+  view.focus();
+};
+
 const handleKeydown = (event: KeyboardEvent): void => {
   if (window.innerWidth <= 480) {
     return;
+  }
+
+  if (event.key !== 'ArrowDown') {
+    orderedListExitIntent = null;
+  }
+
+  if (showMentionList.value) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      dismissedMentionSearch.value = mentionSearch.value;
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (
+        mentionSelectedIndex.value >= 0 &&
+        mentionSelectedIndex.value < mentionItems.value.length
+      ) {
+        selectMentionItem(mentionItems.value[mentionSelectedIndex.value]);
+      }
+
+      return;
+    }
+
+    if (
+      mentionItems.value.length &&
+      (event.key === 'ArrowDown' || event.key === 'ArrowUp')
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const delta = event.key === 'ArrowDown' ? 1 : -1;
+      mentionSelectedIndex.value =
+        (mentionSelectedIndex.value + delta + mentionItems.value.length) %
+        mentionItems.value.length;
+      return;
+    }
+  }
+
+  if (
+    event.key === 'Enter' &&
+    event.shiftKey &&
+    !(event.ctrlKey || event.metaKey) &&
+    editor.value?.isActive('orderedList')
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+    orderedListExitIntent = null;
+    editor.value.commands.splitListItem('listItem');
+    return;
+  }
+
+  if (event.key === 'ArrowDown') {
+    const orderedListContext = getOrderedListCursorContext();
+
+    if (
+      orderedListContext?.isLastItem &&
+      orderedListContext.isAtEndOfItem &&
+      orderedListContext.orderedListAfter >= orderedListContext.docSize
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const now = Date.now();
+
+      if (
+        orderedListExitIntent &&
+        orderedListExitIntent.pos === orderedListContext.cursorPos &&
+        now - orderedListExitIntent.timestamp < 1200
+      ) {
+        orderedListExitIntent = null;
+        exitOrderedListToParagraph();
+      } else {
+        orderedListExitIntent = {
+          pos: orderedListContext.cursorPos,
+          timestamp: now
+        };
+      }
+
+      return;
+    }
+
+    orderedListExitIntent = null;
   }
 
   if (
@@ -718,7 +1540,6 @@ const handleKeydown = (event: KeyboardEvent): void => {
   }
 };
 
-/* ------------------ Safe editor event listeners ------------------ */
 onMounted(() => {
   if (!editor?.value?.view?.dom) return;
   editorDom.value = editor.value.view.dom;
@@ -736,11 +1557,17 @@ onBeforeUnmount(() => {
     });
   }
 
+  if (currentMediaPreviewUrl.value) {
+    URL.revokeObjectURL(currentMediaPreviewUrl.value);
+  }
+
+  pendingMediaPreviewUrls.value.forEach(url => URL.revokeObjectURL(url));
+
   window.removeEventListener('resize', handleWindowUpdate);
   window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
-defineExpose({ addSpanLink, focus, editor });
+defineExpose({ addSpanLink, focus, editor, emitAttachFiles });
 </script>
 
 <style>
@@ -754,6 +1581,7 @@ defineExpose({ addSpanLink, focus, editor });
 }
 
 .editor-component {
+  position: relative;
   background-color: var(--white);
   border: 0.5px solid var(--border-color);
   border-radius: 10px;
@@ -769,11 +1597,17 @@ defineExpose({ addSpanLink, focus, editor });
   }
 }
 
-.toolbar {
+.toolbar,
+.attach-modal__toolbar {
   display: flex;
   gap: 8px;
   height: 30px;
   margin: 0 16px 16px;
+}
+
+.attach-modal__toolbar-left {
+  display: flex;
+  gap: 8px;
 }
 
 .right-buttons {
@@ -794,6 +1628,7 @@ defineExpose({ addSpanLink, focus, editor });
     top: auto;
     bottom: 50px;
   }
+
   .emoji-picker-bottom {
     top: 50px;
   }
@@ -801,6 +1636,7 @@ defineExpose({ addSpanLink, focus, editor });
   .emoji-picker-left {
     left: 0;
   }
+
   .emoji-picker-right {
     left: auto;
     right: -7px;
@@ -839,6 +1675,7 @@ button.mobile-buttons {
   &.ghost-yui-kit.button-yui-kit.disable-yui-kit {
     &:not(:disabled) {
       background-color: var(--background-light-color);
+
       &:hover {
         background-color: var(--primary-pressed-light-color);
       }
@@ -860,20 +1697,303 @@ button.mobile-buttons {
   padding: 16px 16px 0;
 }
 
+.attach-modal-container {
+  border-radius: 25px !important;
+}
+
+.attach-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px;
+}
+
+.attach-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.attach-modal__attachments__all {
+  max-height: min(800px, 60vh);
+  overflow-y: scroll;
+  width: calc(100% + 12px);
+  padding-right: 8px;
+}
+
+.attach-modal__close.button-yui-kit.ghost-yui-kit {
+  width: 22px;
+  height: 22px;
+  min-height: 22px;
+  margin-left: auto;
+  padding: 3px;
+  color: var(--text-color);
+}
+
+.attach-modal__media-preview {
+  overflow: hidden;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #6fd3ff 0%, #3db6c6 100%);
+}
+
+.attach-modal__media-preview img,
+.attach-modal__media-preview video {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+}
+
+.attach-modal__dropzones {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.attach-modal__dropzones--single {
+  grid-template-columns: 1fr;
+}
+
+.attach-modal__dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 110px;
+  border: 2px dashed #8aa8ff;
+  border-radius: 20px;
+  background: #f4f8ff;
+  color: var(--text-neutral-color);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.attach-modal__dropzone:hover {
+  border-color: var(--primary-color);
+  background: #edf3ff;
+  transform: translateY(-1px);
+}
+
+.attach-modal__dropzone--media {
+  background: #eefbff;
+}
+
+.attach-modal__media-grid {
+  display: grid;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.attach-modal__media-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-2-item {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-3-item {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-3-item > :first-child {
+  grid-column: span 2;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-4-item,
+.attach-modal__media-grid.attach-modal__media-grid-4-item {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-5-item {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-5-item > :nth-child(-n + 2) {
+  grid-column: span 3;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-5-item
+  > :nth-last-child(-n + 3) {
+  grid-column: span 2;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-6-item {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-7-item {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-7-item > :nth-child(-n + 4) {
+  grid-column: span 3;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-7-item
+  > :nth-last-child(-n + 3) {
+  grid-column: span 2;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-8-item {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-8-item > :nth-child(-n + 2) {
+  grid-column: span 3;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-8-item > :nth-child(n + 3) {
+  grid-column: span 2;
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-9-item,
+.attach-modal__media-grid.attach-modal__media-grid-10-item {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.attach-modal__media-grid.attach-modal__media-grid-10-item > :first-child {
+  grid-column: span 3;
+}
+
+.attach-modal__media-tile {
+  position: relative;
+  min-height: 150px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #6fd3ff 0%, #3db6c6 100%);
+}
+
+.attach-modal__media-tile img,
+.attach-modal__media-tile video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.attach-modal__media-tile-remove.button-yui-kit.ghost-yui-kit {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  background: rgb(28 38 53 / 58%);
+  color: var(--white);
+  justify-content: center;
+}
+
+.attach-modal__media-tile-remove.button-yui-kit.ghost-yui-kit:hover {
+  background: rgb(28 38 53 / 72%);
+}
+
+.attach-modal__attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attach-modal__attachment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px 12px 14px;
+  border-radius: 18px;
+  background: #dfe9ff;
+}
+
+.attach-modal__attachment-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--primary-color);
+}
+
+.attach-modal__attachment-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.attach-modal__attachment-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.attach-modal__attachment-size {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+.attach-modal__attachment-remove.button-yui-kit.ghost-yui-kit {
+  width: 24px;
+  height: 24px;
+  justify-content: end;
+  padding: 0;
+  color: var(--error-color);
+  background: transparent;
+}
+
+.attach-modal__editor {
+  position: relative;
+  background: var(--white);
+  border: 0.5px solid var(--border-color);
+  border-radius: 24px;
+
+  & .tiptap {
+    min-height: 58px;
+    padding: 18px 16px 12px;
+  }
+
+  .editor-component-slot {
+    padding: 16px 16px 0;
+  }
+}
+
+.attach-modal__editor--mentions-open {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.attach-hidden-input {
+  display: none;
+}
+
 @media screen and (width <= 480px) {
   button.ghost-yui-kit.small.mobile-buttons {
     display: grid;
     padding: 3px;
     background-color: transparent !important;
+
     & svg.icon-yui-kit {
       font-size: 24px;
     }
+
     & svg.icon-yui-kit.content-editor__save {
       & path {
         fill: var(--primary-color);
       }
     }
   }
+
   button.ghost-yui-kit.small.mobile-buttons.smile-button {
     & svg.icon-yui-kit {
       & path {
@@ -881,13 +2001,16 @@ button.mobile-buttons {
       }
     }
   }
+
   .editor-component {
     display: grid;
     grid-template-columns: minmax(27px, min-content) 1fr auto;
-    align-items: center;
-    padding: 15px;
-    gap: 16px;
+    align-items: end;
+    padding: 10px;
+    gap: 8px;
     min-height: 17px;
+    border-radius: 30px;
+
     & .tiptap {
       padding: 5px;
     }
@@ -954,5 +2077,9 @@ button.mobile-buttons {
     margin-right: 12px;
     color: var(--primary-color);
   }
+}
+
+.attach-file-popover .popover-yui-kit__content {
+  transform: translate(-10px, calc(-100% - 47px)) !important;
 }
 </style>

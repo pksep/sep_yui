@@ -8,6 +8,7 @@ export interface IPopoverOption {
   value: string;
   function: () => void;
   style?: StyleValue;
+  iconName?: IconNameEnum;
 }
 
 export interface IPopoverProps extends IDataTestIdProp {

@@ -52,6 +52,11 @@
                   @click.stop="handleClick(item)"
                   :data-testid="`${props.dataTestid}-Item${i}`"
                 >
+                  <Icon
+                    v-if="!!item.iconName"
+                    :name="item.iconName"
+                    :data-testid="`${props.dataTestid}-Item${i}-Icon`"
+                  />
                   {{ item.value }}
                 </div>
               </div>
@@ -375,7 +380,9 @@ onUnmounted(() => {
 .popover-yui-kit__content {
   position: fixed;
   z-index: 20;
-  border-radius: 5px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 9.8px 0px #0000000d;
+  overflow: hidden;
   background-color: var(--white);
   width: max-content;
   @supports (top: anchor(bottom)) {
@@ -396,10 +403,13 @@ onUnmounted(() => {
   display: grid;
   box-shadow: 0 0 22px 0 #00000012;
   font-size: 14px;
-  padding: 5px;
+  padding: 10px;
   gap: 5px;
 
   & .popover-yui-kit__options__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
     width: 100%;
     border-radius: 5px;
