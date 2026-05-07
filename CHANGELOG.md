@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.247
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.246...v0.1.247)
+
+### 🚀 Enhancements
+
+- Add attach modal in content editor and dropzone types ([36dfc4e](https://github.com/pksep/sep_yui/commit/36dfc4e))
+- Tiptap editor add buttons ([19ec9fe](https://github.com/pksep/sep_yui/commit/19ec9fe))
+
 ## v0.1.246
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.245...v0.1.246)
