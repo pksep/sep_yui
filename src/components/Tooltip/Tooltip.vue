@@ -135,12 +135,8 @@ const setPosition = (): void => {
     const rectHint = hintRef.value.getBoundingClientRect();
 
     // получаем положение основного элемента относительно документа
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft =
-      window.pageXOffset || document.documentElement.scrollLeft;
-
-    let top = rect.top + scrollTop;
-    let left = rect.left + scrollLeft;
+    let top = rect.top;
+    let left = rect.left;
 
     // если элемент находится в диалоге, то нужно вычесть его положение
     const dialog = tooltipRef.value.closest('dialog');

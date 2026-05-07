@@ -1635,3 +1635,77 @@ export const camera: IVectorIcon = {
 </defs>
 `
 };
+
+export const bold: IVectorIcon = {
+  name: 'bold',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 20 20',
+  path: `
+<path d="M10.1689 3.91797C12.4846 3.91797 13.9375 5.10571 13.9375 6.99414C13.9373 8.34401 12.9293 9.47144 11.6221 9.66797V9.73633C13.2969 9.8645 14.5273 11.0867 14.5273 12.7188C14.5273 14.8891 12.8954 16.248 10.2637 16.248H4.80273V3.91797H10.1689ZM7.38379 10.7451V14.3252H9.60547C11.0923 14.3252 11.8955 13.6929 11.8955 12.5137C11.8955 11.3602 11.0667 10.7452 9.5459 10.7451H7.38379ZM7.38379 5.83984V9.04492H9.23828C10.6138 9.04485 11.3993 8.43779 11.3994 7.39551C11.3994 6.4043 10.7078 5.83985 9.50293 5.83984H7.38379Z" fill="currentColor"/>
+`
+};
+
+export const italic: IVectorIcon = {
+  name: 'italic',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 20 20',
+  path: `
+<path d="M13.7314 3.91016L13.5947 4.55957C12.2194 4.67918 12.0649 4.82433 11.9111 5.56738L9.98926 14.5908C9.83545 15.3342 9.92065 15.48 11.2451 15.5996L11.1084 16.249H6.3916L6.52832 15.5996C7.90402 15.48 8.05811 15.3342 8.21191 14.5908L10.1338 5.56738C10.2875 4.8243 10.2022 4.67918 8.87793 4.55957L9.01465 3.91016H13.7314Z" fill="currentColor"/>
+`
+};
+
+export const underline: IVectorIcon = {
+  name: 'underline',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 20 20',
+  path: `
+<path d="M15.625 18.748H4.375V17.498H15.625V18.748ZM6.6416 3.91797V11.8223C6.64171 13.6849 7.86387 15.0352 10 15.0352C12.1361 15.0351 13.3583 13.6849 13.3584 11.8223V3.91797H14.8965V11.9248C14.8964 14.5565 13.059 16.4531 10 16.4531C6.94102 16.4531 5.10363 14.5565 5.10352 11.9248V3.91797H6.6416Z" fill="currentColor"/>
+`
+};
+
+export const strikethrough: IVectorIcon = {
+  name: 'strikethrough',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 20 20',
+  path: `
+<path d="M13.6086 4.76597C12.6041 4.14353 11.4486 3.79293 10.2602 3.75C8.40078 3.75 6.68906 5.23729 6.68906 6.72458C6.68906 8.28521 7.87969 9.51889 10.2602 10.4982C13.0133 11.6226 13.9063 12.6019 13.9063 14.2718C13.9063 16.3748 11.6742 17.5 9.73984 17.5C8.4375 17.5 7.17188 17.1372 6.09375 16.4115M3.75 10.625H10H16.25" stroke="currentColor" stroke-width="1.5625" stroke-miterlimit="10" stroke-linecap="square" stroke-linejoin="round"/>
+`
+};
+
+export const code: IVectorIcon = {
+  name: 'code',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 20 20',
+  path: `
+<path d="M5.83333 6.66536L2.5 9.9987L5.83333 13.332M14.1667 6.66536L17.5 9.9987L14.1667 13.332M11.6667 3.33203L8.33333 16.6654" stroke="currentColor" stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const link: IVectorIcon = {
+  name: 'link',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 20 20',
+  path: `
+<path d="M8.60254 10.4458C8.87895 10.8179 9.23159 11.1258 9.63656 11.3486C10.0415 11.5714 10.4893 11.7039 10.9496 11.7371C11.4099 11.7703 11.8719 11.7035 12.3043 11.541C12.7366 11.3786 13.1292 11.1245 13.4555 10.7958L15.3864 8.85141C15.9726 8.24021 16.297 7.4216 16.2896 6.5719C16.2823 5.72221 15.9438 4.9094 15.3472 4.30855C14.7505 3.7077 13.9434 3.36688 13.0996 3.3595C12.2558 3.35211 11.4429 3.67876 10.8359 4.26907L9.72889 5.37739" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11.3981 9.54959C11.1217 9.17747 10.7691 8.86957 10.3641 8.64677C9.95915 8.42397 9.51134 8.29148 9.05106 8.25828C8.59077 8.22508 8.12878 8.29196 7.69642 8.45437C7.26405 8.61679 6.87143 8.87094 6.54519 9.19959L4.61431 11.144C4.0281 11.7552 3.70373 12.5738 3.71106 13.4235C3.71839 14.2732 4.05684 15.086 4.65351 15.6869C5.25018 16.2877 6.05733 16.6285 6.90111 16.6359C7.7449 16.6433 8.5578 16.3167 9.16475 15.7263L10.2654 14.618" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};
+
+export const blockquote: IVectorIcon = {
+  name: 'blockquote',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 20 20',
+  path: `
+<path d="M6.66797 5H17.5013" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4 4L4 16" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.66699 10H17.5003" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 15H15" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+`
+};

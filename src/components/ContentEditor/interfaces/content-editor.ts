@@ -16,4 +16,23 @@ export interface IContentEditorProps {
   activeSend?: boolean;
   disableSendOnEnter?: boolean;
   isMentionModalOpen?: boolean;
+  mentionItems?: unknown[];
+  mentionConfig?: {
+    getKey?: (item: unknown, index: number) => string | number;
+    getLabel?: (item: unknown) => string;
+    getSubtitle?: (item: unknown) => string;
+    getAvatarUrl?: (item: unknown) => string;
+    getAvatarInitials?: (item: unknown) => string;
+    getIsOnline?: (item: unknown) => boolean;
+    getInsertLabel?: (item: unknown) => string;
+    getInsertAttrs?: (item: unknown) => Record<string, string>;
+  };
+  mentionItemKey?: (item: unknown, index: number) => string | number;
+  mentionItemLabel?: (item: unknown) => string;
+  mentionItemSubtitle?: (item: unknown) => string;
+  mentionItemAvatarUrl?: (item: unknown) => string;
+  mentionItemAvatarInitials?: (item: unknown) => string;
+  mentionItemIsOnline?: (item: unknown) => boolean;
+  mentionInsertLabel?: (item: unknown) => string;
+  mentionInsertAttrs?: (item: unknown) => Record<string, string>;
 }

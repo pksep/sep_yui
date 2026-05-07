@@ -1,5 +1,9 @@
 <template>
-  <div class="editor-component">
+  <div
+    ref="mainMentionAnchorRef"
+    class="editor-component"
+    :class="{ 'editor-component--mentions-open': showMentionList }"
+  >
     <div
       class="editor-component-slot"
       v-if="$slots.action && !isAttachModalOpen"
@@ -7,8 +11,8 @@
       <slot name="action" />
     </div>
     <Popover
+      v-if="props.activeAttachFile"
       isWCUse
-      :disabled="!props.activeAttachFile"
       :options="mobileAttachOptions"
       translateY="calc(-100% - 47px)"
       class="mobile-item attach-file-popover"
@@ -18,7 +22,6 @@
           :type="ButtonTypeEnum.ghost"
           :size="SizesEnum.small"
           class="toolbar-button attach-file-button mobile-buttons"
-          :disabled="!props.activeAttachFile"
         >
           <Icon :name="IconNameEnum.paperClip" />
         </Button>
@@ -29,6 +32,10 @@
       v-if="!isAttachModalOpen"
       class="editor-content"
       :editor="editor"
+    />
+    <ContentEditorFormattingToolbar
+      v-if="!isAttachModalOpen"
+      :editor="editor || null"
     />
     <DropZone
       v-if="props.activeAttachFile && !isAttachModalOpen"
@@ -66,8 +73,8 @@
 
     <div v-if="!isAttachModalOpen" class="toolbar">
       <Popover
+        v-if="props.activeAttachFile"
         isWCUse
-        :disabled="!props.activeAttachFile"
         :options="desktopAttachOptions"
         translateY="calc(-100% - 47px)"
       >
@@ -76,7 +83,6 @@
             :type="ButtonTypeEnum.ghost"
             :size="SizesEnum.small"
             class="toolbar-button attach-file-button"
-            :disabled="!props.activeAttachFile"
           >
             <Icon :name="IconNameEnum.paperClip" :width="16" :height="16" />
           </Button>
@@ -99,7 +105,7 @@
         </div>
       </Button>
       <Button
-        :disabled="!props.activeSelectUser"
+        v-if="props.activeSelectUser"
         :type="ButtonTypeEnum.ghost"
         class="toolbar-button"
         :size="SizesEnum.small"
@@ -238,7 +244,7 @@
             </div>
           </div>
         </div>
-        <div class="attach-modal__editor">
+        <div ref="modalMentionAnchorRef" class="attach-modal__editor">
           <div class="editor-component-slot" v-if="$slots.action">
             <slot name="action" />
           </div>
@@ -286,7 +292,7 @@
                 </div>
               </Button>
               <Button
-                :disabled="!props.activeSelectUser"
+                v-if="props.activeSelectUser"
                 :type="ButtonTypeEnum.ghost"
                 class="toolbar-button"
                 :size="SizesEnum.small"
@@ -358,6 +364,28 @@
       @change="handlePendingInputChange($event, true)"
     />
   </div>
+
+  <Teleport :to="mentionTeleportTarget">
+    <div
+      v-if="showMentionList && mentionItems.length"
+      ref="mentionListRef"
+      class="editor-component__mentions-portal"
+    >
+      <ContentEditorMentionList
+        :items="mentionItems"
+        :selected-index="mentionSelectedIndex"
+        is-fixed
+        :position-style="mentionListStyle"
+        :get-key="getMentionItemKey"
+        :get-label="getMentionItemLabel"
+        :get-subtitle="getMentionItemSubtitle"
+        :get-avatar-url="getMentionItemAvatarUrl"
+        :get-avatar-initials="getMentionItemAvatarInitials"
+        :get-is-online="getMentionItemIsOnline"
+        @select="selectMentionItem"
+      />
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -370,6 +398,7 @@ import {
   computed
 } from 'vue';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
+import { TextSelection } from '@tiptap/pm/state';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -390,6 +419,8 @@ import Popover from '../Popover/Popover.vue';
 import { vOnClickOutside } from '@vueuse/components';
 import DropZone from './DropZone.vue';
 import Modal from '../Modal/Modal.vue';
+import ContentEditorMentionList from './ContentEditorMentionList.vue';
+import ContentEditorFormattingToolbar from './ContentEditorFormattingToolbar.vue';
 
 const props = defineProps<IContentEditorProps>();
 const modelValue = defineModel<string>();
@@ -402,14 +433,19 @@ const emits = defineEmits<IContentEditorEmit>();
 const LOG_PREFIX = '[ContentEditor]';
 
 const editorDom = ref<HTMLElement | null>(null);
+const mainMentionAnchorRef = ref<HTMLElement | null>(null);
+const modalMentionAnchorRef = ref<HTMLElement | null>(null);
+const mentionListRef = ref<HTMLDivElement | null>(null);
+const mentionListStyle = ref<Record<string, string>>({});
 const isCameraModalOpen = ref(false);
 const isAttachModalOpen = ref(false);
 const pendingFiles = ref<File[]>([]);
 const pendingMediaFiles = ref<File[]>([]);
 const currentMediaPreviewUrl = ref<string | null>(null);
 const pendingMediaPreviewUrls = ref<string[]>([]);
-const pendingFileInputRef = ref<HTMLInputElement | null>(null);
-const pendingMediaInputRef = ref<HTMLInputElement | null>(null);
+const mentionSearch = ref<string | null>(null);
+const dismissedMentionSearch = ref<string | null>(null);
+const mentionSelectedIndex = ref(0);
 
 const hasPendingAttachments = computed(
   () => pendingFiles.value.length > 0 || pendingMediaFiles.value.length > 0
@@ -419,6 +455,43 @@ const disableSend = computed(
   () =>
     !props.activeSend && editor.value?.isEmpty && !hasPendingAttachments.value
 );
+
+const mentionItems = computed(() => props.mentionItems ?? []);
+
+const showMentionList = computed(
+  () =>
+    Boolean(props.activeSelectUser) &&
+    mentionSearch.value !== null &&
+    dismissedMentionSearch.value !== mentionSearch.value
+);
+
+const getMentionItemKey = (item: unknown, index: number): string | number =>
+  props.mentionConfig?.getKey?.(item, index) ??
+  props.mentionItemKey?.(item, index) ??
+  index;
+
+const getMentionItemLabel = (item: unknown): string =>
+  props.mentionConfig?.getLabel?.(item) ?? props.mentionItemLabel?.(item) ?? '';
+
+const getMentionItemSubtitle = (item: unknown): string =>
+  props.mentionConfig?.getSubtitle?.(item) ??
+  props.mentionItemSubtitle?.(item) ??
+  '';
+
+const getMentionItemAvatarUrl = (item: unknown): string =>
+  props.mentionConfig?.getAvatarUrl?.(item) ??
+  props.mentionItemAvatarUrl?.(item) ??
+  '';
+
+const getMentionItemAvatarInitials = (item: unknown): string =>
+  props.mentionConfig?.getAvatarInitials?.(item) ??
+  props.mentionItemAvatarInitials?.(item) ??
+  getMentionItemLabel(item);
+
+const getMentionItemIsOnline = (item: unknown): boolean =>
+  props.mentionConfig?.getIsOnline?.(item) ??
+  props.mentionItemIsOnline?.(item) ??
+  false;
 
 const pickerClasses = computed(() => [
   'emoji-picker',
@@ -494,6 +567,66 @@ const pendingMediaPreviewChunks = computed(() =>
   chunkItems(pendingMediaPreviewItems.value, 10)
 );
 
+const mentionAnchorRef = computed(
+  () =>
+    (isAttachModalOpen.value
+      ? modalMentionAnchorRef.value
+      : mainMentionAnchorRef.value) ?? null
+);
+
+const mentionTeleportTarget = computed(() => {
+  const anchor = mentionAnchorRef.value;
+  const dialog = anchor?.closest('dialog');
+
+  return dialog ?? 'body';
+});
+
+const updateMentionListPosition = () => {
+  if (!showMentionList.value || !mentionItems.value.length) {
+    return;
+  }
+
+  const anchor = mentionAnchorRef.value;
+
+  if (!anchor) {
+    return;
+  }
+
+  const rect = anchor.getBoundingClientRect();
+  const viewportPadding = 12;
+  const gap = isAttachModalOpen.value ? 10 : 3;
+  const width = Math.min(rect.width, window.innerWidth - viewportPadding * 2);
+  const maxLeft = window.innerWidth - width - viewportPadding;
+  const left = Math.min(Math.max(rect.left, viewportPadding), maxLeft);
+
+  mentionListStyle.value = {
+    left: `${left}px`,
+    bottom: `${window.innerHeight - rect.top + gap}px`,
+    width: `${width}px`,
+    zIndex: '1001'
+  };
+};
+
+const scrollActiveMentionIntoView = () => {
+  nextTick(() => {
+    const container = mentionListRef.value;
+
+    if (!container) {
+      return;
+    }
+
+    const activeItem = container.querySelector('[data-mention-active="true"]');
+
+    if (!(activeItem instanceof HTMLElement)) {
+      return;
+    }
+
+    activeItem.scrollIntoView({
+      block: 'nearest'
+    });
+  });
+};
+
 const isMobileViewport = (): boolean => window.innerWidth <= 480;
 
 const openCameraCapture = (type: 'image' | 'video') => {
@@ -502,6 +635,7 @@ const openCameraCapture = (type: 'image' | 'video') => {
 };
 
 let isPasting = false;
+let orderedListExitIntent: { pos: number; timestamp: number } | null = null;
 
 const FILE_EXTENSION_TO_MIME: Record<string, string> = {
   png: 'image/png',
@@ -683,7 +817,20 @@ const queueAttachFiles = async (
   }
 
   if (onlyMedia) {
-    pendingMediaFiles.value = [...pendingMediaFiles.value, ...normalizedFiles];
+    const mediaFiles = normalizedFiles.filter(file =>
+      shouldDetachFile(getMimeType(file))
+    );
+    const regularFiles = normalizedFiles.filter(
+      file => !shouldDetachFile(getMimeType(file))
+    );
+
+    if (mediaFiles.length) {
+      pendingMediaFiles.value = [...pendingMediaFiles.value, ...mediaFiles];
+    }
+
+    if (regularFiles.length) {
+      pendingFiles.value = [...pendingFiles.value, ...regularFiles];
+    }
   } else {
     pendingFiles.value = [...pendingFiles.value, ...normalizedFiles];
   }
@@ -832,15 +979,9 @@ const editor = useEditor({
   extensions: [
     StarterKit.configure({
       link: false,
-      bold: false,
-      italic: false,
-      strike: false,
       heading: false,
-      bulletList: false,
-      orderedList: false,
-      codeBlock: false,
       blockquote: false,
-      underline: false
+      codeBlock: false
     }),
     Link.configure({
       openOnClick: false,
@@ -868,7 +1009,7 @@ const editor = useEditor({
 
         isPasting = true;
 
-        void queueAttachFiles(clipboardData.files, false);
+        void queueAttachFiles(clipboardData.files, true);
 
         setTimeout(() => {
           isPasting = false;
@@ -895,8 +1036,17 @@ const editor = useEditor({
       const match = textBefore.match(/@([^\s]*)$/);
 
       if (match) {
-        emits('mention-change', match[1].toLowerCase());
+        const nextMentionSearch = match[1].toLowerCase();
+
+        if (mentionSearch.value !== nextMentionSearch) {
+          mentionSelectedIndex.value = 0;
+        }
+
+        mentionSearch.value = nextMentionSearch;
+        emits('mention-change', nextMentionSearch);
       } else {
+        mentionSearch.value = null;
+        dismissedMentionSearch.value = null;
         emits('mention-change', null);
       }
     }
@@ -911,6 +1061,57 @@ watch(modelValue, newVal => {
     });
   }
 });
+
+watch(mentionItems, items => {
+  if (!items.length) {
+    mentionSelectedIndex.value = 0;
+    mentionListStyle.value = {};
+    return;
+  }
+
+  if (mentionSelectedIndex.value >= items.length) {
+    mentionSelectedIndex.value = items.length - 1;
+  }
+
+  if (showMentionList.value) {
+    nextTick(() => {
+      updateMentionListPosition();
+      scrollActiveMentionIntoView();
+    });
+  }
+});
+
+watch(mentionSelectedIndex, () => {
+  if (showMentionList.value) {
+    nextTick(() => {
+      updateMentionListPosition();
+      scrollActiveMentionIntoView();
+    });
+  }
+});
+
+watch(showMentionList, isOpen => {
+  if (!isOpen) {
+    mentionSelectedIndex.value = 0;
+    mentionListStyle.value = {};
+    return;
+  }
+
+  dismissedMentionSearch.value = null;
+  nextTick(() => {
+    updateMentionListPosition();
+    scrollActiveMentionIntoView();
+  });
+});
+
+watch(
+  () => isAttachModalOpen.value,
+  () => {
+    if (showMentionList.value) {
+      nextTick(() => updateMentionListPosition());
+    }
+  }
+);
 
 const addLink = (): void => {
   if (!editor?.value) return;
@@ -1051,6 +1252,34 @@ const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
   }
 };
 
+const clearMentionState = (): void => {
+  mentionSearch.value = null;
+  dismissedMentionSearch.value = null;
+  mentionSelectedIndex.value = 0;
+  emits('mention-change', null);
+};
+
+const selectMentionItem = (item: unknown): void => {
+  const getInsertLabel =
+    props.mentionConfig?.getInsertLabel ?? props.mentionInsertLabel;
+
+  if (!getInsertLabel) {
+    return;
+  }
+
+  const content = getInsertLabel(item);
+
+  if (!content) {
+    return;
+  }
+
+  addSpanLink(
+    content,
+    (props.mentionConfig?.getInsertAttrs ?? props.mentionInsertAttrs)?.(item)
+  );
+  clearMentionState();
+};
+
 const toggleUserSelect = (): void => {
   if (!editor?.value) return;
 
@@ -1121,11 +1350,182 @@ const handleWindowUpdate = (): void => {
   if (showEmojiPicker.value && btn) {
     updateEmojiPosition(btn);
   }
+
+  if (showMentionList.value) {
+    updateMentionListPosition();
+  }
+};
+
+const getOrderedListCursorContext = () => {
+  if (!editor.value) {
+    return null;
+  }
+
+  const { selection, doc } = editor.value.state;
+
+  if (!selection.empty) {
+    return null;
+  }
+
+  const { $from } = selection;
+  let listItemDepth = -1;
+  let orderedListDepth = -1;
+
+  for (let depth = $from.depth; depth > 0; depth -= 1) {
+    const node = $from.node(depth);
+
+    if (listItemDepth === -1 && node.type.name === 'listItem') {
+      listItemDepth = depth;
+    }
+
+    if (node.type.name === 'orderedList') {
+      orderedListDepth = depth;
+      break;
+    }
+  }
+
+  if (listItemDepth === -1 || orderedListDepth === -1) {
+    return null;
+  }
+
+  const orderedListNode = $from.node(orderedListDepth);
+  const listItemNode = $from.node(listItemDepth);
+  const listItemIndex = $from.index(orderedListDepth);
+  const orderedListAfter = $from.after(orderedListDepth);
+  const cursorAtEndOfTextblock =
+    $from.parent.isTextblock &&
+    $from.parentOffset === $from.parent.content.size &&
+    $from.index(listItemDepth) === listItemNode.childCount - 1;
+
+  return {
+    cursorPos: $from.pos,
+    docSize: doc.content.size,
+    isLastItem: listItemIndex === orderedListNode.childCount - 1,
+    isAtEndOfItem: cursorAtEndOfTextblock,
+    orderedListAfter
+  };
+};
+
+const exitOrderedListToParagraph = () => {
+  if (!editor.value) {
+    return;
+  }
+
+  const context = getOrderedListCursorContext();
+
+  if (!context) {
+    return;
+  }
+
+  const { state, view } = editor.value;
+  const positionAfterList = context.orderedListAfter;
+  const nextNode = state.doc.resolve(positionAfterList).nodeAfter;
+  let tr = state.tr;
+
+  if (!nextNode || nextNode.type.name !== 'paragraph') {
+    const paragraph = state.schema.nodes.paragraph.create();
+
+    tr = tr.insert(positionAfterList, paragraph);
+  }
+
+  tr = tr.setSelection(
+    TextSelection.near(tr.doc.resolve(positionAfterList + 1))
+  );
+
+  view.dispatch(tr.scrollIntoView());
+  view.focus();
 };
 
 const handleKeydown = (event: KeyboardEvent): void => {
   if (window.innerWidth <= 480) {
     return;
+  }
+
+  if (event.key !== 'ArrowDown') {
+    orderedListExitIntent = null;
+  }
+
+  if (showMentionList.value) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      dismissedMentionSearch.value = mentionSearch.value;
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (
+        mentionSelectedIndex.value >= 0 &&
+        mentionSelectedIndex.value < mentionItems.value.length
+      ) {
+        selectMentionItem(mentionItems.value[mentionSelectedIndex.value]);
+      }
+
+      return;
+    }
+
+    if (
+      mentionItems.value.length &&
+      (event.key === 'ArrowDown' || event.key === 'ArrowUp')
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const delta = event.key === 'ArrowDown' ? 1 : -1;
+      mentionSelectedIndex.value =
+        (mentionSelectedIndex.value + delta + mentionItems.value.length) %
+        mentionItems.value.length;
+      return;
+    }
+  }
+
+  if (
+    event.key === 'Enter' &&
+    event.shiftKey &&
+    !(event.ctrlKey || event.metaKey) &&
+    editor.value?.isActive('orderedList')
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+    orderedListExitIntent = null;
+    editor.value.commands.splitListItem('listItem');
+    return;
+  }
+
+  if (event.key === 'ArrowDown') {
+    const orderedListContext = getOrderedListCursorContext();
+
+    if (
+      orderedListContext?.isLastItem &&
+      orderedListContext.isAtEndOfItem &&
+      orderedListContext.orderedListAfter >= orderedListContext.docSize
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const now = Date.now();
+
+      if (
+        orderedListExitIntent &&
+        orderedListExitIntent.pos === orderedListContext.cursorPos &&
+        now - orderedListExitIntent.timestamp < 1200
+      ) {
+        orderedListExitIntent = null;
+        exitOrderedListToParagraph();
+      } else {
+        orderedListExitIntent = {
+          pos: orderedListContext.cursorPos,
+          timestamp: now
+        };
+      }
+
+      return;
+    }
+
+    orderedListExitIntent = null;
   }
 
   if (
@@ -1181,6 +1581,7 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles });
 }
 
 .editor-component {
+  position: relative;
   background-color: var(--white);
   border: 0.5px solid var(--border-color);
   border-radius: 10px;
@@ -1552,6 +1953,7 @@ button.mobile-buttons {
 }
 
 .attach-modal__editor {
+  position: relative;
   background: var(--white);
   border: 0.5px solid var(--border-color);
   border-radius: 24px;
@@ -1564,6 +1966,11 @@ button.mobile-buttons {
   .editor-component-slot {
     padding: 16px 16px 0;
   }
+}
+
+.attach-modal__editor--mentions-open {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .attach-hidden-input {
@@ -1600,7 +2007,7 @@ button.mobile-buttons {
     grid-template-columns: minmax(27px, min-content) 1fr auto;
     align-items: end;
     padding: 10px;
-    gap: 16px;
+    gap: 8px;
     min-height: 17px;
     border-radius: 30px;
 

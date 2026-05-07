@@ -132,5 +132,12 @@ export enum IconNameEnum {
   fileItem = 'file-item',
   file = 'file',
   camera = 'camera',
-  image = 'image'
+  image = 'image',
+  bold = 'bold',
+  italic = 'italic',
+  underline = 'underline',
+  strikethrough = 'strikethrough',
+  code = 'code',
+  link = 'link',
+  blockquote = 'blockquote'
 }
