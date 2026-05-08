@@ -915,9 +915,9 @@ const getShortName = (name: string): string => {
   const base = name.slice(0, lastDot);
   const ext = name.slice(lastDot);
 
-  if (base.length <= 25) return name;
+  if (base.length <= 30) return name;
 
-  const start = base.slice(0, 22);
+  const start = base.slice(0, 27);
 
   return `${start} ... ${ext}`;
 };
