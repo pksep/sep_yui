@@ -3,48 +3,160 @@
     v-if="visible"
     ref="toolbarRef"
     class="formatting-toolbar"
+    :class="{
+      'formatting-toolbar--mobile': isMobileToolbar,
+      'formatting-toolbar--mobile-menu': isMobileToolbar && isMobileMenuOpen
+    }"
     :style="toolbarStyle"
+    @pointerdown="handleToolbarPointerDown"
     @mousedown.prevent
   >
-    <div class="formatting-toolbar__group">
-      <Tooltip
-        v-for="action in markActions"
-        :key="action.key"
-        :hint="action.hint"
-        position="top-center"
+    <template v-if="isMobileToolbar">
+      <div
+        v-if="!isMobileMenuOpen"
+        class="formatting-toolbar__mobile-selection-actions"
       >
         <button
           type="button"
-          class="formatting-toolbar__button"
-          :class="{ 'formatting-toolbar__button--active': action.isActive() }"
-          :aria-label="action.hint"
-          @click="action.run"
+          class="formatting-toolbar__mobile-edit-action"
+          @click="runMobileClipboardAction('cut')"
         >
-          <Icon :name="action.icon" />
+          Вырезать
         </button>
-      </Tooltip>
-    </div>
 
-    <div class="formatting-toolbar__divider"></div>
+        <div class="formatting-toolbar__mobile-selection-divider"></div>
 
-    <div class="formatting-toolbar__group">
-      <Tooltip
-        v-for="action in blockActions"
-        :key="action.key"
-        :hint="action.hint"
-        position="top-center"
-      >
         <button
           type="button"
-          class="formatting-toolbar__button"
-          :class="{ 'formatting-toolbar__button--active': action.isActive() }"
-          :aria-label="action.hint"
-          @click="action.run"
+          class="formatting-toolbar__mobile-edit-action"
+          @click="runMobileClipboardAction('copy')"
         >
-          <Icon :name="action.icon" />
+          Скопировать
         </button>
-      </Tooltip>
-    </div>
+
+        <div class="formatting-toolbar__mobile-selection-divider"></div>
+
+        <button
+          type="button"
+          class="formatting-toolbar__mobile-edit-action"
+          @click="runMobileClipboardAction('paste')"
+        >
+          Вставить
+        </button>
+
+        <button
+          type="button"
+          class="formatting-toolbar__mobile-trigger"
+          aria-label="Форматирование"
+          @click="openMobileMenu"
+        >
+          <Icon :name="IconNameEnum.plus" :width="18" :height="18" />
+        </button>
+      </div>
+
+      <div v-else class="formatting-toolbar__mobile-dropdown" role="menu">
+        <button
+          type="button"
+          class="formatting-toolbar__mobile-header"
+          @click="closeMobileMenu"
+        >
+          <Icon :name="IconNameEnum.arrowLeft" :width="20" :height="20" />
+          <span>Форматирование</span>
+        </button>
+
+        <div class="formatting-toolbar__mobile-group">
+          <button
+            v-for="action in markActions"
+            :key="action.key"
+            type="button"
+            class="formatting-toolbar__mobile-action"
+            :class="{
+              'formatting-toolbar__mobile-action--active': action.isActive()
+            }"
+            :aria-label="action.hint"
+            :aria-pressed="action.isActive()"
+            role="menuitemcheckbox"
+            @click="runMobileAction(action)"
+          >
+            <Icon
+              class="formatting-toolbar__mobile-action-icon"
+              :name="action.icon"
+              :width="24"
+              :height="24"
+            />
+            <span>{{ action.hint }}</span>
+          </button>
+        </div>
+
+        <div class="formatting-toolbar__mobile-divider"></div>
+
+        <div class="formatting-toolbar__mobile-group">
+          <button
+            v-for="action in blockActions"
+            :key="action.key"
+            type="button"
+            class="formatting-toolbar__mobile-action"
+            :class="{
+              'formatting-toolbar__mobile-action--active': action.isActive()
+            }"
+            :aria-label="action.hint"
+            :aria-pressed="action.isActive()"
+            role="menuitemcheckbox"
+            @click="runMobileAction(action)"
+          >
+            <Icon
+              class="formatting-toolbar__mobile-action-icon"
+              :name="action.icon"
+              :width="24"
+              :height="24"
+            />
+            <span>{{ action.hint }}</span>
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="formatting-toolbar__group">
+        <Tooltip
+          v-for="action in markActions"
+          :key="action.key"
+          :hint="action.hint"
+          position="top-center"
+        >
+          <button
+            type="button"
+            class="formatting-toolbar__button"
+            :class="{ 'formatting-toolbar__button--active': action.isActive() }"
+            :aria-label="action.hint"
+            @click="action.run"
+          >
+            <Icon :name="action.icon" />
+          </button>
+        </Tooltip>
+      </div>
+
+      <div class="formatting-toolbar__divider"></div>
+
+      <div class="formatting-toolbar__group">
+        <Tooltip
+          v-for="action in blockActions"
+          :key="action.key"
+          :hint="action.hint"
+          position="top-center"
+        >
+          <button
+            type="button"
+            class="formatting-toolbar__button"
+            :class="{ 'formatting-toolbar__button--active': action.isActive() }"
+            :aria-label="action.hint"
+            @click="action.run"
+          >
+            <Icon :name="action.icon" />
+          </button>
+        </Tooltip>
+      </div>
+    </template>
   </div>
 
   <Modal
@@ -111,6 +223,7 @@
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { Editor } from '@tiptap/core';
 import { posToDOMRect } from '@tiptap/core';
+import { TextSelection } from '@tiptap/pm/state';
 import Modal from '../Modal/Modal.vue';
 import Tooltip from '../Tooltip/Tooltip.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -134,13 +247,17 @@ interface SelectionRange {
 }
 
 type ToolbarAlignment = 'left' | 'center' | 'right';
+type MobileClipboardAction = 'cut' | 'copy' | 'paste';
 
 const TOOLBAR_MARGIN = 16;
+const MOBILE_VIEWPORT_MAX_WIDTH = 480;
 
 const props = defineProps<Props>();
 
 const toolbarRef = ref<HTMLDivElement | null>(null);
 const visible = ref(false);
+const isMobileToolbar = ref(false);
+const isMobileMenuOpen = ref(false);
 const linkEditorOpen = ref(false);
 const linkText = ref('');
 const linkValue = ref('');
@@ -152,6 +269,7 @@ const savedSelectionRange = ref<SelectionRange | null>(null);
 const savedSelectionText = ref('');
 const isPointerSelecting = ref(false);
 let positionAnimationFrameId: number | null = null;
+let mobileSelectionTimeoutIds: number[] = [];
 
 const resetLinkEditorState = () => {
   linkEditorOpen.value = false;
@@ -175,6 +293,15 @@ const getSelectionLines = (
     .filter(Boolean);
 
 const getToolbarWidth = (): number => toolbarRef.value?.offsetWidth ?? 0;
+const getToolbarHeight = (): number => toolbarRef.value?.offsetHeight ?? 0;
+
+const updateToolbarMode = () => {
+  isMobileToolbar.value = window.innerWidth <= MOBILE_VIEWPORT_MAX_WIDTH;
+
+  if (!isMobileToolbar.value) {
+    isMobileMenuOpen.value = false;
+  }
+};
 
 const getHiddenToolbarStyle = (): Record<string, string> => ({
   position: 'fixed',
@@ -218,7 +345,19 @@ const isNodeInsideEditor = (
   return !!element && editorDom.contains(element);
 };
 
-const getDomSelectionRect = (editor: Editor): DOMRect | null => {
+const getSelectionClientRects = (editor: Editor): DOMRect[] => {
+  const domSelection = getEditorDomSelection(editor);
+
+  if (!domSelection) {
+    return [];
+  }
+
+  return Array.from(domSelection.getRangeAt(0).getClientRects()).filter(
+    rect => rect.width > 0 || rect.height > 0
+  );
+};
+
+const getEditorDomSelection = (editor: Editor): Selection | null => {
   const editorDom = getEditorDom(editor);
   const domSelection = editorDom?.ownerDocument.getSelection();
 
@@ -237,10 +376,11 @@ const getDomSelectionRect = (editor: Editor): DOMRect | null => {
     return null;
   }
 
-  const range = domSelection.getRangeAt(0);
-  const rects = Array.from(range.getClientRects()).filter(
-    rect => rect.width > 0 || rect.height > 0
-  );
+  return domSelection;
+};
+
+const getDomSelectionRect = (editor: Editor): DOMRect | null => {
+  const rects = getSelectionClientRects(editor);
 
   if (rects.length > 0) {
     const left = Math.min(...rects.map(rect => rect.left));
@@ -251,6 +391,14 @@ const getDomSelectionRect = (editor: Editor): DOMRect | null => {
     return new DOMRect(left, top, right - left, bottom - top);
   }
 
+  const editorDom = getEditorDom(editor);
+  const domSelection = editorDom?.ownerDocument.getSelection();
+
+  if (!domSelection || domSelection.rangeCount === 0) {
+    return null;
+  }
+
+  const range = domSelection.getRangeAt(0);
   const rect = range.getBoundingClientRect();
 
   if (rect.width > 0 || rect.height > 0) {
@@ -258,6 +406,97 @@ const getDomSelectionRect = (editor: Editor): DOMRect | null => {
   }
 
   return null;
+};
+
+const isFullEditorSelection = (editor: Editor): boolean => {
+  const { doc, selection } = editor.state;
+
+  return selection.from <= 1 && selection.to >= doc.content.size - 1;
+};
+
+const getStartSelectionRect = (editor: Editor): DOMRect | null => {
+  const [firstRect] = getSelectionClientRects(editor).sort(
+    (rectA, rectB) => rectA.top - rectB.top || rectA.left - rectB.left
+  );
+
+  if (firstRect) {
+    return new DOMRect(
+      firstRect.left,
+      firstRect.top,
+      firstRect.width,
+      firstRect.height
+    );
+  }
+
+  const { selection } = editor.state;
+
+  try {
+    const startCoords = editor.view.coordsAtPos(selection.from);
+
+    return new DOMRect(
+      startCoords.left,
+      startCoords.top,
+      Math.max(startCoords.right - startCoords.left, 1),
+      startCoords.bottom - startCoords.top
+    );
+  } catch {
+    return null;
+  }
+};
+
+const getSelectionToolbarRect = (editor: Editor): DOMRect =>
+  (isFullEditorSelection(editor) ? getStartSelectionRect(editor) : null) ??
+  getDomSelectionRect(editor) ??
+  posToDOMRect(
+    editor.view,
+    editor.state.selection.from,
+    editor.state.selection.to
+  );
+
+const syncEditorSelectionFromDom = (editor: Editor): boolean => {
+  const domSelection = getEditorDomSelection(editor);
+
+  if (!domSelection) {
+    return false;
+  }
+
+  try {
+    if (!domSelection.anchorNode || !domSelection.focusNode) {
+      return false;
+    }
+
+    const anchorPos = editor.view.posAtDOM(
+      domSelection.anchorNode,
+      domSelection.anchorOffset
+    );
+    const focusPos = editor.view.posAtDOM(
+      domSelection.focusNode,
+      domSelection.focusOffset
+    );
+    const from = Math.min(anchorPos, focusPos);
+    const to = Math.max(anchorPos, focusPos);
+
+    if (from === to) {
+      return false;
+    }
+
+    if (
+      editor.state.selection.from === from &&
+      editor.state.selection.to === to
+    ) {
+      return true;
+    }
+
+    editor.view.dispatch(
+      editor.state.tr.setSelection(
+        TextSelection.create(editor.state.doc, from, to)
+      )
+    );
+
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 const clampToolbarLeft = (left: number): number => {
@@ -346,6 +585,22 @@ const clampStoredHorizontalPlacement = (
 ): number =>
   alignment === 'center' ? clampHorizontalCenter(left) : clampToolbarLeft(left);
 
+const getToolbarTop = (rect: DOMRect): number => {
+  if (!isMobileToolbar.value || !isMobileMenuOpen.value) {
+    return Math.max(rect.top - 52, 12);
+  }
+
+  const toolbarHeight = getToolbarHeight();
+  const preferredTop = rect.bottom + 8;
+  const maxTop = window.innerHeight - toolbarHeight - TOOLBAR_MARGIN;
+
+  if (!toolbarHeight || preferredTop <= maxTop) {
+    return Math.max(preferredTop, TOOLBAR_MARGIN);
+  }
+
+  return Math.max(rect.top - toolbarHeight - 8, TOOLBAR_MARGIN);
+};
+
 const focusEditor = () => props.editor?.chain().focus();
 
 const restoreSelection = (selection = savedSelectionRange.value) => {
@@ -366,28 +621,35 @@ const updateToolbarPosition = (
 
   if (!editor || !editor.view || !editorDom) {
     visible.value = false;
+    isMobileMenuOpen.value = false;
     return;
   }
 
-  const { state, view, isEditable } = editor;
-  const { selection } = state;
+  const { view, isEditable } = editor;
+  const hasMobileDomSelection =
+    isMobileToolbar.value && Boolean(getEditorDomSelection(editor));
+
+  if (hasMobileDomSelection) {
+    syncEditorSelectionFromDom(editor);
+  }
+
+  const { selection } = editor.state;
 
   if (
     !isEditable ||
     selection.empty ||
-    !view.hasFocus() ||
+    (!view.hasFocus() && !hasMobileDomSelection) ||
     isPointerSelecting.value
   ) {
     visible.value = false;
+    isMobileMenuOpen.value = false;
     toolbarStyle.value = getHiddenToolbarStyle();
     lastToolbarLeft.value = null;
     lastToolbarAlignment.value = 'center';
     return;
   }
 
-  const rect =
-    getDomSelectionRect(editor) ??
-    posToDOMRect(view, selection.from, selection.to);
+  const rect = getSelectionToolbarRect(editor);
 
   if (!visible.value) {
     toolbarStyle.value = getHiddenToolbarStyle();
@@ -415,7 +677,7 @@ const updateToolbarPosition = (
   toolbarStyle.value = {
     position: 'fixed',
     left: `${horizontalPlacement.left}px`,
-    top: `${Math.max(rect.top - 52, 12)}px`,
+    top: `${getToolbarTop(rect)}px`,
     transform: horizontalPlacement.transform,
     visibility: 'visible',
     pointerEvents: 'auto',
@@ -438,8 +700,10 @@ const scheduleToolbarPositionUpdate = (
   });
 };
 
-const handleViewportUpdate = () =>
+const handleViewportUpdate = () => {
+  updateToolbarMode();
   scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+};
 
 const handleSelectionUpdate = () => {
   scheduleToolbarPositionUpdate();
@@ -455,6 +719,13 @@ const handleEditorTransaction = () => {
 
 const handleEditorBlur = () => {
   visible.value = false;
+  isMobileMenuOpen.value = false;
+};
+
+const handleToolbarPointerDown = (event: PointerEvent) => {
+  if (isMobileToolbar.value) {
+    event.preventDefault();
+  }
 };
 
 const handlePointerSelectionStart = (event: PointerEvent) => {
@@ -464,15 +735,213 @@ const handlePointerSelectionStart = (event: PointerEvent) => {
 
   isPointerSelecting.value = true;
   visible.value = false;
+  isMobileMenuOpen.value = false;
 };
 
 const handlePointerSelectionEnd = () => {
   if (!isPointerSelecting.value) {
+    scheduleMobileSelectionUpdate();
     return;
   }
 
   isPointerSelecting.value = false;
   scheduleToolbarPositionUpdate();
+  scheduleMobileSelectionUpdate();
+};
+
+const clearMobileSelectionTimeouts = () => {
+  mobileSelectionTimeoutIds.forEach(timeoutId =>
+    window.clearTimeout(timeoutId)
+  );
+  mobileSelectionTimeoutIds = [];
+};
+
+const scheduleMobileSelectionUpdate = () => {
+  if (!isMobileToolbar.value) {
+    return;
+  }
+
+  clearMobileSelectionTimeouts();
+
+  [50, 180, 360].forEach(delay => {
+    const timeoutId = window.setTimeout(() => {
+      isPointerSelecting.value = false;
+      scheduleToolbarPositionUpdate();
+    }, delay);
+
+    mobileSelectionTimeoutIds.push(timeoutId);
+  });
+};
+
+const handleMobileSelectionChange = () => {
+  scheduleMobileSelectionUpdate();
+};
+
+const handleMobileSelectionEnd = () => {
+  scheduleMobileSelectionUpdate();
+};
+
+const openMobileMenu = () => {
+  isMobileMenuOpen.value = true;
+
+  void nextTick(() => {
+    scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+  });
+};
+
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false;
+
+  void nextTick(() => {
+    scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+  });
+};
+
+const runMobileAction = (action: ToolbarAction) => {
+  action.run();
+
+  if (action.key === 'link' && !props.editor?.isActive('link')) {
+    isMobileMenuOpen.value = false;
+  }
+
+  scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+};
+
+const getCurrentSelectionRange = (editor: Editor): SelectionRange | null => {
+  const { from, to, empty } = editor.state.selection;
+
+  if (empty) {
+    return null;
+  }
+
+  return { from, to };
+};
+
+const getClipboardSelectionText = (
+  editor: Editor,
+  selection: SelectionRange
+): string => editor.state.doc.textBetween(selection.from, selection.to, '\n');
+
+const writeClipboardText = async (text: string): Promise<boolean> => {
+  if (!text) {
+    return false;
+  }
+
+  try {
+    const writeText = navigator.clipboard?.writeText;
+
+    if (writeText) {
+      await writeText.call(navigator.clipboard, text);
+      return true;
+    }
+  } catch {
+    // Fall through to the textarea fallback for browsers without Clipboard API access.
+  }
+
+  const textarea = document.createElement('textarea');
+
+  textarea.value = text;
+  textarea.readOnly = true;
+  textarea.style.position = 'fixed';
+  textarea.style.top = '-9999px';
+  textarea.style.opacity = '0';
+
+  document.body.appendChild(textarea);
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  const copied = document.execCommand('copy');
+
+  document.body.removeChild(textarea);
+
+  return copied;
+};
+
+const readClipboardText = async (): Promise<string> => {
+  try {
+    const readText = navigator.clipboard?.readText;
+
+    return readText ? await readText.call(navigator.clipboard) : '';
+  } catch {
+    return '';
+  }
+};
+
+const readClipboardTextFromPasteFallback = (editor: Editor): string => {
+  const selection = getCurrentSelectionRange(editor);
+  const textarea = document.createElement('textarea');
+
+  textarea.readOnly = false;
+  textarea.style.position = 'fixed';
+  textarea.style.top = '-9999px';
+  textarea.style.opacity = '0';
+
+  document.body.appendChild(textarea);
+  textarea.focus();
+  document.execCommand('paste');
+
+  const text = textarea.value;
+
+  document.body.removeChild(textarea);
+
+  if (selection) {
+    restoreSelection(selection);
+  } else {
+    editor.chain().focus().run();
+  }
+
+  return text;
+};
+
+const collapseSelectionToEnd = (
+  editor: Editor,
+  selection: SelectionRange
+): void => {
+  editor.chain().focus().setTextSelection(selection.to).run();
+  visible.value = false;
+  isMobileMenuOpen.value = false;
+};
+
+const runMobileClipboardAction = async (action: MobileClipboardAction) => {
+  const editor = props.editor;
+
+  if (!editor) {
+    return;
+  }
+
+  if (action === 'paste') {
+    const text =
+      (await readClipboardText()) || readClipboardTextFromPasteFallback(editor);
+
+    if (text) {
+      editor.chain().focus().insertContent(text).run();
+      scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+      return;
+    }
+
+    scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+    return;
+  }
+
+  const selection = getCurrentSelectionRange(editor);
+
+  if (!selection) {
+    return;
+  }
+
+  const copied = await writeClipboardText(
+    getClipboardSelectionText(editor, selection)
+  );
+
+  if (copied && action === 'cut') {
+    editor.chain().focus().deleteRange(selection).run();
+  } else if (copied) {
+    collapseSelectionToEnd(editor, selection);
+  } else {
+    restoreSelection(selection);
+  }
+
+  scheduleToolbarPositionUpdate({ preserveHorizontal: true });
 };
 
 const markActions: ToolbarAction[] = [
@@ -530,6 +999,7 @@ const openLinkEditor = async () => {
       ? href
       : savedSelectionText.value;
   linkEditorOpen.value = true;
+  isMobileMenuOpen.value = false;
 
   await nextTick();
   linkTextInputRef.value?.focus();
@@ -695,6 +1165,12 @@ const bindEditorEvents = (editor: Editor | null | undefined) => {
   editor.on('blur', handleEditorBlur);
   editor.on('transaction', handleEditorTransaction);
   editorDom.addEventListener('pointerdown', handlePointerSelectionStart);
+  editorDom.addEventListener('touchend', handleMobileSelectionEnd, true);
+  editorDom.addEventListener('contextmenu', handleMobileSelectionEnd);
+  editorDom.ownerDocument.addEventListener(
+    'selectionchange',
+    handleMobileSelectionChange
+  );
 };
 
 const unbindEditorEvents = (editor: Editor | null | undefined) => {
@@ -711,9 +1187,19 @@ const unbindEditorEvents = (editor: Editor | null | undefined) => {
     'pointerdown',
     handlePointerSelectionStart
   );
+
+  const editorDom = getEditorDom(editor);
+
+  editorDom?.removeEventListener('touchend', handleMobileSelectionEnd, true);
+  editorDom?.removeEventListener('contextmenu', handleMobileSelectionEnd);
+  editorDom?.ownerDocument.removeEventListener(
+    'selectionchange',
+    handleMobileSelectionChange
+  );
 };
 
 onMounted(() => {
+  updateToolbarMode();
   bindEditorEvents(props.editor);
   window.addEventListener('resize', handleViewportUpdate);
   window.addEventListener('scroll', handleViewportUpdate, true);
@@ -729,6 +1215,8 @@ onBeforeUnmount(() => {
   if (positionAnimationFrameId !== null) {
     cancelAnimationFrame(positionAnimationFrameId);
   }
+
+  clearMobileSelectionTimeouts();
 });
 
 watch(
@@ -793,6 +1281,128 @@ watch(
 .formatting-toolbar__button--active {
   background: var(--blue10);
   color: var(--primary-pressed-color);
+}
+
+.formatting-toolbar--mobile {
+  gap: 0;
+  padding: 4px 5px 4px 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--white);
+  box-shadow: 0 4px 14px rgb(28 38 53 / 12%);
+}
+
+.formatting-toolbar--mobile-menu {
+  display: block;
+  width: 162px;
+  padding: 0;
+  border: 0.5px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 8px 24px rgb(28 38 53 / 16%);
+  overflow: hidden;
+}
+
+.formatting-toolbar__mobile-selection-actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.formatting-toolbar__mobile-edit-action {
+  min-height: 34px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-neutral-color);
+  font-size: 16px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.formatting-toolbar__mobile-selection-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-color);
+}
+
+.formatting-toolbar__mobile-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgb(28 38 53 / 18%);
+  cursor: pointer;
+}
+
+.formatting-toolbar__mobile-dropdown {
+  width: 100%;
+  padding: 6px 0;
+}
+
+.formatting-toolbar__mobile-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-height: 26px;
+  padding: 4px 9px;
+  border: none;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.formatting-toolbar__mobile-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.formatting-toolbar__mobile-divider {
+  height: 0.5px;
+  margin: 5px 0;
+  background: var(--border-color);
+}
+
+.formatting-toolbar__mobile-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 26px;
+  padding: 4px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 17px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.formatting-toolbar__mobile-action:hover {
+  background: var(--background-light-color);
+}
+
+.formatting-toolbar__mobile-action-icon {
+  flex: 0 0 auto;
+  color: var(--text-neutral-color);
+}
+
+.formatting-toolbar__mobile-action--active
+  .formatting-toolbar__mobile-action-icon {
+  color: var(--primary-color);
 }
 
 .formatting-toolbar__link-modal-container {

@@ -403,7 +403,14 @@ import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import EmojiPicker from 'vue3-emoji-picker';
-import { Node, mergeAttributes } from '@tiptap/core';
+import {
+  Extension,
+  InputRule,
+  Node,
+  mergeAttributes,
+  wrappingInputRule
+} from '@tiptap/core';
+import { findWrapping } from '@tiptap/pm/transform';
 import Button from '../Button/Button.vue';
 import Icon from '../Icon/Icon.vue';
 import { SizesEnum } from '@/common/sizes';
@@ -995,6 +1002,117 @@ const SpanNode = Node.create({
   }
 });
 
+const dashBulletListInputRegex = /^\s*([-\u2013\u2014])\s$/;
+const lineStartBulletListInputRegex = /^([-\u2013\u2014])\s$/;
+const lineStartOrderedListInputRegex = /^(\d+)\.\s$/;
+
+const findListMarkerAfterHardBreak = (text: string, markerRegex: RegExp) => {
+  const lineBreakIndex = text.lastIndexOf('\n');
+
+  if (lineBreakIndex === -1) {
+    return null;
+  }
+
+  const markerText = text.slice(lineBreakIndex + 1);
+  const match = markerText.match(markerRegex);
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    index: lineBreakIndex + 1,
+    text: markerText,
+    data: {
+      match
+    }
+  };
+};
+
+const createHardBreakListInputRule = ({
+  listTypeName,
+  find,
+  getAttributes
+}: {
+  listTypeName: 'bulletList' | 'orderedList';
+  find: (text: string) => ReturnType<typeof findListMarkerAfterHardBreak>;
+  getAttributes?: (match: RegExpMatchArray) => Record<string, unknown>;
+}) =>
+  new InputRule({
+    find,
+    handler: ({ state, range, match }) => {
+      const listType = state.schema.nodes[listTypeName];
+
+      if (!listType) {
+        return null;
+      }
+
+      const markerFrom = range.from;
+      const hardBreakFrom = markerFrom - 1;
+      const $markerStart = state.doc.resolve(markerFrom);
+
+      if ($markerStart.nodeBefore?.type.name !== 'hardBreak') {
+        return null;
+      }
+
+      const attrs =
+        getAttributes?.(match.data?.match as RegExpMatchArray) ?? {};
+      let tr = state.tr.delete(range.from, range.to);
+
+      tr = tr.delete(hardBreakFrom, hardBreakFrom + 1);
+
+      try {
+        tr = tr.split(hardBreakFrom);
+      } catch {
+        return null;
+      }
+
+      const paragraphPos = Math.min(hardBreakFrom + 2, tr.doc.content.size);
+      const blockRange = tr.doc.resolve(paragraphPos).blockRange();
+      const wrapping = blockRange && findWrapping(blockRange, listType, attrs);
+
+      if (!wrapping) {
+        return null;
+      }
+
+      tr = tr.wrap(blockRange, wrapping);
+
+      const selectionPos = Math.min(hardBreakFrom + 4, tr.doc.content.size);
+
+      tr = tr.setSelection(TextSelection.near(tr.doc.resolve(selectionPos)));
+    }
+  });
+
+const ContentEditorListInputRules = Extension.create({
+  name: 'contentEditorListInputRules',
+
+  addInputRules() {
+    const bulletListType = this.editor.schema.nodes.bulletList;
+
+    if (!bulletListType) {
+      return [];
+    }
+
+    return [
+      wrappingInputRule({
+        find: dashBulletListInputRegex,
+        type: bulletListType
+      }),
+      createHardBreakListInputRule({
+        listTypeName: 'bulletList',
+        find: text =>
+          findListMarkerAfterHardBreak(text, lineStartBulletListInputRegex)
+      }),
+      createHardBreakListInputRule({
+        listTypeName: 'orderedList',
+        find: text =>
+          findListMarkerAfterHardBreak(text, lineStartOrderedListInputRegex),
+        getAttributes: match => ({ start: Number(match[1]) })
+      })
+    ];
+  }
+});
+
 const editor = useEditor({
   extensions: [
     StarterKit.configure({
@@ -1011,7 +1129,8 @@ const editor = useEditor({
       placeholder: 'Начните печатать...',
       emptyEditorClass: 'is-editor-empty'
     }),
-    SpanNode
+    SpanNode,
+    ContentEditorListInputRules
   ],
   content: modelValue.value,
   editorProps: {
@@ -1456,6 +1575,12 @@ const exitOrderedListToParagraph = () => {
   view.focus();
 };
 
+const isActiveList = (): boolean =>
+  Boolean(
+    editor.value?.isActive('orderedList') ||
+      editor.value?.isActive('bulletList')
+  );
+
 const handleKeydown = (event: KeyboardEvent): void => {
   if (window.innerWidth <= 480) {
     return;
@@ -1506,12 +1631,12 @@ const handleKeydown = (event: KeyboardEvent): void => {
     event.key === 'Enter' &&
     event.shiftKey &&
     !(event.ctrlKey || event.metaKey) &&
-    editor.value?.isActive('orderedList')
+    isActiveList()
   ) {
     event.preventDefault();
     event.stopPropagation();
     orderedListExitIntent = null;
-    editor.value.commands.splitListItem('listItem');
+    editor.value?.commands.splitListItem('listItem');
     return;
   }
 
@@ -1728,7 +1853,12 @@ button.mobile-buttons {
 }
 
 .attach-modal-container {
+  overflow: visible;
   border-radius: 25px !important;
+
+  & .modal-yui-kit__modal-content {
+    overflow: visible;
+  }
 }
 
 .attach-modal {
@@ -2005,6 +2135,25 @@ button.mobile-buttons {
 
 .attach-hidden-input {
   display: none;
+}
+
+.editor-component .tiptap,
+.attach-modal__editor .tiptap {
+  & ul {
+    margin: 1em 0;
+    padding-left: 25px;
+    list-style: disc outside;
+  }
+
+  & ol {
+    margin: 1em 0;
+    padding-left: 25px;
+    list-style: decimal outside;
+  }
+
+  & li {
+    display: list-item;
+  }
 }
 
 @media screen and (width <= 480px) {
