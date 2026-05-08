@@ -226,7 +226,7 @@
                 </div>
                 <div class="attach-modal__attachment-body">
                   <div class="attach-modal__attachment-name">
-                    {{ item.file.name }}
+                    {{ getShortName(item.file.name) }}
                   </div>
                   <div class="attach-modal__attachment-size">
                     {{ formatFileSize(item.file.size) }}
@@ -629,6 +629,10 @@ const scrollActiveMentionIntoView = () => {
 
 const isMobileViewport = (): boolean => window.innerWidth <= 480;
 
+const isPhoneTouchViewport = (): boolean =>
+  window.innerWidth <= 480 &&
+  window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
 const openCameraCapture = (type: 'image' | 'video') => {
   isCameraModalOpen.value = false;
   attachFile(true, type);
@@ -900,6 +904,22 @@ const formatFileSize = (bytes: number): string => {
   }
 
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+const getShortName = (name: string): string => {
+  if (!name) return '';
+
+  const lastDot = name.lastIndexOf('.');
+  if (lastDot === -1) return name;
+
+  const base = name.slice(0, lastDot);
+  const ext = name.slice(lastDot);
+
+  if (base.length <= 25) return name;
+
+  const start = base.slice(0, 22);
+
+  return `${start} ... ${ext}`;
 };
 
 watch(
@@ -1540,6 +1560,14 @@ const handleKeydown = (event: KeyboardEvent): void => {
   }
 };
 
+const handleMobileContextMenu = (event: Event): void => {
+  if (!isPhoneTouchViewport()) {
+    return;
+  }
+
+  event.preventDefault();
+};
+
 onMounted(() => {
   if (!editor?.value?.view?.dom) return;
   editorDom.value = editor.value.view.dom;
@@ -1547,6 +1575,7 @@ onMounted(() => {
   window.addEventListener('resize', handleWindowUpdate);
   window.addEventListener('scroll', handleWindowUpdate, true);
   editorDom.value.addEventListener('keydown', handleKeydown, { capture: true });
+  editorDom.value.addEventListener('contextmenu', handleMobileContextMenu);
 });
 
 onBeforeUnmount(() => {
@@ -1555,6 +1584,7 @@ onBeforeUnmount(() => {
     editorDom.value.removeEventListener('keydown', handleKeydown, {
       capture: true
     });
+    editorDom.value.removeEventListener('contextmenu', handleMobileContextMenu);
   }
 
   if (currentMediaPreviewUrl.value) {
@@ -1978,6 +2008,11 @@ button.mobile-buttons {
 }
 
 @media screen and (width <= 480px) {
+  .editor-component .tiptap,
+  .attach-modal__editor .tiptap {
+    -webkit-touch-callout: none;
+  }
+
   button.ghost-yui-kit.small.mobile-buttons {
     display: grid;
     padding: 3px;

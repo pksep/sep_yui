@@ -51,7 +51,7 @@
     v-if="linkEditorOpen"
     :open="linkEditorOpen"
     position="center"
-    width="min(360px, calc(100vw - 32px))"
+    width="min(370px, -45px + 100vw)"
     height="auto"
     class="formatting-toolbar__link-modal-container"
     @close="handleLinkModalClose"
