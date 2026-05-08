@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.250
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.249...v0.1.250)
+
+### 🩹 Fixes
+
+- Content editor toolbar for phone ([765df2d](https://github.com/pksep/sep_yui/commit/765df2d))
+
 ## v0.1.249
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.248...v0.1.249)
