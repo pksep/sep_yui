@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.249
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.248...v0.1.249)
+
+### 🩹 Fixes
+
+- Icon ([07ec862](https://github.com/pksep/sep_yui/commit/07ec862))
+- GetShortName ([e238eac](https://github.com/pksep/sep_yui/commit/e238eac))
+
 ## v0.1.248
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.247...v0.1.248)
