@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.251
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.250...v0.1.251)
+
+### 🚀 Enhancements
+
+- In mobile send file without attach modal ([0d34be1](https://github.com/pksep/sep_yui/commit/0d34be1))
+
 ## v0.1.250
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.249...v0.1.250)
