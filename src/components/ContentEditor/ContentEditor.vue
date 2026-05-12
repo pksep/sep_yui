@@ -1296,11 +1296,8 @@ const attachFile = async (
   input.onchange = () => {
     if (!input?.files) return;
 
-    const shouldSendImmediately =
-      isMobileViewport() && (onlyMedia || Boolean(cameraType));
-
-    if (shouldSendImmediately) {
-      void emitAttachFiles(input.files, true);
+    if (isMobileViewport()) {
+      void emitAttachFiles(input.files, onlyMedia || Boolean(cameraType));
       return;
     }
 
