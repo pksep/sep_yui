@@ -139,5 +139,7 @@ export enum IconNameEnum {
   strikethrough = 'strikethrough',
   code = 'code',
   link = 'link',
-  blockquote = 'blockquote'
+  blockquote = 'blockquote',
+  chat = 'chat',
+  calls = 'calls'
 }
