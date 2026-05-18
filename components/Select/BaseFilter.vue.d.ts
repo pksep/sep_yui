@@ -60,6 +60,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     };
 }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (value: string | string[]) => void;
+    "disabled-click": (value: string) => void;
     "unmount-open": (value: boolean) => void;
     "unmount-search": (value: string) => void;
     "unmount-search-enter": (value: string) => void;
@@ -118,6 +119,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     };
 }>> & Readonly<{
     onChange?: ((value: string | string[]) => any) | undefined;
+    "onDisabled-click"?: ((value: string) => any) | undefined;
     "onUnmount-open"?: ((value: boolean) => any) | undefined;
     "onUnmount-search"?: ((value: string) => any) | undefined;
     "onUnmount-search-enter"?: ((value: string) => any) | undefined;

@@ -10,10 +10,12 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     dataTestid: string;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (value: string) => void;
+    "disabled-click": (value: string) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IOptionsProps>, {
     dataTestid: string;
 }>>> & Readonly<{
     onChange?: ((value: string) => any) | undefined;
+    "onDisabled-click"?: ((value: string) => any) | undefined;
 }>, {
     dataTestid: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
