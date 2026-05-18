@@ -120,7 +120,7 @@ const setPosition = (): void => {
     const setedStyles: Record<string, string> = {
       '--hint-top': 'anchor(top)',
       '--hint-left': 'anchor(left)',
-      '--hint-width': '0',
+      '--hint-measured-width': '0',
       '--hint-height': '0',
       '--tooltip-width': '0',
       '--tooltip-height': '0',
@@ -168,7 +168,7 @@ const setPosition = (): void => {
     }
     setedStyles['--tooltip-width'] = `${tooltipWidth}px`;
     setedStyles['--tooltip-height'] = `${tooltipHeight}px`;
-    setedStyles['--hint-width'] = `${hintWidth}px`;
+    setedStyles['--hint-measured-width'] = `${hintWidth}px`;
     setedStyles['--hint-height'] = `${hintHeigth}px`;
 
     if (!hintRef.value) return;
@@ -307,10 +307,13 @@ onUnmounted(() => {
 
     padding: var(--tooltip-padding);
     border-radius: 4px;
-    width: var(--hint-width, max-content);
+    width: max-content;
+    max-width: min(320px, calc(100vw - 16px));
     visibility: var(--hint-visibility, hidden);
 
     font-size: var(--tooltip-font-size);
+    word-break: normal;
+    overflow-wrap: normal;
     hyphens: auto;
 
     filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.16));
@@ -393,7 +396,7 @@ onUnmounted(() => {
     }
 
     &_top-right {
-      transform: translateX(calc((var(--hint-width) * -1) + 16px));
+      transform: translateX(calc((var(--hint-measured-width) * -1) + 16px));
       &::before {
         left: auto;
         right: var(--hint-before-width);
@@ -422,7 +425,7 @@ onUnmounted(() => {
     }
 
     &_bottom-right {
-      transform: translateX(calc((var(--hint-width) * -1) + 10px));
+      transform: translateX(calc((var(--hint-measured-width) * -1) + 10px));
       &::before {
         left: auto;
         right: var(--hint-before-width);
@@ -459,7 +462,7 @@ onUnmounted(() => {
     &_right-top,
     &_right-bottom {
       left: calc(
-        var(--hint-left) - var(--hint-width) - var(--hint-before-width) - var(
+        var(--hint-left) - var(--hint-measured-width) - var(--hint-before-width) - var(
             --tooltip-hint-gap,
             12px
           )

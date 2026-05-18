@@ -380,7 +380,7 @@ onUnmounted(() => {
 .popover-yui-kit__content {
   position: fixed;
   z-index: 20;
-  border-radius: 15px;
+  border-radius: 5px;
   box-shadow: 0px 4px 9.8px 0px #0000000d;
   overflow: hidden;
   background-color: var(--white);
@@ -403,7 +403,7 @@ onUnmounted(() => {
   display: grid;
   box-shadow: 0 0 22px 0 #00000012;
   font-size: 14px;
-  padding: 10px;
+  padding: 5px;
   gap: 5px;
 
   & .popover-yui-kit__options__item {
