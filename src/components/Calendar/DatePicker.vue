@@ -38,6 +38,7 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
         @hide-years="changeHideYears"
         @change-date="changeVal"
         class="date-picker-yui-kit"
+        @click.stop
       >
         <template v-for="name of Object.keys(state.isOpen)" :key="name">
           <Icon

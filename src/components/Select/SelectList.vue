@@ -109,8 +109,6 @@ const updateDropdownPosition = () => {
       let translateY = 0;
       let translateX = 0;
 
-      console.log(document.documentElement.scrollHeight, dropdownRect.bottom);
-
       if (dropdownRect.bottom > document.documentElement.scrollHeight) {
         translateY =
           -dropdownRect.bottom + document.documentElement.scrollHeight - 10;

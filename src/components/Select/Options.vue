@@ -1,11 +1,27 @@
 <template>
   <template v-for="(option, inx) in props.options" :key="inx">
     <li
-      :class="[classes, getActiveClass(option), props.class]"
+      :class="[
+        classes,
+        getActiveClass(option),
+        {
+          'select-list-yui-kit__item_disabled': isOptionsObject(option)
+            ? option.disabled
+            : false
+        },
+        props.class
+      ]"
       @click="() => handleChoosenOption(option)"
       :data-testid="`${props.dataTestid}-${inx}`"
     >
-      <div class="options__item">
+      <div
+        class="options__item"
+        :class="{
+          options__item_disabled: isOptionsObject(option)
+            ? option.disabled
+            : false
+        }"
+      >
         <div class="options__value truncate-yui-kit">
           {{ getOption(option) }}
         </div>
@@ -54,6 +70,7 @@ watch(
 
 const emit = defineEmits<{
   (e: 'change', value: string): void;
+  (e: 'disabled-click', value: string): void;
 }>();
 
 const classes = computed(() => ({
@@ -65,6 +82,11 @@ const classes = computed(() => ({
  * Получает знание выбранного элемента списка и передает по событию родителю. Закрывает список.
  */
 const handleChoosenOption = (value: string | OptionsObject): void => {
+  if (isOptionsObject(value) && value.disabled) {
+    emit('disabled-click', value.key);
+    return;
+  }
+
   state.choosedOption = value;
 
   if (isOptionsObject(state.choosedOption)) {
@@ -119,6 +141,8 @@ const getOption = (
   border-radius: 5px;
   cursor: pointer;
 
+  transition: all 0.2s ease;
+
   &:first-child {
     margin-top: 5px;
   }
@@ -126,9 +150,23 @@ const getOption = (
     margin-bottom: 2px;
   }
 
+  &:hover {
+    background-color: var(--primary-pressed-light-color);
+  }
+  &.active {
+    background-color: var(--primary-pressed-light-color);
+  }
+  &:active {
+    background-color: var(--background-primary-color);
+  }
+
   &.active-yui-kit {
     background-color: var(--primary-pressed-light-color);
   }
+}
+
+.select-list-yui-kit__item.select-list-yui-kit__item_disabled {
+  background-color: transparent;
 }
 
 .truncate-yui-kit {
@@ -163,5 +201,9 @@ const getOption = (
 
     background-color: var(--success-color);
   }
+}
+
+.select-list-yui-kit__item_disabled .options__item {
+  color: var(--text-light-color);
 }
 </style>
