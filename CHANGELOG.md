@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.1.253
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.252...v0.1.253)
+
+### 🚀 Enhancements
+
+- Updated slider ([5e654cb](https://github.com/pksep/sep_yui/commit/5e654cb))
+- Updated select ([1aaf771](https://github.com/pksep/sep_yui/commit/1aaf771))
+
+### 🩹 Fixes
+
+- Fixed opened calendar ([4e52862](https://github.com/pksep/sep_yui/commit/4e52862))
+- Fixed tooltip ([6366b38](https://github.com/pksep/sep_yui/commit/6366b38))
+
+### 🏡 Chore
+
+- I dependends ([4fd89e2](https://github.com/pksep/sep_yui/commit/4fd89e2))
+
 ## v0.1.252
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.251...v0.1.252)
