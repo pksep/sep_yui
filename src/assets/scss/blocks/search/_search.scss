@@ -43,18 +43,6 @@
     & .active-yui-kit {
       border: 1px solid var(--border-primary-color);
     }
-
-    & .select-list-yui-kit__item {
-      &:hover {
-        background-color: var(--primary-pressed-light-color);
-      }
-      &.active {
-        background-color: var(--primary-pressed-light-color);
-      }
-      &:active {
-        background-color: var(--background-primary-color);
-      }
-    }
   }
 }
 

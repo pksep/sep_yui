@@ -15,6 +15,7 @@ export interface OptionsObject {
   key: string;
   value: string;
   used?: boolean;
+  disabled?: boolean;
 }
 
 export interface IOptionsObjectWithHint extends OptionsObject {
@@ -65,6 +66,7 @@ export interface IBaseFilterProps extends Omit<IOptionsProps, 'options'> {
 
 export interface IBaseFilterEmit {
   (e: 'change', value: string | string[]): void;
+  (e: 'disabled-click', value: string): void;
   (e: 'unmount-open', value: boolean): void;
   (e: 'unmount-search', value: string): void;
   (e: 'unmount-search-enter', value: string): void;

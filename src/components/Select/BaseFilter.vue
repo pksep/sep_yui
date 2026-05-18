@@ -113,6 +113,7 @@
         :options="filterOptions"
         :default-option="choosedOption"
         @change="getChoosenOption"
+        @disabled-click="unmountDisabledClick"
       >
         <li
           class="filter__options-underline"
@@ -333,6 +334,10 @@ const countModelValue = computed(() => {
   }
   return null;
 });
+
+const unmountDisabledClick = (value: string): void => {
+  emits('disabled-click', value);
+};
 
 const getChoosenOption = async (value: string): Promise<void> => {
   // Если disabled, то не меняем
