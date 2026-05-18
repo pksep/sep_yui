@@ -77,6 +77,16 @@
             @load="handleLoad"
             @error="handleError"
           />
+
+          <div
+            class="placeholder-yui-kit no-content"
+            v-else
+            :data-testid="`${props.dataTestid}-NoContent-Placeholder`"
+          >
+            <p :data-testid="`${props.dataTestid}-NoContent-Paragrpah`">
+              Ошибка загрузки файла
+            </p>
+          </div>
         </template>
 
         <Loader
@@ -158,6 +168,9 @@ watch(
   () => {
     state.filePath = state.file?.path ?? null;
     reset();
+    const isFileExist = showPlaceholderExtension();
+
+    state.isError = isFileExist;
   },
   {
     immediate: true
@@ -269,12 +282,13 @@ const showPlaceholder = () => state.files.length === 0;
 /**
  * Показывает заглушку на контент, когда файл есть, но не принадлежит к картинкам и видео
  */
-const showPlaceholderExtension = () => {
+const showPlaceholderExtension = (): boolean => {
   return (
     isImage(state.file?.path ?? null) == false &&
     isVideo(state.file?.path ?? null) == false &&
     isPdf(state.file?.path ?? null) == false &&
-    state.files.length > 0
+    state.files.length > 0 &&
+    !state.isError
   );
 };
 
