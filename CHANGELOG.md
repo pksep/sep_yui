@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.1.258
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.257...v0.1.258)
+
+## v0.1.257
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.255...v0.1.257)
+
+### 🏡 Chore
+
+- **release:** V0.1.256 ([609e9eb](https://github.com/pksep/sep_yui/commit/609e9eb))
+
+## v0.1.256
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.255...v0.1.256)
+
+## v0.1.255
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.256...v0.1.255)
+
+### 🏡 Chore
+
+- **release:** V0.1.254 ([1e52114](https://github.com/pksep/sep_yui/commit/1e52114))
+
+## v0.1.254
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.256...v0.1.254)
+
+## v0.1.256
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.254...v0.1.256)
+
+## v0.1.254
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.253...v0.1.254)
+
+### 🚀 Enhancements
+
+- Changed icon ([eb8936e](https://github.com/pksep/sep_yui/commit/eb8936e))
+
 ## v0.1.253
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.252...v0.1.253)
