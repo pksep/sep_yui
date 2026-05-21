@@ -41,6 +41,15 @@ const canvas = ref<HTMLCanvasElement | null>(null);
 let intersenctionObserver: IntersectionObserver | undefined;
 let currentRenderTask: RenderTask | null = null;
 
+const getPdfDocumentSource = async () => {
+  if (props.file) {
+    const arrayBuffer = await props.file.arrayBuffer();
+    return { data: new Uint8Array(arrayBuffer) };
+  }
+
+  return props.src;
+};
+
 watch([() => props.src, () => props.page], () => {
   intersenctionObserver?.disconnect();
   clearCanvas();
@@ -80,7 +89,7 @@ const setPdf = async (): Promise<void> => {
     if (cachedPdf) {
       pdf = cachedPdf;
     } else {
-      pdf = await getDocument(props.src).promise;
+      pdf = await getDocument(await getPdfDocumentSource()).promise;
 
       // Устанавливаем в кэш
       cachePdf.setCache(props.src, pdf);

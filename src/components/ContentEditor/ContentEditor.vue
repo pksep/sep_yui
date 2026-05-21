@@ -226,7 +226,15 @@
                 </div>
                 <div class="attach-modal__attachment-body">
                   <div class="attach-modal__attachment-name">
-                    {{ getShortName(item.file.name) }}
+                    <span class="attach-modal__attachment-name-base">
+                      {{ getFileNameBase(item.file.name) }}
+                    </span>
+                    <span
+                      v-if="getFileNameExtension(item.file.name)"
+                      class="attach-modal__attachment-name-ext"
+                    >
+                      {{ getFileNameExtension(item.file.name) }}
+                    </span>
                   </div>
                   <div class="attach-modal__attachment-size">
                     {{ formatFileSize(item.file.size) }}
@@ -913,20 +921,22 @@ const formatFileSize = (bytes: number): string => {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-const getShortName = (name: string): string => {
+const getFileNameBase = (name: string): string => {
   if (!name) return '';
 
   const lastDot = name.lastIndexOf('.');
-  if (lastDot === -1) return name;
+  if (lastDot <= 0) return name;
 
-  const base = name.slice(0, lastDot);
-  const ext = name.slice(lastDot);
+  return name.slice(0, lastDot);
+};
 
-  if (base.length <= 30) return name;
+const getFileNameExtension = (name: string): string => {
+  if (!name) return '';
 
-  const start = base.slice(0, 27);
+  const lastDot = name.lastIndexOf('.');
+  if (lastDot <= 0 || lastDot === name.length - 1) return '';
 
-  return `${start} ... ${ext}`;
+  return name.slice(lastDot);
 };
 
 watch(
@@ -2086,12 +2096,27 @@ button.mobile-buttons {
 }
 
 .attach-modal__attachment-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 265px;
+  min-width: 0;
   white-space: nowrap;
   font-size: 16px;
   font-weight: 400;
   color: var(--text-color);
+}
+
+.attach-modal__attachment-name-base {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attach-modal__attachment-name-ext {
+  flex-shrink: 0;
 }
 
 .attach-modal__attachment-size {
