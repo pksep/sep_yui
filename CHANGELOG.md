@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.261
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.260...v0.1.261)
+
+### 🚀 Enhancements
+
+- Added storage icon ([9153e00](https://github.com/pksep/sep_yui/commit/9153e00))
+
 ## v0.1.260
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.259...v0.1.260)
