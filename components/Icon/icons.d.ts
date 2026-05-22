@@ -154,3 +154,4 @@ export declare const link: IVectorIcon;
 export declare const blockquote: IVectorIcon;
 export declare const chat: IVectorIcon;
 export declare const calls: IVectorIcon;
+export declare const storage: IVectorIcon;
