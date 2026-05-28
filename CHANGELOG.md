@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.264
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.263...v0.1.264)
+
+### 🚀 Enhancements
+
+- Add new icons ([f9bd0ad](https://github.com/pksep/sep_yui/commit/f9bd0ad))
+
 ## v0.1.263
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.262...v0.1.263)
