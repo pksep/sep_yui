@@ -163,3 +163,4 @@ export declare const box: IVectorIcon;
 export declare const table: IVectorIcon;
 export declare const briefcase: IVectorIcon;
 export declare const warning: IVectorIcon;
+export declare const errorAlert: IVectorIcon;
