@@ -146,5 +146,6 @@ export enum IconNameEnum {
   boxArrowUp = 'boxArrowUp',
   box = 'box',
   table = 'table',
-  briefcase = 'briefcase'
+  briefcase = 'briefcase',
+  warning = 'warning'
 }
