@@ -147,5 +147,8 @@ export enum IconNameEnum {
   box = 'box',
   table = 'table',
   briefcase = 'briefcase',
-  warning = 'warning'
+  warning = 'warning',
+  asc = 'asc',
+  desc = 'desc',
+  errorAlert = 'error-alert'
 }
