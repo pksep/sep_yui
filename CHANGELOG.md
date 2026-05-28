@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.265
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.264...v0.1.265)
+
+### 🚀 Enhancements
+
+- Add warning icon ([3ecfea8](https://github.com/pksep/sep_yui/commit/3ecfea8))
+
 ## v0.1.264
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.263...v0.1.264)
