@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.267
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.266...v0.1.267)
+
+### 🚀 Enhancements
+
+- Change icon ([0a9c9ba](https://github.com/pksep/sep_yui/commit/0a9c9ba))
+
+### 🩹 Fixes
+
+- Formatting-toolbar__button ([0ee4fc1](https://github.com/pksep/sep_yui/commit/0ee4fc1))
+
 ## v0.1.266
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.265...v0.1.266)
