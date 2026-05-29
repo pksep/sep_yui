@@ -1264,7 +1264,7 @@ watch(
   justify-content: center;
   min-width: 28px;
   height: 28px;
-  padding: 0 8px;
+  padding: 0;
   border: none;
   border-radius: 2px;
   background: transparent;
