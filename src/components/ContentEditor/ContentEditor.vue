@@ -327,37 +327,6 @@
       </div>
     </Modal>
 
-    <Transition name="camera-selection-sheet" appear>
-      <Modal
-        v-if="isCameraModalOpen"
-        :open="isCameraModalOpen"
-        @close="isCameraModalOpen = false"
-        position="bottom"
-        width="100%"
-        height="auto"
-        class="camera-selection-modal"
-      >
-        <div class="camera-selection">
-          <div class="camera-selection-options">
-            <Button
-              :type="ButtonTypeEnum.primary"
-              @click="openCameraCapture('image')"
-              class="camera-selection-item"
-            >
-              Сделать фото
-            </Button>
-            <Button
-              :type="ButtonTypeEnum.secondary"
-              @click="openCameraCapture('video')"
-              class="camera-selection-item"
-            >
-              Записать видео
-            </Button>
-          </div>
-        </div>
-      </Modal>
-    </Transition>
-
     <input
       ref="pendingFileInputRef"
       type="file"
@@ -395,6 +364,35 @@
         @select="selectMentionItem"
       />
     </div>
+  </Teleport>
+
+  <Teleport to="body">
+    <Transition name="camera-selection-sheet">
+      <div
+        v-if="isCameraModalOpen"
+        class="camera-selection-sheet"
+        @click.self="handleCameraModalClose"
+      >
+        <div class="camera-selection">
+          <div class="camera-selection-options">
+            <Button
+              :type="ButtonTypeEnum.primary"
+              @click="openCameraCapture('image')"
+              class="camera-selection-item"
+            >
+              Сделать фото
+            </Button>
+            <Button
+              :type="ButtonTypeEnum.secondary"
+              @click="openCameraCapture('video')"
+              class="camera-selection-item"
+            >
+              Записать видео
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -533,7 +531,7 @@ const desktopAttachOptions = computed(() => [
 const mobileAttachOptions = computed(() => [
   {
     value: 'Камера',
-    function: () => (isCameraModalOpen.value = true),
+    function: openCameraModal,
     iconName: IconNameEnum.camera
   },
   ...desktopAttachOptions.value
@@ -649,6 +647,14 @@ const isMobileViewport = (): boolean => window.innerWidth <= 480;
 const isPhoneTouchViewport = (): boolean =>
   window.innerWidth <= 480 &&
   window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+const openCameraModal = (): void => {
+  isCameraModalOpen.value = true;
+};
+
+const handleCameraModalClose = (): void => {
+  isCameraModalOpen.value = false;
+};
 
 const openCameraCapture = (type: 'image' | 'video') => {
   isCameraModalOpen.value = false;
@@ -1264,6 +1270,10 @@ watch(
   }
 );
 
+watch(isCameraModalOpen, isOpen => {
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
 const addLink = (): void => {
   if (!editor?.value) return;
   const url = prompt('Enter URL:');
@@ -1713,6 +1723,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  document.body.style.overflow = '';
+
   editor?.value?.destroy();
   if (editorDom.value) {
     editorDom.value.removeEventListener('keydown', handleKeydown, {
@@ -2247,22 +2259,16 @@ button.mobile-buttons {
   }
 }
 
-.camera-selection-modal {
+.camera-selection-sheet {
   display: flex;
   align-items: flex-end;
   justify-content: stretch;
-  width: 100%;
-  min-height: 100%;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   padding: 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
+  background: rgb(24 24 24 / 40%);
   box-sizing: border-box;
-}
-
-.camera-selection-modal .modal-yui-kit__modal-content {
-  width: 100%;
-  padding: 0 !important;
 }
 
 .camera-selection {
@@ -2300,59 +2306,39 @@ button.mobile-buttons {
     background-color 0.18s ease;
 }
 
-.camera-selection-modal.modal-yui-kit_bottom {
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  max-height: 100%;
-  margin: 0;
-  border-radius: 0;
-}
-
 .camera-selection-sheet-enter-active,
 .camera-selection-sheet-leave-active {
-  transition: opacity 0.28s ease;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.camera-selection-sheet-enter-active .camera-selection,
+.camera-selection-sheet-leave-active .camera-selection {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
 .camera-selection-sheet-enter-from,
 .camera-selection-sheet-leave-to {
   opacity: 0;
+  background: rgb(24 24 24 / 0%);
+}
+
+.camera-selection-sheet-enter-from .camera-selection,
+.camera-selection-sheet-leave-to .camera-selection {
+  transform: translate3d(0, 100%, 0);
 }
 
 .camera-selection-sheet-enter-to,
 .camera-selection-sheet-leave-from {
   opacity: 1;
-}
-
-.camera-selection-sheet-enter-active .camera-selection,
-.camera-selection-sheet-leave-active .camera-selection {
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-.camera-selection-sheet-enter-from .camera-selection,
-.camera-selection-sheet-leave-to .camera-selection {
-  transform: translateY(100%);
+  background: rgb(24 24 24 / 40%);
 }
 
 .camera-selection-sheet-enter-to .camera-selection,
 .camera-selection-sheet-leave-from .camera-selection {
-  transform: translateY(0);
-}
-
-.camera-selection-sheet-enter-active::backdrop,
-.camera-selection-sheet-leave-active::backdrop {
-  transition: opacity 0.28s ease;
-}
-
-.camera-selection-sheet-enter-from::backdrop,
-.camera-selection-sheet-leave-to::backdrop {
-  opacity: 0;
-}
-
-.camera-selection-sheet-enter-to::backdrop,
-.camera-selection-sheet-leave-from::backdrop {
-  opacity: 0.4;
+  transform: translate3d(0, 0, 0);
 }
 
 .attach-file-popover .popover-yui-kit__content {
