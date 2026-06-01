@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.268
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.267...v0.1.268)
+
+### 🚀 Enhancements
+
+- Update dialog for take photo or video ([b0f14ec](https://github.com/pksep/sep_yui/commit/b0f14ec))
+
+### 🩹 Fixes
+
+- Styles toolbar ([1e9fd75](https://github.com/pksep/sep_yui/commit/1e9fd75))
+
 ## v0.1.267
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.266...v0.1.267)
