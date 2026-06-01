@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.269
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.268...v0.1.269)
+
+### 🩹 Fixes
+
+- Dialog transition for take photo or video ([777d221](https://github.com/pksep/sep_yui/commit/777d221))
+
 ## v0.1.268
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.267...v0.1.268)
