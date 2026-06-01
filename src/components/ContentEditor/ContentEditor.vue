@@ -327,34 +327,36 @@
       </div>
     </Modal>
 
-    <Modal
-      v-if="isCameraModalOpen"
-      :open="isCameraModalOpen"
-      @close="isCameraModalOpen = false"
-      position="center"
-      width="320px"
-      height="auto"
-    >
-      <div class="camera-selection">
-        <div class="camera-selection-header">Выберите действие</div>
-        <div class="camera-selection-options">
-          <Button
-            :type="ButtonTypeEnum.outline"
-            @click="openCameraCapture('image')"
-            class="camera-selection-item"
-          >
-            Сделать фото
-          </Button>
-          <Button
-            :type="ButtonTypeEnum.outline"
-            @click="openCameraCapture('video')"
-            class="camera-selection-item"
-          >
-            Записать видео
-          </Button>
+    <Transition name="camera-selection-sheet" appear>
+      <Modal
+        v-if="isCameraModalOpen"
+        :open="isCameraModalOpen"
+        @close="isCameraModalOpen = false"
+        position="bottom"
+        width="100%"
+        height="auto"
+        class="camera-selection-modal"
+      >
+        <div class="camera-selection">
+          <div class="camera-selection-options">
+            <Button
+              :type="ButtonTypeEnum.primary"
+              @click="openCameraCapture('image')"
+              class="camera-selection-item"
+            >
+              Сделать фото
+            </Button>
+            <Button
+              :type="ButtonTypeEnum.secondary"
+              @click="openCameraCapture('video')"
+              class="camera-selection-item"
+            >
+              Записать видео
+            </Button>
+          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+    </Transition>
 
     <input
       ref="pendingFileInputRef"
@@ -2245,44 +2247,112 @@ button.mobile-buttons {
   }
 }
 
+.camera-selection-modal {
+  display: flex;
+  align-items: flex-end;
+  justify-content: stretch;
+  width: 100%;
+  min-height: 100%;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.camera-selection-modal .modal-yui-kit__modal-content {
+  width: 100%;
+  padding: 0 !important;
+}
+
 .camera-selection {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px;
-}
-
-.camera-selection-header {
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
-  color: var(--text-color, #1a1a1a);
+  gap: 10px;
+  width: 100%;
+  height: 170px;
+  padding: 30px 15px;
+  background: var(--white);
+  border-radius: 15px 15px 0 0;
+  overflow: hidden;
 }
 
 .camera-selection-options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  flex: 1;
+  gap: 10px;
 }
 
-.camera-selection-item {
+.camera-selection-item.button-yui-kit {
+  flex: 1 1 0;
   width: 100%;
-  justify-content: flex-start;
-  font-size: 16px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  background-color: var(--background-light-color);
-  transition: all 0.2s ease;
+  justify-content: center;
+  min-height: 0;
+  padding: 0 16px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease,
+    background-color 0.18s ease;
+}
 
-  &:active {
-    background-color: var(--primary-pressed-light-color);
-    transform: scale(0.98);
-  }
+.camera-selection-modal.modal-yui-kit_bottom {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin: 0;
+  border-radius: 0;
+}
 
-  & :deep(.icon-yui-kit) {
-    margin-right: 12px;
-    color: var(--primary-color);
-  }
+.camera-selection-sheet-enter-active,
+.camera-selection-sheet-leave-active {
+  transition: opacity 0.28s ease;
+}
+
+.camera-selection-sheet-enter-from,
+.camera-selection-sheet-leave-to {
+  opacity: 0;
+}
+
+.camera-selection-sheet-enter-to,
+.camera-selection-sheet-leave-from {
+  opacity: 1;
+}
+
+.camera-selection-sheet-enter-active .camera-selection,
+.camera-selection-sheet-leave-active .camera-selection {
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.camera-selection-sheet-enter-from .camera-selection,
+.camera-selection-sheet-leave-to .camera-selection {
+  transform: translateY(100%);
+}
+
+.camera-selection-sheet-enter-to .camera-selection,
+.camera-selection-sheet-leave-from .camera-selection {
+  transform: translateY(0);
+}
+
+.camera-selection-sheet-enter-active::backdrop,
+.camera-selection-sheet-leave-active::backdrop {
+  transition: opacity 0.28s ease;
+}
+
+.camera-selection-sheet-enter-from::backdrop,
+.camera-selection-sheet-leave-to::backdrop {
+  opacity: 0;
+}
+
+.camera-selection-sheet-enter-to::backdrop,
+.camera-selection-sheet-leave-from::backdrop {
+  opacity: 0.4;
 }
 
 .attach-file-popover .popover-yui-kit__content {
