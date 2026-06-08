@@ -63,6 +63,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     focus: () => void;
     editor: import('vue').ShallowRef<import('@tiptap/vue-3').Editor | undefined, import('@tiptap/vue-3').Editor | undefined>;
     emitAttachFiles: (files: FileList | File[], onlyMedia?: boolean) => Promise<void>;
+    queueAttachFiles: (files: FileList | File[], onlyMedia: boolean) => Promise<void>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-send": (params: import('./interfaces/content-editor').IContentEditorSendPayload) => void;
     "unmount-attach-file": (files: FileList, onlyMedia: boolean) => void;
