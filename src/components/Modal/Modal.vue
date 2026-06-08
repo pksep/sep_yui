@@ -92,6 +92,22 @@ const handleKeyPressed = (event: KeyboardEvent): void => {
 };
 
 const getScrollbarWidth = (): number => {
+  const navigatorWithUserAgentData = navigator as Navigator & {
+    userAgentData?: {
+      platform?: string;
+    };
+  };
+  const isMacEnvironment = /mac/i.test(
+    navigatorWithUserAgentData.userAgentData?.platform ||
+      navigator.platform ||
+      navigator.userAgent ||
+      ''
+  );
+
+  if (isMacEnvironment) {
+    return 0;
+  }
+
   const modals = document.querySelectorAll('.modal-yui-kit');
 
   if (modals.length === 1) {

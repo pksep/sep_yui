@@ -1743,7 +1743,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
-defineExpose({ addSpanLink, focus, editor, emitAttachFiles });
+defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 </script>
 
 <style>
