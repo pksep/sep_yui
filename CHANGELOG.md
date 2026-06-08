@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.270
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.269...v0.1.270)
+
+### 🩹 Fixes
+
+- Dropzone for tauri ([f0e8624](https://github.com/pksep/sep_yui/commit/f0e8624))
+
 ## v0.1.269
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.268...v0.1.269)
