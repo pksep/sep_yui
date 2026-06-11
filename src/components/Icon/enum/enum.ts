@@ -141,5 +141,14 @@ export enum IconNameEnum {
   link = 'link',
   blockquote = 'blockquote',
   chat = 'chat',
-  calls = 'calls'
+  calls = 'calls',
+  boxArrowDown = 'boxArrowDown',
+  boxArrowUp = 'boxArrowUp',
+  box = 'box',
+  table = 'table',
+  briefcase = 'briefcase',
+  warning = 'warning',
+  asc = 'asc',
+  desc = 'desc',
+  errorAlert = 'error-alert'
 }

@@ -226,7 +226,15 @@
                 </div>
                 <div class="attach-modal__attachment-body">
                   <div class="attach-modal__attachment-name">
-                    {{ getShortName(item.file.name) }}
+                    <span class="attach-modal__attachment-name-base">
+                      {{ getFileNameBase(item.file.name) }}
+                    </span>
+                    <span
+                      v-if="getFileNameExtension(item.file.name)"
+                      class="attach-modal__attachment-name-ext"
+                    >
+                      {{ getFileNameExtension(item.file.name) }}
+                    </span>
                   </div>
                   <div class="attach-modal__attachment-size">
                     {{ formatFileSize(item.file.size) }}
@@ -319,35 +327,6 @@
       </div>
     </Modal>
 
-    <Modal
-      v-if="isCameraModalOpen"
-      :open="isCameraModalOpen"
-      @close="isCameraModalOpen = false"
-      position="center"
-      width="320px"
-      height="auto"
-    >
-      <div class="camera-selection">
-        <div class="camera-selection-header">Выберите действие</div>
-        <div class="camera-selection-options">
-          <Button
-            :type="ButtonTypeEnum.outline"
-            @click="openCameraCapture('image')"
-            class="camera-selection-item"
-          >
-            Сделать фото
-          </Button>
-          <Button
-            :type="ButtonTypeEnum.outline"
-            @click="openCameraCapture('video')"
-            class="camera-selection-item"
-          >
-            Записать видео
-          </Button>
-        </div>
-      </div>
-    </Modal>
-
     <input
       ref="pendingFileInputRef"
       type="file"
@@ -385,6 +364,35 @@
         @select="selectMentionItem"
       />
     </div>
+  </Teleport>
+
+  <Teleport to="body">
+    <Transition name="camera-selection-sheet">
+      <div
+        v-if="isCameraModalOpen"
+        class="camera-selection-sheet"
+        @click.self="handleCameraModalClose"
+      >
+        <div class="camera-selection">
+          <div class="camera-selection-options">
+            <Button
+              :type="ButtonTypeEnum.primary"
+              @click="openCameraCapture('image')"
+              class="camera-selection-item"
+            >
+              Сделать фото
+            </Button>
+            <Button
+              :type="ButtonTypeEnum.secondary"
+              @click="openCameraCapture('video')"
+              class="camera-selection-item"
+            >
+              Записать видео
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -523,7 +531,7 @@ const desktopAttachOptions = computed(() => [
 const mobileAttachOptions = computed(() => [
   {
     value: 'Камера',
-    function: () => (isCameraModalOpen.value = true),
+    function: openCameraModal,
     iconName: IconNameEnum.camera
   },
   ...desktopAttachOptions.value
@@ -639,6 +647,14 @@ const isMobileViewport = (): boolean => window.innerWidth <= 480;
 const isPhoneTouchViewport = (): boolean =>
   window.innerWidth <= 480 &&
   window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+const openCameraModal = (): void => {
+  isCameraModalOpen.value = true;
+};
+
+const handleCameraModalClose = (): void => {
+  isCameraModalOpen.value = false;
+};
 
 const openCameraCapture = (type: 'image' | 'video') => {
   isCameraModalOpen.value = false;
@@ -913,20 +929,22 @@ const formatFileSize = (bytes: number): string => {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-const getShortName = (name: string): string => {
+const getFileNameBase = (name: string): string => {
   if (!name) return '';
 
   const lastDot = name.lastIndexOf('.');
-  if (lastDot === -1) return name;
+  if (lastDot <= 0) return name;
 
-  const base = name.slice(0, lastDot);
-  const ext = name.slice(lastDot);
+  return name.slice(0, lastDot);
+};
 
-  if (base.length <= 30) return name;
+const getFileNameExtension = (name: string): string => {
+  if (!name) return '';
 
-  const start = base.slice(0, 27);
+  const lastDot = name.lastIndexOf('.');
+  if (lastDot <= 0 || lastDot === name.length - 1) return '';
 
-  return `${start} ... ${ext}`;
+  return name.slice(lastDot);
 };
 
 watch(
@@ -1251,6 +1269,10 @@ watch(
     }
   }
 );
+
+watch(isCameraModalOpen, isOpen => {
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
 
 const addLink = (): void => {
   if (!editor?.value) return;
@@ -1701,6 +1723,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  document.body.style.overflow = '';
+
   editor?.value?.destroy();
   if (editorDom.value) {
     editorDom.value.removeEventListener('keydown', handleKeydown, {
@@ -1719,7 +1743,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
-defineExpose({ addSpanLink, focus, editor, emitAttachFiles });
+defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 </script>
 
 <style>
@@ -2086,12 +2110,27 @@ button.mobile-buttons {
 }
 
 .attach-modal__attachment-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 265px;
+  min-width: 0;
   white-space: nowrap;
   font-size: 16px;
   font-weight: 400;
   color: var(--text-color);
+}
+
+.attach-modal__attachment-name-base {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attach-modal__attachment-name-ext {
+  flex-shrink: 0;
 }
 
 .attach-modal__attachment-size {
@@ -2220,44 +2259,86 @@ button.mobile-buttons {
   }
 }
 
+.camera-selection-sheet {
+  display: flex;
+  align-items: flex-end;
+  justify-content: stretch;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 0;
+  background: rgb(24 24 24 / 40%);
+  box-sizing: border-box;
+}
+
 .camera-selection {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px;
-}
-
-.camera-selection-header {
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
-  color: var(--text-color, #1a1a1a);
+  gap: 10px;
+  width: 100%;
+  height: 170px;
+  padding: 30px 15px;
+  background: var(--white);
+  border-radius: 15px 15px 0 0;
+  overflow: hidden;
 }
 
 .camera-selection-options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  flex: 1;
+  gap: 10px;
 }
 
-.camera-selection-item {
+.camera-selection-item.button-yui-kit {
+  flex: 1 1 0;
   width: 100%;
-  justify-content: flex-start;
-  font-size: 16px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  background-color: var(--background-light-color);
-  transition: all 0.2s ease;
+  justify-content: center;
+  min-height: 0;
+  padding: 0 16px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease,
+    background-color 0.18s ease;
+}
 
-  &:active {
-    background-color: var(--primary-pressed-light-color);
-    transform: scale(0.98);
-  }
+.camera-selection-sheet-enter-active,
+.camera-selection-sheet-leave-active {
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
 
-  & :deep(.icon-yui-kit) {
-    margin-right: 12px;
-    color: var(--primary-color);
-  }
+.camera-selection-sheet-enter-active .camera-selection,
+.camera-selection-sheet-leave-active .camera-selection {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.camera-selection-sheet-enter-from,
+.camera-selection-sheet-leave-to {
+  opacity: 0;
+  background: rgb(24 24 24 / 0%);
+}
+
+.camera-selection-sheet-enter-from .camera-selection,
+.camera-selection-sheet-leave-to .camera-selection {
+  transform: translate3d(0, 100%, 0);
+}
+
+.camera-selection-sheet-enter-to,
+.camera-selection-sheet-leave-from {
+  opacity: 1;
+  background: rgb(24 24 24 / 40%);
+}
+
+.camera-selection-sheet-enter-to .camera-selection,
+.camera-selection-sheet-leave-from .camera-selection {
+  transform: translate3d(0, 0, 0);
 }
 
 .attach-file-popover .popover-yui-kit__content {

@@ -163,27 +163,6 @@ const reset = () => {
   state.isLoad = false;
 };
 
-watch(
-  () => state.file,
-  () => {
-    state.filePath = state.file?.path ?? null;
-    reset();
-    const isFileExist = showPlaceholderExtension();
-
-    state.isError = isFileExist;
-  },
-  {
-    immediate: true
-  }
-);
-
-watch(
-  () => props.items,
-  () => {
-    state.files = props.items.length ? props.items : [];
-  }
-);
-
 const handleLoad = (): void => {
   state.isLoad = true;
 };
@@ -292,6 +271,36 @@ const showPlaceholderExtension = (): boolean => {
   );
 };
 
+watch(
+  () => props.items,
+  () => {
+    state.files = props.items;
+    reset();
+  },
+  { deep: true }
+);
+
+watch(
+  () => state.file,
+  () => {
+    state.filePath = state.file?.path ?? null;
+    reset();
+    const isFileExist = showPlaceholderExtension();
+
+    state.isError = isFileExist;
+  },
+  {
+    immediate: true
+  }
+);
+
+watch(
+  () => props.items,
+  () => {
+    state.files = props.items.length ? props.items : [];
+  }
+);
+
 /**
  * Проверяет на наличие файлов, устанавливает их в стейты, далее устанавливляет слайд по дефолту если пропс есть, либо показывает действующий слайд.
  */
@@ -315,15 +324,6 @@ const setSlide = (index: number) => {
     state.file = state.files[state.currentIndex];
   }
 };
-
-watch(
-  () => props.items,
-  () => {
-    state.files = props.items;
-    reset();
-  },
-  { deep: true }
-);
 
 defineExpose({
   setSlide

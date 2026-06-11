@@ -43,6 +43,7 @@
               class="slider-modal__mini-preview"
               :src="file"
               :page="idx + 1"
+              :file="state.file?.file"
             />
           </div>
 
@@ -110,6 +111,7 @@
                 ref="pdfRef"
                 :src="state?.file?.path"
                 :page="state.sideBarIndex + 1"
+                :file="state.file?.file"
               />
             </div>
 
@@ -124,6 +126,7 @@
                   class="slider-modal__pdf slider-modal__pdf_mobile"
                   :src="file"
                   :page="idx + 1"
+                  :file="state.file?.file"
                 />
               </div>
             </template>
@@ -274,6 +277,7 @@
                       class="slider-modal__slide-image"
                       :src="item.path"
                       :page="1"
+                      :file="item.file"
                     />
                   </template>
 
@@ -924,7 +928,7 @@ const handleClickOnPrintButton = (): void => {
  */
 const handleClickOnDownloadButton = (): void => {
   if (!state.file?.path) return;
-  downloadFile(state.file?.path, state.file?.name);
+  downloadFile(state.file?.path, state.file?.name, state.file?.file);
 };
 
 /**
@@ -1407,7 +1411,12 @@ const initPdf = async (): Promise<void> => {
       pdf = cachedPdf;
     } else {
       // Подгружаем pdf
-      pdf = await getDocument(state.file?.path).promise;
+      if (state.file?.file) {
+        const arrayBuffer = await state.file.file.arrayBuffer();
+        pdf = await getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      } else {
+        pdf = await getDocument(state.file?.path).promise;
+      }
     }
 
     // Если pdf не существует, то выходим

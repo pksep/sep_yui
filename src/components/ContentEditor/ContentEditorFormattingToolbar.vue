@@ -1239,17 +1239,16 @@ watch(
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
+  padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 999px;
   background: var(--white);
-  box-shadow: 0 8px 24px rgb(28 38 53 / 16%);
 }
 
 .formatting-toolbar__group {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
 }
 
 .formatting-toolbar__divider {
@@ -1262,9 +1261,9 @@ watch(
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 28px;
-  height: 28px;
-  padding: 0 8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0;
   border: none;
   border-radius: 2px;
   background: transparent;
@@ -1275,6 +1274,10 @@ watch(
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
+
+  & svg {
+    font-size: 20px;
+  }
 }
 
 .formatting-toolbar__button:hover,
@@ -1316,7 +1319,7 @@ watch(
   background: transparent;
   color: var(--text-neutral-color);
   font-size: 16px;
-  line-height: 1.2;
+  line-height: 19px;
   cursor: pointer;
 }
 

@@ -1,5 +1,102 @@
 # Changelog
 
+## v0.1.270
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.269...v0.1.270)
+
+### 🩹 Fixes
+
+- Dropzone for tauri ([f0e8624](https://github.com/pksep/sep_yui/commit/f0e8624))
+
+## v0.1.269
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.268...v0.1.269)
+
+### 🩹 Fixes
+
+- Dialog transition for take photo or video ([777d221](https://github.com/pksep/sep_yui/commit/777d221))
+
+## v0.1.268
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.267...v0.1.268)
+
+### 🚀 Enhancements
+
+- Update dialog for take photo or video ([b0f14ec](https://github.com/pksep/sep_yui/commit/b0f14ec))
+
+### 🩹 Fixes
+
+- Styles toolbar ([1e9fd75](https://github.com/pksep/sep_yui/commit/1e9fd75))
+
+## v0.1.267
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.266...v0.1.267)
+
+### 🚀 Enhancements
+
+- Change icon ([0a9c9ba](https://github.com/pksep/sep_yui/commit/0a9c9ba))
+
+### 🩹 Fixes
+
+- Formatting-toolbar__button ([0ee4fc1](https://github.com/pksep/sep_yui/commit/0ee4fc1))
+
+## v0.1.266
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.265...v0.1.266)
+
+### 🚀 Enhancements
+
+- Added icon ([2d54a9e](https://github.com/pksep/sep_yui/commit/2d54a9e))
+- Added enum value ([0bf6ab0](https://github.com/pksep/sep_yui/commit/0bf6ab0))
+
+## v0.1.265
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.264...v0.1.265)
+
+### 🚀 Enhancements
+
+- Add warning icon ([3ecfea8](https://github.com/pksep/sep_yui/commit/3ecfea8))
+
+## v0.1.264
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.263...v0.1.264)
+
+### 🚀 Enhancements
+
+- Add new icons ([f9bd0ad](https://github.com/pksep/sep_yui/commit/f9bd0ad))
+
+## v0.1.263
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.262...v0.1.263)
+
+### 🚀 Enhancements
+
+- Added new icon ([121d43b](https://github.com/pksep/sep_yui/commit/121d43b))
+
+## v0.1.262
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.261...v0.1.262)
+
+## v0.1.261
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.260...v0.1.261)
+
+### 🚀 Enhancements
+
+- Added storage icon ([9153e00](https://github.com/pksep/sep_yui/commit/9153e00))
+
+## v0.1.260
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.259...v0.1.260)
+
+## v0.1.259
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.258...v0.1.259)
+
+### 🚀 Enhancements
+
+- Download logic for android ([ce2bd7f](https://github.com/pksep/sep_yui/commit/ce2bd7f))
+
 ## v0.1.258
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.257...v0.1.258)

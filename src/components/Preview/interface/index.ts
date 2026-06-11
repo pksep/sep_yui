@@ -1,6 +1,7 @@
 export interface IPdfPreviewProps {
   src: string | undefined;
   page?: number;
+  file?: File;
 }
 
 export interface IPdfPreviewEmit {
