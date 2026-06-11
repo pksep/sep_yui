@@ -206,8 +206,8 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .table {
-  --td-vertical-padding: 5px;
-  --td-horizontal-padding: 2px;
+  --td-vertical-padding: 2px;
+  --td-horizontal-padding: 5px;
   --scroll-slot-background-color: var(--table-background-color, var(--white));
 
   &__table {
