@@ -150,5 +150,6 @@ export declare enum IconNameEnum {
     warning = "warning",
     asc = "asc",
     desc = "desc",
-    errorAlert = "error-alert"
+    errorAlert = "error-alert",
+    parent = "parent"
 }
