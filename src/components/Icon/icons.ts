@@ -1831,8 +1831,8 @@ export const redo: IVectorIcon = {
   name: 'redo',
   style: 'solid',
   path: `
-<path d="M19.5 8H9C9 8 4 8 4 12.706C4 18 9 18 9 18H17.714" stroke="#B8B8B8" stroke-width="2.29565" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M16.5 11.5L20 8L16.5 4.5" stroke="#B8B8B8" stroke-width="2.29565" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19.5 8H9C9 8 4 8 4 12.706C4 18 9 18 9 18H17.714" stroke="currentColor" stroke-width="2.29565" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.5 11.5L20 8L16.5 4.5" stroke="currentColor" stroke-width="2.29565" stroke-linecap="round" stroke-linejoin="round"/>
 `,
   fill: 'none',
   viewbox: '0 0 24 24'

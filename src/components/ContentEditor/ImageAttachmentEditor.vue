@@ -5,11 +5,12 @@
       <div class="image-attachment-editor__mode-tabs">
         <Tooltip hint="Обрезать" position="top-center" type="black">
           <Button
-            :type="
-              mode === 'crop' ? ButtonTypeEnum.secondary : ButtonTypeEnum.ghost
-            "
+            :type="ButtonTypeEnum.outline"
             :size="SizesEnum.small"
             class="image-attachment-editor__icon-button"
+            :class="{
+              'image-attachment-editor__icon-button--active': mode === 'crop'
+            }"
             @click="setMode('crop')"
           >
             <Icon :name="IconNameEnum.crop" :width="18" :height="18" />
@@ -17,11 +18,12 @@
         </Tooltip>
         <Tooltip hint="Рисовать" position="top-center" type="black">
           <Button
-            :type="
-              mode === 'draw' ? ButtonTypeEnum.secondary : ButtonTypeEnum.ghost
-            "
+            :type="ButtonTypeEnum.outline"
             :size="SizesEnum.small"
             class="image-attachment-editor__icon-button"
+            :class="{
+              'image-attachment-editor__icon-button--active': mode === 'draw'
+            }"
             @click="setMode('draw')"
           >
             <Icon :name="IconNameEnum.imagePaint" :width="18" :height="18" />
@@ -29,11 +31,12 @@
         </Tooltip>
         <Tooltip hint="Текст" position="top-center" type="black">
           <Button
-            :type="
-              mode === 'text' ? ButtonTypeEnum.secondary : ButtonTypeEnum.ghost
-            "
+            :type="ButtonTypeEnum.outline"
             :size="SizesEnum.small"
             class="image-attachment-editor__icon-button"
+            :class="{
+              'image-attachment-editor__icon-button--active': mode === 'text'
+            }"
             @click="setMode('text')"
           >
             <Icon :name="IconNameEnum.text" :width="18" :height="18" />
@@ -41,10 +44,10 @@
         </Tooltip>
         <Tooltip hint="Сброс" position="top-center" type="black">
           <Button
-            :type="ButtonTypeEnum.ghost"
+            :type="ButtonTypeEnum.outline"
             :size="SizesEnum.small"
             class="image-attachment-editor__icon-button"
-            @click="reset"
+            @click="openResetConfirm"
           >
             <Icon :name="IconNameEnum.reset" :width="18" :height="18" />
           </Button>
@@ -53,7 +56,7 @@
       <Button
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
-        class="image-attachment-editor__icon-button"
+        class="image-attachment-editor__icon-button image-attachment-editor__close-button"
         @click="emit('close')"
       >
         <Icon :name="IconNameEnum.crossLarge" :width="18" :height="18" />
@@ -134,7 +137,12 @@
       </div>
     </div>
 
-    <div class="image-attachment-editor__footer">
+    <div
+      class="image-attachment-editor__footer"
+      :class="{
+        'image-attachment-editor__footer--crop': mode === 'crop'
+      }"
+    >
       <div class="image-attachment-editor__history">
         <Tooltip hint="Отменить" position="top-center" type="black">
           <Button
@@ -161,6 +169,58 @@
       </div>
 
       <div class="image-attachment-editor__settings">
+        <template v-if="mode === 'crop' && !hasCropSelection">
+          <Tooltip hint="Повернуть влево" position="top-center" type="black">
+            <Button
+              :type="ButtonTypeEnum.outline"
+              :size="SizesEnum.small"
+              class="image-attachment-editor__icon-button image-attachment-editor__rotate-button"
+              @click="rotateImage('left')"
+            >
+              <Icon :name="IconNameEnum.reset" :width="18" :height="18" />
+            </Button>
+          </Tooltip>
+          <Tooltip hint="Повернуть вправо" position="top-center" type="black">
+            <Button
+              :type="ButtonTypeEnum.outline"
+              :size="SizesEnum.small"
+              class="image-attachment-editor__icon-button image-attachment-editor__rotate-button image-attachment-editor__rotate-button--left"
+              @click="rotateImage('right')"
+            >
+              <Icon :name="IconNameEnum.reset" :width="18" :height="18" />
+            </Button>
+          </Tooltip>
+        </template>
+        <template v-if="mode === 'crop' && hasCropSelection">
+          <Tooltip
+            hint="Сохранить обрезку"
+            position="top-center"
+            type="black"
+          >
+            <Button
+              :type="ButtonTypeEnum.outline"
+              :size="SizesEnum.small"
+              class="image-attachment-editor__icon-button"
+              @click="applyCropSelection"
+            >
+              <Icon :name="IconNameEnum.crop" :width="18" :height="18" />
+            </Button>
+          </Tooltip>
+          <Tooltip
+            hint="Отменить обрезку"
+            position="top-center"
+            type="black"
+          >
+            <Button
+              :type="ButtonTypeEnum.outline"
+              :size="SizesEnum.small"
+              class="image-attachment-editor__icon-button"
+              @click="cancelCropSelection"
+            >
+              <Icon :name="IconNameEnum.crossLarge" :width="18" :height="18" />
+            </Button>
+          </Tooltip>
+        </template>
         <template v-if="mode === 'draw' || mode === 'text'">
           <label class="image-attachment-editor__range-label">
             Размер
@@ -246,6 +306,43 @@
       </div>
     </div>
   </div>
+
+  <Modal
+    v-if="isResetConfirmOpen"
+    :open="isResetConfirmOpen"
+    position="center"
+    width="420px"
+    data-testid="ImageAttachmentEditor-ResetConfirm"
+    class="image-attachment-editor__confirm-modal"
+    @close="closeResetConfirm"
+  >
+    <div class="image-attachment-editor__confirm">
+      <h3 class="image-attachment-editor__confirm-title">
+        Сбросить изменения?
+      </h3>
+      <p class="image-attachment-editor__confirm-text">
+        Вы уверены, что хотите сбросить все изменения изображения?
+      </p>
+      <div class="image-attachment-editor__confirm-actions">
+        <Button
+          :type="ButtonTypeEnum.outline"
+          :size="SizesEnum.small"
+          class="image-attachment-editor__confirm-button"
+          @click="closeResetConfirm"
+        >
+          Отменить
+        </Button>
+        <Button
+          :type="ButtonTypeEnum.primary"
+          :size="SizesEnum.small"
+          class="image-attachment-editor__confirm-button"
+          @click="confirmReset"
+        >
+          Сбросить
+        </Button>
+      </div>
+    </div>
+  </Modal>
 </template>
 
 <script setup lang="ts">
@@ -261,6 +358,7 @@ import {
 } from 'vue';
 import Button from '../Button/Button.vue';
 import Icon from '../Icon/Icon.vue';
+import Modal from '../Modal/Modal.vue';
 import Tooltip from '../Tooltip/Tooltip.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -353,6 +451,7 @@ const textSize = ref(34);
 const textLayers = ref<TextLayer[]>([]);
 const selectedTextLayerId = ref<string | null>(null);
 const editingTextLayerId = ref<string | null>(null);
+const isResetConfirmOpen = ref(false);
 const cropRect = ref<CropRect | null>(null);
 const cropStart = ref<{ x: number; y: number } | null>(null);
 const isDrawing = ref(false);
@@ -449,6 +548,12 @@ const selectedTextLayer = computed(
 );
 const canUndo = computed(() => historyIndex.value > 0);
 const canRedo = computed(() => historyIndex.value < history.value.length - 1);
+const hasCropSelection = computed(
+  () =>
+    !!cropRect.value &&
+    Math.abs(cropRect.value.width) >= 10 &&
+    Math.abs(cropRect.value.height) >= 10
+);
 
 const activeTextSize = computed({
   get: () => selectedTextLayer.value?.fontSize ?? textSize.value,
@@ -1277,6 +1382,121 @@ const handlePointerUp = (event: PointerEvent): void => {
   pushHistory();
 };
 
+const applyCropSelection = (): void => {
+  const canvas = canvasRef.value;
+  const rect = cropRect.value;
+
+  if (!canvas || !rect || !hasCropSelection.value) {
+    return;
+  }
+
+  const sourceCanvas = document.createElement('canvas');
+  sourceCanvas.width = canvas.width;
+  sourceCanvas.height = canvas.height;
+  sourceCanvas.getContext('2d')?.drawImage(canvas, 0, 0);
+
+  const width = Math.round(rect.width);
+  const height = Math.round(rect.height);
+  const x = Math.round(rect.x);
+  const y = Math.round(rect.y);
+  const context = canvas.getContext('2d');
+
+  if (!context) {
+    return;
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+  context.clearRect(0, 0, width, height);
+  context.drawImage(sourceCanvas, x, y, width, height, 0, 0, width, height);
+  textLayers.value = textLayers.value
+    .map(layer => ({
+      ...layer,
+      x: layer.x - x,
+      y: layer.y - y
+    }))
+    .filter(
+      layer =>
+        layer.x >= 0 && layer.x <= width && layer.y >= 0 && layer.y <= height
+    );
+  selectedTextLayerId.value = null;
+  editingTextLayerId.value = null;
+  cropRect.value = null;
+  updateCanvasMetrics();
+  pushHistory();
+};
+
+const cancelCropSelection = (): void => {
+  cropRect.value = null;
+  cropStart.value = null;
+  cropInteraction = null;
+};
+
+const getTextLayerCanvasWidth = (layer: TextLayer): number =>
+  getCanvasSizeFromDisplaySize(layer.width);
+
+const getTextLayerCanvasHeight = (layer: TextLayer): number =>
+  getCanvasSizeFromDisplaySize(layer.height);
+
+const rotateTextLayer = (
+  layer: TextLayer,
+  direction: 'left' | 'right',
+  sourceWidth: number,
+  sourceHeight: number
+): TextLayer => {
+  const width = getTextLayerCanvasWidth(layer);
+  const height = getTextLayerCanvasHeight(layer);
+
+  return normalizeTextLayerBox({
+    ...layer,
+    x: direction === 'right' ? sourceHeight - layer.y - height : layer.y,
+    y: direction === 'right' ? layer.x : sourceWidth - layer.x - width,
+    width: layer.height,
+    height: layer.width
+  });
+};
+
+const rotateImage = (direction: 'left' | 'right'): void => {
+  const canvas = canvasRef.value;
+  const context = canvas?.getContext('2d');
+
+  if (!canvas || !context) {
+    return;
+  }
+
+  const sourceCanvas = document.createElement('canvas');
+  sourceCanvas.width = canvas.width;
+  sourceCanvas.height = canvas.height;
+  sourceCanvas.getContext('2d')?.drawImage(canvas, 0, 0);
+
+  const sourceWidth = canvas.width;
+  const sourceHeight = canvas.height;
+
+  canvas.width = sourceHeight;
+  canvas.height = sourceWidth;
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (direction === 'right') {
+    context.translate(canvas.width, 0);
+    context.rotate(Math.PI / 2);
+  } else {
+    context.translate(0, canvas.height);
+    context.rotate(-Math.PI / 2);
+  }
+
+  context.drawImage(sourceCanvas, 0, 0);
+  context.setTransform(1, 0, 0, 1, 0, 0);
+
+  textLayers.value = textLayers.value.map(layer =>
+    rotateTextLayer(layer, direction, sourceWidth, sourceHeight)
+  );
+  selectedTextLayerId.value = null;
+  editingTextLayerId.value = null;
+  cropRect.value = null;
+  updateCanvasMetrics();
+  pushHistory();
+};
+
 const undo = async (): Promise<void> => {
   if (!canUndo.value) {
     return;
@@ -1310,6 +1530,19 @@ const reset = async (): Promise<void> => {
   cropRect.value = null;
   selectedTextLayerId.value = null;
   editingTextLayerId.value = null;
+};
+
+const openResetConfirm = (): void => {
+  isResetConfirmOpen.value = true;
+};
+
+const closeResetConfirm = (): void => {
+  isResetConfirmOpen.value = false;
+};
+
+const confirmReset = async (): Promise<void> => {
+  closeResetConfirm();
+  await reset();
 };
 
 const renderOutputCanvas = (): HTMLCanvasElement | null => {
@@ -1520,26 +1753,37 @@ onBeforeUnmount(() => {
 }
 
 .image-attachment-editor__icon-button.button-yui-kit {
+  --image-attachment-editor-icon-button-color: var(--text-neutral-color);
+  --image-attachment-editor-icon-button-border-color: var(
+    --border-border-table,
+    #e7e7e7
+  );
+
   width: 34px;
   min-height: 34px;
   padding: 0;
+  border: 1px solid var(--image-attachment-editor-icon-button-border-color);
   border-radius: 8px;
   justify-content: center;
+  color: var(--image-attachment-editor-icon-button-color);
   background: var(--white);
 }
 
-.image-attachment-editor__icon-button.button-yui-kit.ghost-yui-kit:not(
-    :disabled
-  ):hover {
-  border-color: var(--border-primary-color);
-  color: var(--text-neutral-color);
+.image-attachment-editor__icon-button.button-yui-kit:not(:disabled):hover {
+  --image-attachment-editor-icon-button-border-color: var(
+    --border-primary-color
+  );
+
   background: var(--white);
 }
 
-.image-attachment-editor__icon-button.button-yui-kit.ghost-yui-kit:disabled,
-.image-attachment-editor__icon-button.button-yui-kit.ghost-yui-kit.disabled-yui-kit {
-  border-color: var(--border-color);
-  color: var(--text-light-color);
+.image-attachment-editor__icon-button.button-yui-kit:not(:disabled):active,
+.image-attachment-editor__icon-button.button-yui-kit:not(:disabled).active {
+  --image-attachment-editor-icon-button-color: var(--primary-color);
+  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+
+  border-color: var(--primary-color);
+  color: var(--primary-color);
   background: var(--white);
 }
 
@@ -1561,9 +1805,68 @@ onBeforeUnmount(() => {
 
 .image-attachment-editor__mode-tabs
   .image-attachment-editor__icon-button.button-yui-kit.secondary-yui-kit {
-  border-color: var(--border-primary-color);
+  --image-attachment-editor-icon-button-color: var(--primary-color);
+  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+
+  border-color: var(--primary-color);
   color: var(--primary-color);
-  background: var(--primary-pressed-light-color);
+  background: var(--white);
+}
+
+.image-attachment-editor__icon-button.button-yui-kit.secondary-yui-kit {
+  --image-attachment-editor-icon-button-color: var(--primary-color);
+  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.image-attachment-editor__icon-button.button-yui-kit.image-attachment-editor__icon-button--active {
+  --image-attachment-editor-icon-button-color: var(--primary-color);
+  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--white);
+}
+
+.image-attachment-editor__icon-button.button-yui-kit.image-attachment-editor__icon-button--active:not(
+    :disabled
+  ):hover,
+.image-attachment-editor__icon-button.button-yui-kit.image-attachment-editor__icon-button--active:not(
+    :disabled
+  ):active {
+  --image-attachment-editor-icon-button-color: var(--primary-color);
+  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--white);
+}
+
+.image-attachment-editor__icon-button.button-yui-kit:disabled,
+.image-attachment-editor__icon-button.button-yui-kit.disabled-yui-kit {
+  --image-attachment-editor-icon-button-color: var(
+    --text-light-color,
+    #b8b8b8
+  );
+  --image-attachment-editor-icon-button-border-color: transparent;
+
+  background: var(--white);
+}
+
+.image-attachment-editor__close-button.button-yui-kit,
+.image-attachment-editor__close-button.button-yui-kit:not(:disabled):hover {
+  --image-attachment-editor-icon-button-color: var(--text-color);
+  --image-attachment-editor-icon-button-border-color: transparent;
+
+  border-color: transparent;
+  color: var(--text-color);
+  background: var(--white);
+}
+
+.image-attachment-editor__rotate-button--left svg {
+  transform: scaleX(-1);
 }
 
 .image-attachment-editor__text-icon {
@@ -1713,6 +2016,20 @@ onBeforeUnmount(() => {
   min-height: 44px;
 }
 
+.image-attachment-editor__footer--crop {
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.image-attachment-editor__footer--crop .image-attachment-editor__settings {
+  grid-column: 2;
+  justify-self: center;
+  justify-content: center;
+}
+
+.image-attachment-editor__footer--crop .image-attachment-editor__actions {
+  grid-column: 3;
+}
+
 .image-attachment-editor__settings {
   justify-content: center;
   min-width: 0;
@@ -1725,6 +2042,42 @@ onBeforeUnmount(() => {
 .image-attachment-editor__apply-button.button-yui-kit {
   height: 30px;
   min-height: 30px;
+}
+
+.image-attachment-editor__confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  color: var(--text-color);
+  text-align: center;
+  background: var(--white);
+}
+
+.image-attachment-editor__confirm-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.image-attachment-editor__confirm-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-neutral-color);
+}
+
+.image-attachment-editor__confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.image-attachment-editor__confirm-button.button-yui-kit {
+  min-height: 30px;
+  padding: 7px 12px;
 }
 
 .image-attachment-editor__palette {
@@ -1890,6 +2243,14 @@ onBeforeUnmount(() => {
     align-items: stretch;
     grid-template-columns: 1fr;
     flex-direction: column;
+  }
+
+  .image-attachment-editor__footer--crop
+    .image-attachment-editor__settings,
+  .image-attachment-editor__footer--crop
+    .image-attachment-editor__actions {
+    grid-column: auto;
+    justify-self: center;
   }
 
   .image-attachment-editor__settings {
