@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.274
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.273...v0.1.274)
+
+### 🚀 Enhancements
+
+- Add crop, rotates in image editor ([85e530c](https://github.com/pksep/sep_yui/commit/85e530c))
+
 ## v0.1.273
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.272...v0.1.273)

@@ -192,11 +192,7 @@
           </Tooltip>
         </template>
         <template v-if="mode === 'crop' && hasCropSelection">
-          <Tooltip
-            hint="Сохранить обрезку"
-            position="top-center"
-            type="black"
-          >
+          <Tooltip hint="Сохранить обрезку" position="top-center" type="black">
             <Button
               :type="ButtonTypeEnum.outline"
               :size="SizesEnum.small"
@@ -206,11 +202,7 @@
               <Icon :name="IconNameEnum.crop" :width="18" :height="18" />
             </Button>
           </Tooltip>
-          <Tooltip
-            hint="Отменить обрезку"
-            position="top-center"
-            type="black"
-          >
+          <Tooltip hint="Отменить обрезку" position="top-center" type="black">
             <Button
               :type="ButtonTypeEnum.outline"
               :size="SizesEnum.small"
@@ -1846,10 +1838,7 @@ onBeforeUnmount(() => {
 
 .image-attachment-editor__icon-button.button-yui-kit:disabled,
 .image-attachment-editor__icon-button.button-yui-kit.disabled-yui-kit {
-  --image-attachment-editor-icon-button-color: var(
-    --text-light-color,
-    #b8b8b8
-  );
+  --image-attachment-editor-icon-button-color: var(--text-light-color, #b8b8b8);
   --image-attachment-editor-icon-button-border-color: transparent;
 
   background: var(--white);
@@ -2245,10 +2234,8 @@ onBeforeUnmount(() => {
     flex-direction: column;
   }
 
-  .image-attachment-editor__footer--crop
-    .image-attachment-editor__settings,
-  .image-attachment-editor__footer--crop
-    .image-attachment-editor__actions {
+  .image-attachment-editor__footer--crop .image-attachment-editor__settings,
+  .image-attachment-editor__footer--crop .image-attachment-editor__actions {
     grid-column: auto;
     justify-self: center;
   }
