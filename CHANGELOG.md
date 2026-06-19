@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.273
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.272...v0.1.273)
+
+### 🚀 Enhancements
+
+- Add image editor ([80aa79e](https://github.com/pksep/sep_yui/commit/80aa79e))
+
 ## v0.1.272
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.270...v0.1.272)
