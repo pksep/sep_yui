@@ -146,14 +146,29 @@
       @close="handleAttachModalClose"
       disable-close-on-outside-click
       position="center"
-      width="min(430px, calc(100vw - 32px))"
+      :width="
+        imageEditorFile
+          ? 'min(920px, calc(100vw - 32px))'
+          : 'min(430px, calc(100vw - 32px))'
+      "
       height="auto"
-      class="attach-modal-container"
+      :class="[
+        'attach-modal-container',
+        { 'attach-modal-container--image-editor': imageEditorFile }
+      ]"
     >
       <div class="attach-modal">
         <DropZone @files-dropped="fileDropped" />
 
-        <div class="attach-modal__header">
+        <ImageAttachmentEditor
+          v-if="imageEditorFile"
+          :key="imageEditorFile.id"
+          :file="imageEditorFile.file"
+          @apply="handleImageEditorApply"
+          @close="closeImageEditor"
+        />
+
+        <div v-show="!imageEditorFile" class="attach-modal__header">
           <Button
             :type="ButtonTypeEnum.ghost"
             :size="SizesEnum.small"
@@ -165,6 +180,7 @@
         </div>
 
         <div
+          v-show="!imageEditorFile"
           class="attach-modal__attachments__all"
           v-if="
             pendingMediaPreviewChunks.length > 0 || pendingFileItems.length > 0
@@ -183,6 +199,9 @@
                 v-for="item in chunk"
                 :key="item.id"
                 class="attach-modal__media-tile"
+                :class="{
+                  'attach-modal__media-tile--editable': item.canEdit
+                }"
               >
                 <video
                   draggable="false"
@@ -198,12 +217,21 @@
                   :alt="item.file.name"
                 />
                 <Button
+                  v-if="item.canEdit"
+                  :type="ButtonTypeEnum.ghost"
+                  :size="SizesEnum.small"
+                  class="attach-modal__media-tile-edit"
+                  @click.stop="openImageEditor(item)"
+                >
+                  <Icon :name="IconNameEnum.paint" :width="16" :height="16" />
+                </Button>
+                <Button
                   :type="ButtonTypeEnum.ghost"
                   :size="SizesEnum.small"
                   class="attach-modal__media-tile-remove"
                   @click.stop="removePendingAttachment('media', item.index)"
                 >
-                  <Icon :name="IconNameEnum.trash" :width="24" :height="24" />
+                  <Icon :name="IconNameEnum.trash" :width="16" :height="16" />
                 </Button>
               </div>
             </div>
@@ -252,7 +280,11 @@
             </div>
           </div>
         </div>
-        <div ref="modalMentionAnchorRef" class="attach-modal__editor">
+        <div
+          v-show="!imageEditorFile"
+          ref="modalMentionAnchorRef"
+          class="attach-modal__editor"
+        >
           <div class="editor-component-slot" v-if="$slots.action">
             <slot name="action" />
           </div>
@@ -436,6 +468,7 @@ import DropZone from './DropZone.vue';
 import Modal from '../Modal/Modal.vue';
 import ContentEditorMentionList from './ContentEditorMentionList.vue';
 import ContentEditorFormattingToolbar from './ContentEditorFormattingToolbar.vue';
+import ImageAttachmentEditor from './ImageAttachmentEditor.vue';
 
 const props = defineProps<IContentEditorProps>();
 const modelValue = defineModel<string>();
@@ -456,6 +489,7 @@ const isCameraModalOpen = ref(false);
 const isAttachModalOpen = ref(false);
 const pendingFiles = ref<File[]>([]);
 const pendingMediaFiles = ref<File[]>([]);
+const imageEditorIndex = ref<number | null>(null);
 const currentMediaPreviewUrl = ref<string | null>(null);
 const pendingMediaPreviewUrls = ref<string[]>([]);
 const mentionSearch = ref<string | null>(null);
@@ -563,7 +597,8 @@ const pendingMediaPreviewItems = computed(() =>
       file,
       index,
       url: pendingMediaPreviewUrls.value[index] || '',
-      isVideo: getMimeType(file).startsWith('video/')
+      isVideo: getMimeType(file).startsWith('video/'),
+      canEdit: isEditableImageFile(file)
     }))
     .filter(item => !!item.url)
 );
@@ -581,6 +616,24 @@ const chunkItems = <T,>(items: T[], chunkSize: number): T[][] => {
 const pendingMediaPreviewChunks = computed(() =>
   chunkItems(pendingMediaPreviewItems.value, 10)
 );
+
+const imageEditorFile = computed(() => {
+  if (imageEditorIndex.value === null) {
+    return null;
+  }
+
+  const file = pendingMediaFiles.value[imageEditorIndex.value];
+
+  if (!file || !isEditableImageFile(file)) {
+    return null;
+  }
+
+  return {
+    id: `image-editor-${file.name}-${file.lastModified}-${imageEditorIndex.value}`,
+    file,
+    index: imageEditorIndex.value
+  };
+});
 
 const mentionAnchorRef = computed(
   () =>
@@ -697,6 +750,15 @@ const MIME_EXTENSION_ALIASES: Record<string, string> = {
   'video/webm': 'webm'
 };
 
+const EDITABLE_IMAGE_MIME_TYPES = new Set([
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/webp',
+  'image/bmp',
+  'image/x-ms-bmp'
+]);
+
 const getFileExtension = (fileName: string): string => {
   const match = fileName.match(/\.([^.]+)$/);
 
@@ -747,6 +809,9 @@ const getFileLogMeta = (file: File, mimeType = getMimeType(file)) => ({
 
 const shouldDetachFile = (mimeType: string): boolean =>
   mimeType.startsWith('image/') || mimeType.startsWith('video/');
+
+const isEditableImageFile = (file: File): boolean =>
+  EDITABLE_IMAGE_MIME_TYPES.has(getMimeType(file));
 
 const normalizeFile = async (file: File): Promise<File> => {
   const mimeType = getMimeType(file);
@@ -868,6 +933,7 @@ const queueAttachFiles = async (
 const clearPendingAttachments = (): void => {
   pendingFiles.value = [];
   pendingMediaFiles.value = [];
+  imageEditorIndex.value = null;
 };
 
 const handleAttachModalClose = (): void => {
@@ -885,6 +951,7 @@ const removePendingAttachment = (
       (_, fileIndex) => fileIndex !== index
     );
     pendingMediaFiles.value = nextMediaFiles;
+    imageEditorIndex.value = null;
 
     if (!nextMediaFiles.length && !pendingFiles.value.length) {
       handleAttachModalClose();
@@ -901,6 +968,34 @@ const removePendingAttachment = (
   if (!nextFiles.length && !pendingMediaFiles.value.length) {
     handleAttachModalClose();
   }
+};
+
+const openImageEditor = (item: {
+  file: File;
+  index: number;
+  canEdit: boolean;
+}): void => {
+  if (!item.canEdit) {
+    return;
+  }
+
+  closeEmojiPicker();
+  imageEditorIndex.value = item.index;
+};
+
+const closeImageEditor = (): void => {
+  imageEditorIndex.value = null;
+};
+
+const handleImageEditorApply = (file: File): void => {
+  if (imageEditorIndex.value === null) {
+    return;
+  }
+
+  const nextFiles = [...pendingMediaFiles.value];
+  nextFiles[imageEditorIndex.value] = file;
+  pendingMediaFiles.value = nextFiles;
+  closeImageEditor();
 };
 
 const handlePendingInputChange = async (
@@ -1882,6 +1977,12 @@ button.mobile-buttons {
   }
 }
 
+.attach-modal-container--image-editor {
+  & .modal-yui-kit__modal-content {
+    max-height: calc(100dvh - 32px);
+  }
+}
+
 .attach-modal {
   display: flex;
   flex-direction: column;
@@ -2052,30 +2153,45 @@ button.mobile-buttons {
   background: linear-gradient(135deg, #6fd3ff 0%, #3db6c6 100%);
 }
 
+.attach-modal__media-tile--editable {
+  cursor: default;
+}
+
 .attach-modal__media-tile img,
 .attach-modal__media-tile video {
   display: block;
   width: 100%;
   height: 100%;
+  max-height: min(800px, 60vh);
   object-fit: cover;
 }
 
+.attach-modal__media-tile-edit.button-yui-kit.ghost-yui-kit,
 .attach-modal__media-tile-remove.button-yui-kit.ghost-yui-kit {
   position: absolute;
-  right: 8px;
   bottom: 8px;
   z-index: 1;
-  width: 40px;
-  height: 40px;
-  min-height: 40px;
+  width: 28px;
+  height: 28px;
+  min-height: 28px;
   padding: 0;
-  background: rgb(28 38 53 / 58%);
+  border-radius: 8px;
   color: var(--white);
+  background: var(--background-color-80);
   justify-content: center;
 }
 
+.attach-modal__media-tile-edit.button-yui-kit.ghost-yui-kit {
+  right: 44px;
+}
+
+.attach-modal__media-tile-remove.button-yui-kit.ghost-yui-kit {
+  right: 8px;
+}
+
+.attach-modal__media-tile-edit.button-yui-kit.ghost-yui-kit:hover,
 .attach-modal__media-tile-remove.button-yui-kit.ghost-yui-kit:hover {
-  background: rgb(28 38 53 / 72%);
+  background: var(--background-color-80);
 }
 
 .attach-modal__attachments {

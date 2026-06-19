@@ -151,5 +151,11 @@ export enum IconNameEnum {
   asc = 'asc',
   desc = 'desc',
   errorAlert = 'error-alert',
-  parent = 'parent'
+  parent = 'parent',
+  undo = 'undo',
+  redo = 'redo',
+  crop = 'crop',
+  imagePaint = 'image-paint',
+  text = 'text',
+  colorPicker = 'color-picker'
 }

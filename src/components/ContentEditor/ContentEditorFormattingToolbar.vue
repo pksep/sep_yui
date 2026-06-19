@@ -649,6 +649,8 @@ const updateToolbarPosition = (
     return;
   }
 
+  saveSelectionRange(editor, { from: selection.from, to: selection.to });
+
   const rect = getSelectionToolbarRect(editor);
 
   if (!visible.value) {
@@ -822,6 +824,14 @@ const getClipboardSelectionText = (
   selection: SelectionRange
 ): string => editor.state.doc.textBetween(selection.from, selection.to, '\n');
 
+const saveSelectionRange = (
+  editor: Editor,
+  selection: SelectionRange
+): void => {
+  savedSelectionRange.value = selection;
+  savedSelectionText.value = getSelectionText(editor, selection);
+};
+
 const writeClipboardText = async (text: string): Promise<boolean> => {
   if (!text) {
     return false;
@@ -867,8 +877,10 @@ const readClipboardText = async (): Promise<string> => {
   }
 };
 
-const readClipboardTextFromPasteFallback = (editor: Editor): string => {
-  const selection = getCurrentSelectionRange(editor);
+const readClipboardTextFromPasteFallback = (
+  editor: Editor,
+  selection = savedSelectionRange.value
+): string => {
   const textarea = document.createElement('textarea');
 
   textarea.readOnly = false;
@@ -910,11 +922,21 @@ const runMobileClipboardAction = async (action: MobileClipboardAction) => {
   }
 
   if (action === 'paste') {
+    const selection =
+      getCurrentSelectionRange(editor) || savedSelectionRange.value;
     const text =
-      (await readClipboardText()) || readClipboardTextFromPasteFallback(editor);
+      (await readClipboardText()) ||
+      readClipboardTextFromPasteFallback(editor, selection);
 
     if (text) {
-      editor.chain().focus().insertContent(text).run();
+      const chain = editor.chain().focus();
+
+      if (selection) {
+        chain.insertContentAt(selection, text).run();
+      } else {
+        chain.insertContent(text).run();
+      }
+
       scheduleToolbarPositionUpdate({ preserveHorizontal: true });
       return;
     }
@@ -928,6 +950,8 @@ const runMobileClipboardAction = async (action: MobileClipboardAction) => {
   if (!selection) {
     return;
   }
+
+  saveSelectionRange(editor, selection);
 
   const copied = await writeClipboardText(
     getClipboardSelectionText(editor, selection)
