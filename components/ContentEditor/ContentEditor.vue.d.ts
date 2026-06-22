@@ -16,6 +16,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     disableSendOnEnter: {
         type: import('vue').PropType<boolean>;
     };
+    readClipboardText: {
+        type: import('vue').PropType<() => Promise<string> | string>;
+    };
     isMentionModalOpen: {
         type: import('vue').PropType<boolean>;
     };
@@ -81,6 +84,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     };
     disableSendOnEnter: {
         type: import('vue').PropType<boolean>;
+    };
+    readClipboardText: {
+        type: import('vue').PropType<() => Promise<string> | string>;
     };
     isMentionModalOpen: {
         type: import('vue').PropType<boolean>;
