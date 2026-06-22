@@ -231,6 +231,7 @@ import Icon from '../Icon/Icon.vue';
 
 interface Props {
   editor?: Editor | null;
+  readClipboardText?: () => Promise<string> | string;
 }
 
 interface ToolbarAction {
@@ -268,6 +269,9 @@ const lastToolbarAlignment = ref<ToolbarAlignment>('center');
 const savedSelectionRange = ref<SelectionRange | null>(null);
 const savedSelectionText = ref('');
 const isPointerSelecting = ref(false);
+const isMobileContextMenuRequested = ref(false);
+const isCollapsedContextMenuOpen = ref(false);
+const collapsedContextMenuRect = ref<DOMRect | null>(null);
 let positionAnimationFrameId: number | null = null;
 let mobileSelectionTimeoutIds: number[] = [];
 
@@ -634,10 +638,15 @@ const updateToolbarPosition = (
   }
 
   const { selection } = editor.state;
+  const canShowCollapsedContextMenu =
+    isMobileToolbar.value &&
+    isCollapsedContextMenuOpen.value &&
+    selection.empty;
 
   if (
     !isEditable ||
-    selection.empty ||
+    (isMobileToolbar.value && !isMobileContextMenuRequested.value) ||
+    (selection.empty && !canShowCollapsedContextMenu) ||
     (!view.hasFocus() && !hasMobileDomSelection) ||
     isPointerSelecting.value
   ) {
@@ -649,9 +658,13 @@ const updateToolbarPosition = (
     return;
   }
 
-  saveSelectionRange(editor, { from: selection.from, to: selection.to });
+  if (!selection.empty) {
+    saveSelectionRange(editor, { from: selection.from, to: selection.to });
+  }
 
-  const rect = getSelectionToolbarRect(editor);
+  const rect = canShowCollapsedContextMenu
+    ? collapsedContextMenuRect.value || getSelectionToolbarRect(editor)
+    : getSelectionToolbarRect(editor);
 
   if (!visible.value) {
     toolbarStyle.value = getHiddenToolbarStyle();
@@ -722,6 +735,8 @@ const handleEditorTransaction = () => {
 const handleEditorBlur = () => {
   visible.value = false;
   isMobileMenuOpen.value = false;
+  isMobileContextMenuRequested.value = false;
+  isCollapsedContextMenuOpen.value = false;
 };
 
 const handleToolbarPointerDown = (event: PointerEvent) => {
@@ -736,6 +751,9 @@ const handlePointerSelectionStart = (event: PointerEvent) => {
   }
 
   isPointerSelecting.value = true;
+  isMobileContextMenuRequested.value = false;
+  isCollapsedContextMenuOpen.value = false;
+  collapsedContextMenuRect.value = null;
   visible.value = false;
   isMobileMenuOpen.value = false;
 };
@@ -781,6 +799,40 @@ const handleMobileSelectionChange = () => {
 
 const handleMobileSelectionEnd = () => {
   scheduleMobileSelectionUpdate();
+};
+
+const handleMobileContextMenu = (event: MouseEvent) => {
+  if (!isMobileToolbar.value || !props.editor) {
+    return;
+  }
+
+  event.preventDefault();
+  isPointerSelecting.value = false;
+  isMobileContextMenuRequested.value = true;
+
+  const { from, to, empty } = props.editor.state.selection;
+
+  saveSelectionRange(props.editor, { from, to });
+
+  if (empty) {
+    const coords = props.editor.view.coordsAtPos(from);
+    const left = event.clientX || coords.left;
+    const top = event.clientY || coords.top;
+
+    isCollapsedContextMenuOpen.value = true;
+    collapsedContextMenuRect.value = new DOMRect(
+      left,
+      top,
+      1,
+      Math.max(coords.bottom - coords.top, 1)
+    );
+    props.editor.chain().focus().run();
+  } else {
+    isCollapsedContextMenuOpen.value = false;
+    collapsedContextMenuRect.value = null;
+  }
+
+  scheduleToolbarPositionUpdate();
 };
 
 const openMobileMenu = () => {
@@ -868,6 +920,14 @@ const writeClipboardText = async (text: string): Promise<boolean> => {
 };
 
 const readClipboardText = async (): Promise<string> => {
+  if (props.readClipboardText) {
+    try {
+      return (await props.readClipboardText()) || '';
+    } catch {
+      // Используем браузерный буфер обмена, если внешний обработчик недоступен.
+    }
+  }
+
   try {
     const readText = navigator.clipboard?.readText;
 
@@ -912,6 +972,7 @@ const collapseSelectionToEnd = (
   editor.chain().focus().setTextSelection(selection.to).run();
   visible.value = false;
   isMobileMenuOpen.value = false;
+  isMobileContextMenuRequested.value = false;
 };
 
 const runMobileClipboardAction = async (action: MobileClipboardAction) => {
@@ -937,6 +998,9 @@ const runMobileClipboardAction = async (action: MobileClipboardAction) => {
         chain.insertContent(text).run();
       }
 
+      isCollapsedContextMenuOpen.value = false;
+      isMobileContextMenuRequested.value = false;
+      collapsedContextMenuRect.value = null;
       scheduleToolbarPositionUpdate({ preserveHorizontal: true });
       return;
     }
@@ -1190,7 +1254,7 @@ const bindEditorEvents = (editor: Editor | null | undefined) => {
   editor.on('transaction', handleEditorTransaction);
   editorDom.addEventListener('pointerdown', handlePointerSelectionStart);
   editorDom.addEventListener('touchend', handleMobileSelectionEnd, true);
-  editorDom.addEventListener('contextmenu', handleMobileSelectionEnd);
+  editorDom.addEventListener('contextmenu', handleMobileContextMenu);
   editorDom.ownerDocument.addEventListener(
     'selectionchange',
     handleMobileSelectionChange
@@ -1215,7 +1279,7 @@ const unbindEditorEvents = (editor: Editor | null | undefined) => {
   const editorDom = getEditorDom(editor);
 
   editorDom?.removeEventListener('touchend', handleMobileSelectionEnd, true);
-  editorDom?.removeEventListener('contextmenu', handleMobileSelectionEnd);
+  editorDom?.removeEventListener('contextmenu', handleMobileContextMenu);
   editorDom?.ownerDocument.removeEventListener(
     'selectionchange',
     handleMobileSelectionChange

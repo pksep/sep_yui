@@ -36,6 +36,7 @@
     <ContentEditorFormattingToolbar
       v-if="!isAttachModalOpen"
       :editor="editor || null"
+      :read-clipboard-text="props.readClipboardText"
     />
     <DropZone
       v-if="props.activeAttachFile && !isAttachModalOpen"

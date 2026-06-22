@@ -15,6 +15,7 @@ export interface IContentEditorProps {
   activeSelectUser?: boolean;
   activeSend?: boolean;
   disableSendOnEnter?: boolean;
+  readClipboardText?: () => Promise<string> | string;
   isMentionModalOpen?: boolean;
   mentionItems?: unknown[];
   mentionConfig?: {
