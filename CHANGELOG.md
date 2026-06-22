@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.275
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.274...v0.1.275)
+
+### 🩹 Fixes
+
+- Paste text in mobile in content editor ([b1c12f1](https://github.com/pksep/sep_yui/commit/b1c12f1))
+
 ## v0.1.274
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.273...v0.1.274)
