@@ -1,4 +1,4 @@
-import{T as j}from"./Tooltip-BpGqU74Q.js";import{r as H}from"./vue.esm-bundler-CrrBMa2I.js";import"./change-style-properties-1EhjFsjc.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const We={title:"Tooltip/Tooltip",component:j,argTypes:{},tags:["autodocs"],args:{hint:"Tooltip tooltip Tooltip tooltip Tooltip tooltip"}},e=b=>({components:{Tooltip:j},setup(){const S=H("Hover over to get a tooltip");return{args:b,model:S}},template:`
+import{T as j}from"./Tooltip-Ig6Q6BFX.js";import{r as H}from"./vue.esm-bundler-CrrBMa2I.js";import"./change-style-properties-1EhjFsjc.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const We={title:"Tooltip/Tooltip",component:j,argTypes:{},tags:["autodocs"],args:{hint:"Tooltip tooltip Tooltip tooltip Tooltip tooltip"}},e=b=>({components:{Tooltip:j},setup(){const S=H("Hover over to get a tooltip");return{args:b,model:S}},template:`
   <div  style="height: 100px; display: flex; flex-direction:column; gap: 20px; align-items:center; justify-content: center; ">
     <Tooltip v-bind="args" >
       <template #default>
