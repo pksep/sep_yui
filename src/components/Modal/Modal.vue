@@ -134,16 +134,42 @@ const resetBlock = (): void => {
   }
 };
 
+const isEventOnDialogScrollbar = (event: MouseEvent): boolean => {
+  if (!dialog.value) return false;
+
+  const rect = dialog.value.getBoundingClientRect();
+  const isWithinDialog =
+    event.clientX >= rect.left &&
+    event.clientX <= rect.right &&
+    event.clientY >= rect.top &&
+    event.clientY <= rect.bottom;
+
+  if (!isWithinDialog) return false;
+
+  const isOnVerticalScrollbar =
+    dialog.value.scrollHeight > dialog.value.clientHeight &&
+    event.clientX >= rect.left + dialog.value.clientWidth;
+  const isOnHorizontalScrollbar =
+    dialog.value.scrollWidth > dialog.value.clientWidth &&
+    event.clientY >= rect.top + dialog.value.clientHeight;
+
+  return isOnVerticalScrollbar || isOnHorizontalScrollbar;
+};
+
 const handleMouseUp = (event: MouseEvent): void => {
   if (event.target === dialog.value) {
     if (props.disableCloseOnOutsideClick) return;
+    if (isEventOnDialogScrollbar(event)) return;
+
     hideDialog();
   }
 
   window.removeEventListener('mouseup', handleMouseUp);
 };
 
-const handleMouseDownOnDialog = (): void => {
+const handleMouseDownOnDialog = (event: MouseEvent): void => {
+  if (isEventOnDialogScrollbar(event)) return;
+
   window.removeEventListener('mouseup', handleMouseUp);
   window.addEventListener('mouseup', handleMouseUp);
 };
