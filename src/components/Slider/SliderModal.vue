@@ -359,7 +359,7 @@
               >
                 <Icon
                   class="slider-modal__icon"
-                  :name="IconNameEnum.uploadCloud"
+                  :name="IconNameEnum.download"
                   :width="24"
                   :height="24"
                 />
