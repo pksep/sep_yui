@@ -174,10 +174,12 @@ const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {
 
 const changeShowMonths = (): void => {
   state.isOpen['months'] = true;
+  state.isOpen['years'] = false;
 };
 
 const changeShowYears = (): void => {
   state.isOpen['years'] = true;
+  state.isOpen['months'] = false;
 };
 
 const changeHideMonths = (): void => {
@@ -208,18 +210,33 @@ const getStartOfYear = (date: Date): Date => new Date(date.getFullYear(), 0, 1);
 const getEndOfYear = (date: Date): Date =>
   new Date(date.getFullYear(), 11, 31, 23, 59, 59, 999);
 
-const getMinDateForCurrentView = (date: Date): Date => {
-  if (state.isOpen.years) return getStartOfYear(date);
-  if (state.isOpen.months) return getStartOfMonth(date);
+const getActivePopup = (): 'months' | 'years' | null => {
+  if (state.isOpen.months && !state.isOpen.years) return 'months';
+  if (state.isOpen.years && !state.isOpen.months) return 'years';
 
-  return date;
+  return null;
+};
+
+const getMinDateForCurrentView = (date: Date): Date => {
+  switch (getActivePopup()) {
+    case 'months':
+      return getStartOfMonth(date);
+    case 'years':
+      return getStartOfYear(date);
+    default:
+      return date;
+  }
 };
 
 const getMaxDateForCurrentView = (date: Date): Date => {
-  if (state.isOpen.years) return getEndOfYear(date);
-  if (state.isOpen.months) return getEndOfMonth(date);
-
-  return date;
+  switch (getActivePopup()) {
+    case 'months':
+      return getEndOfMonth(date);
+    case 'years':
+      return getEndOfYear(date);
+    default:
+      return date;
+  }
 };
 
 const getDateStart = (): Date | null => {
