@@ -197,14 +197,39 @@ const closePopover = (): void => {
 watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
 watchEffect(() => (state.endDate = (props.endDate ?? null) as null));
 
+const getStartOfMonth = (date: Date): Date =>
+  new Date(date.getFullYear(), date.getMonth(), 1);
+
+const getEndOfMonth = (date: Date): Date =>
+  new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
+
+const getStartOfYear = (date: Date): Date => new Date(date.getFullYear(), 0, 1);
+
+const getEndOfYear = (date: Date): Date =>
+  new Date(date.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+const getMinDateForCurrentView = (date: Date): Date => {
+  if (state.isOpen.years) return getStartOfYear(date);
+  if (state.isOpen.months) return getStartOfMonth(date);
+
+  return date;
+};
+
+const getMaxDateForCurrentView = (date: Date): Date => {
+  if (state.isOpen.years) return getEndOfYear(date);
+  if (state.isOpen.months) return getEndOfMonth(date);
+
+  return date;
+};
+
 const getDateStart = (): Date | null => {
   const startSafeDate = state.startDate ?? new Date();
   if (props.startDate) {
     const safeDate = parsedDate.value ?? new Date();
     if (startSafeDate.valueOf() <= safeDate.valueOf()) {
-      return startSafeDate;
+      return getMinDateForCurrentView(startSafeDate);
     } else if (startSafeDate != null) {
-      return startSafeDate;
+      return getMinDateForCurrentView(startSafeDate);
     }
   }
   return null;
@@ -215,9 +240,9 @@ const getDateEnd = (): Date | null => {
   if (props.endDate) {
     const safeDate = parsedDate.value ?? new Date();
     if (endSafeDate.valueOf() >= safeDate.valueOf()) {
-      return endSafeDate;
+      return getMaxDateForCurrentView(endSafeDate);
     } else if (endSafeDate != null) {
-      return endSafeDate;
+      return getMaxDateForCurrentView(endSafeDate);
     }
   }
   return null;
