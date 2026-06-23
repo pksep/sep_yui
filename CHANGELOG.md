@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.276
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.275...v0.1.276)
+
+### 🩹 Fixes
+
+- Fixed scroll in modals ([f76df42](https://github.com/pksep/sep_yui/commit/f76df42))
+- Fixed calendar ([ed75093](https://github.com/pksep/sep_yui/commit/ed75093))
+- Slider download icon ([b2f445f](https://github.com/pksep/sep_yui/commit/b2f445f))
+
 ## v0.1.275
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.274...v0.1.275)
