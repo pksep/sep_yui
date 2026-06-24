@@ -4,7 +4,14 @@ import {
   IModalProps
 } from '@/components/Modal/interface/interface';
 
-export type SliderItem = { path: string; name?: string; file?: File };
+export type SliderPathError = {
+  error?: string;
+  message?: string;
+};
+
+export type SliderPath = string | SliderPathError;
+
+export type SliderItem = { path: SliderPath; name?: string; file?: File };
 
 export type IFile = { path: string; name?: string; file?: File };
 
@@ -13,16 +20,16 @@ export interface ISliderProps extends IDataTestIdProp {
   defaultIndex?: number;
 }
 
-export interface ISliderModalProps
-  extends IDataTestIdProp,
-    IModalProps,
-    ISliderProps {}
+export interface ISliderModalProps extends IDataTestIdProp, IModalProps {
+  items: IFile[];
+  defaultIndex?: number;
+}
 
 export interface ISliderModalEmit extends IModalEmit {}
 
 export interface ISlider {
-  files: IFile[];
-  file: IFile | null;
+  files: SliderItem[];
+  file: SliderItem | null;
   currentIndex: number;
   extension: null | string;
   filePath: null | string;
@@ -30,4 +37,5 @@ export interface ISlider {
   indexModal: number;
   isLoad: boolean;
   isError: boolean;
+  errorText: string | null;
 }

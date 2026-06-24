@@ -41,6 +41,21 @@
 
         <div
           class="placeholder-yui-kit"
+          v-else-if="showError()"
+          :data-testid="`${props.dataTestid}-Error-Placeholder`"
+        >
+          <img :src="closedCamera" alt="" width="111px" height="111px" />
+
+          <p
+            class="slider-yui-kit__error-text"
+            :data-testid="`${props.dataTestid}-Error-Paragrpah`"
+          >
+            {{ state.errorText }}
+          </p>
+        </div>
+
+        <div
+          class="placeholder-yui-kit"
           v-else-if="showPlaceholderExtension()"
           :data-testid="`${props.dataTestid}-Invalid-Extension-Placeholder`"
         >
@@ -51,9 +66,9 @@
 
         <template v-else>
           <img
-            v-if="isImage(state.file?.path ?? '')"
+            v-if="isImage(currentFilePath)"
             class="slider__item"
-            :src="state.filePath ?? ''"
+            :src="currentFilePath"
             :data-testid="`${props.dataTestid}-Image`"
             @click="handleClickOnItem(state.file)"
             @error="handleError"
@@ -61,18 +76,18 @@
           />
 
           <VideoPreview
-            v-else-if="isVideo(state.file?.path ?? '')"
+            v-else-if="isVideo(currentFilePath)"
             class="slider__item slider__item_video"
-            :src="state.file?.path ?? ''"
+            :src="currentFilePath"
             @click="handleClickOnItem(state.file)"
             @load="handleLoad"
             @error="handleError"
           />
 
           <PdfPreview
-            v-else-if="isPdf(state.file?.path ?? '')"
+            v-else-if="isPdf(currentFilePath)"
             class="slider-yui-kit__pdf-preview slider__item"
-            :src="state.file?.path"
+            :src="currentFilePath"
             @click="handleClickOnItem(state.file)"
             @load="handleLoad"
             @error="handleError"
@@ -111,7 +126,7 @@
     <Teleport to="body">
       <SliderModal
         :open="state.isShowSliderModal"
-        :items="state.files"
+        :items="modalItems"
         :default-index="state.indexModal"
         @close="unmountCloseModal"
       />
@@ -121,7 +136,12 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, reactive, watch } from 'vue';
-import { ISliderProps, ISlider, IFile } from './interface/interface';
+import {
+  ISliderProps,
+  ISlider,
+  IFile,
+  SliderItem
+} from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import {
@@ -147,35 +167,76 @@ const state = reactive<ISlider>({
   isShowSliderModal: false,
   indexModal: 0,
   isLoad: false,
-  isError: false
+  isError: false,
+  errorText: null
 });
 
-const isRequiredLoad = computed(() => {
-  if (!state.files.length) return false;
-  let isRequired = !showPlaceholder();
-  isRequired = isRequired || !showPlaceholderExtension();
+const DEFAULT_ERROR_TEXT = 'Ошибка загрузки файла';
+const MAX_ERROR_TEXT_LENGTH = 500;
 
-  return isRequired;
+const currentFilePath = computed(() => getFilePath(state.file) ?? '');
+
+const modalItems = computed<IFile[]>(() =>
+  state.files.reduce<IFile[]>((items, item) => {
+    const path = getFilePath(item);
+
+    if (path) {
+      items.push({
+        path,
+        name: item.name,
+        file: item.file
+      });
+    }
+
+    return items;
+  }, [])
+);
+
+const isRequiredLoad = computed(() => {
+  if (!state.files.length || state.isError) return false;
+
+  return (
+    isImage(currentFilePath.value) ||
+    isVideo(currentFilePath.value) ||
+    isPdf(currentFilePath.value)
+  );
 });
 
 const reset = () => {
   state.isError = false;
   state.isLoad = false;
+  state.errorText = null;
 };
 
 const handleLoad = (): void => {
   state.isLoad = true;
 };
 
-const handleError = (): void => {
+const handleError = async (error?: unknown): Promise<void> => {
+  const filePath = currentFilePath.value;
+
   state.isError = true;
-  state.filePath = closedCamera;
+  state.isLoad = true;
+  state.errorText =
+    getErrorText(error) ??
+    getPathErrorText(state.file?.path) ??
+    DEFAULT_ERROR_TEXT;
+
+  const responseErrorText = await getResponseErrorText(filePath);
+
+  if (filePath === currentFilePath.value && responseErrorText) {
+    state.errorText = responseErrorText;
+  }
 };
 
-const handleClickOnItem = (file: IFile | null): void => {
+const handleClickOnItem = (file: SliderItem | null): void => {
   if (!file) return;
-  const index = state.files.findIndex(
-    (arrFile: IFile) => file.path === arrFile.path
+
+  const path = getFilePath(file);
+  if (!path) return;
+
+  const index = modalItems.value.findIndex(
+    (arrFile: IFile) => path === arrFile.path
   );
 
   if (index === -1) return;
@@ -190,6 +251,90 @@ const unmountCloseModal = (): void => {
 
 const rigthIndex = (): boolean =>
   props.items?.length ? state.currentIndex === props.items.length - 1 : true;
+
+const getTextFromUnknown = (value: unknown): string | null => {
+  if (typeof value !== 'string') return null;
+
+  const text = value.trim();
+  return text ? text.slice(0, MAX_ERROR_TEXT_LENGTH) : null;
+};
+
+const getErrorText = (error: unknown): string | null => {
+  const text = getTextFromUnknown(error);
+  if (text) return text;
+
+  if (error instanceof Error) {
+    return getTextFromUnknown(error.message);
+  }
+
+  if (!error || typeof error !== 'object') return null;
+
+  const errorObject = error as { error?: unknown; message?: unknown };
+
+  return (
+    getTextFromUnknown(errorObject.error) ??
+    getTextFromUnknown(errorObject.message)
+  );
+};
+
+const getPathErrorText = (
+  path: SliderItem['path'] | undefined
+): string | null => {
+  const text = getTextFromUnknown(path);
+
+  if (text) {
+    if (text.toLowerCase() === 'error') return DEFAULT_ERROR_TEXT;
+
+    if (text.toLowerCase().startsWith('error:')) {
+      return text.replace(/^error:\s*/i, '') || DEFAULT_ERROR_TEXT;
+    }
+
+    return null;
+  }
+
+  return getErrorText(path);
+};
+
+const getFilePath = (file: SliderItem | null): string | null => {
+  if (typeof file?.path !== 'string') return null;
+  if (getPathErrorText(file.path)) return null;
+
+  return file.path;
+};
+
+const getTextFromResponseBody = (text: string): string | null => {
+  const normalizedText = getTextFromUnknown(text);
+  if (!normalizedText) return null;
+
+  try {
+    const parsedText = JSON.parse(normalizedText);
+    return getErrorText(parsedText) ?? normalizedText;
+  } catch {
+    return normalizedText;
+  }
+};
+
+const getResponseErrorText = async (path: string): Promise<string | null> => {
+  if (!path) return null;
+
+  try {
+    const response = await fetch(path);
+    const contentType = response.headers.get('content-type') ?? '';
+    const isTextResponse =
+      contentType.includes('application/json') ||
+      contentType.startsWith('text/');
+
+    if (response.ok && !isTextResponse) return null;
+
+    const text = await response.text();
+    return (
+      getTextFromResponseBody(text) ??
+      (!response.ok ? `${DEFAULT_ERROR_TEXT} (${response.status})` : null)
+    );
+  } catch {
+    return null;
+  }
+};
 
 /**
  * @param str:  string | null
@@ -258,14 +403,16 @@ const nextSlide = () => {
  */
 const showPlaceholder = () => state.files.length === 0;
 
+const showError = (): boolean => state.isError && !!state.errorText;
+
 /**
  * Показывает заглушку на контент, когда файл есть, но не принадлежит к картинкам и видео
  */
 const showPlaceholderExtension = (): boolean => {
   return (
-    isImage(state.file?.path ?? null) == false &&
-    isVideo(state.file?.path ?? null) == false &&
-    isPdf(state.file?.path ?? null) == false &&
+    isImage(currentFilePath.value) == false &&
+    isVideo(currentFilePath.value) == false &&
+    isPdf(currentFilePath.value) == false &&
     state.files.length > 0 &&
     !state.isError
   );
@@ -283,11 +430,16 @@ watch(
 watch(
   () => state.file,
   () => {
-    state.filePath = state.file?.path ?? null;
+    state.filePath = currentFilePath.value || null;
     reset();
-    const isFileExist = showPlaceholderExtension();
 
-    state.isError = isFileExist;
+    const pathErrorText = getPathErrorText(state.file?.path);
+
+    if (!pathErrorText) return;
+
+    state.isError = true;
+    state.isLoad = true;
+    state.errorText = pathErrorText;
   },
   {
     immediate: true
@@ -420,6 +572,17 @@ defineExpose({
 
   &__slide-full-size {
     height: 100%;
+  }
+
+  &__error-text {
+    max-width: min(100%, 360px);
+    padding: 0 12px;
+    overflow: hidden;
+    display: -webkit-box;
+    text-align: center;
+    word-break: break-word;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 
   &:has(.no-content):hover {
