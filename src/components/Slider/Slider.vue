@@ -59,9 +59,7 @@
           v-else-if="showPlaceholderExtension()"
           :data-testid="`${props.dataTestid}-Invalid-Extension-Placeholder`"
         >
-          <img :src="closedCamera" alt="" width="111px" height="111px" />
-
-          <p>.{{ state.extension }}</p>
+          <p>.{{ currentFileExtension }}</p>
         </div>
 
         <template v-else>
@@ -175,6 +173,10 @@ const DEFAULT_ERROR_TEXT = 'Ошибка загрузки файла';
 const MAX_ERROR_TEXT_LENGTH = 500;
 
 const currentFilePath = computed(() => getFilePath(state.file) ?? '');
+
+const currentFileExtension = computed(() =>
+  getPathExtension(currentFilePath.value)
+);
 
 const modalItems = computed<IFile[]>(() =>
   state.files.reduce<IFile[]>((items, item) => {
@@ -336,17 +338,22 @@ const getResponseErrorText = async (path: string): Promise<string | null> => {
   }
 };
 
+const getPathExtension = (str: string | null): string | null => {
+  if (!str) return null;
+
+  const path = str.split('?')[0];
+  const regexExtension = /\.\w+$/;
+  const match = path.match(regexExtension);
+
+  return match ? match[0].replace('.', '') : null;
+};
+
 /**
  * @param str:  string | null
  * @returns
  */
 const checkPath = (str: string | null): string | null => {
-  if (!str) return null;
-  const path = str.split('?')[0];
-  const regexExtension = /\.\w+$/;
-  const match = path.match(regexExtension);
-
-  state.extension = match ? match[0].replace('.', '') : null;
+  state.extension = getPathExtension(str);
 
   return state.extension;
 };
@@ -410,6 +417,8 @@ const showError = (): boolean => state.isError && !!state.errorText;
  */
 const showPlaceholderExtension = (): boolean => {
   return (
+    !!currentFilePath.value &&
+    !!currentFileExtension.value &&
     isImage(currentFilePath.value) == false &&
     isVideo(currentFilePath.value) == false &&
     isPdf(currentFilePath.value) == false &&
