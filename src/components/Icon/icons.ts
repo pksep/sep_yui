@@ -1144,6 +1144,16 @@ export const atSign: IVectorIcon = {
   viewbox: '0 0 16 16'
 };
 
+export const slash: IVectorIcon = {
+  name: 'slash',
+  fill: 'none',
+  style: 'line',
+  path: `
+    <path d="M10.9773 1L7.22727 14.9318H6L9.75 1H10.9773Z" fill="currentColor"/>
+  `,
+  viewbox: '0 0 16 16'
+};
+
 export const smile: IVectorIcon = {
   name: 'smile',
   fill: 'none',

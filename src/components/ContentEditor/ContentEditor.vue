@@ -2,7 +2,7 @@
   <div
     ref="mainMentionAnchorRef"
     class="editor-component"
-    :class="{ 'editor-component--mentions-open': showMentionList }"
+    :class="{ 'editor-component--mentions-open': showSuggestionList }"
   >
     <div
       class="editor-component-slot"
@@ -113,6 +113,16 @@
         @click="toggleUserSelect"
       >
         <Icon :name="IconNameEnum.atSign" :width="16" :height="16" />
+      </Button>
+
+      <Button
+        v-if="props.activeSelectSlash"
+        :type="ButtonTypeEnum.ghost"
+        class="toolbar-button"
+        :size="SizesEnum.small"
+        @click="toggleSlashSelect"
+      >
+        <Icon :name="IconNameEnum.slash" :width="16" :height="16" />
       </Button>
 
       <Button
@@ -341,6 +351,15 @@
               >
                 <Icon :name="IconNameEnum.atSign" :width="16" :height="16" />
               </Button>
+              <Button
+                v-if="props.activeSelectSlash"
+                :type="ButtonTypeEnum.ghost"
+                class="toolbar-button"
+                :size="SizesEnum.small"
+                @click="toggleSlashSelect"
+              >
+                <Icon :name="IconNameEnum.slash" :width="16" :height="16" />
+              </Button>
             </div>
             <Button
               :disabled="disableSend"
@@ -379,22 +398,24 @@
 
   <Teleport :to="mentionTeleportTarget">
     <div
-      v-if="showMentionList && mentionItems.length"
+      v-if="showSuggestionList && activeSuggestionItems.length"
       ref="mentionListRef"
       class="editor-component__mentions-portal"
     >
       <ContentEditorMentionList
-        :items="mentionItems"
-        :selected-index="mentionSelectedIndex"
+        :items="activeSuggestionItems"
+        :selected-index="activeSuggestionSelectedIndex"
+        :variant="activeSuggestionType || 'mention'"
         is-fixed
         :position-style="mentionListStyle"
-        :get-key="getMentionItemKey"
-        :get-label="getMentionItemLabel"
-        :get-subtitle="getMentionItemSubtitle"
-        :get-avatar-url="getMentionItemAvatarUrl"
-        :get-avatar-initials="getMentionItemAvatarInitials"
-        :get-is-online="getMentionItemIsOnline"
-        @select="selectMentionItem"
+        :get-key="activeSuggestionGetKey"
+        :get-label="activeSuggestionGetLabel"
+        :get-subtitle="activeSuggestionGetSubtitle"
+        :get-avatar-url="activeSuggestionGetAvatarUrl"
+        :get-avatar-default-image="activeSuggestionGetAvatarDefaultImage"
+        :get-avatar-initials="activeSuggestionGetAvatarInitials"
+        :get-is-online="activeSuggestionGetIsOnline"
+        @select="selectActiveSuggestionItem"
       />
     </div>
   </Teleport>
@@ -496,6 +517,9 @@ const pendingMediaPreviewUrls = ref<string[]>([]);
 const mentionSearch = ref<string | null>(null);
 const dismissedMentionSearch = ref<string | null>(null);
 const mentionSelectedIndex = ref(0);
+const slashSearch = ref<string | null>(null);
+const dismissedSlashSearch = ref<string | null>(null);
+const slashSelectedIndex = ref(0);
 
 const hasPendingAttachments = computed(
   () => pendingFiles.value.length > 0 || pendingMediaFiles.value.length > 0
@@ -507,6 +531,7 @@ const disableSend = computed(
 );
 
 const mentionItems = computed(() => props.mentionItems ?? []);
+const slashItems = computed(() => props.slashItems ?? []);
 
 const showMentionList = computed(
   () =>
@@ -514,6 +539,39 @@ const showMentionList = computed(
     mentionSearch.value !== null &&
     dismissedMentionSearch.value !== mentionSearch.value
 );
+
+const showSlashList = computed(
+  () =>
+    Boolean(props.activeSelectSlash) &&
+    slashSearch.value !== null &&
+    dismissedSlashSearch.value !== slashSearch.value
+);
+
+const activeSuggestionType = computed<'mention' | 'slash' | null>(() => {
+  if (showMentionList.value) {
+    return 'mention';
+  }
+
+  if (showSlashList.value) {
+    return 'slash';
+  }
+
+  return null;
+});
+
+const showSuggestionList = computed(() => activeSuggestionType.value !== null);
+
+const activeSuggestionItems = computed(() => {
+  if (activeSuggestionType.value === 'mention') {
+    return mentionItems.value;
+  }
+
+  if (activeSuggestionType.value === 'slash') {
+    return slashItems.value;
+  }
+
+  return [];
+});
 
 const getMentionItemKey = (item: unknown, index: number): string | number =>
   props.mentionConfig?.getKey?.(item, index) ??
@@ -533,6 +591,11 @@ const getMentionItemAvatarUrl = (item: unknown): string =>
   props.mentionItemAvatarUrl?.(item) ??
   '';
 
+const getMentionItemAvatarDefaultImage = (item: unknown): string =>
+  props.mentionConfig?.getAvatarDefaultImage?.(item) ??
+  props.mentionItemAvatarDefaultImage?.(item) ??
+  '';
+
 const getMentionItemAvatarInitials = (item: unknown): string =>
   props.mentionConfig?.getAvatarInitials?.(item) ??
   props.mentionItemAvatarInitials?.(item) ??
@@ -542,6 +605,83 @@ const getMentionItemIsOnline = (item: unknown): boolean =>
   props.mentionConfig?.getIsOnline?.(item) ??
   props.mentionItemIsOnline?.(item) ??
   false;
+
+const getSlashItemKey = (item: unknown, index: number): string | number =>
+  props.slashConfig?.getKey?.(item, index) ??
+  props.slashItemKey?.(item, index) ??
+  index;
+
+const getSlashItemLabel = (item: unknown): string =>
+  props.slashConfig?.getLabel?.(item) ?? props.slashItemLabel?.(item) ?? '';
+
+const getSlashItemSubtitle = (item: unknown): string =>
+  props.slashConfig?.getSubtitle?.(item) ??
+  props.slashItemSubtitle?.(item) ??
+  '';
+
+const getSlashItemAvatarUrl = (item: unknown): string =>
+  props.slashConfig?.getAvatarUrl?.(item) ??
+  props.slashItemAvatarUrl?.(item) ??
+  '';
+
+const getSlashItemAvatarDefaultImage = (item: unknown): string =>
+  props.slashConfig?.getAvatarDefaultImage?.(item) ??
+  props.slashItemAvatarDefaultImage?.(item) ??
+  '';
+
+const getSlashItemAvatarInitials = (item: unknown): string =>
+  props.slashConfig?.getAvatarInitials?.(item) ??
+  props.slashItemAvatarInitials?.(item) ??
+  getSlashItemLabel(item);
+
+const getSlashItemIsOnline = (item: unknown): boolean =>
+  props.slashConfig?.getIsOnline?.(item) ??
+  props.slashItemIsOnline?.(item) ??
+  false;
+
+const activeSuggestionSelectedIndex = computed(() =>
+  activeSuggestionType.value === 'slash'
+    ? slashSelectedIndex.value
+    : mentionSelectedIndex.value
+);
+
+const activeSuggestionGetKey = (
+  item: unknown,
+  index: number
+): string | number =>
+  activeSuggestionType.value === 'slash'
+    ? getSlashItemKey(item, index)
+    : getMentionItemKey(item, index);
+
+const activeSuggestionGetLabel = (item: unknown): string =>
+  activeSuggestionType.value === 'slash'
+    ? getSlashItemLabel(item)
+    : getMentionItemLabel(item);
+
+const activeSuggestionGetSubtitle = (item: unknown): string =>
+  activeSuggestionType.value === 'slash'
+    ? getSlashItemSubtitle(item)
+    : getMentionItemSubtitle(item);
+
+const activeSuggestionGetAvatarUrl = (item: unknown): string =>
+  activeSuggestionType.value === 'slash'
+    ? getSlashItemAvatarUrl(item)
+    : getMentionItemAvatarUrl(item);
+
+const activeSuggestionGetAvatarDefaultImage = (item: unknown): string =>
+  activeSuggestionType.value === 'slash'
+    ? getSlashItemAvatarDefaultImage(item)
+    : getMentionItemAvatarDefaultImage(item);
+
+const activeSuggestionGetAvatarInitials = (item: unknown): string =>
+  activeSuggestionType.value === 'slash'
+    ? getSlashItemAvatarInitials(item)
+    : getMentionItemAvatarInitials(item);
+
+const activeSuggestionGetIsOnline = (item: unknown): boolean =>
+  activeSuggestionType.value === 'slash'
+    ? getSlashItemIsOnline(item)
+    : getMentionItemIsOnline(item);
 
 const pickerClasses = computed(() => [
   'emoji-picker',
@@ -650,8 +790,41 @@ const mentionTeleportTarget = computed(() => {
   return dialog ?? 'body';
 });
 
+const getTriggerContext = (
+  trigger: '@' | '/'
+): {
+  match: RegExpMatchArray;
+  matchStart: number;
+  query: string;
+} | null => {
+  if (!editor.value) {
+    return null;
+  }
+
+  const { $from } = editor.value.state.selection;
+  const rangeStart = Math.max(0, $from.parentOffset - 50);
+  const textBefore = $from.parent.textBetween(
+    rangeStart,
+    $from.parentOffset,
+    null,
+    '\ufffc'
+  );
+  const escapedTrigger = trigger.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = textBefore.match(new RegExp(`${escapedTrigger}([^\\s]*)$`));
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    match,
+    matchStart: $from.start() + rangeStart + (match.index || 0),
+    query: (match[1] || '').toLowerCase()
+  };
+};
+
 const updateMentionListPosition = () => {
-  if (!showMentionList.value || !mentionItems.value.length) {
+  if (!showSuggestionList.value || !activeSuggestionItems.value.length) {
     return;
   }
 
@@ -676,11 +849,21 @@ const updateMentionListPosition = () => {
   };
 };
 
+const setActiveSuggestionSelectedIndex = (value: number): void => {
+  if (activeSuggestionType.value === 'slash') {
+    slashSelectedIndex.value = value;
+    return;
+  }
+
+  mentionSelectedIndex.value = value;
+};
+
 const scrollActiveMentionIntoView = () => {
   nextTick(() => {
     const container = mentionListRef.value;
+    const anchor = mentionAnchorRef.value;
 
-    if (!container) {
+    if (!container || !anchor) {
       return;
     }
 
@@ -690,9 +873,28 @@ const scrollActiveMentionIntoView = () => {
       return;
     }
 
-    activeItem.scrollIntoView({
-      block: 'nearest'
-    });
+    const scrollHost =
+      (container.firstElementChild as HTMLElement | null) ?? container;
+    const scrollHostRect = scrollHost.getBoundingClientRect();
+    const anchorRect = anchor.getBoundingClientRect();
+    const topSafeArea = 8;
+    const bottomOverlap = Math.max(scrollHostRect.bottom - anchorRect.top, 0);
+    const bottomSafeArea = bottomOverlap + 8;
+    const itemTop = activeItem.offsetTop;
+    const itemBottom = itemTop + activeItem.offsetHeight;
+    const visibleTop = scrollHost.scrollTop + topSafeArea;
+    const visibleBottom =
+      scrollHost.scrollTop + scrollHost.clientHeight - bottomSafeArea;
+
+    if (itemTop < visibleTop) {
+      scrollHost.scrollTop = Math.max(itemTop - topSafeArea, 0);
+      return;
+    }
+
+    if (itemBottom > visibleBottom) {
+      scrollHost.scrollTop =
+        itemBottom - scrollHost.clientHeight + bottomSafeArea;
+    }
   });
 };
 
@@ -1277,31 +1479,40 @@ const editor = useEditor({
   onUpdate: ({ editor }) => {
     modelValue.value = editor.getHTML();
 
-    if (props.activeSelectUser) {
-      const { $from } = editor.state.selection;
-      const rangeStart = Math.max(0, $from.parentOffset - 50);
-      const textBefore = $from.parent.textBetween(
-        rangeStart,
-        $from.parentOffset,
-        null,
-        '\ufffc'
-      );
-      const match = textBefore.match(/@([^\s]*)$/);
+    const mentionContext = props.activeSelectUser
+      ? getTriggerContext('@')
+      : null;
+    const slashContext = props.activeSelectSlash
+      ? getTriggerContext('/')
+      : null;
 
-      if (match) {
-        const nextMentionSearch = match[1].toLowerCase();
-
-        if (mentionSearch.value !== nextMentionSearch) {
-          mentionSelectedIndex.value = 0;
-        }
-
-        mentionSearch.value = nextMentionSearch;
-        emits('mention-change', nextMentionSearch);
-      } else {
-        mentionSearch.value = null;
-        dismissedMentionSearch.value = null;
-        emits('mention-change', null);
+    if (mentionContext) {
+      if (mentionSearch.value !== mentionContext.query) {
+        mentionSelectedIndex.value = 0;
       }
+
+      mentionSearch.value = mentionContext.query;
+      emits('mention-change', mentionContext.query);
+      slashSearch.value = null;
+      dismissedSlashSearch.value = null;
+      emits('slash-change', null);
+    } else if (slashContext) {
+      if (slashSearch.value !== slashContext.query) {
+        slashSelectedIndex.value = 0;
+      }
+
+      slashSearch.value = slashContext.query;
+      emits('slash-change', slashContext.query);
+      mentionSearch.value = null;
+      dismissedMentionSearch.value = null;
+      emits('mention-change', null);
+    } else {
+      mentionSearch.value = null;
+      dismissedMentionSearch.value = null;
+      emits('mention-change', null);
+      slashSearch.value = null;
+      dismissedSlashSearch.value = null;
+      emits('slash-change', null);
     }
   },
   parseOptions: { preserveWhitespace: true }
@@ -1315,18 +1526,19 @@ watch(modelValue, newVal => {
   }
 });
 
-watch(mentionItems, items => {
+watch(activeSuggestionItems, items => {
   if (!items.length) {
     mentionSelectedIndex.value = 0;
+    slashSelectedIndex.value = 0;
     mentionListStyle.value = {};
     return;
   }
 
-  if (mentionSelectedIndex.value >= items.length) {
-    mentionSelectedIndex.value = items.length - 1;
+  if (activeSuggestionSelectedIndex.value >= items.length) {
+    setActiveSuggestionSelectedIndex(items.length - 1);
   }
 
-  if (showMentionList.value) {
+  if (showSuggestionList.value) {
     nextTick(() => {
       updateMentionListPosition();
       scrollActiveMentionIntoView();
@@ -1334,8 +1546,8 @@ watch(mentionItems, items => {
   }
 });
 
-watch(mentionSelectedIndex, () => {
-  if (showMentionList.value) {
+watch([mentionSelectedIndex, slashSelectedIndex], () => {
+  if (showSuggestionList.value) {
     nextTick(() => {
       updateMentionListPosition();
       scrollActiveMentionIntoView();
@@ -1343,14 +1555,20 @@ watch(mentionSelectedIndex, () => {
   }
 });
 
-watch(showMentionList, isOpen => {
+watch(showSuggestionList, isOpen => {
   if (!isOpen) {
     mentionSelectedIndex.value = 0;
+    slashSelectedIndex.value = 0;
     mentionListStyle.value = {};
     return;
   }
 
-  dismissedMentionSearch.value = null;
+  if (activeSuggestionType.value === 'slash') {
+    dismissedSlashSearch.value = null;
+  } else {
+    dismissedMentionSearch.value = null;
+  }
+
   nextTick(() => {
     updateMentionListPosition();
     scrollActiveMentionIntoView();
@@ -1360,7 +1578,7 @@ watch(showMentionList, isOpen => {
 watch(
   () => isAttachModalOpen.value,
   () => {
-    if (showMentionList.value) {
+    if (showSuggestionList.value) {
       nextTick(() => updateMentionListPosition());
     }
   }
@@ -1470,24 +1688,17 @@ const handleSave = (): void => {
 const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
   if (!editor?.value) return;
 
-  const { $from } = editor.value.state.selection;
-  const rangeStart = Math.max(0, $from.parentOffset - 50);
-  const textBefore = $from.parent.textBetween(
-    rangeStart,
-    $from.parentOffset,
-    null,
-    '\ufffc'
-  );
+  const context = getTriggerContext('@');
 
-  const match = textBefore.match(/@([^\s]*)$/);
-
-  if (match) {
-    const matchStart = $from.start() + rangeStart + (match.index || 0);
+  if (context) {
     editor.value
       .chain()
       .focus()
       .insertContentAt(
-        { from: matchStart, to: $from.pos },
+        {
+          from: context.matchStart,
+          to: editor.value.state.selection.$from.pos
+        },
         {
           type: 'spanNode',
           attrs: { content, class: 'link', ...attrs }
@@ -1506,11 +1717,43 @@ const addSpanLink = (content: string, attrs?: Record<string, string>): void => {
   }
 };
 
+const insertTriggerText = (trigger: '@' | '/', content: string): void => {
+  if (!editor?.value) {
+    return;
+  }
+
+  const context = getTriggerContext(trigger);
+
+  if (context) {
+    editor.value
+      .chain()
+      .focus()
+      .insertContentAt(
+        {
+          from: context.matchStart,
+          to: editor.value.state.selection.$from.pos
+        },
+        content
+      )
+      .run();
+    return;
+  }
+
+  editor.value.chain().focus().insertContent(content).run();
+};
+
 const clearMentionState = (): void => {
   mentionSearch.value = null;
   dismissedMentionSearch.value = null;
   mentionSelectedIndex.value = 0;
   emits('mention-change', null);
+};
+
+const clearSlashState = (): void => {
+  slashSearch.value = null;
+  dismissedSlashSearch.value = null;
+  slashSelectedIndex.value = 0;
+  emits('slash-change', null);
 };
 
 const selectMentionItem = (item: unknown): void => {
@@ -1534,29 +1777,68 @@ const selectMentionItem = (item: unknown): void => {
   clearMentionState();
 };
 
+const selectSlashItem = (item: unknown): void => {
+  const getInsertLabel =
+    props.slashConfig?.getInsertLabel ?? props.slashInsertLabel;
+
+  if (!getInsertLabel) {
+    return;
+  }
+
+  const content = getInsertLabel(item);
+
+  if (!content) {
+    return;
+  }
+
+  insertTriggerText('/', content);
+  clearSlashState();
+};
+
+const selectActiveSuggestionItem = (item: unknown): void => {
+  if (activeSuggestionType.value === 'slash') {
+    selectSlashItem(item);
+    return;
+  }
+
+  selectMentionItem(item);
+};
+
 const toggleUserSelect = (): void => {
   if (!editor?.value) return;
 
-  const { $from } = editor.value.state.selection;
-  const rangeStart = Math.max(0, $from.parentOffset - 50);
-  const textBefore = $from.parent.textBetween(
-    rangeStart,
-    $from.parentOffset,
-    null,
-    '\ufffc'
-  );
+  const context = getTriggerContext('@');
 
-  const match = textBefore.match(/@([^\s]*)$/);
-
-  if (match) {
-    const matchStart = $from.start() + rangeStart + (match.index || 0);
+  if (context) {
     editor.value
       .chain()
       .focus()
-      .deleteRange({ from: matchStart, to: $from.pos })
+      .deleteRange({
+        from: context.matchStart,
+        to: editor.value.state.selection.$from.pos
+      })
       .run();
   } else {
     editor.value.chain().focus().insertContent('@').run();
+  }
+};
+
+const toggleSlashSelect = (): void => {
+  if (!editor?.value) return;
+
+  const context = getTriggerContext('/');
+
+  if (context) {
+    editor.value
+      .chain()
+      .focus()
+      .deleteRange({
+        from: context.matchStart,
+        to: editor.value.state.selection.$from.pos
+      })
+      .run();
+  } else {
+    editor.value.chain().focus().insertContent('/').run();
   }
 };
 
@@ -1605,7 +1887,7 @@ const handleWindowUpdate = (): void => {
     updateEmojiPosition(btn);
   }
 
-  if (showMentionList.value) {
+  if (showSuggestionList.value) {
     updateMentionListPosition();
   }
 };
@@ -1705,11 +1987,15 @@ const handleKeydown = (event: KeyboardEvent): void => {
     orderedListExitIntent = null;
   }
 
-  if (showMentionList.value) {
+  if (showSuggestionList.value) {
     if (event.key === 'Escape') {
       event.preventDefault();
       event.stopPropagation();
-      dismissedMentionSearch.value = mentionSearch.value;
+      if (activeSuggestionType.value === 'slash') {
+        dismissedSlashSearch.value = slashSearch.value;
+      } else {
+        dismissedMentionSearch.value = mentionSearch.value;
+      }
       return;
     }
 
@@ -1718,26 +2004,31 @@ const handleKeydown = (event: KeyboardEvent): void => {
       event.stopPropagation();
 
       if (
-        mentionSelectedIndex.value >= 0 &&
-        mentionSelectedIndex.value < mentionItems.value.length
+        activeSuggestionSelectedIndex.value >= 0 &&
+        activeSuggestionSelectedIndex.value < activeSuggestionItems.value.length
       ) {
-        selectMentionItem(mentionItems.value[mentionSelectedIndex.value]);
+        selectActiveSuggestionItem(
+          activeSuggestionItems.value[activeSuggestionSelectedIndex.value]
+        );
       }
 
       return;
     }
 
     if (
-      mentionItems.value.length &&
+      activeSuggestionItems.value.length &&
       (event.key === 'ArrowDown' || event.key === 'ArrowUp')
     ) {
       event.preventDefault();
       event.stopPropagation();
 
       const delta = event.key === 'ArrowDown' ? 1 : -1;
-      mentionSelectedIndex.value =
-        (mentionSelectedIndex.value + delta + mentionItems.value.length) %
-        mentionItems.value.length;
+      setActiveSuggestionSelectedIndex(
+        (activeSuggestionSelectedIndex.value +
+          delta +
+          activeSuggestionItems.value.length) %
+          activeSuggestionItems.value.length
+      );
       return;
     }
   }
@@ -1856,7 +2147,7 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
   position: relative;
   background-color: var(--white);
   border: 0.5px solid var(--border-color);
-  border-radius: 10px;
+  border-radius: 20px;
   min-height: 105px;
 
   & .tiptap {
