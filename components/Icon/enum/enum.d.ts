@@ -99,6 +99,7 @@ export declare enum IconNameEnum {
     pin = "pin",
     read = "read",
     atSign = "at-sign",
+    slash = "slash",
     smile = "smile",
     planeRight = "plane-right",
     addUser = "add-user",

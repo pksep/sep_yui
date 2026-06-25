@@ -105,6 +105,7 @@ export declare const openDocument: IVectorIcon;
 export declare const time: IVectorIcon;
 export declare const remains: IVectorIcon;
 export declare const atSign: IVectorIcon;
+export declare const slash: IVectorIcon;
 export declare const smile: IVectorIcon;
 export declare const planeRightFill: IVectorIcon;
 export declare const planeRight: IVectorIcon;

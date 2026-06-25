@@ -1,6 +1,7 @@
 interface Props {
     items: unknown[];
     selectedIndex: number;
+    variant?: 'mention' | 'slash';
     isModal?: boolean;
     isFixed?: boolean;
     positionStyle?: Record<string, string>;
@@ -8,6 +9,7 @@ interface Props {
     getLabel: (item: unknown) => string;
     getSubtitle: (item: unknown) => string;
     getAvatarUrl: (item: unknown) => string;
+    getAvatarDefaultImage: (item: unknown) => string;
     getAvatarInitials: (item: unknown) => string;
     getIsOnline: (item: unknown) => boolean;
 }

@@ -22,7 +22,13 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     isMentionModalOpen: {
         type: import('vue').PropType<boolean>;
     };
+    activeSelectSlash: {
+        type: import('vue').PropType<boolean>;
+    };
     mentionItems: {
+        type: import('vue').PropType<unknown[]>;
+    };
+    slashItems: {
         type: import('vue').PropType<unknown[]>;
     };
     mentionConfig: {
@@ -31,10 +37,23 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
             getLabel?: (item: unknown) => string;
             getSubtitle?: (item: unknown) => string;
             getAvatarUrl?: (item: unknown) => string;
+            getAvatarDefaultImage?: (item: unknown) => string;
             getAvatarInitials?: (item: unknown) => string;
             getIsOnline?: (item: unknown) => boolean;
             getInsertLabel?: (item: unknown) => string;
             getInsertAttrs?: (item: unknown) => Record<string, string>;
+        }>;
+    };
+    slashConfig: {
+        type: import('vue').PropType<{
+            getKey?: (item: unknown, index: number) => string | number;
+            getLabel?: (item: unknown) => string;
+            getSubtitle?: (item: unknown) => string;
+            getAvatarUrl?: (item: unknown) => string;
+            getAvatarDefaultImage?: (item: unknown) => string;
+            getAvatarInitials?: (item: unknown) => string;
+            getIsOnline?: (item: unknown) => boolean;
+            getInsertLabel?: (item: unknown) => string;
         }>;
     };
     mentionItemKey: {
@@ -49,6 +68,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     mentionItemAvatarUrl: {
         type: import('vue').PropType<(item: unknown) => string>;
     };
+    mentionItemAvatarDefaultImage: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
     mentionItemAvatarInitials: {
         type: import('vue').PropType<(item: unknown) => string>;
     };
@@ -61,6 +83,30 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     mentionInsertAttrs: {
         type: import('vue').PropType<(item: unknown) => Record<string, string>>;
     };
+    slashItemKey: {
+        type: import('vue').PropType<(item: unknown, index: number) => string | number>;
+    };
+    slashItemLabel: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemSubtitle: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemAvatarUrl: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemAvatarDefaultImage: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemAvatarInitials: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemIsOnline: {
+        type: import('vue').PropType<(item: unknown) => boolean>;
+    };
+    slashInsertLabel: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
 }>, {
     addSpanLink: (content: string, attrs?: Record<string, string>) => void;
     focus: () => void;
@@ -71,6 +117,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     "unmount-send": (params: import('./interfaces/content-editor').IContentEditorSendPayload) => void;
     "unmount-attach-file": (files: FileList, onlyMedia: boolean) => void;
     "mention-change": (search: string | null) => void;
+    "slash-change": (search: string | null) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
     activeAttachFile: {
@@ -91,7 +138,13 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     isMentionModalOpen: {
         type: import('vue').PropType<boolean>;
     };
+    activeSelectSlash: {
+        type: import('vue').PropType<boolean>;
+    };
     mentionItems: {
+        type: import('vue').PropType<unknown[]>;
+    };
+    slashItems: {
         type: import('vue').PropType<unknown[]>;
     };
     mentionConfig: {
@@ -100,10 +153,23 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
             getLabel?: (item: unknown) => string;
             getSubtitle?: (item: unknown) => string;
             getAvatarUrl?: (item: unknown) => string;
+            getAvatarDefaultImage?: (item: unknown) => string;
             getAvatarInitials?: (item: unknown) => string;
             getIsOnline?: (item: unknown) => boolean;
             getInsertLabel?: (item: unknown) => string;
             getInsertAttrs?: (item: unknown) => Record<string, string>;
+        }>;
+    };
+    slashConfig: {
+        type: import('vue').PropType<{
+            getKey?: (item: unknown, index: number) => string | number;
+            getLabel?: (item: unknown) => string;
+            getSubtitle?: (item: unknown) => string;
+            getAvatarUrl?: (item: unknown) => string;
+            getAvatarDefaultImage?: (item: unknown) => string;
+            getAvatarInitials?: (item: unknown) => string;
+            getIsOnline?: (item: unknown) => boolean;
+            getInsertLabel?: (item: unknown) => string;
         }>;
     };
     mentionItemKey: {
@@ -118,6 +184,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     mentionItemAvatarUrl: {
         type: import('vue').PropType<(item: unknown) => string>;
     };
+    mentionItemAvatarDefaultImage: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
     mentionItemAvatarInitials: {
         type: import('vue').PropType<(item: unknown) => string>;
     };
@@ -130,10 +199,35 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     mentionInsertAttrs: {
         type: import('vue').PropType<(item: unknown) => Record<string, string>>;
     };
+    slashItemKey: {
+        type: import('vue').PropType<(item: unknown, index: number) => string | number>;
+    };
+    slashItemLabel: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemSubtitle: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemAvatarUrl: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemAvatarDefaultImage: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemAvatarInitials: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
+    slashItemIsOnline: {
+        type: import('vue').PropType<(item: unknown) => boolean>;
+    };
+    slashInsertLabel: {
+        type: import('vue').PropType<(item: unknown) => string>;
+    };
 }>> & Readonly<{
     "onUnmount-send"?: ((params: import('./interfaces/content-editor').IContentEditorSendPayload) => any) | undefined;
     "onUnmount-attach-file"?: ((files: FileList, onlyMedia: boolean) => any) | undefined;
     "onMention-change"?: ((search: string | null) => any) | undefined;
+    "onSlash-change"?: ((search: string | null) => any) | undefined;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;
