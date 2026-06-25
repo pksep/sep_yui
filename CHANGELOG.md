@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.277
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.276...v0.1.277)
+
+### 🚀 Enhancements
+
+- Error ([f964c29](https://github.com/pksep/sep_yui/commit/f964c29))
+- Error ([e9494e1](https://github.com/pksep/sep_yui/commit/e9494e1))
+
 ## v0.1.276
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.275...v0.1.276)
