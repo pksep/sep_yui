@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.278
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.277...v0.1.278)
+
+### 🚀 Enhancements
+
+- Mention list design and add bot command design ([d116bba](https://github.com/pksep/sep_yui/commit/d116bba))
+
 ## v0.1.277
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.276...v0.1.277)
