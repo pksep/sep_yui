@@ -55,9 +55,10 @@
         </div>
 
         <div
-          class="placeholder-yui-kit"
+          class="slider-yui-kit__extension"
           v-else-if="showPlaceholderExtension()"
           :data-testid="`${props.dataTestid}-Invalid-Extension-Placeholder`"
+          @click="handleClickOnItem(state.file)"
         >
           <p>.{{ currentFileExtension }}</p>
         </div>
@@ -663,5 +664,11 @@ defineExpose({
   justify-content: center;
 
   background-color: var(--primary-hover-light-color);
+}
+
+.slider-yui-kit__extension {
+  color: var(--primary-color);
+  font-size: 54px;
+  font-weight: 800;
 }
 </style>
