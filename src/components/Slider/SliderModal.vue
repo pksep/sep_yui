@@ -584,7 +584,7 @@ const isDisabledPrintButton = computed(() => {
 });
 
 const isDisabledDownloadButton = computed(() => {
-  const isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
+  const isDisabled = !state.file || !state.file.path || state.isErrorFile;
 
   return isDisabled;
 });
