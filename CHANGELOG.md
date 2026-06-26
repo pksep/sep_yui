@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.279
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.278...v0.1.279)
+
+### 🚀 Enhancements
+
+- Minor changes ([48a3134](https://github.com/pksep/sep_yui/commit/48a3134))
+
+### 🎨 Styles
+
+- Changed padding table ([9c9dd92](https://github.com/pksep/sep_yui/commit/9c9dd92))
+
 ## v0.1.278
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.277...v0.1.278)
