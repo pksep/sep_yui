@@ -99,6 +99,7 @@ export enum IconNameEnum {
   pin = 'pin',
   read = 'read',
   atSign = 'at-sign',
+  slash = 'slash',
   smile = 'smile',
   planeRight = 'plane-right',
   addUser = 'add-user',
@@ -150,5 +151,12 @@ export enum IconNameEnum {
   warning = 'warning',
   asc = 'asc',
   desc = 'desc',
-  errorAlert = 'error-alert'
+  errorAlert = 'error-alert',
+  parent = 'parent',
+  undo = 'undo',
+  redo = 'redo',
+  crop = 'crop',
+  imagePaint = 'image-paint',
+  text = 'text',
+  colorPicker = 'color-picker'
 }

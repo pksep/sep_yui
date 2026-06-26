@@ -1,5 +1,76 @@
 # Changelog
 
+## v0.1.278
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.277...v0.1.278)
+
+### 🚀 Enhancements
+
+- Mention list design and add bot command design ([d116bba](https://github.com/pksep/sep_yui/commit/d116bba))
+
+## v0.1.277
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.276...v0.1.277)
+
+### 🚀 Enhancements
+
+- Error ([f964c29](https://github.com/pksep/sep_yui/commit/f964c29))
+- Error ([e9494e1](https://github.com/pksep/sep_yui/commit/e9494e1))
+
+## v0.1.276
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.275...v0.1.276)
+
+### 🩹 Fixes
+
+- Fixed scroll in modals ([f76df42](https://github.com/pksep/sep_yui/commit/f76df42))
+- Fixed calendar ([ed75093](https://github.com/pksep/sep_yui/commit/ed75093))
+- Slider download icon ([b2f445f](https://github.com/pksep/sep_yui/commit/b2f445f))
+
+## v0.1.275
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.274...v0.1.275)
+
+### 🩹 Fixes
+
+- Paste text in mobile in content editor ([b1c12f1](https://github.com/pksep/sep_yui/commit/b1c12f1))
+
+## v0.1.274
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.273...v0.1.274)
+
+### 🚀 Enhancements
+
+- Add crop, rotates in image editor ([85e530c](https://github.com/pksep/sep_yui/commit/85e530c))
+
+## v0.1.273
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.272...v0.1.273)
+
+### 🚀 Enhancements
+
+- Add image editor ([80aa79e](https://github.com/pksep/sep_yui/commit/80aa79e))
+
+## v0.1.272
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.270...v0.1.272)
+
+### 🚀 Enhancements
+
+- Added new icon ([3c6c8d8](https://github.com/pksep/sep_yui/commit/3c6c8d8))
+
+### 🏡 Chore
+
+- **release:** V0.1.271 ([c2633d6](https://github.com/pksep/sep_yui/commit/c2633d6))
+
+## v0.1.271
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.270...v0.1.271)
+
+### 🚀 Enhancements
+
+- Added new icon ([3c6c8d8](https://github.com/pksep/sep_yui/commit/3c6c8d8))
+
 ## v0.1.270
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.269...v0.1.270)

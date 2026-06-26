@@ -201,14 +201,13 @@
 
         <template v-else>
           <div
+            ref="itemRef"
             class="slider-modal__item"
             @click.self="unmountClose"
             @pointerdown="handlePointerStart"
             @pointermove="handlePointerMove"
             @touchstart="handleTouchStart"
             @touchmove="handleTouchMove"
-            @mousedown.self="handleMouseDownOnExitItem"
-            @mouseup.self="handleMouseUpOnExitItem"
           >
             <div
               ref="viewportRef"
@@ -216,7 +215,15 @@
               @mousedown.self="handleMouseDownOnExitItem"
               @mouseup.self="handleMouseUpOnExitItem"
             >
+              <div
+                v-if="showPlaceholderExtension"
+                class="slider-modal__extension"
+              >
+                .{{ currentFileExtension }}
+              </div>
+
               <img
+                v-else
                 class="slider-modal__image slider-modal__image_error"
                 :src="closedCamer"
               />
@@ -269,9 +276,7 @@
                   </template>
 
                   <template
-                    v-else-if="
-                      isPdfFile(item.path) || isPdfFile(state.file?.file)
-                    "
+                    v-else-if="isPdfFile(item.path) || isPdfFile(item.file)"
                   >
                     <PdfPreview
                       class="slider-modal__slide-image"
@@ -286,6 +291,12 @@
                       class="slider-modal__slide-image"
                       :src="item.path"
                     />
+                  </template>
+
+                  <template v-else-if="showItemPlaceholderExtension(item)">
+                    <div class="slider-modal__slide-extension">
+                      .{{ getFileExtension(item.path) }}
+                    </div>
                   </template>
 
                   <template v-else>
@@ -359,7 +370,7 @@
               >
                 <Icon
                   class="slider-modal__icon"
-                  :name="IconNameEnum.uploadCloud"
+                  :name="IconNameEnum.download"
                   :width="24"
                   :height="24"
                 />
@@ -419,6 +430,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import changeStyleProperties from '@/helpers/change-style-properties';
 import isPdfFile from '@/helpers/file/isPdfFile';
 import Panzoom from '@panzoom/panzoom';
+import checkPath from '@/helpers/file/check-path';
 
 defineOptions({
   name: 'SliderModal'
@@ -523,6 +535,26 @@ const isDisabledNextButton = computed(
   () => state.defaultIndex === props.items.length - 1
 );
 
+const getFileExtension = (path: string | null | undefined): string | null =>
+  checkPath(path ?? null);
+
+const isUnsupportedFileWithExtension = (file: IFile | null | undefined) =>
+  !!file?.path &&
+  !!getFileExtension(file.path) &&
+  !isPdfFile(file.path) &&
+  !isPdfFile(file.file) &&
+  !isImage(file.path) &&
+  !isVideo(file.path);
+
+const currentFileExtension = computed(() => getFileExtension(state.file?.path));
+
+const showPlaceholderExtension = computed(() =>
+  isUnsupportedFileWithExtension(state.file)
+);
+
+const showItemPlaceholderExtension = (item: IFile): boolean =>
+  isUnsupportedFileWithExtension(item);
+
 // Проверка на корректность файла
 const isErrorFile = computed(
   () =>
@@ -552,7 +584,7 @@ const isDisabledPrintButton = computed(() => {
 });
 
 const isDisabledDownloadButton = computed(() => {
-  const isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
+  const isDisabled = !state.file || !state.file.path || state.isErrorFile;
 
   return isDisabled;
 });
@@ -1865,6 +1897,36 @@ onUnmounted(() => {
 
   object-fit: fill;
   background-color: var(--white);
+}
+
+.slider-modal__extension {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--primary-color);
+  font-size: clamp(54px, 10vw, 128px);
+  font-weight: 800;
+  line-height: 1;
+  word-break: break-word;
+}
+
+.slider-modal__slide-extension {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--white);
+  color: var(--primary-color);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  word-break: break-word;
 }
 
 .slider-modal__icon {

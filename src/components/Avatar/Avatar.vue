@@ -22,7 +22,7 @@
       <img
         v-if="props.defaultImage"
         :src="props.defaultImage"
-        class="avatar-yui-kit__image is-visible"
+        class="avatar-yui-kit__image avatar-yui-kit__image--default is-visible"
       />
       <div v-else class="avatar-yui-kit__text">
         {{ firstSymbol }}
@@ -63,6 +63,10 @@ const colors = [
 ];
 
 const backgroundColor = computed(() => {
+  if (props.defaultImage) {
+    return 'transparent';
+  }
+
   if (!firstSymbol.value) return colors[0];
 
   const code = firstSymbol.value.charCodeAt(0);
@@ -189,6 +193,10 @@ watch(
 
 .avatar-yui-kit__image.is-visible {
   opacity: 1;
+}
+
+.avatar-yui-kit__image--default {
+  background-color: transparent;
 }
 
 /* ============ FALLBACK LAYER ============ */

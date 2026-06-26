@@ -2,6 +2,7 @@
   <div
     class="editor-component__mentions"
     :class="{
+      'editor-component__mentions--slash': props.variant === 'slash',
       'editor-component__mentions--modal': props.isModal,
       'editor-component__mentions--fixed': props.isFixed
     }"
@@ -21,6 +22,7 @@
       <Avatar
         class="editor-component__mention-avatar"
         :url="props.getAvatarUrl(item)"
+        :default-image="props.getAvatarDefaultImage(item)"
         :initials="props.getAvatarInitials(item)"
         :is-online="props.getIsOnline(item)"
       />
@@ -45,6 +47,7 @@ import Avatar from '../Avatar/Avatar.vue';
 interface Props {
   items: unknown[];
   selectedIndex: number;
+  variant?: 'mention' | 'slash';
   isModal?: boolean;
   isFixed?: boolean;
   positionStyle?: Record<string, string>;
@@ -52,6 +55,7 @@ interface Props {
   getLabel: (item: unknown) => string;
   getSubtitle: (item: unknown) => string;
   getAvatarUrl: (item: unknown) => string;
+  getAvatarDefaultImage: (item: unknown) => string;
   getAvatarInitials: (item: unknown) => string;
   getIsOnline: (item: unknown) => boolean;
 }
@@ -161,6 +165,21 @@ const emit = defineEmits<{
 
 .editor-component__mention-subtitle {
   display: none;
+}
+
+.editor-component__mentions--slash .editor-component__mention-content {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-component__mentions--slash .editor-component__mention-label {
+  color: var(--text-color);
+}
+
+.editor-component__mentions--slash .editor-component__mention-subtitle {
+  display: block;
+  color: var(--text-neutral-color);
 }
 
 @media screen and (width <= 480px) {

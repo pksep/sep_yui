@@ -419,6 +419,7 @@ onUnmounted(() => {
     visibility: var(--hint-visibility, hidden);
 
     font-size: var(--tooltip-font-size);
+    white-space: pre-line;
     word-break: normal;
     overflow-wrap: normal;
     hyphens: auto;
