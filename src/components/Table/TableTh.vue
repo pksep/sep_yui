@@ -30,6 +30,9 @@ const props = withDefaults(defineProps<ITableTd>(), {
   border-top: 0.5px solid var(--border-color);
 
   background-color: var(--primary-hover-light-color);
+
+  hyphens: auto;
+  overflow-wrap: anywhere;
 }
 
 .table-th:first-child {
