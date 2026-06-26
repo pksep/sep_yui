@@ -4,15 +4,14 @@
     class="tooltip-yui-kit"
     :data-testid="props.dataTestid"
     :aria-label="hint"
-    @mouseenter="unmountMouseEnter"
-    @mouseleave="unmountMouseLeave"
+    v-on="tooltipEvents"
   >
     <slot></slot>
 
-    <Teleport v-if="isCanShow" :to="toTeleport">
+    <Teleport v-if="props.isCanShow" :to="toTeleport">
       <Transition name="hint-animate" @enter="unmountAnimationEnter">
         <div
-          v-show="isShow || state.isShow"
+          v-if="isHintVisible"
           ref="hintRef"
           class="tooltip-yui-kit__hint"
           :data-testid="props.dataTestid"
@@ -61,9 +60,19 @@ const anchorName = computed(() => `--anchor-tooltip-${id}`);
 const tooltipRef = ref<HTMLDivElement | null>(null);
 const hintRef = ref<HTMLDivElement | null>(null);
 
+const state = reactive<{
+  isShow: boolean;
+}>({
+  isShow: false
+});
+
+const isHintVisible = computed(
+  () => props.isCanShow && (props.isShow || state.isShow)
+);
+
 const tooltipClass = computed(() => [
   {
-    'tooltip-yui-kit__hint_show': props.isShow || state.isShow,
+    'tooltip-yui-kit__hint_show': isHintVisible.value,
     'tooltip-yui-kit__hint_bottom-center': props.position === 'bottom-center',
     'tooltip-yui-kit__hint_bottom-left': props.position === 'bottom-left',
     'tooltip-yui-kit__hint_bottom-right': props.position === 'bottom-right',
@@ -94,12 +103,6 @@ const toTeleport = computed(() => {
   return 'body';
 });
 
-const state = reactive<{
-  isShow: boolean;
-}>({
-  isShow: false
-});
-
 const unmountMouseEnter = (): void => {
   showHint();
 };
@@ -112,10 +115,18 @@ const unmountAnimationEnter = (): void => {
   setPosition();
 };
 
+const tooltipEvents = computed(() => {
+  if (!props.isCanShow) return {};
+
+  return {
+    mouseenter: unmountMouseEnter,
+    mouseleave: unmountMouseLeave
+  };
+});
+
 const setPosition = (): void => {
   requestAnimationFrame(() => {
-    if (!tooltipRef.value || !hintRef.value || (!state.isShow && !props.isShow))
-      return;
+    if (!tooltipRef.value || !hintRef.value || !isHintVisible.value) return;
 
     const setedStyles: Record<string, string> = {
       '--hint-top': 'anchor(top)',
@@ -179,7 +190,8 @@ const setPosition = (): void => {
 
 const setHintGap = (): void => {
   requestAnimationFrame(() => {
-    if (!hintRef.value || props.hintGap === undefined) return;
+    if (!hintRef.value || props.hintGap === undefined || !isHintVisible.value)
+      return;
 
     changeStyleProperties(
       {
@@ -191,7 +203,7 @@ const setHintGap = (): void => {
 };
 
 const setPositionAnchor = (): void => {
-  if (hintRef.value) {
+  if (props.isCanShow && isHintVisible.value && hintRef.value) {
     changeStyleProperties(
       {
         'position-anchor': `${anchorName.value}`
@@ -203,20 +215,47 @@ const setPositionAnchor = (): void => {
   }
 };
 
-watch(() => props.hintGap, setHintGap, {
-  immediate: true
-});
+const setAnchorName = (): void => {
+  if (!props.isCanShow || !tooltipRef.value) return;
+
+  changeStyleProperties(
+    {
+      'anchor-name': `${anchorName.value}`
+    },
+    tooltipRef.value
+  );
+};
+
+watch(
+  () => props.hintGap,
+  () => {
+    if (isHintVisible.value) setHintGap();
+  }
+);
 
 watch(
   () => props.isCanShow,
-  () => {
+  isCanShow => {
+    if (!isCanShow) {
+      hideHint();
+      disconnectActiveTooltip();
+
+      return;
+    }
+
     nextTick(() => {
-      setPositionAnchor();
+      setAnchorName();
+
+      if (isHintVisible.value) {
+        connectActiveTooltip();
+      }
     });
   }
 );
 
 const showHint = () => {
+  if (!props.isCanShow) return;
+
   state.isShow = true;
 };
 
@@ -224,58 +263,126 @@ const hideHint = () => {
   state.isShow = false;
 };
 
-const mutationObserver = new MutationObserver(() => {
-  setPosition();
-});
+let mutationObserver: MutationObserver | null = null;
+let resizeObserver: ResizeObserver | null = null;
+let isWindowListenersSet = false;
 
-const resizeObserver = new ResizeObserver(() => {
-  if ((state.isShow || props.isShow) && !tooltipRef.value?.matches(':hover')) {
-    hideHint();
-  } else {
-    setPosition();
+const observedElements = new Set<HTMLElement>();
+
+const getMutationObserver = (): MutationObserver => {
+  if (!mutationObserver) {
+    mutationObserver = new MutationObserver(() => {
+      if (isHintVisible.value) setPosition();
+    });
   }
-});
+
+  return mutationObserver;
+};
+
+const getResizeObserver = (): ResizeObserver => {
+  if (!resizeObserver) {
+    resizeObserver = new ResizeObserver(() => {
+      if (!isHintVisible.value) return;
+
+      if (!tooltipRef.value?.matches(':hover')) {
+        hideHint();
+
+        return;
+      }
+
+      setPosition();
+    });
+  }
+
+  return resizeObserver;
+};
+
+const addWindowListeners = (): void => {
+  if (isSupportAnchor || isWindowListenersSet) return;
+
+  window.addEventListener('scroll', setPosition, true);
+  window.addEventListener('resize', setPosition);
+  isWindowListenersSet = true;
+};
+
+const removeWindowListeners = (): void => {
+  if (!isWindowListenersSet) return;
+
+  window.removeEventListener('scroll', setPosition, true);
+  window.removeEventListener('resize', setPosition);
+  isWindowListenersSet = false;
+};
+
+const disconnectActiveTooltip = (): void => {
+  resizeObserver?.disconnect();
+  mutationObserver?.disconnect();
+  observedElements.clear();
+  removeWindowListeners();
+};
+
+const connectActiveTooltip = (): void => {
+  if (!props.isCanShow || !isHintVisible.value) return;
+
+  nextTick(() => {
+    if (!props.isCanShow || !isHintVisible.value) return;
+
+    setAnchorName();
+    setPositionAnchor();
+    setHintGap();
+
+    if (hintRef.value) {
+      setObservers(hintRef.value);
+    }
+
+    if (tooltipRef.value) {
+      setObservers(tooltipRef.value);
+    }
+
+    addWindowListeners();
+    setPosition();
+  });
+};
 
 const setObservers = (element: HTMLElement): void => {
-  mutationObserver.observe(element, {
+  if (observedElements.has(element)) return;
+
+  getMutationObserver().observe(element, {
     childList: true, // следит за изменением детей
     attributes: true, // следит за изменением атрибутов
     characterData: true // следит за изменением текста внутри
   });
-  resizeObserver.observe(element);
+  getResizeObserver().observe(element);
+  observedElements.add(element);
 };
 
+watch(
+  isHintVisible,
+  isVisible => {
+    if (isVisible) {
+      connectActiveTooltip();
+
+      return;
+    }
+
+    disconnectActiveTooltip();
+  },
+  {
+    flush: 'post'
+  }
+);
+
 onMounted(() => {
-  if (tooltipRef.value) {
-    changeStyleProperties(
-      {
-        'anchor-name': `${anchorName.value}`
-      },
-      tooltipRef.value
-    );
-  }
+  if (!props.isCanShow) return;
 
-  setPositionAnchor();
+  setAnchorName();
 
-  if (hintRef.value) {
-    setObservers(hintRef.value);
-  }
-
-  if (tooltipRef.value) {
-    setObservers(tooltipRef.value);
-  }
-
-  if (!isSupportAnchor) {
-    window.addEventListener('scroll', setPosition, true);
-    window.addEventListener('resize', setPosition);
+  if (isHintVisible.value) {
+    connectActiveTooltip();
   }
 });
 
 onUnmounted(() => {
-  resizeObserver.disconnect();
-  mutationObserver.disconnect();
-  window.removeEventListener('scroll', setPosition, true);
-  window.removeEventListener('resize', setPosition);
+  disconnectActiveTooltip();
 });
 </script>
 
