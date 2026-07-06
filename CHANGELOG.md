@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.282
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.281...v0.1.282)
+
+### 🚀 Enhancements
+
+- Add connection icon ([4c89981](https://github.com/pksep/sep_yui/commit/4c89981))
+
 ## v0.1.281
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.279...v0.1.281)
