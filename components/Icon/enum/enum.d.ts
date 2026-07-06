@@ -158,5 +158,6 @@ export declare enum IconNameEnum {
     crop = "crop",
     imagePaint = "image-paint",
     text = "text",
-    colorPicker = "color-picker"
+    colorPicker = "color-picker",
+    connection = "connection"
 }

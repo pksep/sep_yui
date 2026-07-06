@@ -172,3 +172,4 @@ export declare const crop: IVectorIcon;
 export declare const imagePaint: IVectorIcon;
 export declare const text: IVectorIcon;
 export declare const colorPicker: IVectorIcon;
+export declare const connection: IVectorIcon;
