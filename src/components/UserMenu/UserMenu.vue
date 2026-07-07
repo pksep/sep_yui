@@ -156,8 +156,9 @@ const handleQrAuth = () => {
   & .menu-yui-kit__wrapper {
     display: flex;
     align-items: center;
+    transition: all 0.3s ease;
     gap: 9px;
-    background-color: var(--white);
+    background-color: var(--surface-input-primary);
     position: relative;
     width: 100%;
   }
@@ -172,10 +173,11 @@ const handleQrAuth = () => {
     width: 100%;
     height: 52px;
     width: 211px;
+    transition: all 0.3s ease;
 
     &:hover,
     &.active-yui-kit {
-      background-color: var(--primary-hover-light-color);
+      background-color: var(--action-secondary-hover-bg);
     }
   }
 
@@ -185,16 +187,18 @@ const handleQrAuth = () => {
   }
 
   & .menu-yui-kit__name {
-    color: var(--text-color);
+    color: var(--text-primary);
     margin-bottom: 2px;
     font-size: 14px;
     line-height: 16px;
+    transition: all 0.3s ease;
   }
 
   & .menu-yui-kit__role {
-    color: var(--grey10);
+    color: var(--chat-secondary);
     font-size: 12px;
     line-height: 14px;
+    transition: all 0.3s ease;
   }
 
   & .menu-yui-kit__button {
@@ -220,8 +224,8 @@ const handleQrAuth = () => {
     overflow: hidden;
     width: max-content;
     border-radius: 5px;
-    background-color: var(--white);
-    box-shadow: 0px 4px 9.8px 0px #0000000d;
+    background-color: var(--surface-overlay);
+    transition: all 0.3s ease;
   }
 }
 

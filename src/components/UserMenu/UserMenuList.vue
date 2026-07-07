@@ -23,6 +23,7 @@
     <Switch
       v-if="props.languages?.items"
       :items="props.languages?.items"
+      theme="contrast"
       :default-value="props.languages?.defaultValue"
       @change="handleLanguageSwitch"
       :data-testid="`${props.dataTestid}-Language-Switch`"
@@ -139,7 +140,6 @@ const getTestIdSuffix = (type: MenuTypeEnum): string => {
 :deep(ul.switch-yui-kit-list) {
   width: 191px;
   padding: 2px;
-  background-color: var(--primary-hover-light-color);
 }
 
 :deep(li.switch-yui-kit-item) {

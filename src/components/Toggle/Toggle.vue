@@ -89,7 +89,7 @@ const onClick = () => emit('change', Boolean(model.value));
 }
 
 .toggle-yui-kit {
-  color: var(--white);
+  color: var(--surface-overlay);
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -102,7 +102,7 @@ const onClick = () => emit('change', Boolean(model.value));
   }
 
   & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
-    background-color: var(--border-primary-color);
+    background-color: var(--action-primary-bg);
   }
 
   & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
@@ -120,7 +120,7 @@ const onClick = () => emit('change', Boolean(model.value));
 
 .toggle-yui-kit_large {
   & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
-    background-color: var(--border-primary-color);
+    background-color: var(--action-primary-bg);
     box-shadow:
       inset 0px 3px 3px 0 rgba(0, 0, 0, 0.15),
       inset 0px 3px 3px 0 rgba(128, 128, 128, 0.18);
@@ -151,7 +151,7 @@ label.toggle-yui-kit-label {
   display: block;
   width: calc(var(--size, 24px) + 10px);
   height: var(--size, 24px);
-  background-color: var(--background-light-color);
+  background-color: var(--surface-input-secondary);
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
@@ -166,7 +166,7 @@ label.toggle-yui-kit-label {
     border-radius: 50%;
     top: 3px;
     left: 3px;
-    background-color: var(--white);
+    background-color: var(--surface-input-secondary);
     transition:
       transform 0.3s,
       background-color 0.3s;
