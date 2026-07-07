@@ -1,33 +1,26 @@
 <template>
   <div class="menu-yui-kit" :data-testid="props.dataTestid">
-    <div class="menu-yui-kit__wrapper">
-      <Popover
-        :open="state.isShow"
-        @close="state.isShow = false"
-        placement="bottom-start"
-        :data-testid="`${props.dataTestid}-Popover`"
-      >
-        <template #trigger>
-          <div :class="classes" @click="toggleShow">
-            <Avatar
-              class="menu-yui-kit__avatar"
-              :url="props.user?.avatar"
-              alt="user-avatar"
-              :data-testid="`${props.dataTestid}-Avatar`"
-            />
-            <div class="menu-yui-kit__names">
-              <p class="menu-yui-kit__name">{{ props.user?.name }}</p>
-              <p class="menu-yui-kit__role">{{ props.user?.role }}</p>
-            </div>
-            <Button
-              :type="ButtonTypeEnum.ghost"
-              class="menu-yui-kit__button"
-              :data-testid="`${props.dataTestid}-Toggle`"
-            >
-              <Icon class="menu-yui-kit__button-icon" :name="nameIcon" />
-            </Button>
-          </div>
-        </template>
+    <div class="menu-yui-kit__wrapper" v-on-click-outside.bubble="closeShow">
+      <div :class="classes" @click="toggleShow">
+        <Avatar
+          class="menu-yui-kit__avatar"
+          :url="props.user?.avatar"
+          alt="user-avatar"
+          :data-testid="`${props.dataTestid}-Avatar`"
+        />
+        <div class="menu-yui-kit__names">
+          <p class="menu-yui-kit__name">{{ props.user?.name }}</p>
+          <p class="menu-yui-kit__role">{{ props.user?.role }}</p>
+        </div>
+        <Button
+          :type="ButtonTypeEnum.ghost"
+          class="menu-yui-kit__button"
+          :data-testid="`${props.dataTestid}-Toggle`"
+        >
+          <Icon class="menu-yui-kit__button-icon" :name="nameIcon" />
+        </Button>
+      </div>
+      <div v-if="state.isShow" class="menu-yui-kit__dropdown">
         <UserMenuList
           :data-testid="`${props.dataTestid}-List`"
           :is-black-theme="state.isBlackTheme"
@@ -40,12 +33,13 @@
           @language-switch="handleLanguageSwitch"
           @unmount-qr-auth="handleQrAuth"
         />
-      </Popover>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from 'vue';
+import { vOnClickOutside } from '@vueuse/components';
 import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
@@ -54,7 +48,6 @@ import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 import Avatar from '../Avatar/Avatar.vue';
-import Popover from '../Popover/Popover.vue';
 import UserMenuList from './UserMenuList.vue';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
@@ -69,7 +62,7 @@ const state = reactive({
 const emit = defineEmits<{
   (e: 'click', type: MenuTypeEnum): void;
   (e: 'unmount-qr-auth'): void;
-  (e: 'theme-сhange', value: boolean): void;
+  (e: 'theme-change', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
@@ -111,6 +104,10 @@ const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 
+const closeShow = () => {
+  state.isShow = false;
+};
+
 /**
  * @param isBlackTheme:  boolean
  * @returns
@@ -121,7 +118,7 @@ const toggleShow = () => {
  */
 function toggleThemeChange() {
   state.isBlackTheme = !state.isBlackTheme;
-  emit('theme-сhange', state.isBlackTheme);
+  emit('theme-change', state.isBlackTheme);
 }
 
 /**
@@ -161,6 +158,7 @@ const handleQrAuth = () => {
     align-items: center;
     gap: 9px;
     background-color: var(--white);
+    position: relative;
     width: 100%;
   }
 
@@ -212,6 +210,18 @@ const handleQrAuth = () => {
     &:hover {
       background-color: transparent;
     }
+  }
+
+  & .menu-yui-kit__dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 20;
+    overflow: hidden;
+    width: max-content;
+    border-radius: 5px;
+    background-color: var(--white);
+    box-shadow: 0px 4px 9.8px 0px #0000000d;
   }
 }
 
