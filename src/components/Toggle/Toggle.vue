@@ -109,9 +109,9 @@ const onClick = () => emit('change', Boolean(model.value));
     transform: translateX(var(--position));
     &:has(.toggle-yui-kit-input:disabled) {
       & label.toggle-yui-kit-label {
-        background-color: rgba(208, 208, 208, 0.5);
+        background-color: var(--surface-disabled);
         &::before {
-          background-color: #c8c8c8;
+          background-color: var(--text-disabled);
         }
       }
     }
@@ -166,7 +166,7 @@ label.toggle-yui-kit-label {
     border-radius: 50%;
     top: 3px;
     left: 3px;
-    background-color: var(--surface-input-secondary);
+    background-color: var(--surface-overlay);
     transition:
       transform 0.3s,
       background-color 0.3s;

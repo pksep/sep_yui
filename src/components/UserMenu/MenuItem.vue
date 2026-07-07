@@ -46,6 +46,7 @@ const handleClick = () => {
   font-size: 14px;
   padding: 6px;
   line-height: 16px;
+  color: var(--text-primary);
 }
 
 .list-yui-kit__item--active,
