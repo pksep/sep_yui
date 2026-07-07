@@ -207,6 +207,7 @@ const handleQrAuth = () => {
     margin-left: auto;
     height: inherit;
     & .menu-yui-kit__button-icon {
+      color: var(--text-primary);
       font-size: 16px;
       stroke-width: 2px;
     }
