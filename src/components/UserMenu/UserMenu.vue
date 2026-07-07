@@ -69,7 +69,7 @@ const state = reactive({
 const emit = defineEmits<{
   (e: 'click', type: MenuTypeEnum): void;
   (e: 'unmount-qr-auth'): void;
-  (e: 'themeChange', value: boolean): void;
+  (e: 'theme-сhange', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
@@ -92,6 +92,8 @@ const classes = computed(() => ({
 
 function choosedOptions(type: MenuTypeEnum) {
   emit('click', type);
+
+  if (type === MenuTypeEnum.theme) return;
   if (props.closeAfterClick) state.isShow = false;
 }
 
@@ -117,11 +119,9 @@ const toggleShow = () => {
 /**
  * Меняет тему, передает значение выбора родителю
  */
-function toggleThemeChange(isBlackTheme: boolean) {
-  if (props.closeAfterClick) state.isShow = false;
-
-  emit('themeChange', isBlackTheme);
-  state.isBlackTheme = isBlackTheme;
+function toggleThemeChange() {
+  state.isBlackTheme = !state.isBlackTheme;
+  emit('theme-сhange', state.isBlackTheme);
 }
 
 /**

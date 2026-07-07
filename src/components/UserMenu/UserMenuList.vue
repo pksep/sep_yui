@@ -8,7 +8,6 @@
         :iconName="getIconForType(menuType)"
         :text="props.texts?.[menuType] ?? getDefaultText(menuType)"
         :menuType="menuType"
-        :disabled="isDisabled(menuType)"
         :active="activeItem === menuType"
         @click="() => choosedOptions(menuType)"
       >
@@ -47,7 +46,7 @@ const props = withDefaults(defineProps<IMenuProps>(), {
 const emit = defineEmits<{
   (e: 'click', type: MenuTypeEnum): void;
   (e: 'unmount-qr-auth'): void;
-  (e: 'themeChange', value: boolean): void;
+  (e: 'theme-сhange'): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
@@ -78,8 +77,7 @@ const handleLanguageSwitch = (obj: IChangeSwitchEmit) => {
 @date 2025-11-07
 */
 const handleThemeSwitch = () => {
-  // emit('themeChange', value);
-  return false;
+  emit('theme-сhange');
 };
 
 const getDefaultText = (type: MenuTypeEnum): string => {
@@ -119,10 +117,6 @@ const getTestIdSuffix = (type: MenuTypeEnum): string => {
     [MenuTypeEnum.help]: 'Help'
   };
   return suffixes[type] ?? type;
-};
-
-const isDisabled = (type: MenuTypeEnum): boolean => {
-  return type === MenuTypeEnum.theme;
 };
 </script>
 
