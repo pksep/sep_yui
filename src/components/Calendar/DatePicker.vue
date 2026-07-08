@@ -43,14 +43,15 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
         <template v-for="name of Object.keys(state.isOpen)" :key="name">
           <Icon
             v-if="state.isOpen[name as 'months' | 'years']"
+            class="open-popup"
             :name="IconNameEnum.chevronUp"
             :width="16"
             :height="16"
-            class="open-popup"
             :slot="`${name}-popup-icon`"
           />
           <Icon
             v-else
+            class="date-picker__icon date-picker__icon_area"
             :name="IconNameEnum.chevronDown"
             :width="16"
             :height="16"
@@ -58,24 +59,28 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
           />
         </template>
         <Icon
+          class="date-picker__icon"
           slot="icon-left-button"
           :name="IconNameEnum.chevronLeft"
           :width="16"
           :height="16"
         />
         <Icon
+          class="date-picker__icon"
           slot="icon-right-button"
           :name="IconNameEnum.chevronRight"
           :width="16"
           :height="16"
         />
         <Icon
+          class="date-picker__icon"
           slot="years-icon-left"
           :name="IconNameEnum.chevronLeft"
           :width="16"
           :height="16"
         />
         <Icon
+          class="date-picker__icon"
           slot="years-icon-right"
           :name="IconNameEnum.chevronRight"
           :width="16"
@@ -88,7 +93,7 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
 
 <script setup lang="ts">
 import { reactive, watch, watchEffect, computed } from 'vue';
-import 'col-cal';
+import '@pksep/col-cal';
 import DataPickerChoose from './DataPickerChoose.vue';
 import PopoverWrapper from './PopoverWrapper.vue';
 
@@ -292,15 +297,45 @@ col-cal {
   overflow-wrap: normal;
 }
 
-col-cal-header button.popup {
+col-cal .calendar {
+  transition: all 0.3s ease;
+  --calendar-bg: var(--surface-overlay);
+}
+
+col-cal-dates .day-header {
+  color: var(--text-secondary);
+}
+
+col-cal-dates::part(day) {
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+}
+
+col-cal-dates::part(day disabled) {
+  color: var(--text-disabled);
+}
+
+col-cal-dates::part(day selected) {
+  color: var(--surface-overlay);
+  background-color: var(--text-brand);
+}
+
+col-cal-dates::part(day):hover {
+  color: var(--text-brand);
+  background-color: var(--action-secondary-hover-bg);
+}
+
+col-cal .calendar col-cal-header button.popup {
   display: flex;
   gap: 8px;
   align-content: center;
   align-items: center;
   padding: 5px 7px;
   border-radius: 5px;
+  transition: all 0.3s ease;
+  color: var(--text-primary);
   &:hover {
-    background-color: var(--background-light-color);
+    background-color: var(--action-secondary-hover-bg);
   }
   div[name='months-popup-icon'],
   div[name='years-popup-icon'] {
@@ -309,9 +344,9 @@ col-cal-header button.popup {
   }
 }
 
-col-cal-header button.popup:has(.open-popup) {
-  background-color: var(--primary-hover-light-color);
-  color: var(--primary-color);
+col-cal .calendar col-cal-header button.popup:has(.open-popup) {
+  background-color: var(--action-secondary-hover-bg);
+  color: var(--text-brand);
 }
 
 col-cal-months::part(disabled),
@@ -319,14 +354,72 @@ col-cal-years::part(disabled) {
   color: var(--text-light-color);
 }
 
-col-cal-months::part(month):hover,
-col-cal-years::part(year):hover {
-  color: var(--white);
+col-cal-months::part(months),
+col-cal-years::part(years) {
+  background-color: var(--surface-overlay);
+  border: 1px solid var(--border-hover);
 }
 
+col-cal-months::part(month),
+col-cal-years::part(year) {
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+col-cal-months::part(month):hover,
+col-cal-years::part(year):hover {
+  background-color: var(--action-secondary-hover-bg);
+}
+
+col-cal-months::part(month):hover,
+col-cal-years::part(year):hover {
+  color: var(--text-primary);
+  background-color: var(--action-secondary-hover-bg);
+}
+
+col-cal-months::part(disabled),
+col-cal-years::part(disabled) {
+  color: var(--text-disabled);
+  background-color: transparent;
+}
 col-cal-months::part(disabled):hover,
 col-cal-years::part(disabled):hover {
-  color: var(--text-light-color);
+  color: var(--text-disabled);
+  background-color: transparent;
+}
+
+col-cal-months::part(selected),
+col-cal-years::part(selected) {
+  color: var(--surface-overlay);
+  background-color: var(--text-brand);
+}
+
+.date-picker__icon {
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  border-radius: 5px;
+}
+
+.date-picker__icon:hover {
+  background-color: var(--action-secondary-bg);
+}
+
+.date-picker__icon:active {
+  color: var(--text-brand);
+  background-color: var(--action-secondary-pressed-bg);
+}
+
+.date-picker__icon_area {
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.date-picker__icon_area:hover {
+  background-color: transparent;
+}
+
+.date-picker__icon_area:active {
+  color: var(--text-brand);
   background-color: transparent;
 }
 </style>

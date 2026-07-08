@@ -210,21 +210,16 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 }
 
 .minor-yui-kit {
-  background-color: var(--white);
-  color: var(--text-neutral-color);
-
-  &:hover {
-    background-color: var(--background-light-color);
-  }
+  background-color: var(--action-secondary-bg);
+  color: var(--text-brand);
 
   &:active,
   &.active {
-    color: var(--primary-color);
-    background-color: var(--primary-pressed-light-color);
+    background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-neutral-color);
-    background-color: var(--button-neutral-color);
+    color: var(--text-disabled);
+    background-color: var(--action-disabled-bg);
   }
 }
 

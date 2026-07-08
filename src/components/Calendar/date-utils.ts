@@ -1,4 +1,4 @@
-import { getMonths } from 'col-cal';
+import { getMonths } from '@pksep/col-cal';
 
 export const getDate = (
   dateObject: Partial<{
