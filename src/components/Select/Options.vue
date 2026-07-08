@@ -140,6 +140,7 @@ const getOption = (
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
+  color: var(--text-primary);
 
   transition: all 0.2s ease;
 
@@ -151,17 +152,17 @@ const getOption = (
   }
 
   &:hover {
-    background-color: var(--primary-pressed-light-color);
+    background-color: var(--action-secondary-hover-bg);
   }
   &.active {
-    background-color: var(--primary-pressed-light-color);
+    background-color: var(--action-secondary-pressed-bg);
   }
   &:active {
-    background-color: var(--background-primary-color);
+    background-color: var(--action-secondary-pressed-bg);
   }
 
   &.active-yui-kit {
-    background-color: var(--primary-pressed-light-color);
+    background-color: var(--action-secondary-pressed-bg);
   }
 }
 
@@ -204,6 +205,6 @@ const getOption = (
 }
 
 .select-list-yui-kit__item_disabled .options__item {
-  color: var(--text-light-color);
+  color: var(--text-disabled);
 }
 </style>

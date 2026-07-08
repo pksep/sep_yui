@@ -298,7 +298,7 @@ col-cal {
 }
 
 col-cal .calendar {
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
   --calendar-bg: var(--surface-overlay);
 }
 
@@ -307,7 +307,7 @@ col-cal-dates .day-header {
 }
 
 col-cal-dates::part(day) {
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
   color: var(--text-primary);
 }
 
@@ -325,6 +325,11 @@ col-cal-dates::part(day):hover {
   background-color: var(--action-secondary-hover-bg);
 }
 
+col-cal-dates::part(day disabled):hover {
+  color: var(--text-disabled);
+  background-color: transparent;
+}
+
 col-cal .calendar col-cal-header button.popup {
   display: flex;
   gap: 8px;
@@ -332,7 +337,7 @@ col-cal .calendar col-cal-header button.popup {
   align-items: center;
   padding: 5px 7px;
   border-radius: 5px;
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
   color: var(--text-primary);
   &:hover {
     background-color: var(--action-secondary-hover-bg);
@@ -363,7 +368,7 @@ col-cal-years::part(years) {
 col-cal-months::part(month),
 col-cal-years::part(year) {
   color: var(--text-primary);
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
 }
 
 col-cal-months::part(month):hover,
@@ -396,7 +401,7 @@ col-cal-years::part(selected) {
 
 .date-picker__icon {
   color: var(--text-primary);
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
   border-radius: 5px;
 }
 
@@ -411,7 +416,7 @@ col-cal-years::part(selected) {
 
 .date-picker__icon_area {
   color: var(--text-secondary);
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
 }
 
 .date-picker__icon_area:hover {

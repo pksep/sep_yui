@@ -219,8 +219,7 @@ onUnmounted(() => {
     gap: var(--select-list-gap, 1px);
     width: inherit;
     padding: 0;
-    background-color: var(--white);
-    border: 1px solid $BLUE-9CBEFF;
+    background-color: var(--surface-overlay);
     border-radius: 5px;
     position: fixed;
     overflow: auto;

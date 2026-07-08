@@ -125,7 +125,7 @@ const formatLetter = (str: string): string | null => {
   color: var(--color, var(--text-secondary));
   border: 1px solid var(--border, var(--border-table));
 
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
   &:hover {
     cursor: pointer;
     background: var(--surface-input-secondary);

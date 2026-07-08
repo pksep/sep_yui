@@ -13,7 +13,6 @@
       :height="10"
       :data-testid="`${props.dataTestid}-Icon`"
       :name="IconNameEnum.closeTag"
-      color="var(--text-neutral-color)"
       @click="handleRemove"
     />
   </div>
@@ -127,13 +126,13 @@ onMounted(() => {
 }
 
 .default-yui-kit span {
-  color: var(--text-neutral-color);
-  background-color: var(--background-light-color);
+  color: var(--chat-secondary);
+  background-color: var(--border-table);
 }
 
 .light-blue-yui-kit span {
-  color: var(--blue-color);
-  background-color: var(--blue-light-color);
+  color: var(--tag-blueLight-text);
+  background-color: var(--tag-orangeLight-bg);
 }
 
 .contrast-blue-yui-kit span {
@@ -142,48 +141,48 @@ onMounted(() => {
 }
 
 .blue-yui-kit span {
-  color: var(--link-color);
-  background-color: var(--background-primary-color);
+  color: var(--tag-blue-text);
+  background-color: var(--tag-blue-bg);
 }
 
 .green-yui-kit span {
-  color: var(--success-color);
-  background-color: var(--positive-color);
+  color: var(--tag-green-text);
+  background-color: var(--tag-green-bg);
 }
 
 .orange-yui-kit span {
-  color: var(--orange8);
-  background-color: var(--ava-active-color);
+  color: var(--tag-orange-text);
+  background-color: var(--tag-orange-bg);
 }
 
 .yellow-yui-kit span {
-  color: var(--orange-color);
-  background-color: var(--orange-light-color);
+  color: var(--tag-orangeLight-text);
+  background-color: var(--tag-orangeLight-bg);
 }
 
 .red-yui-kit span {
-  color: var(--error-color);
-  background-color: var(--ban-color);
+  color: var(--tag-red-text);
+  background-color: var(--tag-red-bg);
 }
 
 .pink-yui-kit span {
-  color: var(--pink-color);
-  background-color: var(--pink-light-color);
+  color: var(--tag-pink-text);
+  background-color: var(--tag-pink-bg);
 }
 
 .violet-yui-kit span {
-  color: var(--purple-color);
-  background-color: var(--purple-light-color);
+  color: var(--tag-purple-text);
+  background-color: var(--tag-purple-bg);
 }
 
 .disabled-yui-kit span {
-  color: var(--text-light-color);
-  background-color: var(--border-color);
+  color: var(--text-disabled);
+  background-color: var(--action-disabled-bg);
 }
 
 .base-yui-kit.choosed-yui-kit {
   position: relative;
-  background-color: var(--primary-hover-light-color);
+  background-color: var(--action-secondary-hover-bg);
   padding: 3px;
   display: flex;
   align-items: center;
@@ -191,6 +190,7 @@ onMounted(() => {
 
   & .close-icon {
     display: block;
+    color: var(--text-secondary);
   }
 }
 

@@ -223,7 +223,7 @@ onMounted(() => {
   margin: 0;
   color: var(--text-disabled);
   font-size: 12px;
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
 
   & svg {
     margin: 0 -5px;
@@ -246,7 +246,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
 
-    transition: all 0.3s ease;
+    transition: all 0\.2s ease;
 
     &:hover {
       .fullName-yui-kit {

@@ -114,31 +114,30 @@ onUnmounted(() => {
 }
 
 .table-row:last-child > * {
-  border-bottom: 0.5px solid var(--border-color);
+  border-bottom: 0.5px solid var(--border-table);
 }
 
-.table-row_active,
-.table-row:hover {
-  background-color: var(--primary-hover-light-color);
-  color: inherit;
+.table-row:hover,
+.table-row_active {
+  background-color: var(--table-surface-hover);
 }
 
 .table-row.ava {
-  background-color: var(--ava-color);
+  background-color: var(--table-surface-ava);
 }
 .table-row.ava:hover,
 .table-row.ava_active {
-  background-color: #ffebc1;
+  background-color: var(--table-surface-avaActive);
 }
 .table-row.ban {
-  background-color: var(--ban-color);
+  background-color: var(--table-surface-ban);
 }
 .table-row.ban:hover,
 .table-row.ban_active {
-  background-color: var(--ban-active-color);
+  background-color: var(--table-surface-banActive);
 }
 .table-row.passive {
-  background-color: #f8f8f9;
+  background-color: var(--table-surface);
 }
 
 .table-row_is-stub {

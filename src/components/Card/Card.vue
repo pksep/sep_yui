@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<ICardProps>(), {
   border-radius: 15px;
   cursor: pointer;
   font-size: var(--font-size, 14px);
-  transition: all 0.3s ease;
+  transition: all 0\.2s ease;
 
   color: var(--text-primary);
 

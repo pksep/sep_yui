@@ -156,7 +156,7 @@ const handleQrAuth = () => {
   & .menu-yui-kit__wrapper {
     display: flex;
     align-items: center;
-    transition: all 0.3s ease;
+    transition: all 0\.2s ease;
     gap: 9px;
     background-color: var(--surface-input-primary);
     position: relative;
@@ -173,7 +173,7 @@ const handleQrAuth = () => {
     width: 100%;
     height: 52px;
     width: 211px;
-    transition: all 0.3s ease;
+    transition: all 0\.2s ease;
 
     &:hover,
     &.active-yui-kit {
@@ -191,14 +191,14 @@ const handleQrAuth = () => {
     margin-bottom: 2px;
     font-size: 14px;
     line-height: 16px;
-    transition: all 0.3s ease;
+    transition: all 0\.2s ease;
   }
 
   & .menu-yui-kit__role {
     color: var(--chat-secondary);
     font-size: 12px;
     line-height: 14px;
-    transition: all 0.3s ease;
+    transition: all 0\.2s ease;
   }
 
   & .menu-yui-kit__button {
@@ -226,7 +226,7 @@ const handleQrAuth = () => {
     width: max-content;
     border-radius: 5px;
     background-color: var(--surface-overlay);
-    transition: all 0.3s ease;
+    transition: all 0\.2s ease;
   }
 }
 
