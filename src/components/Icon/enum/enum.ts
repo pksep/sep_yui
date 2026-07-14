@@ -160,5 +160,6 @@ export enum IconNameEnum {
   text = 'text',
   colorPicker = 'color-picker',
   connection = 'connection',
-  tableError = 'table-error'
+  tableError = 'table-error',
+  rearrange = 'rearrange'
 }

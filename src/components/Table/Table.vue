@@ -85,7 +85,9 @@
           @click="onErrorHandler"
         >
           <template #left-icon>
-            <Icon :name="IconNameEnum.reset" />
+            <div class="table__wrapper">
+              <Icon :name="IconNameEnum.rearrange" :width="16" :height="16" />
+            </div>
           </template>
 
           <template #default>
@@ -141,11 +143,14 @@ const searchRowRef = ref<InstanceType<typeof HeadTableRow> | null>(null);
 const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 
 const unmountScroll = (e: Event) => {
+  if (props.isError) return;
   emit('unmount-scroll', e);
 };
 
-const unmountPaginate = (isCanPaginate: boolean): void =>
+const unmountPaginate = (isCanPaginate: boolean): void => {
+  if (props.isError) return;
   emit('unmount-paginate', isCanPaginate);
+};
 
 const setHeadHeight = () => {
   if (!tableRef.value || !scrollWrapperRef.value) return;
@@ -268,6 +273,11 @@ onMounted(() => {
     z-index: 2;
   }
 
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
   &__search-th {
     --th-horizontal-padding: 8px;
     --th-vertical-padding: 2px;
@@ -322,7 +332,11 @@ onMounted(() => {
   }
 
   &__error-text {
+    max-width: 502px;
+
     color: var(--text-light-color);
+
+    font-size: 14px;
     font-weight: 600;
   }
 
