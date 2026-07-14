@@ -1915,3 +1915,36 @@ export const connection: IVectorIcon = {
   fill: 'none',
   viewbox: '0 0 16 16'
 };
+
+export const tableError: IVectorIcon = {
+  name: 'table-error',
+  style: 'solid',
+  viewbox: '0 0 112 100',
+  fill: 'none',
+  path: `
+      <path d="M33.0849 28.4717V83.8299M66.9149 28.4717V83.8299M3.48364 46.9245H96.5161M3.48364 28.4717H96.5161M3.48364 65.3772H96.5161M6.9195 83.8299H93.0803C94.9779 83.8299 96.5161 82.2916 96.5161 80.3941V19.6058C96.5161 17.7082 94.9779 16.1699 93.0803 16.1699H6.9195C5.02193 16.1699 3.48364 17.7082 3.48364 19.6058V80.3941C3.48364 82.2916 5.02193 83.8299 6.9195 83.8299Z" stroke="#B8B8B8" stroke-width="2.5"/>
+      <path d="M97 84.5C103.904 84.5 109.5 78.9036 109.5 72C109.5 65.0964 103.904 59.5 97 59.5C90.0964 59.5 84.5 65.0964 84.5 72C84.5 78.9036 90.0964 84.5 97 84.5Z" fill="#F8F9FD" stroke="#FF6868" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M97 77V72" stroke="#FF6868" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M97 67H97.0125" stroke="#FF6868" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const rearrange: IVectorIcon = {
+  name: 'rearrange',
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<g clip-path="url(#clip0_41158_658)">
+<path d="M15.3333 2.6665V6.6665H11.3333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M0.666748 13.3335V9.3335H4.66675" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2.34008 5.99989C2.67819 5.04441 3.25284 4.19016 4.01039 3.51683C4.76795 2.84351 5.68373 2.37306 6.67227 2.14939C7.66082 1.92572 8.68992 1.95612 9.66354 2.23774C10.6372 2.51936 11.5236 3.04303 12.2401 3.75989L15.3334 6.66655M0.666748 9.33322L3.76008 12.2399C4.47658 12.9567 5.363 13.4804 6.33662 13.762C7.31025 14.0437 8.33934 14.0741 9.32789 13.8504C10.3164 13.6267 11.2322 13.1563 11.9898 12.4829C12.7473 11.8096 13.322 10.9554 13.6601 9.99989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_41158_658">
+<rect width="16" height="16" fill="currentColor"/>
+</clipPath>
+</defs>
+
+  `
+};
