@@ -159,5 +159,6 @@ export enum IconNameEnum {
   imagePaint = 'image-paint',
   text = 'text',
   colorPicker = 'color-picker',
-  connection = 'connection'
+  connection = 'connection',
+  tableError = 'table-error'
 }

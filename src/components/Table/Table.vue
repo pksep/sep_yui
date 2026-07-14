@@ -46,7 +46,7 @@
           </HeadTableRow>
         </thead>
 
-        <slot name="body-group">
+        <slot v-if="!isError" name="body-group">
           <tbody
             :id="props.tbodyId"
             ref="tbodyRef"
@@ -59,6 +59,41 @@
         </slot>
       </slot>
     </table>
+
+    <div class="table__error-wrapper">
+      <div class="table__error-content">
+        <Icon
+          class="table__error-icon"
+          :width="112"
+          :height="100"
+          :name="IconNameEnum.tableError"
+        />
+
+        <div class="table__error-header">Таблица не загрузилась</div>
+
+        <div class="table__error-text">
+          Не удалось получить данные. Проверьте соединение с интернетом или
+          попробуйте обновить таблицу
+        </div>
+      </div>
+
+      <slot name="error-button">
+        <Button
+          v-if="onErrorHandler"
+          class="table__error-button"
+          :size="SizesEnum.small"
+          @click="onErrorHandler"
+        >
+          <template #left-icon>
+            <Icon :name="IconNameEnum.reset" />
+          </template>
+
+          <template #default>
+            {{ errorLabel }}
+          </template>
+        </Button>
+      </slot>
+    </div>
   </ScrollWrapper>
 </template>
 
@@ -72,6 +107,10 @@ import type {
 } from '@/components/Table/interface/interface';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
 import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
+import Icon from '@/components/Icon/Icon.vue';
+import Button from '@/components/Button/Button.vue';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
+import { SizesEnum } from '@/common/sizes';
 
 defineOptions({
   name: 'TableNew'
@@ -80,7 +119,9 @@ defineOptions({
 const props = withDefaults(defineProps<ITableProps>(), {
   dataTestid: 'Table',
   isShowHorizontalScroll: false,
-  isShowVerticalScroll: false
+  isShowVerticalScroll: false,
+  isError: false,
+  errorLabel: 'Обновить таблицу'
 });
 
 const emit = defineEmits<ITableEmit>();
@@ -234,8 +275,58 @@ onMounted(() => {
     background-color: var(--table-background-color, var(--white));
   }
 
+  &:has(.table__error-wrapper) :deep(.scroll-wrapper__slot) {
+    display: flex;
+    flex-direction: column;
+  }
+
   & .scroll-wrapper__slot {
     background-color: var(--table-background-color, var(--white));
+  }
+
+  &__error-wrapper {
+    position: sticky;
+    left: 0;
+    top: 0;
+
+    padding: 15px;
+    flex: 1 0 223px;
+    width: 100%;
+    background-color: var(--background-light-color);
+  }
+
+  &__error-wrapper,
+  &__error-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__error-content {
+    gap: 5px;
+  }
+
+  &__error-icon {
+  }
+
+  &__error-text,
+  &__error-header {
+    text-align: center;
+  }
+
+  &__error-header {
+    color: var(--text-color);
+    font-weight: 700;
+  }
+
+  &__error-text {
+    color: var(--text-light-color);
+    font-weight: 600;
+  }
+
+  &__error-button {
   }
 }
 </style>

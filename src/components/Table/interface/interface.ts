@@ -33,6 +33,9 @@ export interface ITableProps extends IDataTestIdProp, IScrollWrapperProps {
   tbodyId?: string;
   theadId?: string;
   columnCount?: number;
+  isError?: boolean;
+  onErrorHandler?: () => void;
+  errorLabel?: string;
 }
 
 export interface ITableEmit {
