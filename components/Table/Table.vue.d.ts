@@ -7,11 +7,14 @@ declare function __VLS_template(): {
     search?(_: {}): any;
     "body-group"?(_: {}): any;
     body?(_: {}): any;
+    "error-button"?(_: {}): any;
 };
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ITableProps>, {
     dataTestid: string;
     isShowHorizontalScroll: boolean;
     isShowVerticalScroll: boolean;
+    isError: boolean;
+    errorLabel: string;
 }>>, {
     scrollToTop: () => void;
     setHeightSlot: (() => void) | undefined;
@@ -216,13 +219,17 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     dataTestid: string;
     isShowHorizontalScroll: boolean;
     isShowVerticalScroll: boolean;
+    isError: boolean;
+    errorLabel: string;
 }>>> & Readonly<{
     "onUnmount-scroll"?: ((event: Event) => any) | undefined;
     "onUnmount-paginate"?: ((isCanPaginate: boolean) => any) | undefined;
 }>, {
     dataTestid: string;
+    isError: boolean;
     isShowVerticalScroll: boolean;
     isShowHorizontalScroll: boolean;
+    errorLabel: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, ReturnType<typeof __VLS_template>>;
 export default _default;

@@ -173,3 +173,5 @@ export declare const imagePaint: IVectorIcon;
 export declare const text: IVectorIcon;
 export declare const colorPicker: IVectorIcon;
 export declare const connection: IVectorIcon;
+export declare const tableError: IVectorIcon;
+export declare const rearrange: IVectorIcon;
