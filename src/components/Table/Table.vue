@@ -60,7 +60,7 @@
       </slot>
     </table>
 
-    <div class="table__error-wrapper">
+    <div v-if="props.isError" class="table__error-wrapper">
       <div class="table__error-content">
         <Icon
           class="table__error-icon"
