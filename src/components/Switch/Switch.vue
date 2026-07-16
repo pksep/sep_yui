@@ -135,7 +135,7 @@ onMounted(() => {
   border-radius: 5px;
   background-color: var(--surface-overlay);
   margin: 0;
-  transition: all 0\.2s ease;
+  transition: all 0.2s ease;
 }
 
 .switch-yui-kit-list_contrast {
@@ -156,7 +156,7 @@ onMounted(() => {
   width: inherit;
   height: 24px;
   border-radius: 5px;
-  transition: all 0\.2s ease;
+  transition: all 0.2s ease;
   color: var(--text-primary);
 }
 

@@ -124,7 +124,7 @@ defineExpose({
   font-size: 14px;
   color: var(--text-secondary);
 
-  transition: all 0\.2s ease;
+  transition: all 0.2s ease;
   &:hover {
     border-color: var(--border-hover);
   }
