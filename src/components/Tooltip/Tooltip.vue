@@ -195,7 +195,7 @@ const setHintGap = (): void => {
 
     changeStyleProperties(
       {
-        '--tooltip-hint-gap': props.hintGap
+        '--tooltip-hint-gap': props.hintGap + 'px'
       },
       hintRef.value
     );

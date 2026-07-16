@@ -46,7 +46,7 @@
           </HeadTableRow>
         </thead>
 
-        <slot name="body-group">
+        <slot v-if="!isError" name="body-group">
           <tbody
             :id="props.tbodyId"
             ref="tbodyRef"
@@ -59,6 +59,43 @@
         </slot>
       </slot>
     </table>
+
+    <div v-if="props.isError" class="table__error-wrapper">
+      <div class="table__error-content">
+        <Icon
+          class="table__error-icon"
+          :width="112"
+          :height="100"
+          :name="IconNameEnum.tableError"
+        />
+
+        <div class="table__error-header">Таблица не загрузилась</div>
+
+        <div class="table__error-text">
+          Не удалось получить данные. Проверьте соединение с интернетом или
+          попробуйте обновить таблицу
+        </div>
+      </div>
+
+      <slot name="error-button">
+        <Button
+          v-if="onErrorHandler"
+          class="table__error-button"
+          :size="SizesEnum.small"
+          @click="onErrorHandler"
+        >
+          <template #left-icon>
+            <div class="table__wrapper">
+              <Icon :name="IconNameEnum.rearrange" :width="16" :height="16" />
+            </div>
+          </template>
+
+          <template #default>
+            {{ errorLabel }}
+          </template>
+        </Button>
+      </slot>
+    </div>
   </ScrollWrapper>
 </template>
 
@@ -72,6 +109,10 @@ import type {
 } from '@/components/Table/interface/interface';
 import HeadTableRow from '@/components/Table/HeadTableRow.vue';
 import ScrollWrapper from '@/components/ScrollWrapper/ScrollWrapper.vue';
+import Icon from '@/components/Icon/Icon.vue';
+import Button from '@/components/Button/Button.vue';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
+import { SizesEnum } from '@/common/sizes';
 
 defineOptions({
   name: 'YTable'
@@ -80,7 +121,9 @@ defineOptions({
 const props = withDefaults(defineProps<ITableProps>(), {
   dataTestid: 'Table',
   isShowHorizontalScroll: false,
-  isShowVerticalScroll: false
+  isShowVerticalScroll: false,
+  isError: false,
+  errorLabel: 'Обновить таблицу'
 });
 
 const emit = defineEmits<ITableEmit>();
@@ -100,11 +143,14 @@ const searchRowRef = ref<InstanceType<typeof HeadTableRow> | null>(null);
 const scrollWrapperRef = ref<InstanceType<typeof ScrollWrapper> | null>(null);
 
 const unmountScroll = (e: Event) => {
+  if (props.isError) return;
   emit('unmount-scroll', e);
 };
 
-const unmountPaginate = (isCanPaginate: boolean): void =>
+const unmountPaginate = (isCanPaginate: boolean): void => {
+  if (props.isError) return;
   emit('unmount-paginate', isCanPaginate);
+};
 
 const setHeadHeight = () => {
   if (!tableRef.value || !scrollWrapperRef.value) return;
@@ -230,6 +276,11 @@ onMounted(() => {
     z-index: 2;
   }
 
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
   &__search-th {
     --th-horizontal-padding: 8px;
     --th-vertical-padding: 2px;
@@ -237,8 +288,62 @@ onMounted(() => {
     background-color: var(--table-background-color, var(--table-surface));
   }
 
+  &:has(.table__error-wrapper) :deep(.scroll-wrapper__slot) {
+    display: flex;
+    flex-direction: column;
+  }
+
   & .scroll-wrapper__slot {
     background-color: var(--table-background-color, var(--table-surface));
+  }
+
+  &__error-wrapper {
+    position: sticky;
+    left: 0;
+    top: 0;
+
+    padding: 15px;
+    flex: 1 0 223px;
+    width: 100%;
+    background-color: var(--background-light-color);
+  }
+
+  &__error-wrapper,
+  &__error-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__error-content {
+    gap: 5px;
+  }
+
+  &__error-icon {
+  }
+
+  &__error-text,
+  &__error-header {
+    text-align: center;
+  }
+
+  &__error-header {
+    color: var(--text-color);
+    font-weight: 700;
+  }
+
+  &__error-text {
+    max-width: 502px;
+
+    color: var(--text-light-color);
+
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &__error-button {
   }
 }
 </style>

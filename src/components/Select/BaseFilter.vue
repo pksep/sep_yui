@@ -30,7 +30,6 @@
           type="blue"
           :is-can-show="isCanShowHint && !(isShowValues && isShowMiniOptions)"
           :hint="choosedHint"
-          :hint-gap="28"
           class="filter__header-tooltip"
           :data-testid="`${props.dataTestid}-Tooltip`"
         >

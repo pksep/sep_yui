@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.1.283
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.282...v0.1.283)
+
+### 🚀 Enhancements
+
+- Added table error ([d92d5ea](https://github.com/pksep/sep_yui/commit/d92d5ea))
+
+## v0.1.282
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.281...v0.1.282)
+
+### 🚀 Enhancements
+
+- Add connection icon ([4c89981](https://github.com/pksep/sep_yui/commit/4c89981))
+
+## v0.1.281
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.279...v0.1.281)
+
+### 🚀 Enhancements
+
+- Changed tooltip on base filter ([707dac5](https://github.com/pksep/sep_yui/commit/707dac5))
+
+## v0.1.280
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.279...v0.1.280)
+
+### 🚀 Enhancements
+
+- Changed tooltip on base filter ([707dac5](https://github.com/pksep/sep_yui/commit/707dac5))
+
 ## v0.1.279
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.278...v0.1.279)
