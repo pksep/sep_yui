@@ -73,13 +73,14 @@ const onClick = (): void => {
   outline: none;
   width: var(--size);
   height: var(--size);
-  color: var(--white);
+  color: var(--surface-overlay);
   border-radius: var(--radius);
   cursor: pointer;
   padding: 2px;
+  background-color: all 0.2s ease-in-out;
 
   &:disabled {
-    border-color: var(--border-color);
+    border-color: var(--border-table);
     cursor: default;
   }
 }
@@ -87,29 +88,29 @@ const onClick = (): void => {
 .checkbox-yui-kit_blue,
 .checkbox-yui-kit_blue:focus,
 .checkbox-yui-kit_blue:focus-visible {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--text-brand);
 
   &:checked {
-    background: var(--primary-color);
+    background: var(--text-brand);
   }
 }
 
 .checkbox-yui-kit_red,
 .checkbox-yui-kit_red:focus,
 .checkbox-yui-kit_red:focus-visible {
-  border: 2px solid var(--error-color);
+  border: 2px solid var(--status-error);
 
   &:checked {
-    background: var(--error-color);
+    background: var(--status-error);
   }
 }
 
 .checkbox-yui-kit:checked {
-  color: var(--white);
-  content: url('data:image/svg+xml,<svg viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.66667 0.666748L3 7.34008L1 5.34008" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  color: var(--surface-overlay);
+  content: url('data:image/svg+xml,<svg viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.66667 0.666748L3 7.34008L1 5.34008" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 
   &:disabled {
-    background: var(--border-color);
+    background: var(--border-table);
   }
 }
 .checkbox-yui-kit.checkbox-yui-kit_small {

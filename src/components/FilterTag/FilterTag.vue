@@ -293,10 +293,10 @@ onMounted(setOptions);
     display: flex;
     align-items: center;
     width: fit-content;
-    border: 1px solid $WHITE-E7E7E7;
-    color: var(--text-neutral-color);
-    background-color: var(--white);
-    transition: 0.3s ease-in-out;
+    border: 1px solid var(--border-table);
+    color: var(--text-secondary);
+    background-color: var(--surface-overlay);
+    transition: all 0.2s ease-in-out;
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
@@ -307,21 +307,21 @@ onMounted(setOptions);
     }
 
     &:hover {
-      border: 1px solid var(--border-primary-color);
+      border: 1px solid var(--border-hover);
     }
 
     &.active-yui-kit {
-      color: var(--border-primary-color);
-      border: 1px solid var(--border-primary-color);
+      color: var(--text-brand);
+      border: 1px solid var(--border-hover);
     }
 
     & .filter-yui-kit__counter {
-      color: var(--text-neutral-color);
+      color: var(--text-secondary);
       position: relative;
       font-size: 14px;
 
       &:hover {
-        color: var(--border-primary-color);
+        color: var(--border-hover);
 
         & .filter-yui-kit__counter-content {
           position: absolute;
@@ -329,7 +329,7 @@ onMounted(setOptions);
           left: 0;
           display: flex;
           z-index: 20;
-          background-color: var(--white);
+          background-color: var(--surface-overlay);
           padding: 5px;
           border-radius: 5px;
           box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
@@ -349,7 +349,7 @@ onMounted(setOptions);
     top: calc(100% + 5px);
     z-index: 20;
     left: 0;
-    background-color: var(--white);
+    background-color: var(--surface-overlay);
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
@@ -359,7 +359,7 @@ onMounted(setOptions);
       width: 100%;
       height: 0.5px;
       margin-block: 10px;
-      background-color: var(--border-color);
+      background-color: var(--border-table);
     }
   }
 
@@ -373,12 +373,12 @@ onMounted(setOptions);
     gap: 5px;
 
     &.selected {
-      border-bottom: 0.5px solid var(--border-color);
+      border-bottom: 0.5px solid var(--border-table);
       padding-bottom: 10px;
     }
 
     &.select-counter {
-      background-color: $WHITE;
+      background-color: var(--surface-overlay);
       border-radius: 10px;
       box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.05);
     }
@@ -389,7 +389,7 @@ onMounted(setOptions);
 
       .filter__select-item {
         padding: 10px;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-table);
       }
     }
   }
