@@ -383,7 +383,10 @@ onUnmounted(() => {
   border-radius: 5px;
   box-shadow: 0px 4px 9.8px 0px #0000000d;
   overflow: hidden;
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
+  border: 0.5px solid transparent;
+  transition: all 0.2s ease-in-out;
+  color: var(--text-primary);
   width: max-content;
   @supports (top: anchor(bottom)) {
     top: calc(anchor(bottom) + 10px);
@@ -397,6 +400,10 @@ onUnmounted(() => {
     left: var(--popover-left);
     right: var(--popover-right);
   }
+}
+
+:is([data-theme='dark'], .theme-dark) .popover-yui-kit__content {
+  border: 0.5px solid var(--border-table);
 }
 
 .popover-yui-kit__options {
@@ -417,10 +424,10 @@ onUnmounted(() => {
     text-align: left;
     transition: background-color 0.2s ease;
     &:hover {
-      background-color: var(--primary-hover-light-color);
+      background-color: var(--action-secondary-hover-bg);
     }
     &:active {
-      background-color: var(--primary-pressed-light-color);
+      background-color: var(--action-secondary-pressed-bg);
     }
   }
 }
