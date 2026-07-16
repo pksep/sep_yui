@@ -182,23 +182,25 @@ onUnmounted(() => {
   &__current {
     width: inherit;
     padding: 0px 10px;
-    background-color: var(--background, var(--white));
+    background-color: var(--background, var(--surface-overlay));
     display: flex;
     align-items: center;
     justify-content: space-between;
     border: 1px solid transparent;
     border-radius: var(--radius, 5px);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
     cursor: pointer;
 
     &:hover,
     &.active-yui-kit {
-      border: 1px solid $BLUE-9CBEFF;
+      border: 1px solid var(--border-hover);
     }
 
     &.disabled-yui-kit {
       cursor: unset;
-      background-color: var(--white);
-      color: var(--text-light-color);
+      background-color: var(--action-disabled-bg);
+      color: var(--text-disabled);
     }
 
     svg {
