@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.284
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.283...v0.1.284)
+
+### 🩹 Fixes
+
+- Content editor action buttons logic ([c68cecd](https://github.com/pksep/sep_yui/commit/c68cecd))
+
 ## v0.1.283
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.282...v0.1.283)
