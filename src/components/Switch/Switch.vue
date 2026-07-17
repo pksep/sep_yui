@@ -139,7 +139,7 @@ onMounted(() => {
 }
 
 .switch-yui-kit-list_contrast {
-  background-color: var(--action-secondary-hover-bg);
+  background-color: var(--surface-input-secondary);
 }
 
 .switch-yui-kit-list_disabled {
