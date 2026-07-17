@@ -252,6 +252,7 @@ onUnmounted(() => {
 
 .modal-yui-kit {
   background-color: var(--surface-main-modal);
+  color: var(--text-primary);
   border: none;
   display: grid;
   position: fixed;
