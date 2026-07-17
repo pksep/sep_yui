@@ -501,6 +501,8 @@ const emojiPickerPosition = ref({
 });
 const emits = defineEmits<IContentEditorEmit>();
 const LOG_PREFIX = '[ContentEditor]';
+const MENTION_TELEPORT_ROOT_CLASS = 'editor-component__mentions-teleport-root';
+const MENTION_TELEPORT_ROOT_DATA_ATTR = 'data-editor-mentions-teleport-root';
 
 const editorDom = ref<HTMLElement | null>(null);
 const mainMentionAnchorRef = ref<HTMLElement | null>(null);
@@ -783,11 +785,44 @@ const mentionAnchorRef = computed(
       : mainMentionAnchorRef.value) ?? null
 );
 
+const ensureMentionTeleportRoot = (anchor: HTMLElement): HTMLElement => {
+  const container =
+    anchor.parentElement ?? anchor.closest('dialog') ?? document.body;
+  const referenceNode =
+    anchor.parentElement === container ? anchor : container.firstChild;
+  const existingRoot = Array.from(container.children).find(
+    (child): child is HTMLElement =>
+      child instanceof HTMLElement &&
+      child.getAttribute(MENTION_TELEPORT_ROOT_DATA_ATTR) === 'true'
+  );
+
+  if (existingRoot) {
+    if (
+      referenceNode &&
+      existingRoot !== referenceNode &&
+      existingRoot.nextSibling !== referenceNode
+    ) {
+      container.insertBefore(existingRoot, referenceNode);
+    } else if (!referenceNode && container.firstElementChild !== existingRoot) {
+      container.insertBefore(existingRoot, container.firstChild);
+    }
+
+    return existingRoot;
+  }
+
+  const root = document.createElement('div');
+
+  root.className = MENTION_TELEPORT_ROOT_CLASS;
+  root.setAttribute(MENTION_TELEPORT_ROOT_DATA_ATTR, 'true');
+  container.insertBefore(root, referenceNode);
+
+  return root;
+};
+
 const mentionTeleportTarget = computed(() => {
   const anchor = mentionAnchorRef.value;
-  const dialog = anchor?.closest('dialog');
 
-  return dialog ?? 'body';
+  return anchor ? ensureMentionTeleportRoot(anchor) : 'body';
 });
 
 const getTriggerContext = (
@@ -844,8 +879,7 @@ const updateMentionListPosition = () => {
   mentionListStyle.value = {
     left: `${left}px`,
     bottom: `${window.innerHeight - rect.top + gap}px`,
-    width: `${width}px`,
-    zIndex: '1001'
+    width: `${width}px`
   };
 };
 

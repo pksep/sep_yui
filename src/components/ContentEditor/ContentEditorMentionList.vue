@@ -101,6 +101,7 @@ const emit = defineEmits<{
   position: fixed;
   right: auto;
   bottom: auto;
+  z-index: var(--editor-mentions-fixed-z-index, 1001);
 }
 
 .editor-component__mention-item {

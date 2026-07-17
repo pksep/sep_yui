@@ -16,33 +16,23 @@
         v-if="!isMobileMenuOpen"
         class="formatting-toolbar__mobile-selection-actions"
       >
-        <button
-          type="button"
-          class="formatting-toolbar__mobile-edit-action"
-          @click="runMobileClipboardAction('cut')"
+        <template
+          v-for="(action, index) in mobileClipboardActions"
+          :key="action.key"
         >
-          Вырезать
-        </button>
+          <div
+            v-if="index > 0"
+            class="formatting-toolbar__mobile-selection-divider"
+          ></div>
 
-        <div class="formatting-toolbar__mobile-selection-divider"></div>
-
-        <button
-          type="button"
-          class="formatting-toolbar__mobile-edit-action"
-          @click="runMobileClipboardAction('copy')"
-        >
-          Скопировать
-        </button>
-
-        <div class="formatting-toolbar__mobile-selection-divider"></div>
-
-        <button
-          type="button"
-          class="formatting-toolbar__mobile-edit-action"
-          @click="runMobileClipboardAction('paste')"
-        >
-          Вставить
-        </button>
+          <button
+            type="button"
+            class="formatting-toolbar__mobile-edit-action"
+            @click="runMobileClipboardAction(action.key)"
+          >
+            {{ action.label }}
+          </button>
+        </template>
 
         <button
           type="button"
@@ -220,7 +210,14 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch
+} from 'vue';
 import type { Editor } from '@tiptap/core';
 import { posToDOMRect } from '@tiptap/core';
 import { TextSelection } from '@tiptap/pm/state';
@@ -250,6 +247,11 @@ interface SelectionRange {
 type ToolbarAlignment = 'left' | 'center' | 'right';
 type MobileClipboardAction = 'cut' | 'copy' | 'paste';
 
+interface MobileClipboardActionItem {
+  key: MobileClipboardAction;
+  label: string;
+}
+
 const TOOLBAR_MARGIN = 16;
 const MOBILE_VIEWPORT_MAX_WIDTH = 480;
 
@@ -268,12 +270,38 @@ const lastToolbarLeft = ref<number | null>(null);
 const lastToolbarAlignment = ref<ToolbarAlignment>('center');
 const savedSelectionRange = ref<SelectionRange | null>(null);
 const savedSelectionText = ref('');
+const mobileClipboardText = ref('');
 const isPointerSelecting = ref(false);
 const isMobileContextMenuRequested = ref(false);
 const isCollapsedContextMenuOpen = ref(false);
 const collapsedContextMenuRect = ref<DOMRect | null>(null);
 let positionAnimationFrameId: number | null = null;
 let mobileSelectionTimeoutIds: number[] = [];
+let mobileClipboardRefreshToken = 0;
+
+const hasMobileSelectedText = computed(
+  () =>
+    !!savedSelectionRange.value &&
+    savedSelectionRange.value.from !== savedSelectionRange.value.to &&
+    savedSelectionText.value.trim().length > 0
+);
+const hasMobileClipboardText = computed(
+  () => mobileClipboardText.value.trim().length > 0
+);
+const mobileClipboardActions = computed<MobileClipboardActionItem[]>(() => {
+  const actions: MobileClipboardActionItem[] = [];
+
+  if (hasMobileClipboardText.value) {
+    actions.push({ key: 'paste', label: 'Вставить' });
+  }
+
+  if (hasMobileSelectedText.value) {
+    actions.push({ key: 'copy', label: 'Скопировать' });
+    actions.push({ key: 'cut', label: 'Вырезать' });
+  }
+
+  return actions;
+});
 
 const resetLinkEditorState = () => {
   linkEditorOpen.value = false;
@@ -316,6 +344,19 @@ const getHiddenToolbarStyle = (): Record<string, string> => ({
   pointerEvents: 'none',
   zIndex: '1000'
 });
+
+const closeMobileSelectionToolbar = () => {
+  savedSelectionRange.value = null;
+  savedSelectionText.value = '';
+  visible.value = false;
+  isMobileMenuOpen.value = false;
+  isMobileContextMenuRequested.value = false;
+  isCollapsedContextMenuOpen.value = false;
+  collapsedContextMenuRect.value = null;
+  toolbarStyle.value = getHiddenToolbarStyle();
+  lastToolbarLeft.value = null;
+  lastToolbarAlignment.value = 'center';
+};
 
 const getEditorDom = (
   editor: Editor | null | undefined
@@ -644,6 +685,16 @@ const updateToolbarPosition = (
     selection.empty;
 
   if (
+    isMobileToolbar.value &&
+    selection.empty &&
+    savedSelectionRange.value &&
+    !canShowCollapsedContextMenu
+  ) {
+    closeMobileSelectionToolbar();
+    return;
+  }
+
+  if (
     !isEditable ||
     (isMobileToolbar.value && !isMobileContextMenuRequested.value) ||
     (selection.empty && !canShowCollapsedContextMenu) ||
@@ -732,6 +783,49 @@ const handleEditorTransaction = () => {
   scheduleToolbarPositionUpdate();
 };
 
+const keyboardKeysToKeepMobileSelectionToolbar = new Set([
+  'Alt',
+  'AltGraph',
+  'CapsLock',
+  'Control',
+  'Meta',
+  'Shift'
+]);
+
+const shouldCloseMobileSelectionToolbarForInput = () =>
+  isMobileToolbar.value && !!savedSelectionRange.value;
+
+const handleEditorKeyDown = (event: KeyboardEvent) => {
+  if (
+    !shouldCloseMobileSelectionToolbarForInput() ||
+    keyboardKeysToKeepMobileSelectionToolbar.has(event.key)
+  ) {
+    return;
+  }
+
+  closeMobileSelectionToolbar();
+};
+
+const handleEditorBeforeInput = (event: InputEvent) => {
+  if (!shouldCloseMobileSelectionToolbarForInput()) {
+    return;
+  }
+
+  const inputType = event.inputType || '';
+
+  if (inputType.startsWith('format')) {
+    return;
+  }
+
+  closeMobileSelectionToolbar();
+};
+
+const handleEditorInput = () => {
+  if (shouldCloseMobileSelectionToolbarForInput()) {
+    closeMobileSelectionToolbar();
+  }
+};
+
 const handleEditorBlur = () => {
   visible.value = false;
   isMobileMenuOpen.value = false;
@@ -809,6 +903,9 @@ const handleMobileContextMenu = (event: MouseEvent) => {
   event.preventDefault();
   isPointerSelecting.value = false;
   isMobileContextMenuRequested.value = true;
+  void refreshMobileClipboardText().then(() => {
+    scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+  });
 
   const { from, to, empty } = props.editor.state.selection;
 
@@ -937,6 +1034,19 @@ const readClipboardText = async (): Promise<string> => {
   }
 };
 
+const refreshMobileClipboardText = async (): Promise<void> => {
+  if (!isMobileToolbar.value) {
+    return;
+  }
+
+  const refreshToken = ++mobileClipboardRefreshToken;
+  const text = await readClipboardText();
+
+  if (refreshToken === mobileClipboardRefreshToken) {
+    mobileClipboardText.value = text || '';
+  }
+};
+
 const readClipboardTextFromPasteFallback = (
   editor: Editor,
   selection = savedSelectionRange.value
@@ -970,9 +1080,7 @@ const collapseSelectionToEnd = (
   selection: SelectionRange
 ): void => {
   editor.chain().focus().setTextSelection(selection.to).run();
-  visible.value = false;
-  isMobileMenuOpen.value = false;
-  isMobileContextMenuRequested.value = false;
+  closeMobileSelectionToolbar();
 };
 
 const runMobileClipboardAction = async (action: MobileClipboardAction) => {
@@ -998,10 +1106,7 @@ const runMobileClipboardAction = async (action: MobileClipboardAction) => {
         chain.insertContent(text).run();
       }
 
-      isCollapsedContextMenuOpen.value = false;
-      isMobileContextMenuRequested.value = false;
-      collapsedContextMenuRect.value = null;
-      scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+      closeMobileSelectionToolbar();
       return;
     }
 
@@ -1017,13 +1122,16 @@ const runMobileClipboardAction = async (action: MobileClipboardAction) => {
 
   saveSelectionRange(editor, selection);
 
-  const copied = await writeClipboardText(
-    getClipboardSelectionText(editor, selection)
-  );
+  const copiedText = getClipboardSelectionText(editor, selection);
+  const copied = await writeClipboardText(copiedText);
 
   if (copied && action === 'cut') {
+    mobileClipboardText.value = copiedText;
     editor.chain().focus().deleteRange(selection).run();
+    closeMobileSelectionToolbar();
+    return;
   } else if (copied) {
+    mobileClipboardText.value = copiedText;
     collapseSelectionToEnd(editor, selection);
   } else {
     restoreSelection(selection);
@@ -1255,6 +1363,9 @@ const bindEditorEvents = (editor: Editor | null | undefined) => {
   editorDom.addEventListener('pointerdown', handlePointerSelectionStart);
   editorDom.addEventListener('touchend', handleMobileSelectionEnd, true);
   editorDom.addEventListener('contextmenu', handleMobileContextMenu);
+  editorDom.addEventListener('keydown', handleEditorKeyDown);
+  editorDom.addEventListener('beforeinput', handleEditorBeforeInput);
+  editorDom.addEventListener('input', handleEditorInput);
   editorDom.ownerDocument.addEventListener(
     'selectionchange',
     handleMobileSelectionChange
@@ -1280,6 +1391,9 @@ const unbindEditorEvents = (editor: Editor | null | undefined) => {
 
   editorDom?.removeEventListener('touchend', handleMobileSelectionEnd, true);
   editorDom?.removeEventListener('contextmenu', handleMobileContextMenu);
+  editorDom?.removeEventListener('keydown', handleEditorKeyDown);
+  editorDom?.removeEventListener('beforeinput', handleEditorBeforeInput);
+  editorDom?.removeEventListener('input', handleEditorInput);
   editorDom?.ownerDocument.removeEventListener(
     'selectionchange',
     handleMobileSelectionChange
