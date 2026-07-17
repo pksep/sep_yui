@@ -247,7 +247,11 @@ onUnmounted(() => {
   border-bottom-right-radius: 0;
 }
 
+.modal-yui-kit__modal-content {
+}
+
 .modal-yui-kit {
+  background-color: var(--surface-main-modal);
   border: none;
   display: grid;
   position: fixed;
