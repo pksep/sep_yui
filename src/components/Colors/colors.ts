@@ -50,7 +50,7 @@ export const colors: ColorsType = {
   },
   Blue7: {
     text: 'Blue7',
-    color: 'var(--border-color)'
+    color: 'var(--border-table)'
   },
   Blue8: {
     text: 'Blue8',
@@ -95,11 +95,11 @@ export const colors: ColorsType = {
   },
   Grey2: {
     text: 'Grey2',
-    color: 'var(--border-color)'
+    color: 'var(--border-table)'
   },
   Grey3: {
     text: 'Grey3',
-    color: 'var(--border-color)'
+    color: 'var(--border-table)'
   },
   Grey4: {
     text: 'Grey4',
@@ -115,7 +115,7 @@ export const colors: ColorsType = {
   },
   Grey7: {
     text: 'Grey7',
-    color: 'var(--border-color)'
+    color: 'var(--border-table)'
   },
 
   Orange1: {

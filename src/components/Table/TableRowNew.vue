@@ -34,7 +34,7 @@ const classRow = computed(() => [
 }
 
 .table-row:last-child > * {
-  border-bottom: 0.5px solid var(--border-color);
+  border-bottom: 0.5px solid var(--border-table);
 }
 
 .table-row_active,

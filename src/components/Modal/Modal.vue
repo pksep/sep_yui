@@ -283,6 +283,12 @@ onUnmounted(() => {
   }
 }
 
+[data-theme='dark'],
+.theme-dark .modal-yui-kit {
+  border: 0.5px solid var(--border-table);
+  border-right: 0.5px solid transparent;
+}
+
 @media (max-width: 767px) {
   .modal-yui-kit {
     overscroll-behavior: contain;

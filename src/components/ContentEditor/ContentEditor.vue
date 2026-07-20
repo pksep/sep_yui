@@ -2146,7 +2146,7 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 .editor-component {
   position: relative;
   background-color: var(--white);
-  border: 0.5px solid var(--border-color);
+  border: 0.5px solid var(--border-table);
   border-radius: 20px;
   min-height: 105px;
 
@@ -2559,7 +2559,7 @@ button.mobile-buttons {
 .attach-modal__editor {
   position: relative;
   background: var(--white);
-  border: 0.5px solid var(--border-color);
+  border: 0.5px solid var(--border-table);
   border-radius: 24px;
 
   & .tiptap {

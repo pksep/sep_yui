@@ -267,7 +267,7 @@ onMounted(() => {
     }
 
     &.disabled-yui-kit {
-      color: var(--border-color);
+      color: var(--border-table);
       user-select: none;
       pointer-events: none;
       cursor: auto;

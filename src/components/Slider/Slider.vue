@@ -497,12 +497,12 @@ defineExpose({
   width: 100%;
   height: 260px;
   overflow: hidden;
-  border: 0.5px solid var(--border-color);
+  border: 0.5px solid var(--border-table);
   border-radius: 10px;
   transition: 0.3s ease-in-out;
 
   &:hover {
-    border-color: var(--border-primary-color);
+    border-color: var(--border-hover);
   }
 
   &__wrapper {
@@ -513,11 +513,11 @@ defineExpose({
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    background-color: var(--primary-hover-light-color);
+    background-color: var(--table-surface-header);
   }
 
   &__slides {
-    background-color: var(--white);
+    background-color: var(--surface-overlay);
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -542,25 +542,26 @@ defineExpose({
 
   &__button {
     width: 64px;
-    background-color: var(--white);
+    background-color: var(--surface-overlay);
     border: 1px solid transparent;
     outline: none;
     border-radius: 5px;
     padding: 0 20px;
     transition: 0.3s ease-in-out;
+    color: var(--text-primary);
     cursor: pointer;
     &:hover {
-      color: var(--primary-color);
+      color: var(--text-brand);
     }
 
     &:active {
-      background-color: var(--background-primary-color);
-      color: var(--primary-color);
+      background-color: var(--table-surface-pressed);
+      color: var(--text-brand);
     }
 
     &:disabled {
-      background-color: var(--border-color);
-      color: var(--text-light-color);
+      background-color: var(--surface-disabled);
+      color: var(--text-disabled);
       cursor: default;
     }
   }
@@ -596,7 +597,7 @@ defineExpose({
   }
 
   &:has(.no-content):hover {
-    border-color: var(--border-color);
+    border-color: var(--border-table);
   }
 
   &__wrapper:has(.no-content) {
@@ -627,14 +628,14 @@ defineExpose({
   flex-grow: 1;
   gap: 9px;
   border-radius: 5px;
-  background-color: var(--button-neutral-color);
+  background-color: var(--action-disabled-bg);
 
   img {
     height: auto;
   }
 
   p {
-    color: var(--text-light-color);
+    color: var(--text-disabled);
   }
 }
 
@@ -663,11 +664,11 @@ defineExpose({
   align-items: center;
   justify-content: center;
 
-  background-color: var(--primary-hover-light-color);
+  background-color: var(--table-surface-header);
 }
 
 .slider-yui-kit__extension {
-  color: var(--primary-color);
+  color: var(--text-brand);
   font-size: 54px;
   font-weight: 800;
 }

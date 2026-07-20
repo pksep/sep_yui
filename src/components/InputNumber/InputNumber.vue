@@ -344,7 +344,7 @@ fieldset.input-yui-kit {
       width: 24px;
       height: 16px;
       background-color: var(--white);
-      border: 0.3px solid var(--border-color);
+      border: 0.3px solid var(--border-table);
       display: flex;
       justify-content: center;
       align-items: center;
