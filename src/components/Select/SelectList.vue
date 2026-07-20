@@ -214,6 +214,7 @@ onUnmounted(() => {
     padding: 8.5px 0;
   }
   &__list {
+    border: 0.5px solid transparent;
     margin: 0;
     margin-top: 5px;
     list-style-type: none;
@@ -228,6 +229,10 @@ onUnmounted(() => {
     overflow-x: hidden;
     z-index: 2222;
 
+    transition:
+      border 0.2s ease,
+      background-color 0.2s ease;
+
     left: anchor(left);
     top: calc(anchor(bottom) + 5px);
 
@@ -240,5 +245,10 @@ onUnmounted(() => {
     max-height: var(--height-list, 120px);
     gap: 10px;
   }
+}
+
+[data-theme='dark'],
+.theme-dark .select-list-yui-kit__list {
+  border: 0.5px solid var(--border-table);
 }
 </style>

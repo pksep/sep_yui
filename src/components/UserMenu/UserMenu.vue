@@ -225,9 +225,15 @@ const handleQrAuth = () => {
     overflow: hidden;
     width: max-content;
     border-radius: 5px;
+    border: 0.5px solid transparent;
     background-color: var(--surface-overlay);
     transition: all 0.2s ease;
   }
+}
+
+[data-theme='dark'],
+.theme-dark .menu-yui-kit__dropdown {
+  border: 0.5px solid var(--border-table);
 }
 
 .menu-yui-kit__avatar {

@@ -300,6 +300,12 @@ col-cal {
 col-cal .calendar {
   transition: all 0.2s ease;
   --calendar-bg: var(--surface-overlay);
+  border: 0.5px solid transparent;
+}
+
+[data-theme='dark'],
+.theme-dark col-cal .calendar {
+  border: 0.5px solid var(--border-table);
 }
 
 col-cal-dates .day-header {

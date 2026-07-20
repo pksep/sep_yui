@@ -110,7 +110,6 @@ onMounted(() => {
 .popover-content {
   overflow: hidden;
   position: absolute;
-  background-color: var(--white);
   border-radius: 10px;
   box-shadow: 0px 4px 9.8px 0px #0000000d;
   z-index: 100;

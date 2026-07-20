@@ -126,6 +126,7 @@ const getTestIdSuffix = (type: MenuTypeEnum): string => {
 <style scoped>
 .menu-yui-kit__list {
   padding: 10px;
+  border: 0.5px solid transparent;
 }
 
 .list-yui-kit {
