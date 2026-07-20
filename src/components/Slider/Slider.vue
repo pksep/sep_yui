@@ -601,11 +601,11 @@ defineExpose({
   }
 
   &__wrapper:has(.no-content) {
-    background-color: var(--button-neutral-color);
+    background-color: var(--action-disabled-bg);
   }
 
   .no-content {
-    background-color: var(--button-neutral-color);
+    background-color: var(--action-disabled-bg);
 
     & p {
       margin: 0;
