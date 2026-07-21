@@ -60,6 +60,7 @@ const onClick = (): void => {
 <style scoped>
 .label-checkbox {
   position: relative;
+  display: block;
   width: 16px;
   height: 16px;
   border-radius: 2.5px;
@@ -139,7 +140,6 @@ const onClick = (): void => {
   background-color: all 0.2s ease-in-out;
 
   &:disabled {
-    border-color: var(--border-table);
     cursor: default;
   }
 }
@@ -180,7 +180,12 @@ const onClick = (): void => {
   }
 }
 
-.label-checkbox:has(:checked:disabled) {
+.label-checkbox:has(.checkbox-yui-kit:checked:disabled) {
   background: var(--border-table);
+}
+
+.label-checkbox:has(.checkbox-yui-kit:disabled) {
+  border-color: var(--border-table);
+  cursor: default;
 }
 </style>

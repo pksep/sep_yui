@@ -399,6 +399,11 @@ fieldset.input-yui-kit {
     background: var(--primary-hover-light-color);
   }
 }
+
+.input-yui-kit__input {
+  height: inherit;
+}
+
 /* Hide default arrows on input[type=number] for WebKit browsers */
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {

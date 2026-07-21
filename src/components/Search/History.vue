@@ -200,6 +200,7 @@ const handleChoosePost = (item: string) => {
     align-items: center;
     justify-content: center;
     width: inherit;
+    background-color: var(--table-surface);
     box-shadow: 0 4px 9.8px 0 #0000000d;
     top: 45px;
     padding: 5px;
@@ -210,11 +211,11 @@ const handleChoosePost = (item: string) => {
     & span {
       font-size: 14px;
       font-weight: normal;
-      color: #282828;
       width: 100%;
       height: 100%;
       border-radius: 5px;
       transition: all 0.2s;
+      color: var(--text-primary);
 
       &.empty-content {
         color: var(--text-neutral-color);
@@ -223,15 +224,15 @@ const handleChoosePost = (item: string) => {
 
     &.show-result:hover {
       & span {
-        background-color: var(--background-light-color);
+        background-color: var(--action-secondary-hover-bg);
       }
     }
 
     &.show-result:active {
-      background-color: var(--white) !important;
+      background-color: var(--table-surface) !important;
       & span {
-        background-color: var(--primary-pressed-light-color);
-        color: var(--primary-color);
+        background-color: var(--action-secondary-pressed-bg);
+        color: var(--text-brand);
       }
     }
   }
@@ -244,9 +245,9 @@ const handleChoosePost = (item: string) => {
     transition: 0.3s ease-in-out;
     padding: 5px;
     margin: 0;
-    background-color: var(--white);
+    background-color: var(--table-surface);
     box-shadow: 0 4px 9.8px 0 #0000000d;
-    border: 0.5px solid var(--border-primary-color);
+    border: 0.5px solid var(--border-hover);
     border-radius: 5px;
 
     &--opened {
@@ -267,7 +268,7 @@ const handleChoosePost = (item: string) => {
   }
 
   &__item {
-    background: var(--white);
+    background: var(--table-surface);
     overflow: hidden;
 
     text-align: left;
@@ -294,13 +295,13 @@ const handleChoosePost = (item: string) => {
       justify-content: center;
       align-items: center;
       padding: 0;
-      color: var(--text-light-color);
+      color: var(--text-primary);
       transition: all 0.2s ease;
     }
 
     &:hover {
       cursor: pointer;
-      background-color: var(--primary-hover-light-color);
+      background-color: var(--action-secondary-hover-bg);
 
       button {
         opacity: 1;
@@ -312,7 +313,7 @@ const handleChoosePost = (item: string) => {
     }
 
     &:active {
-      background-color: var(--primary-pressed-light-color);
+      background-color: var(--action-secondary-pressed-bg);
     }
   }
 }

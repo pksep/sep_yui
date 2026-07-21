@@ -11,6 +11,7 @@
     border: 1px solid $color;
     border-radius: 5px;
     pointer-events: none;
+    transition: all 0.2s ease;
   }
 
   &.initial::before,
@@ -110,12 +111,12 @@ fieldset.input-yui-kit {
   }
 
   &.minor {
-    --background: var(--action-secondary-bg);
+    --background: var(--surface-input-secondary);
   }
 
   &_number {
     &.minor {
-      --background: var(--action-secondary-bg);
+      --background: var(--surface-input-secondary);
     }
   }
 }
