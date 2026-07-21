@@ -1,5 +1,5 @@
 fieldset.input-yui-kit.success {
-  @include fieldset-border($GREEN-0FBE3F);
+  @include fieldset-border(--status-success);
 }
 
 fieldset.input-yui-kit.error {
@@ -7,5 +7,5 @@ fieldset.input-yui-kit.error {
 }
 
 fieldset.input-yui-kit.warning {
-  @include fieldset-border(var(--orange6));
+  @include fieldset-border(var(--status-warning));
 }
