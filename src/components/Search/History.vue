@@ -187,9 +187,9 @@ const handleChoosePost = (item: string) => {
 }
 
 .history-yui-kit {
-  color: #282828;
+  color: var(--text-primary);
   outline: none;
-  background-color: var(--white);
+  background-color: transparent;
   border-radius: 5px;
   display: none;
 

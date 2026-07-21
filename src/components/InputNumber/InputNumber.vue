@@ -343,29 +343,34 @@ fieldset.input-yui-kit {
     & button {
       width: 24px;
       height: 16px;
-      background-color: var(--white);
-      border: 0.3px solid var(--border-table);
+      background-color: var(--surface-overlay);
+      border: 0.3px solid var(--surface-disabled);
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 0;
       overflow: hidden;
 
+      transition: all 0.2s ease;
+      color: var(--text-primary);
+
       &:not(:disabled):hover {
-        border-color: var(--primary-color);
+        border-color: var(--border-hover);
         cursor: pointer;
 
         & * {
-          color: var(--primary-color);
+          color: var(--text-brand);
         }
       }
     }
 
     & .input-yui-kit__button-up {
-      border-radius: 4.5px 4.5px 0 0;
+      border-radius: var(--input-border-radius, 6px)
+        var(--input-border-radius, 6px) 0 0;
     }
     & .input-yui-kit__button-down {
-      border-radius: 0 0 4.5px 4.5px;
+      border-radius: 0 0 var(--input-border-radius, 6px)
+        var(--input-border-radius, 6px);
     }
   }
 
@@ -373,6 +378,8 @@ fieldset.input-yui-kit {
     height: 30px;
     margin: 0;
     padding: 0;
+
+    --input-border-radius: 4.5px;
 
     & .input-yui-kit__input {
       padding: 3px 6px;

@@ -31,7 +31,6 @@
   }
 
   &.minor {
-    & .select-list-yui-kit__list,
     & .select-list-yui-kit__current {
       background-color: var(--action-secondary-bg);
     }

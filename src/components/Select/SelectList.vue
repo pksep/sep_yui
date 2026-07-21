@@ -246,9 +246,8 @@ onUnmounted(() => {
     gap: 10px;
   }
 }
-
-[data-theme='dark'],
-.theme-dark .select-list-yui-kit__list {
-  border: 0.5px solid var(--border-table);
+.select-list-yui-kit__list {
+  background-color: var(--surface-overlay);
+  border: 1px solid var(--border-hover);
 }
 </style>

@@ -1,14 +1,20 @@
 <template>
-  <input
-    type="checkbox"
-    :class="`checkbox-yui-kit checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular} checkbox-yui-kit_${props.color}`"
-    :data-testid="`${props.dataTestid}`"
-    tabindex="0"
-    @change="onClick"
-    :checked="state.isChecked"
-    :disabled="props.disabled"
-    @keyup.enter="onClick"
-  />
+  <label
+    :class="`label-checkbox checkbox-yui-kit_${props.size} checkbox-yui-kit_${props.circular} checkbox-yui-kit_${props.color}`"
+  >
+    <input
+      type="checkbox"
+      :class="`checkbox-yui-kit `"
+      :data-testid="`${props.dataTestid}`"
+      tabindex="0"
+      @change="onClick"
+      :checked="state.isChecked"
+      :disabled="props.disabled"
+      @keyup.enter="onClick"
+    />
+
+    <Icon class="checkbox__icon" :name="IconNameEnum.checked" />
+  </label>
 </template>
 
 <script setup lang="ts">
@@ -19,6 +25,8 @@ import {
   CheckboxCircularEnum,
   CheckboxColorEnum
 } from './enum/enum';
+import Icon from '@/components/Icon/Icon.vue';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
 
 const props = withDefaults(defineProps<ICheckboxProps>(), {
   size: CheckboxSizeEnum.medium,
@@ -50,18 +58,71 @@ const onClick = (): void => {
 </script>
 
 <style scoped>
+.label-checkbox {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 2.5px;
+  transition: all 0.2s ease;
+}
+
+.checkbox-yui-kit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.label-checkbox .checkbox__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 16px;
+  height: 16px;
+
+  transform: translate(-50%, -50%);
+  z-index: 1;
+
+  opacity: 0;
+
+  color: var(--surface-overlay);
+
+  transition: all 0.2s ease;
+}
+
+.label-checkbox:has(.checkbox-yui-kit:checked) .checkbox__icon {
+  opacity: 1;
+}
+
+.checkbox-yui-kit_small {
+  border-radius: 2.5px;
+  width: 16px;
+  height: 16px;
+
+  padding: 0;
+}
+
 .checkbox-yui-kit_medium {
-  --radius: 3.5px;
-  --size: 20px;
+  border-radius: 3.5px;
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox-yui-kit_medium .checkbox__icon {
+  width: 20px;
+  height: 20px;
 }
 
 .checkbox-yui-kit_big {
-  --radius: 4.5px;
-  --size: 24px;
+  border-radius: 4.5px;
+  width: 24px;
+  height: 24px;
 }
 
 .checkbox-yui-kit_circled {
-  --radius: 50%;
+  border-radius: 50%;
 }
 
 .checkbox-yui-kit,
@@ -71,10 +132,8 @@ const onClick = (): void => {
   -moz-appearance: none;
   -webkit-appearance: none;
   outline: none;
-  width: var(--size);
-  height: var(--size);
+
   color: var(--surface-overlay);
-  border-radius: var(--radius);
   cursor: pointer;
   padding: 2px;
   background-color: all 0.2s ease-in-out;
@@ -95,6 +154,10 @@ const onClick = (): void => {
   }
 }
 
+.label-checkbox.checkbox-yui-kit_blue:has(.checkbox-yui-kit:checked) {
+  background: var(--text-brand);
+}
+
 .checkbox-yui-kit_red,
 .checkbox-yui-kit_red:focus,
 .checkbox-yui-kit_red:focus-visible {
@@ -105,17 +168,19 @@ const onClick = (): void => {
   }
 }
 
+.label-checkbox.checkbox-yui-kit_red:has(.checkbox-yui-kit:checked) {
+  background: var(--status-error);
+}
+
 .checkbox-yui-kit:checked {
   color: var(--surface-overlay);
-  content: url('data:image/svg+xml,<svg viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.66667 0.666748L3 7.34008L1 5.34008" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 
   &:disabled {
     background: var(--border-table);
   }
 }
-.checkbox-yui-kit.checkbox-yui-kit_small {
-  --radius: 3px;
-  --size: 16px;
-  padding: 0;
+
+.label-checkbox:has(:checked:disabled) {
+  background: var(--border-table);
 }
 </style>

@@ -128,6 +128,16 @@ export const chevronUp: IVectorIcon = {
   `
 };
 
+export const checked: IVectorIcon = {
+  name: 'checked',
+  style: 'line',
+  viewbox: '0 0 20 20',
+  fill: 'none',
+  path: `
+  <path d="M15.8333 5.83325L7.5 14.1749L5 11.6749" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+    `
+};
+
 export const checkbox: IVectorIcon = {
   name: 'checkbox',
   style: 'line',
