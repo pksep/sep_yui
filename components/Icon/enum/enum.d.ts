@@ -161,5 +161,6 @@ export declare enum IconNameEnum {
     colorPicker = "color-picker",
     connection = "connection",
     tableError = "table-error",
-    rearrange = "rearrange"
+    rearrange = "rearrange",
+    checked = "checked"
 }

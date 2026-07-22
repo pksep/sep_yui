@@ -31,9 +31,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
             readonly "onUnmount-paginate"?: ((isCanPagiante: boolean) => any) | undefined;
             readonly "onOn-mounted"?: (() => any) | undefined;
         } & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, "isShowVerticalScroll" | "isShowHorizontalScroll">;
-        $attrs: {
-            [x: string]: unknown;
-        };
+        $attrs: import('vue').Attrs;
         $refs: {
             [x: string]: unknown;
         };
@@ -105,11 +103,11 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
         "onUnmount-scroll"?: ((event: Event) => any) | undefined;
         "onUnmount-paginate"?: ((isCanPagiante: boolean) => any) | undefined;
         "onOn-mounted"?: (() => any) | undefined;
-    }>, "scrollToTop" | "setHeightSlot" | "slotRef" | ("isShowVerticalScroll" | "isShowHorizontalScroll")> & import('vue').ShallowUnwrapRef<{
+    }>, "scrollToTop" | "setHeightSlot" | "slotRef" | ("isShowVerticalScroll" | "isShowHorizontalScroll")> & {
         scrollToTop: () => void;
         setHeightSlot: () => void;
-        slotRef: import('vue').Ref<HTMLElement | null, HTMLElement | null>;
-    }> & {} & import('vue').ComponentCustomProperties & {} & {
+        slotRef: HTMLElement | null;
+    } & {} & import('vue').ComponentCustomProperties & {} & {
         $slots: {
             default?(_: {}): any;
         };
@@ -126,9 +124,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
             readonly "onUnmount-paginate"?: ((isCanPagiante: boolean) => any) | undefined;
             readonly "onOn-mounted"?: (() => any) | undefined;
         } & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, "isShowVerticalScroll" | "isShowHorizontalScroll">;
-        $attrs: {
-            [x: string]: unknown;
-        };
+        $attrs: import('vue').Attrs;
         $refs: {
             [x: string]: unknown;
         };
@@ -200,11 +196,11 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
         "onUnmount-scroll"?: ((event: Event) => any) | undefined;
         "onUnmount-paginate"?: ((isCanPagiante: boolean) => any) | undefined;
         "onOn-mounted"?: (() => any) | undefined;
-    }>, "scrollToTop" | "setHeightSlot" | "slotRef" | ("isShowVerticalScroll" | "isShowHorizontalScroll")> & import('vue').ShallowUnwrapRef<{
+    }>, "scrollToTop" | "setHeightSlot" | "slotRef" | ("isShowVerticalScroll" | "isShowHorizontalScroll")> & {
         scrollToTop: () => void;
         setHeightSlot: () => void;
-        slotRef: import('vue').Ref<HTMLElement | null, HTMLElement | null>;
-    }> & {} & import('vue').ComponentCustomProperties & {} & {
+        slotRef: HTMLElement | null;
+    } & {} & import('vue').ComponentCustomProperties & {} & {
         $slots: {
             default?(_: {}): any;
         };

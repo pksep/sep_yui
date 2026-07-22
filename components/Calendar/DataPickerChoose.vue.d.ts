@@ -55,8 +55,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<boolean>;
     };
 }>> & Readonly<{
-    onChange?: ((value: string | Date | null | undefined) => any) | undefined;
     onClick?: (() => any) | undefined;
+    onChange?: ((value: string | Date | null | undefined) => any) | undefined;
     onClear?: (() => any) | undefined;
 }>, {
     dataTestid: string;

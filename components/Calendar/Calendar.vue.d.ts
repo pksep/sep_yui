@@ -8,8 +8,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IDatePickerProps>, {
     dataTestid: string;
 }>>> & Readonly<{
-    onChange?: ((value: Date | IRangeForDatePicker | null) => any) | undefined;
     onClick?: (() => any) | undefined;
+    onChange?: ((value: Date | IRangeForDatePicker | null) => any) | undefined;
 }>, {
     dataTestid: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;

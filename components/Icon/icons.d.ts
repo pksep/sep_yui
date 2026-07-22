@@ -13,6 +13,7 @@ export declare const chevronDown: IVectorIcon;
 export declare const chevronRight: IVectorIcon;
 export declare const chevronLeft: IVectorIcon;
 export declare const chevronUp: IVectorIcon;
+export declare const checked: IVectorIcon;
 export declare const checkbox: IVectorIcon;
 export declare const dark: IVectorIcon;
 export declare const exitBig: IVectorIcon;

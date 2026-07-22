@@ -15,7 +15,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<boolean>;
     };
     range: {
-        type: import('vue').PropType<import('./interfaces/interfaces').IRangeForDatePicker>;
+        type: import('vue').PropType<import('..').IRangeForDatePicker>;
     };
     locale: {
         type: import('vue').PropType<string>;
@@ -60,7 +60,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<boolean>;
     };
     range: {
-        type: import('vue').PropType<import('./interfaces/interfaces').IRangeForDatePicker>;
+        type: import('vue').PropType<import('..').IRangeForDatePicker>;
     };
     locale: {
         type: import('vue').PropType<string>;

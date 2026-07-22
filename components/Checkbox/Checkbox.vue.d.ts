@@ -19,8 +19,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataTestid: string;
     color: CheckboxColorEnum;
 }>>> & Readonly<{
-    onChange?: ((isChecked: boolean) => any) | undefined;
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+    onChange?: ((isChecked: boolean) => any) | undefined;
 }>, {
     color: CheckboxColorEnum;
     dataTestid: string;

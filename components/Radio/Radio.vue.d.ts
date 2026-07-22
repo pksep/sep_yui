@@ -8,9 +8,7 @@ declare const _default: <T>(__VLS_props: Awaited<typeof __VLS_setup>["props"], _
     attrs: any;
     slots: ReturnType<() => {}>;
     emit: typeof __VLS_emit;
-}>) => import('vue').VNode<import('vue').RendererNode, import('vue').RendererElement, {
-    [key: string]: any;
-}> & {
+}>) => import('vue').VNode & {
     __ctx?: Awaited<typeof __VLS_setup>;
 };
 export default _default;

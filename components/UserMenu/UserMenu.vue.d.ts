@@ -7,14 +7,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     click: (type: MenuTypeEnum) => void;
     "unmount-qr-auth": () => void;
-    themeChange: (value: boolean) => void;
+    "theme-change": (value: boolean) => void;
     languageSwitch: (value: IChangeSwitchEmit) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IMenuProps>, {
     dataTestid: string;
 }>>> & Readonly<{
     onClick?: ((type: MenuTypeEnum) => any) | undefined;
     "onUnmount-qr-auth"?: (() => any) | undefined;
-    onThemeChange?: ((value: boolean) => any) | undefined;
+    "onTheme-change"?: ((value: boolean) => any) | undefined;
     onLanguageSwitch?: ((value: IChangeSwitchEmit) => any) | undefined;
 }>, {
     dataTestid: string;

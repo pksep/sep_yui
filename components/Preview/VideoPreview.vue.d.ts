@@ -6,8 +6,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{
     src: string | undefined;
 }>>> & Readonly<{
-    onError?: ((error: Event) => any) | undefined;
     onLoad?: (() => any) | undefined;
+    onError?: ((error: Event) => any) | undefined;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
