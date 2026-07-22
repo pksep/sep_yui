@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.285
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.284...v0.1.285)
+
+### 🚀 Enhancements
+
+- Changed user menu style ([db5b336](https://github.com/pksep/sep_yui/commit/db5b336))
+
 ## v0.1.284
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.283...v0.1.284)
