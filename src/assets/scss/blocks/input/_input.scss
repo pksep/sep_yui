@@ -57,7 +57,12 @@ fieldset.input-yui-kit {
   color: var(--text-primary);
   transition: all 0.2s ease;
   position: relative;
-  @include fieldset-border(var(--border-hover));
+  @include fieldset-border(var(--input-border-color, transparent));
+
+  &:hover,
+  &:focus {
+    @include fieldset-border(var(--border-hover));
+  }
 
   & .input-yui-kit__legend {
     position: absolute;
@@ -93,6 +98,10 @@ fieldset.input-yui-kit {
 
     color: var(--text-primary);
     transition: all 0.2s ease;
+
+    &::placeholder {
+      color: var(--text-disabled);
+    }
 
     &:read-write:focus::placeholder {
       color: transparent;

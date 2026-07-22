@@ -5,14 +5,15 @@
     :disable-open="state.values?.length == 0"
     :class="props.class"
     :disabled="props.disabled"
+    class="combobox"
     @focusout-options="focusOutChangeOption"
     header-classes="filter__header"
     options-classes="filter__options"
     :data-testid="props.dataTestid"
   >
     <template #header>
-      <input
-        type="search"
+      <Input
+        input-message=""
         class="combobox__input"
         v-model="state.searchValue"
         :placeholder="state.placeholder"
@@ -37,6 +38,7 @@ import { reactive, watchEffect, watch } from 'vue';
 import SelectList from './SelectList.vue';
 import Options from './Options.vue';
 import type { IComboboxProps } from './interface/interface';
+import Input from '@/components/Input/Input.vue';
 
 const emits = defineEmits<{
   (e: 'change', value: string): void;
@@ -102,13 +104,14 @@ const getChoosenOption = (value: string) => {
 </script>
 
 <style scoped>
-input.combobox__input {
+.combobox__input {
   border: 0;
-  padding: 13px 5px;
-  border-radius: 5px;
+  width: 100%;
+  height: inherit;
   outline: none;
   &:focus::placeholder {
     color: transparent;
+    font-size: 16px;
   }
 }
 
@@ -123,9 +126,9 @@ input[type='search']::-webkit-search-cancel-button {
   padding: 0px 5px;
   justify-content: start;
   border: 0;
-  color: var(--text-grey);
+  color: var(--text-secondary);
   width: max-content;
-  border: 1px solid var(--border-table);
+  border: 1px solid transparent;
   max-width: 214px;
 
   .filter__header-title {
@@ -138,7 +141,7 @@ input[type='search']::-webkit-search-cancel-button {
   }
 
   .filter__header-title__active {
-    color: var(--text-blue);
+    color: var(--text-brand);
   }
 }
 </style>
