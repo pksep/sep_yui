@@ -118,7 +118,8 @@ watch(
 <style scoped>
 .picture-yui-kit {
   position: relative;
-  background: var(--white);
+  background: var(--surface-overlay);
+  border-radius: 15px;
 }
 
 .picture-yui-kit__loader {
@@ -133,14 +134,14 @@ watch(
   align-items: center;
   justify-content: center;
 
-  background-color: var(--primary-hover-light-color);
+  background-color: var(--table-surface-header);
 }
 
 .picture-yui-kit__caption {
   display: grid;
   place-content: center;
   border-radius: 15px;
-  background-color: var(--primary-hover-light-color);
+  background-color: var(--table-surface-header);
   & .picture-yui-kit__caption__title {
     font-weight: bold;
     font-size: 54px;
@@ -152,7 +153,7 @@ watch(
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background-color: var(--primary-hover-light-color);
+  background-color: var(--table-surface-header);
   border-radius: 15px;
 }
 </style>

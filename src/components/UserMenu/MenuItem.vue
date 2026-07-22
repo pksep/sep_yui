@@ -41,31 +41,29 @@ const handleClick = () => {
   justify-content: flex-start;
   gap: 10px;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
+  transition: 0.3s ease;
   border-radius: 5px;
   font-size: 14px;
   padding: 6px;
   line-height: 16px;
-
-  &:hover {
-    background-color: var(--primary-hover-light-color);
-  }
+  color: var(--text-primary);
 }
 
 .list-yui-kit__item--active,
 .list-yui-kit__item:focus-visible,
+.list-yui-kit__item:hover,
 .list-yui-kit__item:active {
-  background-color: var(--primary-hover-light-color);
-  color: var(--primary-color);
+  background-color: var(--action-secondary-hover-bg);
+  color: var(--text-primary);
 }
 
 .list-yui-kit__item--disabled,
 .list-yui-kit__item--disabled:hover {
-  color: var(--text-neutral-color);
+  color: var(--text-disabled);
   background-color: transparent;
   cursor: not-allowed;
   & svg.icon-yui-kit {
-    color: var(--text-neutral-color);
+    color: var(--text-disabled);
   }
 }
 </style>

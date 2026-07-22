@@ -112,8 +112,8 @@ defineExpose({
 </script>
 <style scoped>
 .date-picker-yui-kit__header {
-  border: 1px solid var(--border-color);
-  background: var(--white);
+  border: 1px solid var(--border-table);
+  background: var(--surface-overlay);
   display: flex;
   width: max-content;
   align-items: center;
@@ -122,12 +122,14 @@ defineExpose({
   padding: 4px 10px;
   border-radius: 10px;
   font-size: 14px;
-  color: var(--text-neutral-color);
+  color: var(--text-secondary);
+
+  transition: all 0.2s ease;
   &:hover {
-    border-color: var(--border-primary-color);
+    border-color: var(--border-hover);
   }
   &.date-active-yui-kit {
-    border-color: var(--border-primary-color);
+    border-color: var(--border-hover);
   }
 }
 
@@ -138,13 +140,18 @@ defineExpose({
 .date-disable-yui-kit {
   user-select: none;
   pointer-events: none;
-  color: var(--text-light-color);
-  background: var(--button-neutral-color);
+  color: var(--text-disabled);
+  background: var(--action-disabled-bg);
+  border: 1px solid var(--border-table);
 }
 
 .date-picker-yui-kit__header__dash {
-  border-bottom: 1px solid var(--text-neutral-color);
+  border-bottom: 1px solid var(--text-secondary);
   border-radius: 68px;
   width: 10px;
+}
+
+.date-disable-yui-kit {
+  border-bottom: 1px solid var(--text-disabled);
 }
 </style>

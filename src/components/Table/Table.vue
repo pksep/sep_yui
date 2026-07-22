@@ -115,7 +115,7 @@ import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { SizesEnum } from '@/common/sizes';
 
 defineOptions({
-  name: 'TableNew'
+  name: 'YTable'
 });
 
 const props = withDefaults(defineProps<ITableProps>(), {
@@ -254,7 +254,10 @@ onMounted(() => {
 .table {
   --td-vertical-padding: 2px;
   --td-horizontal-padding: 5px;
-  --scroll-slot-background-color: var(--table-background-color, var(--white));
+  --scroll-slot-background-color: var(
+    --table-background-color,
+    var(--table-surface)
+  );
 
   &__table {
     position: relative;
@@ -264,7 +267,7 @@ onMounted(() => {
     border-spacing: 0;
     table-layout: fixed;
 
-    background-color: var(--table-background-color, var(--white));
+    background-color: var(--table-background-color, var(--table-surface));
   }
 
   &__head {
@@ -281,8 +284,8 @@ onMounted(() => {
   &__search-th {
     --th-horizontal-padding: 8px;
     --th-vertical-padding: 2px;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--table-background-color, var(--white));
+    border-bottom: 1px solid var(--border-table);
+    background-color: var(--table-background-color, var(--table-surface));
   }
 
   &:has(.table__error-wrapper) :deep(.scroll-wrapper__slot) {
@@ -291,7 +294,7 @@ onMounted(() => {
   }
 
   & .scroll-wrapper__slot {
-    background-color: var(--table-background-color, var(--white));
+    background-color: var(--table-background-color, var(--table-surface));
   }
 
   &__error-wrapper {

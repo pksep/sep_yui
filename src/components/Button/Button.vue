@@ -85,7 +85,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 
 <style scoped lang="scss">
 .button-yui-kit {
-  color: var(--white);
+  color: var(--text-on-brand);
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -127,49 +127,49 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 }
 
 .primary-yui-kit {
-  background-color: var(--primary-color);
+  background-color: var(--action-primary-bg);
 
   &:hover,
   &:active,
   &.active {
-    background-color: #548cf6;
+    background-color: var(--action-primary-active-bg);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-neutral-color);
-    background-color: var(--button-neutral-color);
+    color: var(--text-disabled);
+    background-color: var(--action-disabled-bg);
   }
 }
 
 .secondary-yui-kit {
-  background-color: var(--background-light-color);
-  color: var(--primary-color);
+  background-color: var(--action-secondary-bg);
+  color: var(--text-brand);
 
   &:active,
   &.active {
-    background-color: var(--primary-pressed-light-color);
+    background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-neutral-color);
-    background-color: var(--button-neutral-color);
+    color: var(--text-disabled);
+    background-color: var(--action-disabled-bg);
   }
 }
 
 .outline-yui-kit {
   background-color: transparent;
-  border: 1px solid var(--border-primary-color);
-  color: var(--text-color);
+  border: 1px solid var(--border-hover);
+  color: var(--text-primary);
 
   &:active,
   &.active {
-    color: var(--white);
-    background-color: #548cf6;
+    color: var(--text-on-brand);
+    background-color: var(--action-primary-active-bg);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-neutral-color);
-    background-color: var(--button-neutral-color);
-    border: 1px solid var(--text-light-color);
+    color: var(--text-disabled);
+    background-color: var(--action-disabled-bg);
+    border: 1px solid var(--border-table);
   }
 }
 
@@ -193,38 +193,33 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 
 .ghost-yui-kit {
   background-color: transparent;
-  color: var(--tooltip-background-color);
+  color: var(--text-primary);
 
   &:hover {
-    background-color: var(--background-light-color);
+    background-color: var(--action-secondary-bg);
   }
 
   &:active,
   &.active {
-    color: var(--primary-color);
-    background-color: var(--primary-pressed-light-color);
+    color: var(--text-brand);
+    background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    background-color: var(--border-color);
+    background-color: var(--action-disabled-bg);
   }
 }
 
 .minor-yui-kit {
-  background-color: var(--white);
-  color: var(--text-neutral-color);
-
-  &:hover {
-    background-color: var(--background-light-color);
-  }
+  background-color: var(--action-secondary-bg);
+  color: var(--text-brand);
 
   &:active,
   &.active {
-    color: var(--primary-color);
-    background-color: var(--primary-pressed-light-color);
+    background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-neutral-color);
-    background-color: var(--button-neutral-color);
+    color: var(--text-disabled);
+    background-color: var(--action-disabled-bg);
   }
 }
 

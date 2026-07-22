@@ -182,23 +182,25 @@ onUnmounted(() => {
   &__current {
     width: inherit;
     padding: 0px 10px;
-    background-color: var(--background, var(--white));
+    background-color: var(--background, var(--surface-overlay));
     display: flex;
     align-items: center;
     justify-content: space-between;
     border: 1px solid transparent;
     border-radius: var(--radius, 5px);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
     cursor: pointer;
 
     &:hover,
     &.active-yui-kit {
-      border: 1px solid $BLUE-9CBEFF;
+      border: 1px solid var(--border-hover);
     }
 
     &.disabled-yui-kit {
       cursor: unset;
-      background-color: var(--white);
-      color: var(--text-light-color);
+      background-color: var(--action-disabled-bg);
+      color: var(--text-disabled);
     }
 
     svg {
@@ -212,6 +214,7 @@ onUnmounted(() => {
     padding: 8.5px 0;
   }
   &__list {
+    border: 0.5px solid transparent;
     margin: 0;
     margin-top: 5px;
     list-style-type: none;
@@ -219,13 +222,16 @@ onUnmounted(() => {
     gap: var(--select-list-gap, 1px);
     width: inherit;
     padding: 0;
-    background-color: var(--white);
-    border: 1px solid $BLUE-9CBEFF;
+    background-color: var(--surface-overlay);
     border-radius: 5px;
     position: fixed;
     overflow: auto;
     overflow-x: hidden;
     z-index: 2222;
+
+    transition:
+      border 0.2s ease,
+      background-color 0.2s ease;
 
     left: anchor(left);
     top: calc(anchor(bottom) + 5px);
@@ -239,5 +245,9 @@ onUnmounted(() => {
     max-height: var(--height-list, 120px);
     gap: 10px;
   }
+}
+.select-list-yui-kit__list {
+  background-color: var(--surface-overlay);
+  border: 1px solid var(--border-hover);
 }
 </style>

@@ -421,10 +421,11 @@ onUnmounted(() => {
   gap: 5px;
   padding: var(--filter-padding, 13px 10px);
   justify-content: start;
-  border: 1px solid var(--border-color);
-  color: var(--text-grey);
+  border: 1px solid var(--border-table);
+  color: var(--text-secondary);
   width: max-content;
   max-width: 237px;
+  background-color: var(--surface-overlay);
 
   transition: all 0.2s ease;
 
@@ -447,12 +448,12 @@ onUnmounted(() => {
   }
 
   .filter__header-title__active {
-    color: var(--text-blue);
+    color: var(--text-brand);
   }
 }
 
 :deep(.filter__header:hover) {
-  border-color: var(--border-primary-color);
+  border-color: var(--border-hover);
 }
 
 .filter_disabled {
@@ -498,14 +499,15 @@ onUnmounted(() => {
   display: inline-flex;
   width: var(--width);
   height: var(--width);
-  color: var(--text-grey);
+  color: var(--text-secondary);
   align-items: center;
   justify-content: center;
+  border-radius: 5px;
 
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: var(--background-light-color);
+    background-color: var(--action-secondary-hover-bg);
   }
 }
 
@@ -518,7 +520,7 @@ filter:has(:not(filter_disabled)):is(
     .filter__cross:active,
     .filter__count:hover
   ) {
-  color: var(--primary-color);
+  color: var(--text-brand);
 }
 
 .filter__count:hover .filter__values,
@@ -551,7 +553,7 @@ li.filter__options-underline {
   & .filter__options-underline-hr {
     margin: 0;
     border: none;
-    border-bottom: 0.5px solid var(--border-color);
+    border-bottom: 0.5px solid var(--border-table);
   }
 
   &:last-child,

@@ -221,8 +221,9 @@ onMounted(() => {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  color: $GREY-B8B8B8;
+  color: var(--text-disabled);
   font-size: 12px;
+  transition: all 0.2s ease;
 
   & svg {
     margin: 0 -5px;
@@ -245,6 +246,8 @@ onMounted(() => {
     display: flex;
     align-items: center;
 
+    transition: all 0.2s ease;
+
     &:hover {
       .fullName-yui-kit {
         opacity: 1;
@@ -252,8 +255,8 @@ onMounted(() => {
     }
 
     &.active {
-      color: var(--link-color);
-      background-color: var(--background-primary-color);
+      color: var(--text-link);
+      background-color: var(--surface-brand);
       border-radius: 6px;
       padding: 3px 8px;
     }
@@ -264,14 +267,14 @@ onMounted(() => {
     }
 
     &.disabled-yui-kit {
-      color: var(--border-color);
+      color: var(--border-table);
       user-select: none;
       pointer-events: none;
       cursor: auto;
     }
 
     &:hover {
-      color: var(--link-color);
+      color: var(--text-link);
     }
   }
 }
@@ -280,8 +283,8 @@ onMounted(() => {
   display: flex;
 
   &--closed {
-    background-color: $BLUE-ECF3FF;
-    color: $BLUE-4480F3;
+    background-color: var(--surface-brand);
+    color: var(--text-disabled);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -293,13 +296,13 @@ onMounted(() => {
     cursor: pointer;
 
     &:hover {
-      background-color: $BLUE-D6E4FF;
+      background-color: var(--surface-brand);
     }
   }
 
   &__item {
     span.checked {
-      background-color: $BLUE-D6E4FF;
+      background-color: var(--surface-brand);
       color: $BLUE-77A6FF;
       border-radius: 6px;
       padding: 3px 8px;
@@ -337,7 +340,7 @@ onMounted(() => {
     border-radius: 2px;
 
     &:not(:has(.disabled-yui-kit)):hover {
-      background-color: $BLUE-D6E4FF;
+      background-color: var(--surface-brand);
       border-radius: 6px;
       cursor: pointer;
     }

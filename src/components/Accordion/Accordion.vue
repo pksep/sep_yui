@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<IAccordionProps>(), {
   --padding-right: 15px;
   --padding-bottom: 15px;
   --padding: 15px 16px;
-  --background: var(--background-light-color);
+  --background: var(--table-surface-header);
 }
 
 summary.accordion-yui-kit__summary {
@@ -46,11 +46,10 @@ summary.accordion-yui-kit__summary {
   list-style: none;
   border-radius: 5px;
   font-size: 16px;
-  color: var(--primary-color);
+  color: var(--text-brand);
   background: var(--background);
   &:hover {
     cursor: pointer;
-    background: var(--primary-hover-light-color);
     opacity: 0.9;
   }
   display: grid;

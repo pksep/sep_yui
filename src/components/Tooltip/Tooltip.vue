@@ -440,17 +440,17 @@ onUnmounted(() => {
     }
 
     &_black {
-      --tooltip-color: var(--white);
+      --tooltip-color: var(--text-white);
     }
 
     &_blue {
-      --tooltip-background-color: var(--border-primary-color);
-      --tooltip-color: var(--white);
+      --tooltip-background-color: var(--tooltip-brand-bg);
+      --tooltip-color: var(--text-on-brand);
     }
 
     &_white {
-      --tooltip-background-color: var(--white);
-      --tooltip-color: var(--text-color);
+      --tooltip-background-color: var(--tooltip-white-bg);
+      --tooltip-color: var(--text-primary);
     }
 
     &_small {

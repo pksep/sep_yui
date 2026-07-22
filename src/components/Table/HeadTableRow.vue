@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<IHeadTableRowProps>(), {
 <style scoped>
 .head-table-row {
   &:last-child > * {
-    border-bottom: 0.5px solid var(--border-color);
+    border-bottom: 0.5px solid var(--border-table);
   }
 
   &:first-child {

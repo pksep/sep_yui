@@ -30,15 +30,18 @@ const props = withDefaults(defineProps<ICardProps>(), {
   border-style: solid;
   border-color: transparent;
   box-shadow: 0px 4px 9.8px 0px #0000000d;
-  background: white;
+  background: var(--surface-overlay);
   border-radius: 15px;
   cursor: pointer;
   font-size: var(--font-size, 14px);
+  transition: all 0.2s ease;
+
+  color: var(--text-primary);
 
   &:hover,
   &:active,
   .pressed {
-    border-color: var(--border-primary-color);
+    border-color: var(--text-brand);
   }
   &:hover {
     border-width: 0.5px;
@@ -49,7 +52,7 @@ const props = withDefaults(defineProps<ICardProps>(), {
   }
 
   &__left {
-    color: var(--primary-color);
+    color: var(--text-brand);
     font-size: 24px;
     font-weight: 700;
     line-height: 100%;

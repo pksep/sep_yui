@@ -90,9 +90,9 @@
   --border-blue: var(--border-primary-color, #9cbeff);
   --border-grey: var(--border-color, #e7e7e7);
   --scrollbar-width: 6px;
-  --scrollbar-bg-color: transparent;
-  --scrollbar-thumb-color-base: var(--blue1);
-  --scrollbar-thumb-color-hovered: var(--blue1);
+  --scrollbar-bg-color: var(--action-disabled-bg);
+  --scrollbar-thumb-color-base: var(--text-brand);
+  --scrollbar-thumb-color-hovered: var(--text-brand);
   --scrollbar-border-width-base: 0;
   --scrollbar-border-width-hovered: 0;
   --scrollbar-border-radius: 5px;

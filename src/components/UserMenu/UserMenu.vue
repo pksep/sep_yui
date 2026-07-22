@@ -1,33 +1,26 @@
 <template>
   <div class="menu-yui-kit" :data-testid="props.dataTestid">
-    <div class="menu-yui-kit__wrapper">
-      <Popover
-        :open="state.isShow"
-        @close="state.isShow = false"
-        placement="bottom-start"
-        :data-testid="`${props.dataTestid}-Popover`"
-      >
-        <template #trigger>
-          <div :class="classes" @click="toggleShow">
-            <Avatar
-              class="menu-yui-kit__avatar"
-              :url="props.user?.avatar"
-              alt="user-avatar"
-              :data-testid="`${props.dataTestid}-Avatar`"
-            />
-            <div class="menu-yui-kit__names">
-              <p class="menu-yui-kit__name">{{ props.user?.name }}</p>
-              <p class="menu-yui-kit__role">{{ props.user?.role }}</p>
-            </div>
-            <Button
-              :type="ButtonTypeEnum.ghost"
-              class="menu-yui-kit__button"
-              :data-testid="`${props.dataTestid}-Toggle`"
-            >
-              <Icon class="menu-yui-kit__button-icon" :name="nameIcon" />
-            </Button>
-          </div>
-        </template>
+    <div class="menu-yui-kit__wrapper" v-on-click-outside.bubble="closeShow">
+      <div :class="classes" @click="toggleShow">
+        <Avatar
+          class="menu-yui-kit__avatar"
+          :url="props.user?.avatar"
+          alt="user-avatar"
+          :data-testid="`${props.dataTestid}-Avatar`"
+        />
+        <div class="menu-yui-kit__names">
+          <p class="menu-yui-kit__name">{{ props.user?.name }}</p>
+          <p class="menu-yui-kit__role">{{ props.user?.role }}</p>
+        </div>
+        <Button
+          :type="ButtonTypeEnum.ghost"
+          class="menu-yui-kit__button"
+          :data-testid="`${props.dataTestid}-Toggle`"
+        >
+          <Icon class="menu-yui-kit__button-icon" :name="nameIcon" />
+        </Button>
+      </div>
+      <div v-if="state.isShow" class="menu-yui-kit__dropdown">
         <UserMenuList
           :data-testid="`${props.dataTestid}-List`"
           :is-black-theme="state.isBlackTheme"
@@ -40,12 +33,13 @@
           @language-switch="handleLanguageSwitch"
           @unmount-qr-auth="handleQrAuth"
         />
-      </Popover>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from 'vue';
+import { vOnClickOutside } from '@vueuse/components';
 import { IMenuProps } from './interface/interface';
 import Button from '@/components/Button/Button.vue';
 import Icon from '@/components/Icon/Icon.vue';
@@ -54,7 +48,6 @@ import { ButtonTypeEnum } from '@/components/Button/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import { IChangeSwitchEmit } from '@/components/Switch/interface/interface';
 import Avatar from '../Avatar/Avatar.vue';
-import Popover from '../Popover/Popover.vue';
 import UserMenuList from './UserMenuList.vue';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
@@ -69,7 +62,7 @@ const state = reactive({
 const emit = defineEmits<{
   (e: 'click', type: MenuTypeEnum): void;
   (e: 'unmount-qr-auth'): void;
-  (e: 'themeChange', value: boolean): void;
+  (e: 'theme-change', value: boolean): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
@@ -92,6 +85,8 @@ const classes = computed(() => ({
 
 function choosedOptions(type: MenuTypeEnum) {
   emit('click', type);
+
+  if (type === MenuTypeEnum.theme) return;
   if (props.closeAfterClick) state.isShow = false;
 }
 
@@ -109,6 +104,10 @@ const toggleShow = () => {
   state.isShow = !state.isShow;
 };
 
+const closeShow = () => {
+  state.isShow = false;
+};
+
 /**
  * @param isBlackTheme:  boolean
  * @returns
@@ -117,11 +116,9 @@ const toggleShow = () => {
 /**
  * Меняет тему, передает значение выбора родителю
  */
-function toggleThemeChange(isBlackTheme: boolean) {
-  if (props.closeAfterClick) state.isShow = false;
-
-  emit('themeChange', isBlackTheme);
-  state.isBlackTheme = isBlackTheme;
+function toggleThemeChange() {
+  state.isBlackTheme = !state.isBlackTheme;
+  emit('theme-change', state.isBlackTheme);
 }
 
 /**
@@ -159,8 +156,10 @@ const handleQrAuth = () => {
   & .menu-yui-kit__wrapper {
     display: flex;
     align-items: center;
+    transition: all 0.2s ease;
     gap: 9px;
-    background-color: var(--white);
+    background-color: var(--surface-input-primary);
+    position: relative;
     width: 100%;
   }
 
@@ -174,10 +173,11 @@ const handleQrAuth = () => {
     width: 100%;
     height: 52px;
     width: 211px;
+    transition: all 0.2s ease;
 
     &:hover,
     &.active-yui-kit {
-      background-color: var(--primary-hover-light-color);
+      background-color: var(--action-secondary-hover-bg);
     }
   }
 
@@ -187,16 +187,18 @@ const handleQrAuth = () => {
   }
 
   & .menu-yui-kit__name {
-    color: var(--text-color);
+    color: var(--text-primary);
     margin-bottom: 2px;
     font-size: 14px;
     line-height: 16px;
+    transition: all 0.2s ease;
   }
 
   & .menu-yui-kit__role {
-    color: var(--grey10);
+    color: var(--chat-secondary);
     font-size: 12px;
     line-height: 14px;
+    transition: all 0.2s ease;
   }
 
   & .menu-yui-kit__button {
@@ -205,6 +207,7 @@ const handleQrAuth = () => {
     margin-left: auto;
     height: inherit;
     & .menu-yui-kit__button-icon {
+      color: var(--text-primary);
       font-size: 16px;
       stroke-width: 2px;
     }
@@ -213,6 +216,24 @@ const handleQrAuth = () => {
       background-color: transparent;
     }
   }
+
+  & .menu-yui-kit__dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 20;
+    overflow: hidden;
+    width: max-content;
+    border-radius: 5px;
+    border: 0.5px solid transparent;
+    background-color: var(--surface-overlay);
+    transition: all 0.2s ease;
+  }
+}
+
+[data-theme='dark'],
+.theme-dark .menu-yui-kit__dropdown {
+  border: 0.5px solid var(--border-table);
 }
 
 .menu-yui-kit__avatar {

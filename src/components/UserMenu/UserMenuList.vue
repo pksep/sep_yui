@@ -8,12 +8,12 @@
         :iconName="getIconForType(menuType)"
         :text="props.texts?.[menuType] ?? getDefaultText(menuType)"
         :menuType="menuType"
-        :disabled="isDisabled(menuType)"
         :active="activeItem === menuType"
         @click="() => choosedOptions(menuType)"
       >
         <Toggle
           v-if="menuType === MenuTypeEnum.theme"
+          v-model="isBlackTheme"
           disabled
           @change="handleThemeSwitch"
         />
@@ -23,6 +23,7 @@
     <Switch
       v-if="props.languages?.items"
       :items="props.languages?.items"
+      theme="contrast"
       :default-value="props.languages?.defaultValue"
       @change="handleLanguageSwitch"
       :data-testid="`${props.dataTestid}-Language-Switch`"
@@ -41,17 +42,19 @@ import Toggle from '@/components/Toggle/Toggle.vue';
 import type { IMenuProps } from './interface/interface';
 
 const props = withDefaults(defineProps<IMenuProps>(), {
-  dataTestid: 'UserMenuList'
+  dataTestid: 'UserMenuList',
+  isBlackTheme: false
 });
 
 const emit = defineEmits<{
   (e: 'click', type: MenuTypeEnum): void;
   (e: 'unmount-qr-auth'): void;
-  (e: 'themeChange', value: boolean): void;
+  (e: 'theme-change'): void;
   (e: 'languageSwitch', value: IChangeSwitchEmit): void;
 }>();
 
 const activeItem = ref<MenuTypeEnum | null>(null);
+const isBlackTheme = ref(props.isBlackTheme);
 
 watch(
   () => props.menuOpen,
@@ -61,25 +64,23 @@ watch(
 );
 
 const choosedOptions = (type: MenuTypeEnum) => {
-  activeItem.value = type;
   if (type === MenuTypeEnum.qrAuth) {
     emit('unmount-qr-auth');
     return;
   }
   emit('click', type);
+  if (type === MenuTypeEnum.theme) {
+    isBlackTheme.value = !isBlackTheme.value;
+    emit('theme-change');
+  }
 };
 
 const handleLanguageSwitch = (obj: IChangeSwitchEmit) => {
   emit('languageSwitch', obj);
 };
 
-/*
-Данная функция находится в разработке
-@date 2025-11-07
-*/
 const handleThemeSwitch = () => {
-  // emit('themeChange', value);
-  return false;
+  emit('theme-change');
 };
 
 const getDefaultText = (type: MenuTypeEnum): string => {
@@ -120,15 +121,12 @@ const getTestIdSuffix = (type: MenuTypeEnum): string => {
   };
   return suffixes[type] ?? type;
 };
-
-const isDisabled = (type: MenuTypeEnum): boolean => {
-  return type === MenuTypeEnum.theme;
-};
 </script>
 
 <style scoped>
 .menu-yui-kit__list {
   padding: 10px;
+  border: 0.5px solid transparent;
 }
 
 .list-yui-kit {
@@ -143,7 +141,6 @@ const isDisabled = (type: MenuTypeEnum): boolean => {
 :deep(ul.switch-yui-kit-list) {
   width: 191px;
   padding: 2px;
-  background-color: var(--primary-hover-light-color);
 }
 
 :deep(li.switch-yui-kit-item) {

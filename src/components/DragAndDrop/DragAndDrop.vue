@@ -112,7 +112,7 @@ onMounted(() => {
 @import '@/assets/scss/_variables.scss';
 
 .dnd-yui-kit {
-  --background: var(--white);
+  --background: var(--surface-input-primary);
 }
 
 div.dnd-yui-kit,
@@ -130,28 +130,31 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   font-family: $PRIMARY-FONT;
   font-size: 18px;
   font-weight: 700;
-  color: var(--text-light-color);
+  color: var(--text-disabled);
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease-in-out;
   svg {
     margin-right: 5px;
   }
 }
 
 div.dnd-yui-kit label.dnd-yui-kit__label {
+  transition: all 0.2s ease-in-out;
   &:hover,
   &.is-pressed {
-    border: 1.5px solid var(--primary-color);
-    background: var(--background-light-color);
+    border: 1.5px solid var(--border-hover);
+    background: var(--background);
   }
   &.active,
   &.is-pressed {
     & span.dnd-yui-kit__span,
     svg {
-      color: var(--primary-color);
+      color: var(--text-brand);
     }
   }
   &.active {
-    border: 2.5px dashed var(--primary-color);
-    background: var(--background-light-color);
+    border: 2.5px dashed var(--text-brand);
+    background: var(--background);
   }
 }
 </style>

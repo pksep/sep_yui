@@ -125,6 +125,7 @@ fieldset.input-yui-kit .input-yui-kit__input {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  height: inherit;
 }
 
 fieldset.input-yui-kit .input-yui-kit__close {

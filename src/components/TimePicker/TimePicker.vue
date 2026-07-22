@@ -345,7 +345,7 @@ function clearTime() {
   border-radius: 10px;
   color: var(--text-neutral-color);
   background-color: var(--white);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-table);
 
   &.disabled {
     pointer-events: none;

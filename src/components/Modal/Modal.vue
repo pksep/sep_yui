@@ -247,7 +247,12 @@ onUnmounted(() => {
   border-bottom-right-radius: 0;
 }
 
+.modal-yui-kit__modal-content {
+}
+
 .modal-yui-kit {
+  background-color: var(--surface-main-modal);
+  color: var(--text-primary);
   border: none;
   display: grid;
   position: fixed;
@@ -276,6 +281,12 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
   }
+}
+
+[data-theme='dark'],
+.theme-dark .modal-yui-kit {
+  border: 0.5px solid var(--border-table);
+  border-right: 0.5px solid transparent;
 }
 
 @media (max-width: 767px) {

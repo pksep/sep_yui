@@ -222,12 +222,12 @@ watch(
       input {
         padding-left: 12px;
         padding-right: 36px;
-        color: var(--text-color);
+        color: var(--text-primary);
         caret-color: var(--border-primary-color);
-        background-color: var(--white);
+        background-color: var(--surface-input-secondary);
 
         &::placeholder {
-          color: var(--white);
+          color: var(--text-disabled);
         }
       }
     }
@@ -243,7 +243,7 @@ watch(
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: var(--background-light-color);
+    background-color: var(--surface-input-secondary);
 
     font-size: 14px;
     line-height: 16px;
@@ -254,7 +254,7 @@ watch(
     &:focus,
     &:focus-visible,
     &:active {
-      border: 1px solid var(--border-primary-color);
+      border: 1px solid var(--border-hover);
       outline: none;
     }
   }

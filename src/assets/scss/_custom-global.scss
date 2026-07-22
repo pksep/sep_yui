@@ -1,11 +1,10 @@
-[class*='yui-kit'] {
-  font-family: 'Inter Variable', sans-serif;
+[class*="yui-kit"] {
+  font-family: "Inter Variable", sans-serif;
 }
 
 @supports not selector(::-webkit-scrollbar) {
   * {
-    scrollbar-color: var(--scrollbar-thumb-color-hovered)
-      var(--scrollbar-bg-color);
+    scrollbar-color: var(--scrollbar-thumb-color-hovered) var(--scrollbar-bg-color);
     scrollbar-width: var(--scrollbar-width);
   }
 }
@@ -14,6 +13,7 @@
   width: var(--scrollbar-width);
   height: var(--scrollbar-height, 10px);
   background-color: var(--scrollbar-bg-color);
+  border-radius: var(--scrollbar-border-radius);
 }
 
 ::-webkit-scrollbar-track {

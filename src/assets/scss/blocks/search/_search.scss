@@ -31,9 +31,8 @@
   }
 
   &.minor {
-    & .select-list-yui-kit__list,
     & .select-list-yui-kit__current {
-      background-color: var(--background-light-color);
+      background-color: var(--action-secondary-bg);
     }
 
     & .select-list-yui-kit__current {
@@ -41,7 +40,7 @@
     }
 
     & .active-yui-kit {
-      border: 1px solid var(--border-primary-color);
+      border: 1px solid var(--border-hover);
     }
   }
 }

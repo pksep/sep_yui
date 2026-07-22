@@ -27,8 +27,8 @@ const model = defineModel();
 
 <style scoped lang="scss">
 .radio {
-  --radio-color: var(--primary-color);
-  --radio-disabled-color: var(--text-light-color);
+  --radio-color: var(--text-brand);
+  --radio-disabled-color: var(--border-table);
 
   --radio-width: 18px;
 
@@ -44,7 +44,7 @@ const model = defineModel();
   border: 1px solid var(--radio-color);
   border-radius: 50%;
 
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
 
   cursor: pointer;
 
@@ -74,6 +74,7 @@ const model = defineModel();
 
   &:disabled {
     --radio-color: var(--radio-disabled-color);
+    border: 1px solid var(--radio-disabled-color);
     cursor: default;
   }
 }

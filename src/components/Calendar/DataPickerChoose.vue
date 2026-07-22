@@ -116,23 +116,24 @@ const formatLetter = (str: string): string | null => {
   display: flex;
   align-items: center;
   align-content: center;
-  background: var(--background, var(--white));
+  background: var(--background, var(--surface-overlay));
   width: max-content;
   gap: 5px;
   padding: var(--header-padding, 10px);
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 14px;
-  color: var(--color, var(--text-neutral-color));
-  border: 1px solid var(--border, var(--border-color));
-  padding-left: 1px;
+  color: var(--color, var(--text-secondary));
+  border: 1px solid var(--border, var(--border-table));
+
+  transition: all 0.2s ease;
   &:hover {
     cursor: pointer;
-    background: var(--background-light-color);
+    background: var(--surface-input-secondary);
   }
   &.date-active-yui-kit {
-    --background: var(--primary-hover-light-color);
-    --color: var(--primary-color);
-    --border: var(--active-border, var(--border-primary-color));
+    --background: var(--action-secondary-pressed-bg);
+    --color: var(--text-brand);
+    --border: var(--active-border, var(--border-table));
   }
   &:nth-child(2) {
     padding-left: 10px;
@@ -150,9 +151,9 @@ const formatLetter = (str: string): string | null => {
 .date-disable-yui-kit {
   user-select: none;
   pointer-events: none;
-  --color: var(--text-light-color);
-  --background: var(--button-neutral-color);
-  --border: var(--disable-border, var(--border-color));
+  --color: var(--text-disabled);
+  --background: var(--action-disabled-bg);
+  --border: var(--disable-border, var(--border-table));
   & button.disabled-yui-kit {
     color: var(--text-light-color);
     background: transparent;
@@ -160,7 +161,7 @@ const formatLetter = (str: string): string | null => {
 }
 
 .date-picker-yui-kit__header-btn__dash {
-  color: var(--text-grey);
+  color: var(--text-secondary);
   font-weight: 400;
 }
 
@@ -175,9 +176,9 @@ const formatLetter = (str: string): string | null => {
   align-items: center;
   gap: 7px;
 
-  background: var(--white);
+  background: var(--surface-overlay);
   border-radius: 10px;
-  border: 1px solid var(--border, var(--border-color));
+  border: 1px solid var(--border, var(--border-table));
   padding: 5px;
 }
 

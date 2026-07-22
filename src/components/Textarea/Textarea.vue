@@ -90,12 +90,14 @@ fieldset.input-yui-kit {
   height: auto;
   margin-inline: 0;
   padding: 0;
+  background-color: var(--surface-input-secondary);
 }
 fieldset.input-yui-kit .input-yui-kit__input {
   resize: none;
   height: 96px;
   padding: 10px 15px;
   width: calc(100% + 3px);
+  color: var(--text-primary);
 }
 
 fieldset.input-yui-kit.readonly::before,

@@ -26,10 +26,10 @@ const props = withDefaults(defineProps<ITableTd>(), {
   text-align: center;
 
   border: none;
-  border-left: 0.5px solid var(--border-color);
-  border-top: 0.5px solid var(--border-color);
+  border-left: 0.5px solid var(--border-table);
+  border-top: 0.5px solid var(--border-table);
 
-  background-color: var(--primary-hover-light-color);
+  background-color: var(--table-surface-header);
 
   hyphens: auto;
   overflow-wrap: anywhere;

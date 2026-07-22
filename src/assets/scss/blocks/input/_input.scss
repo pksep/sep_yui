@@ -11,6 +11,7 @@
     border: 1px solid $color;
     border-radius: 5px;
     pointer-events: none;
+    transition: all 0.2s ease;
   }
 
   &.initial::before,
@@ -47,14 +48,21 @@
 fieldset.input-yui-kit {
   display: grid;
   align-items: center;
-  background-color: var(--background, var(--white));
+  background-color: var(--background, var(--surface-input-primary));
   grid-template-columns: 1fr min-content;
   padding: 0 2px 0 0;
   border-radius: var(--radius, 5px);
   height: 44px;
   column-gap: 4px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
   position: relative;
-  @include fieldset-border(var(--border-primary-color));
+  @include fieldset-border(var(--input-border-color, transparent));
+
+  &:hover,
+  &:focus {
+    @include fieldset-border(var(--border-hover));
+  }
 
   & .input-yui-kit__legend {
     position: absolute;
@@ -74,7 +82,7 @@ fieldset.input-yui-kit {
       margin-top: -1px;
       font-size: 11px;
       font-weight: 600;
-      color: var(--error-dark-color);
+      color: var(--status-errorDark);
     }
   }
 
@@ -88,6 +96,13 @@ fieldset.input-yui-kit {
     width: inherit;
     outline: none;
 
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: var(--text-disabled);
+    }
+
     &:read-write:focus::placeholder {
       color: transparent;
     }
@@ -97,7 +112,7 @@ fieldset.input-yui-kit {
   &.success .input-yui-kit__legend,
   &.warning .input-yui-kit__legend {
     display: flex;
-    background: var(--white);
+    background: var(--surface-input-primary);
   }
 
   &.ordinary .input-yui-kit__legend {
@@ -105,22 +120,22 @@ fieldset.input-yui-kit {
   }
 
   &.minor {
-    --background: var(--background-light-color);
+    --background: var(--surface-input-secondary);
   }
 
   &_number {
     &.minor {
-      --background: var(--primary-hover-light-color);
+      --background: var(--surface-input-secondary);
     }
   }
 }
 
 fieldset.input-yui-kit:disabled {
-  --background: var(--button-neutral-color);
+  --background: var(--action-disabled-bg);
 
   & .input-yui-kit__input {
-    background-color: var(--button-neutral-color);
-    color: $GREY-A6A3AD;
+    background-color: var(--action-disabled-bg);
+    color: var(--text-disabled);
     border-radius: var(--radius);
   }
 

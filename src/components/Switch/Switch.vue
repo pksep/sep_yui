@@ -32,12 +32,12 @@
 <script lang="ts" setup>
 import { computed, onMounted, reactive, watch } from 'vue';
 import Icon from '@/components/Icon/Icon.vue';
-import { IconNameEnum } from '@/components/Icon/enum/enum';
 import {
   ISwitchProps,
   IChangeSwitchEmit,
   type SwitchItem
 } from './interface/interface';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
 
 const props = withDefaults(defineProps<ISwitchProps>(), {
   dataTestid: 'Switch',
@@ -133,17 +133,17 @@ onMounted(() => {
   gap: 6px;
   width: inherit;
   border-radius: 5px;
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
   margin: 0;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease;
 }
 
 .switch-yui-kit-list_contrast {
-  background-color: var(--background-light-color);
+  background-color: var(--surface-input-secondary);
 }
 
 .switch-yui-kit-list_disabled {
-  background-color: var(--button-neutral-color);
+  background-color: var(--action-disabled-bg);
 }
 
 .switch-yui-kit-item {
@@ -156,22 +156,24 @@ onMounted(() => {
   width: inherit;
   height: 24px;
   border-radius: 5px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
 }
 
 .switch-yui-kit-item_disabled {
   pointer-events: none;
-  color: var(--text-light-color);
-  background-color: var(--button-neutral-color);
+  color: var(--text-disabled);
+  background-color: transparent;
 }
 
 .switch-yui-kit-active {
-  background-color: var(--primary-color);
-  color: var(--white);
+  background-color: var(--action-primary-bg);
+  color: var(--text-on-brand);
 }
 
 .switch-yui-kit-active_disabled {
-  background-color: var(--text-light-color);
+  color: var(--text-white);
+  background-color: var(--text-disabled);
 }
 
 .switch-yui-kit-item-icon {

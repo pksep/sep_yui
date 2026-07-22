@@ -73,7 +73,7 @@ const emit = defineEmits<{
   flex-direction: column;
   gap: 5px;
   background-color: var(--white);
-  border: 0.5px solid var(--border-color);
+  border: 0.5px solid var(--border-table);
   padding: 10px;
   border-radius: 10px;
   min-height: 65px;
@@ -135,7 +135,7 @@ const emit = defineEmits<{
   left: -5px;
   right: -5px;
   height: 0.5px;
-  background-color: var(--border-color);
+  background-color: var(--border-table);
 }
 
 .editor-component__mention-avatar {
