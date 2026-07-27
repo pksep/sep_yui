@@ -62,7 +62,7 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
 }
 
 .loader__circle--blue {
-  background-color: var(--link-color);
+  background-color: var(--text-brand);
   animation-name: blue-circle;
   transform: translateX(37.75px);
   z-index: 1;

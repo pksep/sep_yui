@@ -2168,10 +2168,6 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 </script>
 
 <style>
-.link {
-  color: var(--link-color);
-}
-
 .link:visited,
 .link:active {
   color: var(--text-brand);
