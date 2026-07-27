@@ -124,14 +124,12 @@ onUnmounted(() => {
 
 .table-row.ava {
   background-color: var(--table-surface-ava);
-  color: var(--tooltip-neutral-bg);
 }
 .table-row.ava:hover,
 .table-row.ava_active {
   background-color: var(--table-surface-avaActive);
 }
 .table-row.ban {
-  color: var(--tooltip-neutral-bg);
   background-color: var(--table-surface-ban);
 }
 .table-row.ban:hover,

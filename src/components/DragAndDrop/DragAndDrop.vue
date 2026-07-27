@@ -131,7 +131,7 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   font-size: 18px;
   font-weight: 700;
   color: var(--text-disabled);
-  border: 1.5px solid transparent;
+  border: 1px solid var(--border-table);
   transition: all 0.2s ease-in-out;
   svg {
     margin-right: 5px;
@@ -142,7 +142,7 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   transition: all 0.2s ease-in-out;
   &:hover,
   &.is-pressed {
-    border: 1.5px solid var(--border-hover);
+    border: 1px solid var(--border-hover);
     background: var(--background);
   }
   &.active,
@@ -153,7 +153,7 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
     }
   }
   &.active {
-    border: 2.5px dashed var(--text-brand);
+    border: 1px dashed var(--text-brand);
     background: var(--background);
   }
 }
