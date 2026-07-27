@@ -114,7 +114,7 @@ watch(
 <style lang="scss" scoped>
 .result-yui-kit {
   width: 100%;
-  color: var(--text-color);
+  color: var(--text-primary);
   outline: none;
   border-radius: 5px;
   margin-top: 5px;
@@ -126,8 +126,8 @@ watch(
     list-style-type: none;
     transition: 0.3s ease-in-out;
     margin: 0;
-    background-color: var(--white);
-    border: 1px solid var(--border-primary-color);
+    background-color: var(--surface-input-primary);
+    border: 1px solid var(--border);
     gap: 5px;
     border-radius: 5px;
     cursor: pointer;
@@ -135,7 +135,7 @@ watch(
     overflow: auto;
 
     &__item {
-      background: var(--white);
+      background: var(--surface-input-primary);
       overflow: hidden;
       text-align: left;
       display: flex;
@@ -148,7 +148,7 @@ watch(
       padding: 4px 5px;
 
       &:hover {
-        background-color: var(--primary-hover-light-color);
+        background-color: var(--table-surface-hover);
       }
 
       & span {
@@ -156,12 +156,12 @@ watch(
         font-size: 12px;
         line-height: 100%;
         letter-spacing: 0;
-        color: var(--text-color);
+        color: var(--text-primary);
         flex-shrink: 0;
       }
 
       & .blue-yui-kit {
-        color: var(--primary-color);
+        color: var(--text-brand);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

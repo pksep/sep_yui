@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
 }
 
 .loader__circle--light-blue {
-  background-color: var(--primary-color);
+  background-color: var(--text-brand);
   animation-name: light-blue-circle;
   transform: translateX(16.25px);
   z-index: 1;
@@ -72,7 +72,7 @@ const props = withDefaults(defineProps<ILoaderProps>(), {
   font-size: 18px;
   font-weight: bold;
   margin-top: 13px;
-  color: var(--primary-color);
+  color: var(--text-brand);
 }
 
 @keyframes light-blue-circle {

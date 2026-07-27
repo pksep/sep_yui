@@ -193,7 +193,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 4px dashed var(--primary-color);
+  border: 4px dashed var(--text-brand);
   border-radius: 24px;
   color: var(--text-neutral-color);
   background-color: rgb(255 255 255 / 55%);

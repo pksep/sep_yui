@@ -96,8 +96,8 @@ onMounted(() => {
 
   background: linear-gradient(
     90deg,
-    var(--primary-color) 0%,
-    var(--primary-color) var(--progress, 0%),
+    var(--text-brand) 0%,
+    var(--text-brand) var(--progress, 0%),
     var(--range-track-color) var(--progress, 0%),
     var(--range-track-color) 100%
   );
@@ -107,8 +107,8 @@ onMounted(() => {
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--primary-color);
-    border: 0px solid var(--primary-color);
+    background-color: var(--text-brand);
+    border: 0px solid var(--text-brand);
     border-radius: 50%;
     height: var(--range-width-thumb);
     width: var(--range-width-thumb);
@@ -117,8 +117,8 @@ onMounted(() => {
   &::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--primary-color);
-    border: 0px solid var(--primary-color);
+    background-color: var(--text-brand);
+    border: 0px solid var(--text-brand);
     border-radius: 50%;
     height: var(--range-width-thumb);
     width: var(--range-width-thumb);

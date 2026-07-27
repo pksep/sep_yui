@@ -394,10 +394,6 @@ fieldset.input-yui-kit {
       }
     }
   }
-
-  &.active {
-    background: var(--primary-hover-light-color);
-  }
 }
 
 .input-yui-kit__input {

@@ -1761,7 +1761,7 @@ onUnmounted(() => {
 }
 
 .slider-modal__side-bar-item_active .slider-modal__mini-prewiew-wrapper {
-  background-color: var(--primary-color);
+  background-color: var(--text-brand);
 }
 
 .slider-modal__side-bar-item_active .slider-modal__mini-preview {
@@ -1771,7 +1771,7 @@ onUnmounted(() => {
 .slider-modal__mini-prewiew-wrapper {
   width: 150px;
   height: 212px;
-  background-color: var(--primary-color-20);
+  background-color: var(--text-brand-20);
 
   transition: all 0.2s ease;
 }
@@ -1906,7 +1906,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 
-  color: var(--primary-color);
+  color: var(--text-brand);
   font-size: clamp(54px, 10vw, 128px);
   font-weight: 800;
   line-height: 1;
@@ -1922,7 +1922,7 @@ onUnmounted(() => {
   justify-content: center;
 
   background-color: var(--white);
-  color: var(--primary-color);
+  color: var(--text-brand);
   font-size: 18px;
   font-weight: 800;
   line-height: 1;
@@ -1955,7 +1955,7 @@ onUnmounted(() => {
 
 :is(.slider-modal__side-button:hover, .slider-modal__side-button:active)
   .slider-modal__icon {
-  color: var(--primary-color);
+  color: var(--text-brand);
 }
 
 .slider-modal__side-button:disabled .slider-modal__icon {

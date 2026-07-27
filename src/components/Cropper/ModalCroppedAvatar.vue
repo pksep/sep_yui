@@ -232,7 +232,7 @@ dialog.modal-cropped-avatar {
 
 .modal-cropped-avatar__title {
   align-self: center;
-  color: var(--text-color);
+  color: var(--text-primary);
 
   font-size: 20px;
   font-weight: 700;

@@ -39,9 +39,6 @@ table.table-yui-kit {
   & th.table-yui-kit__th {
     padding: 12px 8px;
     border-bottom: 0.5px solid var(--border-table);
-    &.colored {
-      background-color: var(--primary-hover-light-color);
-    }
   }
 
   & th.table-yui-kit__th {
@@ -56,28 +53,28 @@ table.table-yui-kit {
 
   & tr.table-yui-kit__tr {
     --cursor: pointer;
-    background-color: var(--background);
+    background-color: var(--background-tr);
     cursor: var(--cursor);
     &.passive {
-      --background: #f8f8f9;
+      --background-tr: #f8f8f9;
     }
     &:hover,
     &.active {
-      --background: var(--primary-hover-light-color);
+      --background-tr: var(--table-surface-hover);
       color: inherit;
     }
     &.ava {
-      --background: var(--ava-color);
+      --background-tr: var(--ava-color);
       &:hover,
       &.active {
-        --background: #ffebc1;
+        --background-tr: #ffebc1;
       }
     }
     &.ban {
-      --background: var(--ban-color);
+      --background-tr: var(--ban-color);
       &:hover,
       &.active {
-        --background: var(--ban-active-color);
+        --background-tr: var(--ban-active-color);
       }
     }
   }

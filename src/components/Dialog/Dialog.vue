@@ -67,7 +67,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .dialog-yui-kit {
-  background: var(--background, var(--primary-hover-light-color));
+  background: var(--surface-main-modal);
   border: none;
   border-radius: 15px;
   padding: 0px;
@@ -75,7 +75,7 @@ onMounted(() => {
     outline: none;
   }
   &[open]::backdrop {
-    background-color: $BLACK;
+    background-color: var(--backdrop-modal);
     opacity: 0.4;
   }
 

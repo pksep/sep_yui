@@ -38,7 +38,7 @@ const slideClass = computed(() => [
   width: 100%;
   height: 100%;
   z-index: 0;
-  background-color: var(--primary-color);
+  background-color: var(--text-brand);
 
   /* маска с отверстием */
   -webkit-mask: linear-gradient(#000 0 0), linear-gradient(#000 0 0);

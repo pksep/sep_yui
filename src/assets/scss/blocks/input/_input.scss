@@ -48,7 +48,7 @@
 fieldset.input-yui-kit {
   display: grid;
   align-items: center;
-  background-color: var(--background, var(--surface-input-primary));
+  background-color: var(--surface-input-primary);
   grid-template-columns: 1fr min-content;
   padding: 0 2px 0 0;
   border-radius: var(--radius, 5px);

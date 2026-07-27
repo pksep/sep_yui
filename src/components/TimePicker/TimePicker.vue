@@ -31,6 +31,7 @@
               @update:model-value="value => (state.hours = +value)"
               :min="0"
               :max="23"
+              class="time-picker__input_hour"
               :class="{
                 'time-picker-input': true,
                 pressed: state.editingValue === 'hour'
@@ -49,6 +50,7 @@
               @update:model-value="value => (state.minutes = +value)"
               :min="0"
               :max="59"
+              class="time-picker__input_minute"
               :class="{
                 'time-picker-input': true,
                 pressed: state.editingValue === 'minute'
@@ -343,9 +345,8 @@ function clearTime() {
   height: 44px;
   padding: 5px;
   border-radius: 10px;
-  color: var(--text-neutral-color);
-  background-color: var(--white);
-  border: 1px solid var(--border-table);
+  color: var(--text-secondary);
+  background-color: var(--surface-overlay);
 
   &.disabled {
     pointer-events: none;
@@ -372,11 +373,12 @@ function clearTime() {
     }
 
     &:hover {
-      background-color: var(--background-light-color);
+      background-color: var(--surface-input-secondary);
     }
 
     &:active {
-      color: var(--primary-color);
+      background-color: var(--surface-input-secondary);
+      color: var(--text-brand);
     }
 
     & .time-picker-select-clear {
@@ -386,21 +388,17 @@ function clearTime() {
       align-items: center;
       justify-content: center;
       border-radius: 5px;
-      color: var(--text-color);
-
-      &:hover {
-        background-color: var(--white);
-      }
+      color: var(--text-primary);
 
       &:active {
-        color: var(--primary-color);
+        color: var(--text-brand);
       }
     }
   }
 }
 
 .time-picker-dialog {
-  background: var(--white);
+  background: var(--surface-overlay);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   font-family: sans-serif;
@@ -413,16 +411,27 @@ function clearTime() {
       font-weight: 400;
       font-size: 16px;
       margin: 0;
+      color: var(--text-primary);
     }
 
     & .time-picker-input {
       width: 92px;
       height: 80px;
-      background-color: var(--background-light-color);
+      background-color: var(--surface-overlay);
       padding-right: 0;
 
+      &.time-picker__input_hour {
+        &::before {
+          border: 1px solid var(--border-hover);
+        }
+      }
+
+      &.time-picker__input_minute {
+        background-color: var(--surface-input-secondary);
+      }
+
       &.pressed :deep(.input-yui-kit__input) {
-        color: var(--link-color);
+        color: var(--text-link);
       }
 
       & :deep(.input-yui-kit__input) {
@@ -432,11 +441,17 @@ function clearTime() {
         font-size: 55px;
         line-height: 100%;
         text-align: center;
-        border: none;
+      }
+
+      &.pressed {
+        background-color: var(--action-secondary-hover-bg);
+        &::before {
+          border: 1px solid var(--border-hover);
+        }
       }
 
       & :deep(.pressed) {
-        color: var(--primary-color) !important;
+        color: var(--text-brand) !important;
       }
 
       & :deep(.input-yui-kit__buttons) {
@@ -451,6 +466,7 @@ function clearTime() {
       line-height: 100%;
       text-align: center;
       transform: translateX(-7px);
+      color: var(--text-primary);
     }
   }
 
@@ -468,7 +484,7 @@ function clearTime() {
         font-weight: 400;
         font-size: 14px;
         line-height: 100%;
-        color: var(--text-neutral-color);
+        color: var(--text-secondary);
       }
     }
   }
@@ -490,12 +506,12 @@ function clearTime() {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: var(--background-light-color);
+      background: var(--surface-input-secondary);
 
       .clock-hand {
         width: 2px;
         height: 78px;
-        background: var(--primary-color);
+        background: var(--text-brand);
         position: absolute;
         top: calc(50% - 79px);
         left: calc(50% - 3px);
@@ -512,11 +528,12 @@ function clearTime() {
         line-height: 45px;
         z-index: 2;
         font-size: 14px;
+        color: var(--text-primary);
 
         &.active {
-          color: var(--white);
+          color: var(--surface-overlay);
           border-radius: 50%;
-          background: var(--primary-color);
+          background: var(--text-brand);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -527,7 +544,7 @@ function clearTime() {
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: var(--white);
+          background: var(--text-primary);
         }
       }
     }
@@ -540,7 +557,7 @@ function clearTime() {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--primary-color);
+      background: var(--text-brand);
     }
   }
 
@@ -550,7 +567,7 @@ function clearTime() {
     align-items: center;
     gap: 8px;
     margin-top: 16px;
-    color: var(--text-neutral-color);
+    color: var(--text-secondary);
 
     & .time-picker-actions__switch {
       height: 24px;
@@ -558,7 +575,7 @@ function clearTime() {
       cursor: pointer;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--text-brand);
       }
     }
   }
