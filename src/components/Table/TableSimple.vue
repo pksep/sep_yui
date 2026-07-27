@@ -100,7 +100,7 @@ table.simple-table-yui-kit {
   border-spacing: 0;
   table-layout: fixed;
 
-  background-color: var(--table-background-color, var(--white));
+  background-color: var(--table-background-color, var(--table-surface));
 
   &.simple-table-yui-kit__head {
     position: sticky;
@@ -112,7 +112,7 @@ table.simple-table-yui-kit {
     --th-horizontal-padding: 5px;
     --th-vertical-padding: 5px;
     border-bottom: 1px solid var(--border-table);
-    background-color: var(--table-background-color, var(--white));
+    background-color: var(--table-background-color, var(--table-surface));
   }
 }
 </style>
