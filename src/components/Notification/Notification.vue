@@ -112,19 +112,19 @@ defineExpose({
 
 <style lang="scss" scoped>
 .push-notification-yui-kit_success {
-  --primary-color: var(--success-color);
+  --text-brand: var(--success-color);
 }
 
 .push-notification-yui-kit_warning {
-  --primary-color: var(--orange4);
+  --text-brand: var(--orange4);
 }
 
 .push-notification-yui-kit_error {
-  --primary-color: var(--error-color);
+  --text-brand: var(--error-color);
 }
 
 .push-notification-yui-kit_info {
-  --primary-color: var(--primary-color);
+  --text-brand: var(--text-brand);
 }
 
 .push-notification-yui-kit {
@@ -134,7 +134,7 @@ defineExpose({
   margin: 0 auto;
   margin-right: 15px;
   border-bottom: 2px solid;
-  border-color: var(--primary-color);
+  border-color: var(--text-brand);
   background-color: var(--white);
   border-radius: 8px;
 }
@@ -171,7 +171,7 @@ defineExpose({
   margin-bottom: 15px;
   & .notification-yui-kit__block-icon {
     grid-area: a;
-    color: var(--primary-color);
+    color: var(--text-brand);
   }
   & .notification-yui-kit__block-text {
     display: inline-block;

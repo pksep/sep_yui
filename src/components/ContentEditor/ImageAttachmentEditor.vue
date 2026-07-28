@@ -435,7 +435,7 @@ const emit = defineEmits<{
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const stageRef = ref<HTMLDivElement | null>(null);
 const mode = ref<EditorMode>('crop');
-const activeColorToken = ref('--text-color');
+const activeColorToken = ref('--text-primary');
 const customColorValue = ref('#000000');
 const lastCustomColor = ref<string | null>(null);
 const brushSize = ref(8);
@@ -507,7 +507,7 @@ const MIN_TEXT_BOX_HEIGHT = 24;
 
 const defaultColorOptions: ColorOption[] = [
   { label: 'Белый', value: '--white' },
-  { label: 'Черный', value: '--text-color' },
+  { label: 'Черный', value: '--text-primary' },
   { label: 'Красный', value: '--error-color' },
   { label: 'Зеленый', value: '--success-color' }
 ];
@@ -1700,7 +1700,7 @@ onBeforeUnmount(() => {
   width: 100%;
   min-width: min(100%, 520px);
   padding: 10px 12px 12px;
-  color: var(--text-color);
+  color: var(--text-primary);
   background: var(--white);
 }
 
@@ -1771,11 +1771,11 @@ onBeforeUnmount(() => {
 
 .image-attachment-editor__icon-button.button-yui-kit:not(:disabled):active,
 .image-attachment-editor__icon-button.button-yui-kit:not(:disabled).active {
-  --image-attachment-editor-icon-button-color: var(--primary-color);
-  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+  --image-attachment-editor-icon-button-color: var(--text-brand);
+  --image-attachment-editor-icon-button-border-color: var(--text-brand);
 
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: var(--text-brand);
+  color: var(--text-brand);
   background: var(--white);
 }
 
@@ -1797,28 +1797,28 @@ onBeforeUnmount(() => {
 
 .image-attachment-editor__mode-tabs
   .image-attachment-editor__icon-button.button-yui-kit.secondary-yui-kit {
-  --image-attachment-editor-icon-button-color: var(--primary-color);
-  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+  --image-attachment-editor-icon-button-color: var(--text-brand);
+  --image-attachment-editor-icon-button-border-color: var(--text-brand);
 
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: var(--text-brand);
+  color: var(--text-brand);
   background: var(--white);
 }
 
 .image-attachment-editor__icon-button.button-yui-kit.secondary-yui-kit {
-  --image-attachment-editor-icon-button-color: var(--primary-color);
-  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+  --image-attachment-editor-icon-button-color: var(--text-brand);
+  --image-attachment-editor-icon-button-border-color: var(--text-brand);
 
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: var(--text-brand);
+  color: var(--text-brand);
 }
 
 .image-attachment-editor__icon-button.button-yui-kit.image-attachment-editor__icon-button--active {
-  --image-attachment-editor-icon-button-color: var(--primary-color);
-  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+  --image-attachment-editor-icon-button-color: var(--text-brand);
+  --image-attachment-editor-icon-button-border-color: var(--text-brand);
 
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: var(--text-brand);
+  color: var(--text-brand);
   background: var(--white);
 }
 
@@ -1828,11 +1828,11 @@ onBeforeUnmount(() => {
 .image-attachment-editor__icon-button.button-yui-kit.image-attachment-editor__icon-button--active:not(
     :disabled
   ):active {
-  --image-attachment-editor-icon-button-color: var(--primary-color);
-  --image-attachment-editor-icon-button-border-color: var(--primary-color);
+  --image-attachment-editor-icon-button-color: var(--text-brand);
+  --image-attachment-editor-icon-button-border-color: var(--text-brand);
 
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: var(--text-brand);
+  color: var(--text-brand);
   background: var(--white);
 }
 
@@ -1846,11 +1846,11 @@ onBeforeUnmount(() => {
 
 .image-attachment-editor__close-button.button-yui-kit,
 .image-attachment-editor__close-button.button-yui-kit:not(:disabled):hover {
-  --image-attachment-editor-icon-button-color: var(--text-color);
+  --image-attachment-editor-icon-button-color: var(--text-primary);
   --image-attachment-editor-icon-button-border-color: transparent;
 
   border-color: transparent;
-  color: var(--text-color);
+  color: var(--text-primary);
   background: var(--white);
 }
 
@@ -1932,7 +1932,7 @@ onBeforeUnmount(() => {
   border-radius: 999px;
   background: linear-gradient(
     to right,
-    var(--primary-color) 0 var(--range-progress),
+    var(--text-brand) 0 var(--range-progress),
     var(--button-neutral-color) var(--range-progress) 100%
   );
 }
@@ -1953,7 +1953,7 @@ onBeforeUnmount(() => {
   border-radius: 999px;
   background: linear-gradient(
     to right,
-    var(--primary-color) 0 var(--range-progress),
+    var(--text-brand) 0 var(--range-progress),
     var(--button-neutral-color) var(--range-progress) 100%
   );
 }
@@ -2039,7 +2039,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 16px;
   padding: 20px;
-  color: var(--text-color);
+  color: var(--text-primary);
   text-align: center;
   background: var(--white);
 }
@@ -2100,8 +2100,8 @@ onBeforeUnmount(() => {
 }
 
 .image-attachment-editor__text-box--selected {
-  border-color: var(--primary-color);
-  background: var(--primary-color-20);
+  border-color: var(--text-brand);
+  background: var(--text-brand-20);
 }
 
 .image-attachment-editor__text-item {
@@ -2153,7 +2153,7 @@ onBeforeUnmount(() => {
   padding: 0;
   border: 2px solid var(--white);
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--text-brand);
   box-shadow: 0 0 0 1px var(--background-color-40);
 }
 

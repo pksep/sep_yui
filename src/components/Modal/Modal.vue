@@ -264,7 +264,7 @@ onUnmounted(() => {
   }
 
   &::backdrop {
-    background-color: var(--text-color);
+    background-color: var(--background-color);
     transition: opacity 0.5s ease-in-out;
     opacity: 0;
   }
@@ -283,9 +283,11 @@ onUnmounted(() => {
   }
 }
 
-[data-theme='dark'],
-.theme-dark .modal-yui-kit {
+:is([data-theme='dark'], .theme-dark) .modal-yui-kit {
   border: 0.5px solid var(--border-table);
+}
+
+:is([data-theme='light'], .theme-light) .modal-yui-kit_right {
   border-right: 0.5px solid transparent;
 }
 

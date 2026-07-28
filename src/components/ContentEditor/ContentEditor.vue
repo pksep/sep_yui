@@ -2168,13 +2168,9 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 </script>
 
 <style>
-.link {
-  color: var(--link-color);
-}
-
 .link:visited,
 .link:active {
-  color: var(--primary-color);
+  color: var(--text-brand);
 }
 
 .editor-component {
@@ -2336,7 +2332,7 @@ button.mobile-buttons {
   min-height: 22px;
   margin-left: auto;
   padding: 3px;
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .attach-modal__media-preview {
@@ -2383,7 +2379,7 @@ button.mobile-buttons {
 }
 
 .attach-modal__dropzone:hover {
-  border-color: var(--primary-color);
+  border-color: var(--text-brand);
   background: #edf3ff;
   transform: translateY(-1px);
 }
@@ -2543,7 +2539,7 @@ button.mobile-buttons {
   height: 36px;
   border-radius: 50%;
   background: var(--white);
-  color: var(--primary-color);
+  color: var(--text-brand);
 }
 
 .attach-modal__attachment-body {
@@ -2560,7 +2556,7 @@ button.mobile-buttons {
   white-space: nowrap;
   font-size: 16px;
   font-weight: 400;
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .attach-modal__attachment-name-base {
@@ -2578,7 +2574,7 @@ button.mobile-buttons {
 .attach-modal__attachment-size {
   margin-top: 2px;
   font-size: 12px;
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .attach-modal__attachment-remove.button-yui-kit.ghost-yui-kit {
@@ -2651,7 +2647,7 @@ button.mobile-buttons {
 
     & svg.icon-yui-kit.content-editor__save {
       & path {
-        fill: var(--primary-color);
+        fill: var(--text-brand);
       }
     }
   }
@@ -2685,7 +2681,7 @@ button.mobile-buttons {
     gap: 8px;
     align-items: center;
     & button.button-yui-kit.ghost-yui-kit.right {
-      color: var(--primary-color);
+      color: var(--text-brand);
     }
 
     .translateX {

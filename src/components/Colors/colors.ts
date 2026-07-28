@@ -14,7 +14,7 @@ export const colors: ColorsType = {
   },
   Black: {
     text: 'Black',
-    color: 'var(--text-color)'
+    color: 'var(--text-primary)'
   },
   Black1: {
     text: 'Black1',
@@ -26,7 +26,7 @@ export const colors: ColorsType = {
   },
   Blue1: {
     text: 'Blue1',
-    color: 'var(--primary-color)'
+    color: 'var(--text-brand)'
   },
   Blue2: {
     text: 'Blue2',
@@ -188,7 +188,7 @@ export const colors: ColorsType = {
 
   Gradient1: {
     text: 'Gradient1',
-    color: 'linear-gradient(var(--primary-color, #0ACED2, #1AE4B6) )'
+    color: 'linear-gradient(var(--text-brand, #0ACED2, #1AE4B6) )'
   },
   Gradient2: {
     text: 'Gradient2',

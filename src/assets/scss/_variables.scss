@@ -3,7 +3,7 @@ $PRIMARY-FONT: "Inter Variable", sans-serif;
 $STAR-FONT: "Source Sans Pro", sans-serif;
 
 $WHITE: var(--white);
-$BLACK: var(--text-color);
+$BLACK: var(--text-primary);
 $TRANSPARENT: transparent;
 
 $WHITE-F5F5F5: var(--button-neutral-color);
@@ -14,7 +14,7 @@ $WHITE-E7E7E7: var(--border-table);
 $WHITE-E0E0E0: var(--border-table);
 $WHITE-F0F0F0: var(--button-neutral-color);
 
-$BLUE-77A6FF: var(--primary-color);
+$BLUE-77A6FF: var(--text-brand);
 $BLUE-70A6FF: #70a6ff;
 $BLUE-548CF6: #548cf6;
 $BLUE-EAF2FF: var(--primary-pressed-light-color);

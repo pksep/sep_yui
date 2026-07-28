@@ -330,7 +330,7 @@ onMounted(() => {
   }
 
   &__error-header {
-    color: var(--text-color);
+    color: var(--text-primary);
     font-weight: 700;
   }
 

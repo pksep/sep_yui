@@ -1541,7 +1541,7 @@ watch(
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--text-brand);
   color: var(--white);
   box-shadow: 0 4px 12px rgb(28 38 53 / 18%);
   cursor: pointer;
@@ -1561,7 +1561,7 @@ watch(
   padding: 4px 9px;
   border: none;
   background: transparent;
-  color: var(--text-color);
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
@@ -1589,7 +1589,7 @@ watch(
   padding: 4px 12px;
   border: none;
   background: transparent;
-  color: var(--text-color);
+  color: var(--text-primary);
   font-size: 16px;
   line-height: 17px;
   text-align: left;
@@ -1607,7 +1607,7 @@ watch(
 
 .formatting-toolbar__mobile-action--active
   .formatting-toolbar__mobile-action-icon {
-  color: var(--primary-color);
+  color: var(--text-brand);
 }
 
 .formatting-toolbar__link-modal-container {
@@ -1635,7 +1635,7 @@ watch(
 .formatting-toolbar__link-modal-title {
   font-size: 20px;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--text-primary);
   line-height: 1.2;
 }
 
@@ -1649,7 +1649,7 @@ watch(
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: var(--text-color);
+  color: var(--text-primary);
   cursor: pointer;
 }
 
@@ -1678,14 +1678,14 @@ watch(
   border: 1px solid transparent;
   border-radius: 10px;
   background: var(--background-light-color);
-  color: var(--text-color);
+  color: var(--text-primary);
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s ease;
 }
 
 .formatting-toolbar__field-input:focus {
-  border-color: var(--primary-color);
+  border-color: var(--text-brand);
 }
 
 .formatting-toolbar__field-input::placeholder {
@@ -1704,7 +1704,7 @@ watch(
   padding: 10px 14px;
   border: none;
   border-radius: 8px;
-  background: var(--primary-color);
+  background: var(--text-brand);
   color: var(--white);
   font-size: 14px;
   cursor: pointer;

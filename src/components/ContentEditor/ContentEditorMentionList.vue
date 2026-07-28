@@ -113,7 +113,7 @@ const emit = defineEmits<{
   border: none;
   border-radius: 5px;
   background: transparent;
-  color: var(--text-color);
+  color: var(--text-primary);
   text-align: left;
   cursor: pointer;
   transition: all 0.3s;
@@ -121,7 +121,7 @@ const emit = defineEmits<{
 
 .editor-component__mention-item:hover,
 .editor-component__mention-item--active {
-  background-color: var(--primary-hover-light-color);
+  background-color: var(--table-surface-hover);
 }
 
 .editor-component__mention-item + .editor-component__mention-item {
@@ -175,7 +175,7 @@ const emit = defineEmits<{
 }
 
 .editor-component__mentions--slash .editor-component__mention-label {
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .editor-component__mentions--slash .editor-component__mention-subtitle {

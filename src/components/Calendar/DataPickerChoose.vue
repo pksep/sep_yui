@@ -116,14 +116,14 @@ const formatLetter = (str: string): string | null => {
   display: flex;
   align-items: center;
   align-content: center;
-  background: var(--background, var(--surface-overlay));
+  background: var(--background-data-picker, var(--surface-overlay));
   width: max-content;
   gap: 5px;
   padding: var(--header-padding, 10px);
   border-radius: 5px;
   font-size: 14px;
-  color: var(--color, var(--text-secondary));
-  border: 1px solid var(--border, var(--border-table));
+  color: var(--color-data-picker, var(--text-secondary));
+  border: 1px solid var(--border-data-picker, var(--border-table));
 
   transition: all 0.2s ease;
   &:hover {
@@ -131,9 +131,9 @@ const formatLetter = (str: string): string | null => {
     background: var(--surface-input-secondary);
   }
   &.date-active-yui-kit {
-    --background: var(--action-secondary-pressed-bg);
-    --color: var(--text-brand);
-    --border: var(--active-border, var(--border-table));
+    --background-data-picker: var(--action-secondary-pressed-bg);
+    --color-data-picker: var(--text-brand);
+    --border-data-picker: var(--active-border, var(--border-table));
   }
   &:nth-child(2) {
     padding-left: 10px;
@@ -151,9 +151,9 @@ const formatLetter = (str: string): string | null => {
 .date-disable-yui-kit {
   user-select: none;
   pointer-events: none;
-  --color: var(--text-disabled);
-  --background: var(--action-disabled-bg);
-  --border: var(--disable-border, var(--border-table));
+  --color-data-picker: var(--text-disabled);
+  --background-data-picker: var(--action-disabled-bg);
+  --border-data-picker: var(--disable-border, var(--border-table));
   & button.disabled-yui-kit {
     color: var(--text-light-color);
     background: transparent;
@@ -178,7 +178,7 @@ const formatLetter = (str: string): string | null => {
 
   background: var(--surface-overlay);
   border-radius: 10px;
-  border: 1px solid var(--border, var(--border-table));
+  border: 1px solid var(--border-data-picker, var(--border-table));
   padding: 5px;
 }
 
@@ -196,6 +196,6 @@ const formatLetter = (str: string): string | null => {
 
 .data-picker-choose_time
   :is(.date-picker-yui-kit__header-btn, .data-picker-choose__time-picker) {
-  --border: transparent;
+  --border-data-picker: transparent;
 }
 </style>

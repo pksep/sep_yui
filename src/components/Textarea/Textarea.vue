@@ -90,7 +90,6 @@ fieldset.input-yui-kit {
   height: auto;
   margin-inline: 0;
   padding: 0;
-  background-color: var(--surface-input-secondary);
 }
 fieldset.input-yui-kit .input-yui-kit__input {
   resize: none;

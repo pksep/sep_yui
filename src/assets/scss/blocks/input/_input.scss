@@ -48,7 +48,7 @@
 fieldset.input-yui-kit {
   display: grid;
   align-items: center;
-  background-color: var(--background, var(--surface-input-primary));
+  background-color: var(--surface-input-primary);
   grid-template-columns: 1fr min-content;
   padding: 0 2px 0 0;
   border-radius: var(--radius, 5px);
@@ -119,22 +119,25 @@ fieldset.input-yui-kit {
     display: none;
   }
 
+  &.secondary {
+    background-color: var(--surface-input-secondary);
+  }
+
   &.minor {
-    --background: var(--surface-input-secondary);
+    background-color: var(--table-surface-header);
   }
 
   &_number {
     &.minor {
-      --background: var(--surface-input-secondary);
+      background-color: var(--table-surface-header);
     }
   }
 }
 
 fieldset.input-yui-kit:disabled {
-  --background: var(--action-disabled-bg);
+  background-color: var(--action-disabled-bg);
 
   & .input-yui-kit__input {
-    background-color: var(--action-disabled-bg);
     color: var(--text-disabled);
     border-radius: var(--radius);
   }
@@ -149,7 +152,7 @@ fieldset.input-yui-kit:disabled {
 }
 
 fieldset.input-yui-kit.readonly {
-  --background: var(--background-light-color);
+  background-color: var(--background-light-color);
   & .input-yui-kit__input:read-only {
     cursor: initial;
   }

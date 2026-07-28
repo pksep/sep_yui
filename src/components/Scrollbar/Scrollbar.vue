@@ -62,12 +62,12 @@ const updateCSSVariables = () => {
   const railX = scrollbar.value.querySelector('.ps__rail-x') as HTMLElement;
 
   thrumbY.style.background =
-    props.thrumbStyle?.y?.background || 'var(--primary-color)';
+    props.thrumbStyle?.y?.background || 'var(--text-brand)';
   thrumbY.style.width = props.thrumbStyle?.y?.width || '6px';
   thrumbY.style.right = '0px';
 
   thrumbX.style.background =
-    props.thrumbStyle?.x?.background || 'var(--primary-color)';
+    props.thrumbStyle?.x?.background || 'var(--text-brand)';
   thrumbX.style.width = props.thrumbStyle?.x?.width || '6px';
   thrumbX.style.right = '0px';
 

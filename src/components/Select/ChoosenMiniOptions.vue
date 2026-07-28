@@ -70,7 +70,7 @@ const removeElement = (key: string): void => {
     gap: 3px;
 
     border-radius: 5px;
-    background-color: var(--primary-hover-light-color);
+    background-color: var(--table-surface-hover);
   }
 
   &__badges {
@@ -88,7 +88,7 @@ const removeElement = (key: string): void => {
     cursor: pointer;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--text-brand);
     }
   }
 }
