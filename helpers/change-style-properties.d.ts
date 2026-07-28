@@ -7,12 +7,12 @@
  * ```js
  * // Меняем значение переменной у body
  * changeStyleProperties({
- *  "--primary-color": #f33ff3;
+ *  "--text-brand": #f33ff3;
  * })
  *
  * // Меняем значение переменной у текста
  * changeStyleProperties({
- *  "--primary-color": #f33ff3;
+ *  "--text-brand": #f33ff3;
  * }, textElement)
  * ```
  */
