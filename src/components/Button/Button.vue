@@ -143,7 +143,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 
 .secondary-yui-kit {
   background-color: var(--action-secondary-bg);
-  color: var(--text-brand);
+  color: var(--text-primary);
 
   &:active,
   &.active {

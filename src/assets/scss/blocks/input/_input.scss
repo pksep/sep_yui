@@ -119,22 +119,25 @@ fieldset.input-yui-kit {
     display: none;
   }
 
+  &.secondary {
+    background-color: var(--surface-input-secondary);
+  }
+
   &.minor {
-    --background: var(--surface-input-secondary);
+    background-color: var(--table-surface-header);
   }
 
   &_number {
     &.minor {
-      --background: var(--surface-input-secondary);
+      background-color: var(--table-surface-header);
     }
   }
 }
 
 fieldset.input-yui-kit:disabled {
-  --background: var(--action-disabled-bg);
+  background-color: var(--action-disabled-bg);
 
   & .input-yui-kit__input {
-    background-color: var(--action-disabled-bg);
     color: var(--text-disabled);
     border-radius: var(--radius);
   }
