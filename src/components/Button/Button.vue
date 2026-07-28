@@ -205,6 +205,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
+    color: var(--text-primary);
     background-color: var(--action-disabled-bg);
   }
 }
