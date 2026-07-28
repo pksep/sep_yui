@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.288
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.287...v0.1.288)
+
+### 🚀 Enhancements
+
+- **content-editor:** Export reusable editor toolbars ([058fe7bc](https://github.com/pksep/sep_yui/commit/058fe7bc))
+
+### 🩹 Fixes
+
+- **package:** Declare repository for npm provenance ([03c9f038](https://github.com/pksep/sep_yui/commit/03c9f038))
+
 ## v0.1.287
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.286...v0.1.287)
