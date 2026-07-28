@@ -56,7 +56,7 @@ table.table-yui-kit {
     background-color: var(--background-tr);
     cursor: var(--cursor);
     &.passive {
-      --background-tr: #f8f8f9;
+      --background-tr: var(--table-surface);
     }
     &:hover,
     &.active {
@@ -64,17 +64,17 @@ table.table-yui-kit {
       color: inherit;
     }
     &.ava {
-      --background-tr: var(--ava-color);
+      --background-tr: var(--table-surface-ava);
       &:hover,
       &.active {
-        --background-tr: #ffebc1;
+        --background-tr: var(--table-surface-avaActive);
       }
     }
     &.ban {
-      --background-tr: var(--ban-color);
+      --background-tr: var(--table-surface-ban);
       &:hover,
       &.active {
-        --background-tr: var(--ban-active-color);
+        --background-tr: var(--table-surface-banActive);
       }
     }
   }
