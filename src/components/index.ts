@@ -50,6 +50,8 @@ import TableSimple from '@/components/Table/TableSimple.vue';
 import Avatar from '@/components/Avatar/Avatar.vue';
 import Tabs from './Tabs/Tabs.vue';
 import ContentEditor from './ContentEditor/ContentEditor.vue';
+import ContentEditorFormattingToolbar from './ContentEditor/ContentEditorFormattingToolbar.vue';
+import ContentEditorSlashMenu from './ContentEditor/ContentEditorSlashMenu.vue';
 import ModalCroppedAvatar from './Cropper/ModalCroppedAvatar.vue';
 import TimePicker from './TimePicker/TimePicker.vue';
 
@@ -60,6 +62,7 @@ import type { IRangeForDatePicker } from './Calendar/interfaces/interfaces';
 import type { OptionsObject } from './Select/interface/interface';
 import type { IDialogProps } from '@/components/Modal/interface/interface';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import type { IContentEditorSlashMenuItem } from './ContentEditor/interfaces/content-editor-slash-menu';
 import { MessageTypeEnum } from './Notification/enum/enum';
 import { IconNameEnum } from './Icon/enum/enum';
 import { SizesEnum } from '@/common/sizes';
@@ -201,12 +204,15 @@ export {
   Avatar,
   Tabs,
   ContentEditor,
+  ContentEditorFormattingToolbar,
+  ContentEditorSlashMenu,
   ModalCroppedAvatar,
   TimePicker,
   type IDialogProps,
   type IRangeForDatePicker,
   type OptionsObject,
   type IDataTestIdProp,
+  type IContentEditorSlashMenuItem,
   CheckboxSizeEnum,
   CheckboxCircularEnum,
   TextFieldEnum,

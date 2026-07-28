@@ -227,7 +227,7 @@ import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from '../Icon/Icon.vue';
 
 interface Props {
-  editor?: Editor | null;
+  editor?: object | null;
   readClipboardText?: () => Promise<string> | string;
 }
 
@@ -256,6 +256,8 @@ const TOOLBAR_MARGIN = 16;
 const MOBILE_VIEWPORT_MAX_WIDTH = 480;
 
 const props = defineProps<Props>();
+const getToolbarEditor = (): Editor | null | undefined =>
+  props.editor as Editor | null | undefined;
 
 const toolbarRef = ref<HTMLDivElement | null>(null);
 const visible = ref(false);
@@ -646,14 +648,16 @@ const getToolbarTop = (rect: DOMRect): number => {
   return Math.max(rect.top - toolbarHeight - 8, TOOLBAR_MARGIN);
 };
 
-const focusEditor = () => props.editor?.chain().focus();
+const focusEditor = () => getToolbarEditor()?.chain().focus();
 
 const restoreSelection = (selection = savedSelectionRange.value) => {
-  if (!props.editor || !selection) {
+  const editor = getToolbarEditor();
+
+  if (!editor || !selection) {
     return;
   }
 
-  props.editor.chain().focus().setTextSelection(selection).run();
+  editor.chain().focus().setTextSelection(selection).run();
 };
 
 const updateToolbarPosition = (
@@ -661,7 +665,7 @@ const updateToolbarPosition = (
     preserveHorizontal?: boolean;
   } = {}
 ) => {
-  const editor = props.editor;
+  const editor = getToolbarEditor();
   const editorDom = getEditorDom(editor);
 
   if (!editor || !editor.view || !editorDom) {
@@ -896,7 +900,9 @@ const handleMobileSelectionEnd = () => {
 };
 
 const handleMobileContextMenu = (event: MouseEvent) => {
-  if (!isMobileToolbar.value || !props.editor) {
+  const editor = getToolbarEditor();
+
+  if (!isMobileToolbar.value || !editor) {
     return;
   }
 
@@ -907,12 +913,12 @@ const handleMobileContextMenu = (event: MouseEvent) => {
     scheduleToolbarPositionUpdate({ preserveHorizontal: true });
   });
 
-  const { from, to, empty } = props.editor.state.selection;
+  const { from, to, empty } = editor.state.selection;
 
-  saveSelectionRange(props.editor, { from, to });
+  saveSelectionRange(editor, { from, to });
 
   if (empty) {
-    const coords = props.editor.view.coordsAtPos(from);
+    const coords = editor.view.coordsAtPos(from);
     const left = event.clientX || coords.left;
     const top = event.clientY || coords.top;
 
@@ -923,7 +929,7 @@ const handleMobileContextMenu = (event: MouseEvent) => {
       1,
       Math.max(coords.bottom - coords.top, 1)
     );
-    props.editor.chain().focus().run();
+    editor.chain().focus().run();
   } else {
     isCollapsedContextMenuOpen.value = false;
     collapsedContextMenuRect.value = null;
@@ -951,7 +957,7 @@ const closeMobileMenu = () => {
 const runMobileAction = (action: ToolbarAction) => {
   action.run();
 
-  if (action.key === 'link' && !props.editor?.isActive('link')) {
+  if (action.key === 'link' && !getToolbarEditor()?.isActive('link')) {
     isMobileMenuOpen.value = false;
   }
 
@@ -1084,7 +1090,7 @@ const collapseSelectionToEnd = (
 };
 
 const runMobileClipboardAction = async (action: MobileClipboardAction) => {
-  const editor = props.editor;
+  const editor = getToolbarEditor();
 
   if (!editor) {
     return;
@@ -1145,34 +1151,34 @@ const markActions: ToolbarAction[] = [
     key: 'bold',
     icon: IconNameEnum.bold,
     hint: 'Жирный',
-    isActive: () => props.editor?.isActive('bold') ?? false,
+    isActive: () => getToolbarEditor()?.isActive('bold') ?? false,
     run: () => focusEditor()?.toggleBold().run()
   },
   {
     key: 'italic',
     icon: IconNameEnum.italic,
     hint: 'Курсив',
-    isActive: () => props.editor?.isActive('italic') ?? false,
+    isActive: () => getToolbarEditor()?.isActive('italic') ?? false,
     run: () => focusEditor()?.toggleItalic().run()
   },
   {
     key: 'underline',
     icon: IconNameEnum.underline,
     hint: 'Подчёркнутый',
-    isActive: () => props.editor?.isActive('underline') ?? false,
+    isActive: () => getToolbarEditor()?.isActive('underline') ?? false,
     run: () => focusEditor()?.toggleUnderline().run()
   },
   {
     key: 'strike',
     icon: IconNameEnum.strikethrough,
     hint: 'Зачёркнутый',
-    isActive: () => props.editor?.isActive('strike') ?? false,
+    isActive: () => getToolbarEditor()?.isActive('strike') ?? false,
     run: () => focusEditor()?.toggleStrike().run()
   }
 ];
 
 const openLinkEditor = async () => {
-  const editor = props.editor;
+  const editor = getToolbarEditor();
 
   if (!editor) {
     return;
@@ -1203,7 +1209,7 @@ const openLinkEditor = async () => {
 };
 
 const applyOrderedList = () => {
-  const editor = props.editor;
+  const editor = getToolbarEditor();
 
   if (!editor) {
     return;
@@ -1261,17 +1267,19 @@ const blockActions: ToolbarAction[] = [
     key: 'code',
     icon: IconNameEnum.code,
     hint: 'Код',
-    isActive: () => props.editor?.isActive('code') ?? false,
+    isActive: () => getToolbarEditor()?.isActive('code') ?? false,
     run: () => focusEditor()?.toggleCode().run()
   },
   {
     key: 'link',
     icon: IconNameEnum.link,
     hint: 'Ссылка',
-    isActive: () => props.editor?.isActive('link') ?? false,
+    isActive: () => getToolbarEditor()?.isActive('link') ?? false,
     run: () => {
-      if (props.editor?.isActive('link')) {
-        props.editor.chain().focus().extendMarkRange('link').unsetLink().run();
+      const editor = getToolbarEditor();
+
+      if (editor?.isActive('link')) {
+        editor.chain().focus().extendMarkRange('link').unsetLink().run();
         updateToolbarPosition({ preserveHorizontal: true });
         return;
       }
@@ -1283,7 +1291,7 @@ const blockActions: ToolbarAction[] = [
     key: 'blockquote',
     icon: IconNameEnum.blockquote,
     hint: 'Цитата',
-    isActive: () => props.editor?.isActive('orderedList') ?? false,
+    isActive: () => getToolbarEditor()?.isActive('orderedList') ?? false,
     run: applyOrderedList
   }
 ];
@@ -1301,7 +1309,7 @@ const normalizeLink = (value: string): string => {
 };
 
 const applyLink = () => {
-  const editor = props.editor;
+  const editor = getToolbarEditor();
   const selection = savedSelectionRange.value;
 
   if (!editor || !selection) {
@@ -1402,14 +1410,14 @@ const unbindEditorEvents = (editor: Editor | null | undefined) => {
 
 onMounted(() => {
   updateToolbarMode();
-  bindEditorEvents(props.editor);
+  bindEditorEvents(getToolbarEditor());
   window.addEventListener('resize', handleViewportUpdate);
   window.addEventListener('scroll', handleViewportUpdate, true);
   window.addEventListener('pointerup', handlePointerSelectionEnd, true);
 });
 
 onBeforeUnmount(() => {
-  unbindEditorEvents(props.editor);
+  unbindEditorEvents(getToolbarEditor());
   window.removeEventListener('resize', handleViewportUpdate);
   window.removeEventListener('scroll', handleViewportUpdate, true);
   window.removeEventListener('pointerup', handlePointerSelectionEnd, true);
@@ -1422,7 +1430,7 @@ onBeforeUnmount(() => {
 });
 
 watch(
-  () => props.editor,
+  () => getToolbarEditor(),
   (nextEditor, previousEditor) => {
     if (previousEditor === nextEditor) {
       return;
