@@ -136,7 +136,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-disabled);
+    color: var(--text-secondary);
     background-color: var(--action-disabled-bg);
   }
 }
@@ -150,7 +150,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-disabled);
+    color: var(--text-secondary);
     background-color: var(--action-disabled-bg);
   }
 }
@@ -167,7 +167,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-disabled);
+    color: var(--text-secondary);
     background-color: var(--action-disabled-bg);
     border: 1px solid var(--border-table);
   }
@@ -185,9 +185,9 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-neutral-color);
-    background-color: var(--button-neutral-color);
-    border: 1px solid var(--text-light-color);
+    color: var(--text-secondary);
+    background-color: var(--action-disabled-bg);
+    border: 1px solid var(--text-secondary);
   }
 }
 
@@ -205,8 +205,8 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-primary);
-    background-color: var(--action-disabled-bg);
+    color: var(--text-secondary);
+    background-color: transparent;
   }
 }
 
@@ -219,7 +219,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-disabled);
+    color: var(--text-secondary);
     background-color: var(--action-disabled-bg);
   }
 }

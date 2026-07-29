@@ -152,7 +152,7 @@ fieldset.input-yui-kit:disabled {
 }
 
 fieldset.input-yui-kit.readonly {
-  background-color: var(--background-light-color);
+  background-color: var(--action-disabled-bg);
   & .input-yui-kit__input:read-only {
     cursor: initial;
   }
