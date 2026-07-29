@@ -225,10 +225,6 @@ watch(
         color: var(--text-primary);
         caret-color: var(--border-primary-color);
         background-color: var(--surface-input-secondary);
-
-        &::placeholder {
-          color: var(--text-disabled);
-        }
       }
     }
   }
@@ -249,6 +245,10 @@ watch(
     line-height: 16px;
     padding-left: 44px;
     padding-right: 36px;
+
+    &::placeholder {
+      color: var(--text-disabled);
+    }
 
     &:hover,
     &:focus,
