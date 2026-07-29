@@ -264,7 +264,7 @@ onUnmounted(() => {
   }
 
   &::backdrop {
-    background-color: var(--background-color);
+    background-color: var(--text-color);
     transition: opacity 0.5s ease-in-out;
     opacity: 0;
   }

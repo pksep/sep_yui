@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.290
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.289...v0.1.290)
+
+### 🩹 Fixes
+
+- **dialog:** Restore modal backgrounds and backdrops
+
 ## v0.1.289
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.288...v0.1.289)
