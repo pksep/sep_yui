@@ -464,7 +464,6 @@ onUnmounted(() => {
   max-height: var(--options-max-height, 390px);
   padding: 10px;
   gap: 5px;
-  border: none;
   box-shadow: 0 4px 9.8px 0 #0000000d;
   width: 334px;
 }

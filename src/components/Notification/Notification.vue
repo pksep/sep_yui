@@ -32,7 +32,7 @@
           {{ state.message.description }}
         </span>
       </div>
-      <YButton
+      <Button
         class="notification-yui-kit__exit"
         :type="ButtonTypeEnum.ghost"
         :popovertarget="props.pushKey.toString()"
@@ -43,14 +43,13 @@
           :name="IconNameEnum.crossSmall"
           :data-testid="`${props.dataTestid}-Notification-Icon`"
         />
-      </YButton>
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Icon from './../Icon/Icon.vue';
-import YButton from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import { ref, reactive, onMounted } from 'vue';
 import { IconNameEnum } from '../Icon/enum/enum';
@@ -61,6 +60,7 @@ import {
   MessageIconEnum
 } from './enum/enum';
 import type { IPushNotificationProps } from './interface/interface';
+import Button from '../Button/Button.vue';
 
 const props = withDefaults(defineProps<IPushNotificationProps>(), {
   type: MessageTypeEnum.info,
@@ -112,15 +112,15 @@ defineExpose({
 
 <style lang="scss" scoped>
 .push-notification-yui-kit_success {
-  --text-brand: var(--success-color);
+  --text-brand: var(--status-success);
 }
 
 .push-notification-yui-kit_warning {
-  --text-brand: var(--orange4);
+  --text-brand: var(--status-warning);
 }
 
 .push-notification-yui-kit_error {
-  --text-brand: var(--error-color);
+  --text-brand: var(--status-error);
 }
 
 .push-notification-yui-kit_info {
@@ -135,8 +135,9 @@ defineExpose({
   margin-right: 15px;
   border-bottom: 2px solid;
   border-color: var(--text-brand);
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
   border-radius: 8px;
+  color: var(--text-primary);
 }
 
 .button-yui-kit {
@@ -152,6 +153,8 @@ defineExpose({
   padding-left: 15px;
   padding-right: 5px;
   & .notification-yui-kit__exit {
+    padding: 3px;
+    min-height: auto;
     justify-self: end;
     align-self: start;
   }

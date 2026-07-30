@@ -332,6 +332,7 @@ export const profile: IVectorIcon = {
 export const rightBig: IVectorIcon = {
   name: 'right-big',
   style: 'line',
+  fill: 'none',
   path: `
     <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  fill="none"/>
 `
@@ -340,6 +341,7 @@ export const rightBig: IVectorIcon = {
 export const rightSmall: IVectorIcon = {
   name: 'right-small',
   style: 'line',
+  fill: 'none',
   path: `
     <path d="M11 9L13.5529 11.9551L11.1066 14.9991" stroke="currentColor" stroke-width="2" stroke-linecap="round"
       stroke-linejoin="round"  fill="none" />`

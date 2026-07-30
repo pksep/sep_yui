@@ -4,6 +4,7 @@
     @dragleave="dragleave"
     @drop="drop"
     class="dnd-yui-kit"
+    :class="classes"
     :data-testid="props.dataTestid"
   >
     <label
@@ -40,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref, onMounted, computed } from 'vue';
 import { IDragAndDropProps } from './interface/interface.ts';
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum.ts';
@@ -58,6 +59,13 @@ const emits = defineEmits<{
 const state = reactive({
   isPressed: false
 });
+
+const classes = computed(() => [
+  {
+    'dnd-yui-kit_secondary': props.type === 'secondary',
+    'dnd-yui-kit_primary': props.type === 'primary'
+  }
+]);
 
 const fileInputRef = ref<HTMLInputElement | null>(null);
 
@@ -109,10 +117,13 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/scss/_variables.scss';
-
 .dnd-yui-kit {
   --background: var(--surface-input-primary);
+}
+
+.dnd-yui-kit.secondary,
+.dnd-yui-kit_secondary {
+  --background: var(--surface-input-secondary);
 }
 
 div.dnd-yui-kit,
@@ -127,7 +138,6 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: $PRIMARY-FONT;
   font-size: 18px;
   font-weight: 700;
   color: var(--text-disabled);
@@ -145,6 +155,8 @@ div.dnd-yui-kit label.dnd-yui-kit__label {
     border: 1px solid var(--border-hover);
     background: var(--background);
   }
+
+  &:active,
   &.active,
   &.is-pressed {
     & span.dnd-yui-kit__span,
