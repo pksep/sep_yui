@@ -8,7 +8,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'sep-yui',
-      fileName: format => `sep-yui.${format}.ts`
+      fileName: format => (format === 'es' ? 'sep-yui.mjs' : 'sep-yui.umd.cjs')
     },
     rollupOptions: {
       external: ['vue'],
@@ -40,7 +40,10 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/assets/scss/_global.scss";`
+        additionalData: `
+          @use "@/assets/scss/_variables.scss" as *;
+          @use "@/assets/scss/_mixins.scss" as *;
+        `
       }
     }
   }

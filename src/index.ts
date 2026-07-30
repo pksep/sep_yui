@@ -1,8 +1,11 @@
 import { App, Plugin } from 'vue';
-import * as components from './components';
-import * as VueToolsCore from '@vueuse/core';
+import '@fontsource-variable/inter';
+import '@fontsource/source-sans-pro';
+import '@/assets/scss/_global.scss';
 import '@/assets/scss/_variables-native.scss';
 import '@/assets/scss/blocks/table/_table.scss';
+import * as components from './components';
+import * as VueToolsCore from '@vueuse/core';
 import vuePluginRemoveTestid from './helpers/vue-plugin-remove-testid';
 
 const YLibrary = {

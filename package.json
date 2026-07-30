@@ -7,9 +7,10 @@
     "url": "git+https://github.com/pksep/sep_yui.git"
   },
   "packageManager": "pnpm@9.9.0",
-  "main": "./dist/sep-yui.umd.ts",
-  "module": "./dist/sep-yui.ts",
+  "main": "./dist/sep-yui.umd.cjs",
+  "module": "./dist/sep-yui.mjs",
   "types": "./dist/index.d.ts",
+  "style": "./dist/style.css",
   "scripts": {
     "build": "pnpm run lint && vue-tsc && vite build",
     "publish:lib": "pnpm run build && cross-env LEFTHOOK_EXCLUDE=protected pnpm changelogen --release --publish",
@@ -87,8 +88,9 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/sep-yui.es.ts",
-      "require": "./dist/sep-yui.umd.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/sep-yui.mjs",
+      "require": "./dist/sep-yui.umd.cjs"
     },
     "./styles": "./dist/style.css"
   }
