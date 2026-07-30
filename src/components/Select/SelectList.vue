@@ -228,6 +228,7 @@ onUnmounted(() => {
     overflow: auto;
     overflow-x: hidden;
     z-index: 2222;
+    border: 0.5px solid transparent;
 
     transition:
       border 0.2s ease,
@@ -246,8 +247,8 @@ onUnmounted(() => {
     gap: 10px;
   }
 }
-.select-list-yui-kit__list {
-  background-color: var(--surface-overlay);
-  border: 1px solid var(--border-hover);
+
+:is([data-theme='dark'], .theme-dark) .select-list-yui-kit__list {
+  border: 0.5px solid var(--border-table);
 }
 </style>
