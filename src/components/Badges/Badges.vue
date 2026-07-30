@@ -162,7 +162,7 @@ onMounted(() => {
 
 .red-yui-kit span {
   color: var(--tag-red-text);
-  background-color: var(--tag-red-bg);
+  background-color: var(--tag-redLight-bg);
 }
 
 .pink-yui-kit span {
