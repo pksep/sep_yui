@@ -564,4 +564,11 @@ li.filter__options-underline {
 .filter__options-badge {
   font-weight: bold;
 }
+
+:is([data-theme='dark'], .theme-dark)
+  .filter_disabled
+  .filter__options-badge
+  :deep(span.badges-text) {
+  color: var(--action-secondary-bg);
+}
 </style>
