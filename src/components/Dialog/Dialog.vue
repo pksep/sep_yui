@@ -67,7 +67,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .dialog-yui-kit {
-  background: var(--background, var(--primary-hover-light-color));
+  background: var(--background, var(--surface-overlay));
   border: none;
   border-radius: 15px;
   padding: 0px;

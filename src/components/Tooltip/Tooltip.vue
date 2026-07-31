@@ -441,6 +441,7 @@ onUnmounted(() => {
 
     &_black {
       --tooltip-color: var(--text-white);
+      --tooltip-background-color: var(--tooltip-neutral-bg);
     }
 
     &_blue {
@@ -622,6 +623,15 @@ dialog {
   &-enter-to,
   &-leave-from {
     opacity: 1;
+  }
+}
+
+:is([data-theme='dark'], .theme-dark) .tooltip-yui-kit {
+  &__hint {
+    &_black {
+      --tooltip-background-color: var(--tooltip-brand-bg);
+      --tooltip-color: var(--text-on-brand);
+    }
   }
 }
 </style>

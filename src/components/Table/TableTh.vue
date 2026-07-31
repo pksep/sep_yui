@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<ITableTd>(), {
   font-weight: 700;
   font-size: var(--th-font-size, 14px);
   text-align: center;
+  line-height: 120%;
 
   border: none;
   border-left: 0.5px solid var(--border-table);
