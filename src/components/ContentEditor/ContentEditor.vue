@@ -2175,7 +2175,7 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 
 .editor-component {
   position: relative;
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
   border: 0.5px solid var(--border-table);
   border-radius: 20px;
   min-height: 105px;
@@ -2254,23 +2254,23 @@ button.mobile-buttons {
   &.button-yui-kit.ghost-yui-kit {
     padding: 7px 8px;
     width: 30px;
-    color: var(--text-neutral-color);
+    color: var(--text-secondary);
     &:not(.right) path {
       stroke-width: 1.5px;
     }
     &:disabled,
     &.disable-yui-kit {
-      background-color: var(--button-neutral-color);
-      color: var(--text-light-color);
+      background-color: var(--text-disabled);
+      color: var(--action-disabled-bg);
     }
   }
   &.ghost-yui-kit.button-yui-kit,
   &.ghost-yui-kit.button-yui-kit.disable-yui-kit {
     &:not(:disabled) {
-      background-color: var(--background-light-color);
+      background-color: var(--action-secondary-bg);
 
       &:hover {
-        background-color: var(--primary-pressed-light-color);
+        background-color: var(--action-secondary-pressed-bg);
       }
     }
   }
@@ -2278,7 +2278,7 @@ button.mobile-buttons {
 
 .is-editor-empty::before {
   content: attr(data-placeholder);
-  color: var(--text-neutral-color);
+  color: var(--text-secondary);
   font-size: 16px;
   pointer-events: none;
   float: left;
@@ -2368,7 +2368,7 @@ button.mobile-buttons {
   border: 2px dashed #8aa8ff;
   border-radius: 20px;
   background: #f4f8ff;
-  color: var(--text-neutral-color);
+  color: var(--text-secondary);
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
@@ -2498,7 +2498,7 @@ button.mobile-buttons {
   min-height: 28px;
   padding: 0;
   border-radius: 8px;
-  color: var(--white);
+  color: var(--surface-overlay);
   background: var(--background-color-80);
   justify-content: center;
 }
@@ -2538,7 +2538,7 @@ button.mobile-buttons {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--white);
+  background: var(--surface-overlay);
   color: var(--text-brand);
 }
 
@@ -2588,7 +2588,7 @@ button.mobile-buttons {
 
 .attach-modal__editor {
   position: relative;
-  background: var(--white);
+  background: var(--surface-overlay);
   border: 0.5px solid var(--border-table);
   border-radius: 24px;
 
@@ -2716,7 +2716,7 @@ button.mobile-buttons {
   width: 100%;
   height: 170px;
   padding: 30px 15px;
-  background: var(--white);
+  background: var(--surface-overlay);
   border-radius: 15px 15px 0 0;
   overflow: hidden;
 }
