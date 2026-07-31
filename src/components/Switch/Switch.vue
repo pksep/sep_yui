@@ -56,6 +56,7 @@ const switchClass = computed(() => [
   {
     'switch-yui-kit-list_default': props.theme === 'default',
     'switch-yui-kit-list_contrast': props.theme === 'contrast',
+    'switch-yui-kit-list_minor': props.theme === 'minor',
     'switch-yui-kit-list_disabled': props.disabled
   }
 ]);
@@ -140,6 +141,10 @@ onMounted(() => {
 
 .switch-yui-kit-list_contrast {
   background-color: var(--surface-input-secondary);
+}
+
+.switch-yui-kit-list_minor {
+  background-color: var(--action-secondary-hover-bg);
 }
 
 .switch-yui-kit-list_disabled {
