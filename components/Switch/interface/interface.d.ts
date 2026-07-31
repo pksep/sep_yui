@@ -12,7 +12,7 @@ export interface ISwitchProps extends IDataTestIdProp {
     defaultValue?: string;
     isIcons?: boolean;
     disabled?: boolean;
-    theme?: 'default' | 'contrast';
+    theme?: 'default' | 'contrast' | 'minor';
 }
 export interface IChangeSwitchEmit {
     index: number;
