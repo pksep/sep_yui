@@ -9,6 +9,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     multiply: boolean;
     showClearButton: boolean;
     dataTestid: string;
+    defaultValue: string;
     disallowNull: boolean;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (value: string[]) => void;
@@ -20,11 +21,13 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     multiply: boolean;
     showClearButton: boolean;
     dataTestid: string;
+    defaultValue: string;
     disallowNull: boolean;
 }>>> & Readonly<{
     onChange?: ((value: string[]) => any) | undefined;
 }>, {
     dataTestid: string;
+    defaultValue: string;
     options: IFilterTagOption[];
     iconName: IconNameEnum;
     multiply: boolean;
