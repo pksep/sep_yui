@@ -21,7 +21,7 @@
       <Badges
         v-if="!getChosen.length && !props.disallowNull"
         disabled
-        text="Все"
+        :text="props.defaultValue"
         :data-testid="`${props.dataTestid}-Badges-All`"
       />
       <Badges
@@ -88,7 +88,7 @@
         >
           <Badges
             disabled
-            text="Все"
+            :text="props.defaultValue"
             :data-testid="`${props.dataTestid}-Select-Badges`"
           />
         </li>
@@ -143,7 +143,7 @@
             v-if="getChosen.length"
             disabled
             :data-testid="`${props.dataTestid}-Select-Badges`"
-            text="Все"
+            :text="props.defaultValue"
             @click="handleClear"
           />
         </li>
@@ -178,6 +178,7 @@ const props = withDefaults(defineProps<IFilterTagProps>(), {
   multiply: true,
   showClearButton: false,
   dataTestid: 'FilterTag',
+  defaultValue: 'Все',
   disallowNull: false
 });
 
