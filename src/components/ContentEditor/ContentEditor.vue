@@ -44,6 +44,8 @@
     />
 
     <div v-if="!isAttachModalOpen" class="right-buttons">
+      <slot name="mobile-right-action" />
+
       <Button
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
