@@ -17,6 +17,7 @@
     <template #header>
       <slot name="header">
         <span
+          v-if="props.title"
           :class="[
             'filter__header-title',
             { 'filter__header-title__active': isOpened }
@@ -25,6 +26,7 @@
         >
           {{ title }}
         </span>
+
         <Tooltip
           :position="tooltipPosition"
           type="blue"
