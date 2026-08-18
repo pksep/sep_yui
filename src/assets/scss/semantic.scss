@@ -3,6 +3,8 @@
 :root,
 [data-theme="light"],
 .theme-light {
+  --text-black: #181818;
+
   // surface
   --surface-main-modal: #ffffff;
   --surface-main: #f8f9fd;
@@ -88,6 +90,11 @@
   // chat
   --chat-primary: #77a6ff;
   --chat-secondary: #757d8a;
+
+  --calendar-purple-stroke: #793aff;
+  --calendar-pink-stroke: #fe3a8b;
+  --calendar-link-stroke: #407bff;
+  --calendar-blue-stroke: #3ad8ff;
 }
 
 [data-theme="dark"],
