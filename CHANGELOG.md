@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.296
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.295...v0.1.296)
+
+### 🚀 Enhancements
+
+- Add contentEditor mobile right action ([7e1516d](https://github.com/pksep/sep_yui/commit/7e1516d))
+
 ## v0.1.295
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.294...v0.1.295)
