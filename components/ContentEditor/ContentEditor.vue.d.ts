@@ -1,6 +1,7 @@
 
 declare function __VLS_template(): {
     action?(_: {}): any;
+    "mobile-right-action"?(_: {}): any;
 };
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
