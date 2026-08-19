@@ -300,7 +300,7 @@ const choosedHint = computed(() => {
     result = options.find(option => option.key === String(model.value))?.value;
   }
 
-  return result || '';
+  return result || props.defaultOption || '';
 });
 
 const onMouseEnter = () => {

@@ -53,7 +53,7 @@ const removeElement = (key: string): void => {
 <style scoped lang="scss">
 .choosen-mini-options {
   padding: 5px;
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
   box-shadow: 0 4px 9.8px 0 rgba(0, 0, 0, 0.11);
 
   border-radius: 5px;
