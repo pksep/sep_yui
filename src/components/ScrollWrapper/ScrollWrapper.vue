@@ -272,7 +272,7 @@ onUnmounted(() => {
 
     opacity: 0;
     background-color: var(--scrollbar-bg-color);
-    border-radius: var(--scroll-border-radius);
+    border-radius: var(--scroll-border-radius, 5px);
 
     transition: all 0.2s ease;
 
