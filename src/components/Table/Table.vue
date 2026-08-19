@@ -305,7 +305,7 @@ onMounted(() => {
     padding: 15px;
     flex: 1 0 223px;
     width: 100%;
-    background-color: var(--background-light-color);
+    background-color: var(--surface-input-secondary);
   }
 
   &__error-wrapper,
@@ -337,7 +337,7 @@ onMounted(() => {
   &__error-text {
     max-width: 502px;
 
-    color: var(--text-light-color);
+    color: var(--text-disabled);
 
     font-size: 14px;
     font-weight: 600;

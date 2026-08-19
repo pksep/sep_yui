@@ -938,11 +938,30 @@ const handleClickOnPrintButton = (): void => {
     type = 'image';
     style = `
         @page {
-          size: A4 portrait;
-          margin: 10mm;
+          margin: 0 10mm;
+        }
+
+        html,
+        body {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+        }
+
+        body > div,
+        body > div > div {
+          width: 100%;
+          height: 100%;
+        }
+
+        body > div > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       `;
-    imageStyle = 'max-height: 95vh; margin-bottom: 10px; max-width: 100%';
+    imageStyle =
+      'display: block; width: 100%; height: 100%; margin: 0 auto; object-fit: contain; object-position: center;';
   }
 
   printJs({

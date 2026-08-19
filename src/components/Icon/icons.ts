@@ -1935,7 +1935,7 @@ export const tableError: IVectorIcon = {
   fill: 'none',
   path: `
       <path d="M33.0849 28.4717V83.8299M66.9149 28.4717V83.8299M3.48364 46.9245H96.5161M3.48364 28.4717H96.5161M3.48364 65.3772H96.5161M6.9195 83.8299H93.0803C94.9779 83.8299 96.5161 82.2916 96.5161 80.3941V19.6058C96.5161 17.7082 94.9779 16.1699 93.0803 16.1699H6.9195C5.02193 16.1699 3.48364 17.7082 3.48364 19.6058V80.3941C3.48364 82.2916 5.02193 83.8299 6.9195 83.8299Z" stroke="#B8B8B8" stroke-width="2.5"/>
-      <path d="M97 84.5C103.904 84.5 109.5 78.9036 109.5 72C109.5 65.0964 103.904 59.5 97 59.5C90.0964 59.5 84.5 65.0964 84.5 72C84.5 78.9036 90.0964 84.5 97 84.5Z" fill="#F8F9FD" stroke="#FF6868" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M97 84.5C103.904 84.5 109.5 78.9036 109.5 72C109.5 65.0964 103.904 59.5 97 59.5C90.0964 59.5 84.5 65.0964 84.5 72C84.5 78.9036 90.0964 84.5 97 84.5Z" fill="var(--surface-input-secondary,#F8F9FD)" stroke="#FF6868" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M97 77V72" stroke="#FF6868" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M97 67H97.0125" stroke="#FF6868" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
   `
