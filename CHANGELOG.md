@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.1.301
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.288...v0.1.301)
+
+### 🚀 Enhancements
+
+- Add contentEditor mobile right action ([7e1516d](https://github.com/pksep/sep_yui/commit/7e1516d))
+- Change print styles ([b14e93f](https://github.com/pksep/sep_yui/commit/b14e93f))
+
+### 🩹 Fixes
+
+- **dialog:** Restore modal backgrounds and backdrops ([25b6db9](https://github.com/pksep/sep_yui/commit/25b6db9))
+
+### 📖 Documentation
+
+- **agents:** Require design change disclosure ([8636b79](https://github.com/pksep/sep_yui/commit/8636b79))
+
+### 🏡 Chore
+
+- **release:** V0.1.288 ([db9c447](https://github.com/pksep/sep_yui/commit/db9c447))
+- **release:** V0.1.289 ([56093b7](https://github.com/pksep/sep_yui/commit/56093b7))
+- **release:** V0.1.291 ([9180b74](https://github.com/pksep/sep_yui/commit/9180b74))
+- **release:** V0.1.292 ([2aab818](https://github.com/pksep/sep_yui/commit/2aab818))
+- **release:** V0.1.293 ([870b6c7](https://github.com/pksep/sep_yui/commit/870b6c7))
+- **release:** V0.1.294 ([3311ab8](https://github.com/pksep/sep_yui/commit/3311ab8))
+- **release:** V0.1.295 ([1a46172](https://github.com/pksep/sep_yui/commit/1a46172))
+- **release:** V0.1.296 ([861d73c](https://github.com/pksep/sep_yui/commit/861d73c))
+- **release:** V0.1.297 ([08aceb0](https://github.com/pksep/sep_yui/commit/08aceb0))
+- **release:** V0.1.298 ([b486e08](https://github.com/pksep/sep_yui/commit/b486e08))
+- **release:** V0.1.299 ([78448fe](https://github.com/pksep/sep_yui/commit/78448fe))
+- Updated version ([47968bb](https://github.com/pksep/sep_yui/commit/47968bb))
+
+### 🎨 Styles
+
+- Added dark error table ([79abd22](https://github.com/pksep/sep_yui/commit/79abd22))
+
 ## v0.1.299
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.298...v0.1.299)
