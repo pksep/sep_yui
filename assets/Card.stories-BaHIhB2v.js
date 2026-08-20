@@ -1,4 +1,4 @@
-import{S as u}from"./storybook-BJU81olc.js";import{C as n}from"./Card-D5vxv4Bb.js";import"./vue.esm-bundler-BR4_nak_.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const S={title:"Card/Card",component:n,argTypes:{pressed:{control:{type:u.boolean},defaultValue:!1}},tags:["autodocs"]},r=f=>({components:{Card:n},setup(){return{args:f}},template:`
+import{S as u}from"./storybook-BJU81olc.js";import{C as n}from"./Card-DpHc3HP2.js";import"./vue.esm-bundler-BR4_nak_.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const S={title:"Card/Card",component:n,argTypes:{pressed:{control:{type:u.boolean},defaultValue:!1}},tags:["autodocs"]},r=f=>({components:{Card:n},setup(){return{args:f}},template:`
         <Card v-bind="args" @click="args.pressed = !args.pressed" :class="{ pressed: args.pressed}" :style="{width: '162px', height: '140px'}">
             <template v-if="args['left']" #left> {{args["left"]}} </template>
 
