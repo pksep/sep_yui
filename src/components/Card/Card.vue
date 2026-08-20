@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<ICardProps>(), {
   }
 }
 
-:is([data-theme='dark'], .theme-dark) .card-yui-kit {
+:where([data-theme='dark'], .theme-dark) .card-yui-kit {
   border: 0.5px solid var(--border-table);
 }
 </style>
