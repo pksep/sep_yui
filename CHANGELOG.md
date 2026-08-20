@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.303
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.302...v0.1.303)
+
+### 🩹 Fixes
+
+- **content-editor:** Avoid buffering media attachments ([#385](https://github.com/pksep/sep_yui/pull/385))
+
 ## v0.1.302
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.301...v0.1.302)
