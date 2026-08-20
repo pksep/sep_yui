@@ -1052,7 +1052,7 @@ const shouldDetachFile = (mimeType: string): boolean =>
 const isEditableImageFile = (file: File): boolean =>
   EDITABLE_IMAGE_MIME_TYPES.has(getMimeType(file));
 
-const normalizeFile = async (file: File): Promise<File> => {
+const normalizeFile = (file: File): File => {
   const mimeType = getMimeType(file);
   const fileName = getNormalizedFileName(file, mimeType);
 
@@ -1075,20 +1075,20 @@ const normalizeFile = async (file: File): Promise<File> => {
   }
 
   try {
-    const buffer = await file.arrayBuffer();
-
-    console.warn(`${LOG_PREFIX} detached file copy created`, {
-      ...getFileLogMeta(file, mimeType),
-      normalizedFileName: fileName,
-      bufferSize: buffer.byteLength
-    });
-
-    return new File([buffer], fileName, {
+    // Reuse the browser-managed Blob bytes instead of loading the whole media file into memory.
+    const normalizedFile = new File([file], fileName, {
       type: mimeType || file.type,
       lastModified: file.lastModified
     });
+
+    console.warn(`${LOG_PREFIX} normalized file wrapper created`, {
+      ...getFileLogMeta(file, mimeType),
+      normalizedFileName: fileName
+    });
+
+    return normalizedFile;
   } catch (error) {
-    console.warn(`${LOG_PREFIX} failed to detach file, using original`, {
+    console.warn(`${LOG_PREFIX} failed to normalize file, using original`, {
       ...getFileLogMeta(file, mimeType),
       normalizedFileName: fileName,
       error
@@ -1114,7 +1114,7 @@ const emitAttachFiles = async (
     onlyMedia
   });
 
-  const normalizedFiles = await Promise.all(Array.from(files, normalizeFile));
+  const normalizedFiles = Array.from(files, normalizeFile);
 
   if (!normalizedFiles.length) {
     console.warn(`${LOG_PREFIX} no files after normalization`);
@@ -1141,7 +1141,7 @@ const queueAttachFiles = async (
   files: FileList | File[],
   onlyMedia: boolean
 ): Promise<void> => {
-  const normalizedFiles = await Promise.all(Array.from(files, normalizeFile));
+  const normalizedFiles = Array.from(files, normalizeFile);
 
   if (!normalizedFiles.length) {
     return;
