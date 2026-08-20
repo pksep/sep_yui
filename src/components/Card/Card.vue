@@ -58,4 +58,8 @@ const props = withDefaults(defineProps<ICardProps>(), {
     line-height: 100%;
   }
 }
+
+:is([data-theme='dark'], .theme-dark) .card-yui-kit {
+  border: 0.5px solid var(--border-table);
+}
 </style>
