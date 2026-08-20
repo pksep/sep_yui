@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<ICardProps>(), {
   padding: 10px;
   border-width: 0.5px;
   border-style: solid;
-  border-color: transparent;
+  border-color: var(--border-table, transparent);
   box-shadow: 0px 4px 9.8px 0px #0000000d;
   background: var(--surface-overlay);
   border-radius: 15px;
@@ -57,9 +57,5 @@ const props = withDefaults(defineProps<ICardProps>(), {
     font-weight: 700;
     line-height: 100%;
   }
-}
-
-:where([data-theme='dark'], .theme-dark) .card-yui-kit {
-  border: 0.5px solid var(--border-table);
 }
 </style>
