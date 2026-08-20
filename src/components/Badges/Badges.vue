@@ -132,7 +132,7 @@ onMounted(() => {
 
 .light-blue-yui-kit span {
   color: var(--tag-blueLight-text);
-  background-color: var(--tag-orangeLight-bg);
+  background-color: var(--tag-blueLight-bg);
 }
 
 .contrast-blue-yui-kit span {
