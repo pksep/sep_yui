@@ -8,11 +8,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<boolean>;
         default: boolean;
     };
-    min: {
+    max: {
         type: import('vue').PropType<number>;
         default: number;
     };
-    max: {
+    min: {
         type: import('vue').PropType<number>;
         default: number;
     };
@@ -33,11 +33,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<boolean>;
         default: boolean;
     };
-    min: {
+    max: {
         type: import('vue').PropType<number>;
         default: number;
     };
-    max: {
+    min: {
         type: import('vue').PropType<number>;
         default: number;
     };
@@ -51,8 +51,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>, {
     dataTestid: string;
     disabled: boolean;
-    min: number;
     max: number;
+    min: number;
     step: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

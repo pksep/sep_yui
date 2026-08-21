@@ -4,12 +4,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<string>;
         default: string;
     };
+    disabled: {
+        type: import('vue').PropType<boolean>;
+    };
     value: {
         type: import('vue').PropType<string>;
         required: true;
-    };
-    disabled: {
-        type: import('vue').PropType<boolean>;
     };
     isRange: {
         type: import('vue').PropType<boolean>;
@@ -34,12 +34,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<string>;
         default: string;
     };
+    disabled: {
+        type: import('vue').PropType<boolean>;
+    };
     value: {
         type: import('vue').PropType<string>;
         required: true;
-    };
-    disabled: {
-        type: import('vue').PropType<boolean>;
     };
     isRange: {
         type: import('vue').PropType<boolean>;

@@ -27,11 +27,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     onFocused?: ((event: FocusEvent) => any) | undefined;
 }>, {
     dataTestid: string;
+    max: number;
     size: SizesEnum.small | SizesEnum.medium;
     modelValue: number;
     isInteger: boolean;
     min: number;
-    max: number;
     zeroPad: boolean;
     modelModifiers: object;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;

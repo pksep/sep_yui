@@ -22,9 +22,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>, {
     dataTestid: string;
     type: MessageTypeEnum;
+    timeout: number;
     showPopover: boolean;
     description: string;
-    timeout: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
