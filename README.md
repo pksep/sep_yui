@@ -16,7 +16,7 @@
 ## Установка и подключение
 
 ```bash
-npm i @pksep/yui
+bun add @pksep/yui
 ```
 
 #### 1. Для использования библиотеки в проекте, необходимо импортировать компоненты библиотеки в главный файл проекта main.ts таким образом:
@@ -77,7 +77,7 @@ App.vue
 [changeloggen](https://unjs.io/packages/changelogen/)
 
 ```sh
-pnpm run build:lib
+bun run publish:lib
 ```
 
 Токен можно для публикации можно получить у менеджера.

@@ -6,20 +6,20 @@
     "type": "git",
     "url": "git+https://github.com/pksep/sep_yui.git"
   },
-  "packageManager": "pnpm@9.9.0",
+  "packageManager": "bun@1.3.14",
   "main": "./dist/sep-yui.umd.cjs",
   "module": "./dist/sep-yui.mjs",
   "types": "./dist/index.d.ts",
   "style": "./dist/style.css",
   "scripts": {
-    "build": "pnpm run lint && vue-tsc && vite build",
-    "publish:lib": "pnpm run build && cross-env LEFTHOOK_EXCLUDE=protected pnpm changelogen --release --publish",
+    "build": "bun run lint && vue-tsc && vite build",
+    "publish:lib": "bun run build && cross-env LEFTHOOK_EXCLUDE=protected bunx changelogen --release --publish",
     "lint": "eslint --fix --ext .ts,.vue src",
     "start:dev": "storybook dev -p 6006",
     "start": "vite",
     "start:preview": "vite preview",
     "build-storybook": "storybook build",
-    "deploy-storybook": "pnpm run build-storybook && gh-pages -d storybook-static",
+    "deploy-storybook": "bun run build-storybook && gh-pages -d storybook-static",
     "prepare": "lefthook install"
   },
   "dependencies": {
