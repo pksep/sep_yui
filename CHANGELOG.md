@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.1.307
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.299...v0.1.307)
+
+### 🚀 Enhancements
+
+- Change print styles ([b14e93f](https://github.com/pksep/sep_yui/commit/b14e93f))
+- Add content editor slots ([049725a](https://github.com/pksep/sep_yui/commit/049725a))
+
+### 🩹 Fixes
+
+- **content-editor:** Avoid buffering media attachments ([#385](https://github.com/pksep/sep_yui/pull/385))
+
+### 🏡 Chore
+
+- Updated version ([47968bb](https://github.com/pksep/sep_yui/commit/47968bb))
+- **release:** V0.1.301 ([9d845d4](https://github.com/pksep/sep_yui/commit/9d845d4))
+- **release:** V0.1.302 ([0509b1d](https://github.com/pksep/sep_yui/commit/0509b1d))
+- **release:** V0.1.303 ([ea7f75c](https://github.com/pksep/sep_yui/commit/ea7f75c))
+- **release:** V0.1.304 ([e21be4d](https://github.com/pksep/sep_yui/commit/e21be4d))
+- **release:** V0.1.305 ([04400de](https://github.com/pksep/sep_yui/commit/04400de))
+- **release:** V0.1.306 ([d8de203](https://github.com/pksep/sep_yui/commit/d8de203))
+
+### 🎨 Styles
+
+- Added dark error table ([79abd22](https://github.com/pksep/sep_yui/commit/79abd22))
+
 ## v0.1.306
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.305...v0.1.306)
