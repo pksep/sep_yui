@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.308
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.306...v0.1.308)
+
+### 🚀 Enhancements
+
+- Add content editor slots ([049725a](https://github.com/pksep/sep_yui/commit/049725a))
+
+### 🩹 Fixes
+
+- Align folder icon and standardize on Bun ([#390](https://github.com/pksep/sep_yui/pull/390))
+
+### 🏡 Chore
+
+- **release:** V0.1.307 ([9c203d5](https://github.com/pksep/sep_yui/commit/9c203d5))
+
 ## v0.1.307
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.299...v0.1.307)
