@@ -58,6 +58,8 @@
         </div>
       </Button>
 
+      <slot name="mobile-trailing-action" />
+
       <Button
         v-show="!disableSend"
         :type="ButtonTypeEnum.ghost"
@@ -137,6 +139,15 @@
       >
         <Icon :name="IconNameEnum.atSign" />
       </Button>
+
+      <slot name="desktop-left-action" />
+
+      <div
+        v-if="$slots['desktop-right-action']"
+        class="content-editor__desktop-right-actions"
+      >
+        <slot name="desktop-right-action" />
+      </div>
 
       <Button
         :disabled="disableSend"
@@ -483,7 +494,8 @@ import { ButtonTypeEnum } from '../Button/enum/enum';
 import 'vue3-emoji-picker/css';
 import type {
   IContentEditorEmit,
-  IContentEditorProps
+  IContentEditorProps,
+  IContentEditorSlots
 } from './interfaces/content-editor';
 import { ColorsEnum } from '@/common/colors.ts';
 import Popover from '../Popover/Popover.vue';
@@ -495,6 +507,7 @@ import ContentEditorFormattingToolbar from './ContentEditorFormattingToolbar.vue
 import ImageAttachmentEditor from './ImageAttachmentEditor.vue';
 
 const props = defineProps<IContentEditorProps>();
+defineSlots<IContentEditorSlots>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
 const emojiPickerPosition = ref({
@@ -2207,6 +2220,17 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 
 .right-buttons {
   display: none;
+}
+
+.content-editor__desktop-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.content-editor__desktop-right-actions + .toolbar-button.right {
+  margin-left: 0;
 }
 
 .toolbar-button {

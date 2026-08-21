@@ -11,6 +11,14 @@ export interface IContentEditorEmit {
   (e: 'slash-change', search: string | null): void;
 }
 
+export interface IContentEditorSlots {
+  action?: () => unknown;
+  'mobile-right-action'?: () => unknown;
+  'mobile-trailing-action'?: () => unknown;
+  'desktop-left-action'?: () => unknown;
+  'desktop-right-action'?: () => unknown;
+}
+
 export interface IContentEditorProps {
   activeAttachFile?: boolean;
   activeSelectUser?: boolean;

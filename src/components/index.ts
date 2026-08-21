@@ -63,6 +63,11 @@ import type { OptionsObject } from './Select/interface/interface';
 import type { IDialogProps } from '@/components/Modal/interface/interface';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
 import type { IContentEditorSlashMenuItem } from './ContentEditor/interfaces/content-editor-slash-menu';
+import type {
+  IContentEditorProps,
+  IContentEditorSendPayload,
+  IContentEditorSlots
+} from './ContentEditor/interfaces/content-editor';
 import { MessageTypeEnum } from './Notification/enum/enum';
 import { IconNameEnum } from './Icon/enum/enum';
 import { SizesEnum } from '@/common/sizes';
@@ -213,6 +218,9 @@ export {
   type OptionsObject,
   type IDataTestIdProp,
   type IContentEditorSlashMenuItem,
+  type IContentEditorProps,
+  type IContentEditorSendPayload,
+  type IContentEditorSlots,
   CheckboxSizeEnum,
   CheckboxCircularEnum,
   TextFieldEnum,
