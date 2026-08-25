@@ -155,12 +155,7 @@
         :size="SizesEnum.small"
         @click="handleSave"
       >
-        <Icon
-          :name="IconNameEnum.planeRight"
-          :color="ColorsEnum.white"
-          :width="16"
-          :height="16"
-        />
+        <Icon :name="IconNameEnum.planeRight" :width="16" :height="16" />
       </Button>
     </div>
 
@@ -380,12 +375,7 @@
               :size="SizesEnum.small"
               @click="handleAttachModalSend"
             >
-              <Icon
-                :name="IconNameEnum.planeRight"
-                :color="ColorsEnum.white"
-                :width="16"
-                :height="16"
-              />
+              <Icon :name="IconNameEnum.planeRight" :width="16" :height="16" />
             </Button>
           </div>
         </div>
@@ -497,7 +487,6 @@ import type {
   IContentEditorProps,
   IContentEditorSlots
 } from './interfaces/content-editor';
-import { ColorsEnum } from '@/common/colors.ts';
 import Popover from '../Popover/Popover.vue';
 import { vOnClickOutside } from '@vueuse/components';
 import DropZone from './DropZone.vue';
@@ -2280,7 +2269,6 @@ button.mobile-buttons {
   &.button-yui-kit.ghost-yui-kit {
     padding: 7px 8px;
     width: 30px;
-    color: var(--text-secondary);
     &:not(.right) path {
       stroke-width: 1.5px;
     }

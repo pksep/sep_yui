@@ -136,10 +136,10 @@ watch(
   border-radius: 50%;
   --online-indicator-size: 9px;
 
-  width: 2em;
-  height: 2em;
-  min-width: 2em;
-  min-height: 2em;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
 
   font-size: var(--size-avatar, 16px);
 
@@ -154,11 +154,11 @@ watch(
   transition: all 0.3s ease-in-out;
   transform: scale(0);
   position: absolute;
-  background-color: var(--green2);
+  background-color: var(--action-primary-bg);
   width: var(--online-indicator-size);
   height: var(--online-indicator-size);
   border-radius: 50%;
-  border: 1px solid var(--white, #fff);
+  border: 1px solid var(--surface-overlay, #fff);
   left: calc(85% - calc(var(--online-indicator-size) / 2));
   top: calc(85% - calc(var(--online-indicator-size) / 2));
   transform-origin: center;
