@@ -2269,7 +2269,6 @@ button.mobile-buttons {
   &.button-yui-kit.ghost-yui-kit {
     padding: 7px 8px;
     width: 30px;
-    color: var(--text-secondary);
     &:not(.right) path {
       stroke-width: 1.5px;
     }
