@@ -1,0 +1,15 @@
+import{S as s}from"./storybook-BJU81olc.js";import{f as k,d as x,G as C,j as y,v as _,P as g,n as d,x as v,u as V,q}from"./vue.esm-bundler-BR4_nak_.js";import{I as E,a as B}from"./Icon-DaKYYYyB.js";import{_ as z}from"./_plugin-vue_export-helper-DlAUqK2U.js";var c=(e=>(e.small="small",e.medium="medium",e.big="big",e))(c||{}),n=(e=>(e.circled="circled",e.rounded="rounded",e))(n||{}),l=(e=>(e.blue="blue",e.red="red",e))(l||{});const I=["data-testid","checked","disabled"],f=k({__name:"Checkbox",props:{size:{default:c.medium},circular:{default:n.rounded},color:{default:l.blue},checked:{type:Boolean},modelValue:{type:Boolean,default:!1},disabled:{type:Boolean,default:!1},dataTestid:{default:"Checkbox"}},emits:["change","update:modelValue"],setup(e,{emit:h}){const a=e,r=h,o=x({isChecked:a.modelValue});C(()=>{o.isChecked=a.modelValue});const u=()=>{o.isChecked=!o.isChecked,r("change",o.isChecked),r("update:modelValue",o.isChecked)};return(T,$)=>(q(),y("label",{class:d(`label-checkbox checkbox-yui-kit_${a.size} checkbox-yui-kit_${a.circular} checkbox-yui-kit_${a.color}`)},[_("input",{type:"checkbox",class:d("checkbox-yui-kit "),"data-testid":`${a.dataTestid}`,tabindex:"0",onChange:u,checked:o.isChecked,disabled:a.disabled,onKeyup:g(u,["enter"])},null,40,I),v(E,{class:"checkbox__icon",name:V(B).checked},null,8,["name"])],2))}}),b=z(f,[["__scopeId","data-v-ab59c827"]]);f.__docgenInfo={exportName:"default",displayName:"Checkbox",description:"",tags:{},props:[{name:"dataTestid",required:!1,type:{name:"string"},defaultValue:{func:!1,value:"'Checkbox'"}},{name:"size",required:!1,type:{name:"CheckboxSizeEnum"},defaultValue:{func:!1,value:"CheckboxSizeEnum.medium"}},{name:"circular",required:!1,type:{name:"CheckboxCircularEnum"},defaultValue:{func:!1,value:"CheckboxCircularEnum.rounded"}},{name:"color",required:!1,type:{name:"CheckboxColorEnum"},defaultValue:{func:!1,value:"CheckboxColorEnum.blue"}},{name:"checked",required:!1,type:{name:"boolean"}},{name:"modelValue",required:!1,type:{name:"boolean"},defaultValue:{func:!1,value:"false"}},{name:"disabled",required:!1,type:{name:"boolean"},defaultValue:{func:!1,value:"false"}}],events:[{name:"change",type:{names:["boolean"]}},{name:"update:modelValue",type:{names:["boolean"]}}],sourceFiles:["/home/runner/work/sep_yui/sep_yui/src/components/Checkbox/Checkbox.vue"]};const j={title:"Checkbox/Checkbox",component:b,tags:["autodocs"],argTypes:{size:{control:{type:s.select},options:c},circular:{control:{type:s.select},options:n},color:{control:{type:s.select},options:l}}},N=e=>({components:{Checkbox:b},setup(){return{args:e}},template:`
+    <Checkbox v-bind="args" />
+  `}),t=N.bind({});var i,m,p;t.parameters={...t.parameters,docs:{...(i=t.parameters)==null?void 0:i.docs,source:{originalSource:`args => ({
+  components: {
+    Checkbox
+  },
+  setup() {
+    return {
+      args
+    };
+  },
+  template: \`
+    <Checkbox v-bind="args" />
+  \`
+})`,...(p=(m=t.parameters)==null?void 0:m.docs)==null?void 0:p.source}}};const F=["Default"];export{t as Default,F as __namedExportsOrder,j as default};
