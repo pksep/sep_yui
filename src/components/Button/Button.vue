@@ -57,7 +57,8 @@ const classes = computed(() => ({
   'outline-yui-kit': props.type === ButtonTypeEnum.outline,
   'reject-yui-kit': props.type === ButtonTypeEnum.reject,
   'ghost-yui-kit': props.type === ButtonTypeEnum.ghost,
-  'minor-yui-kit': props.type === ButtonTypeEnum.minor
+  'minor-yui-kit': props.type === ButtonTypeEnum.minor,
+  'popover-yui-kit': props.type === ButtonTypeEnum.popover
 }));
 
 /**
@@ -202,6 +203,24 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   &:active,
   &.active {
     color: var(--text-brand);
+    background-color: var(--action-secondary-pressed-bg);
+  }
+  &.disabled-yui-kit {
+    color: var(--text-secondary);
+    background-color: transparent;
+  }
+}
+
+.popover-yui-kit {
+  background-color: transparent;
+  color: var(--button-text-color, var(--text-primary));
+
+  &:hover {
+    background-color: var(--action-secondary-hover-bg);
+  }
+
+  &:active,
+  &.active {
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {

@@ -4,5 +4,6 @@ export enum ButtonTypeEnum {
   ghost = 'ghost',
   secondary = 'secondary',
   reject = 'reject',
-  minor = 'minor'
+  minor = 'minor',
+  popover = 'popover'
 }
