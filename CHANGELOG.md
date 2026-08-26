@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.312
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.311...v0.1.312)
+
+### 🚀 Enhancements
+
+- Disable adjacent month dates in date picker ([a9e0e534](https://github.com/pksep/sep_yui/commit/a9e0e534))
+
 ## v0.1.311
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.310...v0.1.311)
