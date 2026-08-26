@@ -15,6 +15,8 @@
     <DatePicker
       v-model="state.date"
       :disabled="props.disabled"
+      :start-date="props.startDate"
+      :end-date="props.endDate"
       :locale="props.locale"
       :is-small="props.isSmall"
       :is-select-time="props.isSelectTime"
