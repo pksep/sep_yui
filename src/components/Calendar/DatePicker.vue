@@ -29,7 +29,7 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
       <col-cal
         :date.prop="parsedDate"
         :minDate.prop="getDateStart()"
-        :maxDate.prop="getDateEnd()"
+        :maxDate.prop="getDateEnd() ?? defaultMaxDate"
         :locale="props.locale ?? 'ru-RU'"
         :data-testid="`${props.dataTestid}-Component`"
         @show-months="changeShowMonths"
@@ -214,6 +214,8 @@ const getStartOfYear = (date: Date): Date => new Date(date.getFullYear(), 0, 1);
 
 const getEndOfYear = (date: Date): Date =>
   new Date(date.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+const defaultMaxDate = new Date(9999, 11, 31, 23, 59, 59, 999);
 
 const getActivePopup = (): 'months' | 'years' | null => {
   if (state.isOpen.months && !state.isOpen.years) return 'months';
