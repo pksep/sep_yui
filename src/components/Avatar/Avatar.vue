@@ -136,10 +136,10 @@ watch(
   border-radius: 50%;
   --online-indicator-size: 9px;
 
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
-  min-height: 38px;
+  width: 2em;
+  height: 2em;
+  min-width: 2em;
+  min-height: 2em;
 
   font-size: var(--size-avatar, 16px);
 

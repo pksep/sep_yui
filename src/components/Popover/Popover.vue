@@ -423,6 +423,7 @@ onUnmounted(() => {
     padding: 5px;
     text-align: left;
     transition: background-color 0.2s ease;
+    color: var(--text-primary);
     &:hover {
       background-color: var(--action-secondary-hover-bg);
     }
