@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.311
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.310...v0.1.311)
+
+### 🚀 Enhancements
+
+- Add defaultMaxDate to disable dates for previous and following months ([978774f4](https://github.com/pksep/sep_yui/commit/978774f4))
+
+### 🏡 Chore
+
+- **release:** V0.1.310 ([798f6efb](https://github.com/pksep/sep_yui/commit/798f6efb))
+
 ## v0.1.310
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.310...v0.1.310)
