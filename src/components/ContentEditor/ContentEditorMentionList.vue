@@ -72,7 +72,7 @@ const emit = defineEmits<{
   display: flex;
   flex-direction: column;
   gap: 5px;
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
   border: 0.5px solid var(--border-table);
   padding: 10px;
   border-radius: 10px;
