@@ -63,7 +63,7 @@ const colors = [
 ];
 
 const backgroundColor = computed(() => {
-  if (props.defaultImage) {
+  if (props.defaultImage || props.url) {
     return 'transparent';
   }
 
