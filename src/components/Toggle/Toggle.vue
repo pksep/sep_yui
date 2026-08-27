@@ -175,7 +175,10 @@ label.toggle-yui-kit-label {
 }
 
 .toggle-yui-kit.toggle-yui-kit_minor {
-  background-color: var(--border-table);
+  & label.toggle-yui-kit-label {
+    background-color: var(--border-table);
+  }
+
   & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
     background-color: var(--border-hover);
   }
