@@ -372,7 +372,7 @@ const SwatchCheckboxIcon = defineComponent({
       [
         h('path', {
           d: 'M12.3213 4.2998C12.5972 4.03026 13.04 4.03361 13.3115 4.30762C13.5821 4.58257 13.5789 5.02451 13.3047 5.2959L6.81738 11.6973C6.68656 11.8264 6.51023 11.8998 6.32617 11.9004H6.31836C6.13075 11.8996 5.95062 11.8231 5.81934 11.6895L2.68555 8.44824L2.68164 8.44434C2.41367 8.1653 2.42264 7.72176 2.70215 7.4541C2.98181 7.18627 3.42694 7.19551 3.69531 7.47461V7.47559L6.26562 10.1309L6.33594 10.2041L6.4082 10.1328L12.3213 4.2998Z',
-          fill: 'var(--white)',
+          fill: 'var(--surface-overlay)',
           stroke: 'var(--text-neutral-color)',
           'stroke-width': '0.8'
         })
@@ -1701,7 +1701,6 @@ onBeforeUnmount(() => {
   min-width: min(100%, 520px);
   padding: 10px 12px 12px;
   color: var(--text-primary);
-  background: var(--white);
 }
 
 .image-attachment-editor__header,
@@ -1745,9 +1744,9 @@ onBeforeUnmount(() => {
 }
 
 .image-attachment-editor__icon-button.button-yui-kit {
-  --image-attachment-editor-icon-button-color: var(--text-neutral-color);
+  --image-attachment-editor-icon-button-color: var(--text-secondary);
   --image-attachment-editor-icon-button-border-color: var(
-    --border-border-table,
+    --border-table,
     #e7e7e7
   );
 
@@ -1758,7 +1757,7 @@ onBeforeUnmount(() => {
   border-radius: 8px;
   justify-content: center;
   color: var(--image-attachment-editor-icon-button-color);
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__icon-button.button-yui-kit:not(:disabled):hover {
@@ -1766,7 +1765,7 @@ onBeforeUnmount(() => {
     --border-primary-color
   );
 
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__icon-button.button-yui-kit:not(:disabled):active,
@@ -1776,7 +1775,7 @@ onBeforeUnmount(() => {
 
   border-color: var(--text-brand);
   color: var(--text-brand);
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__mode-tabs
@@ -1802,7 +1801,7 @@ onBeforeUnmount(() => {
 
   border-color: var(--text-brand);
   color: var(--text-brand);
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__icon-button.button-yui-kit.secondary-yui-kit {
@@ -1819,7 +1818,7 @@ onBeforeUnmount(() => {
 
   border-color: var(--text-brand);
   color: var(--text-brand);
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__icon-button.button-yui-kit.image-attachment-editor__icon-button--active:not(
@@ -1833,7 +1832,7 @@ onBeforeUnmount(() => {
 
   border-color: var(--text-brand);
   color: var(--text-brand);
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__icon-button.button-yui-kit:disabled,
@@ -1841,7 +1840,7 @@ onBeforeUnmount(() => {
   --image-attachment-editor-icon-button-color: var(--text-light-color, #b8b8b8);
   --image-attachment-editor-icon-button-border-color: transparent;
 
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__close-button.button-yui-kit,
@@ -1851,7 +1850,7 @@ onBeforeUnmount(() => {
 
   border-color: transparent;
   color: var(--text-primary);
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__rotate-button--left svg {
@@ -1873,7 +1872,7 @@ onBeforeUnmount(() => {
   padding: 0;
   border: 0.5px solid var(--border-border-table, #e7e7e7);
   border-radius: 50%;
-  color: var(--white);
+  color: var(--surface-overlay);
   cursor: pointer;
 }
 
@@ -1943,7 +1942,7 @@ onBeforeUnmount(() => {
   margin-top: -10px;
   border: 0.5px solid var(--border-border-table, #e7e7e7);
   border-radius: 50%;
-  background: var(--white);
+  background: var(--surface-overlay);
   box-shadow: 0 0 22px 0 #00000012;
   appearance: none;
 }
@@ -1963,7 +1962,7 @@ onBeforeUnmount(() => {
   height: 24px;
   border: 0.5px solid var(--border-border-table, #e7e7e7);
   border-radius: 50%;
-  background: var(--white);
+  background: var(--surface-overlay);
   box-shadow: 0 0 22px 0 #00000012;
 }
 
@@ -1975,7 +1974,7 @@ onBeforeUnmount(() => {
   min-height: 240px;
   overflow: hidden;
   border-radius: 8px;
-  background: var(--grey1);
+  background: var(--action-disabled-bg);
 }
 
 .image-attachment-editor__stage {
@@ -2041,7 +2040,7 @@ onBeforeUnmount(() => {
   padding: 20px;
   color: var(--text-primary);
   text-align: center;
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__confirm-title {
@@ -2080,7 +2079,7 @@ onBeforeUnmount(() => {
   height: auto;
   max-width: 100%;
   max-height: var(--image-attachment-editor-stage-height);
-  background: var(--white);
+  background: var(--surface-overlay);
 }
 
 .image-attachment-editor__text-layer {
@@ -2138,7 +2137,7 @@ onBeforeUnmount(() => {
 
 .image-attachment-editor__crop-box {
   position: absolute;
-  border: 2px dashed var(--white);
+  border: 2px dashed var(--surface-overlay);
   box-shadow: 0 0 0 9999px var(--background-color-40);
   cursor: move;
   pointer-events: auto;
@@ -2151,7 +2150,7 @@ onBeforeUnmount(() => {
   width: 14px;
   height: 14px;
   padding: 0;
-  border: 2px solid var(--white);
+  border: 2px solid var(--surface-overlay);
   border-radius: 50%;
   background: var(--text-brand);
   box-shadow: 0 0 0 1px var(--background-color-40);

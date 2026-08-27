@@ -195,12 +195,12 @@ onUnmounted(() => {
   justify-content: center;
   border: 4px dashed var(--text-brand);
   border-radius: 24px;
-  color: var(--text-neutral-color);
-  background-color: rgb(255 255 255 / 55%);
+  color: var(--text-secondary);
+  background-color: #77a6ff1a;
 }
 
 .drag-overlay__zone--media {
-  background-color: rgb(244 248 255 / 70%);
+  background-color: #77a6ff1a;
 }
 
 .drag-overlay__title {

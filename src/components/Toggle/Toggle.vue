@@ -56,7 +56,8 @@ const classes = computed(() => ({
   'toggle-yui-kit': true,
   'toggle-yui-kit_small': props.type === ToggleEnum.small,
   'toggle-yui-kit_medium': props.type === ToggleEnum.medium,
-  'toggle-yui-kit_large': props.type === ToggleEnum.large
+  'toggle-yui-kit_large': props.type === ToggleEnum.large,
+  'toggle-yui-kit_minor': props.theme === 'minor'
 }));
 
 /**
@@ -170,6 +171,27 @@ label.toggle-yui-kit-label {
     transition:
       transform 0.3s,
       background-color 0.3s;
+  }
+}
+
+.toggle-yui-kit.toggle-yui-kit_minor {
+  & label.toggle-yui-kit-label {
+    background-color: var(--border-table);
+  }
+
+  & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label {
+    background-color: var(--border-hover);
+  }
+
+  & .toggle-yui-kit-input:checked + label.toggle-yui-kit-label::before {
+    &:has(.toggle-yui-kit-input:disabled) {
+      & label.toggle-yui-kit-label {
+        background-color: var(--action-disabled-bg);
+        &::before {
+          background-color: var(--surface-overlay);
+        }
+      }
+    }
   }
 }
 </style>

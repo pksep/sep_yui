@@ -2304,13 +2304,9 @@ button.mobile-buttons {
   padding: 16px 16px 0;
 }
 
-.attach-modal-container {
-  overflow: visible;
-  border-radius: 25px !important;
-
-  & .modal-yui-kit__modal-content {
-    overflow: visible;
-  }
+dialog.attach-modal-container.modal-yui-kit {
+  border-radius: 25px;
+  background-color: var(--surface-overlay);
 }
 
 .attach-modal-container--image-editor {
@@ -2335,9 +2331,6 @@ button.mobile-buttons {
 
 .attach-modal__attachments__all {
   max-height: min(800px, 60vh);
-  overflow-y: scroll;
-  width: calc(100% + 12px);
-  padding-right: 8px;
 }
 
 .attach-modal__close.button-yui-kit.ghost-yui-kit {
@@ -2507,18 +2500,18 @@ button.mobile-buttons {
   position: absolute;
   bottom: 8px;
   z-index: 1;
-  width: 28px;
-  height: 28px;
-  min-height: 28px;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
   padding: 0;
   border-radius: 8px;
-  color: var(--surface-overlay);
-  background: var(--background-color-80);
+  color: var(--text-white);
+  background: #1c263599;
   justify-content: center;
 }
 
 .attach-modal__media-tile-edit.button-yui-kit.ghost-yui-kit {
-  right: 44px;
+  right: 58px;
 }
 
 .attach-modal__media-tile-remove.button-yui-kit.ghost-yui-kit {
