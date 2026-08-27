@@ -29,13 +29,16 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
       <col-cal
         :date.prop="parsedDate"
         :minDate.prop="getDateStart()"
-        :maxDate.prop="getDateEnd()"
+        :maxDate.prop="getDateEnd() ?? defaultMaxDate"
+        :disabledDates.prop="disabledDates"
         :locale="props.locale ?? 'ru-RU'"
         :data-testid="`${props.dataTestid}-Component`"
         @show-months="changeShowMonths"
         @show-years="changeShowYears"
         @hide-months="changeHideMonths"
         @hide-years="changeHideYears"
+        @change-month="changeMonth"
+        @change-year="changeYear"
         @change-date="changeVal"
         class="date-picker-yui-kit"
         @click.stop
@@ -116,6 +119,7 @@ const state = reactive<{
   isNotClear: boolean;
   startDate: null;
   endDate: null;
+  viewDate: Date;
 }>({
   isActive: false,
   isOpen: {
@@ -124,7 +128,8 @@ const state = reactive<{
   },
   isNotClear: true,
   startDate: null,
-  endDate: null
+  endDate: null,
+  viewDate: new Date()
 });
 
 const emits = defineEmits<{
@@ -138,6 +143,28 @@ const parsedDate = computed<Date | null>(() => {
   if (!date.value) return null;
   const d = new Date(date.value as Date | string);
   return isNaN(d.getTime()) ? null : d;
+});
+
+const isSameMonth = (date: Date, month: Date): boolean =>
+  date.getFullYear() === month.getFullYear() &&
+  date.getMonth() === month.getMonth();
+
+const getMonthDates = (year: number, month: number): Date[] => {
+  const dates: Date[] = [];
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    dates.push(new Date(year, month, day));
+  }
+
+  return dates;
+};
+
+const disabledDates = computed<Date[]>(() => {
+  const year = state.viewDate.getFullYear();
+  const month = state.viewDate.getMonth();
+
+  return [...getMonthDates(year, month - 1), ...getMonthDates(year, month + 1)];
 });
 
 const clearChoose = (): void => {
@@ -161,6 +188,8 @@ const handleChangeDataPickerChoose = (
 const changeVal = ({ detail }: { detail: { date: Date | null } }): void => {
   if (!detail) return;
   let newDate = detail.date;
+
+  if (newDate && !isSameMonth(newDate, state.viewDate)) return;
 
   if (parsedDate.value && newDate) {
     newDate = new Date(
@@ -201,6 +230,26 @@ const closePopover = (): void => {
   changeHideYears();
 };
 
+const changeMonth = ({
+  detail
+}: {
+  detail: Date | { month: number } | null;
+}): void => {
+  if (detail instanceof Date) {
+    state.viewDate = new Date(detail.getFullYear(), detail.getMonth(), 1);
+    return;
+  }
+
+  if (detail && 'month' in detail) {
+    state.viewDate = new Date(state.viewDate.getFullYear(), detail.month, 1);
+  }
+};
+
+const changeYear = ({ detail }: { detail: { year: number } | null }): void => {
+  if (!detail) return;
+  state.viewDate = new Date(detail.year, state.viewDate.getMonth(), 1);
+};
+
 watchEffect(() => (state.startDate = (props.startDate ?? null) as null));
 watchEffect(() => (state.endDate = (props.endDate ?? null) as null));
 
@@ -214,6 +263,8 @@ const getStartOfYear = (date: Date): Date => new Date(date.getFullYear(), 0, 1);
 
 const getEndOfYear = (date: Date): Date =>
   new Date(date.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+const defaultMaxDate = new Date(9999, 11, 31, 23, 59, 59, 999);
 
 const getActivePopup = (): 'months' | 'years' | null => {
   if (state.isOpen.months && !state.isOpen.years) return 'months';
@@ -271,6 +322,12 @@ const getDateEnd = (): Date | null => {
 };
 
 const showPopover = (): void => {
+  const currentDate = parsedDate.value ?? new Date();
+  state.viewDate = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
   state.isActive = true;
 };
 
