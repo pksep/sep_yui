@@ -17,6 +17,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     backgroundColor: {
         type: import('vue').PropType<string>;
     };
+    theme: {
+        type: import('vue').PropType<"default" | "minor">;
+    };
 }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (isChecked: boolean) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
@@ -35,6 +38,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     backgroundColor: {
         type: import('vue').PropType<string>;
+    };
+    theme: {
+        type: import('vue').PropType<"default" | "minor">;
     };
 }>> & Readonly<{
     onChange?: ((isChecked: boolean) => any) | undefined;

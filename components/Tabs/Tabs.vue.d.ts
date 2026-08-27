@@ -1,6 +1,8 @@
 import { ITabsProps } from './interface/interface';
 
-declare function __VLS_template(): Partial<Record<`header${number}`, (_: {}) => any>> & Partial<Record<`tab${number}`, (_: {}) => any>>;
+declare function __VLS_template(): Partial<Record<`header${number}`, (_: {
+    active: boolean;
+}) => any>> & Partial<Record<`tab${number}`, (_: {}) => any>>;
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ITabsProps>, {
     dataTestid: string;
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
