@@ -2535,7 +2535,7 @@ dialog.attach-modal-container.modal-yui-kit {
   gap: 12px;
   padding: 12px 16px 12px 14px;
   border-radius: 18px;
-  background: #dfe9ff;
+  background: var(--table-surface-pressed);
 }
 
 .attach-modal__attachment-icon {
