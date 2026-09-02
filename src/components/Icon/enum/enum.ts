@@ -162,5 +162,7 @@ export enum IconNameEnum {
   connection = 'connection',
   tableError = 'table-error',
   rearrange = 'rearrange',
-  checked = 'checked'
+  checked = 'checked',
+  hand = 'hand',
+  checkCircle = 'check-circle'
 }
