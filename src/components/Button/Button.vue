@@ -194,7 +194,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
 
 .ghost-yui-kit {
   background-color: transparent;
-  color: var(--text-primary);
+  color: var(--text-secondary);
 
   &:hover {
     background-color: var(--action-secondary-bg);

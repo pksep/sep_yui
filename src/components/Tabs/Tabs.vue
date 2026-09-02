@@ -15,7 +15,7 @@
           ]"
           :data-testid="`${props.dataTestid}-Navigation-Button`"
         >
-          <slot :name="`header${index}`" />
+          <slot :name="`header${index}`" :active="state.activeTab === index" />
         </button>
       </template>
     </nav>
@@ -100,16 +100,15 @@ button.tabs__navigation-button {
   font-size: 14px;
   font-weight: 600;
   line-height: 100%;
-  color: var(--grey6);
+  flex: 1 1 0;
+  color: var(--text-secondary);
   background: transparent;
-  padding-bottom: 5px;
-  border: 0;
-  &:hover,
-  &.active {
-    color: var(--text-black);
-    border-bottom-style: solid;
-    border-bottom-width: 0.5px;
-    border-bottom-color: var(--text-black);
-  }
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+  border-bottom-width: 0.5px;
+  transition: all 0.2s ease;
+
+  display: flex;
+  justify-content: flex-start;
 }
 </style>

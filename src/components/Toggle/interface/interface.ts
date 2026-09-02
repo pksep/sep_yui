@@ -5,4 +5,5 @@ export interface IToggleProps extends IDataTestIdProp {
   disabled?: boolean;
   backgroundColor?: string;
   type?: ToggleEnum;
+  theme?: 'default' | 'minor';
 }
