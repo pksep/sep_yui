@@ -176,3 +176,5 @@ export declare const colorPicker: IVectorIcon;
 export declare const connection: IVectorIcon;
 export declare const tableError: IVectorIcon;
 export declare const rearrange: IVectorIcon;
+export declare const hand: IVectorIcon;
+export declare const checkCircle: IVectorIcon;
