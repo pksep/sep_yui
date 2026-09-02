@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.314
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.314...v0.1.314)
+
+### 🚀 Enhancements
+
+- **icon:** Add AI permission state icons ([#397](https://github.com/pksep/sep_yui/pull/397))
+
+### 🩹 Fixes
+
+- Pdf preview ([d12239ff](https://github.com/pksep/sep_yui/commit/d12239ff))
+
 ## v0.1.313
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.309...v0.1.313)
