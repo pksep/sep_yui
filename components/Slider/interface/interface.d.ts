@@ -8,11 +8,13 @@ export type SliderPathError = {
 export type SliderPath = string | SliderPathError;
 export type SliderItem = {
     path: SliderPath;
+    fallbackPath?: string;
     name?: string;
     file?: File;
 };
 export type IFile = {
     path: string;
+    fallbackPath?: string;
     name?: string;
     file?: File;
 };
