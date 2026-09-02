@@ -14,7 +14,11 @@
     @pointerleave="handlePinterLeave"
     @touchend="handleTouchEnd"
   >
-    <div ref="contentRef" class="slider-modal__content">
+    <div
+      ref="contentRef"
+      class="slider-modal__content"
+      @contextmenu.prevent.stop
+    >
       <div
         ref="sideBarRef"
         class="slider-modal__side-bar"
@@ -112,6 +116,8 @@
                 :src="state?.file?.path"
                 :page="state.sideBarIndex + 1"
                 :file="state.file?.file"
+                :resolution-scale="state.zoomValue"
+                @load="handleDesktopPdfLoad"
               />
             </div>
 
@@ -127,6 +133,8 @@
                   :src="file"
                   :page="idx + 1"
                   :file="state.file?.file"
+                  :resolution-scale="state.zoomValue"
+                  @load="handleMobilePdfLoad(idx)"
                 />
               </div>
             </template>
@@ -159,7 +167,7 @@
                   'slider-modal__image_error': state.isErrorFile,
                   'slider-modal__image_positioned': state.isImagePositioned
                 }"
-                :src="state.file?.path"
+                :src="imageSourcePath"
                 @error="handleErrorItem($event, true)"
                 @load="handleLoadImage"
               />
@@ -269,7 +277,7 @@
                   <template v-if="isImage(item.path)">
                     <img
                       class="slider-modal__slide-image"
-                      :src="item.path"
+                      :src="item.fallbackPath ?? item.path"
                       :alt="item.path"
                       @error="handleErrorItem"
                     />
@@ -510,6 +518,8 @@ const SWIPE_EXIT_THRESHOLD = 80;
 const SWIPE_DELAY_EXIT_THRESHOLD = 20;
 const SWIPE_CHANGE_ITEM_THRESHOLD = 80;
 const SWIPE_DELAY_CHANGE_ITEM_THRESHOLD = 20;
+const DEFAULT_MAX_ZOOM = 3;
+const PDF_MAX_ZOOM = 6;
 
 const miniItemsRef = ref<HTMLElement[] | null>(null);
 const sideBarRef = ref<HTMLElement | null>(null);
@@ -520,9 +530,26 @@ const mainRef = ref<HTMLElement | null>(null);
 const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 const imagePreviewRef = ref<HTMLImageElement | null>(null);
+const imageSourcePath = ref(state.file?.path ?? '');
 const videoSourceUrl = ref<string | null>(null);
 
 let panzoomInstance: ReturnType<typeof Panzoom> | null = null;
+let imagePanzoomElement: HTMLImageElement | null = null;
+let imagePanzoomEndHandler: EventListener | null = null;
+let pdfPanzoomInstance: ReturnType<typeof Panzoom> | null = null;
+let pdfPanzoomElement: HTMLCanvasElement | null = null;
+let pdfPanzoomPointerUpHandler: (() => void) | null = null;
+let mobilePdfElement: HTMLCanvasElement | null = null;
+let mobilePdfScale = 1;
+let mobilePdfPanX = 0;
+let mobilePdfPanY = 0;
+let mobilePdfGesture: 'none' | 'pan' | 'pinch' = 'none';
+let mobilePdfStartDistance = 0;
+let mobilePdfStartScale = 1;
+let mobilePdfStartX = 0;
+let mobilePdfStartY = 0;
+let mobilePdfStartPanX = 0;
+let mobilePdfStartPanY = 0;
 let videoObjectUrl: string | null = null;
 let imagePositionFallbackTimer: ReturnType<typeof window.setTimeout> | null =
   null;
@@ -554,6 +581,9 @@ const showPlaceholderExtension = computed(() =>
 
 const showItemPlaceholderExtension = (item: IFile): boolean =>
   isUnsupportedFileWithExtension(item);
+
+const isCurrentPdfFile = (): boolean =>
+  isPdfFile(state.file?.path) || isPdfFile(state.file?.file);
 
 // Проверка на корректность файла
 const isErrorFile = computed(
@@ -595,12 +625,6 @@ const isDisabledZoomButton = computed(() => {
   isDisabled = isVideo(state.file?.path) || isDisabled;
   return isDisabled;
 });
-
-const contentStyle = computed(() => ({
-  transform: `
-    scale(${state.zoomValue})
-  `
-}));
 
 /**
  * Очищает таймер fallback-показа изображения
@@ -682,7 +706,7 @@ const setZoomElement = (): boolean => {
 
         panzoomInstance?.setStyle(
           'transform',
-          `translate(${x}px, ${y}px) scale(${scale}) rotate(${state.rotateValue}deg)`
+          `scale(${scale}) translate(${x}px, ${y}px) rotate(${state.rotateValue}deg)`
         );
       }
     });
@@ -702,10 +726,11 @@ const setZoomElement = (): boolean => {
 
   state.isImagePositioned = true;
 
-  panzoomInstance.handleUp = () => {
-    if (!panzoomInstance || !imagePreviewRef.value) return;
+  imagePanzoomElement = imagePreviewRef.value;
+  imagePanzoomEndHandler = () => {
+    if (!panzoomInstance || !imagePanzoomElement) return;
 
-    const element = imagePreviewRef.value;
+    const element = imagePanzoomElement;
     const scale = panzoomInstance.getScale();
 
     if (scale <= 1) {
@@ -737,37 +762,446 @@ const setZoomElement = (): boolean => {
     const deltaTop = elemTop - parentTop;
     const deltaBottom = parentBottom - elemBottom;
 
-    if (deltaLeft > 0 && deltaRight < 0) newX = x - deltaLeft;
-    if (deltaRight > 0 && deltaLeft < 0) newX = x + deltaRight;
+    if (deltaLeft > 0 && deltaRight < 0) newX = x - deltaLeft / scale;
+    if (deltaRight > 0 && deltaLeft < 0) newX = x + deltaRight / scale;
 
-    if (deltaTop > 0 && deltaBottom < 0) newY = y - deltaTop;
-    if (deltaBottom > 0 && deltaTop < 0) newY = y + deltaBottom;
+    if (deltaTop > 0 && deltaBottom < 0) newY = y - deltaTop / scale;
+    if (deltaBottom > 0 && deltaTop < 0) newY = y + deltaBottom / scale;
 
     panzoomInstance.pan(newX, newY, {
       force: true
     });
   };
 
-  document.addEventListener('pointerup', panzoomInstance.handleUp);
+  imagePanzoomElement.addEventListener('panzoomend', imagePanzoomEndHandler);
   window.addEventListener('resize', centerPositionPanzoom);
 
   return true;
 };
 
 const resetListenerPanzoom = (resetTransform: boolean = true): void => {
+  const element = imagePanzoomElement ?? imagePreviewRef.value;
+
+  if (imagePanzoomElement && imagePanzoomEndHandler) {
+    imagePanzoomElement.removeEventListener(
+      'panzoomend',
+      imagePanzoomEndHandler
+    );
+  }
+
+  imagePanzoomElement = null;
+  imagePanzoomEndHandler = null;
+
   if (!panzoomInstance) return;
   window.removeEventListener('resize', centerPositionPanzoom);
-
-  document.removeEventListener('pointerup', panzoomInstance.handleUp);
   panzoomInstance.destroy();
   panzoomInstance = null;
 
-  if (resetTransform && imagePreviewRef.value) {
+  if (resetTransform && element) {
+    changeStyleProperties({ transform: 'none', transition: 'none' }, element);
+  }
+};
+
+const applyPdfPanzoomTransform = (): void => {
+  if (!pdfPanzoomInstance || !pdfPanzoomElement) return;
+
+  const scale = pdfPanzoomInstance.getScale();
+  const { x, y } = pdfPanzoomInstance.getPan();
+
+  pdfPanzoomInstance.setStyle(
+    'transform',
+    `scale(${scale}) translate(${x}px, ${y}px)`
+  );
+};
+
+const constrainPdfPan = (
+  element: HTMLCanvasElement,
+  scale: number,
+  x: number,
+  y: number
+): { x: number; y: number } => {
+  const parent = element.parentElement;
+  if (!parent || scale <= 1) return { x: 0, y: 0 };
+
+  const parentRect = parent.getBoundingClientRect();
+  const elementRect = element.getBoundingClientRect();
+  let nextX = x;
+  let nextY = y;
+
+  if (elementRect.width <= parentRect.width) {
+    nextX = 0;
+  } else if (elementRect.left > parentRect.left) {
+    nextX -= (elementRect.left - parentRect.left) / scale;
+  } else if (elementRect.right < parentRect.right) {
+    nextX += (parentRect.right - elementRect.right) / scale;
+  }
+
+  if (elementRect.height <= parentRect.height) {
+    nextY = 0;
+  } else if (elementRect.top > parentRect.top) {
+    nextY -= (elementRect.top - parentRect.top) / scale;
+  } else if (elementRect.bottom < parentRect.bottom) {
+    nextY += (parentRect.bottom - elementRect.bottom) / scale;
+  }
+
+  return { x: nextX, y: nextY };
+};
+
+const setPdfZoomElement = (): boolean => {
+  if (!viewportRef.value) return false;
+
+  resetPdfPanzoom();
+  pdfPanzoomElement = viewportRef.value.querySelector('canvas');
+
+  if (!pdfPanzoomElement) return false;
+
+  try {
+    pdfPanzoomInstance = Panzoom(pdfPanzoomElement, {
+      maxScale: PDF_MAX_ZOOM,
+      minScale: 1,
+      panOnlyWhenZoomed: true,
+      animate: false,
+      cursor: 'default',
+      setTransform: applyPdfPanzoomTransform
+    });
+  } catch (error) {
+    console.error('Failed to initialize PDF panzoom', error);
+    pdfPanzoomInstance = null;
+    pdfPanzoomElement = null;
+
+    return false;
+  }
+
+  pdfPanzoomPointerUpHandler = () => {
+    if (!pdfPanzoomInstance || !pdfPanzoomElement) return;
+
+    const scale = pdfPanzoomInstance.getScale();
+    if (scale <= 1) {
+      pdfPanzoomInstance.pan(0, 0, { force: true });
+      applyPdfPanzoomTransform();
+      return;
+    }
+
+    const { x, y } = pdfPanzoomInstance.getPan();
+    const { x: nextX, y: nextY } = constrainPdfPan(
+      pdfPanzoomElement,
+      scale,
+      x,
+      y
+    );
+
+    if (nextX !== x || nextY !== y) {
+      pdfPanzoomInstance.pan(nextX, nextY, { force: true });
+      applyPdfPanzoomTransform();
+    }
+  };
+
+  document.addEventListener('pointerup', pdfPanzoomPointerUpHandler);
+
+  return true;
+};
+
+const resetPdfPanzoom = (): void => {
+  if (pdfPanzoomPointerUpHandler) {
+    document.removeEventListener('pointerup', pdfPanzoomPointerUpHandler);
+    pdfPanzoomPointerUpHandler = null;
+  }
+
+  pdfPanzoomInstance?.destroy();
+
+  if (pdfPanzoomElement) {
     changeStyleProperties(
-      { transform: 'none', transition: 'none' },
-      imagePreviewRef.value
+      { cursor: 'default', transform: 'none', transition: 'none' },
+      pdfPanzoomElement
     );
   }
+
+  pdfPanzoomInstance = null;
+  pdfPanzoomElement = null;
+};
+
+const applyMobilePdfTransform = (): void => {
+  if (!mobilePdfElement) return;
+
+  changeStyleProperties(
+    {
+      transform: `scale(${mobilePdfScale}) translate(${mobilePdfPanX}px, ${mobilePdfPanY}px)`,
+      transition: 'none'
+    },
+    mobilePdfElement
+  );
+};
+
+const setMobilePdfElement = (element: HTMLCanvasElement): void => {
+  if (mobilePdfElement === element) return;
+
+  if (mobilePdfElement) {
+    changeStyleProperties(
+      { transform: 'none', transition: 'none' },
+      mobilePdfElement
+    );
+  }
+
+  mobilePdfElement = element;
+  mobilePdfScale = Math.max(1, state.zoomValue);
+  mobilePdfPanX = 0;
+  mobilePdfPanY = 0;
+};
+
+const constrainMobilePdfPan = (): void => {
+  if (!mobilePdfElement) return;
+
+  const constrainedPan = constrainPdfPan(
+    mobilePdfElement,
+    mobilePdfScale,
+    mobilePdfPanX,
+    mobilePdfPanY
+  );
+
+  mobilePdfPanX = constrainedPan.x;
+  mobilePdfPanY = constrainedPan.y;
+  applyMobilePdfTransform();
+};
+
+const commitMobilePdfScale = (): void => {
+  const nextScale =
+    mobilePdfScale < 1.01 ? 1 : Math.round(mobilePdfScale * 1000) / 1000;
+
+  mobilePdfScale = nextScale;
+
+  if (nextScale === 1) {
+    mobilePdfPanX = 0;
+    mobilePdfPanY = 0;
+  }
+
+  state.zoomValue = nextScale;
+  constrainMobilePdfPan();
+};
+
+const resetMobilePdfZoom = (): void => {
+  if (mobilePdfElement) {
+    changeStyleProperties(
+      { transform: 'none', transition: 'none' },
+      mobilePdfElement
+    );
+  }
+
+  mobilePdfElement = null;
+  mobilePdfScale = 1;
+  mobilePdfPanX = 0;
+  mobilePdfPanY = 0;
+  mobilePdfGesture = 'none';
+  mobilePdfStartDistance = 0;
+};
+
+const getMobilePdfCanvas = (
+  target: EventTarget | null
+): HTMLCanvasElement | null => {
+  if (!(target instanceof Element)) return null;
+
+  return target.closest<HTMLCanvasElement>('canvas.slider-modal__pdf_mobile');
+};
+
+const getTouchDistance = (touches: TouchList): number =>
+  Math.hypot(
+    touches[1].clientX - touches[0].clientX,
+    touches[1].clientY - touches[0].clientY
+  );
+
+const getTouchCenter = (touches: TouchList): { x: number; y: number } => ({
+  x: (touches[0].clientX + touches[1].clientX) / 2,
+  y: (touches[0].clientY + touches[1].clientY) / 2
+});
+
+const handleMobilePdfTouchStart = (event: TouchEvent): boolean => {
+  if (!state.isMobile || !isCurrentPdfFile()) return false;
+
+  const element = getMobilePdfCanvas(event.target) ?? mobilePdfElement;
+  if (!element) return false;
+
+  setMobilePdfElement(element);
+
+  if (event.touches.length >= 2) {
+    event.preventDefault();
+    resetMobileState();
+
+    const center = getTouchCenter(event.touches);
+    mobilePdfGesture = 'pinch';
+    mobilePdfStartDistance = getTouchDistance(event.touches);
+    mobilePdfStartScale = mobilePdfScale;
+    mobilePdfStartX = center.x;
+    mobilePdfStartY = center.y;
+    mobilePdfStartPanX = mobilePdfPanX;
+    mobilePdfStartPanY = mobilePdfPanY;
+
+    return true;
+  }
+
+  if (mobilePdfScale <= 1) return false;
+
+  event.preventDefault();
+  resetMobileState();
+  mobilePdfGesture = 'pan';
+  mobilePdfStartX = event.touches[0].clientX;
+  mobilePdfStartY = event.touches[0].clientY;
+  mobilePdfStartPanX = mobilePdfPanX;
+  mobilePdfStartPanY = mobilePdfPanY;
+
+  return true;
+};
+
+const handleMobilePdfTouchMove = (event: TouchEvent): boolean => {
+  if (!state.isMobile || !isCurrentPdfFile() || !mobilePdfElement) {
+    return false;
+  }
+
+  if (mobilePdfGesture === 'pinch' && event.touches.length >= 2) {
+    event.preventDefault();
+
+    const center = getTouchCenter(event.touches);
+    const distanceRatio =
+      mobilePdfStartDistance > 0
+        ? getTouchDistance(event.touches) / mobilePdfStartDistance
+        : 1;
+
+    mobilePdfScale = Math.min(
+      Math.max(1, mobilePdfStartScale * distanceRatio),
+      PDF_MAX_ZOOM
+    );
+    mobilePdfPanX =
+      mobilePdfStartPanX + (center.x - mobilePdfStartX) / mobilePdfScale;
+    mobilePdfPanY =
+      mobilePdfStartPanY + (center.y - mobilePdfStartY) / mobilePdfScale;
+    applyMobilePdfTransform();
+
+    return true;
+  }
+
+  if (mobilePdfGesture === 'pan' && event.touches.length === 1) {
+    event.preventDefault();
+
+    mobilePdfPanX =
+      mobilePdfStartPanX +
+      (event.touches[0].clientX - mobilePdfStartX) / mobilePdfScale;
+    mobilePdfPanY =
+      mobilePdfStartPanY +
+      (event.touches[0].clientY - mobilePdfStartY) / mobilePdfScale;
+    applyMobilePdfTransform();
+
+    return true;
+  }
+
+  return false;
+};
+
+const handleMobilePdfTouchEnd = (event: TouchEvent): boolean => {
+  if (!state.isMobile || !isCurrentPdfFile() || mobilePdfGesture === 'none') {
+    return false;
+  }
+
+  event.preventDefault();
+
+  if (mobilePdfGesture === 'pinch') {
+    commitMobilePdfScale();
+  } else {
+    constrainMobilePdfPan();
+  }
+
+  if (event.touches.length === 1 && mobilePdfScale > 1) {
+    mobilePdfGesture = 'pan';
+    mobilePdfStartX = event.touches[0].clientX;
+    mobilePdfStartY = event.touches[0].clientY;
+    mobilePdfStartPanX = mobilePdfPanX;
+    mobilePdfStartPanY = mobilePdfPanY;
+  } else {
+    mobilePdfGesture = 'none';
+  }
+
+  return true;
+};
+
+const handleMobilePdfPointerStart = (event: PointerEvent): boolean => {
+  if (
+    !state.isMobile ||
+    !isCurrentPdfFile() ||
+    event.pointerType !== 'mouse' ||
+    state.zoomValue <= 1
+  ) {
+    return false;
+  }
+
+  const element = getMobilePdfCanvas(event.target) ?? mobilePdfElement;
+  if (!element) return false;
+
+  event.preventDefault();
+  resetMobileState();
+  setMobilePdfElement(element);
+  mobilePdfGesture = 'pan';
+  mobilePdfStartX = event.clientX;
+  mobilePdfStartY = event.clientY;
+  mobilePdfStartPanX = mobilePdfPanX;
+  mobilePdfStartPanY = mobilePdfPanY;
+
+  return true;
+};
+
+const handleMobilePdfPointerMove = (event: PointerEvent): boolean => {
+  if (
+    mobilePdfGesture !== 'pan' ||
+    event.pointerType !== 'mouse' ||
+    !mobilePdfElement
+  ) {
+    return false;
+  }
+
+  event.preventDefault();
+  mobilePdfPanX =
+    mobilePdfStartPanX + (event.clientX - mobilePdfStartX) / mobilePdfScale;
+  mobilePdfPanY =
+    mobilePdfStartPanY + (event.clientY - mobilePdfStartY) / mobilePdfScale;
+  applyMobilePdfTransform();
+
+  return true;
+};
+
+const handleMobilePdfPointerEnd = (event: PointerEvent): boolean => {
+  if (mobilePdfGesture !== 'pan' || event.pointerType !== 'mouse') {
+    return false;
+  }
+
+  constrainMobilePdfPan();
+  mobilePdfGesture = 'none';
+
+  return true;
+};
+
+const handleDesktopPdfLoad = (): void => {
+  if (state.isMobile || state.zoomValue <= 1 || pdfPanzoomInstance) return;
+
+  nextTick(() => {
+    if (!setPdfZoomElement()) return;
+
+    pdfPanzoomInstance?.zoom(state.zoomValue, {
+      animate: false,
+      force: true
+    });
+    applyPdfPanzoomTransform();
+  });
+};
+
+const handleMobilePdfLoad = (index: number): void => {
+  if (!state.isMobile || state.zoomValue <= 1 || mobilePdfElement) return;
+
+  nextTick(() => {
+    const element = itemRef.value?.querySelectorAll<HTMLCanvasElement>(
+      'canvas.slider-modal__pdf_mobile'
+    )[index];
+
+    if (!element) return;
+
+    setMobilePdfElement(element);
+    applyMobilePdfTransform();
+  });
 };
 
 const centerPositionPanzoom = (): void => {
@@ -791,10 +1225,13 @@ const centerPositionPanzoom = (): void => {
 // отслеживаем изменение списка
 watch([() => props.items, () => props.defaultIndex], () => {
   state.file = props.items[props.defaultIndex ?? 0];
+  imageSourcePath.value = state.file?.path ?? '';
   state.defaultIndex = props.defaultIndex ?? 0;
   // При смене входных данных старый fallback уже неактуален.
   clearImagePositionFallback();
   resetListenerPanzoom();
+  resetPdfPanzoom();
+  resetMobilePdfZoom();
 });
 
 // Отслеживаем изменение открытого файла
@@ -807,12 +1244,15 @@ watch([() => state.file, () => props.open], () => {
   state.isImagePositioned = false;
   // Новый файл должен сам пройти загрузку, ошибку или fallback.
   clearImagePositionFallback();
+  resetPdfPanzoom();
+  resetMobilePdfZoom();
   resetRotate();
 
   if (!state.file) {
     state.file = props.items[props.defaultIndex ?? 0];
   }
 
+  imageSourcePath.value = state.file?.path ?? '';
   state.isErrorFile = false;
 
   void syncVideoSource();
@@ -824,6 +1264,8 @@ watch(
   () => {
     if (!props.open) {
       resetListenerPanzoom(false);
+      resetPdfPanzoom();
+      resetMobilePdfZoom();
       // Закрытая модалка не должна получать отложенное изменение видимости.
       clearImagePositionFallback();
 
@@ -991,6 +1433,19 @@ const handleClickOnDownloadButton = (): void => {
 const handleErrorItem = (e: Event, isMainImage: boolean = false): void => {
   const target = e.target;
 
+  if (
+    isMainImage &&
+    target instanceof HTMLImageElement &&
+    state.file?.fallbackPath &&
+    imageSourcePath.value !== state.file.fallbackPath
+  ) {
+    clearImagePositionFallback();
+    resetListenerPanzoom();
+    state.isImagePositioned = false;
+    imageSourcePath.value = state.file.fallbackPath;
+    return;
+  }
+
   if (target instanceof HTMLImageElement) {
     target.src = closedCamer;
   }
@@ -1072,7 +1527,7 @@ const handleClickOnPrevSlideButton = (): void => {
  * Ставит флаг что кликнули на выход
  */
 const handleMouseDownOnExitItem = (e: MouseEvent): void => {
-  if (state.isMobile) return;
+  if (state.isMobile || e.button !== 0) return;
 
   const target = e.target as HTMLElement;
   if (
@@ -1089,6 +1544,11 @@ const handleMouseDownOnExitItem = (e: MouseEvent): void => {
  * Отправлят родителю событие о закрытие модального окна
  */
 const handleMouseUpOnExitItem = (e: MouseEvent): void => {
+  if (e.button !== 0) {
+    state.isClickOnExit = false;
+    return;
+  }
+
   const target = e.target as HTMLElement;
 
   if (
@@ -1103,6 +1563,7 @@ const handleMouseUpOnExitItem = (e: MouseEvent): void => {
 
 const handlePointerStart = (e: PointerEvent): void => {
   if (!state.isMobile) return;
+  if (handleMobilePdfPointerStart(e) || isCurrentPdfFile()) return;
 
   state.startXForMobile = e.clientX;
   state.startYForMobile = e.clientY;
@@ -1112,6 +1573,7 @@ const handlePointerStart = (e: PointerEvent): void => {
 
 const handleTouchStart = (e: TouchEvent): void => {
   if (!state.isMobile) return;
+  if (handleMobilePdfTouchStart(e)) return;
 
   state.startXForMobile = e.touches[0].clientX;
   state.startYForMobile = e.touches[0].clientY;
@@ -1121,12 +1583,18 @@ const handleTouchStart = (e: TouchEvent): void => {
 
 const handlePinterLeave = (): void => {
   if (!state.isMobile) return;
+  if (isCurrentPdfFile() && mobilePdfGesture !== 'none') {
+    constrainMobilePdfPan();
+    mobilePdfGesture = 'none';
+    return;
+  }
   resetMobileState();
   resetOpacity();
 };
 
 const handlePointerEnd = (e: PointerEvent): void => {
   if (!state.isMobile) return;
+  if (handleMobilePdfPointerEnd(e) || isCurrentPdfFile()) return;
 
   const endX = e.clientX;
   const endY = e.clientY;
@@ -1153,6 +1621,7 @@ const handlePointerEnd = (e: PointerEvent): void => {
 
 const handleTouchEnd = (e: TouchEvent): void => {
   if (!state.isMobile) return;
+  if (handleMobilePdfTouchEnd(e)) return;
 
   const endX = e.changedTouches[0].clientX;
   const endY = e.changedTouches[0].clientY;
@@ -1179,7 +1648,9 @@ const handleTouchEnd = (e: TouchEvent): void => {
 };
 
 const handlePointerMove = (e: PointerEvent): void => {
-  if (!state.isMobile || !state.isPointerActive) return;
+  if (!state.isMobile) return;
+  if (handleMobilePdfPointerMove(e) || isCurrentPdfFile()) return;
+  if (!state.isPointerActive) return;
 
   const deltaY = e.clientY - state.startYForMobile;
   const deltaX = e.clientX - state.startXForMobile;
@@ -1188,6 +1659,7 @@ const handlePointerMove = (e: PointerEvent): void => {
 
 const handleTouchMove = (e: TouchEvent): void => {
   if (!state.isMobile) return;
+  if (handleMobilePdfTouchMove(e)) return;
 
   const currentX = e.touches[0].clientX;
   const currentY = e.touches[0].clientY;
@@ -1352,7 +1824,8 @@ const zoom = (isIncrease: boolean): void => {
   state.zoomValue += isIncrease ? 1 : -1;
 
   // Ограничиваем масштаб
-  state.zoomValue = Math.min(Math.max(1, state.zoomValue), 3);
+  const maxZoom = isCurrentPdfFile() ? PDF_MAX_ZOOM : DEFAULT_MAX_ZOOM;
+  state.zoomValue = Math.min(Math.max(1, state.zoomValue), maxZoom);
 
   const nextZoom = state.zoomValue;
   if (prevZoom === nextZoom) return;
@@ -1361,7 +1834,21 @@ const zoom = (isIncrease: boolean): void => {
 
   // Увеличиваем масштаб для изображений
   if (pdfRef.value) {
-    changeStyleProperties(contentStyle.value, viewportRef.value);
+    if (!pdfPanzoomInstance && !setPdfZoomElement()) return;
+
+    pdfPanzoomInstance?.zoom(state.zoomValue, {
+      animate: false,
+      force: true
+    });
+    pdfPanzoomInstance?.setOptions({
+      cursor: state.zoomValue > 1 ? 'move' : 'default'
+    });
+
+    if (prevZoom === 1 || state.zoomValue === 1) {
+      pdfPanzoomInstance?.pan(0, 0, { force: true });
+    }
+
+    applyPdfPanzoomTransform();
   }
 
   if (imagePreviewRef.value) {
@@ -1506,6 +1993,8 @@ const setPdfPage = async (index: number = 0): Promise<void> => {
  * Очищает данные от данных pdf
  */
 const clearPdf = (): void => {
+  resetPdfPanzoom();
+  resetMobilePdfZoom();
   state.sideBarItems = [];
   state.sideBarIndex = 0;
   state.sideBarLength = 0;
@@ -1515,6 +2004,11 @@ const clearPdf = (): void => {
  * Обновляет состоняние параметра isMobile
  */
 const updateMediaParams = (): void => {
+  if (state.isMobile !== mediaQuery.matches) {
+    resetPdfPanzoom();
+    resetMobilePdfZoom();
+  }
+
   state.isMobile = mediaQuery.matches;
 };
 
@@ -1716,6 +2210,8 @@ onUnmounted(() => {
   // При размонтировании убираем таймер, чтобы не менять состояние уничтоженного компонента.
   clearImagePositionFallback();
   cleanupVideoSource();
+  resetPdfPanzoom();
+  resetMobilePdfZoom();
   if (sideBarRef.value)
     sideBarRef.value.removeEventListener('resize', centerPositionPanzoom);
 
@@ -1790,6 +2286,9 @@ onUnmounted(() => {
 .slider-modal__mini-prewiew-wrapper {
   width: 150px;
   height: 212px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--text-brand-20);
 
   transition: all 0.2s ease;
@@ -1965,6 +2464,10 @@ onUnmounted(() => {
   padding: 0;
   border: none;
   user-select: none;
+}
+
+.slider-modal__side-button:not(:disabled) {
+  cursor: pointer;
 }
 
 .slider-modal__nav-block:nth-child(3) .slider-modal__side-button {
