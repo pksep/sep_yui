@@ -186,6 +186,7 @@ const modalItems = computed<IFile[]>(() =>
     if (path) {
       items.push({
         path,
+        fallbackPath: item.fallbackPath,
         name: item.name,
         file: item.file
       });

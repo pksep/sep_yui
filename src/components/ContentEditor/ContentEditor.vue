@@ -2309,6 +2309,24 @@ dialog.attach-modal-container.modal-yui-kit {
   background-color: var(--surface-overlay);
 }
 
+.attach-modal-container:not(.attach-modal-container--image-editor) {
+  max-height: calc(100dvh - 32px);
+  overflow: hidden;
+
+  & .modal-yui-kit__modal-content {
+    min-height: 0;
+    max-height: calc(100dvh - 32px);
+    overflow: hidden;
+  }
+
+  & .attach-modal {
+    min-height: 0;
+    max-height: calc(100dvh - 32px);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+}
+
 .attach-modal-container--image-editor {
   & .modal-yui-kit__modal-content {
     max-height: calc(100dvh - 32px);
@@ -2326,11 +2344,23 @@ dialog.attach-modal-container.modal-yui-kit {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex: 0 0 auto;
   gap: 12px;
 }
 
 .attach-modal__attachments__all {
+  min-height: 0;
   max-height: min(800px, 60vh);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  width: calc(100% + 12px);
+  padding-right: 8px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.attach-modal__attachments__all::-webkit-scrollbar {
+  display: none;
 }
 
 .attach-modal__close.button-yui-kit.ghost-yui-kit {
@@ -2595,9 +2625,26 @@ dialog.attach-modal-container.modal-yui-kit {
 
 .attach-modal__editor {
   position: relative;
+  display: flex;
+  min-height: 0;
+  max-height: min(420px, 50dvh);
+  flex: 0 0 auto;
+  flex-direction: column;
+  overflow: hidden;
   background: var(--surface-overlay);
   border: 0.5px solid var(--border-table);
   border-radius: 24px;
+
+  & .editor-content {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  & .editor-content::-webkit-scrollbar {
+    display: none;
+  }
 
   & .tiptap {
     min-height: 58px;
@@ -2607,6 +2654,10 @@ dialog.attach-modal-container.modal-yui-kit {
   .editor-component-slot {
     padding: 16px 16px 0;
   }
+}
+
+.attach-modal__toolbar {
+  flex: 0 0 auto;
 }
 
 .attach-modal__editor--mentions-open {

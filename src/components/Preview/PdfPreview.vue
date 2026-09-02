@@ -9,7 +9,7 @@ import {
   IPdfPreviewEmit,
   IPdfPreviewProps
 } from '@/components/Preview/interface';
-import { nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
 import {
   getDocument,
@@ -26,7 +26,9 @@ defineOptions({
 
 GlobalWorkerOptions.workerSrc = pdfWorker;
 
-const props = defineProps<IPdfPreviewProps>();
+const props = withDefaults(defineProps<IPdfPreviewProps>(), {
+  resolutionScale: 1
+});
 const emit = defineEmits<IPdfPreviewEmit>();
 
 const state = reactive<{
@@ -39,7 +41,15 @@ const state = reactive<{
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 let intersenctionObserver: IntersectionObserver | undefined;
+let resizeObserver: ResizeObserver | undefined;
+let resizeRenderFrame: number | null = null;
 let currentRenderTask: RenderTask | null = null;
+let displayBounds: { width: number; height: number } | null = null;
+let renderRequestId = 0;
+let renderedDevicePixelRatio = 0;
+
+const MAX_CANVAS_DIMENSION = 8192;
+const MAX_CANVAS_PIXELS = 16_777_216;
 
 const getPdfDocumentSource = async () => {
   if (props.file) {
@@ -52,7 +62,11 @@ const getPdfDocumentSource = async () => {
 
 watch([() => props.src, () => props.page], () => {
   intersenctionObserver?.disconnect();
+  renderRequestId += 1;
+  currentRenderTask?.cancel();
   clearCanvas();
+  displayBounds = null;
+  renderedDevicePixelRatio = 0;
 
   state.isError = false;
   // Выполняем после отрисовки, чтобы canvas был доступен
@@ -68,19 +82,78 @@ watch(
   }
 );
 
+watch(
+  () => props.resolutionScale,
+  () => {
+    if (displayBounds === null) return;
+
+    setPdf(false);
+  }
+);
+
+const getDisplayBounds = (): { width: number; height: number } => {
+  if (!canvas.value) throw new Error('Canvas not found');
+
+  const canvasRect = canvas.value.getBoundingClientRect();
+  const parentRect = canvas.value.parentElement?.getBoundingClientRect();
+  const width =
+    parentRect?.width || canvas.value.offsetWidth || canvasRect.width;
+  const height =
+    parentRect?.height || canvas.value.offsetHeight || canvasRect.height;
+
+  if (width <= 0 || height <= 0) {
+    throw new Error('Canvas has no display size');
+  }
+
+  return { width, height };
+};
+
+const getOutputScale = (
+  width: number,
+  height: number,
+  requestedScale: number
+): number => {
+  const dimensionScale = Math.min(
+    MAX_CANVAS_DIMENSION / width,
+    MAX_CANVAS_DIMENSION / height
+  );
+  const pixelScale = Math.sqrt(MAX_CANVAS_PIXELS / (width * height));
+
+  return Math.min(requestedScale, dimensionScale, pixelScale);
+};
+
+const waitForRenderCancellation = async (): Promise<void> => {
+  const renderTask = currentRenderTask;
+  if (!renderTask) return;
+
+  renderTask.cancel();
+
+  try {
+    await renderTask.promise;
+  } catch {
+    // RenderingCancelledException — ожидаемый результат отмены.
+  }
+
+  if (currentRenderTask === renderTask) {
+    currentRenderTask = null;
+  }
+};
+
 /**
  * Отрисовывает pdf файл
  */
-const setPdf = async (): Promise<void> => {
+const setPdf = async (recalculateDisplayBounds = true): Promise<void> => {
+  const requestId = ++renderRequestId;
+  let renderTask: RenderTask | null = null;
+
   try {
     // Если canvas не существует, то выходим
     if (!canvas.value || !props.src) throw new Error('Canvas not found');
 
     // Отменяем предыдущее рендеринг, если есть
-    if (currentRenderTask) {
-      currentRenderTask?.cancel();
-      currentRenderTask = null;
-    }
+    await waitForRenderCancellation();
+
+    if (requestId !== renderRequestId) return;
 
     // Подгружаем pdf
     let pdf;
@@ -90,6 +163,8 @@ const setPdf = async (): Promise<void> => {
       pdf = cachedPdf;
     } else {
       pdf = await getDocument(await getPdfDocumentSource()).promise;
+
+      if (requestId !== renderRequestId) return;
 
       // Устанавливаем в кэш
       cachePdf.setCache(props.src, pdf);
@@ -111,31 +186,36 @@ const setPdf = async (): Promise<void> => {
     } else {
       page = await pdf.getPage(numberOfPage);
 
+      if (requestId !== renderRequestId) return;
+
       // Устанавливаем в кэш страницу
       cachePdf.setPageCache(cacheKey, page);
     }
 
-    if (!canvas.value) return;
-    // Получаем размеры canvas
-    const rect = canvas.value.getBoundingClientRect();
+    if (!canvas.value || requestId !== renderRequestId) return;
 
-    // viewport при масштабе 1
-    const baseViewport = page.getViewport({ scale: 1 });
+    if (recalculateDisplayBounds || displayBounds === null) {
+      displayBounds = getDisplayBounds();
+    }
 
-    // рассчитываем масштаб
-    const scaleX = rect.width / baseViewport.width;
-    const scaleY = rect.height / baseViewport.height;
-
-    // чтобы полностью влезло (contain)
-    const scale = Math.min(scaleX, scaleY);
+    const rotation = (page.rotate + state.rotate + 360) % 360;
+    const baseViewport = page.getViewport({ scale: 1, rotation });
+    const displayScale = Math.min(
+      displayBounds.width / baseViewport.width,
+      displayBounds.height / baseViewport.height
+    );
+    const viewport = page.getViewport({ scale: displayScale, rotation });
 
     const dpr = window.devicePixelRatio || 1;
-
-    // Устаннавливаем масштаб и поворот
-    const viewport = page.getViewport({
-      scale: scale * dpr,
-      rotation: state.rotate
-    });
+    const resolutionScale = Number.isFinite(props.resolutionScale)
+      ? Math.max(1, props.resolutionScale)
+      : 1;
+    const outputScale = getOutputScale(
+      viewport.width,
+      viewport.height,
+      dpr * resolutionScale
+    );
+    renderedDevicePixelRatio = dpr;
 
     // Получаем контекст
     const ctx = canvas.value.getContext('2d');
@@ -143,22 +223,29 @@ const setPdf = async (): Promise<void> => {
     // Если контекст не существует, то выходим
     if (ctx === null) throw new Error('Context not found');
 
-    // Устанавилваем размеры для canvas
-    canvas.value.width = viewport.width;
-    canvas.value.height = viewport.height;
+    // CSS-размер отвечает за layout, backing-store — за чёткость при зуме.
+    canvas.value.style.width = `${viewport.width}px`;
+    canvas.value.style.height = `${viewport.height}px`;
+    canvas.value.width = Math.floor(viewport.width * outputScale);
+    canvas.value.height = Math.floor(viewport.height * outputScale);
 
     // Рендерим
-    const renderTask = page.render({
+    renderTask = page.render({
       canvas: canvas.value,
       canvasContext: ctx,
-      viewport
+      viewport,
+      transform:
+        outputScale === 1 ? undefined : [outputScale, 0, 0, outputScale, 0, 0]
     });
 
     // Устанавливаем текущий рендеринг
     currentRenderTask = renderTask;
 
     await renderTask.promise;
-    emit('load');
+
+    if (requestId === renderRequestId) {
+      emit('load');
+    }
   } catch (error) {
     if (
       error &&
@@ -169,11 +256,15 @@ const setPdf = async (): Promise<void> => {
       return;
     }
 
+    if (requestId !== renderRequestId) return;
+
     console.error(error);
     state.isError = true;
     emit('error', error);
   } finally {
-    currentRenderTask = null;
+    if (currentRenderTask === renderTask) {
+      currentRenderTask = null;
+    }
   }
 };
 
@@ -182,67 +273,12 @@ const setPdf = async (): Promise<void> => {
  * @param deltaAngle
  */
 const rotatePdf = async (deltaAngle: number): Promise<void> => {
-  try {
-    // Если canvas не существует, то выходим
-    if (!canvas.value) return;
+  // Рассчитываем угол поворота и округляем его до ближайшего кратного 90.
+  const angle = Math.round(deltaAngle / 90) * 90;
+  state.rotate += angle;
 
-    // Получаем страницу из кэша
-    // Она должна существовать, если мы просматриваем текущий компоент
-    const page = cachePdf.getPageCache(`${props.src}-${props.page}`);
-
-    // Если страница не существует, то выходим
-    if (!page) return;
-
-    // Получаем контекст
-    const ctx = canvas.value.getContext('2d');
-
-    // Если контекст не существует, то выходим
-    if (!ctx) return;
-    // Расчитываем угол попорота.
-    // Округляем его до ближайшего кратного 90
-    const angle = Math.round(deltaAngle / 90) * 90;
-    // Устанавливаем для компонента угол поворота
-    state.rotate += angle;
-
-    // Получаем размеры canvas
-    const { width, height } = canvas.value;
-
-    // Очищаем canvas
-    ctx.clearRect(0, 0, width, height);
-
-    // Получаем viewport
-    const viewprot = page.getViewport({ scale: 1, rotation: state.rotate });
-
-    // Устанавливаем размеры
-    canvas.value.width = viewprot.width;
-    canvas.value.height = viewprot.height;
-
-    // Рендерим
-    const renderTask = page.render({
-      canvas: canvas.value,
-      canvasContext: ctx,
-      viewport: viewprot
-    });
-
-    currentRenderTask = renderTask;
-
-    await renderTask.promise;
-    emit('load');
-  } catch (error) {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'name' in error &&
-      error?.name === 'RenderingCancelledException'
-    ) {
-      return;
-    }
-
-    console.error(error);
-    state.isError = true;
-  } finally {
-    currentRenderTask = null;
-  }
+  // Сохраняем исходный размер страницы и текущее разрешение при повороте.
+  await setPdf(false);
 };
 
 /**
@@ -252,22 +288,48 @@ const rotatePdf = async (deltaAngle: number): Promise<void> => {
 const init = (): void => {
   if (!canvas.value) return;
   // Используем IntersectionObserver для оптимизации и подгрузки контента, когда он входит в зону видимости
-  intersenctionObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(
-      entry => {
-        if (entry.isIntersecting) {
-          setPdf();
+  intersenctionObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
 
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        rootMargin: '50px'
-      }
-    );
-  });
+        setPdf();
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: '50px'
+    }
+  );
 
   intersenctionObserver.observe(canvas.value);
+
+  resizeObserver?.disconnect();
+  resizeObserver = new ResizeObserver(() => {
+    if (!canvas.value || displayBounds === null) return;
+
+    const nextBounds = getDisplayBounds();
+    const boundsChanged =
+      Math.abs(nextBounds.width - displayBounds.width) > 0.5 ||
+      Math.abs(nextBounds.height - displayBounds.height) > 0.5;
+    const dprChanged =
+      renderedDevicePixelRatio !== (window.devicePixelRatio || 1);
+
+    if (!boundsChanged && !dprChanged) return;
+
+    displayBounds = nextBounds;
+
+    if (resizeRenderFrame !== null) {
+      cancelAnimationFrame(resizeRenderFrame);
+    }
+
+    resizeRenderFrame = requestAnimationFrame(() => {
+      resizeRenderFrame = null;
+      setPdf(false);
+    });
+  });
+
+  resizeObserver.observe(canvas.value.parentElement ?? canvas.value);
 };
 
 /** Очищает canvas */
@@ -287,6 +349,19 @@ defineExpose({
 
 onMounted(() => {
   init();
+});
+
+onUnmounted(() => {
+  intersenctionObserver?.disconnect();
+  resizeObserver?.disconnect();
+
+  if (resizeRenderFrame !== null) {
+    cancelAnimationFrame(resizeRenderFrame);
+  }
+
+  renderRequestId += 1;
+  currentRenderTask?.cancel();
+  currentRenderTask = null;
 });
 </script>
 
