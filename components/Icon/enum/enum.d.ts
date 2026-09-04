@@ -164,5 +164,7 @@ export declare enum IconNameEnum {
     rearrange = "rearrange",
     checked = "checked",
     hand = "hand",
-    checkCircle = "check-circle"
+    checkCircle = "check-circle",
+    lightning = "lightning",
+    lightbulbFilament = "lightbulb-filament"
 }

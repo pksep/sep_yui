@@ -178,3 +178,5 @@ export declare const tableError: IVectorIcon;
 export declare const rearrange: IVectorIcon;
 export declare const hand: IVectorIcon;
 export declare const checkCircle: IVectorIcon;
+export declare const lightning: IVectorIcon;
+export declare const lightbulbFilament: IVectorIcon;
