@@ -11,17 +11,20 @@
       <slot name="action" />
     </div>
     <Popover
+      :key="attachPopoverKey"
       v-if="props.activeAttachFile"
       isWCUse
       :options="mobileAttachOptions"
-      translateY="calc(-100% - 47px)"
+      translateY="calc(-100% - 45px)"
       class="mobile-item attach-file-popover"
+      @close="clearActiveAttachPopover"
     >
       <template #trigger>
         <Button
           :type="ButtonTypeEnum.ghost"
           :size="SizesEnum.small"
           class="toolbar-button attach-file-button mobile-buttons"
+          @click="handleAttachPopoverToggle"
         >
           <Icon :name="IconNameEnum.paperClip" />
         </Button>
@@ -53,8 +56,25 @@
         @click.stop="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" />
-        <div @click.stop :class="pickerClasses" v-show="showEmojiPicker">
-          <EmojiPicker :native="true" @select="addEmoji" />
+        <div
+          @click.stop
+          @click.capture="handleEmojiPickerClick"
+          @pointerdown="startEmojiDrag"
+          :class="pickerClasses"
+          :style="emojiPickerStyle"
+          :aria-hidden="!showEmojiPicker"
+        >
+          <EmojiPicker
+            v-if="isMobileLayout"
+            :native="true"
+            :display-recent="true"
+            :additional-groups="emojiAdditionalGroups"
+            :group-icons="emojiGroupIcons"
+            :group-names="emojiGroupNames"
+            :group-order="emojiGroupOrder"
+            :static-texts="emojiStaticTexts"
+            @select="addEmoji"
+          />
         </div>
       </Button>
 
@@ -78,16 +98,20 @@
 
     <div v-if="!isAttachModalOpen" class="toolbar">
       <Popover
+        :key="attachPopoverKey"
         v-if="props.activeAttachFile"
         isWCUse
         :options="desktopAttachOptions"
-        translateY="calc(-100% - 47px)"
+        translateY="calc(-100% - 45px)"
+        class="attach-file-popover"
+        @close="clearActiveAttachPopover"
       >
         <template #trigger>
           <Button
             :type="ButtonTypeEnum.ghost"
             :size="SizesEnum.small"
             class="toolbar-button attach-file-button"
+            @click="handleAttachPopoverToggle"
           >
             <Icon :name="IconNameEnum.paperClip" :width="16" :height="16" />
           </Button>
@@ -101,9 +125,23 @@
         @click.stop="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
-        <div @click.stop :class="pickerClasses" v-show="showEmojiPicker">
+        <div
+          @click.stop
+          @click.capture="handleEmojiPickerClick"
+          @pointerdown="startEmojiDrag"
+          :class="pickerClasses"
+          :style="emojiPickerStyle"
+          :aria-hidden="!showEmojiPicker"
+        >
           <EmojiPicker
+            v-if="!isMobileLayout"
             :native="true"
+            :display-recent="true"
+            :additional-groups="emojiAdditionalGroups"
+            :group-icons="emojiGroupIcons"
+            :group-names="emojiGroupNames"
+            :group-order="emojiGroupOrder"
+            :static-texts="emojiStaticTexts"
             @select="addEmoji"
             v-on-click-outside.bubble="closeEmojiPicker"
           />
@@ -311,10 +349,13 @@
           <div class="attach-modal__toolbar">
             <div class="attach-modal__toolbar-left">
               <Popover
+                :key="attachPopoverKey"
                 isWCUse
                 :disabled="!props.activeAttachFile"
                 :options="desktopAttachOptions"
-                translateY="calc(-100% - 47px)"
+                translateY="calc(-100% - 45px)"
+                class="attach-file-popover"
+                @close="clearActiveAttachPopover"
               >
                 <template #trigger>
                   <Button
@@ -322,6 +363,7 @@
                     :size="SizesEnum.small"
                     class="toolbar-button attach-file-button"
                     :disabled="!props.activeAttachFile"
+                    @click="handleAttachPopoverToggle"
                   >
                     <Icon
                       :name="IconNameEnum.paperClip"
@@ -340,11 +382,20 @@
                 <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
                 <div
                   @click.stop
+                  @click.capture="handleEmojiPickerClick"
+                  @pointerdown="startEmojiDrag"
                   :class="pickerClasses"
-                  v-show="showEmojiPicker"
+                  :style="emojiPickerStyle"
+                  :aria-hidden="!showEmojiPicker"
                 >
                   <EmojiPicker
                     :native="true"
+                    :display-recent="true"
+                    :additional-groups="emojiAdditionalGroups"
+                    :group-icons="emojiGroupIcons"
+                    :group-names="emojiGroupNames"
+                    :group-order="emojiGroupOrder"
+                    :static-texts="emojiStaticTexts"
                     @select="addEmoji"
                     v-on-click-outside.bubble="closeEmojiPicker"
                   />
@@ -494,15 +545,38 @@ import Modal from '../Modal/Modal.vue';
 import ContentEditorMentionList from './ContentEditorMentionList.vue';
 import ContentEditorFormattingToolbar from './ContentEditorFormattingToolbar.vue';
 import ImageAttachmentEditor from './ImageAttachmentEditor.vue';
+import {
+  emojiAdditionalGroups,
+  emojiGroupIcons,
+  emojiGroupNames,
+  emojiGroupOrder,
+  emojiPickerStyle,
+  emojiStaticTexts,
+  rememberEmojiSelection,
+  resetEmojiGroupRendering,
+  syncEmojiGroupControls,
+  syncEmojiGroupScroll,
+  type EmojiPickerSelection
+} from './emoji-picker-config';
 
 const props = defineProps<IContentEditorProps>();
 defineSlots<IContentEditorSlots>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
+const isMobileLayout = ref(
+  typeof window !== 'undefined' && window.innerWidth <= 480
+);
+const attachPopoverKey = ref(0);
 const emojiPickerPosition = ref({
   vertical: 'bottom' as 'top' | 'bottom',
   horizontal: 'left' as 'left' | 'right'
 });
+const EMOJI_PICKER_WIDTH = 359;
+const EMOJI_PICKER_HEIGHT = 382;
+const EMOJI_PICKER_MIN_HEIGHT = 260;
+const EMOJI_PICKER_VIEWPORT_GAP = 8;
+const CONTENT_EDITOR_OVERLAY_GAP = 5;
+const MOBILE_CONTENT_EDITOR_OVERLAY_GAP = 10;
 const emits = defineEmits<IContentEditorEmit>();
 const LOG_PREFIX = '[ContentEditor]';
 const MENTION_TELEPORT_ROOT_CLASS = 'editor-component__mentions-teleport-root';
@@ -526,6 +600,18 @@ const mentionSelectedIndex = ref(0);
 const slashSearch = ref<string | null>(null);
 const dismissedSlashSearch = ref<string | null>(null);
 const slashSelectedIndex = ref(0);
+
+let activeEmojiButton: HTMLElement | null = null;
+let activeAttachButton: HTMLElement | null = null;
+let draggedEmojiPicker: HTMLElement | null = null;
+let emojiDragTarget: HTMLElement | null = null;
+let emojiDragStartX = 0;
+let emojiDragStartY = 0;
+let emojiDragOffsetX = 0;
+let emojiDragOffsetY = 0;
+let emojiDragStartRect: DOMRect | null = null;
+let frozenRecentEmojiOrder: string[] = [];
+let isRecentOrderFrozen = false;
 
 const hasPendingAttachments = computed(
   () => pendingFiles.value.length > 0 || pendingMediaFiles.value.length > 0
@@ -693,7 +779,7 @@ const pickerClasses = computed(() => [
   'emoji-picker',
   `emoji-picker-${emojiPickerPosition.value.vertical}`,
   `emoji-picker-${emojiPickerPosition.value.horizontal}`,
-  !disableSend.value ? 'translateX' : ''
+  showEmojiPicker.value ? 'emoji-picker--open' : ''
 ]);
 
 const desktopAttachOptions = computed(() => [
@@ -1179,6 +1265,7 @@ const clearPendingAttachments = (): void => {
 
 const handleAttachModalClose = (): void => {
   closeEmojiPicker();
+  activeAttachButton = null;
   isAttachModalOpen.value = false;
   clearPendingAttachments();
 };
@@ -1601,6 +1688,8 @@ watch(showSuggestionList, isOpen => {
     return;
   }
 
+  closeEmojiPicker();
+
   if (activeSuggestionType.value === 'slash') {
     dismissedSlashSearch.value = null;
   } else {
@@ -1639,9 +1728,11 @@ const addLink = (): void => {
   }
 };
 
-const addEmoji = (emoji: { i: string }): void => {
+const addEmoji = (emoji: EmojiPickerSelection): void => {
   if (!editor?.value) return;
+  rememberEmojiSelection(emoji);
   editor.value.chain().focus().insertContent(emoji.i).run();
+  nextTick(applyFrozenRecentOrder);
 };
 
 const attachFile = async (
@@ -1845,6 +1936,8 @@ const selectActiveSuggestionItem = (item: unknown): void => {
 const toggleUserSelect = (): void => {
   if (!editor?.value) return;
 
+  closeEmojiPicker();
+
   const context = getTriggerContext('@');
 
   if (context) {
@@ -1863,6 +1956,8 @@ const toggleUserSelect = (): void => {
 
 const toggleSlashSelect = (): void => {
   if (!editor?.value) return;
+
+  closeEmojiPicker();
 
   const context = getTriggerContext('/');
 
@@ -1885,44 +1980,446 @@ const focus = (): void => {
   editor.value.chain().focus();
 };
 
-const updateEmojiPosition = (
-  buttonEl: HTMLElement,
-  pickerWidth = 300,
-  pickerHeight = 260
-): void => {
-  if (!buttonEl) return;
-
-  const rect = buttonEl.getBoundingClientRect();
+const getContentEditorOverlayPosition = (
+  anchorRect: DOMRect,
+  overlayWidth: number,
+  overlayHeight: number
+) => {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
+  const availableAbove =
+    anchorRect.top - EMOJI_PICKER_VIEWPORT_GAP - CONTENT_EDITOR_OVERLAY_GAP;
+  const availableBelow =
+    viewportHeight -
+    EMOJI_PICKER_VIEWPORT_GAP -
+    anchorRect.bottom -
+    CONTENT_EDITOR_OVERLAY_GAP;
+  const vertical =
+    availableAbove >= overlayHeight || availableAbove >= availableBelow
+      ? 'top'
+      : 'bottom';
+  const horizontal =
+    anchorRect.left + overlayWidth <= viewportWidth - EMOJI_PICKER_VIEWPORT_GAP
+      ? 'left'
+      : 'right';
+  const preferredTop =
+    vertical === 'top'
+      ? anchorRect.top - CONTENT_EDITOR_OVERLAY_GAP - overlayHeight
+      : anchorRect.bottom + CONTENT_EDITOR_OVERLAY_GAP;
+  const preferredLeft =
+    horizontal === 'left' ? anchorRect.left : anchorRect.right - overlayWidth;
+  const maxTop = Math.max(
+    EMOJI_PICKER_VIEWPORT_GAP,
+    viewportHeight - EMOJI_PICKER_VIEWPORT_GAP - overlayHeight
+  );
+  const maxLeft = Math.max(
+    EMOJI_PICKER_VIEWPORT_GAP,
+    viewportWidth - EMOJI_PICKER_VIEWPORT_GAP - overlayWidth
+  );
 
-  emojiPickerPosition.value.vertical =
-    rect.bottom + pickerHeight > viewportHeight ? 'top' : 'bottom';
-
-  emojiPickerPosition.value.horizontal =
-    rect.left + pickerWidth > viewportWidth ? 'right' : 'left';
+  return {
+    vertical,
+    horizontal,
+    top: Math.min(Math.max(preferredTop, EMOJI_PICKER_VIEWPORT_GAP), maxTop),
+    left: Math.min(Math.max(preferredLeft, EMOJI_PICKER_VIEWPORT_GAP), maxLeft)
+  } as const;
 };
 
-const toggleEmojiPicker = (event: Event): void => {
-  showEmojiPicker.value = !showEmojiPicker.value;
-  if (showEmojiPicker.value) {
-    const btn = event.currentTarget as HTMLElement;
-    nextTick(() => {
-      updateEmojiPosition(btn);
+const updateEmojiPosition = (buttonEl: HTMLElement): void => {
+  if (!buttonEl) return;
+
+  const anchorRect = buttonEl.getBoundingClientRect();
+  const mobileEditorRect = isMobileViewport()
+    ? buttonEl
+        .closest<HTMLElement>('.editor-component')
+        ?.getBoundingClientRect()
+    : undefined;
+  const positionAnchorRect = mobileEditorRect || anchorRect;
+  const overlayGap = mobileEditorRect
+    ? MOBILE_CONTENT_EDITOR_OVERLAY_GAP
+    : CONTENT_EDITOR_OVERLAY_GAP;
+  const pickerWrapper = buttonEl.querySelector<HTMLElement>('.emoji-picker');
+  const picker = buttonEl.querySelector<HTMLElement>('.v3-emoji-picker');
+  const availablePickerHeight = Math.max(
+    positionAnchorRect.top - EMOJI_PICKER_VIEWPORT_GAP - overlayGap,
+    window.innerHeight -
+      EMOJI_PICKER_VIEWPORT_GAP -
+      positionAnchorRect.bottom -
+      overlayGap
+  );
+  const preferredPickerHeight = Math.min(
+    EMOJI_PICKER_HEIGHT,
+    Math.max(EMOJI_PICKER_MIN_HEIGHT, availablePickerHeight)
+  );
+
+  pickerWrapper?.style.setProperty(
+    '--emoji-picker-height',
+    `${preferredPickerHeight}px`
+  );
+
+  const pickerWidth =
+    picker?.offsetWidth ||
+    Math.min(
+      EMOJI_PICKER_WIDTH,
+      window.innerWidth - EMOJI_PICKER_VIEWPORT_GAP * 2
+    );
+  const pickerHeight =
+    picker?.offsetHeight ||
+    Math.min(
+      EMOJI_PICKER_HEIGHT,
+      window.innerHeight - EMOJI_PICKER_VIEWPORT_GAP * 2
+    );
+  const position = mobileEditorRect
+    ? {
+        vertical: 'top' as const,
+        horizontal: 'left' as const,
+        top: Math.max(
+          EMOJI_PICKER_VIEWPORT_GAP,
+          mobileEditorRect.top -
+            MOBILE_CONTENT_EDITOR_OVERLAY_GAP -
+            pickerHeight
+        ),
+        left: Math.min(
+          Math.max(mobileEditorRect.left, EMOJI_PICKER_VIEWPORT_GAP),
+          Math.max(
+            EMOJI_PICKER_VIEWPORT_GAP,
+            window.innerWidth - EMOJI_PICKER_VIEWPORT_GAP - pickerWidth
+          )
+        )
+      }
+    : getContentEditorOverlayPosition(anchorRect, pickerWidth, pickerHeight);
+
+  emojiPickerPosition.value.vertical = position.vertical;
+  emojiPickerPosition.value.horizontal = position.horizontal;
+
+  if (!pickerWrapper) return;
+
+  pickerWrapper.style.setProperty('--emoji-picker-top', `${position.top}px`);
+  pickerWrapper.style.setProperty('--emoji-picker-left', `${position.left}px`);
+};
+
+const updateAttachPopoverPosition = (buttonEl: HTMLElement): boolean => {
+  const content = buttonEl
+    .closest<HTMLElement>('.popover-yui-kit')
+    ?.querySelector<HTMLElement>('.popover-yui-kit__content');
+
+  if (!content || getComputedStyle(content).display === 'none') return false;
+
+  const contentRect = content.getBoundingClientRect();
+
+  if (!contentRect.width || !contentRect.height) return false;
+
+  const position = getContentEditorOverlayPosition(
+    buttonEl.getBoundingClientRect(),
+    contentRect.width,
+    contentRect.height
+  );
+
+  content.style.setProperty('position', 'fixed', 'important');
+  content.style.setProperty('top', `${position.top}px`, 'important');
+  content.style.setProperty('left', `${position.left}px`, 'important');
+  content.style.setProperty('right', 'auto', 'important');
+  content.style.setProperty('bottom', 'auto', 'important');
+  content.style.setProperty('transform', 'none', 'important');
+
+  return true;
+};
+
+const scheduleAttachPopoverPosition = (buttonEl: HTMLElement): void => {
+  nextTick(() => {
+    const positionWhenVisible = (attemptsRemaining: number): void => {
+      if (!buttonEl.isConnected) return;
+
+      if (updateAttachPopoverPosition(buttonEl) || attemptsRemaining <= 0) {
+        return;
+      }
+
+      requestAnimationFrame(() => positionWhenVisible(attemptsRemaining - 1));
+    };
+
+    requestAnimationFrame(() => positionWhenVisible(60));
+  });
+};
+
+const handleAttachPopoverToggle = (event: Event): void => {
+  closeEmojiPicker();
+
+  const buttonEl = event.currentTarget as HTMLElement;
+  activeAttachButton = buttonEl;
+  scheduleAttachPopoverPosition(buttonEl);
+};
+
+const clearActiveAttachPopover = (): void => {
+  activeAttachButton = null;
+};
+
+const getVisibleEmojiButton = (): HTMLElement | null => {
+  const buttons = mainMentionAnchorRef.value?.querySelectorAll<HTMLElement>(
+    '.toolbar-button.smile-button'
+  );
+
+  return (
+    [...(buttons || [])].find(button => button.getClientRects().length > 0) ||
+    null
+  );
+};
+
+const localizeEmojiGroupLabels = (buttonEl: HTMLElement): void => {
+  syncEmojiGroupControls(buttonEl);
+};
+
+const getRecentEmojiButtons = (
+  pickerWrapper: HTMLElement
+): HTMLButtonElement[] => [
+  ...pickerWrapper.querySelectorAll<HTMLButtonElement>(
+    '#recent .v3-emojis button'
+  )
+];
+
+const getRecentEmojiKey = (button: HTMLButtonElement): string =>
+  button.textContent?.trim() ?? '';
+
+const resetRecentOrderStyles = (pickerWrapper: HTMLElement): void => {
+  getRecentEmojiButtons(pickerWrapper).forEach(button => {
+    button.style.removeProperty('display');
+    button.style.removeProperty('order');
+  });
+};
+
+const resetEmojiPickerView = (pickerWrapper: HTMLElement): void => {
+  resetEmojiGroupRendering(pickerWrapper);
+
+  pickerWrapper
+    .querySelector<HTMLButtonElement>('.v3-groups .v3-group')
+    ?.click();
+
+  const body = pickerWrapper.querySelector<HTMLElement>('.v3-body-inner');
+
+  if (body) {
+    const inlineScrollBehavior = body.style.scrollBehavior;
+
+    body.style.scrollBehavior = 'auto';
+    body.scrollTop = 0;
+
+    requestAnimationFrame(() => {
+      if (!body.isConnected) return;
+
+      body.scrollTop = 0;
+      body.style.scrollBehavior = inlineScrollBehavior;
     });
   }
 };
 
+const freezeRecentOrder = (pickerWrapper: HTMLElement): void => {
+  if (isRecentOrderFrozen) return;
+
+  frozenRecentEmojiOrder =
+    getRecentEmojiButtons(pickerWrapper).map(getRecentEmojiKey);
+  isRecentOrderFrozen = true;
+};
+
+const applyFrozenRecentOrder = (): void => {
+  if (!isRecentOrderFrozen || !activeEmojiButton) return;
+
+  const pickerWrapper =
+    activeEmojiButton.querySelector<HTMLElement>('.emoji-picker');
+
+  if (!pickerWrapper) return;
+
+  getRecentEmojiButtons(pickerWrapper).forEach(button => {
+    const frozenIndex = frozenRecentEmojiOrder.indexOf(
+      getRecentEmojiKey(button)
+    );
+
+    if (frozenIndex === -1) {
+      button.style.display = 'none';
+      button.style.removeProperty('order');
+      return;
+    }
+
+    button.style.removeProperty('display');
+    button.style.order = String(frozenIndex);
+  });
+};
+
+const freezeRecentOrderBeforeSelect = (event: Event): void => {
+  const target = event.target;
+  const pickerWrapper = event.currentTarget;
+
+  if (
+    !(target instanceof Element) ||
+    !(pickerWrapper instanceof HTMLElement) ||
+    !target.closest('.v3-emojis button')
+  ) {
+    return;
+  }
+
+  freezeRecentOrder(pickerWrapper);
+};
+
+const handleEmojiPickerClick = (event: Event): void => {
+  freezeRecentOrderBeforeSelect(event);
+  syncEmojiGroupScroll(event);
+};
+
+const finishEmojiDrag = (): void => {
+  emojiDragTarget?.classList.remove('emoji-picker--dragging');
+  emojiDragTarget = null;
+  emojiDragStartRect = null;
+  window.removeEventListener('pointermove', handleEmojiDrag);
+  window.removeEventListener('pointerup', finishEmojiDrag);
+  window.removeEventListener('pointercancel', finishEmojiDrag);
+};
+
+const handleEmojiDrag = (event: PointerEvent): void => {
+  if (!emojiDragTarget || !emojiDragStartRect) return;
+
+  const deltaX = event.clientX - emojiDragStartX;
+  const deltaY = event.clientY - emojiDragStartY;
+  const minDeltaX = EMOJI_PICKER_VIEWPORT_GAP - emojiDragStartRect.left;
+  const maxDeltaX =
+    window.innerWidth - EMOJI_PICKER_VIEWPORT_GAP - emojiDragStartRect.right;
+  const minDeltaY = EMOJI_PICKER_VIEWPORT_GAP - emojiDragStartRect.top;
+  const maxDeltaY =
+    window.innerHeight - EMOJI_PICKER_VIEWPORT_GAP - emojiDragStartRect.bottom;
+  const clampedDeltaX = Math.min(Math.max(deltaX, minDeltaX), maxDeltaX);
+  const clampedDeltaY = Math.min(Math.max(deltaY, minDeltaY), maxDeltaY);
+  const nextX = emojiDragOffsetX + clampedDeltaX;
+  const nextY = emojiDragOffsetY + clampedDeltaY;
+
+  emojiDragTarget.style.translate = `${nextX}px ${nextY}px`;
+  emojiDragTarget.dataset.dragX = String(nextX);
+  emojiDragTarget.dataset.dragY = String(nextY);
+};
+
+const startEmojiDrag = (event: PointerEvent): void => {
+  if (event.pointerType === 'mouse' && event.button !== 0) return;
+
+  const target = event.target;
+  const picker = event.currentTarget;
+
+  if (!(target instanceof Element) || !(picker instanceof HTMLElement)) return;
+
+  const isDragSurface =
+    target === picker ||
+    target.classList.contains('v3-emoji-picker') ||
+    target.classList.contains('v3-header') ||
+    target.classList.contains('v3-spacing') ||
+    (target.classList.contains('v3-groups') && !target.closest('button'));
+
+  if (!isDragSurface) return;
+
+  event.preventDefault();
+  finishEmojiDrag();
+
+  draggedEmojiPicker = picker;
+  emojiDragTarget = picker;
+  emojiDragStartX = event.clientX;
+  emojiDragStartY = event.clientY;
+  emojiDragOffsetX = Number(picker.dataset.dragX || 0);
+  emojiDragOffsetY = Number(picker.dataset.dragY || 0);
+  emojiDragStartRect = picker.getBoundingClientRect();
+  picker.classList.add('emoji-picker--dragging');
+
+  window.addEventListener('pointermove', handleEmojiDrag);
+  window.addEventListener('pointerup', finishEmojiDrag);
+  window.addEventListener('pointercancel', finishEmojiDrag);
+};
+
+const resetEmojiDrag = (): void => {
+  finishEmojiDrag();
+
+  if (!draggedEmojiPicker) return;
+
+  draggedEmojiPicker.style.removeProperty('translate');
+  delete draggedEmojiPicker.dataset.dragX;
+  delete draggedEmojiPicker.dataset.dragY;
+  draggedEmojiPicker = null;
+};
+
+const toggleEmojiPicker = (event: Event): void => {
+  if (showEmojiPicker.value) {
+    closeEmojiPicker();
+    return;
+  }
+
+  clearMentionState();
+  clearSlashState();
+  activeAttachButton = null;
+  attachPopoverKey.value += 1;
+  resetEmojiDrag();
+
+  const btn = event.currentTarget as HTMLElement;
+  activeEmojiButton = btn;
+  const pickerWrapper = btn.querySelector<HTMLElement>('.emoji-picker');
+
+  isRecentOrderFrozen = false;
+  frozenRecentEmojiOrder = [];
+
+  if (pickerWrapper) {
+    resetRecentOrderStyles(pickerWrapper);
+    resetEmojiPickerView(pickerWrapper);
+  }
+
+  updateEmojiPosition(btn);
+  showEmojiPicker.value = true;
+
+  nextTick(() => {
+    updateEmojiPosition(btn);
+    localizeEmojiGroupLabels(btn);
+
+    const openedPickerWrapper = btn.querySelector<HTMLElement>('.emoji-picker');
+
+    if (openedPickerWrapper) {
+      freezeRecentOrder(openedPickerWrapper);
+    }
+  });
+};
+
 const closeEmojiPicker = (): void => {
+  const pickerWrapper =
+    activeEmojiButton?.querySelector<HTMLElement>('.emoji-picker');
+
+  if (pickerWrapper) {
+    resetEmojiGroupRendering(pickerWrapper);
+  }
+
   showEmojiPicker.value = false;
+  activeEmojiButton = null;
+  resetEmojiDrag();
 };
 
 const handleWindowUpdate = (): void => {
-  const btn = document.querySelector(
-    '.toolbar-button.smile-button'
-  ) as HTMLElement;
-  if (showEmojiPicker.value && btn) {
-    updateEmojiPosition(btn);
+  const nextIsMobileLayout = isMobileViewport();
+
+  if (isMobileLayout.value !== nextIsMobileLayout) {
+    isMobileLayout.value = nextIsMobileLayout;
+
+    if (showEmojiPicker.value) {
+      nextTick(handleWindowUpdate);
+    }
+  }
+
+  if (showEmojiPicker.value) {
+    if (
+      !activeEmojiButton?.isConnected ||
+      activeEmojiButton.getClientRects().length === 0
+    ) {
+      activeEmojiButton = getVisibleEmojiButton();
+    }
+
+    resetEmojiDrag();
+
+    if (activeEmojiButton) {
+      updateEmojiPosition(activeEmojiButton);
+      localizeEmojiGroupLabels(activeEmojiButton);
+    }
+  }
+
+  if (activeAttachButton?.isConnected) {
+    updateAttachPopoverPosition(activeAttachButton);
+  } else {
+    activeAttachButton = null;
   }
 
   if (showSuggestionList.value) {
@@ -2149,6 +2646,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   document.body.style.overflow = '';
+  resetEmojiDrag();
 
   editor?.value?.destroy();
   if (editorDom.value) {
@@ -2227,32 +2725,290 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
   position: relative;
 
   & .emoji-picker {
-    position: absolute;
-    top: 40px;
-    left: 0;
-  }
-
-  & .emoji-picker-top {
-    top: auto;
-    bottom: 50px;
-  }
-
-  .emoji-picker-bottom {
-    top: 50px;
-  }
-
-  .emoji-picker-left {
-    left: 0;
-  }
-
-  .emoji-picker-right {
-    left: auto;
-    right: -7px;
+    position: fixed;
+    top: var(--emoji-picker-top, 40px);
+    left: var(--emoji-picker-left, 0);
+    z-index: 30;
   }
 
   &.right {
     margin-left: auto;
   }
+}
+
+.emoji-picker {
+  contain: layout paint style;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  will-change: opacity;
+
+  &.emoji-picker--open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &.emoji-picker--dragging,
+  &.emoji-picker--dragging .v3-header,
+  &.emoji-picker--dragging .v3-groups {
+    cursor: grabbing;
+  }
+
+  & .v3-emoji-picker {
+    --v3-picker-bg: var(--surface-overlay, #ffffff);
+    --v3-picker-fg: var(--text-primary, #181818);
+    --v3-picker-border: var(--border-table, #e7e7e7);
+    --v3-picker-input-bg: var(--surface-input-secondary, #f8f9fd);
+    --v3-picker-input-border: transparent;
+    --v3-picker-input-focus-border: var(--border-hover, #9cbeff);
+    --v3-picker-emoji-hover: var(--action-secondary-hover-bg, #f2f7ff);
+
+    display: flex;
+    width: min(359px, calc(100vw - 16px));
+    height: min(var(--emoji-picker-height, 382px), calc(100dvh - 16px));
+    margin: 0;
+    padding: 15px;
+    gap: 15px;
+    overflow: hidden;
+    border: 0.5px solid var(--border-table, #e7e7e7);
+    border-radius: 25px;
+    background: var(--surface-overlay, #ffffff);
+    color: var(--text-primary, #181818);
+    box-shadow: 0 4px 9.8px 0 #0000000d;
+    font-family: Inter, sans-serif;
+  }
+
+  & .v3-header {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+    border: 0;
+    cursor: grab;
+  }
+
+  & .v3-header .v3-groups {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    align-items: center;
+    justify-content: space-between;
+    filter: none;
+    touch-action: none;
+  }
+
+  & .v3-header .v3-groups .v3-group,
+  & .v3-header .v3-groups .v3-group:first-child,
+  & .v3-header .v3-groups .v3-group:last-child {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    place-items: center;
+    padding: 0;
+    border-radius: 5px;
+    opacity: 0.55;
+  }
+
+  & .v3-header .v3-groups .v3-group:hover {
+    opacity: 0.8;
+  }
+
+  & .v3-header .v3-groups .v3-group span,
+  & .v3-header .v3-groups .v3-group span img {
+    width: 30px;
+    height: 30px;
+  }
+
+  & .v3-header .v3-groups .v3-group:first-child img {
+    content: var(--emoji-recent-icon);
+  }
+
+  & .v3-spacing {
+    display: none;
+  }
+
+  & .v3-search {
+    position: relative;
+    width: 100%;
+    height: 40px;
+  }
+
+  & .v3-search::before {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    background: var(--text-disabled, #b8b8b8);
+    content: '';
+    pointer-events: none;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M9.58329 17.5C13.9555 17.5 17.5 13.9556 17.5 9.58332C17.5 5.21107 13.9555 1.66666 9.58329 1.66666C5.21104 1.66666 1.66663 5.21107 1.66663 9.58332C1.66663 13.9556 5.21104 17.5 9.58329 17.5Z' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M18.3333 18.3333L16.6666 16.6667' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M9.58329 17.5C13.9555 17.5 17.5 13.9556 17.5 9.58332C17.5 5.21107 13.9555 1.66666 9.58329 1.66666C5.21104 1.66666 1.66663 5.21107 1.66663 9.58332C1.66663 13.9556 5.21104 17.5 9.58329 17.5Z' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M18.3333 18.3333L16.6666 16.6667' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  & .v3-search input {
+    width: 100%;
+    height: 40px;
+    padding: 8px 12px 8px 42px;
+    border: 0;
+    border-radius: 5px;
+    outline: 0;
+    background: var(--surface-input-secondary, #f8f9fd);
+    color: var(--text-primary, #181818);
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    user-select: text;
+  }
+
+  & .v3-search input:focus {
+    border: 0;
+    box-shadow: inset 0 0 0 0.5px var(--border-hover, #9cbeff);
+  }
+
+  & .v3-search input::placeholder {
+    color: var(--text-disabled, #b8b8b8);
+    opacity: 1;
+  }
+
+  & .v3-body {
+    min-height: 0;
+    height: 207px;
+    flex: 1 1 207px;
+    padding: 0;
+  }
+
+  & .v3-body .v3-body-inner {
+    height: 100%;
+    padding-right: 0;
+    scroll-behavior: auto !important;
+    scrollbar-color: var(--action-primary-bg, #77a6ff) transparent;
+    scrollbar-width: thin;
+  }
+
+  & .v3-body .v3-body-inner::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  & .v3-body .v3-body-inner::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  & .v3-body .v3-body-inner::-webkit-scrollbar-thumb,
+  & .v3-body .v3-body-inner:hover::-webkit-scrollbar-thumb {
+    display: block;
+    border-radius: 10px;
+    background: var(--action-primary-bg, #77a6ff);
+  }
+
+  & .v3-body .v3-body-inner .v3-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 260px;
+  }
+
+  & .v3-body .v3-body-inner .v3-group h5 {
+    margin: 0;
+    padding: 0;
+    background: var(--surface-overlay, #ffffff);
+    color: var(--text-primary, #181818);
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+  }
+
+  & .v3-body .v3-body-inner .v3-group .v3-emojis {
+    width: 100%;
+    font-size: 24px;
+  }
+
+  & .v3-body .v3-body-inner .v3-group .v3-emojis button {
+    height: 36px;
+    flex-basis: 12.5%;
+    max-width: 12.5%;
+    padding: 0;
+    border-radius: 5px;
+    font-size: 24px;
+  }
+
+  & .v3-body .v3-body-inner .v3-group .v3-emojis button::after {
+    display: none;
+  }
+
+  & .v3-footer {
+    width: 100%;
+    height: 30px;
+    min-height: 30px;
+    flex: 0 0 30px;
+    padding: 10px 0 0;
+    border-top: 0.5px solid var(--border-table, #e7e7e7);
+    color: var(--text-primary, #181818);
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  & .v3-footer .v3-foot-left > span.v3-text {
+    max-width: 170px;
+  }
+
+  & .v3-footer .v3-tone .v3-text {
+    font-size: 12px;
+  }
+
+  & .v3-footer .v3-tone .v3-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  & .v3-skin-tones {
+    right: auto;
+    left: 0;
+    width: auto;
+    height: 30px;
+    justify-content: flex-start;
+    padding: 10px 0 0;
+    border-radius: 0;
+    background: var(--surface-overlay, #ffffff);
+  }
+
+  & .v3-skin-tones .v3-skin-tone {
+    width: 25px;
+    height: 15px;
+  }
+}
+
+:is([data-theme='dark'], .theme-dark)
+  .emoji-picker
+  .v3-header
+  .v3-groups
+  .v3-group {
+  opacity: 0.45;
+  filter: none;
+}
+
+:is([data-theme='dark'], .theme-dark)
+  .emoji-picker
+  .v3-header
+  .v3-groups
+  .v3-group
+  img {
+  filter: brightness(0) invert(1);
+}
+
+:is([data-theme='dark'], .theme-dark)
+  .emoji-picker
+  .v3-header
+  .v3-groups
+  .v3-group:hover {
+  opacity: 0.7;
 }
 
 .mobile-item {
@@ -2741,10 +3497,6 @@ dialog.attach-modal-container.modal-yui-kit {
     & button.button-yui-kit.ghost-yui-kit.right {
       color: var(--text-brand);
     }
-
-    .translateX {
-      transform: translateX(41px);
-    }
   }
   .mobile-item {
     display: inline-block !important;
@@ -2838,6 +3590,6 @@ dialog.attach-modal-container.modal-yui-kit {
 }
 
 .attach-file-popover .popover-yui-kit__content {
-  transform: translate(-10px, calc(-100% - 47px)) !important;
+  transform: translate(0, calc(-100% - 45px)) !important;
 }
 </style>
