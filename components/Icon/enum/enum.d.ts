@@ -166,5 +166,14 @@ export declare enum IconNameEnum {
     hand = "hand",
     checkCircle = "check-circle",
     lightning = "lightning",
+    emojiRecent = "emoji-recent",
+    emojiSmileysPeople = "emoji-smileys-people",
+    emojiAnimalsNature = "emoji-animals-nature",
+    emojiFoodDrink = "emoji-food-drink",
+    emojiActivities = "emoji-activities",
+    emojiSymbols = "emoji-symbols",
+    emojiObjects = "emoji-objects",
+    emojiFlags = "emoji-flags",
+    emojiTravelPlaces = "emoji-travel-places",
     lightbulbFilament = "lightbulb-filament"
 }
