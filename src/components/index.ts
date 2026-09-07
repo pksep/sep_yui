@@ -50,6 +50,7 @@ import TableSimple from '@/components/Table/TableSimple.vue';
 import Avatar from '@/components/Avatar/Avatar.vue';
 import Tabs from './Tabs/Tabs.vue';
 import ContentEditor from './ContentEditor/ContentEditor.vue';
+import EmojiPickerPanel from './ContentEditor/EmojiPickerPanel.vue';
 import ContentEditorFormattingToolbar from './ContentEditor/ContentEditorFormattingToolbar.vue';
 import ContentEditorSlashMenu from './ContentEditor/ContentEditorSlashMenu.vue';
 import ModalCroppedAvatar from './Cropper/ModalCroppedAvatar.vue';
@@ -137,6 +138,7 @@ const components = {
   Range,
   Tabs,
   ContentEditor,
+  EmojiPickerPanel,
   ModalCroppedAvatar,
   Avatar,
   TimePicker,
@@ -209,6 +211,7 @@ export {
   Avatar,
   Tabs,
   ContentEditor,
+  EmojiPickerPanel,
   ContentEditorFormattingToolbar,
   ContentEditorSlashMenu,
   ModalCroppedAvatar,
