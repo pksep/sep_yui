@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.1.316
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.315...v0.1.316)
+
+### 🚀 Enhancements
+
+- **icon:** Add AI response mode icons ([#399](https://github.com/pksep/sep_yui/pull/399))
+- Add color picker in content editor ([bfc5235c](https://github.com/pksep/sep_yui/commit/bfc5235c))
+
+### 🩹 Fixes
+
+- Emoji picker ([58fa0349](https://github.com/pksep/sep_yui/commit/58fa0349))
+
 ## v0.1.315
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.314...v0.1.315)
