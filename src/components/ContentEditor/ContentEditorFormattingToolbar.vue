@@ -5,15 +5,28 @@
     class="formatting-toolbar"
     :class="{
       'formatting-toolbar--mobile': isMobileToolbar,
-      'formatting-toolbar--mobile-menu': isMobileToolbar && isMobileMenuOpen
+      'formatting-toolbar--mobile-menu': isMobileToolbar && isMobileMenuOpen,
+      'formatting-toolbar--mobile-color-picker':
+        isMobileToolbar && colorPickerOpen
     }"
     :style="toolbarStyle"
     @pointerdown="handleToolbarPointerDown"
     @mousedown.prevent
   >
     <template v-if="isMobileToolbar">
+      <ContentEditorColorPicker
+        v-if="colorPickerOpen"
+        class="formatting-toolbar__color-picker formatting-toolbar__color-picker--mobile"
+        :colors="colorOptions"
+        :active-text-color="activeTextColor"
+        :active-background-color="activeBackgroundColor"
+        @select-text-color="applyTextColor"
+        @select-background-color="applyBackgroundColor"
+        @reset-colors="resetColors"
+      />
+
       <div
-        v-if="!isMobileMenuOpen"
+        v-else-if="!isMobileMenuOpen"
         class="formatting-toolbar__mobile-selection-actions"
       >
         <template
@@ -76,6 +89,31 @@
             />
             <span>{{ action.hint }}</span>
           </button>
+
+          <button
+            ref="colorButtonRef"
+            type="button"
+            class="formatting-toolbar__mobile-action"
+            :class="{
+              'formatting-toolbar__mobile-action--active': hasActiveColor
+            }"
+            aria-label="Цвет текста"
+            :aria-pressed="hasActiveColor"
+            role="menuitemcheckbox"
+            @click="openColorPicker"
+          >
+            <span
+              class="formatting-toolbar__mobile-action-icon formatting-toolbar__color-icon"
+            >
+              <Icon
+                class="formatting-toolbar__color-glyph"
+                :name="IconNameEnum.text"
+                :width="20"
+                :height="20"
+              />
+            </span>
+            <span>Цвет текста</span>
+          </button>
         </div>
 
         <div class="formatting-toolbar__mobile-divider"></div>
@@ -119,11 +157,54 @@
             class="formatting-toolbar__button"
             :class="{ 'formatting-toolbar__button--active': action.isActive() }"
             :aria-label="action.hint"
-            @click="action.run"
+            @click="runToolbarAction(action)"
           >
             <Icon :name="action.icon" />
           </button>
         </Tooltip>
+
+        <div class="formatting-toolbar__color-control">
+          <Tooltip
+            hint="Цвет текста"
+            position="top-center"
+            :is-can-show="!colorPickerOpen"
+          >
+            <button
+              ref="colorButtonRef"
+              type="button"
+              class="formatting-toolbar__button formatting-toolbar__color-button"
+              :class="{
+                'formatting-toolbar__button--active': hasActiveColor
+              }"
+              aria-label="Цвет текста"
+              :aria-pressed="hasActiveColor"
+              :aria-expanded="colorPickerOpen"
+              @click="toggleColorPicker"
+            >
+              <Icon
+                class="formatting-toolbar__color-glyph"
+                :name="IconNameEnum.text"
+                :width="16"
+                :height="16"
+              />
+            </button>
+          </Tooltip>
+
+          <ContentEditorColorPicker
+            v-if="colorPickerOpen"
+            class="formatting-toolbar__color-picker"
+            :class="[
+              `formatting-toolbar__color-picker--${colorPickerPlacement.vertical}`,
+              `formatting-toolbar__color-picker--${colorPickerPlacement.horizontal}`
+            ]"
+            :colors="colorOptions"
+            :active-text-color="activeTextColor"
+            :active-background-color="activeBackgroundColor"
+            @select-text-color="applyTextColor"
+            @select-background-color="applyBackgroundColor"
+            @reset-colors="resetColors"
+          />
+        </div>
       </div>
 
       <div class="formatting-toolbar__divider"></div>
@@ -140,7 +221,7 @@
             class="formatting-toolbar__button"
             :class="{ 'formatting-toolbar__button--active': action.isActive() }"
             :aria-label="action.hint"
-            @click="action.run"
+            @click="runToolbarAction(action)"
           >
             <Icon :name="action.icon" />
           </button>
@@ -225,6 +306,7 @@ import Modal from '../Modal/Modal.vue';
 import Tooltip from '../Tooltip/Tooltip.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from '../Icon/Icon.vue';
+import ContentEditorColorPicker from './ContentEditorColorPicker.vue';
 
 interface Props {
   editor?: object | null;
@@ -245,6 +327,8 @@ interface SelectionRange {
 }
 
 type ToolbarAlignment = 'left' | 'center' | 'right';
+type ColorPickerVerticalPlacement = 'top' | 'bottom';
+type ColorPickerHorizontalPlacement = 'left' | 'right';
 type MobileClipboardAction = 'cut' | 'copy' | 'paste';
 
 interface MobileClipboardActionItem {
@@ -252,8 +336,27 @@ interface MobileClipboardActionItem {
   label: string;
 }
 
+interface ContentEditorColorOption {
+  label: string;
+  value: string;
+}
+
 const TOOLBAR_MARGIN = 16;
 const MOBILE_VIEWPORT_MAX_WIDTH = 480;
+const COLOR_PICKER_HEIGHT = 180;
+const COLOR_PICKER_GAP = 5;
+
+const colorOptions: ContentEditorColorOption[] = [
+  { label: 'Черный', value: '#181818' },
+  { label: 'Розовый', value: '#fedae9' },
+  { label: 'Фиолетовый', value: '#d8c8ff' },
+  { label: 'Синий', value: '#9cbeff' },
+  { label: 'Голубой', value: '#c8f8ff' },
+  { label: 'Зелёный', value: '#57d278' },
+  { label: 'Жёлтый', value: '#ffcc00' },
+  { label: 'Красный', value: '#ff6868' }
+];
+const allowedColors = new Set(colorOptions.map(color => color.value));
 
 const props = defineProps<Props>();
 const getToolbarEditor = (): Editor | null | undefined =>
@@ -264,6 +367,17 @@ const visible = ref(false);
 const isMobileToolbar = ref(false);
 const isMobileMenuOpen = ref(false);
 const linkEditorOpen = ref(false);
+const colorPickerOpen = ref(false);
+const colorButtonRef = ref<HTMLButtonElement | null>(null);
+const activeTextColor = ref<string | null>(null);
+const activeBackgroundColor = ref<string | null>(null);
+const colorPickerPlacement = ref<{
+  vertical: ColorPickerVerticalPlacement;
+  horizontal: ColorPickerHorizontalPlacement;
+}>({
+  vertical: 'top',
+  horizontal: 'left'
+});
 const linkText = ref('');
 const linkValue = ref('');
 const linkTextInputRef = ref<HTMLInputElement | null>(null);
@@ -280,6 +394,10 @@ const collapsedContextMenuRect = ref<DOMRect | null>(null);
 let positionAnimationFrameId: number | null = null;
 let mobileSelectionTimeoutIds: number[] = [];
 let mobileClipboardRefreshToken = 0;
+
+const hasActiveColor = computed(
+  () => !!activeTextColor.value || !!activeBackgroundColor.value
+);
 
 const hasMobileSelectedText = computed(
   () =>
@@ -313,6 +431,188 @@ const resetLinkEditorState = () => {
   savedSelectionText.value = '';
 };
 
+const normalizeActiveColor = (value: unknown): string | null => {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const normalizedValue = value.trim().toLowerCase();
+
+  if (allowedColors.has(normalizedValue)) {
+    return normalizedValue;
+  }
+
+  const rgbMatch = normalizedValue.match(
+    /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*1(?:\.0+)?)?\s*\)$/
+  );
+
+  if (!rgbMatch) {
+    return null;
+  }
+
+  const channels = rgbMatch.slice(1, 4).map(Number);
+
+  if (channels.some(channel => channel > 255)) {
+    return null;
+  }
+
+  const hexValue = `#${channels
+    .map(channel => channel.toString(16).padStart(2, '0'))
+    .join('')}`;
+
+  return allowedColors.has(hexValue) ? hexValue : null;
+};
+
+const syncActiveColors = () => {
+  const editor = getToolbarEditor();
+
+  if (!editor || editor.isDestroyed) {
+    activeTextColor.value = null;
+    activeBackgroundColor.value = null;
+    return;
+  }
+
+  const attributes = editor.getAttributes('textStyle');
+
+  activeTextColor.value = normalizeActiveColor(attributes.color);
+  activeBackgroundColor.value = normalizeActiveColor(
+    attributes.backgroundColor
+  );
+};
+
+const updateColorPickerPlacement = () => {
+  if (isMobileToolbar.value || !colorButtonRef.value) {
+    return;
+  }
+
+  const buttonRect = colorButtonRef.value.getBoundingClientRect();
+  const canOpenAbove =
+    buttonRect.top - COLOR_PICKER_HEIGHT - COLOR_PICKER_GAP >= TOOLBAR_MARGIN;
+
+  colorPickerPlacement.value = {
+    vertical: canOpenAbove ? 'top' : 'bottom',
+    horizontal:
+      buttonRect.left + 130 <= window.innerWidth - TOOLBAR_MARGIN
+        ? 'left'
+        : 'right'
+  };
+};
+
+const closeColorPicker = () => {
+  if (!colorPickerOpen.value) {
+    return;
+  }
+
+  colorPickerOpen.value = false;
+
+  if (isMobileToolbar.value) {
+    void nextTick(() => {
+      scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+    });
+  }
+};
+
+const openColorPicker = () => {
+  const editor = getToolbarEditor();
+
+  if (!editor) {
+    return;
+  }
+
+  const { from, to, empty } = editor.state.selection;
+
+  if (!empty) {
+    savedSelectionRange.value = { from, to };
+    savedSelectionText.value = getSelectionText(editor, { from, to });
+  }
+
+  syncActiveColors();
+  updateColorPickerPlacement();
+  colorPickerOpen.value = true;
+
+  void nextTick(() => {
+    if (isMobileToolbar.value) {
+      scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+    } else {
+      updateColorPickerPlacement();
+    }
+  });
+};
+
+const toggleColorPicker = () => {
+  if (colorPickerOpen.value) {
+    closeColorPicker();
+    return;
+  }
+
+  openColorPicker();
+};
+
+const applyTextColor = (color: string) => {
+  const editor = getToolbarEditor();
+  const normalizedColor = normalizeActiveColor(color);
+
+  if (!editor || !normalizedColor) {
+    return;
+  }
+
+  const chain = editor.chain().focus();
+
+  if (savedSelectionRange.value) {
+    chain.setTextSelection(savedSelectionRange.value);
+  }
+
+  chain.setColor(normalizedColor).run();
+  activeTextColor.value = normalizedColor;
+  closeColorPicker();
+  scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+};
+
+const applyBackgroundColor = (color: string) => {
+  const editor = getToolbarEditor();
+  const normalizedColor = normalizeActiveColor(color);
+
+  if (!editor || !normalizedColor) {
+    return;
+  }
+
+  const chain = editor.chain().focus();
+
+  if (savedSelectionRange.value) {
+    chain.setTextSelection(savedSelectionRange.value);
+  }
+
+  chain.setBackgroundColor(normalizedColor).run();
+  activeBackgroundColor.value = normalizedColor;
+  closeColorPicker();
+  scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+};
+
+const resetColors = () => {
+  const editor = getToolbarEditor();
+
+  if (!editor) {
+    return;
+  }
+
+  const chain = editor.chain().focus();
+
+  if (savedSelectionRange.value) {
+    chain.setTextSelection(savedSelectionRange.value);
+  }
+
+  chain.unsetColor().unsetBackgroundColor().run();
+  activeTextColor.value = null;
+  activeBackgroundColor.value = null;
+  closeColorPicker();
+  scheduleToolbarPositionUpdate({ preserveHorizontal: true });
+};
+
+const runToolbarAction = (action: ToolbarAction) => {
+  closeColorPicker();
+  action.run();
+};
+
 const getSelectionText = (editor: Editor, selection: SelectionRange): string =>
   editor.state.doc.textBetween(selection.from, selection.to, ' ');
 
@@ -335,6 +635,10 @@ const updateToolbarMode = () => {
   if (!isMobileToolbar.value) {
     isMobileMenuOpen.value = false;
   }
+
+  if (colorPickerOpen.value) {
+    void nextTick(updateColorPickerPlacement);
+  }
 };
 
 const getHiddenToolbarStyle = (): Record<string, string> => ({
@@ -355,6 +659,7 @@ const closeMobileSelectionToolbar = () => {
   isMobileContextMenuRequested.value = false;
   isCollapsedContextMenuOpen.value = false;
   collapsedContextMenuRect.value = null;
+  colorPickerOpen.value = false;
   toolbarStyle.value = getHiddenToolbarStyle();
   lastToolbarLeft.value = null;
   lastToolbarAlignment.value = 'center';
@@ -772,10 +1077,12 @@ const scheduleToolbarPositionUpdate = (
 
 const handleViewportUpdate = () => {
   updateToolbarMode();
+  updateColorPickerPlacement();
   scheduleToolbarPositionUpdate({ preserveHorizontal: true });
 };
 
 const handleSelectionUpdate = () => {
+  syncActiveColors();
   scheduleToolbarPositionUpdate();
 };
 
@@ -784,6 +1091,7 @@ const handleEditorFocus = () => {
 };
 
 const handleEditorTransaction = () => {
+  syncActiveColors();
   scheduleToolbarPositionUpdate();
 };
 
@@ -833,6 +1141,7 @@ const handleEditorInput = () => {
 const handleEditorBlur = () => {
   visible.value = false;
   isMobileMenuOpen.value = false;
+  colorPickerOpen.value = false;
   isMobileContextMenuRequested.value = false;
   isCollapsedContextMenuOpen.value = false;
 };
@@ -939,6 +1248,7 @@ const handleMobileContextMenu = (event: MouseEvent) => {
 };
 
 const openMobileMenu = () => {
+  colorPickerOpen.value = false;
   isMobileMenuOpen.value = true;
 
   void nextTick(() => {
@@ -947,6 +1257,7 @@ const openMobileMenu = () => {
 };
 
 const closeMobileMenu = () => {
+  colorPickerOpen.value = false;
   isMobileMenuOpen.value = false;
 
   void nextTick(() => {
@@ -955,6 +1266,7 @@ const closeMobileMenu = () => {
 };
 
 const runMobileAction = (action: ToolbarAction) => {
+  colorPickerOpen.value = false;
   action.run();
 
   if (action.key === 'link' && !getToolbarEditor()?.isActive('link')) {
@@ -1410,6 +1722,7 @@ const unbindEditorEvents = (editor: Editor | null | undefined) => {
 
 onMounted(() => {
   updateToolbarMode();
+  syncActiveColors();
   bindEditorEvents(getToolbarEditor());
   window.addEventListener('resize', handleViewportUpdate);
   window.addEventListener('scroll', handleViewportUpdate, true);
@@ -1438,6 +1751,7 @@ watch(
 
     unbindEditorEvents(previousEditor);
     bindEditorEvents(nextEditor);
+    syncActiveColors();
     scheduleToolbarPositionUpdate();
   }
 );
@@ -1445,14 +1759,20 @@ watch(
 
 <style scoped>
 .formatting-toolbar {
+  box-sizing: border-box;
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 10px;
-  border: 1px solid var(--border-table);
-  border-radius: 999px;
-  background: var(--white);
+  border: none;
+  border-radius: 25px;
+  background: var(--surface-overlay, #ffffff);
+  box-shadow: inset 0 0 0 0.5px var(--border-table);
+}
+
+.formatting-toolbar:not(.formatting-toolbar--mobile) {
+  height: 40px;
 }
 
 .formatting-toolbar__group {
@@ -1462,15 +1782,25 @@ watch(
 }
 
 .formatting-toolbar__divider {
-  width: 1px;
+  position: relative;
+  width: 0;
   height: 18px;
-  background: var(--border-table);
+
+  &::after {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0.5px;
+    background: var(--border-table);
+    content: '';
+  }
 }
 
 .formatting-toolbar__button {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 20px;
+  width: 20px;
   min-width: 20px;
   height: 20px;
   padding: 0;
@@ -1490,10 +1820,52 @@ watch(
   }
 }
 
-.formatting-toolbar__button:hover,
+.formatting-toolbar__button:hover {
+  background: var(--action-secondary-hover-bg, #f2f7ff);
+  color: var(--text-brand, #77a6ff);
+}
+
 .formatting-toolbar__button--active {
-  background: var(--blue10);
-  color: var(--primary-pressed-color);
+  background: var(--action-secondary-pressed-bg, #ecf3ff);
+  color: var(--text-brand, #77a6ff);
+}
+
+.formatting-toolbar__color-control {
+  position: relative;
+  display: flex;
+}
+
+.formatting-toolbar__color-button {
+  overflow: hidden;
+}
+
+.formatting-toolbar__color-glyph {
+  transform: translateY(1.5px);
+}
+
+.formatting-toolbar--mobile .formatting-toolbar__color-glyph {
+  transform: none;
+}
+
+.formatting-toolbar__color-picker {
+  position: absolute;
+  z-index: 1;
+}
+
+.formatting-toolbar__color-picker--top {
+  bottom: calc(100% + 5px);
+}
+
+.formatting-toolbar__color-picker--bottom {
+  top: calc(100% + 5px);
+}
+
+.formatting-toolbar__color-picker--left {
+  left: 0;
+}
+
+.formatting-toolbar__color-picker--right {
+  right: 0;
 }
 
 .formatting-toolbar--mobile {
@@ -1501,7 +1873,7 @@ watch(
   padding: 4px 5px 4px 14px;
   border: none;
   border-radius: 999px;
-  background: var(--white);
+  background: var(--surface-overlay, #ffffff);
   box-shadow: 0 4px 14px rgb(28 38 53 / 12%);
 }
 
@@ -1511,9 +1883,23 @@ watch(
   padding: 0;
   border: 0.5px solid var(--border-table);
   border-radius: 8px;
-  background: var(--white);
+  background: var(--surface-overlay, #ffffff);
   box-shadow: 0 8px 24px rgb(28 38 53 / 16%);
   overflow: hidden;
+}
+
+.formatting-toolbar--mobile-color-picker {
+  width: 130px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.formatting-toolbar__color-picker--mobile {
+  position: static;
+  flex: 0 0 auto;
 }
 
 .formatting-toolbar__mobile-selection-actions {
@@ -1550,7 +1936,7 @@ watch(
   border: none;
   border-radius: 50%;
   background: var(--text-brand);
-  color: var(--white);
+  color: var(--text-on-brand, #ffffff);
   box-shadow: 0 4px 12px rgb(28 38 53 / 18%);
   cursor: pointer;
 }
@@ -1613,6 +1999,15 @@ watch(
   color: var(--text-neutral-color);
 }
 
+.formatting-toolbar__color-icon {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
 .formatting-toolbar__mobile-action--active
   .formatting-toolbar__mobile-action-icon {
   color: var(--text-brand);
@@ -1628,7 +2023,7 @@ watch(
   flex-direction: column;
   gap: 10px;
   padding: 20px 10px;
-  background: var(--white);
+  background: var(--surface-overlay, #ffffff);
 }
 
 .formatting-toolbar__link-modal-header {
@@ -1713,7 +2108,7 @@ watch(
   border: none;
   border-radius: 8px;
   background: var(--text-brand);
-  color: var(--white);
+  color: var(--text-on-brand, #ffffff);
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.2s ease;

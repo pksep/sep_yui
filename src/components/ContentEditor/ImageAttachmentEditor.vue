@@ -435,7 +435,7 @@ const emit = defineEmits<{
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const stageRef = ref<HTMLDivElement | null>(null);
 const mode = ref<EditorMode>('crop');
-const activeColorToken = ref('--text-primary');
+const activeColorToken = ref('#181818');
 const customColorValue = ref('#000000');
 const lastCustomColor = ref<string | null>(null);
 const brushSize = ref(8);
@@ -507,7 +507,7 @@ const MIN_TEXT_BOX_HEIGHT = 24;
 
 const defaultColorOptions: ColorOption[] = [
   { label: 'Белый', value: '--white' },
-  { label: 'Черный', value: '--text-primary' },
+  { label: 'Черный', value: '#181818' },
   { label: 'Красный', value: '--error-color' },
   { label: 'Зеленый', value: '--success-color' }
 ];
@@ -530,7 +530,9 @@ const textRangeStyle = computed(() =>
   getRangeStyle(activeTextSize.value, 18, 72)
 );
 const isCustomColorActive = computed(
-  () => !activeColorToken.value.startsWith('--')
+  () =>
+    !activeColorToken.value.startsWith('--') &&
+    !defaultColorOptions.some(color => color.value === activeColorToken.value)
 );
 
 const selectedTextLayer = computed(
