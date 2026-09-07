@@ -518,6 +518,11 @@ import { TextSelection } from '@tiptap/pm/state';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
+import {
+  BackgroundColor,
+  Color,
+  TextStyle
+} from '@tiptap/extension-text-style';
 import EmojiPicker from 'vue3-emoji-picker';
 import {
   Extension,
@@ -1570,6 +1575,9 @@ const editor = useEditor({
       placeholder: 'Начните печатать...',
       emptyEditorClass: 'is-editor-empty'
     }),
+    TextStyle,
+    Color.configure({ types: ['textStyle'] }),
+    BackgroundColor.configure({ types: ['textStyle'] }),
     SpanNode,
     ContentEditorListInputRules
   ],
