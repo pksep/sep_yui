@@ -6,25 +6,7 @@
     @mousedown.prevent
   >
     <section class="content-editor-color-picker__section">
-      <div class="content-editor-color-picker__heading">
-        <div class="content-editor-color-picker__title">Цвет текста</div>
-        <Tooltip
-          class="content-editor-color-picker__reset-tooltip"
-          hint="Сбросить"
-          position="top-center"
-          type="black"
-        >
-          <button
-            type="button"
-            class="content-editor-color-picker__reset"
-            :disabled="!activeTextColor && !activeBackgroundColor"
-            aria-label="Сбросить цвет"
-            @click="$emit('reset-colors')"
-          >
-            <Icon :name="IconNameEnum.reset" :width="14" :height="14" />
-          </button>
-        </Tooltip>
-      </div>
+      <div class="content-editor-color-picker__title">Цвет текста</div>
       <div class="content-editor-color-picker__swatches">
         <button
           v-for="color in colors"
@@ -70,7 +52,6 @@
 <script setup lang="ts">
 import Icon from '../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
-import Tooltip from '../Tooltip/Tooltip.vue';
 
 interface ContentEditorColorOption {
   label: string;
@@ -88,7 +69,6 @@ defineProps<Props>();
 defineEmits<{
   (event: 'select-text-color', color: string): void;
   (event: 'select-background-color', color: string): void;
-  (event: 'reset-colors'): void;
 }>();
 </script>
 
@@ -123,47 +103,6 @@ defineEmits<{
   white-space: nowrap;
 }
 
-.content-editor-color-picker__heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 0;
-}
-
-.content-editor-color-picker__reset {
-  display: grid;
-  flex: 0 0 16px;
-  width: 16px;
-  height: 16px;
-  padding: 0;
-  border: none;
-  border-radius: 3px;
-  place-items: center;
-  background: transparent;
-  color: var(--text-neutral-color);
-  cursor: pointer;
-}
-
-.content-editor-color-picker__reset-tooltip {
-  display: inline-grid;
-  flex: 0 0 16px;
-  width: 16px;
-  height: 16px;
-}
-
-.content-editor-color-picker__reset:hover:not(:disabled),
-.content-editor-color-picker__reset:focus-visible {
-  background: var(--action-secondary-hover-bg, #f2f7ff);
-  color: var(--text-brand);
-  outline: none;
-}
-
-.content-editor-color-picker__reset:disabled {
-  color: var(--text-disabled);
-  cursor: default;
-  opacity: 0.6;
-}
-
 .content-editor-color-picker__swatches {
   display: grid;
   grid-template-columns: repeat(4, 20px);
@@ -193,7 +132,6 @@ defineEmits<{
   color: #ffffff;
 }
 
-.content-editor-color-picker__text-swatch:hover,
 .content-editor-color-picker__text-swatch:focus-visible {
   outline: 1px solid var(--text-brand, #3f8ae0);
   outline-offset: 1px;
@@ -204,10 +142,21 @@ defineEmits<{
   outline-offset: 1px;
 }
 
-.content-editor-color-picker__background-swatch:hover,
 .content-editor-color-picker__background-swatch:focus-visible {
   outline: 2px solid var(--surface-overlay, #ffffff);
   box-shadow: 0 0 0 3px var(--border-hover, #9cbeff);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .content-editor-color-picker__text-swatch:hover {
+    outline: 1px solid var(--text-brand, #3f8ae0);
+    outline-offset: 1px;
+  }
+
+  .content-editor-color-picker__background-swatch:hover {
+    outline: 2px solid var(--surface-overlay, #ffffff);
+    box-shadow: 0 0 0 3px var(--border-hover, #9cbeff);
+  }
 }
 
 .content-editor-color-picker__background-swatch--active {

@@ -22,7 +22,6 @@
         :active-background-color="activeBackgroundColor"
         @select-text-color="applyTextColor"
         @select-background-color="applyBackgroundColor"
-        @reset-colors="resetColors"
       />
 
       <div
@@ -202,7 +201,6 @@
             :active-background-color="activeBackgroundColor"
             @select-text-color="applyTextColor"
             @select-background-color="applyBackgroundColor"
-            @reset-colors="resetColors"
           />
         </div>
       </div>
@@ -472,6 +470,14 @@ const syncActiveColors = () => {
     return;
   }
 
+  // Android WebView can temporarily report the collapsed caret marks after a
+  // toolbar action, even though we restore and format the saved selection.
+  // Keep the picker's explicit state stable while it is open so a second tap
+  // on the same swatch reliably toggles that color off.
+  if (isMobileToolbar.value && colorPickerOpen.value) {
+    return;
+  }
+
   const attributes = editor.getAttributes('textStyle');
 
   activeTextColor.value = normalizeActiveColor(attributes.color);
@@ -562,9 +568,15 @@ const applyTextColor = (color: string) => {
     chain.setTextSelection(savedSelectionRange.value);
   }
 
-  chain.setColor(normalizedColor).run();
-  activeTextColor.value = normalizedColor;
-  closeColorPicker();
+  const shouldResetColor = activeTextColor.value === normalizedColor;
+
+  if (shouldResetColor) {
+    chain.unsetColor().run();
+  } else {
+    chain.setColor(normalizedColor).run();
+  }
+
+  activeTextColor.value = shouldResetColor ? null : normalizedColor;
   scheduleToolbarPositionUpdate({ preserveHorizontal: true });
 };
 
@@ -582,29 +594,15 @@ const applyBackgroundColor = (color: string) => {
     chain.setTextSelection(savedSelectionRange.value);
   }
 
-  chain.setBackgroundColor(normalizedColor).run();
-  activeBackgroundColor.value = normalizedColor;
-  closeColorPicker();
-  scheduleToolbarPositionUpdate({ preserveHorizontal: true });
-};
+  const shouldResetColor = activeBackgroundColor.value === normalizedColor;
 
-const resetColors = () => {
-  const editor = getToolbarEditor();
-
-  if (!editor) {
-    return;
+  if (shouldResetColor) {
+    chain.unsetBackgroundColor().run();
+  } else {
+    chain.setBackgroundColor(normalizedColor).run();
   }
 
-  const chain = editor.chain().focus();
-
-  if (savedSelectionRange.value) {
-    chain.setTextSelection(savedSelectionRange.value);
-  }
-
-  chain.unsetColor().unsetBackgroundColor().run();
-  activeTextColor.value = null;
-  activeBackgroundColor.value = null;
-  closeColorPicker();
+  activeBackgroundColor.value = shouldResetColor ? null : normalizedColor;
   scheduleToolbarPositionUpdate({ preserveHorizontal: true });
 };
 
@@ -1153,16 +1151,34 @@ const handleToolbarPointerDown = (event: PointerEvent) => {
 };
 
 const handlePointerSelectionStart = (event: PointerEvent) => {
-  if (event.button !== 0 || linkEditorOpen.value) {
+  if (
+    (event.pointerType === 'mouse' && event.button !== 0) ||
+    linkEditorOpen.value
+  ) {
     return;
   }
 
+  colorPickerOpen.value = false;
   isPointerSelecting.value = true;
   isMobileContextMenuRequested.value = false;
   isCollapsedContextMenuOpen.value = false;
   collapsedContextMenuRect.value = null;
   visible.value = false;
   isMobileMenuOpen.value = false;
+};
+
+const handleDocumentPointerDown = (event: PointerEvent) => {
+  if (!isMobileToolbar.value || !colorPickerOpen.value) {
+    return;
+  }
+
+  const target = event.target;
+
+  if (target instanceof Node && toolbarRef.value?.contains(target)) {
+    return;
+  }
+
+  closeMobileSelectionToolbar();
 };
 
 const handlePointerSelectionEnd = () => {
@@ -1727,6 +1743,7 @@ onMounted(() => {
   window.addEventListener('resize', handleViewportUpdate);
   window.addEventListener('scroll', handleViewportUpdate, true);
   window.addEventListener('pointerup', handlePointerSelectionEnd, true);
+  document.addEventListener('pointerdown', handleDocumentPointerDown, true);
 });
 
 onBeforeUnmount(() => {
@@ -1734,6 +1751,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleViewportUpdate);
   window.removeEventListener('scroll', handleViewportUpdate, true);
   window.removeEventListener('pointerup', handlePointerSelectionEnd, true);
+  document.removeEventListener('pointerdown', handleDocumentPointerDown, true);
 
   if (positionAnimationFrameId !== null) {
     cancelAnimationFrame(positionAnimationFrameId);

@@ -53,12 +53,14 @@
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
         class="toolbar-button mobile-buttons smile-button"
+        @pointerdown="preserveEditorFocusForEmojiTrigger"
         @click.stop="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" />
         <div
           @click.stop
           @click.capture="handleEmojiPickerClick"
+          @mousedown.capture="preserveEditorFocusForEmojiSelection"
           @pointerdown="startEmojiDrag"
           :class="pickerClasses"
           :style="emojiPickerStyle"
@@ -74,6 +76,7 @@
             :group-order="emojiGroupOrder"
             :static-texts="emojiStaticTexts"
             @select="addEmoji"
+            v-on-click-outside.bubble="closeEmojiPicker"
           />
         </div>
       </Button>
@@ -122,12 +125,14 @@
         :type="ButtonTypeEnum.ghost"
         :size="SizesEnum.small"
         class="toolbar-button smile-button"
+        @pointerdown="preserveEditorFocusForEmojiTrigger"
         @click.stop="toggleEmojiPicker"
       >
         <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
         <div
           @click.stop
           @click.capture="handleEmojiPickerClick"
+          @mousedown.capture="preserveEditorFocusForEmojiSelection"
           @pointerdown="startEmojiDrag"
           :class="pickerClasses"
           :style="emojiPickerStyle"
@@ -377,12 +382,14 @@
                 :type="ButtonTypeEnum.ghost"
                 :size="SizesEnum.small"
                 class="toolbar-button smile-button"
+                @pointerdown="preserveEditorFocusForEmojiTrigger"
                 @click.stop="toggleEmojiPicker"
               >
                 <Icon :name="IconNameEnum.smile" :width="16" :height="16" />
                 <div
                   @click.stop
                   @click.capture="handleEmojiPickerClick"
+                  @mousedown.capture="preserveEditorFocusForEmojiSelection"
                   @pointerdown="startEmojiDrag"
                   :class="pickerClasses"
                   :style="emojiPickerStyle"
@@ -1740,7 +1747,13 @@ const addEmoji = (emoji: EmojiPickerSelection): void => {
   if (!editor?.value) return;
   rememberEmojiSelection(emoji);
   editor.value.chain().focus().insertContent(emoji.i).run();
-  nextTick(applyFrozenRecentOrder);
+  nextTick(() => {
+    applyFrozenRecentOrder();
+
+    if (isMobileViewport()) {
+      editor.value?.view.focus();
+    }
+  });
 };
 
 const attachFile = async (
@@ -2270,6 +2283,28 @@ const handleEmojiPickerClick = (event: Event): void => {
   syncEmojiGroupScroll(event);
 };
 
+const preserveEditorFocusForEmojiTrigger = (event: PointerEvent): void => {
+  if (!isMobileViewport()) return;
+
+  event.preventDefault();
+  editor.value?.view.focus();
+};
+
+const preserveEditorFocusForEmojiSelection = (event: MouseEvent): void => {
+  const target = event.target;
+
+  if (
+    !isMobileViewport() ||
+    !(target instanceof Element) ||
+    !target.closest('.v3-emojis button')
+  ) {
+    return;
+  }
+
+  event.preventDefault();
+  editor.value?.view.focus();
+};
+
 const finishEmojiDrag = (): void => {
   emojiDragTarget?.classList.remove('emoji-picker--dragging');
   emojiDragTarget = null;
@@ -2397,7 +2432,15 @@ const closeEmojiPicker = (): void => {
   resetEmojiDrag();
 };
 
-const handleWindowUpdate = (): void => {
+const handleWindowUpdate = (event?: Event): void => {
+  if (
+    event?.type === 'scroll' &&
+    event.target instanceof Element &&
+    event.target.closest('.emoji-picker')
+  ) {
+    return;
+  }
+
   const nextIsMobileLayout = isMobileViewport();
 
   if (isMobileLayout.value !== nextIsMobileLayout) {
@@ -2745,7 +2788,7 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 }
 
 .emoji-picker {
-  contain: layout paint style;
+  contain: layout style;
   opacity: 0;
   pointer-events: none;
   user-select: none;
@@ -2895,8 +2938,13 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
     height: 100%;
     padding-right: 0;
     scroll-behavior: auto !important;
-    scrollbar-color: var(--action-primary-bg, #77a6ff) transparent;
-    scrollbar-width: thin;
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+
+    @supports not selector(::-webkit-scrollbar) {
+      scrollbar-color: var(--action-primary-bg, #77a6ff) transparent;
+      scrollbar-width: thin;
+    }
   }
 
   & .v3-body .v3-body-inner::-webkit-scrollbar {
@@ -2905,6 +2953,12 @@ defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
 
   & .v3-body .v3-body-inner::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  & .v3-body .v3-body-inner::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   & .v3-body .v3-body-inner::-webkit-scrollbar-thumb,
