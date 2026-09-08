@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.317
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.316...v0.1.317)
+
+### 🩹 Fixes
+
+- Content editor styles ([35e951ca](https://github.com/pksep/sep_yui/commit/35e951ca))
+
 ## v0.1.316
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.315...v0.1.316)
