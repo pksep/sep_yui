@@ -112,7 +112,7 @@ onMounted(() => {
 
 <style lang="scss">
 .emoji-picker-panel {
-  contain: layout paint style;
+  contain: layout style;
   opacity: 0;
   pointer-events: none;
   user-select: none;
@@ -262,8 +262,13 @@ onMounted(() => {
     height: 100%;
     padding-right: 0;
     scroll-behavior: auto !important;
-    scrollbar-color: var(--action-primary-bg, #77a6ff) transparent;
-    scrollbar-width: thin;
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+
+    @supports not selector(::-webkit-scrollbar) {
+      scrollbar-color: var(--action-primary-bg, #77a6ff) transparent;
+      scrollbar-width: thin;
+    }
   }
 
   & .v3-body .v3-body-inner::-webkit-scrollbar {
@@ -272,6 +277,12 @@ onMounted(() => {
 
   & .v3-body .v3-body-inner::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  & .v3-body .v3-body-inner::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   & .v3-body .v3-body-inner::-webkit-scrollbar-thumb,
