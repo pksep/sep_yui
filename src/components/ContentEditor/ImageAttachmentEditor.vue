@@ -310,9 +310,7 @@
   >
     <div class="image-attachment-editor__confirm">
       <div class="image-attachment-editor__confirm-content">
-        <h3 class="image-attachment-editor__confirm-title">
-          Сброс изменений
-        </h3>
+        <h3 class="image-attachment-editor__confirm-title">Сброс изменений</h3>
         <p class="image-attachment-editor__confirm-text">
           Вы уверены, что хотите сбросить все изменения?
         </p>
@@ -2044,8 +2042,7 @@ dialog.image-attachment-editor__confirm-modal.modal-yui-kit.modal-yui-kit_center
   box-shadow: inset 0 0.5px 0 var(--border-table);
 }
 
-dialog.image-attachment-editor__confirm-modal
-  > .modal-yui-kit__modal-content {
+dialog.image-attachment-editor__confirm-modal > .modal-yui-kit__modal-content {
   box-sizing: border-box;
   padding: 0;
 }
