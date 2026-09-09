@@ -232,7 +232,7 @@
     v-if="linkEditorOpen"
     :open="linkEditorOpen"
     position="center"
-    width="min(370px, -45px + 100vw)"
+    width="100%"
     height="auto"
     class="formatting-toolbar__link-modal-container"
     @close="handleLinkModalClose"
@@ -250,39 +250,42 @@
         </button>
       </div>
 
-      <label class="formatting-toolbar__field">
-        <span class="formatting-toolbar__field-label">Текст:</span>
-        <input
-          ref="linkTextInputRef"
-          v-model="linkText"
-          class="formatting-toolbar__field-input"
-          type="text"
-          placeholder="Важная ссылка"
-          @keydown.enter.prevent="applyLink"
-          @keydown.esc.prevent="handleLinkModalClose"
-        />
-      </label>
+      <div class="formatting-toolbar__link-modal-body">
+        <label class="formatting-toolbar__field">
+          <span class="formatting-toolbar__field-label">Текст:</span>
+          <input
+            ref="linkTextInputRef"
+            v-model="linkText"
+            class="formatting-toolbar__field-input"
+            type="text"
+            placeholder="Введите текст"
+            @keydown.enter.prevent="applyLink"
+            @keydown.esc.prevent="handleLinkModalClose"
+          />
+        </label>
 
-      <label class="formatting-toolbar__field">
-        <span class="formatting-toolbar__field-label">Ссылка:</span>
-        <input
-          v-model="linkValue"
-          class="formatting-toolbar__field-input"
-          type="text"
-          placeholder="https://example.com"
-          @keydown.enter.prevent="applyLink"
-          @keydown.esc.prevent="handleLinkModalClose"
-        />
-      </label>
+        <label class="formatting-toolbar__field">
+          <span class="formatting-toolbar__field-label">Ссылка:</span>
+          <input
+            v-model="linkValue"
+            class="formatting-toolbar__field-input"
+            type="text"
+            placeholder="Вставьте ссылку"
+            @keydown.enter.prevent="applyLink"
+            @keydown.esc.prevent="handleLinkModalClose"
+          />
+        </label>
 
-      <div class="formatting-toolbar__link-modal-actions">
-        <button
-          type="button"
-          class="formatting-toolbar__link-modal-save"
-          @click="applyLink"
-        >
-          Сохранить
-        </button>
+        <div class="formatting-toolbar__link-modal-actions">
+          <button
+            type="button"
+            class="formatting-toolbar__link-modal-save"
+            :disabled="!canSaveLink"
+            @click="applyLink"
+          >
+            Сохранить
+          </button>
+        </div>
       </div>
     </div>
   </Modal>
@@ -378,6 +381,9 @@ const colorPickerPlacement = ref<{
 });
 const linkText = ref('');
 const linkValue = ref('');
+const canSaveLink = computed(
+  () => !!linkText.value.trim() && !!linkValue.value.trim()
+);
 const linkTextInputRef = ref<HTMLInputElement | null>(null);
 const toolbarStyle = ref<Record<string, string>>({});
 const lastToolbarLeft = ref<number | null>(null);
@@ -1640,11 +1646,11 @@ const applyLink = () => {
   const editor = getToolbarEditor();
   const selection = savedSelectionRange.value;
 
-  if (!editor || !selection) {
+  if (!editor || !selection || !canSaveLink.value) {
     return;
   }
 
-  const nextText = linkText.value.trim() || savedSelectionText.value.trim();
+  const nextText = linkText.value.trim();
   const href = normalizeLink(linkValue.value);
 
   if (!nextText) {
@@ -2032,107 +2038,191 @@ watch(
 }
 
 .formatting-toolbar__link-modal-container {
-  border: 0.5px solid var(--border-table);
+  --link-modal-width: 370px;
+  box-sizing: border-box;
+  width: var(--link-modal-width);
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
   border-radius: 10px !important;
+  background: var(--surface-overlay);
+  overflow: auto;
+}
+
+dialog.formatting-toolbar__link-modal-container.modal-yui-kit {
+  border: 0;
+  box-shadow: inset 0.5px 0 0 var(--border-table);
+}
+
+.formatting-toolbar__link-modal-container :deep(.modal-yui-kit__modal-content) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  max-height: none;
 }
 
 .formatting-toolbar__link-modal {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 21px;
   padding: 20px 10px;
-  background: var(--surface-overlay, #ffffff);
 }
 
 .formatting-toolbar__link-modal-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 0 10px 20px;
-  border-bottom: 0.5px solid var(--border-table);
+  min-height: 34px;
+  padding: 5px 10px;
+}
+
+.formatting-toolbar__link-modal-header::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: -10.5px;
+  left: -10px;
+  height: 0.5px;
+  background: var(--border-table);
+  pointer-events: none;
+}
+
+.formatting-toolbar__link-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 10px;
 }
 
 .formatting-toolbar__link-modal-title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.2;
+  line-height: 24px;
 }
 
 .formatting-toolbar__link-modal-close {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   cursor: pointer;
 }
 
 .formatting-toolbar__link-modal-close:hover {
-  background: var(--background-light-color);
+  background: var(--action-secondary-hover-bg);
+}
+
+.formatting-toolbar__link-modal-close .icon-yui-kit {
+  width: 20px;
+  height: 20px;
 }
 
 .formatting-toolbar__field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 0 10px;
+  gap: 5px;
+  min-width: 0;
 }
 
 .formatting-toolbar__field-label {
   font-size: 14px;
-  font-weight: 600;
-  color: var(--text-neutral-color);
-  line-height: 1.2;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 17px;
 }
 
 .formatting-toolbar__field-input {
+  box-sizing: border-box;
   width: 100%;
-  min-height: 44px;
-  padding: 11px 14px;
+  min-width: 0;
+  height: 44px;
+  padding: 9px 14px;
   border: 1px solid transparent;
-  border-radius: 10px;
-  background: var(--background-light-color);
+  border-radius: 5px;
+  background: var(--surface-input-secondary);
   color: var(--text-primary);
   font-size: 14px;
+  font-family: inherit;
+  line-height: 24px;
+  text-overflow: ellipsis;
   outline: none;
   transition: border-color 0.2s ease;
 }
 
 .formatting-toolbar__field-input:focus {
-  border-color: var(--text-brand);
+  border-color: var(--border-hover);
 }
 
 .formatting-toolbar__field-input::placeholder {
-  color: var(--text-light-color);
+  color: var(--text-disabled);
+  opacity: 1;
 }
 
 .formatting-toolbar__link-modal-actions {
   display: flex;
   justify-content: flex-end;
-  padding: 0 10px;
-  margin-top: 2px;
 }
 
 .formatting-toolbar__link-modal-save {
-  min-height: 40px;
-  padding: 10px 14px;
+  height: 30px;
+  padding: 5px 10px;
   border: none;
-  border-radius: 8px;
-  background: var(--text-brand);
+  border-radius: 5px;
+  background: var(--action-primary-bg);
   color: var(--text-on-brand, #ffffff);
   font-size: 14px;
+  font-family: inherit;
+  line-height: 20px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.formatting-toolbar__link-modal-save:hover {
-  background: var(--primary-pressed-color);
+.formatting-toolbar__link-modal-save:hover:not(:disabled) {
+  background: var(--action-primary-active-bg);
+}
+
+.formatting-toolbar__link-modal-save:disabled {
+  background: var(--action-disabled-bg);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+.formatting-toolbar__link-modal-close:focus-visible,
+.formatting-toolbar__link-modal-save:focus-visible {
+  outline: 2px solid var(--border-hover);
+  outline-offset: 2px;
+}
+
+@media (width <= 768px) {
+  .formatting-toolbar__link-modal-container {
+    --link-modal-width: 290px;
+    border-radius: 25px !important;
+  }
+
+  .formatting-toolbar__link-modal {
+    padding-block: 15px;
+  }
+
+  .formatting-toolbar__link-modal-header {
+    padding-inline: 5px;
+  }
+
+  .formatting-toolbar__link-modal-body {
+    gap: 15px;
+    padding-inline: 5px;
+  }
+
+  .formatting-toolbar__link-modal-save {
+    height: 35px;
+  }
 }
 </style>

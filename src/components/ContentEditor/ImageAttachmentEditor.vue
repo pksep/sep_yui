@@ -303,26 +303,28 @@
     v-if="isResetConfirmOpen"
     :open="isResetConfirmOpen"
     position="center"
-    width="420px"
+    width="min(492px, calc(100vw - 32px))"
     data-testid="ImageAttachmentEditor-ResetConfirm"
     class="image-attachment-editor__confirm-modal"
     @close="closeResetConfirm"
   >
     <div class="image-attachment-editor__confirm">
-      <h3 class="image-attachment-editor__confirm-title">
-        Сбросить изменения?
-      </h3>
-      <p class="image-attachment-editor__confirm-text">
-        Вы уверены, что хотите сбросить все изменения изображения?
-      </p>
+      <div class="image-attachment-editor__confirm-content">
+        <h3 class="image-attachment-editor__confirm-title">
+          Сброс изменений
+        </h3>
+        <p class="image-attachment-editor__confirm-text">
+          Вы уверены, что хотите сбросить все изменения?
+        </p>
+      </div>
       <div class="image-attachment-editor__confirm-actions">
         <Button
-          :type="ButtonTypeEnum.outline"
+          :type="ButtonTypeEnum.secondary"
           :size="SizesEnum.small"
           class="image-attachment-editor__confirm-button"
           @click="closeResetConfirm"
         >
-          Отменить
+          Нет
         </Button>
         <Button
           :type="ButtonTypeEnum.primary"
@@ -330,7 +332,7 @@
           class="image-attachment-editor__confirm-button"
           @click="confirmReset"
         >
-          Сбросить
+          Да
         </Button>
       </div>
     </div>
@@ -2034,40 +2036,67 @@ onBeforeUnmount(() => {
   min-height: 30px;
 }
 
+dialog.image-attachment-editor__confirm-modal.modal-yui-kit.modal-yui-kit_center {
+  max-width: calc(100vw - 32px);
+  border: 0;
+  border-radius: 15px;
+  background: var(--surface-overlay);
+  box-shadow: inset 0 0.5px 0 var(--border-table);
+}
+
+dialog.image-attachment-editor__confirm-modal
+  > .modal-yui-kit__modal-content {
+  box-sizing: border-box;
+  padding: 0;
+}
+
 .image-attachment-editor__confirm {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 25px;
   padding: 20px;
   color: var(--text-primary);
   text-align: center;
-  background: var(--surface-overlay);
+}
+
+.image-attachment-editor__confirm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
 .image-attachment-editor__confirm-title {
   margin: 0;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   line-height: 24px;
 }
 
 .image-attachment-editor__confirm-text {
   margin: 0;
   font-size: 14px;
-  line-height: 20px;
-  color: var(--text-neutral-color);
+  font-weight: 700;
+  line-height: 17px;
+  color: var(--text-secondary);
 }
 
 .image-attachment-editor__confirm-actions {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  width: 100%;
 }
 
 .image-attachment-editor__confirm-button.button-yui-kit {
-  min-height: 30px;
-  padding: 7px 12px;
+  flex: 0 1 170px;
+  justify-content: center;
+  min-width: 0;
+  height: 35px;
+  min-height: 35px;
+  padding: 0 13px;
 }
 
 .image-attachment-editor__palette {
