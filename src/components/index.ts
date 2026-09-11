@@ -86,8 +86,16 @@ import PdfPreview from '@/components/Preview/PdfPreview.vue';
 import ImagePreview from '@/components/Preview/ImagePreview.vue';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
+import ChatMessageSurface from './ChatMessage/ChatMessageSurface.vue';
+import ChatMessageMeta from './ChatMessage/ChatMessageMeta.vue';
+import ChatFileDetails from './ChatMessage/ChatFileDetails.vue';
+import ChatFileIcon from './ChatMessage/ChatFileIcon.vue';
 
 const components = {
+  ChatMessageSurface,
+  ChatMessageMeta,
+  ChatFileDetails,
+  ChatFileIcon,
   Accordion,
   Badges,
   BreadCrumbs,
@@ -247,3 +255,5 @@ export {
   VideoPreview,
   Skeleton
 };
+
+export { ChatMessageSurface, ChatMessageMeta, ChatFileDetails, ChatFileIcon };

@@ -1,6 +1,20 @@
 import { IconNameEnum } from './enum/enum';
 import { IVectorIcon } from './interface/interface';
 
+export const socialVk: IVectorIcon = {
+  name: 'social-vk',
+  style: 'solid',
+  viewbox: '0 0 24 24',
+  path: `<rect width="24" height="24" rx="7" fill="#0077FF"/><path d="M5 7h2.5c.2 3.8 1.8 5.4 3 5.7V7h2.3v3.3c1.2-.1 2.5-1.7 2.9-3.3H18c-.3 2-1.8 3.6-2.8 4.2 1 .5 2.7 2 3.3 4.8h-2.6c-.5-1.8-1.7-3.2-3.1-3.4V16h-.6C7.7 16 5.1 13 5 7Z" fill="white"/>`
+};
+
+export const socialTelegram: IVectorIcon = {
+  name: 'social-telegram',
+  style: 'solid',
+  viewbox: '0 0 24 24',
+  path: `<circle cx="12" cy="12" r="12" fill="#26A5E4"/><path d="m5 11 13-5c.6-.2 1 .2.8.9l-2.2 10.3c-.1.7-.6.9-1.2.5l-3.4-2.5-1.7 1.6c-.2.2-.4.4-.8.4l.3-3.5L16 8.8c.3-.3-.1-.4-.4-.2l-7.8 4.9-3.3-1c-.7-.2-.7-.7.5-1.5Z" fill="white"/>`
+};
+
 export const alertTriangle: IVectorIcon = {
   name: 'alert-triangle',
   style: 'line',

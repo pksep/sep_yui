@@ -3,6 +3,9 @@ import type { IDataTestIdProp } from '@/common/dataTestidProps';
 
 export interface IInputProps extends IDataTestIdProp {
   placeholder?: string;
+  inputId?: string;
+  ariaLabel?: string;
+  ariaDescribedby?: string;
   inputMessage?: string;
   type?: TextFieldEnum;
   required?: boolean;

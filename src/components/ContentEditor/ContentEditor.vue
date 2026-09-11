@@ -203,7 +203,7 @@
     </div>
 
     <Modal
-      v-if="isAttachModalOpen"
+      v-if="isAttachModalOpen && !props.suspended"
       :open="isAttachModalOpen"
       @close="handleAttachModalClose"
       disable-close-on-outside-click
@@ -576,7 +576,9 @@ defineSlots<IContentEditorSlots>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
 const isMobileLayout = ref(
-  typeof window !== 'undefined' && window.innerWidth <= 480
+  props.layout !== 'desktop' &&
+    typeof window !== 'undefined' &&
+    window.innerWidth <= 480
 );
 const attachPopoverKey = ref(0);
 const emojiPickerPosition = ref({
@@ -1034,7 +1036,8 @@ const scrollActiveMentionIntoView = () => {
   });
 };
 
-const isMobileViewport = (): boolean => window.innerWidth <= 480;
+const isMobileViewport = (): boolean =>
+  props.layout !== 'desktop' && window.innerWidth <= 480;
 
 const isPhoneTouchViewport = (): boolean =>
   window.innerWidth <= 480 &&
@@ -1241,6 +1244,11 @@ const queueAttachFiles = async (
   files: FileList | File[],
   onlyMedia: boolean
 ): Promise<void> => {
+  if (props.attachmentMode === 'direct') {
+    await emitAttachFiles(files, onlyMedia);
+    return;
+  }
+
   const normalizedFiles = Array.from(files, normalizeFile);
 
   if (!normalizedFiles.length) {
@@ -2207,12 +2215,50 @@ const resetRecentOrderStyles = (pickerWrapper: HTMLElement): void => {
   });
 };
 
+const preloadedEmojiPickers = new WeakSet<HTMLElement>();
+
+// Потребитель может заранее подготовить скрытую панель в свободное время.
+const preloadEmojiPicker = (): boolean => {
+  const button = mainMentionAnchorRef.value?.querySelector<HTMLElement>(
+    '.toolbar .smile-button'
+  );
+  const wrapper = button?.querySelector<HTMLElement>('.emoji-picker');
+  const picker = wrapper?.querySelector<HTMLElement>('.v3-emoji-picker');
+  if (!button || !wrapper || !picker || !picker.getClientRects().length) {
+    return false;
+  }
+  if (preloadedEmojiPickers.has(wrapper)) return true;
+
+  const initialWidth = picker.style.width;
+  const initialHeight = picker.style.height;
+  picker.style.width = `${EMOJI_PICKER_WIDTH}px`;
+  picker.style.height = `${EMOJI_PICKER_HEIGHT}px`;
+  localizeEmojiGroupLabels(button);
+  const firstGroup = picker.querySelector<HTMLElement>('#smileys_people');
+  const initialVisibility = firstGroup?.style.contentVisibility || '';
+  if (firstGroup) {
+    firstGroup.style.contentVisibility = 'visible';
+    firstGroup
+      .querySelectorAll<HTMLElement>('.v3-emojis button')
+      .forEach(item => {
+        item.getBoundingClientRect();
+      });
+    firstGroup.style.contentVisibility = initialVisibility;
+  }
+  picker.style.width = initialWidth;
+  picker.style.height = initialHeight;
+  preloadedEmojiPickers.add(wrapper);
+  return true;
+};
+
 const resetEmojiPickerView = (pickerWrapper: HTMLElement): void => {
   resetEmojiGroupRendering(pickerWrapper);
 
-  pickerWrapper
-    .querySelector<HTMLButtonElement>('.v3-groups .v3-group')
-    ?.click();
+  if (!preloadedEmojiPickers.has(pickerWrapper)) {
+    pickerWrapper
+      .querySelector<HTMLButtonElement>('.v3-groups .v3-group')
+      ?.click();
+  }
 
   const body = pickerWrapper.querySelector<HTMLElement>('.v3-body-inner');
 
@@ -2441,7 +2487,7 @@ const handleWindowUpdate = (event?: Event): void => {
     return;
   }
 
-  const nextIsMobileLayout = isMobileViewport();
+  const nextIsMobileLayout = props.layout !== 'desktop' && isMobileViewport();
 
   if (isMobileLayout.value !== nextIsMobileLayout) {
     isMobileLayout.value = nextIsMobileLayout;
@@ -2565,7 +2611,7 @@ const isActiveList = (): boolean =>
   );
 
 const handleKeydown = (event: KeyboardEvent): void => {
-  if (window.innerWidth <= 480) {
+  if (isMobileViewport()) {
     return;
   }
 
@@ -2717,7 +2763,14 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleWindowUpdate, true);
 });
 
-defineExpose({ addSpanLink, focus, editor, emitAttachFiles, queueAttachFiles });
+defineExpose({
+  addSpanLink,
+  focus,
+  editor,
+  emitAttachFiles,
+  queueAttachFiles,
+  preloadEmojiPicker
+});
 </script>
 
 <style>
