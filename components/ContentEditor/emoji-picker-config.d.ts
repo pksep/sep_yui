@@ -1,3 +1,4 @@
+export declare const excludedEmojiUnicodes: Set<string>;
 export type EmojiPickerSelection = {
     i: string;
     n?: string[];
@@ -8,6 +9,7 @@ export type RecentEmoji = {
     n: string[];
     u: string;
 };
+export declare const isEmojiPickerSelectionAllowed: (emoji: Pick<EmojiPickerSelection, "u">) => boolean;
 export declare const emojiAdditionalGroups: Record<'recent', RecentEmoji[]>;
 export declare const rememberEmojiSelection: (emoji: EmojiPickerSelection) => void;
 export declare const emojiGroupIcons: {
