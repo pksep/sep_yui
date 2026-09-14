@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.319
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.318...v0.1.319)
+
+### 🩹 Fixes
+
+- Remove selected emoji from picker ([02a6b05d](https://github.com/pksep/sep_yui/commit/02a6b05d))
+- Remove couple emoji from picker ([bf6b11c5](https://github.com/pksep/sep_yui/commit/bf6b11c5))
+
 ## v0.1.318
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.317...v0.1.318)
