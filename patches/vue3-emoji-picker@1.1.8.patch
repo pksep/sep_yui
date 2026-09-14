@@ -1,8 +1,8 @@
 diff --git a/dist/emoji-picker.es.js b/dist/emoji-picker.es.js
-index 382390f4198657287f80749797ea1856abbaa950..7a4ad2653428f5d18ab21507f657e4fa25cae0a7 100644
+index 382390f4198657287f80749797ea1856abbaa950..770689ba 100644
 --- a/dist/emoji-picker.es.js
 +++ b/dist/emoji-picker.es.js
-@@ -3271,20 +3271,6 @@ const smileys_people$1 = [
+@@ -3271,70 +3271,18 @@ const smileys_people$1 = [
      ],
      u: "1f46b"
    },
@@ -20,10 +20,16 @@ index 382390f4198657287f80749797ea1856abbaa950..7a4ad2653428f5d18ab21507f657e4fa
 -    ],
 -    u: "1f46d"
 -  },
+-  {
+-    n: [
+-      "kiss",
+-      "couplekiss"
+-    ],
+-    u: "1f48f"
+-  },
    {
      n: [
-       "kiss",
-@@ -3298,18 +3284,6 @@ const smileys_people$1 = [
+       "woman-kiss-man"
      ],
      u: "1f469-200d-2764-fe0f-200d-1f48b-200d-1f468"
    },
@@ -39,10 +45,16 @@ index 382390f4198657287f80749797ea1856abbaa950..7a4ad2653428f5d18ab21507f657e4fa
 -    ],
 -    u: "1f469-200d-2764-fe0f-200d-1f48b-200d-1f469"
 -  },
+-  {
+-    n: [
+-      "couple with heart",
+-      "couple_with_heart"
+-    ],
+-    u: "1f491"
+-  },
    {
      n: [
-       "couple with heart",
-@@ -3323,18 +3297,6 @@ const smileys_people$1 = [
+       "woman-heart-man"
      ],
      u: "1f469-200d-2764-fe0f-200d-1f468"
    },
@@ -61,7 +73,7 @@ index 382390f4198657287f80749797ea1856abbaa950..7a4ad2653428f5d18ab21507f657e4fa
    {
      n: [
        "family",
-@@ -3373,66 +3335,6 @@ const smileys_people$1 = [
+@@ -3373,66 +3321,6 @@ const smileys_people$1 = [
      ],
      u: "1f468-200d-1f469-200d-1f467-200d-1f467"
    },
@@ -128,7 +140,7 @@ index 382390f4198657287f80749797ea1856abbaa950..7a4ad2653428f5d18ab21507f657e4fa
    {
      n: [
        "man-boy"
-@@ -10124,12 +10026,6 @@ const flags$1 = [
+@@ -10124,12 +10012,6 @@ const flags$1 = [
      ],
      u: "1f3f3-fe0f"
    },

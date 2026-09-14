@@ -24,6 +24,8 @@ const emojiRecentLimit = 24;
 export const excludedEmojiUnicodes = new Set([
   '1f46c',
   '1f46d',
+  '1f48f',
+  '1f491',
   '1f468-200d-2764-fe0f-200d-1f48b-200d-1f468',
   '1f469-200d-2764-fe0f-200d-1f48b-200d-1f469',
   '1f468-200d-2764-fe0f-200d-1f468',
