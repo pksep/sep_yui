@@ -142,6 +142,7 @@ export enum IconNameEnum {
   link = 'link',
   blockquote = 'blockquote',
   chat = 'chat',
+  headset = 'headset',
   socialVk = 'social-vk',
   socialTelegram = 'social-telegram',
   calls = 'calls',

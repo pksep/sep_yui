@@ -1,6 +1,7 @@
 import { App } from 'vue';
 
 import Badges from './Badges/Badges.vue';
+import UserMultiSelect from './UserMultiSelect/UserMultiSelect.vue';
 import BreadCrumbs from './BreadCrumbs/BreadCrumbs.vue';
 import Button from './Button/Button.vue';
 import Switch from './Switch/Switch.vue';
@@ -92,6 +93,7 @@ import ChatFileDetails from './ChatMessage/ChatFileDetails.vue';
 import ChatFileIcon from './ChatMessage/ChatFileIcon.vue';
 
 const components = {
+  UserMultiSelect,
   ChatMessageSurface,
   ChatMessageMeta,
   ChatFileDetails,
@@ -257,3 +259,9 @@ export {
 };
 
 export { ChatMessageSurface, ChatMessageMeta, ChatFileDetails, ChatFileIcon };
+
+export { UserMultiSelect };
+export type {
+  IUserSelectOption,
+  IUserMultiSelectProps
+} from './UserMultiSelect/types';
