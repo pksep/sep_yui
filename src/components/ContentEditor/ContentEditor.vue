@@ -564,6 +564,7 @@ import {
   emojiGroupOrder,
   emojiPickerStyle,
   emojiStaticTexts,
+  isEmojiPickerSelectionAllowed,
   rememberEmojiSelection,
   resetEmojiGroupRendering,
   syncEmojiGroupControls,
@@ -1744,7 +1745,7 @@ const addLink = (): void => {
 };
 
 const addEmoji = (emoji: EmojiPickerSelection): void => {
-  if (!editor?.value) return;
+  if (!editor?.value || !isEmojiPickerSelectionAllowed(emoji)) return;
   rememberEmojiSelection(emoji);
   editor.value.chain().focus().insertContent(emoji.i).run();
   nextTick(() => {

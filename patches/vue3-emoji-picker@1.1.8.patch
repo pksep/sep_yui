@@ -1,0 +1,155 @@
+diff --git a/dist/emoji-picker.es.js b/dist/emoji-picker.es.js
+index 382390f4198657287f80749797ea1856abbaa950..770689ba 100644
+--- a/dist/emoji-picker.es.js
++++ b/dist/emoji-picker.es.js
+@@ -3271,70 +3271,18 @@ const smileys_people$1 = [
+     ],
+     u: "1f46b"
+   },
+-  {
+-    n: [
+-      "two men holding hands",
+-      "two_men_holding_hands"
+-    ],
+-    u: "1f46c"
+-  },
+-  {
+-    n: [
+-      "two women holding hands",
+-      "two_women_holding_hands"
+-    ],
+-    u: "1f46d"
+-  },
+-  {
+-    n: [
+-      "kiss",
+-      "couplekiss"
+-    ],
+-    u: "1f48f"
+-  },
+   {
+     n: [
+       "woman-kiss-man"
+     ],
+     u: "1f469-200d-2764-fe0f-200d-1f48b-200d-1f468"
+   },
+-  {
+-    n: [
+-      "man-kiss-man"
+-    ],
+-    u: "1f468-200d-2764-fe0f-200d-1f48b-200d-1f468"
+-  },
+-  {
+-    n: [
+-      "woman-kiss-woman"
+-    ],
+-    u: "1f469-200d-2764-fe0f-200d-1f48b-200d-1f469"
+-  },
+-  {
+-    n: [
+-      "couple with heart",
+-      "couple_with_heart"
+-    ],
+-    u: "1f491"
+-  },
+   {
+     n: [
+       "woman-heart-man"
+     ],
+     u: "1f469-200d-2764-fe0f-200d-1f468"
+   },
+-  {
+-    n: [
+-      "man-heart-man"
+-    ],
+-    u: "1f468-200d-2764-fe0f-200d-1f468"
+-  },
+-  {
+-    n: [
+-      "woman-heart-woman"
+-    ],
+-    u: "1f469-200d-2764-fe0f-200d-1f469"
+-  },
+   {
+     n: [
+       "family",
+@@ -3373,66 +3321,6 @@ const smileys_people$1 = [
+     ],
+     u: "1f468-200d-1f469-200d-1f467-200d-1f467"
+   },
+-  {
+-    n: [
+-      "man-man-boy"
+-    ],
+-    u: "1f468-200d-1f468-200d-1f466"
+-  },
+-  {
+-    n: [
+-      "man-man-girl"
+-    ],
+-    u: "1f468-200d-1f468-200d-1f467"
+-  },
+-  {
+-    n: [
+-      "man-man-girl-boy"
+-    ],
+-    u: "1f468-200d-1f468-200d-1f467-200d-1f466"
+-  },
+-  {
+-    n: [
+-      "man-man-boy-boy"
+-    ],
+-    u: "1f468-200d-1f468-200d-1f466-200d-1f466"
+-  },
+-  {
+-    n: [
+-      "man-man-girl-girl"
+-    ],
+-    u: "1f468-200d-1f468-200d-1f467-200d-1f467"
+-  },
+-  {
+-    n: [
+-      "woman-woman-boy"
+-    ],
+-    u: "1f469-200d-1f469-200d-1f466"
+-  },
+-  {
+-    n: [
+-      "woman-woman-girl"
+-    ],
+-    u: "1f469-200d-1f469-200d-1f467"
+-  },
+-  {
+-    n: [
+-      "woman-woman-girl-boy"
+-    ],
+-    u: "1f469-200d-1f469-200d-1f467-200d-1f466"
+-  },
+-  {
+-    n: [
+-      "woman-woman-boy-boy"
+-    ],
+-    u: "1f469-200d-1f469-200d-1f466-200d-1f466"
+-  },
+-  {
+-    n: [
+-      "woman-woman-girl-girl"
+-    ],
+-    u: "1f469-200d-1f469-200d-1f467-200d-1f467"
+-  },
+   {
+     n: [
+       "man-boy"
+@@ -10124,12 +10012,6 @@ const flags$1 = [
+     ],
+     u: "1f3f3-fe0f"
+   },
+-  {
+-    n: [
+-      "rainbow-flag"
+-    ],
+-    u: "1f3f3-fe0f-200d-1f308"
+-  },
+   {
+     n: [
+       "ascension island flag",

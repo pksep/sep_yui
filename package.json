@@ -94,5 +94,8 @@
       "require": "./dist/sep-yui.umd.cjs"
     },
     "./styles": "./dist/style.css"
+  },
+  "patchedDependencies": {
+    "vue3-emoji-picker@1.1.8": "patches/vue3-emoji-picker@1.1.8.patch"
   }
 }

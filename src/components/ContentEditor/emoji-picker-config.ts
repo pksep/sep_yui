@@ -21,6 +21,28 @@ const emojiRecentStoreName = 'emojis';
 const emojiRecentRecordId = 0;
 const emojiRecentLimit = 24;
 
+export const excludedEmojiUnicodes = new Set([
+  '1f46c',
+  '1f46d',
+  '1f48f',
+  '1f491',
+  '1f468-200d-2764-fe0f-200d-1f48b-200d-1f468',
+  '1f469-200d-2764-fe0f-200d-1f48b-200d-1f469',
+  '1f468-200d-2764-fe0f-200d-1f468',
+  '1f469-200d-2764-fe0f-200d-1f469',
+  '1f468-200d-1f468-200d-1f466',
+  '1f468-200d-1f468-200d-1f467',
+  '1f468-200d-1f468-200d-1f467-200d-1f466',
+  '1f468-200d-1f468-200d-1f466-200d-1f466',
+  '1f468-200d-1f468-200d-1f467-200d-1f467',
+  '1f469-200d-1f469-200d-1f466',
+  '1f469-200d-1f469-200d-1f467',
+  '1f469-200d-1f469-200d-1f467-200d-1f466',
+  '1f469-200d-1f469-200d-1f466-200d-1f466',
+  '1f469-200d-1f469-200d-1f467-200d-1f467',
+  '1f3f3-fe0f-200d-1f308'
+]);
+
 export type EmojiPickerSelection = {
   i: string;
   n?: string[];
@@ -32,6 +54,10 @@ export type RecentEmoji = {
   n: string[];
   u: string;
 };
+
+export const isEmojiPickerSelectionAllowed = (
+  emoji: Pick<EmojiPickerSelection, 'u'>
+): boolean => !emoji.u || !excludedEmojiUnicodes.has(emoji.u.toLowerCase());
 
 const isRecentEmoji = (value: unknown): value is RecentEmoji => {
   if (!value || typeof value !== 'object') return false;
@@ -52,7 +78,11 @@ const normalizeRecentEmojis = (value: unknown): RecentEmoji[] => {
   const normalized: RecentEmoji[] = [];
 
   value.forEach(item => {
-    if (!isRecentEmoji(item) || normalized.some(emoji => emoji.u === item.u)) {
+    if (
+      !isRecentEmoji(item) ||
+      !isEmojiPickerSelectionAllowed(item) ||
+      normalized.some(emoji => emoji.u === item.u)
+    ) {
       return;
     }
 
@@ -199,7 +229,9 @@ const initializeSharedRecentEmojis = async (): Promise<void> => {
 };
 
 export const rememberEmojiSelection = (emoji: EmojiPickerSelection): void => {
-  if (!emoji.u || !emoji.n?.length) return;
+  if (!emoji.u || !emoji.n?.length || !isEmojiPickerSelectionAllowed(emoji)) {
+    return;
+  }
 
   recentEmojiRevision += 1;
 

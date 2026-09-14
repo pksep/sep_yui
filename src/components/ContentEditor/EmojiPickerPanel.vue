@@ -30,6 +30,7 @@ import {
   emojiGroupOrder,
   emojiPickerStyle,
   emojiStaticTexts,
+  isEmojiPickerSelectionAllowed,
   rememberEmojiSelection,
   syncEmojiGroupControls,
   syncEmojiGroupScroll,
@@ -98,6 +99,8 @@ const handlePickerClick = (event: Event): void => {
 };
 
 const handleSelect = async (emoji: EmojiPickerSelection): Promise<void> => {
+  if (!isEmojiPickerSelectionAllowed(emoji)) return;
+
   rememberEmojiSelection(emoji);
   emit('select', emoji);
   await nextTick();
