@@ -20,6 +20,8 @@ export interface IContentEditorSlots {
 }
 
 export interface IContentEditorProps {
+  /** Разделяет несохранённые вложения разных черновиков в одном экземпляре редактора. */
+  attachmentDraftKey?: string;
   activeAttachFile?: boolean;
   activeSelectUser?: boolean;
   activeSend?: boolean;

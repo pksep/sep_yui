@@ -518,6 +518,38 @@ const isAttachModalOpen = ref(false);
 const pendingFiles = ref<File[]>([]);
 const pendingMediaFiles = ref<File[]>([]);
 const imageEditorIndex = ref<number | null>(null);
+const attachmentDrafts = new Map<
+  string,
+  {
+    files: File[];
+    mediaFiles: File[];
+    open: boolean;
+  }
+>();
+
+// Без ключа поведение существующих потребителей не меняется. Файлы живут
+// только в памяти редактора, не выгружаются в хранилище или другой черновик.
+watch(
+  () => props.attachmentDraftKey,
+  (key, previousKey) => {
+    if (previousKey !== undefined)
+      attachmentDrafts.set(previousKey, {
+        files: [...pendingFiles.value],
+        mediaFiles: [...pendingMediaFiles.value],
+        open: isAttachModalOpen.value
+      });
+    const saved = key !== undefined ? attachmentDrafts.get(key) : undefined;
+    pendingFiles.value = saved?.files ? [...saved.files] : [];
+    pendingMediaFiles.value = saved?.mediaFiles ? [...saved.mediaFiles] : [];
+    isAttachModalOpen.value = Boolean(
+      saved?.open &&
+        (pendingFiles.value.length || pendingMediaFiles.value.length)
+    );
+    imageEditorIndex.value = null;
+    closeEmojiPicker();
+  },
+  { flush: 'sync' }
+);
 const currentMediaPreviewUrl = ref<string | null>(null);
 const pendingMediaPreviewUrls = ref<string[]>([]);
 const mentionSearch = ref<string | null>(null);

@@ -166,5 +166,9 @@ export enum IconNameEnum {
   hand = 'hand',
   checkCircle = 'check-circle',
   lightning = 'lightning',
-  lightbulbFilament = 'lightbulb-filament'
+  lightbulbFilament = 'lightbulb-filament',
+  play = 'play',
+  pause = 'pause',
+  stop = 'stop',
+  circle = 'circle'
 }
