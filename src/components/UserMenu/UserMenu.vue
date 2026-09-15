@@ -181,9 +181,17 @@ const handleQrAuth = () => {
     }
   }
 
+  & .menu-yui-kit__names {
+    flex: 1;
+    min-width: 0;
+  }
+
   & .menu-yui-kit__name,
   & .menu-yui-kit__role {
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   & .menu-yui-kit__name {
@@ -202,6 +210,7 @@ const handleQrAuth = () => {
   }
 
   & .menu-yui-kit__button {
+    flex-shrink: 0;
     background-color: transparent;
     padding: 0;
     margin-left: auto;
