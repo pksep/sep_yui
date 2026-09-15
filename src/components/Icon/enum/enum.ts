@@ -170,5 +170,14 @@ export enum IconNameEnum {
   play = 'play',
   pause = 'pause',
   stop = 'stop',
-  circle = 'circle'
+  circle = 'circle',
+  emojiRecent = 'emoji-recent',
+  emojiSmileysPeople = 'emoji-smileys-people',
+  emojiAnimalsNature = 'emoji-animals-nature',
+  emojiFoodDrink = 'emoji-food-drink',
+  emojiActivities = 'emoji-activities',
+  emojiSymbols = 'emoji-symbols',
+  emojiObjects = 'emoji-objects',
+  emojiFlags = 'emoji-flags',
+  emojiTravelPlaces = 'emoji-travel-places'
 }

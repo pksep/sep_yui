@@ -1,5 +1,43 @@
 # Changelog
 
+## v0.1.319
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.318...v0.1.319)
+
+### 🩹 Fixes
+
+- Remove selected emoji from picker ([02a6b05d](https://github.com/pksep/sep_yui/commit/02a6b05d))
+- Remove couple emoji from picker ([bf6b11c5](https://github.com/pksep/sep_yui/commit/bf6b11c5))
+
+## v0.1.318
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.317...v0.1.318)
+
+### 🩹 Fixes
+
+- Styles contenteditor ([bf3f99aa](https://github.com/pksep/sep_yui/commit/bf3f99aa))
+
+## v0.1.317
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.316...v0.1.317)
+
+### 🩹 Fixes
+
+- Content editor styles ([35e951ca](https://github.com/pksep/sep_yui/commit/35e951ca))
+
+## v0.1.316
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.315...v0.1.316)
+
+### 🚀 Enhancements
+
+- **icon:** Add AI response mode icons ([#399](https://github.com/pksep/sep_yui/pull/399))
+- Add color picker in content editor ([bfc5235c](https://github.com/pksep/sep_yui/commit/bfc5235c))
+
+### 🩹 Fixes
+
+- Emoji picker ([58fa0349](https://github.com/pksep/sep_yui/commit/58fa0349))
+
 ## v0.1.315
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.314...v0.1.315)

@@ -1,7 +1,7 @@
 {
   "name": "@pksep/yui",
   "author": "Perov David",
-  "version": "0.1.315",
+  "version": "0.1.319",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pksep/sep_yui.git"
@@ -32,6 +32,7 @@
     "@tiptap/extension-image": "^3.27.3",
     "@tiptap/extension-link": "^3.27.3",
     "@tiptap/extension-placeholder": "^3.27.3",
+    "@tiptap/extension-text-style": "3.27.3",
     "@tiptap/pm": "^3.27.3",
     "@tiptap/starter-kit": "^3.27.3",
     "@tiptap/vue-3": "^3.27.3",
@@ -93,5 +94,8 @@
       "require": "./dist/sep-yui.umd.cjs"
     },
     "./styles": "./dist/style.css"
+  },
+  "patchedDependencies": {
+    "vue3-emoji-picker@1.1.8": "patches/vue3-emoji-picker@1.1.8.patch"
   }
 }
