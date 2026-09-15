@@ -17,6 +17,12 @@ export interface IContentEditorSlots {
     'desktop-right-action'?: () => unknown;
 }
 export interface IContentEditorProps {
+    /** Keeps the full toolbar in narrow embedded surfaces. Default: responsive. */
+    layout?: 'auto' | 'desktop';
+    /** Hides attachment dialogs while an embedding surface is collapsed. Keeps files. */
+    suspended?: boolean;
+    /** Direct mode emits selected files without the attachment preview dialog. Default: preview. */
+    attachmentMode?: 'preview' | 'direct';
     activeAttachFile?: boolean;
     activeSelectUser?: boolean;
     activeSend?: boolean;

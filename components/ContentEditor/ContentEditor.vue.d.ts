@@ -3,6 +3,15 @@ import { IContentEditorSlots } from './interfaces/content-editor';
 declare function __VLS_template(): Readonly<IContentEditorSlots> & IContentEditorSlots;
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
+    layout: {
+        type: import('vue').PropType<"auto" | "desktop">;
+    };
+    suspended: {
+        type: import('vue').PropType<boolean>;
+    };
+    attachmentMode: {
+        type: import('vue').PropType<"preview" | "direct">;
+    };
     activeAttachFile: {
         type: import('vue').PropType<boolean>;
     };
@@ -112,6 +121,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     editor: import('vue').ShallowRef<import('@tiptap/vue-3').Editor | undefined, import('@tiptap/vue-3').Editor | undefined>;
     emitAttachFiles: (files: FileList | File[], onlyMedia?: boolean) => Promise<void>;
     queueAttachFiles: (files: FileList | File[], onlyMedia: boolean) => Promise<void>;
+    preloadEmojiPicker: () => boolean;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "unmount-send": (params: import('..').IContentEditorSendPayload) => void;
     "unmount-attach-file": (files: FileList, onlyMedia: boolean) => void;
@@ -119,6 +129,15 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     "slash-change": (search: string | null) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
+    layout: {
+        type: import('vue').PropType<"auto" | "desktop">;
+    };
+    suspended: {
+        type: import('vue').PropType<boolean>;
+    };
+    attachmentMode: {
+        type: import('vue').PropType<"preview" | "direct">;
+    };
     activeAttachFile: {
         type: import('vue').PropType<boolean>;
     };

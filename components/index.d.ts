@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import { default as Badges } from './Badges/Badges.vue';
+import { default as UserMultiSelect } from './UserMultiSelect/UserMultiSelect.vue';
 import { default as BreadCrumbs } from './BreadCrumbs/BreadCrumbs.vue';
 import { default as Button } from './Button/Button.vue';
 import { default as Switch } from './Switch/Switch.vue';
@@ -77,9 +78,16 @@ import { default as PdfPreview } from './Preview/PdfPreview.vue';
 import { default as ImagePreview } from './Preview/ImagePreview.vue';
 import { default as VideoPreview } from './Preview/VideoPreview.vue';
 import { default as Skeleton } from './Skeleton/Skeleton.vue';
+import { default as ChatMessageSurface } from './ChatMessage/ChatMessageSurface.vue';
+import { default as ChatMessageMeta } from './ChatMessage/ChatMessageMeta.vue';
+import { default as ChatFileDetails } from './ChatMessage/ChatFileDetails.vue';
+import { default as ChatFileIcon } from './ChatMessage/ChatFileIcon.vue';
 
 declare const _default: {
     install: (app: App) => void;
 };
 export default _default;
 export { Accordion, Badges, BreadCrumbs, Button, Dialog, Card, Calendar, DragAndDrop, Switch, SelectList, Dropdown, Textarea, Filter, Icon, Input, Combobox, InputNumber, Search, PushNotification, Picture, Scroll, Modal, Slider, Checkbox, Toggle, UserMenu, CopyIcon, Loader, FilterTag, CircularProgress, Popover, Table, TableSimple, TableNew, TableRow, TableRowNew, TableTd, TableTh, SectionTableRow, HeadTableRow, HeadTableRowNew, ScrollWrapper, Radio, Tooltip, BaseFilter, Range, Avatar, Tabs, ContentEditor, EmojiPickerPanel, ContentEditorFormattingToolbar, ContentEditorSlashMenu, ModalCroppedAvatar, TimePicker, type IDialogProps, type IRangeForDatePicker, type OptionsObject, type IDataTestIdProp, type IContentEditorSlashMenuItem, type IContentEditorProps, type IContentEditorSendPayload, type IContentEditorSlots, CheckboxSizeEnum, CheckboxCircularEnum, TextFieldEnum, IconNameEnum, SizesEnum, ButtonTypeEnum, ColorsEnum, ImageExtensionsEnum, BadgesTypeEnum, VideoExtensionsEnum, InputTypeEnum, TextareaTypeEnum, MenuTypeEnum, MessageTypeEnum, getLastTime, getFirstTime, vuePluginRemoveTestid, SliderModal, PdfPreview, ImagePreview, VideoPreview, Skeleton };
+export { ChatMessageSurface, ChatMessageMeta, ChatFileDetails, ChatFileIcon };
+export { UserMultiSelect };
+export type { IUserSelectOption, IUserMultiSelectProps } from './UserMultiSelect/types';

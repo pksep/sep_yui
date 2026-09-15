@@ -1,5 +1,8 @@
 import { IVectorIcon } from './interface/interface';
 
+export declare const headset: IVectorIcon;
+export declare const socialVk: IVectorIcon;
+export declare const socialTelegram: IVectorIcon;
 export declare const alertTriangle: IVectorIcon;
 export declare const help: IVectorIcon;
 export declare const notification: IVectorIcon;
