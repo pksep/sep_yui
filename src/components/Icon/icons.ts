@@ -2005,6 +2005,56 @@ export const checkCircle: IVectorIcon = {
   `
 };
 
+export const play: IVectorIcon = {
+  name: IconNameEnum.play,
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M8 1C4.136 1 1 4.136 1 8C1 11.864 4.136 15 8 15C11.864 15 15 11.864 15 8C15 4.136 11.864 1 8 1ZM8 13.6C4.906 13.6 2.4 11.094 2.4 8C2.4 4.906 4.906 2.4 8 2.4C11.094 2.4 13.6 4.906 13.6 8C13.6 11.094 11.094 13.6 8 13.6Z" fill="#77A6FF"/>
+<circle cx="8" cy="8" r="4" transform="rotate(-180 8 8)" fill="#77A6FF"/>
+<path d="M7 6L10.25 8.16667L7 10.3333V6Z" stroke="white" stroke-width="0.8125" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const pause: IVectorIcon = {
+  name: IconNameEnum.pause,
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M8 1C4.136 1 1 4.136 1 8C1 11.864 4.136 15 8 15C11.864 15 15 11.864 15 8C15 4.136 11.864 1 8 1ZM8 13.6C4.906 13.6 2.4 11.094 2.4 8C2.4 4.906 4.906 2.4 8 2.4C11.094 2.4 13.6 4.906 13.6 8C13.6 11.094 11.094 13.6 8 13.6Z" fill="#FFB833"/>
+<circle cx="8" cy="8" r="4" transform="rotate(-180 8 8)" fill="#FFB833"/>
+<rect x="6.5" y="6.25" width="1" height="3.5" rx="0.25" fill="white" stroke="white" stroke-width="0.25" stroke-linecap="round"/>
+<rect x="8.5" y="6.25" width="1" height="3.5" rx="0.25" fill="white" stroke="white" stroke-width="0.25" stroke-linecap="round"/>
+  `
+};
+
+export const stop: IVectorIcon = {
+  name: IconNameEnum.stop,
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M8 1C4.136 1 1 4.136 1 8C1 11.864 4.136 15 8 15C11.864 15 15 11.864 15 8C15 4.136 11.864 1 8 1ZM8 13.6C4.906 13.6 2.4 11.094 2.4 8C2.4 4.906 4.906 2.4 8 2.4C11.094 2.4 13.6 4.906 13.6 8C13.6 11.094 11.094 13.6 8 13.6Z" fill="#FF6868"/>
+<circle cx="8" cy="8" r="4" transform="rotate(-180 8 8)" fill="#FF6868"/>
+<path d="M9.5 6.5L6.5 9.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.5 6.5L9.5 9.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const circle: IVectorIcon = {
+  name: IconNameEnum.circle,
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+<path d="M8 1C4.136 1 1 4.136 1 8C1 11.864 4.136 15 8 15C11.864 15 15 11.864 15 8C15 4.136 11.864 1 8 1ZM8 13.6C4.906 13.6 2.4 11.094 2.4 8C2.4 4.906 4.906 2.4 8 2.4C11.094 2.4 13.6 4.906 13.6 8C13.6 11.094 11.094 13.6 8 13.6Z" fill="#B8B8B8"/>
+<circle cx="8" cy="8" r="4" transform="rotate(-180 8 8)" fill="#B8B8B8"/>
+<circle cx="8" cy="8" r="2" fill="white"/>
+  `
+};
+
 export const lightning: IVectorIcon = {
   name: IconNameEnum.lightning,
   style: 'solid',

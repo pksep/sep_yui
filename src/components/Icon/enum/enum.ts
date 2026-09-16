@@ -169,6 +169,11 @@ export enum IconNameEnum {
   hand = 'hand',
   checkCircle = 'check-circle',
   lightning = 'lightning',
+  lightbulbFilament = 'lightbulb-filament',
+  play = 'play',
+  pause = 'pause',
+  stop = 'stop',
+  circle = 'circle',
   emojiRecent = 'emoji-recent',
   emojiSmileysPeople = 'emoji-smileys-people',
   emojiAnimalsNature = 'emoji-animals-nature',
@@ -177,6 +182,5 @@ export enum IconNameEnum {
   emojiSymbols = 'emoji-symbols',
   emojiObjects = 'emoji-objects',
   emojiFlags = 'emoji-flags',
-  emojiTravelPlaces = 'emoji-travel-places',
-  lightbulbFilament = 'lightbulb-filament'
+  emojiTravelPlaces = 'emoji-travel-places'
 }
