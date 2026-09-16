@@ -17,6 +17,8 @@ export interface IContentEditorSlots {
     'desktop-right-action'?: () => unknown;
 }
 export interface IContentEditorProps {
+    /** Разделяет несохранённые вложения разных черновиков в одном экземпляре редактора. */
+    attachmentDraftKey?: string;
     /** Keeps the full toolbar in narrow embedded surfaces. Default: responsive. */
     layout?: 'auto' | 'desktop';
     /** Hides attachment dialogs while an embedding surface is collapsed. Keeps files. */

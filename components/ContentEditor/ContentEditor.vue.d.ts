@@ -3,6 +3,9 @@ import { IContentEditorSlots } from './interfaces/content-editor';
 declare function __VLS_template(): Readonly<IContentEditorSlots> & IContentEditorSlots;
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
+    attachmentDraftKey: {
+        type: import('vue').PropType<string>;
+    };
     layout: {
         type: import('vue').PropType<"auto" | "desktop">;
     };
@@ -129,6 +132,9 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     "slash-change": (search: string | null) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
+    attachmentDraftKey: {
+        type: import('vue').PropType<string>;
+    };
     layout: {
         type: import('vue').PropType<"auto" | "desktop">;
     };
