@@ -9,7 +9,9 @@ const isVideo = (path: string | null | undefined): boolean => {
   if (!path) return false;
   const extension = checkPath(path) as VideoExtensionsEnum;
   return extension
-    ? Object.values(VideoExtensionsEnum).includes(extension)
+    ? Object.values(VideoExtensionsEnum).includes(
+        extension.toLowerCase() as VideoExtensionsEnum
+      )
     : false;
 };
 

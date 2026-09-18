@@ -5,9 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
-import checkPath from '@/helpers/file/check-path';
 
 defineOptions({
   name: 'VideoPreview'
@@ -26,23 +25,10 @@ const state = reactive<{
   isError: boolean;
 }>({ isError: false });
 
-let videoObjectUrl: string | null = null;
-
-const VIDEO_MIME_BY_EXTENSION: Record<string, string> = {
-  mp4: 'video/mp4',
-  webm: 'video/webm',
-  mkv: 'video/x-matroska',
-  avi: 'video/x-msvideo',
-  mov: 'video/quicktime',
-  qt: 'video/quicktime',
-  m4v: 'video/x-m4v'
-};
-
 watch(
   () => props.src,
   () => {
     state.isError = false;
-    cleanupVideoSource();
     nextTick(() => {
       void initVideo();
     });
@@ -50,21 +36,6 @@ watch(
 );
 
 const canvasRef = ref<HTMLCanvasElement | null>(null);
-
-const getVideoMimeType = (path: string): string => {
-  const extension = checkPath(path)?.toLowerCase();
-
-  if (!extension) return 'video/mp4';
-
-  return VIDEO_MIME_BY_EXTENSION[extension] ?? 'video/mp4';
-};
-
-const cleanupVideoSource = (): void => {
-  if (!videoObjectUrl) return;
-
-  URL.revokeObjectURL(videoObjectUrl);
-  videoObjectUrl = null;
-};
 
 const initVideo = async (): Promise<void> => {
   try {
@@ -74,16 +45,7 @@ const initVideo = async (): Promise<void> => {
     video.preload = 'metadata';
     video.playsInline = true;
 
-    const response = await fetch(props.src);
-
-    if (!response.ok) throw new Error('Failed to fetch video');
-
-    const blob = new Blob([await response.arrayBuffer()], {
-      type: getVideoMimeType(props.src)
-    });
-
-    videoObjectUrl = URL.createObjectURL(blob);
-    video.src = videoObjectUrl;
+    video.src = props.src;
 
     const ctx = canvasRef.value.getContext('2d');
 
@@ -145,10 +107,6 @@ onMounted(() => {
   nextTick(() => {
     void initVideo();
   });
-});
-
-onUnmounted(() => {
-  cleanupVideoSource();
 });
 </script>
 

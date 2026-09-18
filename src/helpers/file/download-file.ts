@@ -87,9 +87,29 @@ const isObjectLikeUrl = (path: string) => /^(blob:|data:)/i.test(path);
 const downloadFile = async (
   path: string,
   name: string = 'file',
-  file?: File
+  file?: File,
+  downloadPath?: string
 ): Promise<void> => {
   const nativeFilePlugin = getChatNativeFileBridge() || getNativeFilePlugin();
+
+  if (nativeFilePlugin && downloadPath && !isObjectLikeUrl(downloadPath)) {
+    await nativeFilePlugin.downloadFile({
+      url: downloadPath,
+      fileName: name,
+      mimeType: file?.type || undefined
+    });
+    return;
+  }
+
+  if (downloadPath) {
+    const link = document.createElement('a');
+    link.href = downloadPath;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return;
+  }
 
   if (nativeFilePlugin) {
     if (file && nativeFilePlugin.downloadBase64) {

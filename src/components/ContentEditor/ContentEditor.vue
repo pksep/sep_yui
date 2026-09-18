@@ -67,7 +67,7 @@
           :aria-hidden="!showEmojiPicker"
         >
           <EmojiPicker
-            v-if="isMobileLayout"
+            v-if="isMobileLayout && hasOpenedEmojiPicker"
             :native="true"
             :display-recent="true"
             :additional-groups="emojiAdditionalGroups"
@@ -139,7 +139,7 @@
           :aria-hidden="!showEmojiPicker"
         >
           <EmojiPicker
-            v-if="!isMobileLayout"
+            v-if="!isMobileLayout && hasOpenedEmojiPicker"
             :native="true"
             :display-recent="true"
             :additional-groups="emojiAdditionalGroups"
@@ -396,6 +396,7 @@
                   :aria-hidden="!showEmojiPicker"
                 >
                   <EmojiPicker
+                    v-if="hasOpenedEmojiPicker"
                     :native="true"
                     :display-recent="true"
                     :additional-groups="emojiAdditionalGroups"
@@ -576,6 +577,7 @@ const props = defineProps<IContentEditorProps>();
 defineSlots<IContentEditorSlots>();
 const modelValue = defineModel<string>();
 const showEmojiPicker = ref(false);
+const hasOpenedEmojiPicker = ref(false);
 const isMobileLayout = ref(
   props.layout !== 'desktop' &&
     typeof window !== 'undefined' &&
@@ -2473,14 +2475,18 @@ const toggleEmojiPicker = (event: Event): void => {
 
   const btn = event.currentTarget as HTMLElement;
   activeEmojiButton = btn;
+  const isFirstOpen = !hasOpenedEmojiPicker.value;
+  hasOpenedEmojiPicker.value = true;
   const pickerWrapper = btn.querySelector<HTMLElement>('.emoji-picker');
 
   isRecentOrderFrozen = false;
   frozenRecentEmojiOrder = [];
 
   if (pickerWrapper) {
-    resetRecentOrderStyles(pickerWrapper);
-    resetEmojiPickerView(pickerWrapper);
+    if (isFirstOpen) {
+      resetRecentOrderStyles(pickerWrapper);
+      resetEmojiPickerView(pickerWrapper);
+    }
   }
 
   updateEmojiPosition(btn);

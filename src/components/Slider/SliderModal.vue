@@ -142,7 +142,7 @@
         </template>
 
         <!-- image -->
-        <template v-else-if="isImage(state.file?.path)">
+        <template v-else-if="isSliderImageFile(state.file)">
           <div
             ref="itemRef"
             class="slider-modal__item"
@@ -176,7 +176,9 @@
         </template>
 
         <!-- video -->
-        <template v-else-if="isVideo(state.file?.path) && !state.isErrorFile">
+        <template
+          v-else-if="isSliderVideoFile(state.file) && !state.isErrorFile"
+        >
           <div
             ref="itemRef"
             class="slider-modal__item"
@@ -196,14 +198,11 @@
               webkit-playsinline
               class="slider-modal__video"
               :key="state.file?.path"
+              :src="state.file?.path ?? ''"
+              :poster="state.file?.fallbackPath"
               :data-testid="`${props.dataTestid}-Video`"
               @error="handleErrorItem($event, true)"
-            >
-              <source
-                :src="videoSourceUrl ?? state.file?.path ?? ''"
-                :type="getMediaMimeType(state.file?.path ?? '')"
-              />
-            </video>
+            />
           </div>
         </template>
 
@@ -274,7 +273,12 @@
                   :is-active="idx === state.defaultIndex"
                   @click="handleClickOnItem(idx)"
                 >
-                  <template v-if="isImage(item.path)">
+                  <template
+                    v-if="
+                      isSliderImageFile(item) ||
+                      (isSliderVideoFile(item) && item.fallbackPath)
+                    "
+                  >
                     <img
                       class="slider-modal__slide-image"
                       :src="item.fallbackPath ?? item.path"
@@ -294,7 +298,7 @@
                     />
                   </template>
 
-                  <template v-else-if="isVideo(item.path)">
+                  <template v-else-if="isSliderVideoFile(item)">
                     <VideoPreview
                       class="slider-modal__slide-image"
                       :src="item.path"
@@ -426,11 +430,9 @@ import { getDocument } from 'pdfjs-dist';
 import cachePdf from '@/helpers/file/cache-pdf';
 import BaseSlider from '@/components/Slider/BaseSlider.vue';
 import BaseSlide from '@/components/Slider/BaseSlide.vue';
-import isImage from '@/helpers/file/is-image';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
 import downloadFile from '@/helpers/file/download-file';
 import printJs, { PrintTypes } from 'print-js';
-import isVideo from '@/helpers/file/is-video';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
 import scrollToElementIfNotVisible from '@/helpers/element/scroll-element-if-not-visiable';
 import Icon from '../Icon/Icon.vue';
@@ -439,6 +441,10 @@ import changeStyleProperties from '@/helpers/change-style-properties';
 import isPdfFile from '@/helpers/file/isPdfFile';
 import Panzoom from '@panzoom/panzoom';
 import checkPath from '@/helpers/file/check-path';
+import {
+  isSliderImage,
+  isSliderVideo
+} from '@/components/Slider/helpers/media-type';
 
 defineOptions({
   name: 'SliderModal'
@@ -531,7 +537,6 @@ const pdfRef = ref<InstanceType<typeof PdfPreview> | null>(null);
 const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 const imagePreviewRef = ref<HTMLImageElement | null>(null);
 const imageSourcePath = ref(state.file?.path ?? '');
-const videoSourceUrl = ref<string | null>(null);
 
 let panzoomInstance: ReturnType<typeof Panzoom> | null = null;
 let imagePanzoomElement: HTMLImageElement | null = null;
@@ -550,7 +555,6 @@ let mobilePdfStartX = 0;
 let mobilePdfStartY = 0;
 let mobilePdfStartPanX = 0;
 let mobilePdfStartPanY = 0;
-let videoObjectUrl: string | null = null;
 let imagePositionFallbackTimer: ReturnType<typeof window.setTimeout> | null =
   null;
 
@@ -565,13 +569,19 @@ const isDisabledNextButton = computed(
 const getFileExtension = (path: string | null | undefined): string | null =>
   checkPath(path ?? null);
 
+const isSliderImageFile = (file: IFile | null | undefined): boolean =>
+  isSliderImage(file?.path, file?.mediaType);
+
+const isSliderVideoFile = (file: IFile | null | undefined): boolean =>
+  isSliderVideo(file?.path, file?.mediaType);
+
 const isUnsupportedFileWithExtension = (file: IFile | null | undefined) =>
   !!file?.path &&
   !!getFileExtension(file.path) &&
   !isPdfFile(file.path) &&
   !isPdfFile(file.file) &&
-  !isImage(file.path) &&
-  !isVideo(file.path);
+  !isSliderImageFile(file) &&
+  !isSliderVideoFile(file);
 
 const currentFileExtension = computed(() => getFileExtension(state.file?.path));
 
@@ -591,15 +601,15 @@ const isErrorFile = computed(
     !(
       isPdfFile(state.file?.path) ||
       isPdfFile(state.file?.file) ||
-      isImage(state.file?.path) ||
-      isVideo(state.file?.path)
+      isSliderImageFile(state.file) ||
+      isSliderVideoFile(state.file)
     )
 );
 
 const isDisabledRotateButton = computed(() => {
   let isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
   // Если это видео, то нельзя поворачивать
-  isDisabled = isVideo(state.file?.path) || isDisabled;
+  isDisabled = isSliderVideoFile(state.file) || isDisabled;
 
   isDisabled = (state.isMobile && isPdfFile(state.file?.path)) || isDisabled;
   return isDisabled;
@@ -608,21 +618,19 @@ const isDisabledRotateButton = computed(() => {
 const isDisabledPrintButton = computed(() => {
   let isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
   // Если это видео, то нельзя печатать
-  isDisabled = isVideo(state.file?.path) || isDisabled;
+  isDisabled = isSliderVideoFile(state.file) || isDisabled;
 
   return isDisabled;
 });
 
-const isDisabledDownloadButton = computed(() => {
-  const isDisabled = !state.file || !state.file.path || state.isErrorFile;
-
-  return isDisabled;
-});
+const isDisabledDownloadButton = computed(
+  () => !state.file || !state.file.path
+);
 
 const isDisabledZoomButton = computed(() => {
   let isDisabled = !state.file || state.isErrorFile || isErrorFile.value;
   // Если это видео, то нельзя увеличивать
-  isDisabled = isVideo(state.file?.path) || isDisabled;
+  isDisabled = isSliderVideoFile(state.file) || isDisabled;
   return isDisabled;
 });
 
@@ -1235,29 +1243,36 @@ watch([() => props.items, () => props.defaultIndex], () => {
 });
 
 // Отслеживаем изменение открытого файла
-watch([() => state.file, () => props.open], () => {
-  if (!props.open) {
-    return;
+watch(
+  [
+    () => state.file,
+    () => state.file?.path,
+    () => state.file?.mediaType,
+    () => props.open
+  ],
+  () => {
+    if (!props.open) {
+      return;
+    }
+    //  Обнуляем зум
+    state.zoomValue = 1;
+    state.isImagePositioned = false;
+    // Новый файл должен сам пройти загрузку, ошибку или fallback.
+    clearImagePositionFallback();
+    resetPdfPanzoom();
+    resetMobilePdfZoom();
+    resetRotate();
+
+    if (!state.file) {
+      state.file = props.items[props.defaultIndex ?? 0];
+    }
+
+    imageSourcePath.value = state.file?.path ?? '';
+    state.isErrorFile = false;
+
+    initFile();
   }
-  //  Обнуляем зум
-  state.zoomValue = 1;
-  state.isImagePositioned = false;
-  // Новый файл должен сам пройти загрузку, ошибку или fallback.
-  clearImagePositionFallback();
-  resetPdfPanzoom();
-  resetMobilePdfZoom();
-  resetRotate();
-
-  if (!state.file) {
-    state.file = props.items[props.defaultIndex ?? 0];
-  }
-
-  imageSourcePath.value = state.file?.path ?? '';
-  state.isErrorFile = false;
-
-  void syncVideoSource();
-  initFile();
-});
+);
 
 watch(
   () => props.open,
@@ -1298,7 +1313,6 @@ const handleEndAnimation = (): void => {
   if (!props.open) {
     resetRotate();
     clearPdf();
-    cleanupVideoSource();
     state.file = props.items[props.defaultIndex];
   }
 
@@ -1376,7 +1390,7 @@ const handleClickOnPrintButton = (): void => {
   let style: string = ``;
   let imageStyle: string = ``;
 
-  if (isImage(state.file?.path)) {
+  if (isSliderImageFile(state.file)) {
     type = 'image';
     style = `
         @page {
@@ -1421,7 +1435,12 @@ const handleClickOnPrintButton = (): void => {
  */
 const handleClickOnDownloadButton = (): void => {
   if (!state.file?.path) return;
-  downloadFile(state.file?.path, state.file?.name, state.file?.file);
+  downloadFile(
+    state.file.path,
+    state.file.name,
+    state.file.file,
+    state.file.downloadPath
+  );
 };
 
 /**
@@ -1920,7 +1939,7 @@ const initFile = (): void => {
       return;
     }
 
-    if (isImage(state.file?.path)) {
+    if (isSliderImageFile(state.file)) {
       initLoadedImage(path);
     }
   });
@@ -1942,20 +1961,17 @@ const initPdf = async (): Promise<void> => {
   try {
     if (!state.file) return;
     // Получаем из кэша pdf
-    const cachedPdf = cachePdf.getCache(state.file.path);
-    let pdf;
-    // Если pdf есть в кэше, то берем его
-    if (cachedPdf) {
-      pdf = cachedPdf;
-    } else {
-      // Подгружаем pdf
-      if (state.file?.file) {
-        const arrayBuffer = await state.file.file.arrayBuffer();
-        pdf = await getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
-      } else {
-        pdf = await getDocument(state.file?.path).promise;
+    const currentFile = state.file;
+    const pdf = await cachePdf.getOrLoad(currentFile.path, async () => {
+      if (currentFile.file) {
+        const arrayBuffer = await currentFile.file.arrayBuffer();
+        return await getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
       }
-    }
+
+      return await getDocument(currentFile.path).promise;
+    });
+
+    if (state.file?.path !== currentFile.path) return;
 
     // Если pdf не существует, то выходим
     if (!pdf) {
@@ -1967,9 +1983,6 @@ const initPdf = async (): Promise<void> => {
     state.sideBarLength = pdf.numPages;
     // создаем массив страниц
     state.sideBarItems = new Array(pdf.numPages).fill(state.file?.path ?? '');
-
-    // устанавливаем в кэш pdf
-    cachePdf.setCache(state.file.path, pdf);
 
     // Устанавливаем первую страницу
     setPdfPage(0);
@@ -2036,63 +2049,15 @@ const isEditableTarget = (target: EventTarget | null): boolean => {
   );
 };
 
-const getMediaMimeType = (path: string, fallbackType?: string): string => {
+const getClipboardMimeType = (path: string, fallbackType?: string): string => {
   if (fallbackType) return fallbackType;
 
-  const [pathname] = path.split('?');
+  const [pathname] = path.split(/[?#]/);
   const extension = pathname.split('.').pop()?.toLowerCase();
 
   if (!extension) return 'application/octet-stream';
 
   return MEDIA_MIME_BY_EXTENSION[extension] ?? 'application/octet-stream';
-};
-
-const cleanupVideoSource = (): void => {
-  if (videoObjectUrl) {
-    URL.revokeObjectURL(videoObjectUrl);
-    videoObjectUrl = null;
-  }
-
-  videoSourceUrl.value = null;
-};
-
-const syncVideoSource = async (): Promise<void> => {
-  cleanupVideoSource();
-
-  const currentFile = state.file;
-
-  if (!currentFile?.path || !isVideo(currentFile.path)) return;
-
-  if (currentFile.file) {
-    videoObjectUrl = URL.createObjectURL(currentFile.file);
-    videoSourceUrl.value = videoObjectUrl;
-    return;
-  }
-
-  try {
-    const response = await fetch(currentFile.path, {
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch video: ${response.status}`);
-    }
-
-    const blob = await response.blob();
-    const normalizedBlob = blob.type
-      ? blob
-      : new Blob([blob], {
-          type: getMediaMimeType(currentFile.path)
-        });
-
-    if (state.file?.path !== currentFile.path) return;
-
-    videoObjectUrl = URL.createObjectURL(normalizedBlob);
-    videoSourceUrl.value = videoObjectUrl;
-  } catch (error) {
-    console.error('Failed to prepare video source', error);
-    videoSourceUrl.value = currentFile.path;
-  }
 };
 
 const convertImageToPngBlob = (blob: Blob): Promise<Blob> => {
@@ -2126,7 +2091,7 @@ const getClipboardBlob = async (): Promise<Blob | null> => {
 
   if (state.file.file) {
     return new Blob([state.file.file], {
-      type: getMediaMimeType(state.file.path, state.file.file.type)
+      type: getClipboardMimeType(state.file.path, state.file.file.type)
     });
   }
 
@@ -2144,9 +2109,9 @@ const getClipboardBlob = async (): Promise<Blob | null> => {
 const copyCurrentMediaToClipboard = async (): Promise<void> => {
   if (!state.file?.path) return;
 
-  if (isVideo(state.file.path)) return;
+  if (isSliderVideoFile(state.file)) return;
 
-  if (!isImage(state.file.path)) return;
+  if (!isSliderImageFile(state.file)) return;
 
   const nav = navigator;
 
@@ -2186,7 +2151,7 @@ const handleCopyMediaKeydown = (event: KeyboardEvent): void => {
   if (selection && selection.trim().length > 0) return;
 
   if (!state.file?.path || state.isErrorFile || isErrorFile.value) return;
-  if (!isImage(state.file.path) && !isVideo(state.file.path)) return;
+  if (!isSliderImageFile(state.file) && !isSliderVideoFile(state.file)) return;
 
   event.preventDefault();
   event.stopPropagation();
@@ -2209,7 +2174,6 @@ onUnmounted(() => {
   clearPdf();
   // При размонтировании убираем таймер, чтобы не менять состояние уничтоженного компонента.
   clearImagePositionFallback();
-  cleanupVideoSource();
   resetPdfPanzoom();
   resetMobilePdfZoom();
   if (sideBarRef.value)

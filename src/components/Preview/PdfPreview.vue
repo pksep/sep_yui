@@ -156,19 +156,12 @@ const setPdf = async (recalculateDisplayBounds = true): Promise<void> => {
     if (requestId !== renderRequestId) return;
 
     // Подгружаем pdf
-    let pdf;
-    // Если pdf есть в кэше, то берем его
-    const cachedPdf = cachePdf.getCache(props.src);
-    if (cachedPdf) {
-      pdf = cachedPdf;
-    } else {
-      pdf = await getDocument(await getPdfDocumentSource()).promise;
+    const pdf = await cachePdf.getOrLoad(
+      props.src,
+      async () => await getDocument(await getPdfDocumentSource()).promise
+    );
 
-      if (requestId !== renderRequestId) return;
-
-      // Устанавливаем в кэш
-      cachePdf.setCache(props.src, pdf);
-    }
+    if (requestId !== renderRequestId) return;
 
     // Если pdf не существует, то выходим
     if (!pdf) throw new Error('Pdf not found');

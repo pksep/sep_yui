@@ -1,6 +1,6 @@
 const checkPath = (str: string | null): string | null => {
   if (!str) return null;
-  const path = str.split('?')[0];
+  const path = str.split(/[?#]/)[0];
   const regexExtension = /\.\w+$/;
   const match = path.match(regexExtension);
 

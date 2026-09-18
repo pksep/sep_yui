@@ -11,11 +11,15 @@ export type SliderPathError = {
 
 export type SliderPath = string | SliderPathError;
 
+export type SliderMediaType = 'image' | 'video';
+
 export type SliderItem = {
   path: SliderPath;
   fallbackPath?: string;
   name?: string;
   file?: File;
+  downloadPath?: string;
+  mediaType?: SliderMediaType;
 };
 
 export type IFile = {
@@ -23,6 +27,8 @@ export type IFile = {
   fallbackPath?: string;
   name?: string;
   file?: File;
+  downloadPath?: string;
+  mediaType?: SliderMediaType;
 };
 
 export interface ISliderProps extends IDataTestIdProp {

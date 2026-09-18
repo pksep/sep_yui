@@ -143,15 +143,15 @@ import {
 } from './interface/interface';
 import Icon from './../Icon/Icon.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
-import {
-  ImageExtensionsEnum,
-  VideoExtensionsEnum
-} from '@/common/extentions.ts';
 import closedCamera from './../../assets/images/slider/closed-camera.svg';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
 import SliderModal from '@/components/Slider/SliderModal.vue';
 import VideoPreview from '@/components/Preview/VideoPreview.vue';
 import Loader from '@/components/Loader/Loader.vue';
+import {
+  isSliderImage,
+  isSliderVideo
+} from '@/components/Slider/helpers/media-type';
 
 const props = withDefaults(defineProps<ISliderProps>(), {
   dataTestid: 'Slider'
@@ -188,7 +188,9 @@ const modalItems = computed<IFile[]>(() =>
         path,
         fallbackPath: item.fallbackPath,
         name: item.name,
-        file: item.file
+        file: item.file,
+        mediaType: item.mediaType,
+        downloadPath: item.downloadPath
       });
     }
 
@@ -343,7 +345,7 @@ const getResponseErrorText = async (path: string): Promise<string | null> => {
 const getPathExtension = (str: string | null): string | null => {
   if (!str) return null;
 
-  const path = str.split('?')[0];
+  const path = str.split(/[?#]/)[0];
   const regexExtension = /\.\w+$/;
   const match = path.match(regexExtension);
 
@@ -365,13 +367,8 @@ const checkPath = (str: string | null): string | null => {
  * @returns
  */
 const isImage = (path: string | null): boolean => {
-  const extension = checkPath(path) as ImageExtensionsEnum;
-
-  return extension
-    ? Object.values(ImageExtensionsEnum).includes(
-        extension.toLowerCase() as ImageExtensionsEnum
-      )
-    : false;
+  checkPath(path);
+  return isSliderImage(path, state.file?.mediaType);
 };
 
 /**
@@ -379,10 +376,8 @@ const isImage = (path: string | null): boolean => {
  * @returns
  */
 const isVideo = (path: string | null): boolean => {
-  const extension = checkPath(path) as VideoExtensionsEnum;
-  return extension
-    ? Object.values(VideoExtensionsEnum).includes(extension)
-    : false;
+  checkPath(path);
+  return isSliderVideo(path, state.file?.mediaType);
 };
 
 const isPdf = (path: string | null): boolean => {
