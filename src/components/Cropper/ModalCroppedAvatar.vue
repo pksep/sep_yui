@@ -66,7 +66,7 @@
           :data-testid="`ModalCroppedAvatar-${id}-content-buttons`"
         >
           <Button
-            :type="ButtonTypeEnum.outline"
+            :type="ButtonTypeEnum.minor"
             class="modal-cropped-avatar__button"
             :data-testid="`ModalCroppedAvatar-${id}-content-ButtonCancel`"
             @click="closeModal"
@@ -214,9 +214,11 @@ dialog.modal-cropped-avatar {
   padding: 30px;
   gap: 30px;
 
-  background-color: var(--white);
+  background-color: var(--surface-overlay);
 
   border-radius: 15px;
+
+  border: 0.5px solid var(--border-table);
 }
 
 .modal-cropped-avatar__buttons {
