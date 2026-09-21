@@ -1,11 +1,7 @@
 {
   "name": "@pksep/yui",
   "author": "Perov David",
-<<<<<<< Updated upstream
-  "version": "0.1.319",
-=======
   "version": "0.1.321",
->>>>>>> Stashed changes
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pksep/sep_yui.git"
