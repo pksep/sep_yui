@@ -5,6 +5,8 @@ export declare enum ImageExtensionsEnum {
     webp = "webp",
     svg = "svg",
     avif = "avif",
+    heic = "heic",
+    heif = "heif",
     gif = "gif",
     bmp = "bmp",
     tiff = "tiff",

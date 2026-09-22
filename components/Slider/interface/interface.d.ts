@@ -6,17 +6,22 @@ export type SliderPathError = {
     message?: string;
 };
 export type SliderPath = string | SliderPathError;
+export type SliderMediaType = 'image' | 'video';
 export type SliderItem = {
     path: SliderPath;
     fallbackPath?: string;
     name?: string;
     file?: File;
+    downloadPath?: string;
+    mediaType?: SliderMediaType;
 };
 export type IFile = {
     path: string;
     fallbackPath?: string;
     name?: string;
     file?: File;
+    downloadPath?: string;
+    mediaType?: SliderMediaType;
 };
 export interface ISliderProps extends IDataTestIdProp {
     items: SliderItem[];

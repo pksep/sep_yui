@@ -3,6 +3,7 @@ import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
 declare class CachePdf {
     private cache;
     private cachePage;
+    private pending;
     /**
      * Записывает в кэш загруженные документ pdf файла
      * @param key
@@ -15,6 +16,7 @@ declare class CachePdf {
      * @returns
      */
     getCache(key: string): PDFDocumentProxy | undefined;
+    getOrLoad(key: string, load: () => Promise<PDFDocumentProxy>): Promise<PDFDocumentProxy>;
     /**
      * Записывает в кэш страницу
      * @param key
