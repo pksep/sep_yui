@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.323
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.322...v0.1.323)
+
+### 🩹 Fixes
+
+- **slider:** Open and download media immediately ([96408464](https://github.com/pksep/sep_yui/commit/96408464))
+
 ## v0.1.319
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.318...v0.1.319)
