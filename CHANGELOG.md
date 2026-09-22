@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.324
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.320...v0.1.324)
+
+### 🚀 Enhancements
+
+- **ai:** Иконки статусов и вложения черновиков ([#405](https://github.com/pksep/sep_yui/pull/405))
+
+### 🩹 Fixes
+
+- **slider:** Open and download media immediately ([96408464](https://github.com/pksep/sep_yui/commit/96408464))
+
+### 🏡 Chore
+
+- **release:** V0.1.323 ([18f5242b](https://github.com/pksep/sep_yui/commit/18f5242b))
+
 ## v0.1.323
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.322...v0.1.323)
