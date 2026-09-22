@@ -273,7 +273,7 @@ onMounted(() => {
   &__head {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 4;
   }
 
   &__wrapper {
