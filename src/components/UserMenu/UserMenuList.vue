@@ -15,6 +15,7 @@
           v-if="menuType === MenuTypeEnum.theme"
           v-model="isBlackTheme"
           disabled
+          theme="minor"
           @change="handleThemeSwitch"
         />
       </MenuItem>
