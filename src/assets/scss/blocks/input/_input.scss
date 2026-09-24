@@ -151,6 +151,12 @@ fieldset.input-yui-kit:disabled {
   }
 }
 
+:is([data-theme="dark"], .theme-dark) fieldset.input-yui-kit:disabled {
+  & .input-yui-kit__input {
+    color: var(--text-secondary);
+  }
+}
+
 fieldset.input-yui-kit.readonly {
   background-color: var(--action-disabled-bg);
   & .input-yui-kit__input:read-only {
