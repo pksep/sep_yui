@@ -151,7 +151,8 @@ fieldset.input-yui-kit:disabled {
   }
 }
 
-:is([data-theme="dark"], .theme-dark) fieldset.input-yui-kit:disabled {
+:is([data-theme="dark"], .theme-dark) fieldset.input-yui-kit:disabled,
+:is([data-theme="dark"], .theme-dark) fieldset.input-yui-kit.readonly {
   & .input-yui-kit__input {
     color: var(--text-secondary);
   }
