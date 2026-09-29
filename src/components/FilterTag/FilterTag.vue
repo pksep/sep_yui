@@ -171,7 +171,6 @@ interface IFilterTagState {
 }
 
 const props = withDefaults(defineProps<IFilterTagProps>(), {
-  iconName: IconNameEnum.filter,
   options: () => [],
   selectedValues: () => [],
   maxShowCount: 5,
