@@ -186,7 +186,7 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid transparent;
+    border: 1px solid var(--border-table);
     border-radius: var(--radius, 5px);
     color: var(--text-primary);
     transition: all 0.2s ease;
