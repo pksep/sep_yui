@@ -282,7 +282,7 @@ onMounted(() => {
   }
 
   &__search-th {
-    --th-horizontal-padding: 8px;
+    --th-horizontal-padding: 2px;
     --th-vertical-padding: 2px;
     border-bottom: 1px solid var(--border-table);
     background-color: var(--table-background-color, var(--table-surface));
