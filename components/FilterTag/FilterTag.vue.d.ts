@@ -1,8 +1,6 @@
 import { IFilterTagProps, IFilterTagOption } from './interface/interface';
-import { IconNameEnum } from '../Icon/enum/enum';
 
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IFilterTagProps>, {
-    iconName: IconNameEnum;
     options: () => never[];
     selectedValues: () => never[];
     maxShowCount: number;
@@ -14,7 +12,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     change: (value: string[]) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IFilterTagProps>, {
-    iconName: IconNameEnum;
     options: () => never[];
     selectedValues: () => never[];
     maxShowCount: number;
@@ -29,7 +26,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataTestid: string;
     defaultValue: string;
     options: IFilterTagOption[];
-    iconName: IconNameEnum;
     multiply: boolean;
     selectedValues: string[];
     maxShowCount: number;
