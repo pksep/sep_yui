@@ -19,11 +19,14 @@
 
     <!-- Fallback (always rendered under image) -->
     <div v-if="showFallback" class="avatar-yui-kit__fallback">
-      <img
+      <Icon
         v-if="props.defaultImage"
-        :src="props.defaultImage"
-        class="avatar-yui-kit__image avatar-yui-kit__image--default is-visible"
+        :name="IconNameEnum.avatar"
+        class="avatar-yui-kit__icon"
+        :width="110"
+        :height="110"
       />
+
       <div v-else class="avatar-yui-kit__text">
         {{ firstSymbol }}
       </div>
@@ -39,6 +42,8 @@ const failedAvatarUrls = new Set<string>();
 <script lang="ts" setup>
 import { ref, computed, watch, nextTick } from 'vue';
 import type { IAvatar } from './interfaces/interfaces';
+import Icon from '@/components/Icon/Icon.vue';
+import { IconNameEnum } from '@/components/Icon/enum/enum';
 
 const props = defineProps<IAvatar>();
 
@@ -221,5 +226,9 @@ watch(
   text-transform: uppercase;
   letter-spacing: 0.02em;
   pointer-events: none;
+}
+
+.avatar-yui-kit__icon {
+  color: var(--text-secondary);
 }
 </style>

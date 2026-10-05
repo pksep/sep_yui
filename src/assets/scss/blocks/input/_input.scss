@@ -60,22 +60,32 @@ fieldset.input-yui-kit {
   @include fieldset-border(var(--input-border-color, transparent));
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:has(input:active),
+  &:has(input:focus),
+  &:has(input:hover) {
     @include fieldset-border(var(--border-hover));
   }
 
   & .input-yui-kit__legend {
     position: absolute;
-    height: 1px;
+    height: 20px;
     line-height: 0;
-    top: 0;
+    top: -10px;
     text-transform: none;
     left: 19px;
     background: var(--background);
-    display: none;
+    visibility: hidden;
     font-size: 13px;
     font-weight: 600;
     padding-inline: 4px;
+    border-radius: 8px;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: all 0.2s ease;
 
     & .input-yui-kit__star {
       font-family: $STAR-FONT;
@@ -107,16 +117,24 @@ fieldset.input-yui-kit {
       color: transparent;
     }
   }
+  &:hover .input-yui-kit__legend,
+  &:focus .input-yui-kit__legend,
+  &:has(input:active) .input-yui-kit__legend,
+  &:has(input:focus) .input-yui-kit__legend,
+  &:has(input:hover) .input-yui-kit__legend,
   &.pressed .input-yui-kit__legend,
   &.error .input-yui-kit__legend,
   &.success .input-yui-kit__legend,
   &.warning .input-yui-kit__legend {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
     background: var(--surface-input-primary);
+    --input-border-color: var(--border-hover);
   }
 
   &.ordinary .input-yui-kit__legend {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
   }
 
   &.secondary {
@@ -147,7 +165,8 @@ fieldset.input-yui-kit:disabled {
   }
 
   & .input-yui-kit__legend {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
   }
 }
 
@@ -170,6 +189,7 @@ fieldset.input-yui-kit.readonly {
     }
   }
   & .input-yui-kit__legend {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
   }
 }
