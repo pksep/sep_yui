@@ -196,3 +196,4 @@ export declare const emojiObjects: IVectorIcon;
 export declare const emojiFlags: IVectorIcon;
 export declare const emojiTravelPlaces: IVectorIcon;
 export declare const lightbulbFilament: IVectorIcon;
+export declare const avatar: IVectorIcon;
