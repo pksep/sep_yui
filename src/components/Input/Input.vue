@@ -27,6 +27,10 @@
       @input="handleInput"
       :type="props.type"
       :autocomplete="props.autocomplete"
+      :maxlength="props.maxlength"
+      spellcheck="false"
+      v-spellcheck="props.spellcheck && props.type === TextFieldEnum.text"
+      :lang="props.lang || getSpellcheckLanguage(state.inputElement)"
       :id="props.inputId"
       :aria-label="props.ariaLabel"
       :aria-describedby="props.ariaDescribedby"
@@ -60,6 +64,8 @@ import Button from '../Button/Button.vue';
 import { ButtonTypeEnum } from '../Button/enum/enum';
 import { TextFieldEnum } from '../Input/enum/enum';
 import { IconNameEnum } from '../Icon/enum/enum';
+import { getSpellcheckLanguage } from '@/common/spellcheck';
+import { vSpellcheck } from '@/common/spellcheck-directive';
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -68,6 +74,7 @@ const emits = defineEmits<{
 const props = withDefaults(defineProps<IInputProps>(), {
   type: TextFieldEnum.text,
   required: false,
+  spellcheck: true,
   inputMessage: '',
   modelValue: '',
   hideClearButton: false,

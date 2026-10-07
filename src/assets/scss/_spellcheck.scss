@@ -1,0 +1,20 @@
+.yui-spelling-error {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: #ef4444;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.yui-spellcheck-mirror {
+  position: absolute;
+  box-sizing: border-box;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  color: transparent;
+  background: transparent;
+  border-style: solid;
+  border-color: transparent;
+  z-index: 1;
+}

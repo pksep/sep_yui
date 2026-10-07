@@ -19,6 +19,9 @@
           class="search-yui-kit__input"
           v-model="state.searchValue"
           :placeholder="props.placeholder"
+          spellcheck="false"
+          v-spellcheck="props.spellcheck"
+          :lang="props.lang || getSpellcheckLanguage(state.searchValue)"
           @keydown.enter="unmountEnter"
           @input="changeSearchValue"
           @focus="handleFocus"
@@ -72,11 +75,14 @@ import SearchResult from './SearchResult.vue';
 import { ButtonTypeEnum } from '@/components/Button/enum/enum.ts';
 import Button from '../Button/Button.vue';
 import { useSearch } from '@/extenstions/search';
+import { getSpellcheckLanguage } from '@/common/spellcheck';
+import { vSpellcheck } from '@/common/spellcheck-directive';
 
 const props = withDefaults(defineProps<ISearchProps>(), {
   placeholder: 'Поиск',
   height: '42px',
   modelValue: '',
+  spellcheck: true,
   dataTestid: 'Search',
   global: false,
   globalResultsFunction: () => []

@@ -1,5 +1,6 @@
 import { IconNameEnum } from '../../Icon/enum/enum';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import type { ISpellcheckProps } from '@/common/spellcheck';
 
 export type ResultSearchType = {
   nameArea: string;
@@ -8,7 +9,7 @@ export type ResultSearchType = {
   [key: string]: unknown;
 };
 
-export interface ISearchProps extends IDataTestIdProp {
+export interface ISearchProps extends IDataTestIdProp, ISpellcheckProps {
   defaultValue?: string;
   placeholder?: string;
   showHistory?: boolean;

@@ -28,6 +28,9 @@
       :required="props.required"
       :maxlength="props.maxlength"
       :readonly="props.readonly"
+      spellcheck="false"
+      v-spellcheck="props.spellcheck && !props.readonly"
+      :lang="props.lang || getSpellcheckLanguage(state.inputElement)"
     />
   </fieldset>
 </template>
@@ -36,11 +39,14 @@
 import { computed, reactive, watch } from 'vue';
 import type { ITextareaProps } from './interface/interface';
 import { TextareaTypeEnum } from '@/components/Textarea/enum';
+import { getSpellcheckLanguage } from '@/common/spellcheck';
+import { vSpellcheck } from '@/common/spellcheck-directive';
 
 const props = withDefaults(defineProps<ITextareaProps>(), {
   required: false,
   modelValue: '',
   readonly: false,
+  spellcheck: true,
   dataTestid: 'Textarea',
   type: TextareaTypeEnum.default,
   modelModifiers: () => ({}) // not delete

@@ -15,7 +15,6 @@
       v-if="props.activeAttachFile"
       isWCUse
       :options="mobileAttachOptions"
-      translateY="calc(-100% - 45px)"
       class="mobile-item attach-file-popover"
       @close="clearActiveAttachPopover"
     >
@@ -66,8 +65,9 @@
           :style="emojiPickerStyle"
           :aria-hidden="!showEmojiPicker"
         >
-          <EmojiPicker
+          <EmojiStickerPicker
             v-if="isMobileLayout && hasOpenedEmojiPicker"
+            :stickers="props.stickers"
             :native="true"
             :display-recent="true"
             :additional-groups="emojiAdditionalGroups"
@@ -76,6 +76,7 @@
             :group-order="emojiGroupOrder"
             :static-texts="emojiStaticTexts"
             @select="addEmoji"
+            @select-sticker="handleStickerSelect"
             v-on-click-outside.bubble="closeEmojiPicker"
           />
         </div>
@@ -105,7 +106,6 @@
         v-if="props.activeAttachFile"
         isWCUse
         :options="desktopAttachOptions"
-        translateY="calc(-100% - 45px)"
         class="attach-file-popover"
         @close="clearActiveAttachPopover"
       >
@@ -138,8 +138,9 @@
           :style="emojiPickerStyle"
           :aria-hidden="!showEmojiPicker"
         >
-          <EmojiPicker
+          <EmojiStickerPicker
             v-if="!isMobileLayout && hasOpenedEmojiPicker"
+            :stickers="props.stickers"
             :native="true"
             :display-recent="true"
             :additional-groups="emojiAdditionalGroups"
@@ -148,6 +149,7 @@
             :group-order="emojiGroupOrder"
             :static-texts="emojiStaticTexts"
             @select="addEmoji"
+            @select-sticker="handleStickerSelect"
             v-on-click-outside.bubble="closeEmojiPicker"
           />
         </div>
@@ -358,7 +360,6 @@
                 isWCUse
                 :disabled="!props.activeAttachFile"
                 :options="desktopAttachOptions"
-                translateY="calc(-100% - 45px)"
                 class="attach-file-popover"
                 @close="clearActiveAttachPopover"
               >
@@ -395,8 +396,9 @@
                   :style="emojiPickerStyle"
                   :aria-hidden="!showEmojiPicker"
                 >
-                  <EmojiPicker
+                  <EmojiStickerPicker
                     v-if="hasOpenedEmojiPicker"
+                    :stickers="props.stickers"
                     :native="true"
                     :display-recent="true"
                     :additional-groups="emojiAdditionalGroups"
@@ -405,6 +407,7 @@
                     :group-order="emojiGroupOrder"
                     :static-texts="emojiStaticTexts"
                     @select="addEmoji"
+                    @select-sticker="handleStickerSelect"
                     v-on-click-outside.bubble="closeEmojiPicker"
                   />
                 </div>
@@ -526,12 +529,15 @@ import { TextSelection } from '@tiptap/pm/state';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { ContentEditorSpellcheck } from './content-editor-spellcheck';
 import {
-  BackgroundColor,
-  Color,
-  TextStyle
-} from '@tiptap/extension-text-style';
-import EmojiPicker from 'vue3-emoji-picker';
+  ContentEditorBackgroundColor,
+  ContentEditorColor,
+  normalizePastedContentEditorColors
+} from './content-editor-colors';
+import EmojiStickerPicker from './EmojiStickerPicker.vue';
+import type { IStickerPickerItem } from './sticker-picker';
 import {
   Extension,
   InputRule,
@@ -569,7 +575,6 @@ import {
   rememberEmojiSelection,
   resetEmojiGroupRendering,
   syncEmojiGroupControls,
-  syncEmojiGroupScroll,
   type EmojiPickerSelection
 } from './emoji-picker-config';
 
@@ -1626,13 +1631,15 @@ const editor = useEditor({
       emptyEditorClass: 'is-editor-empty'
     }),
     TextStyle,
-    Color.configure({ types: ['textStyle'] }),
-    BackgroundColor.configure({ types: ['textStyle'] }),
+    ContentEditorColor.configure({ types: ['textStyle'] }),
+    ContentEditorBackgroundColor.configure({ types: ['textStyle'] }),
+    ContentEditorSpellcheck,
     SpanNode,
     ContentEditorListInputRules
   ],
   content: modelValue.value,
   editorProps: {
+    transformPastedHTML: normalizePastedContentEditorColors,
     handlePaste(_, event) {
       const clipboardData = event.clipboardData;
       if (!clipboardData) return false;
@@ -2359,9 +2366,13 @@ const freezeRecentOrderBeforeSelect = (event: Event): void => {
   freezeRecentOrder(pickerWrapper);
 };
 
+const handleStickerSelect = (sticker: IStickerPickerItem): void => {
+  emits('unmount-sticker', sticker.id);
+  closeEmojiPicker();
+};
+
 const handleEmojiPickerClick = (event: Event): void => {
   freezeRecentOrderBeforeSelect(event);
-  syncEmojiGroupScroll(event);
 };
 
 const preserveEditorFocusForEmojiTrigger = (event: PointerEvent): void => {
@@ -3744,6 +3755,7 @@ dialog.attach-modal-container.modal-yui-kit {
 }
 
 .attach-file-popover .popover-yui-kit__content {
-  transform: translate(0, calc(-100% - 45px)) !important;
+  transform: none !important;
+  transition: opacity 0.2s ease;
 }
 </style>
