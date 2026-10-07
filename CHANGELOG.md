@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.330
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.330...v0.1.330)
+
+### 🚀 Enhancements
+
+- Add spellcheck and allow stickers ([5cf9573a](https://github.com/pksep/sep_yui/commit/5cf9573a))
+
 ## v0.1.329
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.328...v0.1.329)
