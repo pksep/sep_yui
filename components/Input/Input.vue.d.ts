@@ -4,6 +4,7 @@ import { TextFieldEnum } from '../Input/enum/enum';
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IInputProps>, {
     type: TextFieldEnum;
     required: boolean;
+    spellcheck: boolean;
     inputMessage: string;
     modelValue: string;
     hideClearButton: boolean;
@@ -14,6 +15,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<IInputProps>, {
     type: TextFieldEnum;
     required: boolean;
+    spellcheck: boolean;
     inputMessage: string;
     modelValue: string;
     hideClearButton: boolean;
@@ -29,6 +31,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     modelValue: string;
     modelModifiers: object;
     hideClearButton: boolean;
+    spellcheck: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;

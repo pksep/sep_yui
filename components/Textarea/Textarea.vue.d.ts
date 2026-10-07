@@ -5,6 +5,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     required: boolean;
     modelValue: string;
     readonly: boolean;
+    spellcheck: boolean;
     dataTestid: string;
     type: TextareaTypeEnum;
     modelModifiers: () => {};
@@ -14,6 +15,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     required: boolean;
     modelValue: string;
     readonly: boolean;
+    spellcheck: boolean;
     dataTestid: string;
     type: TextareaTypeEnum;
     modelModifiers: () => {};
@@ -25,6 +27,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     required: boolean;
     modelValue: string;
     modelModifiers: object;
+    spellcheck: boolean;
     readonly: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

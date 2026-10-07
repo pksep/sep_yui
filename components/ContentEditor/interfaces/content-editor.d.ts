@@ -1,9 +1,12 @@
+import { IStickerPickerItem } from '../sticker-picker';
+
 export interface IContentEditorSendPayload {
     content?: string;
     files?: FileList;
     mediaFiles?: FileList;
 }
 export interface IContentEditorEmit {
+    (e: 'unmount-sticker', stickerId: string): void;
     (e: 'unmount-send', params: IContentEditorSendPayload): void;
     (e: 'unmount-attach-file', files: FileList, onlyMedia: boolean): void;
     (e: 'mention-change', search: string | null): void;
@@ -17,6 +20,7 @@ export interface IContentEditorSlots {
     'desktop-right-action'?: () => unknown;
 }
 export interface IContentEditorProps {
+    stickers?: readonly IStickerPickerItem[];
     /** Разделяет несохранённые вложения разных черновиков в одном экземпляре редактора. */
     attachmentDraftKey?: string;
     /** Keeps the full toolbar in narrow embedded surfaces. Default: responsive. */

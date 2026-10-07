@@ -10,3 +10,5 @@ export * from '@floating-ui/vue';
 export * from '@vueuse/components';
 export { useSearch } from './extenstions/search';
 export { VueToolsCore };
+export { vSpellcheck } from './common/spellcheck-directive';
+export type { IStickerPickerItem } from './components/ContentEditor/sticker-picker';

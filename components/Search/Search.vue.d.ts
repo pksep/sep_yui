@@ -4,6 +4,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     placeholder: string;
     height: string;
     modelValue: string;
+    spellcheck: boolean;
     dataTestid: string;
     global: boolean;
     globalResultsFunction: () => never[];
@@ -18,6 +19,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     placeholder: string;
     height: string;
     modelValue: string;
+    spellcheck: boolean;
     dataTestid: string;
     global: boolean;
     globalResultsFunction: () => never[];
@@ -33,6 +35,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataTestid: string;
     placeholder: string;
     modelValue: string;
+    spellcheck: boolean;
     global: boolean;
     globalResultsFunction: ResultSearchType[];
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;

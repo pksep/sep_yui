@@ -1,8 +1,12 @@
+import { IStickerPickerItem } from './sticker-picker';
 import { IContentEditorSlots } from './interfaces/content-editor';
 
 declare function __VLS_template(): Readonly<IContentEditorSlots> & IContentEditorSlots;
 declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
+    stickers: {
+        type: import('vue').PropType<readonly IStickerPickerItem[]>;
+    };
     attachmentDraftKey: {
         type: import('vue').PropType<string>;
     };
@@ -126,12 +130,16 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
     queueAttachFiles: (files: FileList | File[], onlyMedia: boolean) => Promise<void>;
     preloadEmojiPicker: () => boolean;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    "unmount-sticker": (stickerId: string) => void;
     "unmount-send": (params: import('..').IContentEditorSendPayload) => void;
     "unmount-attach-file": (files: FileList, onlyMedia: boolean) => void;
     "mention-change": (search: string | null) => void;
     "slash-change": (search: string | null) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: import('vue').PropType<string>;
+    stickers: {
+        type: import('vue').PropType<readonly IStickerPickerItem[]>;
+    };
     attachmentDraftKey: {
         type: import('vue').PropType<string>;
     };
@@ -248,6 +256,7 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
         type: import('vue').PropType<(item: unknown) => string>;
     };
 }>> & Readonly<{
+    "onUnmount-sticker"?: ((stickerId: string) => any) | undefined;
     "onUnmount-send"?: ((params: import('..').IContentEditorSendPayload) => any) | undefined;
     "onUnmount-attach-file"?: ((files: FileList, onlyMedia: boolean) => any) | undefined;
     "onMention-change"?: ((search: string | null) => any) | undefined;
