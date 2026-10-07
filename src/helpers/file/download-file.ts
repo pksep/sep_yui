@@ -105,6 +105,11 @@ const downloadFile = async (
     const link = document.createElement('a');
     link.href = downloadPath;
     link.download = name;
+    // The download attribute is ignored for a cross-origin media URL in some
+    // browsers. Keep that fallback navigation outside the current chat tab so
+    // it cannot trigger beforeunload while a call is active.
+    link.target = '_blank';
+    link.rel = 'noopener';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -1,7 +1,8 @@
 import { TextFieldEnum } from '../enum/enum';
 import type { IDataTestIdProp } from '@/common/dataTestidProps';
+import type { ISpellcheckProps } from '@/common/spellcheck';
 
-export interface IInputProps extends IDataTestIdProp {
+export interface IInputProps extends IDataTestIdProp, ISpellcheckProps {
   placeholder?: string;
   inputId?: string;
   ariaLabel?: string;
@@ -12,6 +13,7 @@ export interface IInputProps extends IDataTestIdProp {
   modelValue?: string;
   hideClearButton?: boolean;
   autocomplete?: string;
+  maxlength?: number;
   modelModifiers?: object;
 }
 

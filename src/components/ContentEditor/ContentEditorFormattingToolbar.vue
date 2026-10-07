@@ -18,6 +18,7 @@
         v-if="colorPickerOpen"
         class="formatting-toolbar__color-picker formatting-toolbar__color-picker--mobile"
         :colors="colorOptions"
+        :text-colors="textColorOptions"
         :active-text-color="activeTextColor"
         :active-background-color="activeBackgroundColor"
         @select-text-color="applyTextColor"
@@ -47,6 +48,7 @@
         </template>
 
         <button
+          v-if="hasMobileSelectedText"
           type="button"
           class="formatting-toolbar__mobile-trigger"
           aria-label="Форматирование"
@@ -197,6 +199,7 @@
               `formatting-toolbar__color-picker--${colorPickerPlacement.horizontal}`
             ]"
             :colors="colorOptions"
+            :text-colors="textColorOptions"
             :active-text-color="activeTextColor"
             :active-background-color="activeBackgroundColor"
             @select-text-color="applyTextColor"
@@ -259,6 +262,9 @@
             class="formatting-toolbar__field-input"
             type="text"
             placeholder="Введите текст"
+            spellcheck="false"
+            v-spellcheck
+            :lang="getSpellcheckLanguage(linkText)"
             @keydown.enter.prevent="applyLink"
             @keydown.esc.prevent="handleLinkModalClose"
           />
@@ -271,6 +277,7 @@
             class="formatting-toolbar__field-input"
             type="text"
             placeholder="Вставьте ссылку"
+            spellcheck="false"
             @keydown.enter.prevent="applyLink"
             @keydown.esc.prevent="handleLinkModalClose"
           />
@@ -308,6 +315,13 @@ import Tooltip from '../Tooltip/Tooltip.vue';
 import { IconNameEnum } from '../Icon/enum/enum';
 import Icon from '../Icon/Icon.vue';
 import ContentEditorColorPicker from './ContentEditorColorPicker.vue';
+import { getSpellcheckLanguage } from '@/common/spellcheck';
+import { vSpellcheck } from '@/common/spellcheck-directive';
+import {
+  contentEditorColors,
+  DEFAULT_TEXT_COLOR,
+  normalizeContentEditorColor
+} from './content-editor-colors';
 
 interface Props {
   editor?: object | null;
@@ -337,27 +351,16 @@ interface MobileClipboardActionItem {
   label: string;
 }
 
-interface ContentEditorColorOption {
-  label: string;
-  value: string;
-}
-
 const TOOLBAR_MARGIN = 16;
 const MOBILE_VIEWPORT_MAX_WIDTH = 480;
 const COLOR_PICKER_HEIGHT = 180;
 const COLOR_PICKER_GAP = 5;
 
-const colorOptions: ContentEditorColorOption[] = [
-  { label: 'Черный', value: '#181818' },
-  { label: 'Розовый', value: '#fedae9' },
-  { label: 'Фиолетовый', value: '#d8c8ff' },
-  { label: 'Синий', value: '#9cbeff' },
-  { label: 'Голубой', value: '#c8f8ff' },
-  { label: 'Зелёный', value: '#57d278' },
-  { label: 'Жёлтый', value: '#ffcc00' },
-  { label: 'Красный', value: '#ff6868' }
+const colorOptions = contentEditorColors;
+const textColorOptions = [
+  { label: 'По умолчанию', value: DEFAULT_TEXT_COLOR },
+  ...contentEditorColors.slice(1)
 ];
-const allowedColors = new Set(colorOptions.map(color => color.value));
 
 const props = defineProps<Props>();
 const getToolbarEditor = (): Editor | null | undefined =>
@@ -435,38 +438,6 @@ const resetLinkEditorState = () => {
   savedSelectionText.value = '';
 };
 
-const normalizeActiveColor = (value: unknown): string | null => {
-  if (typeof value !== 'string') {
-    return null;
-  }
-
-  const normalizedValue = value.trim().toLowerCase();
-
-  if (allowedColors.has(normalizedValue)) {
-    return normalizedValue;
-  }
-
-  const rgbMatch = normalizedValue.match(
-    /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*1(?:\.0+)?)?\s*\)$/
-  );
-
-  if (!rgbMatch) {
-    return null;
-  }
-
-  const channels = rgbMatch.slice(1, 4).map(Number);
-
-  if (channels.some(channel => channel > 255)) {
-    return null;
-  }
-
-  const hexValue = `#${channels
-    .map(channel => channel.toString(16).padStart(2, '0'))
-    .join('')}`;
-
-  return allowedColors.has(hexValue) ? hexValue : null;
-};
-
 const syncActiveColors = () => {
   const editor = getToolbarEditor();
 
@@ -486,8 +457,8 @@ const syncActiveColors = () => {
 
   const attributes = editor.getAttributes('textStyle');
 
-  activeTextColor.value = normalizeActiveColor(attributes.color);
-  activeBackgroundColor.value = normalizeActiveColor(
+  activeTextColor.value = normalizeContentEditorColor(attributes.color, true);
+  activeBackgroundColor.value = normalizeContentEditorColor(
     attributes.backgroundColor
   );
 };
@@ -562,7 +533,7 @@ const toggleColorPicker = () => {
 
 const applyTextColor = (color: string) => {
   const editor = getToolbarEditor();
-  const normalizedColor = normalizeActiveColor(color);
+  const normalizedColor = normalizeContentEditorColor(color, true);
 
   if (!editor || !normalizedColor) {
     return;
@@ -588,7 +559,7 @@ const applyTextColor = (color: string) => {
 
 const applyBackgroundColor = (color: string) => {
   const editor = getToolbarEditor();
-  const normalizedColor = normalizeActiveColor(color);
+  const normalizedColor = normalizeContentEditorColor(color);
 
   if (!editor || !normalizedColor) {
     return;
@@ -997,6 +968,11 @@ const updateToolbarPosition = (
     isCollapsedContextMenuOpen.value &&
     selection.empty;
 
+  if (editor.isEmpty && !canShowCollapsedContextMenu) {
+    closeMobileSelectionToolbar();
+    return;
+  }
+
   if (
     isMobileToolbar.value &&
     selection.empty &&
@@ -1321,9 +1297,26 @@ const saveSelectionRange = (
   savedSelectionText.value = getSelectionText(editor, selection);
 };
 
-const writeClipboardText = async (text: string): Promise<boolean> => {
+const writeClipboardText = async (
+  text: string,
+  html: string
+): Promise<boolean> => {
   if (!text) {
     return false;
+  }
+
+  try {
+    if (navigator.clipboard?.write && typeof ClipboardItem !== 'undefined') {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/plain': new Blob([text], { type: 'text/plain' }),
+          'text/html': new Blob([html], { type: 'text/html' })
+        })
+      ]);
+      return true;
+    }
+  } catch {
+    // Если HTML недоступен, используем прежний способ копирования текста.
   }
 
   try {
@@ -1372,6 +1365,23 @@ const readClipboardText = async (): Promise<string> => {
   } catch {
     return '';
   }
+};
+
+const readClipboardHtml = async (): Promise<string> => {
+  try {
+    if (navigator.clipboard?.read) {
+      const items = await navigator.clipboard.read();
+      const item = items.find(item => item.types.includes('text/html'));
+
+      if (item) {
+        return (await item.getType('text/html')).text();
+      }
+    }
+  } catch {
+    // Нативный буфер обмена может предоставлять только обычный текст.
+  }
+
+  return '';
 };
 
 const refreshMobileClipboardText = async (): Promise<void> => {
@@ -1433,17 +1443,25 @@ const runMobileClipboardAction = async (action: MobileClipboardAction) => {
   if (action === 'paste') {
     const selection =
       getCurrentSelectionRange(editor) || savedSelectionRange.value;
-    const text =
-      (await readClipboardText()) ||
-      readClipboardTextFromPasteFallback(editor, selection);
+    const html = await readClipboardHtml();
+    const text = html
+      ? ''
+      : (await readClipboardText()) ||
+        readClipboardTextFromPasteFallback(editor, selection);
 
-    if (text) {
+    if (html || text) {
       const chain = editor.chain().focus();
 
       if (selection) {
-        chain.insertContentAt(selection, text).run();
+        chain.setTextSelection(selection);
+      }
+
+      chain.run();
+
+      if (html) {
+        editor.view.pasteHTML(html);
       } else {
-        chain.insertContent(text).run();
+        editor.view.pasteText(text);
       }
 
       closeMobileSelectionToolbar();
@@ -1463,7 +1481,10 @@ const runMobileClipboardAction = async (action: MobileClipboardAction) => {
   saveSelectionRange(editor, selection);
 
   const copiedText = getClipboardSelectionText(editor, selection);
-  const copied = await writeClipboardText(copiedText);
+  const { dom } = editor.view.serializeForClipboard(
+    editor.state.doc.slice(selection.from, selection.to)
+  );
+  const copied = await writeClipboardText(copiedText, dom.innerHTML);
 
   if (copied && action === 'cut') {
     mobileClipboardText.value = copiedText;

@@ -9,7 +9,7 @@
       <div class="content-editor-color-picker__title">Цвет текста</div>
       <div class="content-editor-color-picker__swatches">
         <button
-          v-for="color in colors"
+          v-for="color in textColors || colors"
           :key="`text-${color.value}`"
           type="button"
           class="content-editor-color-picker__text-swatch"
@@ -60,6 +60,7 @@ interface ContentEditorColorOption {
 
 interface Props {
   colors: ContentEditorColorOption[];
+  textColors?: ContentEditorColorOption[];
   activeTextColor?: string | null;
   activeBackgroundColor?: string | null;
 }
