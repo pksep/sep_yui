@@ -142,13 +142,7 @@ fieldset.input-yui-kit {
   }
 
   &.minor {
-    background-color: var(--table-surface-header);
-  }
-
-  &_number {
-    &.minor {
-      background-color: var(--table-surface-header);
-    }
+    background-color: var(--table-surface);
   }
 }
 
