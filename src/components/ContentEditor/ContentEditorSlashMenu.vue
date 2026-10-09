@@ -21,7 +21,14 @@
       @mouseenter="emit('update:activeIndex', index)"
     >
       <span
-        v-if="item.icon"
+        v-if="item.iconName"
+        class="content-editor-slash-menu__icon"
+        aria-hidden="true"
+      >
+        <Icon :name="item.iconName as IconNameEnum" :width="16" :height="16" />
+      </span>
+      <span
+        v-else-if="item.icon"
         class="content-editor-slash-menu__icon"
         aria-hidden="true"
         v-html="item.icon"
@@ -42,6 +49,8 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue';
 
+import Icon from '../Icon/Icon.vue';
+import type { IconNameEnum } from '../Icon/enum/enum';
 import type { IContentEditorSlashMenuItem } from './interfaces/content-editor-slash-menu';
 
 withDefaults(
