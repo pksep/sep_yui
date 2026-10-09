@@ -53,6 +53,7 @@ import Tabs from './Tabs/Tabs.vue';
 import ContentEditor from './ContentEditor/ContentEditor.vue';
 import EmojiPickerPanel from './ContentEditor/EmojiPickerPanel.vue';
 import ContentEditorFormattingToolbar from './ContentEditor/ContentEditorFormattingToolbar.vue';
+import ContentEditorMentionList from './ContentEditor/ContentEditorMentionList.vue';
 import ContentEditorSlashMenu from './ContentEditor/ContentEditorSlashMenu.vue';
 import ModalCroppedAvatar from './Cropper/ModalCroppedAvatar.vue';
 import TimePicker from './TimePicker/TimePicker.vue';
@@ -223,6 +224,7 @@ export {
   ContentEditor,
   EmojiPickerPanel,
   ContentEditorFormattingToolbar,
+  ContentEditorMentionList,
   ContentEditorSlashMenu,
   ModalCroppedAvatar,
   TimePicker,
