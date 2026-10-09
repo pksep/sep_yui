@@ -51,6 +51,7 @@ import { default as Tabs } from './Tabs/Tabs.vue';
 import { default as ContentEditor } from './ContentEditor/ContentEditor.vue';
 import { default as EmojiPickerPanel } from './ContentEditor/EmojiPickerPanel.vue';
 import { default as ContentEditorFormattingToolbar } from './ContentEditor/ContentEditorFormattingToolbar.vue';
+import { default as ContentEditorMentionList } from './ContentEditor/ContentEditorMentionList.vue';
 import { default as ContentEditorSlashMenu } from './ContentEditor/ContentEditorSlashMenu.vue';
 import { default as ModalCroppedAvatar } from './Cropper/ModalCroppedAvatar.vue';
 import { default as TimePicker } from './TimePicker/TimePicker.vue';
@@ -87,7 +88,7 @@ declare const _default: {
     install: (app: App) => void;
 };
 export default _default;
-export { Accordion, Badges, BreadCrumbs, Button, Dialog, Card, Calendar, DragAndDrop, Switch, SelectList, Dropdown, Textarea, Filter, Icon, Input, Combobox, InputNumber, Search, PushNotification, Picture, Scroll, Modal, Slider, Checkbox, Toggle, UserMenu, CopyIcon, Loader, FilterTag, CircularProgress, Popover, Table, TableSimple, TableNew, TableRow, TableRowNew, TableTd, TableTh, SectionTableRow, HeadTableRow, HeadTableRowNew, ScrollWrapper, Radio, Tooltip, BaseFilter, Range, Avatar, Tabs, ContentEditor, EmojiPickerPanel, ContentEditorFormattingToolbar, ContentEditorSlashMenu, ModalCroppedAvatar, TimePicker, type IDialogProps, type IRangeForDatePicker, type OptionsObject, type IDataTestIdProp, type IContentEditorSlashMenuItem, type IContentEditorProps, type IContentEditorSendPayload, type IContentEditorSlots, CheckboxSizeEnum, CheckboxCircularEnum, TextFieldEnum, IconNameEnum, SizesEnum, ButtonTypeEnum, ColorsEnum, ImageExtensionsEnum, BadgesTypeEnum, VideoExtensionsEnum, InputTypeEnum, TextareaTypeEnum, MenuTypeEnum, MessageTypeEnum, getLastTime, getFirstTime, vuePluginRemoveTestid, SliderModal, PdfPreview, ImagePreview, VideoPreview, Skeleton };
+export { Accordion, Badges, BreadCrumbs, Button, Dialog, Card, Calendar, DragAndDrop, Switch, SelectList, Dropdown, Textarea, Filter, Icon, Input, Combobox, InputNumber, Search, PushNotification, Picture, Scroll, Modal, Slider, Checkbox, Toggle, UserMenu, CopyIcon, Loader, FilterTag, CircularProgress, Popover, Table, TableSimple, TableNew, TableRow, TableRowNew, TableTd, TableTh, SectionTableRow, HeadTableRow, HeadTableRowNew, ScrollWrapper, Radio, Tooltip, BaseFilter, Range, Avatar, Tabs, ContentEditor, EmojiPickerPanel, ContentEditorFormattingToolbar, ContentEditorMentionList, ContentEditorSlashMenu, ModalCroppedAvatar, TimePicker, type IDialogProps, type IRangeForDatePicker, type OptionsObject, type IDataTestIdProp, type IContentEditorSlashMenuItem, type IContentEditorProps, type IContentEditorSendPayload, type IContentEditorSlots, CheckboxSizeEnum, CheckboxCircularEnum, TextFieldEnum, IconNameEnum, SizesEnum, ButtonTypeEnum, ColorsEnum, ImageExtensionsEnum, BadgesTypeEnum, VideoExtensionsEnum, InputTypeEnum, TextareaTypeEnum, MenuTypeEnum, MessageTypeEnum, getLastTime, getFirstTime, vuePluginRemoveTestid, SliderModal, PdfPreview, ImagePreview, VideoPreview, Skeleton };
 export { ChatMessageSurface, ChatMessageMeta, ChatFileDetails, ChatFileIcon };
 export { UserMultiSelect };
 export type { IUserSelectOption, IUserMultiSelectProps } from './UserMultiSelect/types';
