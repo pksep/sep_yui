@@ -93,7 +93,6 @@ watch(
 
 <style lang="scss" scoped>
 fieldset.input-yui-kit {
-  height: auto;
   margin-inline: 0;
   padding: 0;
 }
