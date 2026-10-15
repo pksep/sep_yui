@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.338
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.337...v0.1.338)
+
+### 🎨 Styles
+
+- Changed hover row ([c3a6e32d](https://github.com/pksep/sep_yui/commit/c3a6e32d))
+
 ## v0.1.337
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.336...v0.1.337)
