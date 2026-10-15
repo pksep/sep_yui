@@ -119,7 +119,7 @@ onUnmounted(() => {
 
 .table-row:hover,
 .table-row_active {
-  background-color: var(--table-surface-hover);
+  background-color: var(--action-secondary-pressed-bg);
 }
 
 .table-row.ava {
