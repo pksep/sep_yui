@@ -95,10 +95,11 @@ watch(
 fieldset.input-yui-kit {
   margin-inline: 0;
   padding: 0;
+
+  height: 118px;
 }
 fieldset.input-yui-kit .input-yui-kit__input {
   resize: none;
-  height: 96px;
   padding: 10px 15px;
   width: calc(100% + 3px);
   color: var(--text-primary);
