@@ -183,5 +183,6 @@ export declare enum IconNameEnum {
     emojiObjects = "emoji-objects",
     emojiFlags = "emoji-flags",
     emojiTravelPlaces = "emoji-travel-places",
-    avatar = "avatar"
+    avatar = "avatar",
+    copyValue = "copy-value"
 }
