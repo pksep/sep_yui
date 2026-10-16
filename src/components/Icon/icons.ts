@@ -1445,10 +1445,11 @@ export const download: IVectorIcon = {
   name: 'download',
   style: 'line',
   fill: 'none',
+  viewbox: '0 0 16 16',
   path: `
-  <path d="M20 15L20 18.3333C20 18.7754 19.8127 19.1993 19.4793 19.5118C19.1459 19.8244 18.6937 20 18.2222 20L5.77778 20C5.30628 20 4.8541 19.8244 4.5207 19.5118C4.1873 19.1993 4 18.7754 4 18.3333L4 15" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M7.83305 9.83301L11.9997 13.9997L16.1664 9.83301" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M11.9994 14L11.9994 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14 10.25L14 12.75C14 13.0815 13.8595 13.3995 13.6095 13.6339C13.3594 13.8683 13.0203 14 12.6667 14L3.33333 14C2.97971 14 2.64057 13.8683 2.39052 13.6339C2.14048 13.3995 2 13.0815 2 12.75L2 10.25" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.87476 6.37476L7.99976 9.49976L11.1248 6.37476" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M7.99951 9.5L7.99951 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
   `
 };
 
@@ -2179,5 +2180,16 @@ export const avatar: IVectorIcon = {
   path: `
     <path d="M91 97V87.6667C91 82.716 89.0772 77.968 85.6547 74.4673C82.2322 70.9667 77.5902 69 72.75 69H36.25C31.4098 69 26.7678 70.9667 23.3453 74.4673C19.9228 77.968 18 82.716 18 87.6667V97" stroke="currentColor" stroke-width="9.19027" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M55.5 51C65.7173 51 74 42.7173 74 32.5C74 22.2827 65.7173 14 55.5 14C45.2827 14 37 22.2827 37 32.5C37 42.7173 45.2827 51 55.5 51Z" stroke="currentColor" stroke-width="9.19027" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const copyValue: IVectorIcon = {
+  name: IconNameEnum.copyValue,
+  style: 'solid',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+    <path d="M3.8 9.8H3.2C2.88174 9.8 2.57652 9.67357 2.35147 9.44853C2.12643 9.22348 2 8.91826 2 8.6V3.2C2 2.88174 2.12643 2.57652 2.35147 2.35147C2.57652 2.12643 2.88174 2 3.2 2H8.6C8.91826 2 9.22348 2.12643 9.44853 2.35147C9.67357 2.57652 9.8 2.88174 9.8 3.2V3.8M7.4 6.2H12.8C13.4627 6.2 14 6.73726 14 7.4V12.8C14 13.4627 13.4627 14 12.8 14H7.4C6.73726 14 6.2 13.4627 6.2 12.8V7.4C6.2 6.73726 6.73726 6.2 7.4 6.2Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+
   `
 };
