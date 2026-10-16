@@ -96,7 +96,7 @@ fieldset.input-yui-kit {
   margin-inline: 0;
   padding: 0;
 
-  height: 118px;
+  height: 120px;
 }
 fieldset.input-yui-kit .input-yui-kit__input {
   resize: none;
