@@ -389,6 +389,20 @@
               </button>
 
               <button
+                class="slider-modal__side-button"
+                aria-label="Скопировать изображение"
+                :disabled="isDisabledCopyButton"
+                @click="handleCopyCurrentMedia"
+              >
+                <Icon
+                  class="slider-modal__icon"
+                  :name="IconNameEnum.copyValue"
+                  :width="24"
+                  :height="24"
+                />
+              </button>
+
+              <button
                 class="slider-modal__side-button slider-modal__side-button_printer"
                 :disabled="isDisabledPrintButton"
                 @click="handleClickOnPrintButton"
@@ -625,6 +639,16 @@ const isDisabledPrintButton = computed(() => {
 
 const isDisabledDownloadButton = computed(
   () => !state.file || !state.file.path
+);
+
+const isDisabledCopyButton = computed(
+  () =>
+    !state.file?.path ||
+    state.isErrorFile ||
+    isErrorFile.value ||
+    !isSliderImageFile(state.file) ||
+    !navigator.clipboard?.write ||
+    typeof window.ClipboardItem === 'undefined'
 );
 
 const isDisabledZoomButton = computed(() => {
@@ -2107,11 +2131,7 @@ const getClipboardBlob = async (): Promise<Blob | null> => {
 };
 
 const copyCurrentMediaToClipboard = async (): Promise<void> => {
-  if (!state.file?.path) return;
-
-  if (isSliderVideoFile(state.file)) return;
-
-  if (!isSliderImageFile(state.file)) return;
+  if (isDisabledCopyButton.value) return;
 
   const nav = navigator;
 
@@ -2119,22 +2139,24 @@ const copyCurrentMediaToClipboard = async (): Promise<void> => {
     return;
   }
 
-  let blob = await getClipboardBlob();
-  if (!blob) return;
-
-  if (blob.type !== 'image/png') {
-    blob = await convertImageToPngBlob(blob);
-  }
-
   try {
     await nav.clipboard.write([
       new ClipboardItem({
-        'image/png': blob
+        'image/png': getClipboardBlob().then(blob => {
+          if (!blob) throw new Error('No image data to copy');
+          return blob.type === 'image/png' ? blob : convertImageToPngBlob(blob);
+        })
       })
     ]);
   } catch (e) {
     console.error('Clipboard write failed', e);
   }
+};
+
+const handleCopyCurrentMedia = (): void => {
+  void copyCurrentMediaToClipboard().catch(error => {
+    console.error('Failed to copy media to clipboard', error);
+  });
 };
 
 const handleCopyMediaKeydown = (event: KeyboardEvent): void => {
@@ -2150,15 +2172,12 @@ const handleCopyMediaKeydown = (event: KeyboardEvent): void => {
   const selection = window.getSelection()?.toString();
   if (selection && selection.trim().length > 0) return;
 
-  if (!state.file?.path || state.isErrorFile || isErrorFile.value) return;
-  if (!isSliderImageFile(state.file) && !isSliderVideoFile(state.file)) return;
+  if (!props.open || isDisabledCopyButton.value) return;
 
   event.preventDefault();
   event.stopPropagation();
 
-  void copyCurrentMediaToClipboard().catch(error => {
-    console.error('Failed to copy media to clipboard', error);
-  });
+  handleCopyCurrentMedia();
 };
 
 onMounted(() => {
