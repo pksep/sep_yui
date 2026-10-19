@@ -390,7 +390,7 @@
 
               <button
                 class="slider-modal__side-button"
-                aria-label="Скопировать изображение"
+                :aria-label="copyButtonLabel"
                 :disabled="isDisabledCopyButton"
                 @click="handleCopyCurrentMedia"
               >
@@ -641,14 +641,50 @@ const isDisabledDownloadButton = computed(
   () => !state.file || !state.file.path
 );
 
+const getCopyableFileUrl = (file: IFile | null | undefined): string | null => {
+  const path = file?.downloadPath || file?.path;
+  if (!path) return null;
+
+  try {
+    const url = new URL(path, window.location.href);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : null;
+  } catch {
+    return null;
+  }
+};
+
+const canCopyImage = computed(
+  () =>
+    isSliderImageFile(state.file) &&
+    !!navigator.clipboard?.write &&
+    typeof window.ClipboardItem !== 'undefined'
+);
+
+const copyableFileMimeType = computed(() => {
+  if (!state.file?.path || isSliderImageFile(state.file)) return null;
+  if (!navigator.clipboard?.write || !window.ClipboardItem?.supports)
+    return null;
+
+  const mimeType = getClipboardMimeType(state.file.path, state.file.file?.type);
+
+  return window.ClipboardItem.supports(mimeType) ? mimeType : null;
+});
+
+const copyButtonLabel = computed(() =>
+  canCopyImage.value
+    ? 'Скопировать изображение'
+    : copyableFileMimeType.value
+      ? 'Скопировать файл'
+      : 'Скопировать ссылку на файл'
+);
+
 const isDisabledCopyButton = computed(
   () =>
     !state.file?.path ||
     state.isErrorFile ||
-    isErrorFile.value ||
-    !isSliderImageFile(state.file) ||
-    !navigator.clipboard?.write ||
-    typeof window.ClipboardItem === 'undefined'
+    (!canCopyImage.value &&
+      !copyableFileMimeType.value &&
+      (!navigator.clipboard?.writeText || !getCopyableFileUrl(state.file)))
 );
 
 const isDisabledZoomButton = computed(() => {
@@ -2057,6 +2093,7 @@ const MEDIA_MIME_BY_EXTENSION: Record<string, string> = {
   webp: 'image/webp',
   bmp: 'image/bmp',
   svg: 'image/svg+xml',
+  pdf: 'application/pdf',
   mp4: 'video/mp4',
   webm: 'video/webm',
   ogv: 'video/ogg',
@@ -2134,6 +2171,27 @@ const copyCurrentMediaToClipboard = async (): Promise<void> => {
   if (isDisabledCopyButton.value) return;
 
   const nav = navigator;
+
+  const fileMimeType = copyableFileMimeType.value;
+  if (fileMimeType) {
+    await nav.clipboard.write([
+      new ClipboardItem({
+        [fileMimeType]: getClipboardBlob().then(blob => {
+          if (!blob) throw new Error('No file data to copy');
+          return blob.type === fileMimeType
+            ? blob
+            : new Blob([blob], { type: fileMimeType });
+        })
+      })
+    ]);
+    return;
+  }
+
+  if (!canCopyImage.value) {
+    const url = getCopyableFileUrl(state.file);
+    if (url) await nav.clipboard.writeText(url);
+    return;
+  }
 
   if (!nav.clipboard?.write || typeof window.ClipboardItem === 'undefined') {
     return;
