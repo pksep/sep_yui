@@ -14,11 +14,7 @@
     @pointerleave="handlePinterLeave"
     @touchend="handleTouchEnd"
   >
-    <div
-      ref="contentRef"
-      class="slider-modal__content"
-      @contextmenu.prevent.stop
-    >
+    <div ref="contentRef" class="slider-modal__content">
       <div
         ref="sideBarRef"
         class="slider-modal__side-bar"
