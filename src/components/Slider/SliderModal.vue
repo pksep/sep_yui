@@ -641,8 +641,7 @@ const isDisabledDownloadButton = computed(
   () => !state.file || !state.file.path
 );
 
-const getCopyableFileUrl = (file: IFile | null | undefined): string | null => {
-  const path = file?.downloadPath || file?.path;
+const getCopyableHttpUrl = (path?: string): string | null => {
   if (!path) return null;
 
   try {
@@ -653,6 +652,17 @@ const getCopyableFileUrl = (file: IFile | null | undefined): string | null => {
   }
 };
 
+const getCopyableFileUrl = (file: IFile | null | undefined): string | null =>
+  getCopyableHttpUrl(file?.downloadPath || file?.path);
+
+const getCopyableImageUrl = (file: IFile | null | undefined): string | null => {
+  if (file?.path?.startsWith('data:image/')) return file.path;
+
+  return (
+    getCopyableHttpUrl(file?.path) ?? getCopyableHttpUrl(file?.downloadPath)
+  );
+};
+
 const canCopyImage = computed(
   () =>
     isSliderImageFile(state.file) &&
@@ -660,8 +670,16 @@ const canCopyImage = computed(
     typeof window.ClipboardItem !== 'undefined'
 );
 
+const canCopyImageWithExecCommand = computed(
+  () =>
+    isSliderImageFile(state.file) &&
+    typeof document.execCommand === 'function' &&
+    !!getCopyableImageUrl(state.file)
+);
+
 const copyableFileMimeType = computed(() => {
-  if (!state.file?.path || isSliderImageFile(state.file)) return null;
+  if (!state.file?.path || isCurrentPdfFile() || isSliderImageFile(state.file))
+    return null;
   if (!navigator.clipboard?.write || !window.ClipboardItem?.supports)
     return null;
 
@@ -670,19 +688,23 @@ const copyableFileMimeType = computed(() => {
   return window.ClipboardItem.supports(mimeType) ? mimeType : null;
 });
 
-const copyButtonLabel = computed(() =>
-  canCopyImage.value
-    ? 'Скопировать изображение'
-    : copyableFileMimeType.value
-      ? 'Скопировать файл'
-      : 'Скопировать ссылку на файл'
-);
+const copyButtonLabel = computed(() => {
+  if (isCurrentPdfFile()) return 'Копирование PDF недоступно';
+  if (canCopyImage.value) return 'Скопировать изображение';
+  if (canCopyImageWithExecCommand.value)
+    return 'Скопировать ссылку и HTML изображения';
+  if (copyableFileMimeType.value) return 'Скопировать файл';
+
+  return 'Скопировать ссылку на файл';
+});
 
 const isDisabledCopyButton = computed(
   () =>
     !state.file?.path ||
+    isCurrentPdfFile() ||
     state.isErrorFile ||
     (!canCopyImage.value &&
+      !canCopyImageWithExecCommand.value &&
       !copyableFileMimeType.value &&
       (!navigator.clipboard?.writeText || !getCopyableFileUrl(state.file)))
 );
@@ -2093,7 +2115,6 @@ const MEDIA_MIME_BY_EXTENSION: Record<string, string> = {
   webp: 'image/webp',
   bmp: 'image/bmp',
   svg: 'image/svg+xml',
-  pdf: 'application/pdf',
   mp4: 'video/mp4',
   webm: 'video/webm',
   ogv: 'video/ogg',
@@ -2148,23 +2169,58 @@ const convertImageToPngBlob = (blob: Blob): Promise<Blob> => {
 };
 
 const getClipboardBlob = async (): Promise<Blob | null> => {
-  if (!state.file?.path) return null;
+  const file = state.file;
+  if (!file?.path) return null;
 
-  if (state.file.file) {
-    return new Blob([state.file.file], {
-      type: getClipboardMimeType(state.file.path, state.file.file.type)
+  if (file.file) {
+    return new Blob([file.file], {
+      type: getClipboardMimeType(file.path, file.file.type)
     });
   }
 
-  const response = await fetch(state.file.path, {
-    credentials: 'include'
-  });
+  const isCrossOrigin =
+    new URL(file.path, window.location.href).origin !== window.location.origin;
+  let response: Response | null = null;
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch media for clipboard: ${response.status}`);
+  try {
+    response = await fetch(file.path, { credentials: 'same-origin' });
+  } catch (error) {
+    if (!isCrossOrigin) throw error;
+  }
+
+  if (isCrossOrigin && (!response || !response.ok)) {
+    response = await fetch(file.path, { credentials: 'include' });
+  }
+
+  if (!response?.ok) {
+    throw new Error(`Failed to fetch media for clipboard: ${response?.status}`);
   }
 
   return await response.blob();
+};
+
+const copyImageWithExecCommand = (url: string): boolean => {
+  let hasClipboardData = false;
+  const handleCopy = (event: ClipboardEvent): void => {
+    if (!event.clipboardData) return;
+
+    const image = document.createElement('img');
+    image.src = url;
+    event.clipboardData.setData('text/html', image.outerHTML);
+    event.clipboardData.setData('text/plain', url);
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    hasClipboardData = true;
+  };
+
+  document.addEventListener('copy', handleCopy, true);
+  try {
+    return document.execCommand('copy') && hasClipboardData;
+  } catch {
+    return false;
+  } finally {
+    document.removeEventListener('copy', handleCopy, true);
+  }
 };
 
 const copyCurrentMediaToClipboard = async (): Promise<void> => {
@@ -2187,6 +2243,13 @@ const copyCurrentMediaToClipboard = async (): Promise<void> => {
     return;
   }
 
+  if (canCopyImageWithExecCommand.value && !canCopyImage.value) {
+    const url = getCopyableImageUrl(state.file);
+    if (url && copyImageWithExecCommand(url)) return;
+
+    throw new Error('Failed to copy image with execCommand');
+  }
+
   if (!canCopyImage.value) {
     const url = getCopyableFileUrl(state.file);
     if (url) await nav.clipboard.writeText(url);
@@ -2207,6 +2270,14 @@ const copyCurrentMediaToClipboard = async (): Promise<void> => {
       })
     ]);
   } catch (e) {
+    const url = getCopyableImageUrl(state.file);
+    if (
+      url &&
+      typeof document.execCommand === 'function' &&
+      copyImageWithExecCommand(url)
+    )
+      return;
+
     console.error('Clipboard write failed', e);
   }
 };
@@ -2220,8 +2291,7 @@ const handleCopyCurrentMedia = (): void => {
 const handleCopyMediaKeydown = (event: KeyboardEvent): void => {
   const isCopyKey =
     (event.ctrlKey || event.metaKey) &&
-    event.key &&
-    event.key.toLowerCase() === 'c';
+    (event.code === 'KeyC' || event.key.toLowerCase() === 'c');
 
   if (!isCopyKey) return;
 
