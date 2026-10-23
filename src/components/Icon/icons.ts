@@ -1,6 +1,40 @@
 import { IconNameEnum } from './enum/enum';
 import { IVectorIcon } from './interface/interface';
 
+export const crmPanel: IVectorIcon = {
+  name: IconNameEnum.crmPanel,
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 24 24',
+  path: `
+<path d="M4.94001 4H9.64007C10.1592 4 10.5801 4.42086 10.5801 4.94001V11.5201C10.5801 12.0393 10.1592 12.4601 9.64007 12.4601H4.94001C4.42086 12.4601 4 12.0393 4 11.5201V4.94001C4 4.42086 4.42086 4 4.94001 4Z" stroke="currentColor" stroke-width="0.887789" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.1832 4H18.8832C19.4024 4 19.8232 4.42086 19.8232 4.94001V7.76005C19.8232 8.2792 19.4024 8.70006 18.8832 8.70006H14.1832C13.664 8.70006 13.2432 8.2792 13.2432 7.76005V4.94001C13.2432 4.42086 13.664 4 14.1832 4Z" stroke="currentColor" stroke-width="0.887789" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.1832 11.3635H18.8832C19.4024 11.3635 19.8232 11.7844 19.8232 12.3035V18.8836C19.8232 19.4027 19.4024 19.8236 18.8832 19.8236H14.1832C13.664 19.8236 13.2432 19.4027 13.2432 18.8836V12.3035C13.2432 11.7844 13.664 11.3635 14.1832 11.3635Z" stroke="currentColor" stroke-width="0.887789" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.94001 15.1234H9.64007C10.1592 15.1234 10.5801 15.5442 10.5801 16.0634V18.8834C10.5801 19.4026 10.1592 19.8234 9.64007 19.8234H4.94001C4.42086 19.8234 4 19.4026 4 18.8834V16.0634C4 15.5442 4.42086 15.1234 4.94001 15.1234Z" stroke="currentColor" stroke-width="0.887789" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const crmDeals: IVectorIcon = {
+  name: IconNameEnum.crmDeals,
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 24 24',
+  path: `
+<path d="M16.5921 8.77632H9.64474M13.9868 12.25H7.90789M11.3816 15.7237H16.5921M4 12.25C4 8.36121 4 6.41595 5.20797 5.20797C6.41595 4 8.36034 4 12.25 4C16.1388 4 18.0841 4 19.292 5.20797C20.5 6.41595 20.5 8.36034 20.5 12.25C20.5 16.1388 20.5 18.0841 19.292 19.292C18.0841 20.5 16.1397 20.5 12.25 20.5C8.36121 20.5 6.41595 20.5 5.20797 19.292C4 18.0841 4 16.1397 4 12.25Z" stroke="currentColor" stroke-width="0.868421" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
+export const crmAppeals: IVectorIcon = {
+  name: IconNameEnum.crmAppeals,
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 24 24',
+  path: `
+<path d="M20.5 12H15.25L13.5 14.625H10L8.25 12H3" stroke="currentColor" stroke-width="0.972222" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.01875 5.97125L3 12V17.25C3 17.7141 3.18437 18.1592 3.51256 18.4874C3.84075 18.8156 4.28587 19 4.75 19H18.75C19.2141 19 19.6592 18.8156 19.9874 18.4874C20.3156 18.1592 20.5 17.7141 20.5 17.25V12L17.4812 5.97125C17.3364 5.67969 17.113 5.43432 16.8363 5.26274C16.5596 5.09116 16.2406 5.00017 15.915 5H7.585C7.25943 5.00017 6.94036 5.09116 6.66366 5.26274C6.38697 5.43432 6.16363 5.67969 6.01875 5.97125Z" stroke="currentColor" stroke-width="0.972222" stroke-linecap="round" stroke-linejoin="round"/>
+  `
+};
+
 // Геометрия 24/Headset из предоставленного макета SEP-ERP Library.
 export const headset: IVectorIcon = {
   name: IconNameEnum.headset,
