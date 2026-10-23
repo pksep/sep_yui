@@ -198,3 +198,5 @@ export declare const emojiTravelPlaces: IVectorIcon;
 export declare const lightbulbFilament: IVectorIcon;
 export declare const avatar: IVectorIcon;
 export declare const copyValue: IVectorIcon;
+export declare const computer: IVectorIcon;
+export declare const phone: IVectorIcon;
