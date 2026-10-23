@@ -1,5 +1,8 @@
 import { IVectorIcon } from './interface/interface';
 
+export declare const crmPanel: IVectorIcon;
+export declare const crmDeals: IVectorIcon;
+export declare const crmAppeals: IVectorIcon;
 export declare const headset: IVectorIcon;
 export declare const socialVk: IVectorIcon;
 export declare const socialTelegram: IVectorIcon;
