@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.350
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.349...v0.1.350)
+
+### 🚀 Enhancements
+
+- Added new icons ([7011ccde](https://github.com/pksep/sep_yui/commit/7011ccde))
+
 ## v0.1.349
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.348...v0.1.349)
