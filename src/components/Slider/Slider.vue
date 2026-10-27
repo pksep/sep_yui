@@ -128,6 +128,7 @@
         :items="modalItems"
         :default-index="state.indexModal"
         @close="unmountCloseModal"
+        @file-copied="emit('file-copied')"
       />
     </Teleport>
   </div>
@@ -137,6 +138,7 @@
 import { computed, onMounted, reactive, watch } from 'vue';
 import {
   ISliderProps,
+  ISliderEmit,
   ISlider,
   IFile,
   SliderItem
@@ -156,6 +158,8 @@ import {
 const props = withDefaults(defineProps<ISliderProps>(), {
   dataTestid: 'Slider'
 });
+
+const emit = defineEmits<ISliderEmit>();
 
 const state = reactive<ISlider>({
   files: props.items.length ? props.items : [],

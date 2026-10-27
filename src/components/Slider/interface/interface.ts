@@ -41,7 +41,11 @@ export interface ISliderModalProps extends IDataTestIdProp, IModalProps {
   defaultIndex?: number;
 }
 
-export interface ISliderModalEmit extends IModalEmit {}
+export interface ISliderEmit {
+  (e: 'file-copied'): void;
+}
+
+export interface ISliderModalEmit extends IModalEmit, ISliderEmit {}
 
 export interface ISlider {
   files: SliderItem[];
