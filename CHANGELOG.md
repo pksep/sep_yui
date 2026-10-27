@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.351
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.350...v0.1.351)
+
+### 🚀 Enhancements
+
+- Upgrade pdf in slider ([266dc89b](https://github.com/pksep/sep_yui/commit/266dc89b))
+
+### 🏡 Chore
+
+- **release:** V0.1.350 ([fc573962](https://github.com/pksep/sep_yui/commit/fc573962))
+
 ## v0.1.350
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.349...v0.1.350)
