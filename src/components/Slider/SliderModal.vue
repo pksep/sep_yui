@@ -2219,8 +2219,12 @@ const copyImageWithExecCommand = (url: string): boolean => {
   }
 };
 
-const copyCurrentMediaToClipboard = async (): Promise<void> => {
-  if (isDisabledCopyButton.value) return;
+/**
+ * Копирует текущее медиа и сообщает, была ли выполнена запись в буфер обмена.
+ */
+const copyCurrentMediaToClipboard = async (): Promise<boolean> => {
+  // Пропущенная операция не должна приводить к уведомлению об успехе.
+  if (isDisabledCopyButton.value) return false;
 
   const nav = navigator;
 
@@ -2236,24 +2240,27 @@ const copyCurrentMediaToClipboard = async (): Promise<void> => {
         })
       })
     ]);
-    return;
+    return true;
   }
 
   if (canCopyImageWithExecCommand.value && !canCopyImage.value) {
     const url = getCopyableImageUrl(state.file);
-    if (url && copyImageWithExecCommand(url)) return;
+    if (url && copyImageWithExecCommand(url)) return true;
 
     throw new Error('Failed to copy image with execCommand');
   }
 
   if (!canCopyImage.value) {
     const url = getCopyableFileUrl(state.file);
-    if (url) await nav.clipboard.writeText(url);
-    return;
+    if (!url) return false;
+
+    await nav.clipboard.writeText(url);
+
+    return true;
   }
 
   if (!nav.clipboard?.write || typeof window.ClipboardItem === 'undefined') {
-    return;
+    return false;
   }
 
   try {
@@ -2265,6 +2272,8 @@ const copyCurrentMediaToClipboard = async (): Promise<void> => {
         })
       })
     ]);
+
+    return true;
   } catch (e) {
     const url = getCopyableImageUrl(state.file);
     if (
@@ -2272,16 +2281,26 @@ const copyCurrentMediaToClipboard = async (): Promise<void> => {
       typeof document.execCommand === 'function' &&
       copyImageWithExecCommand(url)
     )
-      return;
+      return true;
 
     console.error('Clipboard write failed', e);
+
+    return false;
   }
 };
 
+/**
+ * Уведомляет потребителя только после успешного копирования кнопкой или с клавиатуры.
+ */
 const handleCopyCurrentMedia = (): void => {
-  void copyCurrentMediaToClipboard().catch(error => {
-    console.error('Failed to copy media to clipboard', error);
-  });
+  void copyCurrentMediaToClipboard()
+    .then(isCopied => {
+      // Не отправляем событие при ошибке или пропуске копирования.
+      if (isCopied) emit('file-copied');
+    })
+    .catch(error => {
+      console.error('Failed to copy media to clipboard', error);
+    });
 };
 
 const handleCopyMediaKeydown = (event: KeyboardEvent): void => {
