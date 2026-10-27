@@ -1,4 +1,4 @@
-import { isPdfFile as isPdfFilePath } from 'pdfjs-dist';
+import { isPdfFile as isPdfFilePath } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 const isPdfFile = (path: string | File | undefined): boolean => {
   if (!path) return false;

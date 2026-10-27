@@ -10,21 +10,14 @@ import {
   IPdfPreviewProps
 } from '@/components/Preview/interface';
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
-import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
-import {
-  getDocument,
-  GlobalWorkerOptions,
-  PDFPageProxy,
-  RenderTask
-} from 'pdfjs-dist';
+import type { PDFPageProxy, RenderTask } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { getDocument } from '@/helpers/file/pdf-runtime';
 import cachePdf from '@/helpers/file/cache-pdf';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
 
 defineOptions({
   name: 'PdfPreview'
 });
-
-GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const props = withDefaults(defineProps<IPdfPreviewProps>(), {
   resolutionScale: 1

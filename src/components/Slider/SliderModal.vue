@@ -53,7 +53,11 @@
 
       <div v-if="state.isMobile" class="slider-modal__mobile-header">
         <div class="slider-modal__mobile-header-block">
-          <div class="slider-modal__exit-button" @click="$emit('close')">
+          <button
+            type="button"
+            class="slider-modal__exit-button"
+            @click="$emit('close')"
+          >
             <Icon
               class="slider-modal__exit-icon"
               :name="IconNameEnum.leftBig"
@@ -62,7 +66,7 @@
             />
 
             <div class="slider-modal__exit-text">Назад</div>
-          </div>
+          </button>
         </div>
 
         <div class="slider-modal__mobile-header-block">
@@ -436,7 +440,7 @@ import {
   ref,
   watch
 } from 'vue';
-import { getDocument } from 'pdfjs-dist';
+import { getDocument } from '@/helpers/file/pdf-runtime';
 import cachePdf from '@/helpers/file/cache-pdf';
 import BaseSlider from '@/components/Slider/BaseSlider.vue';
 import BaseSlide from '@/components/Slider/BaseSlide.vue';
@@ -508,7 +512,7 @@ const state = reactive<{
   sideBarLength: 0,
   isErrorFile: false,
   isClickOnExit: false,
-  isMobile: false,
+  isMobile: mediaQuery.matches,
   isPointerActive: false,
   isExistSwipe: false,
   isChangeItemSwipe: false,
@@ -2329,6 +2333,7 @@ onUnmounted(() => {
 
 <style scoped>
 .modal-yui-kit.slider-modal {
+  display: block;
   backdrop-filter: blur(20px);
   max-width: none;
   max-height: none;
@@ -2338,6 +2343,18 @@ onUnmounted(() => {
   height: 100%;
   background-color: transparent;
   border-radius: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.slider-modal :deep(.modal-yui-kit__modal-content) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .slider-modal::backdrop {
@@ -2348,6 +2365,9 @@ onUnmounted(() => {
 
   width: 100%;
   height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
   background-color: var(--background-color-80);
 
   transition: all 0.2s ease;
@@ -2355,7 +2375,8 @@ onUnmounted(() => {
 
 .slider-modal__side-bar {
   width: 0;
-  height: 100svh;
+  height: 100%;
+  box-sizing: border-box;
   overflow: auto;
   overflow-x: hidden;
 
@@ -2415,7 +2436,10 @@ onUnmounted(() => {
 
 .slider-modal__main {
   width: 100%;
-  height: 100svh;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
 
   padding: 0 30px 0 30px;
   display: flex;
@@ -2429,6 +2453,8 @@ onUnmounted(() => {
   line-height: 22px;
 
   padding: 20px 0 18px 0;
+  flex-shrink: 0;
+  overflow-wrap: anywhere;
   color: var(--white);
 }
 
@@ -2439,6 +2465,7 @@ onUnmounted(() => {
 
   height: 100%;
   width: 100%;
+  min-height: 0;
 }
 
 .slider-modal__main:has(.slider-modal__bottom)
@@ -2620,10 +2647,14 @@ onUnmounted(() => {
 }
 
 .slider-modal__mobile-header {
+  position: relative;
+  z-index: 1;
+  min-height: 44px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
 
   color: var(--white);
 }
@@ -2637,6 +2668,11 @@ onUnmounted(() => {
   gap: 10px;
 
   font-size: 14px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
 
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none; /* запрет лупы/меню */
@@ -2665,7 +2701,9 @@ onUnmounted(() => {
 
   .slider-modal__content {
     flex-direction: column;
-    padding: 5px 0 0;
+    padding: calc(5px + env(safe-area-inset-top, 0px))
+      env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px)
+      env(safe-area-inset-left, 0px);
     gap: 20px;
   }
 
@@ -2675,7 +2713,8 @@ onUnmounted(() => {
     padding-bottom: 43px;
     gap: 10px;
 
-    height: calc(100svh - 60px - 6px);
+    height: auto;
+    flex: 1 1 0;
   }
 
   .slider-modal__name {
@@ -2684,6 +2723,7 @@ onUnmounted(() => {
 
   .slider-modal__viewport {
     height: 100%;
+    flex-shrink: 0;
   }
 
   .slider-modal__main:has(.slider-modal__bottom)
@@ -2764,6 +2804,11 @@ onUnmounted(() => {
     width: 100%;
     justify-content: center;
     overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .slider-modal__nav-block:nth-child(2)::-webkit-scrollbar {
+    display: none;
   }
 
   .slider-modal__nav-block:nth-child(2) .slider-modal__side-button {

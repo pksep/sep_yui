@@ -1,4 +1,4 @@
-import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
+import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
 
 class CachePdf {
   private cache: Record<string, PDFDocumentProxy> = {};

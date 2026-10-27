@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { isPdfFile } from 'pdfjs-dist';
+import { isPdfFile } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { PictureEnum } from './enums/enums';
 import type { IPictureProps } from './interface/interface';
 import PdfPreview from '@/components/Preview/PdfPreview.vue';
