@@ -7,6 +7,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     close: () => void;
     unmounted: () => void;
     "end-animation": () => void;
+    "file-copied": () => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ISliderModalProps>, {
     dataTestid: string;
     defaultIndex: number;
@@ -14,6 +15,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     onClose?: (() => any) | undefined;
     onUnmounted?: (() => any) | undefined;
     "onEnd-animation"?: (() => any) | undefined;
+    "onFile-copied"?: (() => any) | undefined;
 }>, {
     dataTestid: string;
     defaultIndex: number;
