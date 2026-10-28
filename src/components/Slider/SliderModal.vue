@@ -87,6 +87,17 @@
         <div class="slider-modal__name">
           {{ state.file?.name }}
         </div>
+        <div
+          v-if="state.isPdfLoading"
+          class="slider-modal__loading"
+          role="status"
+          aria-label="Загрузка PDF"
+        >
+          <span class="slider-modal__loading-spinner" aria-hidden="true"></span>
+        </div>
+        <div v-if="state.pdfError" class="slider-modal__error" role="alert">
+          Не удалось загрузить PDF
+        </div>
         <!-- pdf -->
         <template
           v-if="isPdfFile(state.file?.path) || isPdfFile(state.file?.file)"
@@ -118,6 +129,7 @@
                 :file="state.file?.file"
                 :resolution-scale="state.zoomValue"
                 @load="handleDesktopPdfLoad"
+                @error="handlePdfError"
               />
             </div>
 
@@ -135,6 +147,7 @@
                   :file="state.file?.file"
                   :resolution-scale="state.zoomValue"
                   @load="handleMobilePdfLoad(idx)"
+                  @error="handlePdfError"
                 />
               </div>
             </template>
@@ -482,6 +495,8 @@ const state = reactive<{
   sideBarLength: number;
   // Проверка на корректность загрузки файла
   isErrorFile: boolean;
+  isPdfLoading: boolean;
+  pdfError: boolean;
   isClickOnExit: boolean;
   isPointerActive: boolean;
   isExistSwipe: boolean;
@@ -511,6 +526,8 @@ const state = reactive<{
   sideBarIndex: 0,
   sideBarLength: 0,
   isErrorFile: false,
+  isPdfLoading: false,
+  pdfError: false,
   isClickOnExit: false,
   isMobile: mediaQuery.matches,
   isPointerActive: false,
@@ -1266,6 +1283,7 @@ const handleMobilePdfPointerEnd = (event: PointerEvent): boolean => {
 };
 
 const handleDesktopPdfLoad = (): void => {
+  state.isPdfLoading = false;
   if (state.isMobile || state.zoomValue <= 1 || pdfPanzoomInstance) return;
 
   nextTick(() => {
@@ -1280,6 +1298,7 @@ const handleDesktopPdfLoad = (): void => {
 };
 
 const handleMobilePdfLoad = (index: number): void => {
+  if (index === 0) state.isPdfLoading = false;
   if (!state.isMobile || state.zoomValue <= 1 || mobilePdfElement) return;
 
   nextTick(() => {
@@ -1292,6 +1311,12 @@ const handleMobilePdfLoad = (index: number): void => {
     setMobilePdfElement(element);
     applyMobilePdfTransform();
   });
+};
+
+const handlePdfError = (): void => {
+  state.isPdfLoading = false;
+  state.pdfError = true;
+  state.isErrorFile = true;
 };
 
 const centerPositionPanzoom = (): void => {
@@ -1351,6 +1376,10 @@ watch(
 
     imageSourcePath.value = state.file?.path ?? '';
     state.isErrorFile = false;
+    state.pdfError = false;
+    state.isPdfLoading =
+      isPdfFile(state.file?.path) || isPdfFile(state.file?.file);
+    clearPdf();
 
     initFile();
   }
@@ -1360,6 +1389,7 @@ watch(
   () => props.open,
   () => {
     if (!props.open) {
+      state.isPdfLoading = false;
       resetListenerPanzoom(false);
       resetPdfPanzoom();
       resetMobilePdfZoom();
@@ -2040,10 +2070,10 @@ const initScroll = (): void => {
  * Инициализируем pdf
  */
 const initPdf = async (): Promise<void> => {
+  const currentFile = state.file;
+  if (!currentFile) return;
   try {
-    if (!state.file) return;
     // Получаем из кэша pdf
-    const currentFile = state.file;
     const pdf = await cachePdf.getOrLoad(currentFile.path, async () => {
       if (currentFile.file) {
         const arrayBuffer = await currentFile.file.arrayBuffer();
@@ -2053,11 +2083,11 @@ const initPdf = async (): Promise<void> => {
       return await getDocument(currentFile.path).promise;
     });
 
-    if (state.file?.path !== currentFile.path) return;
+    if (!props.open || state.file !== currentFile) return;
 
     // Если pdf не существует, то выходим
     if (!pdf) {
-      state.isErrorFile = true;
+      handlePdfError();
       return;
     }
 
@@ -2071,8 +2101,9 @@ const initPdf = async (): Promise<void> => {
     // Снимаем ошибку
     state.isErrorFile = false;
   } catch (error) {
+    if (!props.open || state.file !== currentFile) return;
     console.error(error);
-    state.isErrorFile = true;
+    handlePdfError();
   }
 };
 
@@ -2352,6 +2383,7 @@ onUnmounted(() => {
 
 <style scoped>
 .modal-yui-kit.slider-modal {
+  inset: 0;
   display: block;
   backdrop-filter: blur(20px);
   max-width: none;
@@ -2361,6 +2393,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   background-color: transparent;
+  border: 0;
   border-radius: 0;
   box-sizing: border-box;
   overflow: hidden;
@@ -2380,6 +2413,7 @@ onUnmounted(() => {
   background-color: transparent;
 }
 .slider-modal__content {
+  position: relative;
   display: flex;
 
   width: 100%;
@@ -2485,6 +2519,34 @@ onUnmounted(() => {
   height: 100%;
   width: 100%;
   min-height: 0;
+}
+
+.slider-modal__loading,
+.slider-modal__error {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: var(--text-secondary);
+}
+
+.slider-modal__loading-spinner {
+  width: 64px;
+  height: 64px;
+  border: 4px solid transparent;
+  border-top-color: var(--text-brand);
+  border-right-color: var(--text-brand);
+  border-bottom-color: var(--text-brand);
+  border-radius: 50%;
+  animation: slider-pdf-loading 1s linear infinite;
+}
+
+@keyframes slider-pdf-loading {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .slider-modal__main:has(.slider-modal__bottom)
@@ -2729,7 +2791,6 @@ onUnmounted(() => {
   .slider-modal__main {
     position: relative;
     padding: 0;
-    padding-bottom: 43px;
     gap: 10px;
 
     height: auto;
@@ -2750,7 +2811,8 @@ onUnmounted(() => {
       :has(.slider-modal__image),
       :has(.slider-modal__video)
     ) {
-    height: calc(100% - 100px);
+    height: auto;
+    flex: 1 1 0;
     justify-content: center;
   }
 
@@ -2791,8 +2853,9 @@ onUnmounted(() => {
 
   .slider-modal__main:has(.slider-modal__bottom)
     .slider-modal__item:is(:has(.slider-modal__pdf)) {
-    height: 100%;
-    padding-bottom: 105px;
+    height: auto;
+    flex: 1 1 0;
+    padding-bottom: 0;
   }
 
   .slider-modal__pdf_mobile {
@@ -2800,8 +2863,7 @@ onUnmounted(() => {
   }
 
   .slider-modal__bottom {
-    position: absolute;
-    bottom: 0;
+    position: relative;
     z-index: 1;
 
     padding: 0 10px;
