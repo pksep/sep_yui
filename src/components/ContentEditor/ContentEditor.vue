@@ -3184,6 +3184,21 @@ button.ghost-yui-kit.mobile-buttons {
   display: none;
 }
 
+:is(
+    .editor-component > .toolbar > button.ghost-yui-kit:not(.right),
+    .editor-component > .right-buttons > button.smile-button,
+    .editor-component button.attach-file-button,
+    .attach-modal__editor button.attach-file-button,
+    .attach-modal__toolbar-left > button.ghost-yui-kit
+  ):not(:disabled, .disabled-yui-kit, .disable-yui-kit) {
+  color: var(--text-secondary);
+
+  &:active,
+  &.active {
+    color: var(--text-brand);
+  }
+}
+
 button.toolbar-button,
 button.mobile-buttons {
   &.button-yui-kit.primary-yui-kit,
