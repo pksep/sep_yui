@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.353
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.352...v0.1.353)
+
+### 🩹 Fixes
+
+- Color buttons contentEditor, and add loading pdf ([620b5b05](https://github.com/pksep/sep_yui/commit/620b5b05))
+
 ## v0.1.352
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.351...v0.1.352)
