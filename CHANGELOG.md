@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.1.354
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.350...v0.1.354)
+
+### 🚀 Enhancements
+
+- Upgrade pdf in slider ([266dc89b](https://github.com/pksep/sep_yui/commit/266dc89b))
+
+### 🩹 Fixes
+
+- Color buttons contentEditor, and add loading pdf ([620b5b05](https://github.com/pksep/sep_yui/commit/620b5b05))
+
+### 🏡 Chore
+
+- **release:** V0.1.351 ([c14d9e8e](https://github.com/pksep/sep_yui/commit/c14d9e8e))
+- **release:** V0.1.352 ([fe4898a4](https://github.com/pksep/sep_yui/commit/fe4898a4))
+- **release:** V0.1.353 ([6981d372](https://github.com/pksep/sep_yui/commit/6981d372))
+
 ## v0.1.353
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.352...v0.1.353)
