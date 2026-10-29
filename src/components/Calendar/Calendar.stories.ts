@@ -5,7 +5,13 @@ import { getDate } from './date-utils';
 const meta = {
   title: 'Calendar/Calendar',
   component: Calendar,
-  argTypes: {},
+  argTypes: {
+    title: {
+      control: 'text',
+      description:
+        'Необязательный заголовок фильтра, отображаемый через Badges.'
+    }
+  },
   tags: ['autodocs']
 } as Meta<typeof Calendar>;
 
@@ -20,6 +26,29 @@ const CalendarTemplate: StoryFn<typeof Calendar> = args => ({
 });
 
 export const OneItem = CalendarTemplate.bind({});
+
+export const OneItemWithTitle = CalendarTemplate.bind({});
+OneItemWithTitle.args = {
+  title: 'Установка начала работ',
+  isSelectTime: true
+};
+
+export const SeveralItemsWithTitle = CalendarTemplate.bind({});
+SeveralItemsWithTitle.args = {
+  title: 'Начало работ по операции',
+  isRange: true
+};
+
+export const OneItemWithLongTitle = CalendarTemplate.bind({});
+OneItemWithLongTitle.args = {
+  title: 'Дата требуемой готовности на операцию'
+};
+
+export const SeveralItemsWithLongTitle = CalendarTemplate.bind({});
+SeveralItemsWithLongTitle.args = {
+  title: 'Дата требуемой готовности на производственную операцию',
+  isRange: true
+};
 
 export const OneItemSetDates = CalendarTemplate.bind({});
 OneItemSetDates.args = {

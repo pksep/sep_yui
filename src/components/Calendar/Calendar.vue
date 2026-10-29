@@ -2,6 +2,7 @@
   <DatePickerRange
     ref="datePickerRangeRef"
     v-if="props.isRange"
+    :title="props.title"
     :to-last-time="props.toLastTime"
     v-model:start-date="state.dateObject.start"
     v-model:end-date="state.dateObject.end"
@@ -14,6 +15,7 @@
   <template v-else>
     <DatePicker
       v-model="state.date"
+      :title="props.title"
       :disabled="props.disabled"
       :start-date="props.startDate"
       :end-date="props.endDate"

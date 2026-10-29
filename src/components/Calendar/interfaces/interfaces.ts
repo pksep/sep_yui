@@ -12,6 +12,8 @@ export interface IRangeForDatePicker {
 }
 
 export interface IDatePickerProps extends IDatePickerBaseProps {
+  /** Необязательный заголовок фильтра над полем выбора даты. */
+  title?: string;
   range?: IRangeForDatePicker;
   locale?: string;
   fromTodayTime?: boolean;
