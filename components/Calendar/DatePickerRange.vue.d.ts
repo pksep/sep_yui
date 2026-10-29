@@ -7,6 +7,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<string>;
         default: string;
     };
+    title: {
+        type: import('vue').PropType<string>;
+    };
     disabled: {
         type: import('vue').PropType<boolean>;
     };
@@ -45,6 +48,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataTestid: {
         type: import('vue').PropType<string>;
         default: string;
+    };
+    title: {
+        type: import('vue').PropType<string>;
     };
     disabled: {
         type: import('vue').PropType<boolean>;
