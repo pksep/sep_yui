@@ -5,8 +5,18 @@ In Vue 3, `slot` is used by WebComponents, conflicting with Vue 2's deprecated `
 <template>
   <div
     class="date-picker-yui-kit__wrapper"
+    :class="{ 'date-picker-yui-kit__wrapper_titled': props.title }"
     :data-testid="`${props.dataTestid}-Wrapper`"
   >
+    <Badges
+      v-if="props.title"
+      class="date-picker-yui-kit__title"
+      :text="props.title"
+      :data-testid="`${props.dataTestid}-Title`"
+      disabled
+      @click.stop
+    />
+
     <PopoverWrapper
       :open="!props.disabled && state.isActive"
       @unmount-close="closePopover"
@@ -99,6 +109,7 @@ import { reactive, watch, watchEffect, computed } from 'vue';
 import '@pksep/col-cal';
 import DataPickerChoose from './DataPickerChoose.vue';
 import PopoverWrapper from './PopoverWrapper.vue';
+import Badges from '../Badges/Badges.vue';
 
 import type { IDatePickerProps } from './interfaces/interfaces';
 import { formatDates } from './date-utils';
@@ -346,6 +357,25 @@ defineExpose({
   clearChoose: clearChoose
 });
 </script>
+
+<style scoped>
+.date-picker-yui-kit__wrapper_titled {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: max-content;
+  gap: 2px;
+}
+
+/* Поле занимает ширину самого длинного элемента: заголовка или даты. */
+.date-picker-yui-kit__wrapper_titled :deep(.date-picker-yui-kit__header-btn) {
+  width: 100%;
+}
+
+.date-picker-yui-kit__title {
+  cursor: default;
+}
+</style>
 
 <style>
 col-cal {

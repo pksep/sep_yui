@@ -1,41 +1,57 @@
 <template>
   <div
-    :class="[
-      'date-picker-yui-kit__header',
-      { 'date-disable-yui-kit': props.disabled },
-      { 'date-active-yui-kit': state.isActive }
-    ]"
-    :data-testid="`${props.dataTestid}-Header`"
+    class="date-picker-range-yui-kit__wrapper"
+    :class="{ 'date-picker-range-yui-kit__wrapper_titled': props.title }"
   >
-    <DataPicker
-      v-model="state.date.start"
-      :locale="props.locale"
-      is-range
-      :disabled="props.disabled"
-      :end-date="state.date?.end"
-      @change="val => changeValue(val, RangeTypeEnum.start)"
-      @clear="clearFunction(RangeTypeEnum.start)"
-      :data-testid="`${props.dataTestid}-Component-Start`"
+    <Badges
+      v-if="props.title"
+      class="date-picker-range-yui-kit__title"
+      :text="props.title"
+      :data-testid="`${props.dataTestid}-Title`"
+      disabled
+      @click.stop
     />
+
     <div
-      class="date-picker-yui-kit__header__dash"
-      :data-testid="`${props.dataTestid}-Header-Dash`"
-    ></div>
-    <DataPicker
-      v-model="state.date.end"
-      :locale="props.locale"
-      is-range
-      :disabled="props.disabled"
-      :start-date="state.date?.start"
-      @change="val => changeValue(val, RangeTypeEnum.end)"
-      @clear="clearFunction(RangeTypeEnum.end)"
-      :data-testid="`${props.dataTestid}-Component-End`"
-    />
+      v-bind="$attrs"
+      :class="[
+        'date-picker-yui-kit__header',
+        { 'date-disable-yui-kit': props.disabled },
+        { 'date-active-yui-kit': state.isActive }
+      ]"
+      :data-testid="`${props.dataTestid}-Header`"
+    >
+      <DataPicker
+        v-model="state.date.start"
+        :locale="props.locale"
+        is-range
+        :disabled="props.disabled"
+        :end-date="state.date?.end"
+        @change="val => changeValue(val, RangeTypeEnum.start)"
+        @clear="clearFunction(RangeTypeEnum.start)"
+        :data-testid="`${props.dataTestid}-Component-Start`"
+      />
+      <div
+        class="date-picker-yui-kit__header__dash"
+        :data-testid="`${props.dataTestid}-Header-Dash`"
+      ></div>
+      <DataPicker
+        v-model="state.date.end"
+        :locale="props.locale"
+        is-range
+        :disabled="props.disabled"
+        :start-date="state.date?.start"
+        @change="val => changeValue(val, RangeTypeEnum.end)"
+        @clear="clearFunction(RangeTypeEnum.end)"
+        :data-testid="`${props.dataTestid}-Component-End`"
+      />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { reactive, watch, onMounted } from 'vue';
 import DataPicker from './DatePicker.vue';
+import Badges from '../Badges/Badges.vue';
 import {
   IRangeForDatePickerState,
   type IDatePickerProps,
@@ -43,6 +59,9 @@ import {
 } from './interfaces/interfaces';
 import { RangeTypeEnum } from './enums/enums';
 import { getLastTime } from './date-utils';
+
+// Внешние классы, стили и события по-прежнему относятся к полю диапазона.
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: 'ru-RU',
@@ -111,6 +130,29 @@ defineExpose({
 });
 </script>
 <style scoped>
+.date-picker-range-yui-kit__wrapper {
+  display: contents;
+}
+
+.date-picker-range-yui-kit__wrapper_titled {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: max-content;
+  gap: 2px;
+}
+
+/* Общая рамка диапазона растягивается до ширины длинного заголовка. */
+.date-picker-range-yui-kit__wrapper_titled > .date-picker-yui-kit__header {
+  box-sizing: border-box;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.date-picker-range-yui-kit__title {
+  cursor: default;
+}
+
 .date-picker-yui-kit__header {
   border: 1px solid var(--border-table);
   background: var(--surface-overlay);
