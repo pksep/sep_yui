@@ -38,6 +38,8 @@ export interface IRangeForDatePickerState {
 export interface IPopoverWrapperProps {
   placement?: 'top-start' | 'bottom-start';
   open?: boolean;
+  /** Keep wide calendar panels inside the viewport, including in dialogs. */
+  fitViewport?: boolean;
 }
 
 export interface PopoverWrapperInstance {
