@@ -22,6 +22,7 @@ import { ref, onBeforeUnmount, onMounted } from 'vue';
 import {
   useFloating,
   offset,
+  shift,
   autoPlacement,
   autoUpdate
 } from '@floating-ui/vue';
@@ -30,7 +31,8 @@ import type { IPopoverWrapperProps } from './interfaces/interfaces';
 
 const props = withDefaults(defineProps<IPopoverWrapperProps>(), {
   placement: 'bottom-start',
-  open: false
+  open: false,
+  fitViewport: false
 });
 
 const emits = defineEmits<{ (e: 'unmount-close'): void }>();
@@ -55,9 +57,10 @@ const { floatingStyles } = useFloating(popoverTrigger, popoverContent, {
     autoPlacement({
       crossAxis: true,
       allowedPlacements: ['top-start', 'bottom-start']
-    })
+    }),
+    ...(props.fitViewport ? [shift({ padding: 16 })] : [])
   ],
-  strategy: teleportTarget.value ? 'fixed' : 'absolute',
+  strategy: props.fitViewport || teleportTarget.value ? 'fixed' : 'absolute',
   placement: props.placement,
   whileElementsMounted: autoUpdate
 });

@@ -1,6 +1,16 @@
 <template>
-  <div :class="{ 'time-picker-select': true, disabled: props.disabled }">
-    <div class="time-picker-select-content" @click="openModal">
+  <div
+    :class="{
+      'time-picker-select': true,
+      'time-picker-select_inline': props.inline,
+      disabled: props.disabled
+    }"
+  >
+    <div
+      v-if="!props.inline"
+      class="time-picker-select-content"
+      @click="openModal"
+    >
       <Icon :name="IconNameEnum.time" />
       <span>{{ showedValue }}</span>
       <div
@@ -15,20 +25,22 @@
       </div>
     </div>
 
-    <Dialog
-      :open="state.openModal"
+    <component
+      :is="props.inline ? 'div' : Dialog"
+      :open="props.inline ? undefined : state.openModal"
       @close="closeModal"
       class="time-picker-dialog"
+      :class="{ 'time-picker-dialog_inline': props.inline }"
       width="328px"
     >
       <div class="time-picker-dialog-content">
-        <h3>Установка времени</h3>
+        <h3 v-if="!props.inline">Установка времени</h3>
 
         <div class="time-picker-header">
-          <div>
+          <component :is="props.inline ? 'label' : 'div'">
             <InputNumber
               :model-value="state.hours"
-              @update:model-value="value => (state.hours = +value)"
+              @update:model-value="value => changeValue('hours', value)"
               :min="0"
               :max="23"
               class="time-picker__input_hour"
@@ -41,13 +53,13 @@
               zero-pad
               @click="state.editingValue = 'hour'"
             />
-            <span>Часы</span>
-          </div>
+            <span>{{ props.locale.startsWith('ru') ? 'Часы' : 'Hours' }}</span>
+          </component>
           <span class="time-picker-separator">:</span>
-          <div>
+          <component :is="props.inline ? 'label' : 'div'">
             <InputNumber
               :model-value="state.minutes"
-              @update:model-value="value => (state.minutes = +value)"
+              @update:model-value="value => changeValue('minutes', value)"
               :min="0"
               :max="59"
               class="time-picker__input_minute"
@@ -60,8 +72,10 @@
               zero-pad
               @click="state.editingValue = 'minute'"
             />
-            <span>Минуты</span>
-          </div>
+            <span>{{
+              props.locale.startsWith('ru') ? 'Минуты' : 'Minutes'
+            }}</span>
+          </component>
         </div>
 
         <!-- CLOCK -->
@@ -126,7 +140,7 @@
           <div class="clock-hand-center"></div>
         </div>
 
-        <div class="time-picker-actions">
+        <div v-if="!props.inline" class="time-picker-actions">
           <div
             class="time-picker-actions__switch"
             @click="state.openClock = !state.openClock"
@@ -151,12 +165,19 @@
           </Button>
         </div>
       </div>
-    </Dialog>
+    </component>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  watch
+} from 'vue';
 import Button from '../Button/Button.vue';
 import InputNumber from '../InputNumber/InputNumber.vue';
 import Dialog from '../Dialog/Dialog.vue';
@@ -175,11 +196,17 @@ interface IState {
   localMinutes: number | undefined;
 }
 
-const props = defineProps<{
-  modelValue?: string | null | Date; // ISO UTC string
-  disabled?: boolean;
-  hideClearButton?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string | null | Date; // ISO UTC string
+    disabled?: boolean;
+    hideClearButton?: boolean;
+    /** Embed the editor without its trigger, dialog or confirmation buttons. */
+    inline?: boolean;
+    locale?: string;
+  }>(),
+  { inline: false, locale: 'ru-RU' }
+);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | null): void;
@@ -212,6 +239,18 @@ watch(
   },
   { immediate: true }
 );
+
+const syncInlineTime = (): void => {
+  if (props.inline) {
+    state.hours = state.localHours ?? 0;
+    state.minutes = state.localMinutes ?? 0;
+  }
+};
+
+// Initialize after the inputs mount so their zero-pad formatting also runs
+// for the first value, while keeping InputNumber's numeric model unchanged.
+onMounted(syncInlineTime);
+watch([() => props.modelValue, () => props.inline], syncInlineTime);
 
 // --- Copy local time when modal opens
 watch(
@@ -276,6 +315,12 @@ function updateTime(event: MouseEvent) {
   } else {
     state.minutes = Math.round(angle / 6) % 60;
   }
+  if (props.inline) saveTime();
+}
+
+function changeValue(type: 'hours' | 'minutes', value: number | string) {
+  state[type] = +value;
+  if (props.inline) saveTime();
 }
 
 function handleClick(event: MouseEvent) {
@@ -326,7 +371,7 @@ function saveTime() {
   emits('update:modelValue', utcString);
   state.localHours = state.hours;
   state.localMinutes = state.minutes;
-  closeModal();
+  if (!props.inline) closeModal();
 }
 
 // --- Clear
@@ -337,6 +382,11 @@ function clearTime() {
   state.localMinutes = undefined;
   emits('update:modelValue', null);
 }
+
+defineExpose({
+  toggleClock: () => (state.openClock = !state.openClock),
+  isClockOpen: computed(() => state.openClock)
+});
 </script>
 
 <style scoped lang="scss">
@@ -478,7 +528,7 @@ function clearTime() {
     margin-top: 24px;
     margin-bottom: 16px;
 
-    & > div {
+    & > :is(div, label) {
       & > span {
         margin-top: 7px;
         font-weight: 400;
@@ -578,6 +628,27 @@ function clearTime() {
         color: var(--text-brand);
       }
     }
+  }
+}
+
+.time-picker-select_inline {
+  height: auto;
+  padding: 0;
+  background: transparent;
+}
+
+.time-picker-dialog_inline {
+  background: transparent;
+  box-shadow: none;
+  font-family: inherit;
+
+  & .time-picker-dialog-content {
+    padding: 0;
+  }
+
+  & .time-picker-header {
+    justify-content: flex-start;
+    margin-top: 0;
   }
 }
 </style>

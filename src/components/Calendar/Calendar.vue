@@ -12,6 +12,19 @@
     @change="changeValues"
     :data-testid="`${props.dataTestid}-DataPickerRange`"
   />
+  <DateTimePicker
+    v-else-if="props.isSelectTime"
+    v-model="state.date"
+    :title="props.title"
+    :disabled="props.disabled"
+    :start-date="props.startDate"
+    :end-date="props.endDate"
+    :locale="props.locale"
+    :is-small="props.isSmall"
+    :data-testid="`${props.dataTestid}-DataPicker`"
+    @click="emits('click')"
+    @change="changeValues"
+  />
   <template v-else>
     <DatePicker
       v-model="state.date"
@@ -34,6 +47,7 @@ import { reactive, watchEffect, watch, onMounted, ref } from 'vue';
 
 import DatePickerRange from './DatePickerRange.vue';
 import DatePicker from './DatePicker.vue';
+import DateTimePicker from './DateTimePicker.vue';
 
 import type {
   IDatePickerProps,
