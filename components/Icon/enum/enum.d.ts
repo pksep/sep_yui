@@ -189,5 +189,6 @@ export declare enum IconNameEnum {
     avatar = "avatar",
     copyValue = "copy-value",
     computer = "computer",
-    phone = "phone"
+    phone = "phone",
+    plusCycle = "plus-cycle"
 }

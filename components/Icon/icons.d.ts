@@ -203,3 +203,4 @@ export declare const avatar: IVectorIcon;
 export declare const copyValue: IVectorIcon;
 export declare const computer: IVectorIcon;
 export declare const phone: IVectorIcon;
+export declare const plusCycle: IVectorIcon;
