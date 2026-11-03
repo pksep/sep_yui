@@ -3,6 +3,7 @@
     ref="datePickerRangeRef"
     v-if="props.isRange"
     :title="props.title"
+    :min-date="props.minDate"
     :to-last-time="props.toLastTime"
     v-model:start-date="state.dateObject.start"
     v-model:end-date="state.dateObject.end"
