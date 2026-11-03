@@ -84,7 +84,7 @@
             </div>
             <RangeCalendarPanel
               :date="draft[type]"
-              :start-date="type === RangeTypeEnum.end ? draft.start : null"
+              :start-date="type === RangeTypeEnum.end ? endMinDate : minDate"
               :end-date="type === RangeTypeEnum.start ? draft.end : null"
               :locale="props.locale"
               :data-testid="`${props.dataTestid}-Component-${type === RangeTypeEnum.start ? 'Start' : 'End'}-Component`"
@@ -202,9 +202,31 @@ const normalizeEndDate = (date: Date | null | undefined): Date | null => {
 const dayValue = (date: Date): number =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 
+/** Передаёт календарю копию нижней границы без изменения внешней даты. */
+const minDate = computed((): Date | null => {
+  const date = cloneDate(props.minDate);
+  date?.setHours(0, 0, 0, 0);
+
+  return date;
+});
+
+/** Конец периода не может предшествовать ни началу, ни общей нижней границе. */
+const endMinDate = computed((): Date | null => {
+  if (!draft.start) return minDate.value;
+  if (!minDate.value || dayValue(draft.start) >= dayValue(minDate.value))
+    return draft.start;
+
+  return minDate.value;
+});
+
 const isInvalidRange = computed(
   () =>
-    !!draft.start && !!draft.end && dayValue(draft.start) > dayValue(draft.end)
+    (!!draft.start &&
+      !!draft.end &&
+      dayValue(draft.start) > dayValue(draft.end)) ||
+    (!!minDate.value &&
+      ((!!draft.start && dayValue(draft.start) < dayValue(minDate.value)) ||
+        (!!draft.end && dayValue(draft.end) < dayValue(minDate.value))))
 );
 
 const syncDraft = (): void => {
