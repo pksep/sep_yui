@@ -13,6 +13,8 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
     /** Необязательный заголовок фильтра над полем выбора даты. */
     title?: string;
     range?: IRangeForDatePicker;
+    /** Нижняя граница выбора периода, не заполняющая выбранные даты. */
+    minDate?: Date | null;
     locale?: string;
     fromTodayTime?: boolean;
     toLastTime?: boolean;

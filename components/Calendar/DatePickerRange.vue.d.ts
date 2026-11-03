@@ -22,6 +22,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     range: {
         type: import('vue').PropType<IRangeForDatePicker>;
     };
+    minDate: {
+        type: import('vue').PropType<Date | null>;
+    };
     locale: {
         type: import('vue').PropType<string>;
         default: string;
@@ -63,6 +66,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     range: {
         type: import('vue').PropType<IRangeForDatePicker>;
+    };
+    minDate: {
+        type: import('vue').PropType<Date | null>;
     };
     locale: {
         type: import('vue').PropType<string>;
