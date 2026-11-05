@@ -137,7 +137,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-secondary);
+    color: var(--text-input-disabled);
     background-color: var(--action-disabled-bg);
   }
 }
@@ -151,7 +151,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-secondary);
+    color: var(--text-input-disabled);
     background-color: var(--action-disabled-bg);
   }
 }
@@ -168,7 +168,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-secondary);
+    color: var(--text-input-disabled);
     background-color: var(--action-disabled-bg);
     border: 1px solid var(--border-table);
   }
@@ -186,7 +186,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
   }
 
   &.disabled-yui-kit {
-    color: var(--text-secondary);
+    color: var(--text-input-disabled);
     background-color: var(--action-disabled-bg);
     border: 1px solid var(--text-secondary);
   }
@@ -206,7 +206,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-secondary);
+    color: var(--text-input-disabled);
     background-color: transparent;
   }
 }
@@ -224,7 +224,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-secondary);
+    color: var(--text-input-disabled);
     background-color: transparent;
   }
 }
@@ -238,7 +238,7 @@ const onClick = (e: MouseEvent | KeyboardEvent) => emit('click', e);
     background-color: var(--action-secondary-pressed-bg);
   }
   &.disabled-yui-kit {
-    color: var(--text-secondary);
+    color: var(--text-input-disabled);
     background-color: var(--action-disabled-bg);
   }
 }

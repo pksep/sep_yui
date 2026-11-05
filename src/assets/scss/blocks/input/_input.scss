@@ -150,7 +150,7 @@ fieldset.input-yui-kit:disabled {
   background-color: var(--action-disabled-bg);
 
   & .input-yui-kit__input {
-    color: var(--text-disabled);
+    color: var(--text-input-disabled);
     border-radius: var(--radius);
   }
 
@@ -161,13 +161,6 @@ fieldset.input-yui-kit:disabled {
   & .input-yui-kit__legend {
     visibility: hidden;
     opacity: 0;
-  }
-}
-
-:is([data-theme="dark"], .theme-dark) fieldset.input-yui-kit:disabled,
-:is([data-theme="dark"], .theme-dark) fieldset.input-yui-kit.readonly {
-  & .input-yui-kit__input {
-    color: var(--text-secondary);
   }
 }
 
