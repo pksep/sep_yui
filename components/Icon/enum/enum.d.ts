@@ -124,6 +124,7 @@ export declare enum IconNameEnum {
     taskStatus = "task-status",
     taskPriority = "task-priority",
     taskAssignees = "task-assignees",
+    taskController = "task-controller",
     taskTags = "task-tags",
     taskDueDate = "task-due-date",
     priorityLow = "priority-low",

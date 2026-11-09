@@ -145,6 +145,7 @@ export declare const taskPriority: IVectorIcon;
 export declare const taskAssignees: IVectorIcon;
 export declare const taskTags: IVectorIcon;
 export declare const taskDueDate: IVectorIcon;
+export declare const taskController: IVectorIcon;
 export declare const priorityLow: IVectorIcon;
 export declare const priorityMedium: IVectorIcon;
 export declare const priorityHigh: IVectorIcon;
