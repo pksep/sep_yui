@@ -43,7 +43,7 @@
         :disabled="+state.inputElement >= props.max"
       >
         <Icon
-          :name="IconNameEnum.chevronUp"
+          :name="IconNameEnum.chevronDown"
           :data-testid="`${props.dataTestid}-Icon`"
         />
       </button>
@@ -367,6 +367,11 @@ fieldset.input-yui-kit {
     & .input-yui-kit__button-up {
       border-radius: var(--input-border-radius, 6px)
         var(--input-border-radius, 6px) 0 0;
+
+      /* Одинаковая геометрия обеих стрелок сохраняет общую вертикальную ось. */
+      & .icon-yui-kit {
+        transform: rotate(180deg);
+      }
     }
     & .input-yui-kit__button-down {
       border-radius: 0 0 var(--input-border-radius, 6px)
