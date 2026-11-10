@@ -103,7 +103,6 @@ fieldset.input-yui-kit .input-yui-kit__input {
   height: 100%;
   padding: 10px 15px;
   width: calc(100% + 3px);
-  color: var(--text-primary);
 }
 
 fieldset.input-yui-kit.readonly::before,
