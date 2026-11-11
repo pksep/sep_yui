@@ -367,7 +367,6 @@ defineExpose({ clear: handleClearAll });
   color: var(--text-disabled);
   background: var(--action-disabled-bg);
   border: 1px solid var(--border-table);
-  border-bottom-color: var(--text-disabled);
 }
 
 .date-picker-yui-kit__header__dash {
