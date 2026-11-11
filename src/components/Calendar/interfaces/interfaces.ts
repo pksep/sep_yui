@@ -26,6 +26,20 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
   isSelectTime?: boolean;
 }
 
+export type DateTimePickerUnit = 'hours' | 'minutes';
+
+export interface IDateTimePickerAddition {
+  isOpen: boolean;
+  value: number;
+}
+
+export interface IDateTimePickerAdditionalField {
+  unit: DateTimePickerUnit;
+  label: string;
+  inputLabel: string;
+  max: number;
+}
+
 export interface IDatePickerChooserProps extends IDatePickerBaseProps {
   value: string;
   isActive: boolean;
