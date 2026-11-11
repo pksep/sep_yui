@@ -58,24 +58,37 @@ DateAndTimeWithConfirmation.play = async ({ canvasElement, args }) => {
   await userEvent.clear(minutes);
   await userEvent.type(minutes, '45');
 
-  let day: HTMLButtonElement | undefined;
-  await waitFor(() => {
-    day = Array.from(
-      page
-        .getByTestId('Calendar-DataPicker-Component')
-        .querySelector('col-cal-dates')
-        ?.shadowRoot?.querySelectorAll<HTMLButtonElement>(
-          'button.day:not(.disabled)'
-        ) ?? []
-    ).find(item => item.textContent?.trim() === '5');
-    expect(day).toBeDefined();
-  });
-  await userEvent.click(day!);
+  /** Выбирает день через настоящий календарь, включая его shadow DOM. */
+  const chooseDay = async (number: number): Promise<void> => {
+    let day: HTMLButtonElement | undefined;
+
+    // Ждём отрисовки web component перед нажатием на день.
+    await waitFor(() => {
+      day = Array.from(
+        page
+          .getByTestId('Calendar-DataPicker-Component')
+          .querySelector('col-cal-dates')
+          ?.shadowRoot?.querySelectorAll<HTMLButtonElement>(
+            'button.day:not(.disabled)'
+          ) ?? []
+      ).find(item => item.textContent?.trim() === String(number));
+      expect(day).toBeDefined();
+    });
+    await userEvent.click(day!);
+  };
+
+  // Повторный выбор того же дня сохраняет введённые часы и минуты.
+  await chooseDay(4);
+  await expect(hours).toHaveValue('15');
+  await expect(minutes).toHaveValue('45');
+
+  // Новый день сбрасывает прежнее время только в черновике.
+  await chooseDay(5);
+  await expect(hours).toHaveValue('08');
+  await expect(minutes).toHaveValue('00');
   await expect(args.onChange).not.toHaveBeenCalled();
   await userEvent.click(page.getByRole('button', { name: 'Сохранить' }));
-  await expect(args.onChange).toHaveBeenLastCalledWith(
-    new Date(2024, 6, 5, 15, 45)
-  );
+  await expect(args.onChange).toHaveBeenLastCalledWith(new Date(2024, 6, 5, 8));
   await expect(trigger).toHaveFocus();
 
   await userEvent.click(trigger);
@@ -88,11 +101,159 @@ DateAndTimeWithConfirmation.play = async ({ canvasElement, args }) => {
   await expect(args.onChange).toHaveBeenCalledTimes(1);
   await userEvent.click(page.getByRole('button', { name: 'Отменить' }));
   await userEvent.click(trigger);
-  await expect(page.getByRole('textbox', { name: 'Часы' })).toHaveValue('15');
-  await expect(page.getByRole('textbox', { name: 'Минуты' })).toHaveValue('45');
+  await expect(page.getByRole('textbox', { name: 'Часы' })).toHaveValue('08');
+  await expect(page.getByRole('textbox', { name: 'Минуты' })).toHaveValue('0');
   await userEvent.click(page.getByRole('button', { name: 'Сбросить' }));
   await userEvent.click(page.getByRole('button', { name: 'Сохранить' }));
   await expect(args.onChange).toHaveBeenLastCalledWith(null);
+};
+
+export const DateAndTimeWithAddition = CalendarTemplate.bind({});
+DateAndTimeWithAddition.args = {
+  title: 'Начало работ по операции',
+  isSelectTime: true,
+  setDate: new Date(2024, 6, 4, 23, 45),
+  onChange: fn()
+};
+DateAndTimeWithAddition.play = async ({ canvasElement, args }) => {
+  const canvas = within(canvasElement);
+  const page = within(canvasElement.ownerDocument.body);
+  const trigger = canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger');
+
+  await userEvent.click(trigger);
+  const addHours = page.getByRole('button', { name: 'Добавить часы' });
+  const addMinutes = page.getByRole('button', { name: 'Добавить минуты' });
+  await expect(addHours).toHaveAttribute('aria-expanded', 'false');
+  await expect(addMinutes).toHaveAttribute('aria-expanded', 'false');
+  await userEvent.click(within(addHours.parentElement!).getByText('Часы'));
+  const hours = page.getByRole('textbox', { name: 'Добавить часы' });
+  await expect(hours).toHaveFocus();
+  await userEvent.clear(hours);
+  await userEvent.type(hours, '1');
+  await userEvent.click(addHours.querySelector('svg') ?? addHours);
+  await expect(hours).toHaveFocus();
+  await expect(hours).toHaveValue('1');
+  await userEvent.click(within(addMinutes.parentElement!).getByText('Минуты'));
+  const minutes = page.getByRole('textbox', { name: 'Добавить минуты' });
+  await expect(minutes).toHaveFocus();
+  await userEvent.clear(minutes);
+  await userEvent.type(minutes, '30');
+  await expect(page.getByRole('textbox', { name: 'Часы' })).toHaveValue('23');
+  await expect(page.getByRole('textbox', { name: 'Минуты' })).toHaveValue('45');
+  await expect(args.onChange).not.toHaveBeenCalled();
+  await userEvent.keyboard('{Enter}');
+  const expectedDate = new Date(2024, 6, 5, 1, 15);
+  await expect(args.onChange).toHaveBeenLastCalledWith(expectedDate);
+  await expect(args.onChange).toHaveBeenCalledTimes(1);
+  await expect(trigger).toHaveFocus();
+
+  // Результат становится новой исходной датой без повторного применения прибавки.
+  await userEvent.click(trigger);
+  await expect(page.getByRole('textbox', { name: 'Часы' })).toHaveValue('01');
+  await expect(page.getByRole('textbox', { name: 'Минуты' })).toHaveValue('15');
+  await expect(
+    page.queryByRole('textbox', { name: 'Добавить часы' })
+  ).not.toBeInTheDocument();
+  await userEvent.click(page.getByRole('button', { name: 'Добавить часы' }));
+  const reopenedHours = page.getByRole('textbox', { name: 'Добавить часы' });
+  await expect(reopenedHours).toHaveValue('0');
+  await userEvent.clear(reopenedHours);
+  await userEvent.type(reopenedHours, '3');
+  await userEvent.click(page.getByRole('button', { name: 'Отменить' }));
+  await expect(args.onChange).toHaveBeenCalledTimes(1);
+
+  await userEvent.click(trigger);
+  await userEvent.click(page.getByRole('button', { name: 'Сохранить' }));
+  await expect(args.onChange).toHaveBeenLastCalledWith(expectedDate);
+  await expect(args.onChange).toHaveBeenCalledTimes(2);
+
+  // Сброс очищает и выбранную дату, и прибавку, но требует подтверждения.
+  await userEvent.click(trigger);
+  await userEvent.click(page.getByRole('button', { name: 'Добавить минуты' }));
+  await userEvent.type(
+    page.getByRole('textbox', { name: 'Добавить минуты' }),
+    '10'
+  );
+  await userEvent.click(page.getByRole('button', { name: 'Сбросить' }));
+  await expect(
+    page.queryByRole('textbox', { name: 'Добавить минуты' })
+  ).not.toBeInTheDocument();
+  await expect(args.onChange).toHaveBeenCalledTimes(2);
+  await userEvent.click(page.getByRole('button', { name: 'Сохранить' }));
+  await expect(args.onChange).toHaveBeenLastCalledWith(null);
+};
+
+export const DateAndTimeAdditionLimits = CalendarTemplate.bind({});
+DateAndTimeAdditionLimits.args = {
+  isSelectTime: true,
+  setDate: new Date(2024, 6, 4, 23, 45),
+  startDate: new Date(2024, 6, 4),
+  endDate: new Date(2024, 6, 4),
+  onChange: fn()
+};
+DateAndTimeAdditionLimits.play = async ({ canvasElement, args }) => {
+  const canvas = within(canvasElement);
+  const page = within(canvasElement.ownerDocument.body);
+
+  await userEvent.click(
+    canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger')
+  );
+  await userEvent.click(page.getByRole('button', { name: 'Добавить часы' }));
+  const hours = page.getByRole('textbox', { name: 'Добавить часы' });
+  await userEvent.clear(hours);
+  await userEvent.type(hours, '1');
+  await expect(page.getByRole('button', { name: 'Сохранить' })).toBeDisabled();
+  await userEvent.keyboard('{Enter}');
+  await expect(args.onChange).not.toHaveBeenCalled();
+
+  await userEvent.clear(hours);
+  await userEvent.type(hours, '0');
+  await userEvent.click(page.getByRole('button', { name: 'Добавить минуты' }));
+  const minutes = page.getByRole('textbox', { name: 'Добавить минуты' });
+  await userEvent.clear(minutes);
+  await userEvent.type(minutes, '14');
+  await expect(page.getByRole('button', { name: 'Сохранить' })).toBeEnabled();
+  await userEvent.keyboard('{Enter}');
+  await expect(args.onChange).toHaveBeenLastCalledWith(
+    new Date(2024, 6, 4, 23, 59)
+  );
+};
+
+export const DateAndTimeWithAdditionEnglish = CalendarTemplate.bind({});
+DateAndTimeWithAdditionEnglish.args = {
+  isSelectTime: true,
+  locale: 'en-US',
+  setDate: new Date(2024, 6, 4, 10, 18),
+  onChange: fn()
+};
+DateAndTimeWithAdditionEnglish.play = async ({ canvasElement, args }) => {
+  const canvas = within(canvasElement);
+  const page = within(canvasElement.ownerDocument.body);
+
+  await userEvent.click(
+    canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger')
+  );
+  await userEvent.click(page.getByRole('button', { name: 'Add hours' }));
+  const hours = page.getByRole('textbox', { name: 'Add hours' });
+  await expect(hours).toHaveFocus();
+  await userEvent.clear(hours);
+  await userEvent.type(hours, '2');
+  await userEvent.keyboard('{Enter}');
+  await expect(args.onChange).toHaveBeenLastCalledWith(
+    new Date(2024, 6, 4, 12, 18)
+  );
+
+  // Enter в основном поле сохраняет новую дату без прежней прибавки.
+  await userEvent.click(
+    canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger')
+  );
+  const selectedHours = page.getByRole('textbox', { name: 'Hours' });
+  await userEvent.clear(selectedHours);
+  await userEvent.type(selectedHours, '13');
+  await userEvent.keyboard('{Enter}');
+  await expect(args.onChange).toHaveBeenLastCalledWith(
+    new Date(2024, 6, 4, 13, 18)
+  );
 };
 
 export const SeveralItemsWithTitle = CalendarTemplate.bind({});
