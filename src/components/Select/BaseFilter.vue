@@ -116,6 +116,20 @@
         @change="getChoosenOption"
         @disabled-click="unmountDisabledClick"
       >
+        <template #option="{ inx }">
+          <span aria-hidden="true" class="filter__option-checkbox" inert>
+            <Checkbox
+              :data-testid="`${props.dataTestid}-Checkbox-${inx}`"
+              :disabled="props.disabled || filterOptions[inx].disabled"
+              :model-value="
+                isArray(model)
+                  ? model.includes(filterOptions[inx].key)
+                  : String(model) === filterOptions[inx].key
+              "
+              :size="CheckboxSizeEnum.small"
+            />
+          </span>
+        </template>
         <li
           class="filter__options-underline"
           :data-testid="`${props.dataTestid}-Underline`"
@@ -135,6 +149,8 @@
 
 <script setup lang="ts">
 import Badges from '@/components/Badges/Badges.vue';
+import Checkbox from '@/components/Checkbox/Checkbox.vue';
+import { CheckboxSizeEnum } from '@/components/Checkbox/enum/enum';
 import { BadgesTypeEnum } from '@/components/Badges/enum/enum';
 import { IconNameEnum } from '@/components/Icon/enum/enum';
 import Icon from '@/components/Icon/Icon.vue';
@@ -475,11 +491,25 @@ onUnmounted(() => {
 }
 
 :deep(.filter__options .filter__options-option) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 14px;
 
   &.active {
     background-color: inherit;
   }
+}
+
+:deep(.filter__options-option .options__item) {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Выбор остаётся на строке Options, без второго переключения от input. */
+.filter__option-checkbox {
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .filter__header-tooltip {

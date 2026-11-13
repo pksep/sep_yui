@@ -1,6 +1,14 @@
 import { IconNameEnum } from './enum/enum';
 import { IVectorIcon } from './interface/interface';
 
+export const folderLarge: IVectorIcon = {
+  name: IconNameEnum.folderLarge,
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 130 134',
+  path: `<path d="M122.509 108.4C122.509 111.55 121.295 114.572 119.133 116.8C116.972 119.028 114.041 120.279 110.984 120.279H18.7856C15.729 120.279 12.7976 119.028 10.6363 116.8C8.47496 114.572 7.26074 111.55 7.26074 108.4V25.2438C7.26074 22.0932 8.47496 19.0716 10.6363 16.8438C12.7976 14.616 15.729 13.3644 18.7856 13.3644H47.5976L59.1224 31.1835H110.984C114.041 31.1835 116.972 32.4351 119.133 34.6629C121.295 36.8908 122.509 39.9123 122.509 43.063V108.4Z" stroke-width="2.09441" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>`
+};
+
 export const crmPanel: IVectorIcon = {
   name: IconNameEnum.crmPanel,
   style: 'line',
@@ -2269,5 +2277,33 @@ export const plusCycle: IVectorIcon = {
     <path d="M8 5.33301V10.6663" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
     <path d="M5.33337 8H10.6667" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
 
+  `
+};
+
+export const gridView: IVectorIcon = {
+  name: IconNameEnum.gridView,
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+    <rect x="1.46667" y="1.46667" width="5.4303" height="5.4303" rx="0.806061" stroke-width="0.933334" stroke="currentColor"/>
+    <rect x="9.1029" y="1.46667" width="5.4303" height="5.4303" rx="0.806061" stroke-width="0.933334" stroke="currentColor"/>
+    <rect x="1.46667" y="9.1029" width="5.4303" height="5.4303" rx="0.806061" stroke-width="0.933334" stroke="currentColor"/>
+    <rect x="9.1029" y="9.10302" width="5.4303" height="5.4303" rx="0.806061" stroke-width="0.933334" stroke="currentColor"/>
+  `
+};
+
+export const listView: IVectorIcon = {
+  name: IconNameEnum.listView,
+  style: 'line',
+  fill: 'none',
+  viewbox: '0 0 16 16',
+  path: `
+    <path d="M5.33325 4H13.9999" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+    <path d="M5.33325 8H13.9999" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+    <path d="M5.33325 12H13.9999" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+    <path d="M2 4H2.00667" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+    <path d="M2 8H2.00667" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+    <path d="M2 12H2.00667" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
   `
 };
