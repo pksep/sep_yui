@@ -165,7 +165,7 @@ const formatLetter = (str: string): string | null => {
   font-weight: 400;
 }
 
-.date-picker-close-yui-kit {
+.data-picker-choose .date-picker-close-yui-kit {
   padding: 0;
   min-height: auto;
 }
