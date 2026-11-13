@@ -1,5 +1,6 @@
 import { IVectorIcon } from './interface/interface';
 
+export declare const folderLarge: IVectorIcon;
 export declare const crmPanel: IVectorIcon;
 export declare const crmDeals: IVectorIcon;
 export declare const crmAppeals: IVectorIcon;
@@ -205,3 +206,5 @@ export declare const copyValue: IVectorIcon;
 export declare const computer: IVectorIcon;
 export declare const phone: IVectorIcon;
 export declare const plusCycle: IVectorIcon;
+export declare const gridView: IVectorIcon;
+export declare const listView: IVectorIcon;
