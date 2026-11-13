@@ -73,6 +73,7 @@ export enum IconNameEnum {
   fileText = 'file-text',
   gitPullRequest = 'git-pull-request',
   folder = 'folder',
+  folderLarge = 'folder-large',
   crossLarge = 'cross-large',
   crossSmall = 'cross-small',
   profileIcon = 'profile-icon',
@@ -191,5 +192,7 @@ export enum IconNameEnum {
   copyValue = 'copy-value',
   computer = 'computer',
   phone = 'phone',
-  plusCycle = 'plus-cycle'
+  plusCycle = 'plus-cycle',
+  gridView = 'grid-view',
+  listView = 'list-view'
 }
