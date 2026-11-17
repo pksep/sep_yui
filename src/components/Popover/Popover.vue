@@ -153,7 +153,6 @@ const handleClick = (item: IPopoverOption): void => {
 
 let positionFrame: number | null = null;
 let shouldCheckCovered = false;
-let isPositioned = false;
 let intersectionObserver: IntersectionObserver | null = null;
 
 /** Объединяет события прокрутки и изменения размера в одно измерение за кадр. */
@@ -177,71 +176,67 @@ const setCssPosition = (): void => {
       if (!state.isShow) return;
     }
 
-    // После первого размещения anchor сам следует за кнопкой без записей в style.
-    if (isSupportAnchor && isPositioned) return;
+    // Измеряем до записи стилей: повторные scroll/resize делят один кадр.
+    const menu = floating.value;
+    const floatingRect = menu.getBoundingClientRect();
+    const gap = 10;
+    const padding = 8;
+    const viewportHeight =
+      document.documentElement.clientHeight || window.innerHeight;
+    const viewportWidth =
+      document.documentElement.clientWidth || window.innerWidth;
+    // scrollHeight сохраняет полную высоту, даже если меню уже ограничено max-height.
+    const fullHeight = Math.max(
+      floatingRect.height,
+      menu.scrollHeight + menu.offsetHeight - menu.clientHeight
+    );
+    const below = Math.max(0, viewportHeight - rect.bottom - gap - padding);
+    const above = Math.max(0, rect.top - gap - padding);
+    const opensAbove = fullHeight > below && above > below;
+    const maxHeight = opensAbove ? above : below;
+    const height = Math.min(fullHeight, maxHeight);
 
-    // получаем положение основного элемента относительно документа
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft =
-      window.pageXOffset || document.documentElement.scrollLeft;
+    setedStyles['--popover-max-height'] = `${maxHeight}px`;
 
-    let top = rect.bottom + scrollTop;
-    let left = rect.left + scrollLeft;
+    if (isSupportAnchor) {
+      // Anchor сохраняет привязку и внутри dialog, в том числе с transform.
+      setedStyles['--popover-top'] = opensAbove
+        ? 'auto'
+        : `calc(anchor(bottom) + ${gap}px)`;
+      setedStyles['--popover-bottom'] = opensAbove
+        ? `calc(anchor(top) + ${gap}px)`
+        : 'auto';
+      setedStyles['--popover-left'] =
+        rect.left + floatingRect.width > viewportWidth - padding
+          ? `max(${padding}px, calc(anchor(right) - ${floatingRect.width}px))`
+          : `max(${padding}px, anchor(left))`;
+    } else {
+      // В браузерах без anchor переводим координаты окна в containing block меню.
+      const parent = menu.offsetParent;
+      const parentRect =
+        parent instanceof HTMLElement && parent !== document.body
+          ? parent.getBoundingClientRect()
+          : null;
+      const offsetTop =
+        parentRect && parent instanceof HTMLElement
+          ? parent.scrollTop - parentRect.top - parent.clientTop
+          : window.scrollY;
+      const offsetLeft =
+        parentRect && parent instanceof HTMLElement
+          ? parent.scrollLeft - parentRect.left - parent.clientLeft
+          : window.scrollX;
+      const top = opensAbove ? rect.top - gap - height : rect.bottom + gap;
+      const left =
+        rect.left + floatingRect.width > viewportWidth - padding
+          ? rect.right - floatingRect.width
+          : rect.left;
 
-    // если элемент находится в диалоге, то нужно вычесть его положение
-    const dialog = reference.value.closest('dialog');
-
-    if (dialog) {
-      const rectDialog = dialog.getBoundingClientRect();
-
-      // выстявляем позиции от window отностиельно диалога
-      top = rect.top - rectDialog.top;
-      left = rect.left - rectDialog.left;
-
-      const dialogScrollTop = dialog.scrollTop;
-      const dialogScrollLeft = dialog.scrollLeft;
-
-      // Добавляем смещение относительно скролл диалога
-      top += dialogScrollTop;
-      left += dialogScrollLeft;
-
-      top += 10;
+      setedStyles['--popover-top'] = `${Math.max(padding, top) + offsetTop}px`;
+      setedStyles['--popover-left'] =
+        `${Math.max(padding, left) + offsetLeft}px`;
     }
 
-    top += 10;
-
-    setedStyles['--popover-top'] = `${top}px`;
-    // Если не поддерживает anchor, то устанавливаем позицию по горизонту
-    if (!isSupportAnchor) setedStyles['--popover-left'] = `${left}px`;
-
-    changeStyleProperties(setedStyles, floating.value);
-
-    /**
-     * Получаем направление относительно горизонтального края
-     */
-    const setDirect = (): void => {
-      if (!floating.value) return;
-      const floatingRect = floating.value.getBoundingClientRect();
-
-      // Если элемент расположен за правой границей, то меняем ему направление на лево
-      if (floatingRect.right > window.innerWidth) {
-        if (isSupportAnchor) {
-          setedStyles['--popover-right'] = `anchor(right) `;
-        } else {
-          setedStyles['--popover-right'] =
-            `${rect.right - floatingRect.width}px`;
-        }
-      }
-    };
-
-    setDirect();
-
-    if (setedStyles['--popover-right']) {
-      setedStyles.left = 'auto';
-      changeStyleProperties(setedStyles, floating.value);
-    }
-
-    isPositioned = true;
+    changeStyleProperties(setedStyles, menu);
   });
 };
 
@@ -254,7 +249,11 @@ const checkCovered = (el: Element, rect: DOMRect): void => {
   const topEl = document.elementFromPoint(rect.left, rect.top);
   const bottomEl = document.elementFromPoint(rect.right, rect.bottom);
 
-  if (!(topEl && el.contains(topEl)) && !(bottomEl && el.contains(bottomEl))) {
+  // При смене стороны само меню может на один кадр оказаться над кнопкой.
+  if (
+    !(topEl && (el.contains(topEl) || floating.value?.contains(topEl))) &&
+    !(bottomEl && (el.contains(bottomEl) || floating.value?.contains(bottomEl)))
+  ) {
     closeShow();
   }
 };
@@ -274,8 +273,8 @@ const setObservers = (): void => {
     passive: true
   });
 
-  // В браузерах с anchor позиционирование при resize выполняет CSS.
-  if (!isSupportAnchor) window.addEventListener('resize', setCssPosition);
+  // При resize заново выбираем направление и доступную высоту меню.
+  window.addEventListener('resize', setCssPosition);
 
   // Закрытые меню не создают наблюдатель и не удерживают наблюдаемые элементы.
   intersectionObserver = new IntersectionObserver(entries => {
@@ -301,7 +300,6 @@ const executeObservers = (): void => {
   }
 
   shouldCheckCovered = false;
-  isPositioned = false;
 };
 
 watch(
@@ -386,14 +384,23 @@ onUnmounted(() => {
   z-index: 20;
   border-radius: 5px;
   box-shadow: 0px 4px 9.8px 0px #0000000d;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: var(--popover-max-height, calc(100dvh - 16px));
+  max-width: calc(100dvw - 16px);
+  box-sizing: border-box;
   background-color: var(--surface-overlay);
   border: 0.5px solid transparent;
-  transition: all 0.2s ease-in-out;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
   color: var(--text-primary);
   width: max-content;
   @supports (top: anchor(bottom)) {
-    top: calc(anchor(bottom) + 10px);
+    top: var(--popover-top, calc(anchor(bottom) + 10px));
+    bottom: var(--popover-bottom, auto);
     left: var(--popover-left, anchor(left));
     right: var(--popover-right);
   }
