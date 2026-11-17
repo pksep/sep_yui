@@ -453,8 +453,9 @@ import {
   ref,
   watch
 } from 'vue';
-import { getDocument } from '@/helpers/file/pdf-runtime';
+import { createPdfLoadingTask } from '@/helpers/file/pdf-runtime';
 import cachePdf from '@/helpers/file/cache-pdf';
+import type { IPdfCacheLease } from '@/helpers/file/interface/pdf-cache';
 import BaseSlider from '@/components/Slider/BaseSlider.vue';
 import BaseSlide from '@/components/Slider/BaseSlide.vue';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
@@ -569,6 +570,7 @@ const sliderRef = ref<InstanceType<typeof BaseSlider> | null>(null);
 const imagePreviewRef = ref<HTMLImageElement | null>(null);
 const imageSourcePath = ref(state.file?.path ?? '');
 
+let pdfLease: IPdfCacheLease | null = null;
 let panzoomInstance: ReturnType<typeof Panzoom> | null = null;
 let imagePanzoomElement: HTMLImageElement | null = null;
 let imagePanzoomEndHandler: EventListener | null = null;
@@ -1389,6 +1391,8 @@ watch(
   () => props.open,
   () => {
     if (!props.open) {
+      pdfLease?.release();
+      pdfLease = null;
       state.isPdfLoading = false;
       resetListenerPanzoom(false);
       resetPdfPanzoom();
@@ -2071,19 +2075,20 @@ const initScroll = (): void => {
  */
 const initPdf = async (): Promise<void> => {
   const currentFile = state.file;
-  if (!currentFile) return;
+  if (!currentFile || !props.open) return;
+  const source = currentFile.path;
+  const file = currentFile.file;
+  const lease = cachePdf.acquire(source, () =>
+    createPdfLoadingTask(source, file)
+  );
+  pdfLease?.release();
+  pdfLease = lease;
+
   try {
-    // Получаем из кэша pdf
-    const pdf = await cachePdf.getOrLoad(currentFile.path, async () => {
-      if (currentFile.file) {
-        const arrayBuffer = await currentFile.file.arrayBuffer();
-        return await getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
-      }
+    // Открытый просмотрщик защищает документ от вытеснения между страницами.
+    const pdf = await lease.promise;
 
-      return await getDocument(currentFile.path).promise;
-    });
-
-    if (!props.open || state.file !== currentFile) return;
+    if (!props.open || state.file !== currentFile || pdfLease !== lease) return;
 
     // Если pdf не существует, то выходим
     if (!pdf) {
@@ -2101,7 +2106,9 @@ const initPdf = async (): Promise<void> => {
     // Снимаем ошибку
     state.isErrorFile = false;
   } catch (error) {
-    if (!props.open || state.file !== currentFile) return;
+    if (!props.open || state.file !== currentFile || pdfLease !== lease) return;
+    lease.release();
+    pdfLease = null;
     console.error(error);
     handlePdfError();
   }
@@ -2119,6 +2126,8 @@ const setPdfPage = async (index: number = 0): Promise<void> => {
  * Очищает данные от данных pdf
  */
 const clearPdf = (): void => {
+  pdfLease?.release();
+  pdfLease = null;
   resetPdfPanzoom();
   resetMobilePdfZoom();
   state.sideBarItems = [];

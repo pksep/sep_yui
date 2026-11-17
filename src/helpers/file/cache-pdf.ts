@@ -1,65 +1,175 @@
-import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
+import type { PDFDocumentProxy } from 'pdfjs-dist';
+import type {
+  IPdfCacheEntry,
+  IPdfCacheLease,
+  TPdfLoadingTask
+} from './interface/pdf-cache';
 
-class CachePdf {
-  private cache: Record<string, PDFDocumentProxy> = {};
-  private cachePage: Record<string, PDFPageProxy> = {};
-  private pending: Record<string, Promise<PDFDocumentProxy>> = {};
+export const MAX_PDF_DOCUMENTS = 4;
+export const MAX_PARALLEL_PDF_LOADS = 2;
 
-  /**
-   * Записывает в кэш загруженные документ pdf файла
-   * @param key
-   * @param value
-   */
-  setCache(key: string, value: PDFDocumentProxy): void {
-    this.cache[key] = value;
-  }
+/** Ограничивает документы и workers, сохраняя используемые PDF до освобождения. */
+export class CachePdf {
+  private entries = new Map<string, IPdfCacheEntry>();
+  private queue = new Set<IPdfCacheEntry>();
+  private activeLoads = 0;
+  private liveDocuments = 0;
 
-  /**
-   * Возвращает документ из кэша
-   * @param key
-   * @returns
-   */
-  getCache(key: string): PDFDocumentProxy | undefined {
-    return this.cache[key];
-  }
-
-  async getOrLoad(
+  /** Возвращает общий документ и право использовать его до вызова release. */
+  acquire(
     key: string,
-    load: () => Promise<PDFDocumentProxy>
-  ): Promise<PDFDocumentProxy> {
-    if (this.cache[key]) return this.cache[key];
+    load: () => TPdfLoadingTask | Promise<TPdfLoadingTask>
+  ): IPdfCacheLease {
+    let entry = this.entries.get(key);
 
-    if (!this.pending[key]) {
-      this.pending[key] = Promise.resolve()
-        .then(load)
-        .then(value => {
-          this.cache[key] = value;
-          return value;
-        })
-        .finally(() => {
-          delete this.pending[key];
-        });
+    if (!entry) {
+      entry = this.createEntry(key, load);
+      this.entries.set(key, entry);
+      this.queue.add(entry);
     }
 
-    return this.pending[key];
+    // Порядок Map задаёт LRU; несколько превью одного PDF делят одну загрузку.
+    entry.references += 1;
+    this.entries.delete(key);
+    this.entries.set(key, entry);
+    this.pump();
+
+    const acquired = entry;
+    let released = false;
+
+    return {
+      promise: acquired.promise,
+      release: (): void => {
+        // finally рендеринга и размонтирование могут освобождать одну заявку.
+        if (released) return;
+        released = true;
+        acquired.references -= 1;
+
+        if (acquired.references === 0 && acquired.state !== 'ready') {
+          acquired.cancelled = true;
+          acquired.cancel();
+          acquired.reject(new DOMException('PDF load cancelled', 'AbortError'));
+          this.queue.delete(acquired);
+          this.forget(acquired);
+        }
+
+        this.pump();
+      }
+    };
   }
 
-  /**
-   * Записывает в кэш страницу
-   * @param key
-   * @param value
-   */
-  setPageCache(key: string, value: PDFPageProxy): void {
-    this.cachePage[key] = value;
+  /** Создаёт заявку без запуска сети или worker до появления свободного места. */
+  private createEntry(
+    key: string,
+    load: IPdfCacheEntry['load']
+  ): IPdfCacheEntry {
+    let resolve!: IPdfCacheEntry['resolve'];
+    let reject!: IPdfCacheEntry['reject'];
+    let cancel!: IPdfCacheEntry['cancel'];
+
+    const promise = new Promise<PDFDocumentProxy>((onResolve, onReject) => {
+      resolve = onResolve;
+      reject = onReject;
+    });
+    const cancellation = new Promise<void>(onCancel => {
+      cancel = onCancel;
+    });
+
+    // Отмена может опередить await потребителя; его promise всё равно отклонится.
+    void promise.catch((): void => {});
+
+    return {
+      key,
+      load,
+      promise,
+      resolve,
+      reject,
+      cancellation,
+      cancel,
+      references: 0,
+      cancelled: false,
+      state: 'queued'
+    };
   }
 
-  /**
-   * Вовзращает страницу из кэша
-   * @param key
-   * @returns
-   */
-  getPageCache(key: string): PDFPageProxy | undefined {
-    return this.cachePage[key];
+  /** Запускает очередь в пределах общего числа документов и загрузок. */
+  private pump(): void {
+    while (this.activeLoads < MAX_PARALLEL_PDF_LOADS && this.queue.size) {
+      if (this.liveDocuments >= MAX_PDF_DOCUMENTS) {
+        const idle = [...this.entries.values()].find(
+          entry => entry.state === 'ready' && entry.references === 0
+        );
+
+        if (idle) {
+          this.forget(idle);
+          // Новое место появится только после завершения worker.destroy().
+          void this.dispose(idle);
+        }
+
+        return;
+      }
+
+      const entry = this.queue.values().next().value;
+      if (!entry) return;
+
+      this.queue.delete(entry);
+      entry.state = 'loading';
+      this.activeLoads += 1;
+      this.liveDocuments += 1;
+      void this.loadEntry(entry);
+    }
+  }
+
+  /** Загружает один PDF; отменённый запрос освобождает worker до следующего. */
+  private async loadEntry(entry: IPdfCacheEntry): Promise<void> {
+    try {
+      // Ожидаем даже отложенное чтение File, чтобы не создать worker после отмены.
+      entry.task = await entry.load();
+
+      const document = await Promise.race([
+        entry.task.promise,
+        entry.cancellation.then((): never => {
+          throw new DOMException('PDF load cancelled', 'AbortError');
+        })
+      ]);
+
+      if (entry.cancelled) return;
+
+      entry.state = 'ready';
+      entry.resolve(document);
+    } catch (error) {
+      entry.reject(error);
+    } finally {
+      if (entry.state !== 'ready') {
+        this.forget(entry);
+        await this.destroy(entry);
+        this.liveDocuments -= 1;
+      }
+
+      this.activeLoads -= 1;
+      this.pump();
+    }
+  }
+
+  /** Удаляет только свою заявку, не затрагивая повторный запрос того же URL. */
+  private forget(entry: IPdfCacheEntry): void {
+    if (this.entries.get(entry.key) === entry) this.entries.delete(entry.key);
+  }
+
+  /** Уничтожает PDF вместе с внутренним кэшем страниц и его worker. */
+  private async destroy(entry: IPdfCacheEntry): Promise<void> {
+    try {
+      await entry.task?.destroy();
+    } catch (error) {
+      console.error('Failed to destroy PDF worker', error);
+    }
+  }
+
+  /** Освобождает слот только после завершения удаления неиспользуемого документа. */
+  private async dispose(entry: IPdfCacheEntry): Promise<void> {
+    await this.destroy(entry);
+    this.liveDocuments -= 1;
+    this.pump();
   }
 }
 

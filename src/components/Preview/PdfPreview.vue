@@ -10,9 +10,10 @@ import {
   IPdfPreviewProps
 } from '@/components/Preview/interface';
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
-import type { PDFPageProxy, RenderTask } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { getDocument } from '@/helpers/file/pdf-runtime';
+import type { RenderTask } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { createPdfLoadingTask } from '@/helpers/file/pdf-runtime';
 import cachePdf from '@/helpers/file/cache-pdf';
+import type { IPdfCacheLease } from '@/helpers/file/interface/pdf-cache';
 import closedCamer from '@/assets/images/slider/closed-camera.svg';
 
 defineOptions({
@@ -40,23 +41,22 @@ let currentRenderTask: RenderTask | null = null;
 let displayBounds: { width: number; height: number } | null = null;
 let renderRequestId = 0;
 let renderedDevicePixelRatio = 0;
+const pdfLeases = new Set<IPdfCacheLease>();
 
 const MAX_CANVAS_DIMENSION = 8192;
 const MAX_CANVAS_PIXELS = 16_777_216;
 
-const getPdfDocumentSource = async () => {
-  if (props.file) {
-    const arrayBuffer = await props.file.arrayBuffer();
-    return { data: new Uint8Array(arrayBuffer) };
-  }
-
-  return props.src;
+/** Отменяет ненужные загрузки и освобождает права на документы прежнего превью. */
+const releasePdfLeases = (): void => {
+  for (const lease of pdfLeases) lease.release();
+  pdfLeases.clear();
 };
 
 watch([() => props.src, () => props.page], () => {
   intersenctionObserver?.disconnect();
   renderRequestId += 1;
   currentRenderTask?.cancel();
+  releasePdfLeases();
   clearCanvas();
   displayBounds = null;
   renderedDevicePixelRatio = 0;
@@ -138,6 +138,7 @@ const waitForRenderCancellation = async (): Promise<void> => {
 const setPdf = async (recalculateDisplayBounds = true): Promise<void> => {
   const requestId = ++renderRequestId;
   let renderTask: RenderTask | null = null;
+  let lease: IPdfCacheLease | null = null;
 
   try {
     // Если canvas не существует, то выходим
@@ -148,11 +149,12 @@ const setPdf = async (recalculateDisplayBounds = true): Promise<void> => {
 
     if (requestId !== renderRequestId) return;
 
-    // Подгружаем pdf
-    const pdf = await cachePdf.getOrLoad(
-      props.src,
-      async () => await getDocument(await getPdfDocumentSource()).promise
-    );
+    // Фиксируем источник: заявка может ждать своей очереди после смены props.
+    const source = props.src;
+    const file = props.file;
+    lease = cachePdf.acquire(source, () => createPdfLoadingTask(source, file));
+    pdfLeases.add(lease);
+    const pdf = await lease.promise;
 
     if (requestId !== renderRequestId) return;
 
@@ -160,23 +162,8 @@ const setPdf = async (recalculateDisplayBounds = true): Promise<void> => {
     if (!pdf) throw new Error('Pdf not found');
     // Получаем нужную страницу
     const numberOfPage = props.page ?? 1;
-    // Формируем ключ для кэша
-    const cacheKey = `${props.src}-${numberOfPage}`;
-    // Получаем страницу из кэша
-    const cachedPage = cachePdf.getPageCache(cacheKey);
-
-    let page: PDFPageProxy;
-    // Если страница есть в кэше, то берем ее
-    if (cachedPage) {
-      page = cachedPage;
-    } else {
-      page = await pdf.getPage(numberOfPage);
-
-      if (requestId !== renderRequestId) return;
-
-      // Устанавливаем в кэш страницу
-      cachePdf.setPageCache(cacheKey, page);
-    }
+    // PDF.js сам переиспользует страницы; они освободятся вместе с документом.
+    const page = await pdf.getPage(numberOfPage);
 
     if (!canvas.value || requestId !== renderRequestId) return;
 
@@ -237,7 +224,8 @@ const setPdf = async (recalculateDisplayBounds = true): Promise<void> => {
       error &&
       typeof error === 'object' &&
       'name' in error &&
-      error?.name === 'RenderingCancelledException'
+      (error.name === 'RenderingCancelledException' ||
+        error.name === 'AbortError')
     ) {
       return;
     }
@@ -248,6 +236,12 @@ const setPdf = async (recalculateDisplayBounds = true): Promise<void> => {
     state.isError = true;
     emit('error', error);
   } finally {
+    // Готовый canvas не удерживает worker: повторный зум получит новую заявку.
+    if (lease) {
+      pdfLeases.delete(lease);
+      lease.release();
+    }
+
     if (currentRenderTask === renderTask) {
       currentRenderTask = null;
     }
@@ -348,6 +342,7 @@ onUnmounted(() => {
   renderRequestId += 1;
   currentRenderTask?.cancel();
   currentRenderTask = null;
+  releasePdfLeases();
 });
 </script>
 

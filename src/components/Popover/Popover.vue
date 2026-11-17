@@ -135,27 +135,50 @@ const classesFilter = computed(() => ({
 /**
  * показываем, скрываем список фильтров
  */
-const toggleShow = () => (state.isShow = !state.isShow);
+const toggleShow = (): void => {
+  state.isShow = !state.isShow;
+};
 
+/** Закрывает меню и сохраняет уведомление внешнего управляющего компонента. */
 const closeShow = (): void => {
   state.isShow = false;
   emits('close');
 };
 
+/** Выполняет выбранное действие и закрывает меню. */
 const handleClick = (item: IPopoverOption): void => {
   item.function();
   closeShow();
 };
 
-/**
- * Устанавливает позицию для popover
- */
+let positionFrame: number | null = null;
+let shouldCheckCovered = false;
+let isPositioned = false;
+let intersectionObserver: IntersectionObserver | null = null;
+
+/** Объединяет события прокрутки и изменения размера в одно измерение за кадр. */
 const setCssPosition = (): void => {
-  requestAnimationFrame(() => {
+  // Закрытое меню не измеряем, уже запланированный кадр используем повторно.
+  if (!state.isShow || positionFrame !== null) return;
+
+  positionFrame = requestAnimationFrame(() => {
+    positionFrame = null;
+
     if (!reference.value || !floating.value || !state.isShow) return;
     const setedStyles: Record<string, string> = {};
 
     const rect = reference.value.getBoundingClientRect();
+
+    // Проверка перекрытия использует то же положение кнопки, что и меню.
+    if (shouldCheckCovered) {
+      shouldCheckCovered = false;
+      checkCovered(reference.value, rect);
+
+      if (!state.isShow) return;
+    }
+
+    // После первого размещения anchor сам следует за кнопкой без записей в style.
+    if (isSupportAnchor && isPositioned) return;
 
     // получаем положение основного элемента относительно документа
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -217,15 +240,17 @@ const setCssPosition = (): void => {
       setedStyles.left = 'auto';
       changeStyleProperties(setedStyles, floating.value);
     }
+
+    isPositioned = true;
   });
 };
 
 /**
  * Проверяем на попадание в другие элементы над элементом, открывающим popover
- * @param el
+ * @param el Кнопка, открывающая меню.
+ * @param rect Положение кнопки, уже измеренное в текущем кадре.
  */
-const checkCovered = (el: Element): void => {
-  const rect = el.getBoundingClientRect();
+const checkCovered = (el: Element, rect: DOMRect): void => {
   const topEl = document.elementFromPoint(rect.left, rect.top);
   const bottomEl = document.elementFromPoint(rect.right, rect.bottom);
 
@@ -234,47 +259,49 @@ const checkCovered = (el: Element): void => {
   }
 };
 
-const intersectionObeserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    // Если элемент не виден, то закрываем popover
-    if (!entry.isIntersecting) {
+/** Отмечает необходимость проверки перекрытия без синхронных измерений при scroll. */
+const handleScroll = (): void => {
+  if (!state.isShow) return;
+
+  shouldCheckCovered = true;
+  setCssPosition();
+};
+
+/** Наблюдает только за открытым меню, сохраняя единственный обработчик прокрутки. */
+const setObservers = (): void => {
+  window.addEventListener('scroll', handleScroll, {
+    capture: true,
+    passive: true
+  });
+
+  // В браузерах с anchor позиционирование при resize выполняет CSS.
+  if (!isSupportAnchor) window.addEventListener('resize', setCssPosition);
+
+  // Закрытые меню не создают наблюдатель и не удерживают наблюдаемые элементы.
+  intersectionObserver = new IntersectionObserver(entries => {
+    if (state.isShow && entries.some(entry => !entry.isIntersecting)) {
       closeShow();
     }
   });
-});
 
-const setObservers = (): void => {
-  if (reference.value && floating.value) {
-    window.addEventListener('scroll', setCssPosition, true);
-    window.addEventListener('resize', setCssPosition);
-  }
+  if (popover.value) intersectionObserver.observe(popover.value);
 };
 
+/** Освобождает все ресурсы меню при закрытии и размонтировании независимо от refs. */
 const executeObservers = (): void => {
-  if (reference.value && floating.value) {
-    window.removeEventListener('scroll', setCssPosition, true);
-    window.removeEventListener('resize', setCssPosition);
-  }
-};
+  // Удаляем ту же функцию и с тем же capture, с которыми она была добавлена.
+  window.removeEventListener('scroll', handleScroll, true);
+  window.removeEventListener('resize', setCssPosition);
+  intersectionObserver?.disconnect();
+  intersectionObserver = null;
 
-const setCheckCovered = (): void => {
-  if (reference.value) {
-    window.addEventListener(
-      'scroll',
-      checkCovered.bind(null, reference.value),
-      true
-    );
+  if (positionFrame !== null) {
+    cancelAnimationFrame(positionFrame);
+    positionFrame = null;
   }
-};
 
-const removeCheckCovered = (): void => {
-  if (reference.value) {
-    window.removeEventListener(
-      'scroll',
-      checkCovered.bind(null, reference.value),
-      true
-    );
-  }
+  shouldCheckCovered = false;
+  isPositioned = false;
 };
 
 watch(
@@ -287,15 +314,6 @@ watch(
   () => {
     if (state.isShow) {
       setCssPosition();
-      setCheckCovered();
-    } else {
-      removeCheckCovered();
-    }
-
-    // если поддерживается anchor, то ничего не отслеживаем
-    if (isSupportAnchor) return;
-
-    if (state.isShow) {
       setObservers();
     } else {
       executeObservers();
@@ -320,24 +338,10 @@ onMounted(() => {
       floating.value
     );
   }
-
-  if (popover.value) {
-    intersectionObeserver.observe(popover.value);
-  }
-
-  // Поддерживаем старые браузеры
-  if (!isSupportAnchor) {
-    setCssPosition();
-  }
 });
 
 onUnmounted(() => {
-  intersectionObeserver.disconnect();
-
-  removeCheckCovered();
-  if (!isSupportAnchor) {
-    executeObservers();
-  }
+  executeObservers();
 });
 </script>
 
