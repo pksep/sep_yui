@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.370
+
+[compare changes](https://github.com/pksep/sep_yui/compare/v0.1.369...v0.1.370)
+
 ## v0.1.369
 
 [compare changes](https://github.com/pksep/sep_yui/compare/v0.1.368...v0.1.369)
