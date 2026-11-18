@@ -91,7 +91,29 @@
             />
           </div>
           <div role="group" :aria-label="labels.time">
-            <div class="date-time-picker-yui-kit__label">{{ labels.time }}</div>
+            <div
+              class="date-time-picker-yui-kit__label date-time-picker-yui-kit__time-label"
+            >
+              {{ labels.time }}
+              <Button
+                class="date-time-picker-yui-kit__add"
+                :aria-controls="`${editorId}-additional-time`"
+                :aria-expanded="addition.isOpen"
+                :aria-label="labels.addTime"
+                :disabled="props.disabled"
+                :size="SizesEnum.little"
+                :type="ButtonTypeEnum.ghost"
+                :data-testid="`${props.dataTestid}-Add-time`"
+                @click="openAdditionalTime"
+              >
+                <Icon
+                  aria-hidden="true"
+                  :name="IconNameEnum.plus"
+                  :width="20"
+                  :height="20"
+                />
+              </Button>
+            </div>
             <div
               ref="timeEditor"
               class="date-time-picker-yui-kit__time-editor"
@@ -107,57 +129,25 @@
                   value => (draft = value ? new Date(value) : null)
                 "
               />
-              <div class="date-time-picker-yui-kit__additions">
-                <div v-for="field in additionalTimeFields" :key="field.unit">
-                  <div
-                    class="date-time-picker-yui-kit__addition-label"
-                    @click="openAdditionalTime(field.unit)"
-                  >
-                    <span>{{ field.label }}</span>
-                    <Button
-                      class="date-time-picker-yui-kit__add"
-                      :aria-controls="`${editorId}-hours ${editorId}-minutes`"
-                      :aria-expanded="additions[field.unit].isOpen"
-                      :aria-label="field.inputLabel"
-                      :disabled="props.disabled"
-                      :size="SizesEnum.little"
-                      :type="ButtonTypeEnum.ghost"
-                      :data-testid="`${props.dataTestid}-Add-${field.unit}`"
-                    >
-                      <Icon
-                        aria-hidden="true"
-                        :name="IconNameEnum.plus"
-                        :width="20"
-                        :height="20"
-                      />
-                    </Button>
-                  </div>
-                  <label
-                    v-if="additions[field.unit].isOpen"
-                    class="date-time-picker-yui-kit__addition-field"
-                  >
-                    <span
-                      class="date-time-picker-yui-kit__addition-input-label"
-                    >
-                      {{ field.inputLabel }}
-                    </span>
-                    <InputNumber
-                      :id="`${editorId}-${field.unit}`"
-                      class="date-time-picker-yui-kit__addition-input"
-                      input-message=""
-                      is-integer
-                      :disabled="props.disabled"
-                      :max="field.max"
-                      :min="0"
-                      :model-value="additions[field.unit].value"
-                      :data-testid="`${props.dataTestid}-Additional-${field.unit}`"
-                      @update:model-value="
-                        value => updateAdditionalTime(field.unit, value)
-                      "
-                    />
-                  </label>
-                </div>
-              </div>
+              <label
+                v-if="addition.isOpen"
+                class="date-time-picker-yui-kit__addition-field"
+              >
+                <span class="date-time-picker-yui-kit__addition-input-label">
+                  {{ labels.addTime }}
+                </span>
+                <InputNumber
+                  :id="`${editorId}-additional-time`"
+                  class="date-time-picker-yui-kit__addition-input"
+                  input-message=""
+                  :disabled="props.disabled"
+                  :max="8760"
+                  :min="0"
+                  :model-value="addition.value"
+                  :data-testid="`${props.dataTestid}-Additional-time`"
+                  @update:model-value="updateAdditionalTime"
+                />
+              </label>
             </div>
           </div>
         </div>
@@ -225,9 +215,7 @@ import PopoverWrapper from './PopoverWrapper.vue';
 import CalendarPanel from './RangeCalendarPanel.vue';
 import { formatDates } from './date-utils';
 import type {
-  DateTimePickerUnit,
   IDatePickerProps,
-  IDateTimePickerAdditionalField,
   IDateTimePickerAddition
 } from './interfaces/interfaces';
 
@@ -248,12 +236,7 @@ const timePicker = ref<InstanceType<typeof TimePicker> | null>(null);
 const timeEditor = ref<HTMLDivElement | null>(null);
 const activeTrigger = ref<'date' | 'time'>('date');
 const editorId = useId();
-const additions = reactive<Record<DateTimePickerUnit, IDateTimePickerAddition>>(
-  {
-    hours: { isOpen: false, value: 0 },
-    minutes: { isOpen: false, value: 0 }
-  }
-);
+const addition = reactive<IDateTimePickerAddition>({ isOpen: false, value: 0 });
 
 const parsedDate = computed(() => {
   if (!date.value) return null;
@@ -282,10 +265,7 @@ const labels = computed(() =>
         period: 'Выбор даты и времени',
         date: 'Установка даты',
         time: 'Установка времени',
-        hours: 'Часы',
-        minutes: 'Минуты',
-        addHours: 'Добавить часы',
-        addMinutes: 'Добавить минуты',
+        addTime: 'Добавить время в часах',
         clear: 'Очистить дату и время',
         clock: 'Показать циферблат',
         keyboard: 'Ввести время с клавиатуры',
@@ -297,10 +277,7 @@ const labels = computed(() =>
         period: 'Select date and time',
         date: 'Set date',
         time: 'Set time',
-        hours: 'Hours',
-        minutes: 'Minutes',
-        addHours: 'Add hours',
-        addMinutes: 'Add minutes',
+        addTime: 'Add time in hours',
         clear: 'Clear date and time',
         clock: 'Show clock',
         keyboard: 'Enter time with keyboard',
@@ -310,27 +287,12 @@ const labels = computed(() =>
       }
 );
 
-const additionalTimeFields = computed<IDateTimePickerAdditionalField[]>(() => [
-  {
-    unit: 'hours',
-    label: labels.value.hours,
-    inputLabel: labels.value.addHours,
-    max: 8760
-  },
-  {
-    unit: 'minutes',
-    label: labels.value.minutes,
-    inputLabel: labels.value.addMinutes,
-    max: 59
-  }
-]);
-
 // Прибавляем длительность к копии черновика только для проверки и сохранения.
 const resultDate = computed<Date | null>(() => {
   if (!draft.value) return null;
 
-  const additionalMinutes =
-    additions.hours.value * 60 + additions.minutes.value;
+  // Дробные часы округляем до целых минут: 1,50 часа = 90 минут.
+  const additionalMinutes = Math.round(addition.value * 60);
 
   return new Date(draft.value.getTime() + additionalMinutes * 60000);
 });
@@ -359,42 +321,33 @@ const handleCalendarChange = (value: Date): void => {
   draft.value = selectedDate;
 };
 
-/** Раскрывает обе прибавки и фокусирует выбранное поле после появления в DOM. */
-const openAdditionalTime = async (unit: DateTimePickerUnit): Promise<void> => {
+/** Раскрывает единственное поле дробных часов и переводит в него фокус. */
+const openAdditionalTime = async (): Promise<void> => {
   if (props.disabled || !isActive.value) return;
 
-  // Часы и минуты открываются вместе; повторный клик сохраняет обе прибавки.
-  for (const addition of Object.values(additions)) {
-    addition.isOpen = true;
-  }
+  // Повторный клик сохраняет длительность и возвращает фокус в то же поле.
+  addition.isOpen = true;
 
   await nextTick();
 
   if (props.disabled || !isActive.value) return;
 
   timeEditor.value
-    ?.querySelector<HTMLInputElement>(`[id="${editorId}-${unit}"] input`)
+    ?.querySelector<HTMLInputElement>(
+      `[id="${editorId}-additional-time"] input`
+    )
     ?.focus();
 };
 
-/** Хранит целую неотрицательную прибавку, не меняя выбранную исходную дату. */
-const updateAdditionalTime = (
-  unit: DateTimePickerUnit,
-  value: number | string
-): void => {
-  const amount = Number(value);
-  const field = additionalTimeFields.value.find(item => item.unit === unit);
+/** Хранит дробные часы отдельно от выбранной исходной даты. */
+const updateAdditionalTime = (value: number | string): void => {
+  const amount = Number(String(value).replace(',', '.'));
 
-  if (
-    props.disabled ||
-    !field ||
-    !Number.isInteger(amount) ||
-    amount < 0 ||
-    amount > field.max
-  )
+  // Сохраняем прежние неотрицательность и предел поля часов.
+  if (props.disabled || !Number.isFinite(amount) || amount < 0 || amount > 8760)
     return;
 
-  additions[unit].value = amount;
+  addition.value = amount;
 };
 
 /** Сбрасывает черновик и прибавки без изменения сохранённого значения. */
@@ -402,17 +355,29 @@ const resetDraft = (): void => {
   draft.value = null;
 
   // Следующее открытие начинается без прибавки к уже сохранённому результату.
-  for (const addition of Object.values(additions)) {
-    addition.isOpen = false;
-    addition.value = 0;
-  }
+  addition.isOpen = false;
+  addition.value = 0;
 };
 
+/** Открывает черновик и один раз подставляет переданную прибавку часов. */
 const showPopover = async (type: 'date' | 'time'): Promise<void> => {
   if (props.disabled) return;
   activeTrigger.value = type;
   if (!isActive.value) {
     draft.value = parsedDate.value ? new Date(parsedDate.value) : null;
+    const initialHours = props.initialAdditionalHours;
+
+    // Повторный клик по открытому календарю не перезаписывает введённую длительность.
+    if (
+      typeof initialHours === 'number' &&
+      Number.isFinite(initialHours) &&
+      initialHours >= 0 &&
+      initialHours <= 8760
+    ) {
+      addition.value = initialHours;
+      addition.isOpen = true;
+    }
+
     isActive.value = true;
   }
   await nextTick();
@@ -444,7 +409,7 @@ const saveDate = (): void => {
   closePopover(true);
 };
 
-/** Подтверждает выбранное время и обе прибавки по Enter из числового инпута. */
+/** Подтверждает выбранное время и прибавку дробных часов по Enter из инпута. */
 const handleTimeEnter = (event: KeyboardEvent): void => {
   // Кнопки, удержание Enter и подтверждение IME не запускают сохранение.
   if (
@@ -572,14 +537,21 @@ watch(
 }
 
 .date-time-picker-yui-kit__label {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
   margin-bottom: 16px;
   font-size: 16px;
   line-height: 1.4;
 }
 
+.date-time-picker-yui-kit__time-label {
+  gap: 4px;
+}
+
 .date-time-picker-yui-kit__time-editor {
   display: grid;
-  justify-items: center;
+  justify-items: start;
   align-content: start;
 }
 
@@ -599,8 +571,7 @@ watch(
   grid-row: 3;
 }
 
-/* Скрытые подписи сохраняют доступные имена основных и дополнительных полей. */
-.date-time-picker-yui-kit__time-picker :deep(.time-picker-header label > span),
+/* Подпись прибавки сохраняет доступное имя единственного поля. */
 .date-time-picker-yui-kit__addition-input-label {
   position: absolute;
   width: 1px;
@@ -609,30 +580,12 @@ watch(
   clip-path: inset(50%);
 }
 
-.date-time-picker-yui-kit__additions {
-  display: grid;
-  grid-row: 2;
-  grid-template-columns: 96px 96px;
-  gap: 25px;
-  margin-top: 7px;
-}
-
-.date-time-picker-yui-kit__addition-label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-size: 14px;
-  line-height: normal;
-}
-
-.date-time-picker-yui-kit__addition-label:has(button:disabled) {
-  cursor: default;
-}
-
 .date-time-picker-yui-kit__addition-field {
   display: block;
+  grid-row: 2;
+  width: 217px;
+  max-width: 100%;
+  margin-top: 16px;
 }
 
 .date-time-picker-yui-kit__panel .date-time-picker-yui-kit__add {
@@ -648,10 +601,10 @@ watch(
 .date-time-picker-yui-kit__panel .date-time-picker-yui-kit__addition-input {
   box-sizing: border-box;
   grid-template-columns: minmax(0, 1fr) min-content;
-  width: 96px;
+  width: 100%;
   min-width: 0;
-  max-width: 96px;
-  margin: 8px 0 0;
+  max-width: 217px;
+  margin: 0;
   background: var(--surface-input-secondary);
 }
 
