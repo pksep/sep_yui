@@ -36,6 +36,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     setDate: {
         type: import('vue').PropType<Date | null>;
     };
+    initialAdditionalHours: {
+        type: import('vue').PropType<number | null>;
+    };
     startDate: {
         type: import('vue').PropType<Date | null>;
     };
@@ -86,6 +89,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     setDate: {
         type: import('vue').PropType<Date | null>;
+    };
+    initialAdditionalHours: {
+        type: import('vue').PropType<number | null>;
     };
     startDate: {
         type: import('vue').PropType<Date | null>;

@@ -19,6 +19,8 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
     fromTodayTime?: boolean;
     toLastTime?: boolean;
     setDate?: Date | null;
+    /** Начальная прибавка в дробных часах; при открытии сразу показывает поле ввода. */
+    initialAdditionalHours?: number | null;
     startDate?: Date | null;
     endDate?: Date | null;
     isSelectTime?: boolean;
