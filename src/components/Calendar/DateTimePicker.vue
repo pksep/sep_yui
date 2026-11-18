@@ -116,7 +116,7 @@
                     <span>{{ field.label }}</span>
                     <Button
                       class="date-time-picker-yui-kit__add"
-                      :aria-controls="`${editorId}-${field.unit}`"
+                      :aria-controls="`${editorId}-hours ${editorId}-minutes`"
                       :aria-expanded="additions[field.unit].isOpen"
                       :aria-label="field.inputLabel"
                       :disabled="props.disabled"
@@ -359,12 +359,15 @@ const handleCalendarChange = (value: Date): void => {
   draft.value = selectedDate;
 };
 
-/** Раскрывает выбранное поле прибавки и фокусирует его после появления в DOM. */
+/** Раскрывает обе прибавки и фокусирует выбранное поле после появления в DOM. */
 const openAdditionalTime = async (unit: DateTimePickerUnit): Promise<void> => {
   if (props.disabled || !isActive.value) return;
 
-  // Повторный клик сохраняет введённое значение и возвращает фокус в тот же инпут.
-  additions[unit].isOpen = true;
+  // Часы и минуты открываются вместе; повторный клик сохраняет обе прибавки.
+  for (const addition of Object.values(additions)) {
+    addition.isOpen = true;
+  }
+
   await nextTick();
 
   if (props.disabled || !isActive.value) return;
