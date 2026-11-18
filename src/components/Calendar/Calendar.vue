@@ -22,6 +22,7 @@
     :end-date="props.endDate"
     :locale="props.locale"
     :is-small="props.isSmall"
+    :initial-additional-hours="props.initialAdditionalHours"
     :data-testid="`${props.dataTestid}-DataPicker`"
     @click="emits('click')"
     @change="changeValues"

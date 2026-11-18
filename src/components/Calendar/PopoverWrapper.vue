@@ -58,7 +58,8 @@ const { floatingStyles } = useFloating(popoverTrigger, popoverContent, {
       crossAxis: true,
       allowedPlacements: ['top-start', 'bottom-start']
     }),
-    ...(props.fitViewport ? [shift({ padding: 16 })] : [])
+    // Высокая панель на телефоне должна целиком помещаться и по вертикали.
+    ...(props.fitViewport ? [shift({ padding: 16, crossAxis: true })] : [])
   ],
   strategy: props.fitViewport || teleportTarget.value ? 'fixed' : 'absolute',
   placement: props.placement,

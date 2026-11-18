@@ -7,6 +7,11 @@ const meta = {
   title: 'Calendar/Calendar',
   component: Calendar,
   argTypes: {
+    initialAdditionalHours: {
+      control: 'number',
+      description:
+        'Начальная прибавка в дробных часах, раскрывающая поле при открытии календаря.'
+    },
     title: {
       control: 'text',
       description:
@@ -121,23 +126,21 @@ DateAndTimeWithAddition.play = async ({ canvasElement, args }) => {
   const trigger = canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger');
 
   await userEvent.click(trigger);
-  const addHours = page.getByRole('button', { name: 'Добавить часы' });
-  const addMinutes = page.getByRole('button', { name: 'Добавить минуты' });
-  await expect(addHours).toHaveAttribute('aria-expanded', 'false');
-  await expect(addMinutes).toHaveAttribute('aria-expanded', 'false');
-  await userEvent.click(within(addHours.parentElement!).getByText('Часы'));
-  const hours = page.getByRole('textbox', { name: 'Добавить часы' });
-  await expect(hours).toHaveFocus();
-  await userEvent.clear(hours);
-  await userEvent.type(hours, '1');
-  await userEvent.click(addHours.querySelector('svg') ?? addHours);
-  await expect(hours).toHaveFocus();
-  await expect(hours).toHaveValue('1');
-  await userEvent.click(within(addMinutes.parentElement!).getByText('Минуты'));
-  const minutes = page.getByRole('textbox', { name: 'Добавить минуты' });
-  await expect(minutes).toHaveFocus();
-  await userEvent.clear(minutes);
-  await userEvent.type(minutes, '30');
+  const addTime = page.getByRole('button', { name: 'Добавить время в часах' });
+  await expect(addTime).toHaveAttribute('aria-expanded', 'false');
+  await userEvent.click(addTime);
+  const duration = page.getByRole('textbox', {
+    name: 'Добавить время в часах'
+  });
+  await expect(duration).toHaveFocus();
+  await userEvent.clear(duration);
+  await userEvent.type(duration, '1,50');
+  await userEvent.click(addTime.querySelector('svg') ?? addTime);
+  await expect(duration).toHaveFocus();
+  await expect(duration).toHaveValue('1.5');
+  await expect(
+    page.getAllByRole('textbox', { name: 'Добавить время в часах' })
+  ).toHaveLength(1);
   await expect(page.getByRole('textbox', { name: 'Часы' })).toHaveValue('23');
   await expect(page.getByRole('textbox', { name: 'Минуты' })).toHaveValue('45');
   await expect(args.onChange).not.toHaveBeenCalled();
@@ -152,13 +155,17 @@ DateAndTimeWithAddition.play = async ({ canvasElement, args }) => {
   await expect(page.getByRole('textbox', { name: 'Часы' })).toHaveValue('01');
   await expect(page.getByRole('textbox', { name: 'Минуты' })).toHaveValue('15');
   await expect(
-    page.queryByRole('textbox', { name: 'Добавить часы' })
+    page.queryByRole('textbox', { name: 'Добавить время в часах' })
   ).not.toBeInTheDocument();
-  await userEvent.click(page.getByRole('button', { name: 'Добавить часы' }));
-  const reopenedHours = page.getByRole('textbox', { name: 'Добавить часы' });
-  await expect(reopenedHours).toHaveValue('0');
-  await userEvent.clear(reopenedHours);
-  await userEvent.type(reopenedHours, '3');
+  await userEvent.click(
+    page.getByRole('button', { name: 'Добавить время в часах' })
+  );
+  const reopenedDuration = page.getByRole('textbox', {
+    name: 'Добавить время в часах'
+  });
+  await expect(reopenedDuration).toHaveValue('0');
+  await userEvent.clear(reopenedDuration);
+  await userEvent.type(reopenedDuration, '3,75');
   await userEvent.click(page.getByRole('button', { name: 'Отменить' }));
   await expect(args.onChange).toHaveBeenCalledTimes(1);
 
@@ -169,18 +176,90 @@ DateAndTimeWithAddition.play = async ({ canvasElement, args }) => {
 
   // Сброс очищает и выбранную дату, и прибавку, но требует подтверждения.
   await userEvent.click(trigger);
-  await userEvent.click(page.getByRole('button', { name: 'Добавить минуты' }));
+  await userEvent.click(
+    page.getByRole('button', { name: 'Добавить время в часах' })
+  );
   await userEvent.type(
-    page.getByRole('textbox', { name: 'Добавить минуты' }),
-    '10'
+    page.getByRole('textbox', { name: 'Добавить время в часах' }),
+    '1,50'
   );
   await userEvent.click(page.getByRole('button', { name: 'Сбросить' }));
   await expect(
-    page.queryByRole('textbox', { name: 'Добавить минуты' })
+    page.queryByRole('textbox', { name: 'Добавить время в часах' })
   ).not.toBeInTheDocument();
   await expect(args.onChange).toHaveBeenCalledTimes(2);
   await userEvent.click(page.getByRole('button', { name: 'Сохранить' }));
   await expect(args.onChange).toHaveBeenLastCalledWith(null);
+};
+
+export const DateAndTimeWithInitialAddition = CalendarTemplate.bind({});
+DateAndTimeWithInitialAddition.args = {
+  title: 'Начало работ по операции',
+  isSelectTime: true,
+  setDate: new Date(2024, 6, 4, 23, 45),
+  initialAdditionalHours: 1.5,
+  onChange: fn()
+};
+DateAndTimeWithInitialAddition.play = async ({
+  canvasElement,
+  args
+}): Promise<void> => {
+  const canvas = within(canvasElement);
+  const page = within(canvasElement.ownerDocument.body);
+  const trigger = canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger');
+
+  // Переданная прибавка видна сразу, до нажатия на плюс и без сохранения даты.
+  await userEvent.click(trigger);
+  const input = page.getByRole('textbox', { name: 'Добавить время в часах' });
+  await expect(input).toHaveValue('1.5');
+  await expect(
+    page.getByRole('button', { name: 'Добавить время в часах' })
+  ).toHaveAttribute('aria-expanded', 'true');
+  await expect(args.onChange).not.toHaveBeenCalled();
+  await userEvent.clear(input);
+  await userEvent.type(input, '2,25');
+  await userEvent.click(trigger);
+  await expect(input).toHaveValue('2.25');
+  await userEvent.click(page.getByRole('button', { name: 'Отменить' }));
+  await expect(args.onChange).not.toHaveBeenCalled();
+
+  // После отмены новое открытие снова использует предложение родителя.
+  await userEvent.click(trigger);
+  await expect(
+    page.getByRole('textbox', { name: 'Добавить время в часах' })
+  ).toHaveValue('1.5');
+  await userEvent.click(page.getByRole('button', { name: 'Сохранить' }));
+  await expect(args.onChange).toHaveBeenLastCalledWith(
+    new Date(2024, 6, 5, 1, 15)
+  );
+  await expect(args.onChange).toHaveBeenCalledTimes(1);
+};
+
+export const DateAndTimeWithZeroInitialAddition = CalendarTemplate.bind({});
+DateAndTimeWithZeroInitialAddition.args = {
+  isSelectTime: true,
+  setDate: new Date(2024, 6, 4, 10, 18),
+  initialAdditionalHours: 0,
+  onChange: fn()
+};
+DateAndTimeWithZeroInitialAddition.play = async ({
+  canvasElement,
+  args
+}): Promise<void> => {
+  const canvas = within(canvasElement);
+  const page = within(canvasElement.ownerDocument.body);
+
+  // Явный ноль раскрывает поле так же, как положительное переданное значение.
+  await userEvent.click(
+    canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger')
+  );
+  await expect(
+    page.getByRole('textbox', { name: 'Добавить время в часах' })
+  ).toHaveValue('0');
+  await userEvent.click(page.getByRole('button', { name: 'Сохранить' }));
+  await expect(args.onChange).toHaveBeenLastCalledWith(
+    new Date(2024, 6, 4, 10, 18)
+  );
 };
 
 export const DateAndTimeAdditionLimits = CalendarTemplate.bind({});
@@ -198,20 +277,21 @@ DateAndTimeAdditionLimits.play = async ({ canvasElement, args }) => {
   await userEvent.click(
     canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger')
   );
-  await userEvent.click(page.getByRole('button', { name: 'Добавить часы' }));
-  const hours = page.getByRole('textbox', { name: 'Добавить часы' });
-  await userEvent.clear(hours);
-  await userEvent.type(hours, '1');
+  await userEvent.click(
+    page.getByRole('button', { name: 'Добавить время в часах' })
+  );
+  const duration = page.getByRole('textbox', {
+    name: 'Добавить время в часах'
+  });
+  await userEvent.clear(duration);
+  await userEvent.type(duration, '1,50');
   await expect(page.getByRole('button', { name: 'Сохранить' })).toBeDisabled();
   await userEvent.keyboard('{Enter}');
   await expect(args.onChange).not.toHaveBeenCalled();
 
-  await userEvent.clear(hours);
-  await userEvent.type(hours, '0');
-  await userEvent.click(page.getByRole('button', { name: 'Добавить минуты' }));
-  const minutes = page.getByRole('textbox', { name: 'Добавить минуты' });
-  await userEvent.clear(minutes);
-  await userEvent.type(minutes, '14');
+  // 0,23 часа округляются до 14 минут и остаются в пределах выбранного дня.
+  await userEvent.clear(duration);
+  await userEvent.type(duration, '0,23');
   await expect(page.getByRole('button', { name: 'Сохранить' })).toBeEnabled();
   await userEvent.keyboard('{Enter}');
   await expect(args.onChange).toHaveBeenLastCalledWith(
@@ -233,14 +313,16 @@ DateAndTimeWithAdditionEnglish.play = async ({ canvasElement, args }) => {
   await userEvent.click(
     canvas.getByTestId('Calendar-DataPicker-Choose-Time-Trigger')
   );
-  await userEvent.click(page.getByRole('button', { name: 'Add hours' }));
-  const hours = page.getByRole('textbox', { name: 'Add hours' });
-  await expect(hours).toHaveFocus();
-  await userEvent.clear(hours);
-  await userEvent.type(hours, '2');
+  await userEvent.click(
+    page.getByRole('button', { name: 'Add time in hours' })
+  );
+  const duration = page.getByRole('textbox', { name: 'Add time in hours' });
+  await expect(duration).toHaveFocus();
+  await userEvent.clear(duration);
+  await userEvent.type(duration, '2.50');
   await userEvent.keyboard('{Enter}');
   await expect(args.onChange).toHaveBeenLastCalledWith(
-    new Date(2024, 6, 4, 12, 18)
+    new Date(2024, 6, 4, 12, 48)
   );
 
   // Enter в основном поле сохраняет новую дату без прежней прибавки.
@@ -252,7 +334,7 @@ DateAndTimeWithAdditionEnglish.play = async ({ canvasElement, args }) => {
   await userEvent.type(selectedHours, '13');
   await userEvent.keyboard('{Enter}');
   await expect(args.onChange).toHaveBeenLastCalledWith(
-    new Date(2024, 6, 4, 13, 18)
+    new Date(2024, 6, 4, 13, 48)
   );
 };
 
