@@ -4,6 +4,7 @@ import {
   GlobalWorkerOptions
 } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { PDFDocumentLoadingTask } from 'pdfjs-dist';
+import { PdfResourceFactory } from './pdf-resources';
 
 // Слайдер загружает документ до создания мобильных превью страниц.
 // Worker должен быть настроен уже при первом вызове getDocument.
@@ -14,12 +15,21 @@ export const createPdfLoadingTask = async (
   source: string,
   file?: File
 ): Promise<PDFDocumentLoadingTask> => {
+  const options = {
+    BinaryDataFactory: PdfResourceFactory,
+    // Ресурсы передаём из приложения: worker не знает URL ассетов библиотеки.
+    useWorkerFetch: false
+  };
+
   // File читаем по сохранённой ссылке, а не по изменившимся props компонента.
   if (file) {
-    return getDocument({ data: new Uint8Array(await file.arrayBuffer()) });
+    return getDocument({
+      ...options,
+      data: new Uint8Array(await file.arrayBuffer())
+    });
   }
 
-  return getDocument(source);
+  return getDocument({ ...options, url: source });
 };
 
 export { getDocument };
