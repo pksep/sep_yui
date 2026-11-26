@@ -91,31 +91,10 @@
             />
           </div>
           <div role="group" :aria-label="labels.time">
-            <div
-              class="date-time-picker-yui-kit__label date-time-picker-yui-kit__time-label"
-            >
+            <div class="date-time-picker-yui-kit__label">
               {{ labels.time }}
-              <Button
-                class="date-time-picker-yui-kit__add"
-                :aria-controls="`${editorId}-additional-time`"
-                :aria-expanded="addition.isOpen"
-                :aria-label="labels.addTime"
-                :disabled="props.disabled"
-                :size="SizesEnum.little"
-                :type="ButtonTypeEnum.ghost"
-                :data-testid="`${props.dataTestid}-Add-time`"
-                @click="openAdditionalTime"
-              >
-                <Icon
-                  aria-hidden="true"
-                  :name="IconNameEnum.plus"
-                  :width="20"
-                  :height="20"
-                />
-              </Button>
             </div>
             <div
-              ref="timeEditor"
               class="date-time-picker-yui-kit__time-editor"
               @keydown.enter="handleTimeEnter"
             >
@@ -129,10 +108,7 @@
                   value => (draft = value ? new Date(value) : null)
                 "
               />
-              <label
-                v-if="addition.isOpen"
-                class="date-time-picker-yui-kit__addition-field"
-              >
+              <label class="date-time-picker-yui-kit__addition-field">
                 <span class="date-time-picker-yui-kit__addition-input-label">
                   {{ labels.addTime }}
                 </span>
@@ -142,7 +118,7 @@
                   input-message=""
                   :disabled="props.disabled"
                   :max="8760"
-                  :min="0"
+                  :min="-8760"
                   :model-value="addition.value"
                   :data-testid="`${props.dataTestid}-Additional-time`"
                   @update:model-value="updateAdditionalTime"
@@ -233,10 +209,9 @@ const panel = ref<HTMLElement | null>(null);
 const dateTrigger = ref<HTMLButtonElement | null>(null);
 const timeTrigger = ref<HTMLButtonElement | null>(null);
 const timePicker = ref<InstanceType<typeof TimePicker> | null>(null);
-const timeEditor = ref<HTMLDivElement | null>(null);
 const activeTrigger = ref<'date' | 'time'>('date');
 const editorId = useId();
-const addition = reactive<IDateTimePickerAddition>({ isOpen: false, value: 0 });
+const addition = reactive<IDateTimePickerAddition>({ value: 0 });
 
 const parsedDate = computed(() => {
   if (!date.value) return null;
@@ -265,7 +240,7 @@ const labels = computed(() =>
         period: 'Выбор даты и времени',
         date: 'Установка даты',
         time: 'Установка времени',
-        addTime: 'Добавить время в часах',
+        addTime: 'Смещение времени в часах',
         clear: 'Очистить дату и время',
         clock: 'Показать циферблат',
         keyboard: 'Ввести время с клавиатуры',
@@ -277,7 +252,7 @@ const labels = computed(() =>
         period: 'Select date and time',
         date: 'Set date',
         time: 'Set time',
-        addTime: 'Add time in hours',
+        addTime: 'Time offset in hours',
         clear: 'Clear date and time',
         clock: 'Show clock',
         keyboard: 'Enter time with keyboard',
@@ -321,30 +296,17 @@ const handleCalendarChange = (value: Date): void => {
   draft.value = selectedDate;
 };
 
-/** Раскрывает единственное поле дробных часов и переводит в него фокус. */
-const openAdditionalTime = async (): Promise<void> => {
-  if (props.disabled || !isActive.value) return;
-
-  // Повторный клик сохраняет длительность и возвращает фокус в то же поле.
-  addition.isOpen = true;
-
-  await nextTick();
-
-  if (props.disabled || !isActive.value) return;
-
-  timeEditor.value
-    ?.querySelector<HTMLInputElement>(
-      `[id="${editorId}-additional-time"] input`
-    )
-    ?.focus();
-};
-
 /** Хранит дробные часы отдельно от выбранной исходной даты. */
 const updateAdditionalTime = (value: number | string): void => {
   const amount = Number(String(value).replace(',', '.'));
 
-  // Сохраняем прежние неотрицательность и предел поля часов.
-  if (props.disabled || !Number.isFinite(amount) || amount < 0 || amount > 8760)
+  // Оба направления используют прежний годовой предел поля часов.
+  if (
+    props.disabled ||
+    !Number.isFinite(amount) ||
+    amount < -8760 ||
+    amount > 8760
+  )
     return;
 
   addition.value = amount;
@@ -355,7 +317,6 @@ const resetDraft = (): void => {
   draft.value = null;
 
   // Следующее открытие начинается без прибавки к уже сохранённому результату.
-  addition.isOpen = false;
   addition.value = 0;
 };
 
@@ -371,11 +332,10 @@ const showPopover = async (type: 'date' | 'time'): Promise<void> => {
     if (
       typeof initialHours === 'number' &&
       Number.isFinite(initialHours) &&
-      initialHours >= 0 &&
+      initialHours >= -8760 &&
       initialHours <= 8760
     ) {
       addition.value = initialHours;
-      addition.isOpen = true;
     }
 
     isActive.value = true;
@@ -531,7 +491,7 @@ watch(
 
 .date-time-picker-yui-kit__editors {
   display: grid;
-  grid-template-columns: auto minmax(256px, 1fr);
+  grid-template-columns: auto minmax(263px, 1fr);
   align-items: start;
   gap: 24px;
 }
@@ -543,10 +503,6 @@ watch(
   margin-bottom: 16px;
   font-size: 16px;
   line-height: 1.4;
-}
-
-.date-time-picker-yui-kit__time-label {
-  gap: 4px;
 }
 
 .date-time-picker-yui-kit__time-editor {
@@ -583,19 +539,9 @@ watch(
 .date-time-picker-yui-kit__addition-field {
   display: block;
   grid-row: 2;
-  width: 217px;
+  width: 263px;
   max-width: 100%;
   margin-top: 16px;
-}
-
-.date-time-picker-yui-kit__panel .date-time-picker-yui-kit__add {
-  justify-content: center;
-  width: 32px;
-  min-width: 32px;
-  height: 32px;
-  min-height: 32px;
-  padding: 0;
-  color: var(--text-link);
 }
 
 .date-time-picker-yui-kit__panel .date-time-picker-yui-kit__addition-input {
@@ -603,7 +549,7 @@ watch(
   grid-template-columns: minmax(0, 1fr) min-content;
   width: 100%;
   min-width: 0;
-  max-width: 217px;
+  height: 80px;
   margin: 0;
   background: var(--surface-input-secondary);
 }
@@ -611,7 +557,19 @@ watch(
 .date-time-picker-yui-kit__addition-input :deep(input) {
   width: 100%;
   min-width: 0;
+  height: 100%;
   padding: 10px 6px;
+  font-size: 55px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Размер каждой стрелки соответствует увеличенному полю смещения. */
+.date-time-picker-yui-kit__panel
+  .date-time-picker-yui-kit__addition-input
+  :deep(.input-yui-kit__buttons button) {
+  width: 30px;
+  height: 20px;
 }
 
 .date-time-picker-yui-kit__panel :deep(.calendar) {
