@@ -21,7 +21,7 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
   fromTodayTime?: boolean;
   toLastTime?: boolean;
   setDate?: Date | null;
-  /** Начальная прибавка в дробных часах; при открытии сразу показывает поле ввода. */
+  /** Начальное смещение в дробных часах, включая отрицательные значения. */
   initialAdditionalHours?: number | null;
   startDate?: Date | null;
   endDate?: Date | null;
@@ -31,7 +31,6 @@ export interface IDatePickerProps extends IDatePickerBaseProps {
 export type DateTimePickerUnit = 'hours' | 'minutes';
 
 export interface IDateTimePickerAddition {
-  isOpen: boolean;
   value: number;
 }
 
