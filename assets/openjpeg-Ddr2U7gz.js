@@ -1,0 +1,1 @@
+const e=""+new URL("openjpeg-MeY6OQBn.wasm",import.meta.url).href;export{e as default};

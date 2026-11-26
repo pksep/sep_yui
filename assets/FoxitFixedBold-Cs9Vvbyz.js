@@ -1,0 +1,1 @@
+const e=""+new URL("FoxitFixedBold-D5TuYRwj.pfb",import.meta.url).href;export{e as default};

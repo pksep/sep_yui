@@ -1,0 +1,1 @@
+const e=""+new URL("FoxitSerif-qbgiDIe-.pfb",import.meta.url).href;export{e as default};

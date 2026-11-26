@@ -1,0 +1,1 @@
+const a=""+new URL("Adobe-Japan1-UCS2-BL-4M2vS.bcmap",import.meta.url).href;export{a as default};

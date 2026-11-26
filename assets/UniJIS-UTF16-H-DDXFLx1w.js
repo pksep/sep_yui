@@ -1,0 +1,1 @@
+const e=""+new URL("UniJIS-UTF16-H-BlDDPdCK.bcmap",import.meta.url).href;export{e as default};
